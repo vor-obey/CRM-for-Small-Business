@@ -91,18 +91,18 @@ function Hamburger() {
                     <StyledMenuItem
                         button
                         component={Link}
-                        to="/">
+                        to="/login">
                         <ListItemText
-                            primary="Charts"
+                            primary="Login"
                             onClick={handleClose}
                         />
                     </StyledMenuItem>
                     <StyledMenuItem
                         button
                         component={Link}
-                        to="/">
+                        to="/admin">
                         <ListItemText
-                            primary="Documents"
+                            primary="Admin"
                             onClick={handleClose}
                         />
                     </StyledMenuItem>

@@ -64,7 +64,7 @@ export default class Login extends Component{
                     <Typography component="h1" variant="h5">
                         Log in
                     </Typography>
-                    <form Validate onSubmit={this.submitForm} >
+                    <form noValidate onSubmit={this.submitForm} >
                         <TextField
                             variant="outlined"
                             margin="normal"
