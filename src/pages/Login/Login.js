@@ -1,11 +1,12 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
-import { Avatar, Button, CssBaseline, TextField, FormControlLabel, Checkbox, Link, Grid, Typography, Container } from '@material-ui/core';
+import { Avatar, Button, CssBaseline, TextField, FormControlLabel, Checkbox, Link, Grid, Typography, Container} from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import { withStyles } from '@material-ui/styles';
+import { loginStyles } from './Login.style.js';
 
 
-
-export default class Login extends Component{
+class Login extends Component {
     constructor(props){
         super(props);
 
@@ -48,23 +49,23 @@ export default class Login extends Component{
     }
 
     render() {
+        const { classes } = this.props;
 
         if (this.state.logIn) {
             return <Redirect to='/admin' />
         }
 
-
         return(
             <Container component="main" maxWidth="xs">
                 <CssBaseline />
-                <div >
-                    <Avatar>
+                <div className={classes.paper}>
+                    <Avatar className={classes.avatar}>
                         <LockOutlinedIcon />
                     </Avatar>
                     <Typography component="h1" variant="h5">
                         Log in
                     </Typography>
-                    <form noValidate onSubmit={this.submitForm} >
+                    <form className={classes.form} noValidate onSubmit={this.submitForm} >
                         <TextField
                             variant="outlined"
                             margin="normal"
@@ -102,6 +103,8 @@ export default class Login extends Component{
                             fullWidth
                             variant="contained"
                             color="primary"
+                            className={classes.submit}
+
                         >
                             Log In
                         </Button>
@@ -125,3 +128,5 @@ export default class Login extends Component{
         )
     }
 };
+
+export default withStyles(loginStyles)(Login);
