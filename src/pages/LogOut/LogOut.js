@@ -1,18 +1,27 @@
-import React, {Component} from 'react';
-import { Link } from 'react-router-dom';
+import React from 'react';
+import { Redirect } from "react-router-dom";
+import {Button} from "@material-ui/core";
 
-export default class LogOut extends Component {
-    constructor(props){
-        super(props)
-        localStorage.removeItem('token')
+export default function LogOut(props){
+    let token = localStorage.getItem("token")
+    if(token == null){
+        return <Redirect to='/'/>
     }
-    render() {
+    function onClick(){
+        localStorage.removeItem("token")
+
+    }
+
         return (
             <div>
-                you have been logout<br />
-                <Link to="/login">Plz login</Link>
+                U could logout, just click <br />
+                <Button
+                type="submit"
+                href='/'
+                onClick={onClick()}
+                variant="contained"
+                color="secondary"
+                >Log out</Button>
             </div>
         );
-    }
 }
-

@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Link, Route, withRouter } from 'react-router-dom';
+import { Link, Route, withRouter } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 import {Menu, MenuItem, ListItemText, Button } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
@@ -35,15 +35,6 @@ const StyledMenuItem = withStyles(theme => ({
     },
 }))(MenuItem);
 
-const useStyles = withStyles(theme => ({
-    root: {
-        flexGrow: 1,
-    },
-    menuButton: {
-        marginRight: theme.spacing(2),
-    },
-
-}));
 
 
 function Hamburger() {
@@ -103,6 +94,15 @@ function Hamburger() {
                         to="/admin">
                         <ListItemText
                             primary="Admin"
+                            onClick={handleClose}
+                        />
+                    </StyledMenuItem>
+                    <StyledMenuItem
+                        button
+                        component={Link}
+                        to="/logout">
+                        <ListItemText
+                            primary="Logout"
                             onClick={handleClose}
                         />
                     </StyledMenuItem>

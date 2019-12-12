@@ -1,6 +1,5 @@
 import React, {Component} from "react";
-import { Link, Redirect } from "react-router-dom";
-import { Button } from '@material-ui/core';
+import { Redirect } from "react-router-dom";
 
 export default class Admin extends Component{
     constructor(props){
@@ -22,9 +21,7 @@ export default class Admin extends Component{
         // }
     }
 
-    onClick(){
-        localStorage.removeItem("token")
-    }
+
 
 render() {
     if(this.state.logIn === false) {
@@ -32,14 +29,7 @@ render() {
     }
     return (
         <div>
-            Hey admin!<br />
-            <Button
-                type="submit"
-                href='/login'
-                onClick={this.onClick}
-                variant="contained"
-                color="secondary"
-            >Log out</Button>
+            Hey admin
         </div>
     )
     }

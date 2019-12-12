@@ -13,20 +13,17 @@ class Login extends Component {
         this.state = {
             username: '',
             password: '',
-            message: '',
             logIn: false,
-        }
+        };
 
         const token = localStorage.getItem("token");
-        let logIn = false;
         if(token == null){
-            logIn = false;
+            this.state.logIn = false;
         };
 
         this.onChange = this.onChange.bind(this);
         this.submitForm = this.submitForm.bind(this);
     }
-
     componentDidMount() {
         localStorage.clear();
     }
@@ -35,7 +32,6 @@ class Login extends Component {
             [e.target.name]: e.target.value
         })
     }
-
     submitForm(e){
         e.preventDefault();
         const { username, password } = this.state;
@@ -50,7 +46,6 @@ class Login extends Component {
 
     render() {
         const { classes } = this.props;
-
         if (this.state.logIn) {
             return <Redirect to='/admin' />
         }
@@ -78,7 +73,6 @@ class Login extends Component {
                             autoFocus
                             value={this.state.username}
                             onChange={this.onChange}
-                            error={this.state.message.length === 0 ? false : true }
                         />
                         <TextField
                             variant="outlined"
@@ -92,7 +86,6 @@ class Login extends Component {
                             autoComplete="current-password"
                             value={this.state.password}
                             onChange={this.onChange}
-                            error={this.state.message.length === 0 ? false : true }
                         />
                         <FormControlLabel
                             control={<Checkbox value="remember" color="primary" />}
@@ -104,7 +97,6 @@ class Login extends Component {
                             variant="contained"
                             color="primary"
                             className={classes.submit}
-
                         >
                             Log In
                         </Button>
@@ -117,7 +109,6 @@ class Login extends Component {
                             <Grid item>
                                 <Link href="/signup" variant="body2">
                                     {"Don't have an account? Sign Up"}
-
                                 </Link>
                                 {/*{ <Box>The username or password provided were incorrect!</Box> }*/}
                             </Grid>
