@@ -1,29 +1,25 @@
 import React, {Component} from "react";
 import { Redirect } from "react-router-dom";
 
+
 export default class Admin extends Component{
-    constructor(props){
+    constructor(props) {
         super(props)
         const token = localStorage.getItem("token")
 
         let logIn = true
-        if(token == null){
+        if (token == null) {
             logIn = false
         }
 
         this.state = {
             logIn
         }
-        // const { setAuthTokens } = useAuth();
-        //
-        // function logOut() {
-        //     setAuthTokens();
-        // }
     }
 
 
 
-render() {
+render(){
     if(this.state.logIn === false) {
         return <Redirect to='/'/>
     }

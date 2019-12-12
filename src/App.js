@@ -28,7 +28,7 @@ function App(props) {
                         <Route exact path="/" component={Home} />
                         <Route path="/login" component={Login} />
                         <Route path="/signup" component={SignUp} />
-                        <PrivateRoute path='/logout' component={LogOut} />
+                        <Route path='/logout' component={LogOut} />
                         <PrivateRoute path="/admin" component={Admin} />
 
                     </div>
