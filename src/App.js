@@ -1,20 +1,20 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
+import PrivateRoute from './PrivateRoute.js';
+import { AuthContext } from "./data/context/auth";
+
 import { ThemeProvider } from '@material-ui/styles';
 import { Provider } from "react-redux";
-// import ReduxThunk from 'redux-thunk';
 
-import Home from './pages/Home/Home.js';
-import PrivateRoute from './PrivateRoute.js';
-import Admin from './pages/Admin/Admin.js';
-import Login from './pages/Login/Login.js';
-import SignUp from './pages/Signup/Signup.js';
-import LogOut from './pages/LogOut/LogOut.js'
-import Header from './components/Navigation/Header/Header.js';
-import { AuthContext } from "./context/auth";
-import { theme } from "./theme";
-import { store } from "./store/configureStore";
+import { store } from "./data/store/configureStore";
 
+import { theme } from "./view/theme";
+import Home from './view/pages/Home/Home.js';
+import Admin from './view/pages/Admin/Admin.js';
+import Login from './view/pages/Login/Login.js';
+import SignUp from './view/pages/Signup/Signup.js';
+import LogOut from './view/pages/LogOut/LogOut.js'
+import Header from './view/components/Navigation/Header/Header.js';
 
 function App(props) {
     const [authTokens, setAuthTokens] = useState();

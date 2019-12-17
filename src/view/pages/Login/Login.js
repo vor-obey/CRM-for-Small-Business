@@ -19,7 +19,7 @@ class Login extends Component {
         const token = localStorage.getItem("token");
         if(token == null){
             this.state.logIn = false;
-        };
+        }
 
         this.onChange = this.onChange.bind(this);
         this.submitForm = this.submitForm.bind(this);

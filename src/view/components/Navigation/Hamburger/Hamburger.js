@@ -3,7 +3,6 @@ import { Link, Route, withRouter } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 import {Menu, MenuItem, ListItemText, Button } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
-import Drawer from '../Drawer/Drawer.jsx'
 
 const StyledMenu = withStyles({
     paper: {

@@ -1,0 +1,26 @@
+{
+  "users": [{
+    "id": 1,
+    "firstName": "John",
+    "lastName": "Doe",
+    "email": "john.doe@gmail.com",
+    "password" : "test",
+    "role": "admin"
+    },
+    {
+      "id": 2,
+      "firstName": "Peter",
+      "lastName": "Vahtang",
+      "email": "pvahtang@gmail.com",
+      "password" : "test2",
+      "role": "moderator"
+    },
+    {
+      "id": 3,
+      "firstName": "AC",
+      "lastName": "DC",
+      "email": "acdc@gmail.com",
+      "password" : "test3",
+      "role": "editor"
+    }]
+}
