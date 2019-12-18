@@ -23,7 +23,6 @@ export const userReducer = (state = initialState, action) => {
             return {
                 ...state,
                 loading: action.loading,
-                error:''
             };
         }
         case GET_ALL_USERS_SUCCESS: {

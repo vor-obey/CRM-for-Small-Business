@@ -3,10 +3,6 @@ import { USER_URLS } from "../../constants/urls";
 
 export class UserApi {
     static getAllUsers = async () => {
-        try {
-            return await axiosInstance.get(USER_URLS.GET_ALL_USERS);
-        } catch (error) {
-            console.log(error);
-        }
+        return await axiosInstance.get(USER_URLS.GET_ALL_USERS);
     };
 }

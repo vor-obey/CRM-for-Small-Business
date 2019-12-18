@@ -2,6 +2,9 @@ Creds:
 ### `Login: test`
 ### `Pass: test`
 
+Start Json Server
+### `json-server --watch db.json --port 3001`
+
 
 ## Available Scripts
 

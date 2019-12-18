@@ -1,8 +1,12 @@
-import { getAllUsers } from "./userActions";
+import {getAllUserError, getAllUsersSuccess, getAllUsersLoading} from "./userActions";
 import { UserApi } from "../../api/user";
 
-
 export const loadUsers = () => async (dispatch) => {
-  const response = await UserApi.getAllUsers();
-  dispatch(getAllUsers(response.data));
+  try {
+    dispatch(getAllUsersLoading(true));
+    const response = await UserApi.getAllUsers();
+    dispatch(getAllUsersSuccess(response.data));
+  } catch (error) {
+    dispatch(getAllUserError(error.message));
+  }
 };
