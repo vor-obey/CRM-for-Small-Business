@@ -1,10 +1,11 @@
 {
-  "users": [{
+  "users": [
+    {
       "id": 1,
       "firstName": "John",
       "lastName": "Doe",
       "email": "john.doe@gmail.com",
-      "password" : "test",
+      "password": "test",
       "role": "admin"
     },
     {
@@ -12,7 +13,7 @@
       "firstName": "Peter",
       "lastName": "Vahtang",
       "email": "pvahtang@gmail.com",
-      "password" : "test2",
+      "password": "test2",
       "role": "moderator"
     },
     {
@@ -20,7 +21,11 @@
       "firstName": "AC",
       "lastName": "DC",
       "email": "acdc@gmail.com",
-      "password" : "test3",
+      "password": "test3",
       "role": "editor"
-    }]
+    },
+    {
+      "id": 4
+    }
+  ]
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import {withStyles} from '@material-ui/core/styles';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import Button from '@material-ui/core/Button';
 import List from '@material-ui/core/List';
@@ -10,18 +10,11 @@ import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import MenuIcon from '@material-ui/icons/Menu';
+import { drawerStyle } from "./Drawer.style";
 
-const useStyles = makeStyles({
-    list: {
-        width: 250,
-    },
-    fullList: {
-        width: 'auto',
-    },
-});
 
-export default function Drawer() {
-    const classes = useStyles();
+function Drawer(props) {
+    const { classes } = props;
     const [state, setState] = React.useState({
         left: false,
     });
@@ -64,7 +57,9 @@ export default function Drawer() {
     return (
         <div>
             <Button onClick={toggleDrawer('left', true)}>
-                <MenuIcon />
+                <MenuIcon
+                    className={classes.burger}
+                />
             </Button>
             <SwipeableDrawer
                 open={state.left}
@@ -76,3 +71,5 @@ export default function Drawer() {
         </div>
     );
 }
+
+export default withStyles(drawerStyle)(Drawer);
