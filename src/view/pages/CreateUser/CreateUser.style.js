@@ -1,4 +1,4 @@
-export const signupStyle = (theme =>  ({
+export const createuserStyle = (theme =>  ({
     paper: {
         marginTop: theme.spacing(8),
         display: 'flex',

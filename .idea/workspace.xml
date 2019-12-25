@@ -2,23 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ff25e816-542a-49a5-bde7-d14cf689da8d" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/view/components/Navigation/Drawer/Drawer.style.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/json-server/db.json" beforeDir="false" afterPath="$PROJECT_DIR$/json-server/db.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/constants/urls.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/constants/urls.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/data/api/user.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/data/api/user.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/data/store/configureStore.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/data/store/configureStore.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/data/store/user/userActionTypes.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/data/store/user/userActionTypes.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/data/store/user/userActions.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/data/store/user/userActions.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/data/store/user/userReducer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/data/store/user/userReducer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/data/store/user/userThunkAction.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/data/store/user/userThunkAction.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/view/components/Navigation/Drawer/Drawer.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/components/Navigation/Drawer/Drawer.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/view/components/Navigation/Hamburger/Hamburger.style.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/components/Navigation/Hamburger/Hamburger.style.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/view/pages/Signup/Signup.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/pages/Signup/Signup.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/view/pages/Signup/Signup.style.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/pages/Signup/Signup.style.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.idea/shelf/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -109,8 +93,8 @@
           <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/view/pages/Signup/Signup.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="266">
-                  <caret line="23" column="19" selection-start-line="23" selection-start-column="19" selection-end-line="23" selection-end-column="19" />
+                <state relative-caret-position="431">
+                  <caret line="34" column="4" lean-forward="true" selection-start-line="34" selection-start-column="4" selection-end-line="34" selection-end-column="4" />
                   <folding>
                     <element signature="e#0#41#0" expanded="true" />
                   </folding>
@@ -143,22 +127,27 @@
       </split-first>
       <split-second>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file pinned="false" current-in-tab="true">
+          <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/json-server/db.json">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="405">
-                  <caret line="27" column="1" lean-forward="true" selection-start-line="27" selection-start-column="1" selection-end-line="27" selection-end-column="1" />
+                  <caret line="27" column="1" selection-start-line="27" selection-start-column="1" selection-end-line="27" selection-end-column="1" />
                 </state>
               </provider>
             </entry>
           </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/App.js">
+          <file pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="375">
-                  <caret line="43" column="28" selection-start-line="43" selection-start-column="28" selection-end-line="43" selection-end-column="28" />
+                <state relative-caret-position="195">
+                  <caret line="13" column="45" lean-forward="true" selection-start-line="13" selection-start-column="45" selection-end-line="13" selection-end-column="45" />
                   <folding>
-                    <element signature="e#0#40#0" expanded="true" />
+                    <element signature="e#12670#12674#0" expanded="true" />
+                    <element signature="e#12709#12715#0" expanded="true" />
+                    <element signature="e#12716#12722#0" expanded="true" />
+                    <element signature="e#12722#12726#0" expanded="true" />
+                    <element signature="e#12735#12739#0" expanded="true" />
+                    <element signature="e#12752#12756#0" expanded="true" />
                   </folding>
                 </state>
               </provider>
@@ -276,6 +265,7 @@
     </findStrings>
   </component>
   <component name="Git.Settings">
+    <option name="ROOT_SYNC" value="SYNC" />
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="IdeDocumentHistory">
@@ -358,8 +348,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="PackagesPane" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -572,11 +562,20 @@
       <workItem from="1576762041713" duration="6684000" />
       <workItem from="1576831931485" duration="12362000" />
       <workItem from="1576856604504" duration="843000" />
+      <workItem from="1577084342331" duration="1981000" />
     </task>
+    <task id="LOCAL-00001" summary="User creation">
+      <created>1577084389257</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1577084389257</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="273869000" />
+    <option name="totallyTimeSpent" value="275850000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -589,9 +588,8 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-4" y="0" width="1928" height="1084" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.17891374" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.18051118" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -699,7 +697,8 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <option name="LAST_COMMIT_MESSAGE" value="" />
+    <MESSAGE value="User creation" />
+    <option name="LAST_COMMIT_MESSAGE" value="User creation" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -809,21 +808,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="210">
           <caret line="14" column="6" lean-forward="true" selection-end-line="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="435">
-          <caret line="29" column="45" lean-forward="true" selection-start-line="29" selection-start-column="45" selection-end-line="29" selection-end-column="45" />
-          <folding>
-            <element signature="e#11005#11009#0" expanded="true" />
-            <element signature="e#11044#11050#0" expanded="true" />
-            <element signature="e#11051#11057#0" expanded="true" />
-            <element signature="e#11057#11061#0" expanded="true" />
-            <element signature="e#11070#11074#0" expanded="true" />
-            <element signature="e#11087#11091#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1012,7 +996,7 @@
     <entry file="file://$PROJECT_DIR$/json-server/db.json">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="405">
-          <caret line="27" column="1" lean-forward="true" selection-start-line="27" selection-start-column="1" selection-end-line="27" selection-end-column="1" />
+          <caret line="27" column="1" selection-start-line="27" selection-start-column="1" selection-end-line="27" selection-end-column="1" />
         </state>
       </provider>
     </entry>
@@ -1094,10 +1078,25 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="13" column="45" lean-forward="true" selection-start-line="13" selection-start-column="45" selection-end-line="13" selection-end-column="45" />
+          <folding>
+            <element signature="e#12670#12674#0" expanded="true" />
+            <element signature="e#12709#12715#0" expanded="true" />
+            <element signature="e#12716#12722#0" expanded="true" />
+            <element signature="e#12722#12726#0" expanded="true" />
+            <element signature="e#12735#12739#0" expanded="true" />
+            <element signature="e#12752#12756#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/view/pages/Signup/Signup.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="266">
-          <caret line="23" column="19" selection-start-line="23" selection-start-column="19" selection-end-line="23" selection-end-column="19" />
+        <state relative-caret-position="431">
+          <caret line="34" column="4" lean-forward="true" selection-start-line="34" selection-start-column="4" selection-end-line="34" selection-end-column="4" />
           <folding>
             <element signature="e#0#41#0" expanded="true" />
           </folding>

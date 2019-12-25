@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
-import { Avatar, Button, CssBaseline, TextField, InputLabel, MenuItem, Select, Grid, Typography, Container, withStyles }from '@material-ui/core';
+import { Button, CssBaseline, TextField, InputLabel, MenuItem, Select, Grid, Typography, Container, withStyles }from '@material-ui/core';
+import Avatar from '@material-ui/core/Avatar'
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
-import { signupStyle } from './Signup.style.js';
+import { createuserStyle } from './CreateUser.style.js';
 import { connect } from 'react-redux';
 import { postUser } from "../../../data/store/user/userThunkAction";
 
-class SignUp extends Component{
+class CreateUser extends Component{
     constructor(props){
         super(props);
         this.state = {
+            id: '',
             firstName: '',
             lastName: '',
             email: '',
@@ -21,7 +23,7 @@ class SignUp extends Component{
 
     onSubmitHandler(e){
         e.preventDefault();
-        this.props.postUser();
+        this.props.postUser(this.state);
         console.log(this.state);
     }
 
@@ -29,10 +31,8 @@ class SignUp extends Component{
         this.setState({ [e.target.name]: e.target.value })
     }
 
-
     render(){
         const { classes } = this.props;
-        // const {handleSubmit} = this.props;
 
         return (
             <Container component="main" maxWidth="xs">
@@ -108,27 +108,21 @@ class SignUp extends Component{
                                 />
                             </Grid>
                             <Grid item xs={12} sm={6}>
-                                <InputLabel id="demo-controlled-open-select-label">Role</InputLabel>
+                                <InputLabel>Role</InputLabel>
                                 <Select
-                                    labelId="demo-controlled-open-select-label"
-                                    id="demo-controlled-open-select"
                                     className={classes.select}
                                     value={this.state.role}
                                     name="role"
-                                    onChange={this.onChangeHandler}
-                                >
-                                    <MenuItem value="">
-                                        <em>None</em>
-                                    </MenuItem>
-                                    <MenuItem
-                                        value="admin"
-                                      >Admin</MenuItem>
-                                    <MenuItem
-                                        value="moderator"
-                                    >Moderator</MenuItem>
-                                    <MenuItem
-                                        value="manager"
-                                    >Manager</MenuItem>
+                                    onChange={this.onChangeHandler}>
+                                        <MenuItem value="">
+                                            <em>None</em>
+                                        </MenuItem>
+                                        <MenuItem
+                                            value="admin">Admin</MenuItem>
+                                        <MenuItem
+                                            value="moderator">Moderator</MenuItem>
+                                        <MenuItem
+                                            value="manager">Manager</MenuItem>
                                 </Select>
                             </Grid>
                         </Grid>
@@ -138,9 +132,7 @@ class SignUp extends Component{
                             variant="contained"
                             color="primary"
                             className={classes.submit}
-                        >
-                            Add user
-                        </Button>
+                        >Add user</Button>
                     </form>
                 </div>
             </Container>
@@ -148,12 +140,12 @@ class SignUp extends Component{
     }
 }
 
-
-
 const mapDispatchToProps = (dispatch) => {
     return {
-        postUser: (user) => dispatch(postUser(user)),
+        postUser: (user) => {
+            dispatch(postUser(user));
+        }
     }
 };
 
-export default withStyles(signupStyle)(connect(null, mapDispatchToProps)(SignUp));
+export default withStyles(createuserStyle)(connect(null, mapDispatchToProps)(CreateUser));

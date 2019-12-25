@@ -12,7 +12,7 @@ import { theme } from "./view/theme";
 import Home from './view/pages/Home/Home.js';
 import Admin from './view/pages/Admin/Admin.js';
 import Login from './view/pages/Login/Login.js';
-import SignUp from './view/pages/Signup/Signup.js';
+import CreateUser from './view/pages/CreateUser/CreateUser.js';
 import LogOut from './view/pages/LogOut/LogOut.js';
 import UserPage from './view/pages/UsersPage/UserPage.jsx';
 
@@ -34,7 +34,7 @@ function App(props) {
                             <Header />
                             <Route exact path="/" component={Home} />
                             <Route path="/login" component={Login} />
-                            <Route path="/signup" component={SignUp} />
+                            <Route path="/create-user" component={CreateUser} />
                             <Route path='/logout' component={LogOut} />
                             <Route path='/users' component={UserPage} />
                             <PrivateRoute path="/admin" component={Admin} />

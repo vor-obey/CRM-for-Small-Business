@@ -1,16 +1,15 @@
 import React from 'react';
-import {withStyles} from '@material-ui/core/styles';
-import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
-import Button from '@material-ui/core/Button';
-import List from '@material-ui/core/List';
-import Divider from '@material-ui/core/Divider';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
+import { SwipeableDrawer, Button, List, Divider, ListItem, ListItemIcon, ListItemText, withStyles} from '@material-ui/core';
+import HomeIcon from '@material-ui/icons/Home';
+import PeopleIcon from '@material-ui/icons/People';
+import PersonAddIcon from '@material-ui/icons/PersonAdd';
+import ContactsIcon from '@material-ui/icons/Contacts';
+import InsertDriveFileIcon from '@material-ui/icons/InsertDriveFile';
+import DescriptionIcon from '@material-ui/icons/Description';
+import FileCopyIcon from '@material-ui/icons/FileCopy';
 import MenuIcon from '@material-ui/icons/Menu';
 import { drawerStyle } from "./Drawer.style";
+import { Link } from "react-router-dom";
 
 
 function Drawer(props) {
@@ -35,21 +34,50 @@ function Drawer(props) {
             onKeyDown={toggleDrawer(side, false)}
         >
             <List>
-                {['Home', 'Users', 'Orders', 'Create user'].map((text, index) => (
-                    <ListItem button key={text}>
-                        <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                        <ListItemText primary={text} />
+                    <ListItem button
+                        component={Link}
+                        to="/">
+                        <ListItemIcon><HomeIcon /></ListItemIcon>
+                        <ListItemText>Home</ListItemText>
                     </ListItem>
-                ))}
-            </List>
-            <Divider />
-            <List>
-                {['Create Order ', 'View order', 'View user'].map((text, index) => (
-                    <ListItem button key={text}>
-                        <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                        <ListItemText primary={text} />
+                    <Divider />
+                    <ListItem button
+                        component={Link}
+                        to="/users">
+                        <ListItemIcon><PeopleIcon /></ListItemIcon>
+                        <ListItemText>Users</ListItemText>
                     </ListItem>
-                ))}
+                    <ListItem button
+                        component={Link}
+                        to="/create-user">
+                        <ListItemIcon><PersonAddIcon /></ListItemIcon>
+                        <ListItemText>Create user</ListItemText>
+                    </ListItem>
+                    <ListItem button
+                        component={Link}
+                        to="/">
+                        <ListItemIcon><ContactsIcon /></ListItemIcon>
+                        <ListItemText>User view</ListItemText>
+                    </ListItem>
+                    <Divider />
+                    <ListItem button
+                        component={Link}
+                        to="/">
+                        <ListItemIcon><InsertDriveFileIcon /></ListItemIcon>
+                        <ListItemText>Orders</ListItemText>
+                    </ListItem>
+                    <ListItem button
+                        component={Link}
+                        to="/">
+                        <ListItemIcon><DescriptionIcon /></ListItemIcon>
+                        <ListItemText>Create order</ListItemText>
+                    </ListItem>
+                    <ListItem button
+                        component={Link}
+                        to="/">
+                        <ListItemIcon><FileCopyIcon /></ListItemIcon>
+                        <ListItemText>Order view</ListItemText>
+                    </ListItem>
             </List>
         </div>
     );

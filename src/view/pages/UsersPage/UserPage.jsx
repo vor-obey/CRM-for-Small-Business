@@ -57,7 +57,7 @@ class UserPage extends Component{
                     variant="outlined"
                     color="primary"
                     className={classes.button}
-                    href="/signup"
+                    href="/create-user"
                 >
                     <PersonAddIcon className={classes.addUser} />
                     Create user

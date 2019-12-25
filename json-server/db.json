@@ -25,7 +25,20 @@
       "role": "editor"
     },
     {
-      "id": 4
+      "id": 4,
+      "firstName": "New",
+      "lastName": "User",
+      "email": "admin@example.com",
+      "password": "somestrangepass",
+      "role": "moderator"
+    },
+    {
+      "id": 5,
+      "firstName": "Some",
+      "lastName": "NewUser",
+      "email": "XXX@example.com",
+      "password": "123321",
+      "role": "manager"
     }
   ]
 }
