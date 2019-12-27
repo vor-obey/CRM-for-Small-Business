@@ -8,9 +8,24 @@ import {
     getUserLoading,
     getUserSuccess,
     getUserError,
+    userLoginSuccess,
+    userLoginFailure,
 } from "./userActions";
 
 import { UserService } from "../../../services";
+
+export const login = (email, password) => async (dispatch) => {
+    try {
+        const response = await UserService.login(email, password);
+        if(!response.error) {
+            dispatch(userLoginSuccess(response));
+        } else {
+            dispatch(userLoginFailure(response.error));
+        }
+    } catch (e) {
+        dispatch(userLoginFailure(e));
+    }
+};
 
 export const loadUsers = () => async (dispatch) => {
     try {

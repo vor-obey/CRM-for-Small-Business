@@ -13,6 +13,22 @@ export default class HTTPService {
         this._instance = this;
     }
 
+    async fetch(method, url, body) {
+        let fetchOptions = {
+            method,
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        };
+
+        if (typeof body !== 'undefined') {
+            fetchOptions.body = JSON.stringify(body);
+        }
+
+        const response = await fetch(BASE_URL + url, fetchOptions);
+        return response.json()
+    }
+
     async authFetch(method, url, options = {}, raw = false) {
         const token = StorageService.getJWTToken();
         const { body, ...fetchOptions } = options;

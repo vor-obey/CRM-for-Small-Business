@@ -5,7 +5,12 @@ import {
     GET_ALL_USERS_ERROR,
     SET_NEW_USER_LOADING,
     SET_NEW_USER_SUCCESS,
-    SET_NEW_USER_ERROR, GET_USER_DETAILS_SUCCESS, GET_USER_DETAILS_LOADING, GET_USER_DETAILS_ERROR
+    SET_NEW_USER_ERROR,
+    GET_USER_DETAILS_SUCCESS,
+    GET_USER_DETAILS_LOADING,
+    GET_USER_DETAILS_ERROR,
+    LOGIN_FAILURE,
+    LOGIN_SUCCESS
 } from "./userActionTypes";
 
 const initialState = {
@@ -17,6 +22,19 @@ const initialState = {
 
 export const userReducer = (state = initialState, action) => {
     switch (action.type) {
+        case LOGIN_FAILURE: {
+            return {
+                ...state,
+                loginError: action.loginError
+            }
+        }
+        case LOGIN_SUCCESS: {
+            return {
+                ...state,
+                currentUser: action.user
+            }
+
+        }
         case SET_USER_LOADING: {
             return {
                 ...state,

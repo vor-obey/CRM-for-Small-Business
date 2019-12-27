@@ -4,6 +4,9 @@ import { Avatar, Button, CssBaseline, TextField, FormControlLabel, Checkbox, Lin
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { withStyles } from '@material-ui/styles';
 import { loginStyles } from './Login.style.js';
+import {connect} from "react-redux";
+import {loadUser, login} from "../../../data/store/user/userThunkAction";
+import Box from "@material-ui/core/Box";
 
 
 class Login extends Component {
@@ -22,32 +25,34 @@ class Login extends Component {
         }
 
         this.onChange = this.onChange.bind(this);
-        this.submitForm = this.submitForm.bind(this);
+        this.login = this.login.bind(this);
     }
+
     componentDidMount() {
         localStorage.clear();
     }
+
     onChange(e){
         this.setState({
             [e.target.name]: e.target.value
         })
     }
-    submitForm(e){
+
+    login(e){
         e.preventDefault();
         const { username, password } = this.state;
 
-        if(username === "test" && password === "test") {
-            localStorage.setItem('token', 'ss');
-            this.setState({
-                logIn: true
-            })
-        }
+        this.props.login(username, password)
     }
 
     render() {
-        const { classes } = this.props;
+        const { classes, currentUser } = this.props;
         if (this.state.logIn) {
             return <Redirect to='/admin' />
+        }
+
+        if(currentUser){
+            console.log('SUCCESS!')
         }
 
         return(
@@ -60,7 +65,7 @@ class Login extends Component {
                     <Typography component="h1" variant="h5">
                         Log in
                     </Typography>
-                    <form className={classes.form} noValidate onSubmit={this.submitForm} >
+                    <form className={classes.form} noValidate onSubmit={this.login} >
                         <TextField
                             variant="outlined"
                             margin="normal"
@@ -110,7 +115,7 @@ class Login extends Component {
                                 <Link href="/signup" variant="body2">
                                     {"Don't have an account? Sign Up"}
                                 </Link>
-                                {/*{ <Box>The username or password provided were incorrect!</Box> }*/}
+                                { this.props.loginError ? (<Box>The username or password provided were incorrect!</Box>) : null }
                             </Grid>
                         </Grid>
                     </form>
@@ -120,4 +125,20 @@ class Login extends Component {
     }
 };
 
-export default withStyles(loginStyles)(Login);
+const mapStateToProps = (state) => {
+    const { currentUser, loginError } = state.userReducer;
+
+
+    return {
+        currentUser,
+        loginError
+    }
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        login: (username, password) => dispatch(login(username, password)),
+    }
+};
+
+export default withStyles(loginStyles)(connect(mapStateToProps, mapDispatchToProps)(Login));

@@ -7,8 +7,22 @@ import {
     SET_NEW_USER_ERROR,
     GET_USER_DETAILS_ERROR,
     GET_USER_DETAILS_LOADING,
-    GET_USER_DETAILS_SUCCESS
+    GET_USER_DETAILS_SUCCESS, LOGIN_SUCCESS, LOGIN_FAILURE
 } from "./userActionTypes";
+
+export const userLoginSuccess = (user) => {
+    return {
+        type: LOGIN_SUCCESS,
+        user
+    }
+};
+
+export const userLoginFailure = (loginError) => {
+    return {
+        type: LOGIN_FAILURE,
+        loginError
+    }
+};
 
 export const getAllUsersLoading = (loading) => {
   return {
