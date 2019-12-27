@@ -3,14 +3,15 @@ import StorageService from "./StorageService";
 
 //Singleton
 export default class HTTPService {
-    _instance;
+    static _instance;
 
     constructor () {
-        if(this._instance) {
-            return this._instance;
+        if(HTTPService._instance) {
+            return HTTPService._instance;
         }
 
-        this._instance = this;
+        HTTPService._instance = this;
+        return this;
     }
 
     async fetch(method, url, body) {
