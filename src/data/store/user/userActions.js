@@ -4,7 +4,10 @@ import {
     GET_ALL_USERS_LOADING,
     SET_NEW_USER_LOADING,
     SET_NEW_USER_SUCCESS,
-    SET_NEW_USER_ERROR
+    SET_NEW_USER_ERROR,
+    GET_USER_DETAILS_ERROR,
+    GET_USER_DETAILS_LOADING,
+    GET_USER_DETAILS_SUCCESS
 } from "./userActionTypes";
 
 export const getAllUsersLoading = (loading) => {
@@ -45,5 +48,27 @@ export const setNewUserError = (error) => {
     return {
         type: SET_NEW_USER_ERROR,
         error
+    }
+};
+
+export const getUserSuccess = (userDetails) => {
+    return {
+        type: GET_USER_DETAILS_SUCCESS,
+        userDetails
+    }
+};
+
+
+export const getUserError = (error) => {
+    return {
+        type: GET_USER_DETAILS_ERROR,
+        error
+    }
+};
+
+export const getUserLoading = (loading) => {
+    return {
+        type: GET_USER_DETAILS_LOADING,
+        loading,
     }
 };

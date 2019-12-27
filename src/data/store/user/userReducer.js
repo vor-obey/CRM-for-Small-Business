@@ -5,7 +5,7 @@ import {
     GET_ALL_USERS_ERROR,
     SET_NEW_USER_LOADING,
     SET_NEW_USER_SUCCESS,
-    SET_NEW_USER_ERROR
+    SET_NEW_USER_ERROR, GET_USER_DETAILS_SUCCESS, GET_USER_DETAILS_LOADING, GET_USER_DETAILS_ERROR
 } from "./userActionTypes";
 
 const initialState = {
@@ -60,6 +60,25 @@ export const userReducer = (state = initialState, action) => {
                 loading: false,
                 error: action.error
             };
+        }
+        case GET_USER_DETAILS_SUCCESS: {
+            return {
+                ...state,
+                userDetails: action.userDetails,
+            }
+        }
+        case GET_USER_DETAILS_LOADING: {
+            return {
+                ...state,
+                loading: action.loading
+            }
+        }
+        case GET_USER_DETAILS_ERROR: {
+            return {
+                ...state,
+                loading: false,
+                error: action.error
+            }
         }
         default: {
             return state;

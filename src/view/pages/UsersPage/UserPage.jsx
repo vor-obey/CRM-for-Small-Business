@@ -41,7 +41,7 @@ class UserPage extends Component{
                         </TableHead>
                         <TableBody>
                         {this.props.userList.map( u =>
-                            <TableRow key={u.id}>
+                            <TableRow style={{cursor: 'pointer'}} key={u.id} onClick={() => this.props.history.push(`/users/${u.id}`)}>
                                 <TableCell align="center">{u.id}</TableCell>
                                 <TableCell align="left">{u.firstName}</TableCell>
                                 <TableCell align="left">{u.lastName}</TableCell>

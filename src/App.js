@@ -17,6 +17,7 @@ import LogOut from './view/pages/LogOut/LogOut.js';
 import UserPage from './view/pages/UsersPage/UserPage.jsx';
 
 import Header from './view/components/Navigation/Header/Header.js';
+import UserDetailsPage from "./view/pages/UserDetailsPage/UserDetailsPage";
 
 function App(props) {
     const [authTokens, setAuthTokens] = useState();
@@ -36,7 +37,8 @@ function App(props) {
                             <Route path="/login" component={Login} />
                             <Route path="/create-user" component={CreateUser} />
                             <Route path='/logout' component={LogOut} />
-                            <Route path='/users' component={UserPage} />
+                            <Route path='/users' exact component={UserPage} />
+                            <Route path='/users/:id' component={UserDetailsPage} />
                             <PrivateRoute path="/admin" component={Admin} />
 
                         </div>

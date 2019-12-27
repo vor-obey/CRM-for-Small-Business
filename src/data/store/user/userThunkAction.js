@@ -4,28 +4,40 @@ import {
     getAllUsersLoading,
     setNewUserLoading,
     setNewUserSuccess,
-    setNewUserError
+    setNewUserError,
+    getUserLoading,
+    getUserSuccess,
+    getUserError,
 } from "./userActions";
 
-import { UserApi } from "../../api/user";
+import { UserService } from "../../../services";
 
 export const loadUsers = () => async (dispatch) => {
-  try {
-    dispatch(getAllUsersLoading(true));
-    const response = await UserApi.getAllUsers();
-    dispatch(getAllUsersSuccess(response.data));
-  } catch (error) {
-    dispatch(getAllUserError(error.message));
-  }
+    try {
+        dispatch(getAllUsersLoading(true));
+        const response = await UserService.list();
+        dispatch(getAllUsersSuccess(response));
+    } catch (error) {
+        dispatch(getAllUserError(error.message));
+    }
 };
-
 
 export const postUser = (user) => async (dispatch) => {
     try {
         dispatch(setNewUserLoading());
-        const response = await UserApi.setNewUser(user);
-        dispatch(setNewUserSuccess(response.data));
+        const response = await UserService.create(user);
+        dispatch(setNewUserSuccess(response));
     } catch (error) {
         dispatch(setNewUserError(error.message));
+    }
+};
+
+export const loadUser = (id) => async (dispatch) => {
+    try {
+        dispatch(getUserLoading());
+        const response = await UserService.findOneById(id);
+        dispatch(getUserSuccess(response));
+    } catch (error) {
+        dispatch(getUserError(error.message));
     }
 };
