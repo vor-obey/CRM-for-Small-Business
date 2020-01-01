@@ -1,9 +1,10 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import { AppBar, Toolbar } from '@material-ui/core';
-// import Hamburger from '../Hamburger/Hamburger.js';
+import { 
+    AppBar, 
+    Toolbar,
+    makeStyles } from '@material-ui/core';
 import Drawer from "../Drawer/Drawer";
-// import UserAccess from '../UserAccess/UserAccess.js'
+import ProgressBar from '../../ProgressBar/ProgressBar';
 
 
 const useStyles = makeStyles(theme => ({
@@ -18,18 +19,21 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-export default function Header() {
+function Header() {
     const classes = useStyles();
 
     return (
         <div className={classes.root}>
-            <AppBar position="static">
+            {/* <ProgressBar /> */}
+            <AppBar position="static" className='slasses.AppBar'>
                 <Toolbar>
                     <Drawer />
-
-                    {/*<UserAccess />*/}
                 </Toolbar>
+                
             </AppBar>
+            
         </div>
     );
 }
+
+export default Header;

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, CssBaseline, TextField, InputLabel, MenuItem, Select, Grid, Typography, Container, withStyles }from '@material-ui/core';
+import { Button, CssBaseline, TextField, InputLabel, MenuItem, Select, Grid, Typography, Container, withStyles } from '@material-ui/core';
 import Avatar from '@material-ui/core/Avatar'
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import { createuserStyle } from './CreateUser.style.js';
