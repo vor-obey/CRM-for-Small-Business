@@ -23,8 +23,27 @@ class UserPage extends Component{
         loadUsers();
     }
 
+    renderRows() {
+        const { userList } = this.props;
+
+        if (userList) {
+            return this.props.userList.map( u =>
+                <TableRow style={{cursor: 'pointer'}} key={u.id} onClick={() => this.props.history.push(`/users/${u.id}`)}>
+                    <TableCell align="center">{u.id}</TableCell>
+                    <TableCell align="left">{u.firstName}</TableCell>
+                    <TableCell align="left">{u.lastName}</TableCell>
+                    <TableCell align="left">{u.email}</TableCell>
+                    <TableCell align="left">{u.role}</TableCell>
+                </TableRow>
+            )
+        }
+
+        return null;
+    }
+
     render() {
         const { classes } = this.props;
+
 
         return(
             <Container className={classes.allUsers}>
@@ -40,15 +59,7 @@ class UserPage extends Component{
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                        {this.props.userList.map( u =>
-                            <TableRow style={{cursor: 'pointer'}} key={u.id} onClick={() => this.props.history.push(`/users/${u.id}`)}>
-                                <TableCell align="center">{u.id}</TableCell>
-                                <TableCell align="left">{u.firstName}</TableCell>
-                                <TableCell align="left">{u.lastName}</TableCell>
-                                <TableCell align="left">{u.email}</TableCell>
-                                <TableCell align="left">{u.role}</TableCell>
-                            </TableRow>
-                        )}
+                        {this.renderRows()}
                         </TableBody>
                     </Table>
                 </TableContainer>

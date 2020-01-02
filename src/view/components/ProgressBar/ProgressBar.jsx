@@ -1,22 +1,32 @@
 import React, { Component } from 'react';
-import { 
+import {
     LinearProgress,
     withStyles } from '@material-ui/core';
 import { progressbarStyle } from './ProgressBar.style';
 
+const ColorLinearProgress = withStyles({
+    colorPrimary: {
+        backgroundColor: '#dc004e',
+    },
+    barColorPrimary: {
+        backgroundColor: '#f19ebb',
+    },
+})(LinearProgress);
+
 class ProgressBar extends Component {
-    constructor(props){
-        super(props);
-    }
-
     render() {
-        const { classes } = this.props;
+        const { classes, isLoading } = this.props;
 
-        return (
-            <div className={classes.root}>
-                <LinearProgress />
-            </div>
-        );
+        if (isLoading) {
+            return (
+                <div className={classes.root}>
+                    <ColorLinearProgress
+                    />
+                </div>
+            );
+        }
+
+        return null;
     }
 }
 

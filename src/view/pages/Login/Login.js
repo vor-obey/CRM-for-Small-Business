@@ -5,7 +5,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { withStyles } from '@material-ui/styles';
 import { loginStyles } from './Login.style.js';
 import {connect} from "react-redux";
-import {loadUser, login} from "../../../data/store/user/userThunkAction";
+import { login} from "../../../data/store/user/userThunkAction";
 import Box from "@material-ui/core/Box";
 
 

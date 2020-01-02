@@ -1,8 +1,8 @@
 import React from 'react';
-import { 
-    AppBar, 
+import {
+    AppBar,
     Toolbar,
-    makeStyles } from '@material-ui/core';
+    makeStyles} from '@material-ui/core';
 import Drawer from "../Drawer/Drawer";
 import ProgressBar from '../../ProgressBar/ProgressBar';
 
@@ -24,14 +24,13 @@ function Header() {
 
     return (
         <div className={classes.root}>
-            {/* <ProgressBar /> */}
-            <AppBar position="static" className='slasses.AppBar'>
+            <AppBar position="static" className='classes.AppBar'>
                 <Toolbar>
                     <Drawer />
                 </Toolbar>
-                
             </AppBar>
-            
+            <ProgressBar isLoading />
+
         </div>
     );
 }

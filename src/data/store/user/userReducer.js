@@ -41,12 +41,7 @@ export const userReducer = (state = initialState, action) => {
                 loading: action.loading,
             };
         }
-        case GET_ALL_USERS_LOADING: {
-            return {
-                ...state,
-                loading: action.loading,
-            };
-        }
+        case GET_ALL_USERS_LOADING:
         case GET_ALL_USERS_SUCCESS: {
             return {
                 ...state,
@@ -60,12 +55,7 @@ export const userReducer = (state = initialState, action) => {
                 error: action.error
             };
         }
-        case SET_NEW_USER_LOADING: {
-            return {
-                ...state,
-                loading: action.loading,
-            };
-        }
+        case SET_NEW_USER_LOADING:
         case SET_NEW_USER_SUCCESS: {
             return {
                 ...state,
@@ -79,16 +69,11 @@ export const userReducer = (state = initialState, action) => {
                 error: action.error
             };
         }
+        case GET_USER_DETAILS_LOADING:
         case GET_USER_DETAILS_SUCCESS: {
             return {
                 ...state,
                 userDetails: action.userDetails,
-            }
-        }
-        case GET_USER_DETAILS_LOADING: {
-            return {
-                ...state,
-                loading: action.loading
             }
         }
         case GET_USER_DETAILS_ERROR: {
