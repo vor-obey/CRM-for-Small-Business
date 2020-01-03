@@ -1,4 +1,5 @@
 import React from 'react';
+import {useSelector} from "react-redux";
 import {
     AppBar,
     Toolbar,
@@ -21,6 +22,7 @@ const useStyles = makeStyles(theme => ({
 
 function Header() {
     const classes = useStyles();
+    const loading = useSelector(state => state.userReducer.loading);
 
     return (
         <div className={classes.root}>
@@ -29,7 +31,7 @@ function Header() {
                     <Drawer />
                 </Toolbar>
             </AppBar>
-            <ProgressBar isLoading />
+            <ProgressBar isLoading={loading} />
 
         </div>
     );
