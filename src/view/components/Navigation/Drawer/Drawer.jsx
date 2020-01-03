@@ -1,16 +1,22 @@
 import React from 'react';
-import { SwipeableDrawer, Button, List, Divider, ListItem, ListItemIcon, ListItemText, withStyles} from '@material-ui/core';
+import { Link } from "react-router-dom";
+
+import {
+    SwipeableDrawer,
+    Button,
+    List,
+    Divider,
+    ListItem,
+    ListItemIcon,
+    ListItemText,
+    withStyles } from '@material-ui/core';
 import HomeIcon from '@material-ui/icons/Home';
 import PeopleIcon from '@material-ui/icons/People';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
-import ContactsIcon from '@material-ui/icons/Contacts';
 import InsertDriveFileIcon from '@material-ui/icons/InsertDriveFile';
 import DescriptionIcon from '@material-ui/icons/Description';
-import FileCopyIcon from '@material-ui/icons/FileCopy';
 import MenuIcon from '@material-ui/icons/Menu';
 import { drawerStyle } from "./Drawer.style";
-import { Link } from "react-router-dom";
-
 
 function Drawer(props) {
     const { classes } = props;
@@ -53,13 +59,7 @@ function Drawer(props) {
                         <ListItemIcon><PersonAddIcon /></ListItemIcon>
                         <ListItemText>Create user</ListItemText>
                     </ListItem>
-                    <ListItem button
-                        component={Link}
-                        to="/">
-                        <ListItemIcon><ContactsIcon /></ListItemIcon>
-                        <ListItemText>User view</ListItemText>
-                    </ListItem>
-                    <Divider />
+                      <Divider />
                     <ListItem button
                         component={Link}
                         to="/">
@@ -71,12 +71,6 @@ function Drawer(props) {
                         to="/">
                         <ListItemIcon><DescriptionIcon /></ListItemIcon>
                         <ListItemText>Create order</ListItemText>
-                    </ListItem>
-                    <ListItem button
-                        component={Link}
-                        to="/">
-                        <ListItemIcon><FileCopyIcon /></ListItemIcon>
-                        <ListItemText>Order view</ListItemText>
                     </ListItem>
             </List>
         </div>
