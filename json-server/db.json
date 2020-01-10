@@ -39,6 +39,19 @@
       "email": "XXX@example.com",
       "password": "123321",
       "role": "manager"
+    },
+    {
+      "id": 6
+    },
+    {
+      "firstName": "2",
+      "lastName": "345",
+      "middleName": "Middle",
+      "email": "vladcomart@gmail.com",
+      "password": "123",
+      "phone": "+38 (063) 364-47-44",
+      "role": "moderator",
+      "id": 7
     }
   ]
 }

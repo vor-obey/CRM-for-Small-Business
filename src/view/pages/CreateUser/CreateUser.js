@@ -1,34 +1,76 @@
 import React, { Component } from 'react';
-import { Button, CssBaseline, TextField, InputLabel, MenuItem, Select, Grid, Typography, Container, withStyles } from '@material-ui/core';
-import Avatar from '@material-ui/core/Avatar'
+
+import {
+    Avatar,
+    Button,
+    CssBaseline,
+    TextField,
+    Grid,
+    Typography,
+    Container,
+    Select,
+    MenuItem,
+    IconButton,
+    InputAdornment,
+    OutlinedInput,
+    FormControl,
+    InputLabel,
+    withStyles } from '@material-ui/core';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
+import Visibility from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import NumberFormat from 'react-number-format';
 import { createuserStyle } from './CreateUser.style.js';
 import { connect } from 'react-redux';
 import { postUser } from "../../../data/store/user/userThunkAction";
+
 
 class CreateUser extends Component{
     constructor(props){
         super(props);
         this.state = {
-            id: '',
-            firstName: '',
-            lastName: '',
-            email: '',
-            password: '',
-            role: ''
+            inputs: {
+                firstName: '',
+                lastName: '',
+                middleName: '',
+                email: '',
+                password: '',
+                confirmPassword: '',
+                phone: '',
+                role: ''
+            },
+            showPassword: false,
         };
+
         this.onChangeHandler = this.onChangeHandler.bind(this);
         this.onSubmitHandler = this.onSubmitHandler.bind(this);
+        this.handleClickShowPassword = this.handleClickShowPassword.bind(this);
     }
 
-    onSubmitHandler(e){
+    handleClickShowPassword() {
+        this.setState((prevState) => ({
+            showPassword: !prevState.showPassword,
+        }));
+    };
+
+    onChangeHandler(e) {
+        const inputs = {
+            ...this.state.inputs,
+            [e.target.name]: e.target.value,
+        };
+        this.setState({ inputs });
+    }
+
+    onSubmitHandler(e) {
         e.preventDefault();
-        this.props.postUser(this.state);
-        console.log(this.state);
-    }
+        const {
+            confirmPassword,
+            ...user
+        } = this.state.inputs;
 
-    onChangeHandler(e){
-        this.setState({ [e.target.name]: e.target.value })
+        if (user.password === confirmPassword) {
+            this.props.postUser(user);
+        }
     }
 
     render(){
@@ -48,89 +90,144 @@ class CreateUser extends Component{
                         <Grid container spacing={2}>
                             <Grid item xs={12} sm={6}>
                                 <TextField
-                                    name="firstName"
-                                    variant="outlined"
+                                    label={"First Name"}
+                                    name={"firstName"}
+                                    variant={"outlined"}
+                                    type={"text"}
+                                    value={this.state.inputs.firstName}
+                                    onChange={this.onChangeHandler}
                                     required
                                     fullWidth
-                                    label="First Name"
-                                    value={this.state.firstName}
-                                    onChange={this.onChangeHandler}
                                     autoFocus
                                 />
                             </Grid>
                             <Grid item xs={12} sm={6}>
                                 <TextField
-                                    variant="outlined"
+                                    label={"Last Name"}
+                                    name={"lastName"}
+                                    variant={"outlined"}
+                                    type={"text"}
+                                    value={this.state.inputs.lastName}
+                                    onChange={this.onChangeHandler}
                                     required
                                     fullWidth
-                                    label="Last Name"
-                                    name="lastName"
-                                    autoComplete="lname"
-                                    value={this.state.lastName}
-                                    onChange={this.onChangeHandler}
                                 />
                             </Grid>
                             <Grid item xs={12}>
                                 <TextField
-                                    variant="outlined"
+                                    label={"Middle Name"}
+                                    name={"middleName"}
+                                    value={this.state.inputs.middleName}
+                                    onChange={this.onChangeHandler}
+                                    variant={"outlined"}
                                     required
                                     fullWidth
-                                    label="Email Address"
-                                    name="email"
-                                    autoComplete="email"
-                                    value={this.state.email}
-                                    onChange={this.onChangeHandler}
                                 />
                             </Grid>
-                            <Grid item xs={12} sm={6}>
+                            <Grid item xs={12}>
                                 <TextField
-                                    variant="outlined"
+                                    label={"Email Address"}
+                                    name={"email"}
+                                    variant={"outlined"}
+                                    type="email"
+                                    value={this.state.inputs.email}
+                                    onChange={this.onChangeHandler}
                                     required
                                     fullWidth
-                                    name="password"
-                                    label="Password"
-                                    type="password"
-                                    autoComplete="current-password"
-                                    value={this.state.password}
-                                    onChange={this.onChangeHandler}
                                 />
                             </Grid>
+                            <Grid item xs={6}>
+                                <FormControl variant="outlined">
+                                    <InputLabel htmlFor="outlined-adornment-password">Password *</InputLabel>
+                                    <OutlinedInput
+                                        label={"Password"}
+                                        name={"password"}
+                                        type={this.state.showPassword ? 'text' : 'password'}
+                                        value={this.state.inputs.password}
+                                        onChange={this.onChangeHandler}
+                                        labelWidth={85}
+                                        required
+                                        fullWidth
+                                        endAdornment={
+                                            <InputAdornment position="end">
+                                                <IconButton
+                                                    aria-label="toggle password visibility"
+                                                    onClick={this.handleClickShowPassword}
+                                                    size='small'
+                                                    edge='end'
+                                                >
+                                                    {this.state.showPassword ? <Visibility fontSize='small' /> : <VisibilityOff fontSize='small' />}
+                                                </IconButton>
+                                            </InputAdornment>
+                                        }
+                                    />
+                                </FormControl>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <FormControl variant="outlined" required>
+                                    <InputLabel htmlFor="outlined-adornment-password" >Repeat Password </InputLabel>
+                                    <OutlinedInput
+                                        label={"Password"}
+                                        name={"confirmPassword"}
+                                        placeholder={"Repeat Password *"}
+                                        type={this.state.showPassword ? 'text' : 'password'}
+                                        value={this.state.inputs.confirmPassword}
+                                        onChange={this.onChangeHandler}
+                                        labelWidth={145}
+                                        required
+                                        fullWidth
+                                        endAdornment={
+                                            <InputAdornment position="end" >
+                                                <IconButton
+                                                    aria-label="toggle password visibility"
+                                                    onClick={this.handleClickShowPassword}
+                                                    size='small'
+                                                    edge='end'
+                                                >
+                                                    {this.state.showPassword ? <Visibility fontSize='small' /> : <VisibilityOff fontSize='small' />}
+                                                </IconButton>
+                                            </InputAdornment>
+                                        }
+                                    />
+                                </FormControl>
+                            </Grid>
                             <Grid item xs={12} sm={6}>
-                                <TextField
-                                    variant="outlined"
+                                <NumberFormat
+                                    customInput={TextField}
+                                    label={"Contact number"}
+                                    name={"phone"}
+                                    type={"tel"}
+                                    variant={"outlined"}
+                                    format={"+38 (###) ###-##-##"}
+                                    mask={"_"}
+                                    value={this.state.inputs.phone}
+                                    onChange={this.onChangeHandler}
                                     required
                                     fullWidth
-                                    name="password"
-                                    label="Repeat password"
-                                    type="password"
-                                    autoComplete="current-password"
                                 />
                             </Grid>
                             <Grid item xs={12} sm={6}>
                                 <InputLabel>Role</InputLabel>
                                 <Select
                                     className={classes.select}
-                                    value={this.state.role}
-                                    name="role"
+                                    value={this.state.inputs.role}
+                                    name={"role"}
                                     onChange={this.onChangeHandler}>
                                         <MenuItem value="">
                                             <em>None</em>
                                         </MenuItem>
-                                        <MenuItem
-                                            value="admin">Admin</MenuItem>
-                                        <MenuItem
-                                            value="moderator">Moderator</MenuItem>
-                                        <MenuItem
-                                            value="manager">Manager</MenuItem>
+                                        <MenuItem value="admin">Admin</MenuItem>
+                                        <MenuItem value="moderator">Moderator</MenuItem>
+                                        <MenuItem value="manager">Manager</MenuItem>
                                 </Select>
                             </Grid>
                         </Grid>
                         <Button
-                            type="submit"
-                            fullWidth
-                            variant="contained"
-                            color="primary"
                             className={classes.submit}
+                            type={"submit"}
+                            variant={"contained"}
+                            color={"primary"}
+                            fullWidth
                         >Add user</Button>
                     </form>
                 </div>

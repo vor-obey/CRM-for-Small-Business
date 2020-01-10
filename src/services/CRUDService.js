@@ -19,6 +19,6 @@ export default class CRUDService {
     };
 
     create = async (body) => {
-        return await this.APIService.apiPost(USER_URLS.USERS, body);
+        return await this.APIService.apiPost(USER_URLS.USERS, { body });
     };
 }
