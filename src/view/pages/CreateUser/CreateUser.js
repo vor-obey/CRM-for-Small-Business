@@ -9,7 +9,6 @@ import {
     Typography,
     Container,
     Select,
-    MenuItem,
     IconButton,
     InputAdornment,
     OutlinedInput,
@@ -36,7 +35,7 @@ class CreateUser extends Component{
                 email: '',
                 password: '',
                 confirmPassword: '',
-                phone: '',
+                contactNumber: '',
                 role: ''
             },
             showPassword: false,
@@ -86,7 +85,7 @@ class CreateUser extends Component{
                     <Typography component="h1" variant="h5">
                         Create user
                     </Typography>
-                    <form className={classes.form} noValidate onSubmit={this.onSubmitHandler}>
+                    <form className={classes.form} onSubmit={this.onSubmitHandler}>
                         <Grid container spacing={2}>
                             <Grid item xs={12} sm={6}>
                                 <TextField
@@ -137,8 +136,10 @@ class CreateUser extends Component{
                                 />
                             </Grid>
                             <Grid item xs={6}>
-                                <FormControl variant="outlined">
-                                    <InputLabel htmlFor="outlined-adornment-password">Password *</InputLabel>
+                                <FormControl variant="outlined"
+                                required>
+
+                                    <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
                                     <OutlinedInput
                                         label={"Password"}
                                         name={"password"}
@@ -146,7 +147,7 @@ class CreateUser extends Component{
                                         value={this.state.inputs.password}
                                         onChange={this.onChangeHandler}
                                         labelWidth={85}
-                                        required
+                                        
                                         fullWidth
                                         endAdornment={
                                             <InputAdornment position="end">
@@ -195,7 +196,7 @@ class CreateUser extends Component{
                                 <NumberFormat
                                     customInput={TextField}
                                     label={"Contact number"}
-                                    name={"phone"}
+                                    name={"contactNumber"}
                                     type={"tel"}
                                     variant={"outlined"}
                                     format={"+38 (###) ###-##-##"}
@@ -206,26 +207,30 @@ class CreateUser extends Component{
                                     fullWidth
                                 />
                             </Grid>
-                            <Grid item xs={12} sm={6} className={classes.wm}>
-                                <FormControl variant="outlined" className={classes.formControl}>
+                            <Grid item xs={12} sm={6}>
+                                <FormControl 
+                                    variant="outlined"
+                                    className={classes.formControl}
+                                    required
+                                    >
                                     <InputLabel id="demo-simple-select-outlined-label">
                                     Role
                                     </InputLabel>
                                     <Select
-                                        // className={classes.select}
-                                        labelId="demo-simple-select-outlined-label"
-                                        id="demo-simple-select-outlined"
+                                        native
                                         name={"role"}
                                         value={this.state.inputs.role}
                                         onChange={this.onChangeHandler}
-                                        labelWidth={45}
+                                        labelWidth={40}
+                                        required
+                                        inputProps={{
+                                            name: 'role',
+                                          }}
                                         >
-                                            <MenuItem value="">
-                                                <em>None</em>
-                                            </MenuItem>
-                                            <MenuItem value={"admin"}>Admin</MenuItem>
-                                            <MenuItem value={"moderator"}>Moderator</MenuItem>
-                                            <MenuItem value={"manager"}>Manager</MenuItem>
+                                            <option value=""></option>
+                                            <option value={"admin"}>Admin</option>
+                                            <option value={"moderator"}>Moderator</option>
+                                            <option value={"manager"}>Manager</option>
                                     </Select>
                                 </FormControl>
                             </Grid>

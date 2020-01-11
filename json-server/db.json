@@ -4,54 +4,91 @@
       "id": 1,
       "firstName": "John",
       "lastName": "Doe",
+      "middleName": "Low",
       "email": "john.doe@gmail.com",
       "password": "test",
+      "contactNumber": "string",
       "role": "admin"
     },
     {
       "id": 2,
-      "firstName": "Peter",
-      "lastName": "Vahtang",
-      "email": "pvahtang@gmail.com",
-      "password": "test2",
-      "role": "moderator"
+      "firstName": "John",
+      "lastName": "Doe",
+      "middleName": "High",
+      "email": "john.doe@gmail.com",
+      "password": "test",
+      "contactNumber": "string",
+      "role": "admin"
     },
     {
       "id": 3,
-      "firstName": "AC",
-      "lastName": "DC",
-      "email": "acdc@gmail.com",
-      "password": "test3",
-      "role": "editor"
+      "firstName": "John",
+      "lastName": "Doe",
+      "middleName": "Low",
+      "email": "john.doe@gmail.com",
+      "password": "test",
+      "contactNumber": "string",
+      "role": "admin"
     },
     {
       "id": 4,
-      "firstName": "New",
-      "lastName": "User",
-      "email": "admin@example.com",
-      "password": "somestrangepass",
-      "role": "moderator"
+      "firstName": "John",
+      "lastName": "Doe",
+      "middleName": "High",
+      "email": "john.doe@gmail.com",
+      "password": "test",
+      "contactNumber": "string",
+      "role": "admin"
     },
     {
-      "id": 5,
-      "firstName": "Some",
-      "lastName": "NewUser",
-      "email": "XXX@example.com",
-      "password": "123321",
-      "role": "manager"
+      "firstName": "Vlad",
+      "lastName": "Segeda",
+      "middleName": "3",
+      "email": "vladcomart@gmail.com",
+      "password": "1",
+      "contactNumber": "+38 (380) 633-64-47",
+      "role": "admin",
+      "id": 5
     },
     {
+      "firstName": "Владислав",
+      "lastName": "Сегеда",
+      "middleName": "Юрьевич",
+      "email": "vladcomart@gmail.com",
+      "password": "1",
+      "contactNumber": "+38 (380) 633-64-47",
+      "role": "",
       "id": 6
     },
     {
-      "firstName": "2",
-      "lastName": "345",
-      "middleName": "Middle",
+      "firstName": "Владислав",
+      "lastName": "Сегеда",
+      "middleName": "Юрьевич",
       "email": "vladcomart@gmail.com",
-      "password": "123",
-      "phone": "+38 (063) 364-47-44",
-      "role": "moderator",
+      "password": "1",
+      "contactNumber": "+38 (380) 633-64-47",
+      "role": "",
       "id": 7
+    },
+    {
+      "firstName": "Vlad",
+      "lastName": "Segeda",
+      "middleName": "3",
+      "email": "vladcomart@gmail.com",
+      "password": "1",
+      "contactNumber": "+38 (380) 633-64-47",
+      "role": "",
+      "id": 8
+    },
+    {
+      "firstName": "Vlad",
+      "lastName": "Segeda",
+      "middleName": "1",
+      "email": "vladcomart@gmail.com",
+      "password": "1",
+      "contactNumber": "+38 (380) 633-64-47",
+      "role": "admin",
+      "id": 9
     }
   ]
 }
