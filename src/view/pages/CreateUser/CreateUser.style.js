@@ -15,7 +15,10 @@ export const createuserStyle = (theme =>  ({
     },
     select: {
         margin: theme.spacing(1, 0),
-        minWidth: 120,
+        minWidth: '100%',
+    },
+    formControl: {
+        width: '100%',
     },
     submit: {
         margin: theme.spacing(3, 0, 2),

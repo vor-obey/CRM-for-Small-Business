@@ -206,20 +206,28 @@ class CreateUser extends Component{
                                     fullWidth
                                 />
                             </Grid>
-                            <Grid item xs={12} sm={6}>
-                                <InputLabel>Role</InputLabel>
-                                <Select
-                                    className={classes.select}
-                                    value={this.state.inputs.role}
-                                    name={"role"}
-                                    onChange={this.onChangeHandler}>
-                                        <MenuItem value="">
-                                            <em>None</em>
-                                        </MenuItem>
-                                        <MenuItem value="admin">Admin</MenuItem>
-                                        <MenuItem value="moderator">Moderator</MenuItem>
-                                        <MenuItem value="manager">Manager</MenuItem>
-                                </Select>
+                            <Grid item xs={12} sm={6} className={classes.wm}>
+                                <FormControl variant="outlined" className={classes.formControl}>
+                                    <InputLabel id="demo-simple-select-outlined-label">
+                                    Role
+                                    </InputLabel>
+                                    <Select
+                                        // className={classes.select}
+                                        labelId="demo-simple-select-outlined-label"
+                                        id="demo-simple-select-outlined"
+                                        name={"role"}
+                                        value={this.state.inputs.role}
+                                        onChange={this.onChangeHandler}
+                                        labelWidth={45}
+                                        >
+                                            <MenuItem value="">
+                                                <em>None</em>
+                                            </MenuItem>
+                                            <MenuItem value={"admin"}>Admin</MenuItem>
+                                            <MenuItem value={"moderator"}>Moderator</MenuItem>
+                                            <MenuItem value={"manager"}>Manager</MenuItem>
+                                    </Select>
+                                </FormControl>
                             </Grid>
                         </Grid>
                         <Button
