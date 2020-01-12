@@ -48,7 +48,7 @@ function Drawer(props) {
                         <ListItemIcon><HomeIcon /></ListItemIcon>
                         <ListItemText>Home</ListItemText>
                     </ListItem>
-                    <Divider />
+                    <Divider variant="inset" component="li" />
                     <ListItem button
                         component={Link}
                         to="/users"
@@ -56,6 +56,7 @@ function Drawer(props) {
                         <ListItemIcon><PeopleIcon /></ListItemIcon>
                         <ListItemText>Users</ListItemText>
                     </ListItem>
+                    <Divider variant="inset" component="li" />
                     <ListItem button
                         component={Link}
                         to="/create-user"
@@ -63,18 +64,19 @@ function Drawer(props) {
                         <ListItemIcon><PersonAddIcon /></ListItemIcon>
                         <ListItemText>Create user</ListItemText>
                     </ListItem>
-                      <Divider />
+                    <Divider variant="inset" component="li" />
                     <ListItem button
                         component={Link}
                         to="/"
-                        selected={isActive('/')}>
+                        selected={isActive('/#')}>
                         <ListItemIcon><InsertDriveFileIcon /></ListItemIcon>
                         <ListItemText>Orders</ListItemText>
                     </ListItem>
+                    <Divider variant="inset" component="li" />
                     <ListItem button
                         component={Link}
                         to="/"
-                        selected={isActive('/')}>
+                        selected={isActive('/#')}>
                         <ListItemIcon><DescriptionIcon /></ListItemIcon>
                         <ListItemText>Create order</ListItemText>
                     </ListItem>

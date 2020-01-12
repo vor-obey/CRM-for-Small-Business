@@ -1,10 +1,16 @@
 import React, {Component} from "react";
 import {
+    Paper,
+    Card,
+    Typography,
     Container,
+    List,
+    ListItem,
+    ListItemText,
     withStyles
 } from "@material-ui/core";
 import { loadUser } from "../../../data/store/user/userThunkAction";
-import { userPageStyle } from "../UsersPage/UserPage.style";
+import { userDetailsStyle } from "../UserDetailsPage/UserDetailsPage.style.js";
 import { connect } from "react-redux";
 
 class UserDetailsPage extends Component{
@@ -12,15 +18,52 @@ class UserDetailsPage extends Component{
         const { loadUser } = this.props;
         loadUser();
     }
+    
+    // renderUserInfo() {
+    //     const { userDetails } = this.props;
+        
+    //     if (userDetails) {
+    //         return this.props.userDetails.map( u =>
+    //             <ListItem style={{cursor: 'pointer'}} key={u.id} >
+    //                 <ListItemText>{u.id}</ListItemText>
+    //             </ListItem>
+    //         )
+    //     }
+        
+    //     return null;
+    // }
 
     render() {
         const { classes } = this.props;
-        console.log(this.props.userDetails);
+        console.log(this.userDetails);
         return(
             <Container className={classes.allUsers}>
-                <div>
+                <Paper className={classes.paper} variant="outlined">
+                    <Card className={classes.card} variant="outlined">
+                        <Typography variant="h5" className={classes.title} align="center" color="textSecondary" gutterBottom>
+                            User snapshot
+                        </Typography>
+                        <List>
+                            <ListItem>
+                                {/* {this.renderUserInfo} */}
+                            </ListItem>
+                            <ListItem>1</ListItem>
+                            <ListItem>1</ListItem>
+                            <ListItem>1</ListItem>
+                        </List>
+
+                    </Card>
+                    <Card className={classes.card}>
+                        <Typography variant="h5" className={classes.title} align="center" color="textSecondary" gutterBottom>
+                            Orders
+                        </Typography>
+                    </Card>
+                </Paper>
+                
+                
+                {/* <div>
                     User {JSON.stringify(this.props.userDetails)}
-                </div>
+                </div> */}
             </Container>
         );
     }
@@ -40,4 +83,4 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     }
 };
 
-export default withStyles(userPageStyle)(connect(mapStateToProps, mapDispatchToProps)(UserDetailsPage));
+export default withStyles(userDetailsStyle)(connect(mapStateToProps, mapDispatchToProps)(UserDetailsPage));
