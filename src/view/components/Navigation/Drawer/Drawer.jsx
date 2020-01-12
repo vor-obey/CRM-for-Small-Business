@@ -31,13 +31,7 @@ function Drawer(props) {
 
         setState({ ...state, [side]: open });
     };
-    const isActive = (value) => {
-        if (window.location.pathname === value) {
-            return true;
-        } else { 
-            return null;
-        }
-    }
+    const isActive = (e) => window.location.pathname === e ? true : null;
 
     const sideList = side => (
         <div
@@ -50,8 +44,7 @@ function Drawer(props) {
                     <ListItem button
                         component={Link}
                         to="/"
-                        selected={isActive('/')}
-                        >
+                        selected={isActive('/')}>
                         <ListItemIcon><HomeIcon /></ListItemIcon>
                         <ListItemText>Home</ListItemText>
                     </ListItem>
@@ -59,27 +52,29 @@ function Drawer(props) {
                     <ListItem button
                         component={Link}
                         to="/users"
-                        selected={isActive('/users')}
-                        >
+                        selected={isActive('/users')}>
                         <ListItemIcon><PeopleIcon /></ListItemIcon>
                         <ListItemText>Users</ListItemText>
                     </ListItem>
                     <ListItem button
                         component={Link}
-                        to="/create-user">
+                        to="/create-user"
+                        selected={isActive('/create-user')}>
                         <ListItemIcon><PersonAddIcon /></ListItemIcon>
                         <ListItemText>Create user</ListItemText>
                     </ListItem>
                       <Divider />
                     <ListItem button
                         component={Link}
-                        to="/">
+                        to="/"
+                        selected={isActive('/')}>
                         <ListItemIcon><InsertDriveFileIcon /></ListItemIcon>
                         <ListItemText>Orders</ListItemText>
                     </ListItem>
                     <ListItem button
                         component={Link}
-                        to="/">
+                        to="/"
+                        selected={isActive('/')}>
                         <ListItemIcon><DescriptionIcon /></ListItemIcon>
                         <ListItemText>Create order</ListItemText>
                     </ListItem>
