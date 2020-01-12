@@ -33,17 +33,19 @@ class UserPage extends Component{
                     <TableCell align="left">{u.firstName}</TableCell>
                     <TableCell align="left">{u.lastName}</TableCell>
                     <TableCell align="left">{u.email}</TableCell>
+                    <TableCell align="left">{u.contactNumber}</TableCell>
                     <TableCell align="left">{u.role}</TableCell>
                 </TableRow>
             )
         }
 
         return null;
+       
     }
 
     render() {
         const { classes } = this.props;
-
+        
 
         return(
             <Container className={classes.allUsers}>
@@ -55,6 +57,7 @@ class UserPage extends Component{
                                 <TableCell align="left">First Name</TableCell>
                                 <TableCell align="left">Last Name</TableCell>
                                 <TableCell align="left">Email</TableCell>
+                                <TableCell align="left">Contact number</TableCell>
                                 <TableCell align="left">Role</TableCell>
                             </TableRow>
                         </TableHead>
