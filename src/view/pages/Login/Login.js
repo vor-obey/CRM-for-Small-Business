@@ -5,7 +5,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { withStyles } from '@material-ui/styles';
 import { loginStyles } from './Login.style.js';
 import {connect} from "react-redux";
-import { login} from "../../../data/store/user/userThunkAction";
+import { login } from "../../../data/store/user/userThunkAction";
 import Box from "@material-ui/core/Box";
 
 
@@ -14,7 +14,7 @@ class Login extends Component {
         super(props);
 
         this.state = {
-            username: '',
+            email: '',
             password: '',
             logIn: false,
         };
@@ -40,19 +40,19 @@ class Login extends Component {
 
     login(e){
         e.preventDefault();
-        const { username, password } = this.state;
+        const { email, password } = this.state;
 
-        this.props.login(username, password)
+        this.props.login(email, password)
     }
 
     render() {
         const { classes, currentUser } = this.props;
-        if (this.state.logIn) {
-            return <Redirect to='/admin' />
+        if (currentUser) {
+           return (<Redirect to='/admin' />)
         }
 
         if(currentUser){
-            console.log('SUCCESS!')
+            console.log('SUCCESS!');
         }
 
         return(
@@ -65,7 +65,7 @@ class Login extends Component {
                     <Typography component="h1" variant="h5">
                         Log in
                     </Typography>
-                    <form className={classes.form} noValidate onSubmit={this.login} >
+                    <form className={classes.form} onSubmit={this.login} >
                         <TextField
                             variant="outlined"
                             margin="normal"
@@ -73,10 +73,10 @@ class Login extends Component {
                             fullWidth
                             id="email"
                             label="Email Address"
-                            name="username"
+                            name="email"
                             autoComplete="email"
                             autoFocus
-                            value={this.state.username}
+                            value={this.state.email}
                             onChange={this.onChange}
                         />
                         <TextField
@@ -120,7 +120,6 @@ class Login extends Component {
 const mapStateToProps = (state) => {
     const { currentUser, loginError } = state.userReducer;
 
-
     return {
         currentUser,
         loginError
@@ -129,7 +128,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        login: (username, password) => dispatch(login(username, password)),
+        login: (email, password) => dispatch(login(email, password)),
     }
 };
 

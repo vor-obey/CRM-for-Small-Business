@@ -8,7 +8,7 @@ class UserService extends CRUDService{
 
     async login(email, password) {
         try {
-            const user = await this.APIService.fetch('POST', '/login', {
+            const user = await this.APIService.fetch('POST', '/auth/login', {
                 email,
                 password,
             });
@@ -24,5 +24,3 @@ class UserService extends CRUDService{
 }
 
 export default new UserService();
-
-

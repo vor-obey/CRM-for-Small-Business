@@ -6,7 +6,7 @@ import {
     Container,
     List,
     ListItem,
-    ListItemText,
+    // ListItemText,
     withStyles
 } from "@material-ui/core";
 import { loadUser } from "../../../data/store/user/userThunkAction";
@@ -18,10 +18,10 @@ class UserDetailsPage extends Component{
         const { loadUser } = this.props;
         loadUser();
     }
-    
+
     // renderUserInfo() {
     //     const { userDetails } = this.props;
-        
+
     //     if (userDetails) {
     //         return this.props.userDetails.map( u =>
     //             <ListItem style={{cursor: 'pointer'}} key={u.id} >
@@ -29,7 +29,7 @@ class UserDetailsPage extends Component{
     //             </ListItem>
     //         )
     //     }
-        
+
     //     return null;
     // }
 
@@ -59,8 +59,8 @@ class UserDetailsPage extends Component{
                         </Typography>
                     </Card>
                 </Paper>
-                
-                
+
+
                 {/* <div>
                     User {JSON.stringify(this.props.userDetails)}
                 </div> */}

@@ -11,7 +11,6 @@ import {
     userLoginSuccess,
     userLoginFailure,
 } from "./userActions";
-
 import { UserService } from "../../../services";
 
 export const login = (email, password) => async (dispatch) => {
@@ -19,7 +18,7 @@ export const login = (email, password) => async (dispatch) => {
         const response = await UserService.login(email, password);
         if(!response.error) {
             dispatch(userLoginSuccess(response));
-        } else {
+            } else {
             dispatch(userLoginFailure(response.error));
         }
     } catch (e) {
