@@ -18,6 +18,8 @@ export const login = (email, password) => async (dispatch) => {
         const response = await UserService.login(email, password);
         if(!response.error) {
             dispatch(userLoginSuccess(response));
+            const token = response.accessToken;
+            localStorage.setItem('jwtToken', token);
             } else {
             dispatch(userLoginFailure(response.error));
         }

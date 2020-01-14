@@ -5,7 +5,7 @@ import { AuthContext } from "./data/context/auth";
 
 import { ThemeProvider } from '@material-ui/styles';
 import { Provider } from "react-redux";
-
+// import Hehlpers from "./src/utils/helpers";
 import { store } from "./data/store/configureStore";
 
 import { theme } from "./view/theme";
@@ -18,6 +18,8 @@ import UserPage from './view/pages/UsersPage/UserPage.jsx';
 
 import Header from './view/components/Navigation/Header/Header.js';
 import UserDetailsPage from "./view/pages/UserDetailsPage/UserDetailsPage";
+
+
 
 function App(props) {
     const [authTokens, setAuthTokens] = useState();
@@ -35,10 +37,10 @@ function App(props) {
                             <Header />
                             <Route exact path="/" component={Home} />
                             <Route path="/login" component={Login} />
-                            <Route path="/create-user" component={CreateUser} />
-                            <Route path='/logout' component={LogOut} />
-                            <Route path='/users' exact component={UserPage} />
-                            <Route path='/users/:id' component={UserDetailsPage} />
+                            <PrivateRoute path="/create-user" component={CreateUser} />
+                            <PrivateRoute path='/logout' component={LogOut} />
+                            <PrivateRoute path='/users' exact component={UserPage} />
+                            <PrivateRoute path='/users/:id' component={UserDetailsPage} />
                             <PrivateRoute path="/admin" component={Admin} />
                         </div>
                     </Router>

@@ -1,12 +1,11 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
-import { Avatar, Button, CssBaseline, TextField, FormControlLabel, Checkbox, Grid, Typography, Container} from '@material-ui/core';
+import { Avatar, Box, Button, CssBaseline, TextField, FormControlLabel, Checkbox, Grid, Typography, Container} from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { withStyles } from '@material-ui/styles';
 import { loginStyles } from './Login.style.js';
-import {connect} from "react-redux";
+import { connect } from "react-redux";
 import { login } from "../../../data/store/user/userThunkAction";
-import Box from "@material-ui/core/Box";
 
 
 class Login extends Component {
@@ -16,21 +15,18 @@ class Login extends Component {
         this.state = {
             email: '',
             password: '',
-            logIn: false,
+            isAuthenticated: false,
         };
 
-        const token = localStorage.getItem("token");
-        if(token == null){
-            this.state.logIn = false;
-        }
+        // const token = localStorage.getItem("jwtToken");
 
         this.onChange = this.onChange.bind(this);
         this.login = this.login.bind(this);
     }
-
-    componentDidMount() {
-        localStorage.clear();
-    }
+    //
+    // componentDidMount() {
+    //     localStorage.clear();
+    // }
 
     onChange(e){
         this.setState({

@@ -8,14 +8,12 @@ class UserService extends CRUDService{
 
     async login(email, password) {
         try {
-            const user = await this.APIService.fetch('POST', '/auth/login', {
+            const response = await this.APIService.fetch('POST', '/auth/login', {
                 email,
                 password,
             });
 
-            console.log(user);
-
-            return user;
+            return response;
         } catch (e) {
             console.log(e);
             return e;

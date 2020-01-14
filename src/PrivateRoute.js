@@ -1,9 +1,19 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import { Route, Redirect } from "react-router-dom";
-import { useAuth } from "./data/context/auth";
+// import { useAuth } from "./data/context/auth";
 
 function PrivateRoute({ component: Component, ...rest }) {
-    const isAuthenticated = useAuth();
+    const [isAuthenticated, setAuthenticated] = useState(false);
+
+    useEffect(() => {
+        const token = localStorage.getItem('jwtToken');
+
+        if (token) {
+            setAuthenticated(true);
+        }
+    }, []);
+
+    console.info(isAuthenticated)
 
     return (
         <Route
@@ -12,7 +22,7 @@ function PrivateRoute({ component: Component, ...rest }) {
                 isAuthenticated ? (
                     <Component {...props} />
                 ) : (
-                    <Redirect to="/login" />
+                    <Redirect to="/" />
                 )
             }
         />
