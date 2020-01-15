@@ -12,11 +12,10 @@ import {
     TableRow,
     Container,
     withStyles } from '@material-ui/core';
-import { userPageStyle } from "./UserPage.style";
+import { usersPageStyle } from "./UsersPage.style";
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 
-
-class UserPage extends Component{
+class UsersPage extends Component{
 
     componentDidMount() {
         const { loadUsers } = this.props;
@@ -27,25 +26,28 @@ class UserPage extends Component{
         const { userList } = this.props;
 
         if (userList) {
-            return this.props.userList.map( u =>
-                <TableRow style={{cursor: 'pointer'}} key={u.id} onClick={() => this.props.history.push(`/users/${u.id}`)}>
-                    <TableCell align="center">{u.id}</TableCell>
-                    <TableCell align="left">{u.firstName}</TableCell>
-                    <TableCell align="left">{u.lastName}</TableCell>
-                    <TableCell align="left">{u.email}</TableCell>
-                    <TableCell align="left">{u.contactNumber}</TableCell>
-                    <TableCell align="left">{u.role}</TableCell>
-                </TableRow>
-            )
+            return (userList.map((user, index) => {
+                return (
+                    <TableRow style={{cursor: 'pointer'}} key={user.userId} onClick={() => this.props.history.push(`/users/${user.id}`)}>
+                        <TableCell align="center">{index}</TableCell>
+                        <TableCell align="left">{user.firstName}</TableCell>
+                        <TableCell align="left">{user.lastName}</TableCell>
+                        <TableCell align="left">{user.email}</TableCell>
+                        <TableCell align="left">{user.contactNumber}</TableCell>
+                        <TableCell align="left">{user.role.name}</TableCell>
+                    </TableRow>
+                )
+                }
+            ))
         }
 
         return null;
-       
+
     }
 
     render() {
         const { classes } = this.props;
-        
+
 
         return(
             <Container className={classes.allUsers}>
@@ -95,5 +97,5 @@ const mapDispatchToProps = (dispatch) => {
     }
 };
 
-export default withStyles(userPageStyle)(connect(mapStateToProps, mapDispatchToProps)(UserPage));
+export default withStyles(usersPageStyle)(connect(mapStateToProps, mapDispatchToProps)(UsersPage));
 

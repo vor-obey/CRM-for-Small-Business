@@ -37,8 +37,12 @@ class Login extends Component {
     login(e){
         e.preventDefault();
         const { email, password } = this.state;
+        this.props.login(email, password);
 
-        this.props.login(email, password)
+        const { currentUser } = this.props;
+        if (currentUser) {
+            return (<Redirect to='/admin' />)
+        }
     }
 
     render() {

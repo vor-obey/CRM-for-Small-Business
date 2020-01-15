@@ -11,16 +11,16 @@ import {
     userLoginSuccess,
     userLoginFailure,
 } from "./userActions";
-import { UserService } from "../../../services";
+import { UserService, StorageService } from "../../../services";
+
 
 export const login = (email, password) => async (dispatch) => {
     try {
         const response = await UserService.login(email, password);
         if(!response.error) {
+            StorageService.setJWTToken(response.accessToken);
             dispatch(userLoginSuccess(response));
-            const token = response.accessToken;
-            localStorage.setItem('jwtToken', token);
-            } else {
+        } else {
             dispatch(userLoginFailure(response.error));
         }
     } catch (e) {

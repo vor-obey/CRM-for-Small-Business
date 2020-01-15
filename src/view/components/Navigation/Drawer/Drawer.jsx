@@ -12,9 +12,8 @@ import {
     withStyles } from '@material-ui/core';
 import HomeIcon from '@material-ui/icons/Home';
 import PeopleIcon from '@material-ui/icons/People';
-import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import InsertDriveFileIcon from '@material-ui/icons/InsertDriveFile';
-import DescriptionIcon from '@material-ui/icons/Description';
+import PlusIcon from '@material-ui/icons/PlusOne';
 import MenuIcon from '@material-ui/icons/Menu';
 import { drawerStyle } from "./Drawer.style";
 
@@ -41,45 +40,37 @@ function Drawer(props) {
             onKeyDown={toggleDrawer(side, false)}
         >
             <List>
-                    <ListItem button
-                        component={Link}
-                        to="/"
-                        selected={isActive('/')}>
-                        <ListItemIcon><HomeIcon /></ListItemIcon>
-                        <ListItemText>Home</ListItemText>
-                    </ListItem>
-                    <Divider variant="inset" component="li" />
-                    <ListItem button
-                        component={Link}
-                        to="/users"
-                        selected={isActive('/users')}>
-                        <ListItemIcon><PeopleIcon /></ListItemIcon>
-                        <ListItemText>Users</ListItemText>
-                    </ListItem>
-                    <Divider variant="inset" component="li" />
-                    <ListItem button
-                        component={Link}
-                        to="/create-user"
-                        selected={isActive('/create-user')}>
-                        <ListItemIcon><PersonAddIcon /></ListItemIcon>
-                        <ListItemText>Create user</ListItemText>
-                    </ListItem>
-                    <Divider variant="inset" component="li" />
-                    <ListItem button
-                        component={Link}
-                        to="/"
-                        selected={isActive('/#')}>
-                        <ListItemIcon><InsertDriveFileIcon /></ListItemIcon>
-                        <ListItemText>Orders</ListItemText>
-                    </ListItem>
-                    <Divider variant="inset" component="li" />
-                    <ListItem button
-                        component={Link}
-                        to="/"
-                        selected={isActive('/#')}>
-                        <ListItemIcon><DescriptionIcon /></ListItemIcon>
-                        <ListItemText>Create order</ListItemText>
-                    </ListItem>
+                <ListItem button
+                          component={Link}
+                          to="/"
+                          selected={isActive('/')}>
+                    <ListItemIcon><HomeIcon /></ListItemIcon>
+                    <ListItemText>Home</ListItemText>
+                </ListItem>
+                <Divider variant="inset" component="li" />
+                <ListItem button
+                          component={Link}
+                          to="/"
+                          selected={isActive('/#')}>
+                    <ListItemIcon><PlusIcon /></ListItemIcon>
+                    <ListItemText>Create order</ListItemText>
+                </ListItem>
+                <Divider variant="inset" component="li" />
+                <ListItem button
+                          component={Link}
+                          to="/users"
+                          selected={isActive('/users')}>
+                    <ListItemIcon><PeopleIcon /></ListItemIcon>
+                    <ListItemText>Users</ListItemText>
+                </ListItem>
+                <ListItem button
+                          component={Link}
+                          to="/"
+                          selected={isActive('/#')}>
+                    <ListItemIcon><InsertDriveFileIcon /></ListItemIcon>
+                    <ListItemText>Orders</ListItemText>
+                </ListItem>
+
             </List>
         </div>
     );

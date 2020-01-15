@@ -1,7 +1,7 @@
 
 export default class StorageService {
     static KEYS = {
-        ACCESS_TOKEN : 'jwt',
+        ACCESS_TOKEN : 'acc',
         REFRESH_TOKEN : 'rfr'
     };
 
@@ -14,7 +14,7 @@ export default class StorageService {
     }
 
     static getJWTToken() {
-        this.getItem(StorageService.KEYS.ACCESS_TOKEN);
+        return this.getItem(StorageService.KEYS.ACCESS_TOKEN);
     }
 
     static setJWTToken(value) {

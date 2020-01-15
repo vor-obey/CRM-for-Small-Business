@@ -14,7 +14,7 @@ import Admin from './view/pages/Admin/Admin.js';
 import Login from './view/pages/Login/Login.js';
 import CreateUser from './view/pages/CreateUser/CreateUser.js';
 import LogOut from './view/pages/LogOut/LogOut.js';
-import UserPage from './view/pages/UsersPage/UserPage.jsx';
+import UserPage from './view/pages/UsersPage/UsersPage.jsx';
 
 import Header from './view/components/Navigation/Header/Header.js';
 import UserDetailsPage from "./view/pages/UserDetailsPage/UserDetailsPage";

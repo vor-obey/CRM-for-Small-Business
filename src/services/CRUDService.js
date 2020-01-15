@@ -14,7 +14,6 @@ export default class CRUDService {
     };
 
     list = async (params) => {
-        console.log(params);
         return await this.APIService.apiGet(addParamsToUrl(this.pathname, params));
     };
 

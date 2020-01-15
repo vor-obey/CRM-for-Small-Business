@@ -1,4 +1,4 @@
-export const userPageStyle = (theme =>  ({
+export const usersPageStyle = (theme =>  ({
     table: {
         maxWidth: 800,
         marginTop: theme.spacing(10),
