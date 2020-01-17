@@ -3,14 +3,14 @@ import { Redirect } from "react-router-dom";
 import {Button} from "@material-ui/core";
 
 export default function LogOut(){
-    let token = localStorage.getItem("token");
+    let token = localStorage.getItem("acc");
 
     if(token == null){
         return <Redirect to='/'/>
     }
 
     function onClick(){
-        localStorage.removeItem("token")
+        localStorage.removeItem("acc")
     }
 
         return (

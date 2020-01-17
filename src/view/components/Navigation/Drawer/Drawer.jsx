@@ -16,6 +16,8 @@ import InsertDriveFileIcon from '@material-ui/icons/InsertDriveFile';
 import PlusIcon from '@material-ui/icons/PlusOne';
 import MenuIcon from '@material-ui/icons/Menu';
 import { drawerStyle } from "./Drawer.style";
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+
 
 function Drawer(props) {
     const { classes } = props;
@@ -70,7 +72,14 @@ function Drawer(props) {
                     <ListItemIcon><InsertDriveFileIcon /></ListItemIcon>
                     <ListItemText>Orders</ListItemText>
                 </ListItem>
-
+                <Divider variant="inset" component="li" />
+                <ListItem button
+                          component={Link}
+                          to="/logout"
+                          selected={isActive('/logout')}>
+                    <ListItemIcon><ExitToAppIcon /></ListItemIcon>
+                    <ListItemText>Log Out</ListItemText>
+                </ListItem>
             </List>
         </div>
     );

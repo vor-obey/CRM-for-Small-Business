@@ -6,7 +6,7 @@ import {
     Container,
     List,
     ListItem,
-    // ListItemText,
+    ListItemText,
     withStyles
 } from "@material-ui/core";
 import { loadUser } from "../../../data/store/user/userThunkAction";
@@ -19,19 +19,19 @@ class UserDetailsPage extends Component{
         loadUser();
     }
 
-    // renderUserInfo() {
-    //     const { userDetails } = this.props;
+    renderUserInfo() {
+        const { userDetails } = this.props;
 
-    //     if (userDetails) {
-    //         return this.props.userDetails.map( u =>
-    //             <ListItem style={{cursor: 'pointer'}} key={u.id} >
-    //                 <ListItemText>{u.id}</ListItemText>
-    //             </ListItem>
-    //         )
-    //     }
+        if (userDetails) {
+            return this.props.userDetails.map( u =>
+                <ListItem style={{cursor: 'pointer'}} key={u.id} >
+                    <ListItemText>{u.id}</ListItemText>
+                </ListItem>
+            )
+        }
 
-    //     return null;
-    // }
+        return null;
+    }
 
     render() {
         const { classes } = this.props;
@@ -44,9 +44,7 @@ class UserDetailsPage extends Component{
                             User snapshot
                         </Typography>
                         <List>
-                            <ListItem>
-                                {/* {this.renderUserInfo} */}
-                            </ListItem>
+                            {this.renderUserInfo}
                             <ListItem>1</ListItem>
                             <ListItem>1</ListItem>
                             <ListItem>1</ListItem>
@@ -62,7 +60,7 @@ class UserDetailsPage extends Component{
 
 
                 <div>
-                    User {JSON.stringify(this.props.userDetails)}
+                    {/*User {JSON.stringify(this.props.userDetails)}*/}
                 </div>
             </Container>
         );
@@ -78,6 +76,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
+    console.log(ownProps.match.params.id);
     return {
         loadUser: () => dispatch(loadUser(ownProps.match.params.id)),
     }

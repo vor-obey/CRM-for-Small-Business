@@ -18,17 +18,13 @@ class Login extends Component {
             isAuthenticated: false,
         };
 
-        // const token = localStorage.getItem("jwtToken");
+
 
         this.onChange = this.onChange.bind(this);
         this.login = this.login.bind(this);
     }
-    //
-    // componentDidMount() {
-    //     localStorage.clear();
-    // }
 
-    onChange(e){
+    onChange(e) {
         this.setState({
             [e.target.name]: e.target.value
         })
