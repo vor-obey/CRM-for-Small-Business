@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-
+import { connect } from "react-redux";
+import { postUser } from "../../../data/store/user/userThunkAction";
 import {
     Avatar,
     Button,
@@ -20,12 +21,10 @@ import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import NumberFormat from 'react-number-format';
 import { createuserStyle } from './CreateUser.style.js';
-import { connect } from 'react-redux';
-import { postUser } from "../../../data/store/user/userThunkAction";
 
 
-class CreateUser extends Component{
-    constructor(props){
+class CreateUser extends Component {
+    constructor(props) {
         super(props);
         this.state = {
             inputs: {
@@ -36,7 +35,7 @@ class CreateUser extends Component{
                 password: '',
                 confirmPassword: '',
                 contactNumber: '',
-                role: ''
+                roleId: ''
             },
             showPassword: false,
         };
@@ -72,7 +71,7 @@ class CreateUser extends Component{
         }
     }
 
-    render(){
+    render() {
         const { classes } = this.props;
 
         return (
@@ -137,7 +136,7 @@ class CreateUser extends Component{
                             </Grid>
                             <Grid item xs={6}>
                                 <FormControl variant="outlined"
-                                required>
+                                             required>
 
                                     <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
                                     <OutlinedInput
@@ -147,7 +146,7 @@ class CreateUser extends Component{
                                         value={this.state.inputs.password}
                                         onChange={this.onChangeHandler}
                                         labelWidth={85}
-                                        
+
                                         fullWidth
                                         endAdornment={
                                             <InputAdornment position="end">
@@ -208,13 +207,13 @@ class CreateUser extends Component{
                                 />
                             </Grid>
                             <Grid item xs={12} sm={6}>
-                                <FormControl 
+                                <FormControl
                                     variant="outlined"
                                     className={classes.formControl}
                                     required
-                                    >
+                                >
                                     <InputLabel id="demo-simple-select-outlined-label">
-                                    Role
+                                        Role
                                     </InputLabel>
                                     <Select
                                         native
@@ -224,13 +223,13 @@ class CreateUser extends Component{
                                         labelWidth={40}
                                         required
                                         inputProps={{
-                                            name: 'role',
-                                          }}
-                                        >
-                                            <option value=""></option>
-                                            <option value={"admin"}>Admin</option>
-                                            <option value={"moderator"}>Moderator</option>
-                                            <option value={"manager"}>Manager</option>
+                                            name: 'roleId',
+                                        }}
+                                    >
+                                        <option value=""></option>
+                                        <option value={"884825ce-81ca-43ad-ad6f-e69491ab5c27"}>Admin</option>
+                                        <option value={"6c9fd518-a7ca-4041-8d95-fa0e161ba717"}>Moderator</option>
+                                        <option value={"909510a5-89d6-4d21-a1c5-6f400bba6315"}>Manager</option>
                                     </Select>
                                 </FormControl>
                             </Grid>
@@ -253,7 +252,7 @@ const mapDispatchToProps = (dispatch) => {
     return {
         postUser: (user) => {
             dispatch(postUser(user));
-        }
+        },
     }
 };
 

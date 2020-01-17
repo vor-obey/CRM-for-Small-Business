@@ -35,7 +35,7 @@ class UserDetailsPage extends Component{
 
     render() {
         const { classes } = this.props;
-        console.log(this.userDetails);
+        // console.log(this.userDetails);
         return(
             <Container className={classes.allUsers}>
                 <Paper className={classes.paper} variant="outlined">
@@ -61,9 +61,9 @@ class UserDetailsPage extends Component{
                 </Paper>
 
 
-                {/* <div>
+                <div>
                     User {JSON.stringify(this.props.userDetails)}
-                </div> */}
+                </div>
             </Container>
         );
     }
