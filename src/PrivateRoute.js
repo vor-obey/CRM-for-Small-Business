@@ -11,7 +11,7 @@ function PrivateRoute({ component: Component, ...rest }) {
         if (token) {
             setAuthenticated(true);
         }
-    });
+    },[]);
 
     return (
         <Route

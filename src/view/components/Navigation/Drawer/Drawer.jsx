@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from "react-router-dom";
+import StorageService from '../../../../services/StorageService';
 
 import {
     SwipeableDrawer,
@@ -25,6 +26,8 @@ function Drawer(props) {
         left: false,
     });
 
+    const token = StorageService.getJWTToken();
+
     const toggleDrawer = (side, open) => event => {
         if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
             return;
@@ -32,7 +35,22 @@ function Drawer(props) {
 
         setState({ ...state, [side]: open });
     };
+    
     const isActive = (e) => window.location.pathname === e ? true : null;
+
+    const logOut = () => {
+        if (token) {
+            return (
+                <ListItem button
+                          component={Link}
+                          to="/logout"
+                          selected={isActive('/logout')}>
+                    <ListItemIcon><ExitToAppIcon /></ListItemIcon>
+                    <ListItemText>Log Out</ListItemText>
+                </ListItem>
+            )
+        }
+    }
 
     const sideList = side => (
         <div
@@ -73,13 +91,7 @@ function Drawer(props) {
                     <ListItemText>Orders</ListItemText>
                 </ListItem>
                 <Divider variant="inset" component="li" />
-                <ListItem button
-                          component={Link}
-                          to="/logout"
-                          selected={isActive('/logout')}>
-                    <ListItemIcon><ExitToAppIcon /></ListItemIcon>
-                    <ListItemText>Log Out</ListItemText>
-                </ListItem>
+                {logOut()}
             </List>
         </div>
     );

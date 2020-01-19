@@ -6,10 +6,10 @@ import { withStyles } from '@material-ui/styles';
 import { loginStyles } from './Login.style.js';
 import { connect } from "react-redux";
 import { login } from "../../../data/store/user/userThunkAction";
-
+import StorageService from '../../../services/StorageService';
 
 class Login extends Component {
-    constructor(props){
+    constructor(props) {
         super(props);
 
         this.state = {
@@ -17,8 +17,6 @@ class Login extends Component {
             password: '',
             isAuthenticated: false,
         };
-
-
 
         this.onChange = this.onChange.bind(this);
         this.login = this.login.bind(this);
@@ -30,25 +28,22 @@ class Login extends Component {
         })
     }
 
-    login(e){
+    login(e) {
         e.preventDefault();
         const { email, password } = this.state;
         this.props.login(email, password);
 
-        const { currentUser } = this.props;
-        if (currentUser) {
+        const token = StorageService.getJWTToken();
+        if (token) {
             return (<Redirect to='/admin' />)
         }
     }
 
     render() {
-        const { classes, currentUser } = this.props;
-        if (currentUser) {
-           return (<Redirect to='/admin' />)
-        }
-
-        if(currentUser){
-            console.log('SUCCESS!');
+        const { classes } = this.props;
+        const token = StorageService.getJWTToken();
+        if (token) {
+            return (<Redirect to='/admin' />)
         }
 
         return(

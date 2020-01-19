@@ -12,6 +12,7 @@ import {
     userLoginFailure,
 } from "./userActions";
 import { UserService, StorageService } from "../../../services";
+import history from './../history';
 
 
 export const login = (email, password) => async (dispatch) => {
@@ -20,6 +21,8 @@ export const login = (email, password) => async (dispatch) => {
         if(!response.error) {
             StorageService.setJWTToken(response.accessToken);
             dispatch(userLoginSuccess(response));
+            history.push('/admin');
+            window.location.reload();
         } else {
             dispatch(userLoginFailure(response.error));
         }
