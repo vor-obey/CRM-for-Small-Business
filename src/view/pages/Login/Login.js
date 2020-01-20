@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Redirect } from "react-router-dom";
+// import { Redirect } from "react-router-dom";
 import { Avatar, Box, Button, CssBaseline, TextField, FormControlLabel, Checkbox, Grid, Typography, Container} from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { withStyles } from '@material-ui/styles';
@@ -28,23 +28,21 @@ class Login extends Component {
         })
     }
 
-    login(e) {
+    async login(e) {
         e.preventDefault();
         const { email, password } = this.state;
-        this.props.login(email, password);
+        const { login, history } = this.props;
 
+        await login(email, password);
         const token = StorageService.getJWTToken();
+
         if (token) {
-            return (<Redirect to='/admin' />)
+            history.push('/dashboard');
         }
     }
 
     render() {
         const { classes } = this.props;
-        const token = StorageService.getJWTToken();
-        if (token) {
-            return (<Redirect to='/admin' />)
-        }
 
         return(
             <Container component="main" maxWidth="xs">

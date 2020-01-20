@@ -18,7 +18,7 @@ export default function LogOut(){
                 U could logout, just click <br />
                 <Button
                 type="submit"
-                href='/login'
+                href='/'
                 onClick={onClick()}
                 variant="contained"
                 color="secondary"

@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState }  from "react";
 import { Route, Redirect } from "react-router-dom";
 import StorageService from './services/StorageService';
 import { useSelector } from "react-redux";
 
-function PrivateRoute({ component: Component, ...rest }) {
+function AuthRoute({ component: Component, ...rest }) {
     const [isAuthenticated, setAuthenticated] = useState(StorageService.getJWTToken());
     const currentUser = useSelector((state) => state.userReducer.currentUser);
 
@@ -22,9 +22,9 @@ function PrivateRoute({ component: Component, ...rest }) {
             {...rest}
             render={props =>
                 isAuthenticated ? (
-                    <Component {...props} />
+                    <Redirect to="/dashboard" />
                 ) : (
-                    <Redirect to="/" />
+                    <Component {...props} />
                 )
             }
         />
@@ -32,4 +32,4 @@ function PrivateRoute({ component: Component, ...rest }) {
 }
 
 
-export default PrivateRoute;
+export default AuthRoute;
