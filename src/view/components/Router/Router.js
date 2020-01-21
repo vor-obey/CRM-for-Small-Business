@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import {BrowserRouter as Router} from 'react-router-dom';
 import StorageService from "../../../services/StorageService";
-// import { useDispatch } from 'react-redux'
 
 import Header from "../Navigation/Header/Header";
 import AuthRoute from "../../../AuthRoute";
@@ -13,12 +12,13 @@ import CreateUser from "../../pages/CreateUser/CreateUser";
 import LogOut from "../../pages/LogOut/LogOut";
 import UserPage from "../../pages/UsersPage/UsersPage";
 import UserDetailsPage from "../../pages/UserDetailsPage/UserDetailsPage";
-import {useSelector} from "react-redux";
+import {
+    // useDispatch,
+    useSelector } from "react-redux";
 
 
 function Routing() {
     const currentUser = useSelector((state) => state.userReducer.currentUser);
-    // const dispatch = useDispatch();
 
     useEffect(() => {
         const token = StorageService.getJWTToken();

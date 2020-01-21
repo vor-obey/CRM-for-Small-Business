@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { loadUsers } from "../../../data/store/user/userThunkAction";
 
@@ -49,7 +50,6 @@ class UsersPage extends Component {
     render() {
         const { classes } = this.props;
 
-
         return(
             <Container className={classes.allUsers}>
                 <TableContainer>
@@ -74,7 +74,8 @@ class UsersPage extends Component {
                     variant="outlined"
                     color="primary"
                     className={classes.button}
-                    href="/create-user"
+                    component={Link}
+                    to={'/create-user'}
                 >
                     <PersonAddIcon className={classes.addUser} />
                     Create user

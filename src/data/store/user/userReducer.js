@@ -10,7 +10,10 @@ import {
     GET_USER_DETAILS_LOADING,
     GET_USER_DETAILS_ERROR,
     LOGIN_FAILURE,
-    LOGIN_SUCCESS
+    LOGIN_SUCCESS,
+    // SET_CURRENT_USER_REQUEST,
+    // SET_CURRENT_USER_SUCCESS,
+    // SET_CURRENT_USER_FAILURE,
 } from "./userActionTypes";
 
 const initialState = {

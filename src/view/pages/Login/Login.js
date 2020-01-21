@@ -32,8 +32,8 @@ class Login extends Component {
         e.preventDefault();
         const { email, password } = this.state;
         const { login, history } = this.props;
-
         await login(email, password);
+
         const token = StorageService.getJWTToken();
 
         if (token) {
