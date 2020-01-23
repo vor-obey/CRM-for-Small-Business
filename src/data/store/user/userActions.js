@@ -7,21 +7,29 @@ import {
     SET_NEW_USER_ERROR,
     GET_USER_DETAILS_ERROR,
     GET_USER_DETAILS_LOADING,
-    GET_USER_DETAILS_SUCCESS, LOGIN_SUCCESS, LOGIN_FAILURE,
-    // SET_CURRENT_USER_REQUEST, SET_CURRENT_USER_SUCCESS, SET_CURRENT_USER_FAILURE
+    GET_USER_DETAILS_SUCCESS,
+    LOGIN_FAILURE,
+    GET_CURRENT_USER_SUCCESS, GET_CURRENT_USER_FAILURE
 } from "./userActionTypes";
-
-export const userLoginSuccess = (user) => {
-    return {
-        type: LOGIN_SUCCESS,
-        user
-    }
-};
 
 export const userLoginFailure = (loginError) => {
     return {
         type: LOGIN_FAILURE,
         loginError
+    }
+};
+
+export const getCurrentUserSuccess = (currentUser) => {
+    return {
+        type: GET_CURRENT_USER_SUCCESS,
+        currentUser
+    }
+};
+
+export const getCurrentUserFailure = (currentUser) => {
+    return {
+        type: GET_CURRENT_USER_FAILURE,
+        currentUser
     }
 };
 

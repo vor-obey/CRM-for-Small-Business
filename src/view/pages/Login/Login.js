@@ -1,12 +1,11 @@
 import React, { Component } from "react";
-// import { Redirect } from "react-router-dom";
-import { Avatar, Box, Button, CssBaseline, TextField, FormControlLabel, Checkbox, Grid, Typography, Container} from '@material-ui/core';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import { withStyles } from '@material-ui/styles';
-import { loginStyles } from './Login.style.js';
 import { connect } from "react-redux";
 import { login } from "../../../data/store/user/userThunkAction";
 import StorageService from '../../../services/StorageService';
+
+import { Avatar, Box, Button, CssBaseline, TextField, FormControlLabel, Checkbox, Grid, Typography, Container, withStyles } from '@material-ui/core';
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import { loginStyles } from './Login.style.js';
 
 class Login extends Component {
     constructor(props) {
@@ -81,10 +80,6 @@ class Login extends Component {
                             value={this.state.password}
                             onChange={this.onChange}
                         />
-                        <FormControlLabel
-                            control={<Checkbox value="remember" color="primary" />}
-                            label="Remember me"
-                        />
                         <Button
                             type="submit"
                             fullWidth
@@ -107,7 +102,9 @@ class Login extends Component {
 };
 
 const mapStateToProps = (state) => {
-    const { currentUser, loginError } = state.userReducer;
+    const {
+        currentUser,
+        loginError } = state.userReducer;
 
     return {
         currentUser,
