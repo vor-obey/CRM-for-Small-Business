@@ -31,7 +31,7 @@ export const login = (email, password) => async (dispatch) => {
 
 export const getCurrentUser = () => async (dispatch) => {
     try {
-        const response = await UserService.currentUser();
+        const response = await UserService.getCurrentUser();
         if (!response.error && response) {
             dispatch(getCurrentUserSuccess(response));
         } else {

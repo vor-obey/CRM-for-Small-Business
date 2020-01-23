@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { login } from "../../../data/store/user/userThunkAction";
 import StorageService from '../../../services/StorageService';
 
-import { Avatar, Box, Button, CssBaseline, TextField, FormControlLabel, Checkbox, Grid, Typography, Container, withStyles } from '@material-ui/core';
+import { Avatar, Box, Button, CssBaseline, TextField, Grid, Typography, Container, withStyles } from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { loginStyles } from './Login.style.js';
 

@@ -17,7 +17,7 @@ class UserService extends CRUDService {
         }
     };
 
-    async currentUser() {
+    async getCurrentUser() {
         try {
             return await this.APIService.apiGet('/users/me');
         } catch (e) {
