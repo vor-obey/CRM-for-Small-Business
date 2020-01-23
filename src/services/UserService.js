@@ -13,10 +13,17 @@ class UserService extends CRUDService {
                 password,
             });
         } catch (e) {
-            console.log(e);
             return e;
         }
-    }
+    };
+
+    async getCurrentUser() {
+        try {
+            return await this.APIService.apiGet('/users/me');
+        } catch (e) {
+            return e;
+        }
+    };
 }
 
 export default new UserService();

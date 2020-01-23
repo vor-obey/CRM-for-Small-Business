@@ -10,10 +10,9 @@ import {
     GET_USER_DETAILS_LOADING,
     GET_USER_DETAILS_ERROR,
     LOGIN_FAILURE,
-    LOGIN_SUCCESS,
-    // SET_CURRENT_USER_REQUEST,
-    // SET_CURRENT_USER_SUCCESS,
-    // SET_CURRENT_USER_FAILURE,
+    // LOGIN_SUCCESS,
+    GET_CURRENT_USER_SUCCESS,
+    GET_CURRENT_USER_FAILURE,
 } from "./userActionTypes";
 
 const initialState = {
@@ -31,18 +30,24 @@ export const userReducer = (state = initialState, action) => {
                 loginError: action.loginError
             }
         }
-        case LOGIN_SUCCESS: {
-            return {
-                ...state,
-                currentUser: action.user
-            }
-
-        }
+        // case LOGIN_SUCCESS: {
+        //     return {
+        //         ...state,
+        //         currentUser: action.user
+        //     }
+        // }
         case SET_USER_LOADING: {
             return {
                 ...state,
                 loading: action.loading,
             };
+        }
+        case GET_CURRENT_USER_SUCCESS:
+        case GET_CURRENT_USER_FAILURE:{
+             return {
+                 ...state,
+                 currentUser: action.currentUser
+             };
         }
         case GET_ALL_USERS_LOADING:
         case GET_ALL_USERS_SUCCESS: {
