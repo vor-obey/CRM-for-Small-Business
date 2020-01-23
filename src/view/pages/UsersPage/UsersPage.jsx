@@ -28,23 +28,19 @@ class UsersPage extends Component {
 
         if (userList) {
             return (userList.map((user, index) => {
-                    return (
-                        <TableRow style={{cursor: 'pointer'}} key={user.userId} onClick={() => this.props.history.push(`/users/${user.id}`)}>
-                            <TableCell align="center">{index}</TableCell>
-                            <TableCell align="left">{user.firstName}</TableCell>
-                            <TableCell align="left">{user.lastName}</TableCell>
-                            <TableCell align="left">{user.email}</TableCell>
-                            <TableCell align="left">{user.contactNumber}</TableCell>
-                            <TableCell align="left">{user.roleId}</TableCell>
-                        </TableRow>
-
+                return (
+                    <TableRow style={{cursor: 'pointer'}} key={user.userId} onClick={() => this.props.history.push(`/users/${user.id}`)}>
+                        <TableCell align="center">{index}</TableCell>
+                        <TableCell align="left">{user.firstName}</TableCell>
+                        <TableCell align="left">{user.lastName}</TableCell>
+                        <TableCell align="left">{user.email}</TableCell>
+                        <TableCell align="left">{user.contactNumber}</TableCell>
+                        <TableCell align="left">{user.role.name}</TableCell>
+                    </TableRow>
                 )
-                }
-            ))
+            }))
         }
-
         return null;
-
     }
 
     render() {
