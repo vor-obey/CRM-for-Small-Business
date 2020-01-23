@@ -11,6 +11,8 @@ import {
     GET_USER_DETAILS_ERROR,
     LOGIN_FAILURE,
     // LOGIN_SUCCESS,
+    GET_ROLE,
+    GET_ROLE_FAILURE,
     GET_CURRENT_USER_SUCCESS,
     GET_CURRENT_USER_FAILURE,
 } from "./userActionTypes";
@@ -20,6 +22,7 @@ const initialState = {
     userList: [],
     loading: false,
     error: "",
+    role: "",
 };
 
 export const userReducer = (state = initialState, action) => {
@@ -76,6 +79,18 @@ export const userReducer = (state = initialState, action) => {
                 loading: false,
                 error: action.error
             };
+        }
+        case GET_ROLE: {
+            return {
+                ...state,
+                role: action.getRole
+            };
+        }
+        case GET_ROLE_FAILURE: {
+            return {
+                ...state,
+                error: action.error
+            }
         }
         case GET_USER_DETAILS_LOADING:
         case GET_USER_DETAILS_SUCCESS: {

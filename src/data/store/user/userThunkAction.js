@@ -12,6 +12,8 @@ import {
     userLoginFailure,
     getCurrentUserSuccess,
     getCurrentUserFailure,
+    getRoleFailure,
+    getRole,
 } from "./userActions";
 import { UserService, StorageService } from "../../../services";
 
@@ -42,6 +44,19 @@ export const getCurrentUser = () => async (dispatch) => {
     }
 };
 
+export const getRoles = () => async (dispatch) => {
+    try {
+        const response = await UserService.getRole();
+        if (!response.error) {
+            dispatch(getRole(response));
+        } else {
+            dispatch(getRoleFailure(response.error));
+        }
+    }
+    catch (e) {
+        dispatch(getRoleFailure(e));
+    }
+};
 
 export const loadUsers = () => async (dispatch) => {
     try {
