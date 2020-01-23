@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 
 import { AuthContext } from "./data/context/auth";
-
-import { ThemeProvider } from '@material-ui/styles';
 import { Provider } from "react-redux";
 import Router from "./view/components/Router/Router";
 import { store } from "./data/store/configureStore";
 
+import {ThemeProvider} from "@material-ui/core/styles";
 import { theme } from "./view/theme";
 
 function App(props) {
