@@ -27,10 +27,9 @@ class UsersPage extends Component {
         const { userList } = this.props;
 
         if (userList) {
-            return (userList.map((user, index) => {
+            return (userList.map((user) => {
                 return (
                     <TableRow style={{cursor: 'pointer'}} key={user.userId} onClick={() => this.props.history.push(`/users/${user.id}`)}>
-                        <TableCell align="center">{index}</TableCell>
                         <TableCell align="left">{user.firstName}</TableCell>
                         <TableCell align="left">{user.lastName}</TableCell>
                         <TableCell align="left">{user.email}</TableCell>
@@ -52,7 +51,6 @@ class UsersPage extends Component {
                     <Table className={classes.table} align="center" aria-label="simple table">
                         <TableHead>
                             <TableRow>
-                                <TableCell align="center">ID</TableCell>
                                 <TableCell align="left">First Name</TableCell>
                                 <TableCell align="left">Last Name</TableCell>
                                 <TableCell align="left">Email</TableCell>
