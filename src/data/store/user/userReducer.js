@@ -33,12 +33,6 @@ export const userReducer = (state = initialState, action) => {
                 loginError: action.loginError
             }
         }
-        // case LOGIN_SUCCESS: {
-        //     return {
-        //         ...state,
-        //         currentUser: action.user
-        //     }
-        // }
         case SET_USER_LOADING: {
             return {
                 ...state,

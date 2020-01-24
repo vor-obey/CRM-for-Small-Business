@@ -5,9 +5,9 @@ import {
     setNewUserLoading,
     setNewUserSuccess,
     setNewUserError,
-    getUserLoading,
-    getUserSuccess,
-    getUserError,
+    getUserDetailsLoading,
+    getUserDetailsSuccess,
+    getUserDetailsError,
     userLoginFailure,
     getCurrentUserSuccess,
     getCurrentUserFailure,
@@ -79,10 +79,10 @@ export const postUser = (user) => async (dispatch) => {
 
 export const loadUser = (id) => async (dispatch) => {
     try {
-        dispatch(getUserLoading());
+        dispatch(getUserDetailsLoading());
         const response = await UserService.findOneById(id);
-        dispatch(getUserSuccess(response));
+        dispatch(getUserDetailsSuccess(response));
     } catch (error) {
-        dispatch(getUserError(error.message));
+        dispatch(getUserDetailsError(error.message));
     }
 };

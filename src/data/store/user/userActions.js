@@ -91,7 +91,7 @@ export const setNewUserError = (error) => {
     }
 };
 
-export const getUserSuccess = (userDetails) => {
+export const getUserDetailsSuccess = (userDetails) => {
     return {
         type: GET_USER_DETAILS_SUCCESS,
         userDetails
@@ -99,14 +99,14 @@ export const getUserSuccess = (userDetails) => {
 };
 
 
-export const getUserError = (error) => {
+export const getUserDetailsError = (error) => {
     return {
         type: GET_USER_DETAILS_ERROR,
         error
     }
 };
 
-export const getUserLoading = (loading) => {
+export const getUserDetailsLoading = (loading) => {
     return {
         type: GET_USER_DETAILS_LOADING,
         loading,

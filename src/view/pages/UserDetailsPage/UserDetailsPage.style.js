@@ -9,7 +9,7 @@ export const userDetailsStyle = (theme =>  ({
         minWidth: 300,
     },
     card: {
-        margin: theme.spacing(3, 0, 2),
+        margin: theme.spacing(3, 2, 2),
         width: '40%',
         minWidth: 275,
       },
@@ -29,4 +29,11 @@ export const userDetailsStyle = (theme =>  ({
         flexDirection: 'column',
         alignItems: 'center',
     },
+    form: {
+        width: '100%', // Fix IE 11 issue.
+        margin: theme.spacing(3),
+    },
+    textField: {
+        width: '100%',
+    }
 }));
