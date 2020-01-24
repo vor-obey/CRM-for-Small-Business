@@ -77,15 +77,17 @@ class CreateUser extends Component {
     }
 
     renderSelect() {
-        const { role } = this.props;
-        if (role) {
-            return (role.map((role) => {
-                return (
-                    <option key={role.roleId} value={role.roleId}>{role.name}</option>
-                )
-            }))
+        const { roles } = this.props;
+
+        if (!roles.length) {
+            return null;
         }
-        return null;
+
+        return roles.map((role) => {
+            return (
+                <option key={role.roleId} value={role.roleId}>{role.name}</option>
+            )
+        });
     }
 
     render() {
@@ -230,13 +232,13 @@ class CreateUser extends Component {
                                     </InputLabel>
                                     <Select
                                         native
-                                        name={"role"}
+                                        name={"roles"}
                                         value={this.state.inputs.role}
                                         onChange={this.onChangeHandler}
                                         labelWidth={40}
                                         required
                                         inputProps={{
-                                            name: 'role',
+                                            name: 'roles',
                                         }}>
                                         <option value=""></option>
                                         {this.renderSelect()}
@@ -259,10 +261,10 @@ class CreateUser extends Component {
 }
 
 const mapStateToProps = (state) => {
-    const { role } = state.userReducer;
+    const { roles } = state.userReducer;
 
     return {
-        role,
+        roles
     }
 };
 
@@ -271,8 +273,8 @@ const mapDispatchToProps = (dispatch) => {
         postUser: (user) => {
             dispatch(postUser(user));
         },
-        getRoles: (role) => {
-            dispatch(getRoles(role));
+        getRoles: () => {
+            dispatch(getRoles());
         },
     }
 };

@@ -9,8 +9,8 @@ import {
     GET_USER_DETAILS_LOADING,
     GET_USER_DETAILS_SUCCESS,
     LOGIN_FAILURE,
-    GET_ROLE,
-    GET_ROLE_FAILURE,
+    GET_ROLES_SUCCESS,
+    GET_ROLES_FAILURE,
     GET_CURRENT_USER_SUCCESS, GET_CURRENT_USER_FAILURE
 } from "./userActionTypes";
 
@@ -56,16 +56,16 @@ export const getAllUserError = (error) => {
     }
 };
 
-export const getRole = (getRole) => {
+export const getRolesSuccess = (roles) => {
     return {
-        type: GET_ROLE,
-        getRole
+        type: GET_ROLES_SUCCESS,
+        roles
     }
 };
 
 export const getRoleFailure = (error) => {
     return {
-        type: GET_ROLE_FAILURE,
+        type: GET_ROLES_FAILURE,
         error
     }
 };
