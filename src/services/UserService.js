@@ -24,6 +24,14 @@ class UserService extends CRUDService {
             return e;
         }
     };
+
+    async getRoles() {
+        try {
+            return await this.APIService.apiGet('/roles');
+        } catch (e) {
+            return e;
+        }
+    }
 }
 
 export default new UserService();

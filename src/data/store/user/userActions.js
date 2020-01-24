@@ -9,6 +9,8 @@ import {
     GET_USER_DETAILS_LOADING,
     GET_USER_DETAILS_SUCCESS,
     LOGIN_FAILURE,
+    GET_ROLES_SUCCESS,
+    GET_ROLES_FAILURE,
     GET_CURRENT_USER_SUCCESS, GET_CURRENT_USER_FAILURE
 } from "./userActionTypes";
 
@@ -53,6 +55,21 @@ export const getAllUserError = (error) => {
         error
     }
 };
+
+export const getRolesSuccess = (roles) => {
+    return {
+        type: GET_ROLES_SUCCESS,
+        roles
+    }
+};
+
+export const getRoleFailure = (error) => {
+    return {
+        type: GET_ROLES_FAILURE,
+        error
+    }
+};
+
 export const setNewUserLoading = (loading) => {
     return {
         type: SET_NEW_USER_LOADING,

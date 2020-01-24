@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
-import { postUser } from "../../../data/store/user/userThunkAction";
+import { postUser, getRoles } from "../../../data/store/user/userThunkAction";
 import {
     Avatar,
     Button,
@@ -59,6 +59,11 @@ class CreateUser extends Component {
         this.setState({ inputs });
     }
 
+    componentDidMount() {
+        const {getRoles} = this.props;
+        getRoles();
+    }
+
     onSubmitHandler(e) {
         e.preventDefault();
         const {
@@ -69,6 +74,20 @@ class CreateUser extends Component {
         if (user.password === confirmPassword) {
             this.props.postUser(user);
         }
+    }
+
+    renderSelect() {
+        const { roles } = this.props;
+
+        if (!roles.length) {
+            return null;
+        }
+
+        return roles.map((role) => {
+            return (
+                <option key={role.roleId} value={role.roleId}>{role.name}</option>
+            )
+        });
     }
 
     render() {
@@ -135,9 +154,7 @@ class CreateUser extends Component {
                                 />
                             </Grid>
                             <Grid item xs={6}>
-                                <FormControl variant="outlined"
-                                             required>
-
+                                <FormControl variant="outlined" required>
                                     <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
                                     <OutlinedInput
                                         label={"Password"}
@@ -154,8 +171,7 @@ class CreateUser extends Component {
                                                     aria-label="toggle password visibility"
                                                     onClick={this.handleClickShowPassword}
                                                     size='small'
-                                                    edge='end'
-                                                >
+                                                    edge='end'>
                                                     {this.state.showPassword ? <Visibility fontSize='small' /> : <VisibilityOff fontSize='small' />}
                                                 </IconButton>
                                             </InputAdornment>
@@ -182,8 +198,7 @@ class CreateUser extends Component {
                                                     aria-label="toggle password visibility"
                                                     onClick={this.handleClickShowPassword}
                                                     size='small'
-                                                    edge='end'
-                                                >
+                                                    edge='end'>
                                                     {this.state.showPassword ? <Visibility fontSize='small' /> : <VisibilityOff fontSize='small' />}
                                                 </IconButton>
                                             </InputAdornment>
@@ -217,19 +232,16 @@ class CreateUser extends Component {
                                     </InputLabel>
                                     <Select
                                         native
-                                        name={"role"}
+                                        name={"roles"}
                                         value={this.state.inputs.role}
                                         onChange={this.onChangeHandler}
                                         labelWidth={40}
                                         required
                                         inputProps={{
-                                            name: 'roleId',
-                                        }}
-                                    >
+                                            name: 'roles',
+                                        }}>
                                         <option value=""></option>
-                                        <option value={"884825ce-81ca-43ad-ad6f-e69491ab5c27"}>Admin</option>
-                                        <option value={"6c9fd518-a7ca-4041-8d95-fa0e161ba717"}>Moderator</option>
-                                        <option value={"909510a5-89d6-4d21-a1c5-6f400bba6315"}>Manager</option>
+                                        {this.renderSelect()}
                                     </Select>
                                 </FormControl>
                             </Grid>
@@ -248,12 +260,23 @@ class CreateUser extends Component {
     }
 }
 
+const mapStateToProps = (state) => {
+    const { roles } = state.userReducer;
+
+    return {
+        roles
+    }
+};
+
 const mapDispatchToProps = (dispatch) => {
     return {
         postUser: (user) => {
             dispatch(postUser(user));
         },
+        getRoles: () => {
+            dispatch(getRoles());
+        },
     }
 };
 
-export default withStyles(createuserStyle)(connect(null, mapDispatchToProps)(CreateUser));
+export default withStyles(createuserStyle)(connect(mapStateToProps, mapDispatchToProps)(CreateUser));
