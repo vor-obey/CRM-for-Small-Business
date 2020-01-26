@@ -3,7 +3,7 @@ export const userDetailsStyle = (theme =>  ({
         marginTop: theme.spacing(3),
         display: 'flex',
         flexDirection: 'row',
-        alignItems: 'center',
+        alignItems: 'flex-start',
         justifyContent: 'space-around',
         width: '90%',
         minWidth: 300,
@@ -12,7 +12,11 @@ export const userDetailsStyle = (theme =>  ({
         margin: theme.spacing(3, 2, 2),
         width: '40%',
         minWidth: 275,
-      },
+    },
+    fab: {
+        margin: theme.spacing(3, 2, 2),
+        backgroundColor: theme.palette.primary.main,
+    },
     submit: {
         margin: theme.spacing(3, 0, 2),
         alignItems: 'center'
@@ -30,7 +34,6 @@ export const userDetailsStyle = (theme =>  ({
         alignItems: 'center',
     },
     form: {
-        width: '100%', // Fix IE 11 issue.
         margin: theme.spacing(3),
     },
     textField: {

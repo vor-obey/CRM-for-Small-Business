@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import {
     Paper,
     Card,
+    Fab,
     Typography,
     Container,
     withStyles,
@@ -10,8 +11,25 @@ import {
 import { loadUser } from "../../../data/store/user/userThunkAction";
 import { userDetailsStyle } from "../UserDetailsPage/UserDetailsPage.style.js";
 import { connect } from "react-redux";
+import EditIcon from '@material-ui/icons/Edit';
 
 class UserDetailsPage extends Component{
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            editable: true,
+        };
+
+        this.handleClickEdit = this.handleClickEdit.bind(this);
+    }
+
+    handleClickEdit() {
+        this.setState((prevState) => ({
+            editable: !prevState.editable,
+        }));
+    };
+
     componentDidMount() {
         const { loadUser } = this.props;
         loadUser();
@@ -28,7 +46,8 @@ class UserDetailsPage extends Component{
                          name={"firstName"}
                          type={"text"}
                          variant={"outlined"}
-                         disabled={false}
+                         fullWidth={true}
+                         disabled={this.state.editable}
                          value={userDetails.firstName}
                      />
                      <TextField
@@ -37,7 +56,8 @@ class UserDetailsPage extends Component{
                          name={"firstName"}
                          type={"text"}
                          variant={"outlined"}
-                         disabled={false}
+                         fullWidth={true}
+                         disabled={this.state.editable}
                          value={userDetails.lastName}
                      />
                      <TextField
@@ -46,7 +66,8 @@ class UserDetailsPage extends Component{
                          name={"firstName"}
                          type={"text"}
                          variant={"outlined"}
-                         disabled={false}
+                         fullWidth={true}
+                         disabled={this.state.editable}
                          value={userDetails.middleName}
                      />
                      <TextField
@@ -55,7 +76,8 @@ class UserDetailsPage extends Component{
                          name={"firstName"}
                          type={"text"}
                          variant={"outlined"}
-                         disabled={false}
+                         fullWidth={true}
+                         disabled={this.state.editable}
                          value={userDetails.email}
                      />
                      <TextField
@@ -64,7 +86,8 @@ class UserDetailsPage extends Component{
                          name={"firstName"}
                          type={"text"}
                          variant={"outlined"}
-                         disabled={false}
+                         fullWidth={true}
+                         disabled={this.state.editable}
                          value={userDetails.contactNumber}
                      />
                  </Grid>
@@ -94,6 +117,15 @@ class UserDetailsPage extends Component{
                             Orders
                         </Typography>
                     </Card>
+                        <Fab 
+                            color="primary"
+                            aria-label="edit"
+                            size="small">
+                            <EditIcon
+                            className="classes.fab"
+                                onClick={this.handleClickEdit}
+                            />
+                        </Fab>
                 </Paper>
             </Container>
         );
