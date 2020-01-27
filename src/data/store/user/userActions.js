@@ -77,10 +77,10 @@ export const setNewUserLoading = (loading) => {
     }
 };
 
-export const setNewUserSuccess = (userList) => {
+export const setNewUserSuccess = (setNewUser) => {
     return {
         type: SET_NEW_USER_SUCCESS,
-        userList,
+        setNewUser,
     }
 };
 

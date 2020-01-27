@@ -64,7 +64,7 @@ export const userReducer = (state = initialState, action) => {
         case SET_NEW_USER_SUCCESS: {
             return {
                 ...state,
-                userList: action.userList,
+                setNewUser: action.setNewUser,
             };
         }
         case SET_NEW_USER_ERROR: {

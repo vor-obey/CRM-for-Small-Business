@@ -74,6 +74,13 @@ class CreateUser extends Component {
         if (user.password === confirmPassword) {
             this.props.postUser(user);
         }
+        const { error, history } = this.props;
+
+        if (!error) {
+            history.push('/dashboard');
+        } else {
+            console.log('error')
+        }
     }
 
     renderSelect() {
@@ -163,7 +170,6 @@ class CreateUser extends Component {
                                         value={this.state.inputs.password}
                                         onChange={this.onChangeHandler}
                                         labelWidth={85}
-
                                         fullWidth
                                         endAdornment={
                                             <InputAdornment position="end">
@@ -232,13 +238,13 @@ class CreateUser extends Component {
                                     </InputLabel>
                                     <Select
                                         native
-                                        name={"roles"}
+                                        name={"roleId"}
                                         value={this.state.inputs.role}
                                         onChange={this.onChangeHandler}
                                         labelWidth={40}
                                         required
                                         inputProps={{
-                                            name: 'roles',
+                                            name: 'roleId',
                                         }}>
                                         <option value=""></option>
                                         {this.renderSelect()}
@@ -261,10 +267,11 @@ class CreateUser extends Component {
 }
 
 const mapStateToProps = (state) => {
-    const { roles } = state.userReducer;
+    const { roles, error } = state.userReducer;
 
     return {
-        roles
+        roles,
+        error
     }
 };
 
