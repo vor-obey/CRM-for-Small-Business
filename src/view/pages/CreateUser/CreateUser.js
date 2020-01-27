@@ -21,6 +21,7 @@ import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import NumberFormat from 'react-number-format';
 import { createuserStyle } from './CreateUser.style.js';
+import {Alert} from "@material-ui/lab";
 
 
 class CreateUser extends Component {
@@ -74,12 +75,11 @@ class CreateUser extends Component {
         if (user.password === confirmPassword) {
             this.props.postUser(user);
         }
-        const { error, history } = this.props;
+        const {newUserError, history} = this.props;
 
-        if (!error) {
-            history.push('/dashboard');
-        } else {
-            console.log('error')
+        if (!newUserError) {
+            history.push('/users');
+
         }
     }
 
@@ -259,6 +259,11 @@ class CreateUser extends Component {
                             color={"primary"}
                             fullWidth
                         >Add user</Button>
+                        <Grid container>
+                            <Grid item>
+                                { this.props.newUserError ? (<Alert severity="error">{this.props.newUserError}</Alert>) : null }
+                            </Grid>
+                        </Grid>
                     </form>
                 </div>
             </Container>
@@ -267,11 +272,11 @@ class CreateUser extends Component {
 }
 
 const mapStateToProps = (state) => {
-    const { roles, error } = state.userReducer;
+    const { roles, newUserError } = state.userReducer;
 
     return {
         roles,
-        error
+        newUserError
     }
 };
 

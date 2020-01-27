@@ -77,17 +77,17 @@ export const setNewUserLoading = (loading) => {
     }
 };
 
-export const setNewUserSuccess = (setNewUser) => {
+export const setNewUserSuccess = (newUser) => {
     return {
         type: SET_NEW_USER_SUCCESS,
-        setNewUser,
+        newUser,
     }
 };
 
-export const setNewUserError = (error) => {
+export const setNewUserError = (newUserError) => {
     return {
         type: SET_NEW_USER_ERROR,
-        error
+        newUserError
     }
 };
 
