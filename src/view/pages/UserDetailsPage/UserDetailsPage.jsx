@@ -2,21 +2,20 @@ import React, {Component} from "react";
 
 import {
     Paper,
-    Fab,
     Typography,
     Container,
     withStyles,
     List,
+    Fab,
     ListItem,
     ListItemText,
     Grid,
 } from "@material-ui/core";
-import { loadUser } from "../../../data/store/user/userThunkAction";
+import { loadUser, deleteUser } from "../../../data/store/user/userThunkAction";
 import { userDetailsStyle } from "../UserDetailsPage/UserDetailsPage.style.js";
 import { connect } from "react-redux";
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
-
 
 class UserDetailsPage extends Component{
     constructor(props) {
@@ -26,13 +25,16 @@ class UserDetailsPage extends Component{
             editable: true,
         };
 
-        this.handleClickEdit = this.handleClickEdit.bind(this);
+        this.handleClickDelete = this.handleClickDelete.bind(this);
     }
 
-    handleClickEdit() {
-        this.setState((prevState) => ({
-            editable: !prevState.editable,
-        }));
+    handleClickDelete(id) {
+        const { deleteUser, history } = this.props;
+        deleteUser();
+        if (!deleteUser) {
+            history.push('/users');
+        }
+
     };
 
     componentDidMount() {
@@ -137,25 +139,22 @@ class UserDetailsPage extends Component{
                         <Grid  container item xs={12}
                                alignContent={'center'}
                                justify={'center'}>
-                            <Fab
+                             <Fab
                                 color="primary"
                                 aria-label="edit"
                                 size="small"
-                                className={classes.fab}
-                            >
-                                <EditIcon
-                                    onClick={this.handleClickEdit}
-                                />
+                                >
+                                    <EditIcon
+                                        onClick={this.handleClickEdit}
+                                    />
                             </Fab>
                             <Fab
                                 color="primary"
                                 aria-label="edit"
                                 size="small"
-                                className={classes.fab}
-                            >
-                                <DeleteIcon
-                                    onClick={this.handleClickEdit}
-                                />
+                                onClick={this.handleClickDelete}
+                             >
+                                <DeleteIcon />
                             </Fab>
                         </Grid>
                     </Grid>
@@ -166,16 +165,19 @@ class UserDetailsPage extends Component{
 }
 
 const mapStateToProps = (state) => {
-    const { userDetails } = state.userReducer;
+    const { userDetails, deleteUser } = state.userReducer;
 
     return {
         userDetails,
+        deleteUser
     }
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         loadUser: () => dispatch(loadUser(ownProps.match.params.id)),
+        deleteUser: () => dispatch(deleteUser(ownProps.match.params.id)),
+
     }
 };
 

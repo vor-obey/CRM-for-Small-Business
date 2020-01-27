@@ -25,6 +25,14 @@ class UserService extends CRUDService {
         }
     };
 
+    async deleteUser() {
+        try {
+            return await this.APIService.apiDelete('');
+        } catch (e) {
+            return e;
+        }
+    };
+
     async getRoles() {
         try {
             return await this.APIService.apiGet('/roles');

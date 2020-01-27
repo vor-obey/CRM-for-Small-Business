@@ -15,6 +15,9 @@ import {
     GET_ROLES_FAILURE,
     GET_CURRENT_USER_SUCCESS,
     GET_CURRENT_USER_FAILURE,
+    DELETE_USER_LOADING, 
+    DELETE_USER_SUCCESS, 
+    DELETE_USER_ERROR,
 } from "./userActionTypes";
 
 const initialState = {
@@ -98,6 +101,20 @@ export const userReducer = (state = initialState, action) => {
                 ...state,
                 loading: false,
                 error: action.error
+            }
+        }
+        case DELETE_USER_LOADING:
+        case DELETE_USER_SUCCESS: {
+            return {
+                ...state,
+                userList: action.deleteUser
+            }
+        }
+        case DELETE_USER_ERROR: {
+            return {
+                ...state,
+                loading: false,
+                deleteUserError: action.deleteUserError
             }
         }
         default: {

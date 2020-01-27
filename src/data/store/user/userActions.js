@@ -11,7 +11,10 @@ import {
     LOGIN_FAILURE,
     GET_ROLES_SUCCESS,
     GET_ROLES_FAILURE,
-    GET_CURRENT_USER_SUCCESS, GET_CURRENT_USER_FAILURE
+    GET_CURRENT_USER_SUCCESS, 
+    GET_CURRENT_USER_FAILURE,
+    DELETE_USER_SUCCESS,
+    DELETE_USER_ERROR,
 } from "./userActionTypes";
 
 export const userLoginFailure = (loginError) => {
@@ -112,3 +115,17 @@ export const getUserDetailsLoading = (loading) => {
         loading,
     }
 };
+
+export const deleteUserSuccess = (deleteUser) => {
+    return {
+        type: DELETE_USER_SUCCESS,
+        deleteUser,
+    }
+};
+
+export const deleteUserFailure = (deleteUserError) => {
+    return {
+        type: DELETE_USER_ERROR,
+        deleteUserError,
+    }
+}

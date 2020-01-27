@@ -13,6 +13,8 @@ import {
     getCurrentUserFailure,
     getRoleFailure,
     getRolesSuccess,
+    deleteUserFailure,
+    deleteUserSuccess
 } from "./userActions";
 import { UserService, StorageService } from "../../../services";
 
@@ -84,5 +86,19 @@ export const loadUser = (id) => async (dispatch) => {
         dispatch(getUserDetailsSuccess(response));
     } catch (error) {
         dispatch(getUserDetailsError(error.message));
+    }
+};
+
+export const deleteUser = (id) => async (dispatch) => {
+    try {
+        const response = await UserService.deleteUser(id);
+        if (!response.error) {
+            dispatch(deleteUserSuccess(response));
+        } else {
+            dispatch(deleteUserFailure(response.error));
+        }
+    }
+    catch (e) {
+        dispatch(deleteUserFailure(e));
     }
 };
