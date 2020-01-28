@@ -57,6 +57,13 @@ function Drawer(props) {
                     <ListItemIcon><PlusIcon /></ListItemIcon>
                     <ListItemText>Create order</ListItemText>
                 </ListItem>
+                <ListItem button
+                          component={Link}
+                          to="/create-shipping-details"
+                          selected={isActive('/create-shipping-details')}>
+                    <ListItemIcon><PlusIcon /></ListItemIcon>
+                    <ListItemText>Create shipping details</ListItemText>
+                </ListItem>
                 <Divider variant="inset" component="li" />
                 <ListItem button
                           component={Link}
