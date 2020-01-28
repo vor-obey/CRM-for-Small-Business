@@ -21,6 +21,7 @@ import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import NumberFormat from 'react-number-format';
 import { createuserStyle } from './CreateUser.style.js';
+import {Alert} from "@material-ui/lab";
 
 
 class CreateUser extends Component {
@@ -73,6 +74,12 @@ class CreateUser extends Component {
 
         if (user.password === confirmPassword) {
             this.props.postUser(user);
+        }
+        const {newUserError, history} = this.props;
+
+        if (!newUserError) {
+            history.push('/users');
+
         }
     }
 
@@ -163,7 +170,6 @@ class CreateUser extends Component {
                                         value={this.state.inputs.password}
                                         onChange={this.onChangeHandler}
                                         labelWidth={85}
-
                                         fullWidth
                                         endAdornment={
                                             <InputAdornment position="end">
@@ -232,13 +238,13 @@ class CreateUser extends Component {
                                     </InputLabel>
                                     <Select
                                         native
-                                        name={"roles"}
+                                        name={"roleId"}
                                         value={this.state.inputs.role}
                                         onChange={this.onChangeHandler}
                                         labelWidth={40}
                                         required
                                         inputProps={{
-                                            name: 'roles',
+                                            name: 'roleId',
                                         }}>
                                         <option value=""></option>
                                         {this.renderSelect()}
@@ -253,6 +259,11 @@ class CreateUser extends Component {
                             color={"primary"}
                             fullWidth
                         >Add user</Button>
+                        <Grid container>
+                            <Grid item>
+                                { this.props.newUserError ? (<Alert severity="error">{this.props.newUserError}</Alert>) : null }
+                            </Grid>
+                        </Grid>
                     </form>
                 </div>
             </Container>
@@ -261,10 +272,11 @@ class CreateUser extends Component {
 }
 
 const mapStateToProps = (state) => {
-    const { roles } = state.userReducer;
+    const { roles, newUserError } = state.userReducer;
 
     return {
-        roles
+        roles,
+        newUserError
     }
 };
 

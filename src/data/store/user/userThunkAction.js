@@ -71,9 +71,15 @@ export const loadUsers = () => async (dispatch) => {
 
 export const postUser = (user) => async (dispatch) => {
     try {
-        dispatch(setNewUserLoading());
         const response = await UserService.create(user);
-        dispatch(setNewUserSuccess(response));
+
+        if (response && !response.statusCode) {
+            dispatch(setNewUserLoading());
+            dispatch(setNewUserSuccess(response));
+        }
+
+        dispatch(setNewUserError(response.message));
+
     } catch (error) {
         dispatch(setNewUserError(error.message));
     }
