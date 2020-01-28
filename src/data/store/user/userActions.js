@@ -11,10 +11,10 @@ import {
     LOGIN_FAILURE,
     GET_ROLES_SUCCESS,
     GET_ROLES_FAILURE,
-    GET_CURRENT_USER_SUCCESS, 
+    GET_CURRENT_USER_SUCCESS,
     GET_CURRENT_USER_FAILURE,
     DELETE_USER_SUCCESS,
-    DELETE_USER_ERROR,
+    DELETE_USER_FAILURE, PATCH_USER_LOADING, PATCH_USER_SUCCESS, PATCH_USER_FAILURE,
 } from "./userActionTypes";
 
 export const userLoginFailure = (loginError) => {
@@ -125,7 +125,28 @@ export const deleteUserSuccess = (deleteUser) => {
 
 export const deleteUserFailure = (deleteUserError) => {
     return {
-        type: DELETE_USER_ERROR,
+        type: DELETE_USER_FAILURE,
         deleteUserError,
     }
-}
+};
+
+export  const patchUserLoading = (loading) => {
+    return {
+        type: PATCH_USER_LOADING,
+        loading,
+    }
+};
+
+export const patchUserSuccess = (patchUser) => {
+    return {
+        type: PATCH_USER_SUCCESS,
+        patchUser,
+    }
+};
+
+export const patchUserFailure = (patchUserError) => {
+    return {
+        type: PATCH_USER_FAILURE,
+        patchUserError,
+    }
+};

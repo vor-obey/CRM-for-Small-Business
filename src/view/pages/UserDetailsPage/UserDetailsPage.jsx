@@ -16,6 +16,7 @@ import { userDetailsStyle } from "../UserDetailsPage/UserDetailsPage.style.js";
 import { connect } from "react-redux";
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
+import { CustomDialog } from '../../components/CustomDialog/CustomDialog';
 
 class UserDetailsPage extends Component{
     constructor(props) {
@@ -23,15 +24,27 @@ class UserDetailsPage extends Component{
 
         this.state = {
             editable: true,
+            deleteDialog: false,
+            isShow: false,
+            onClose: true,
         };
 
-        this.handleClickDelete = this.handleClickDelete.bind(this);
+        this.handleOpenDialog = this.handleOpenDialog.bind(this);
+        this.handleClickDeleteUser = this.handleClickDeleteUser.bind(this);
+        // this.handleClickEdit = this.handleClickEdit.bind(this);
     }
 
-    handleClickDelete(id) {
+    handleOpenDialog() {
+        this.setState((prevState) => ({
+            isShow: !prevState.isShow,
+        }));
+    };
+
+    handleClickDeleteUser(id) {
         const { deleteUser, history } = this.props;
         deleteUser();
-        if (!deleteUser) {
+
+        if (deleteUser) {
             history.push('/users');
         }
 
@@ -143,6 +156,7 @@ class UserDetailsPage extends Component{
                                 color="primary"
                                 aria-label="edit"
                                 size="small"
+                                className={classes.fab}
                                 >
                                     <EditIcon
                                         onClick={this.handleClickEdit}
@@ -152,24 +166,32 @@ class UserDetailsPage extends Component{
                                 color="primary"
                                 aria-label="edit"
                                 size="small"
-                                onClick={this.handleClickDelete}
+                                className={classes.fab}
+                                onClick={this.handleOpenDialog}
                              >
                                 <DeleteIcon />
                             </Fab>
                         </Grid>
                     </Grid>
                 </Paper>
+                <CustomDialog
+                    title="Delete User"
+                    children="Are you sure you want to delete the user without the possibility of recovery?"
+                    isShow={this.state.isShow}
+                    onClose={this.handleOpenDialog}
+                    closeText="Disagree"
+                    onAction={this.handleClickDeleteUser}
+                />
             </Container>
         );
     }
 }
 
 const mapStateToProps = (state) => {
-    const { userDetails, deleteUser } = state.userReducer;
+    const { userDetails } = state.userReducer;
 
     return {
-        userDetails,
-        deleteUser
+        userDetails
     }
 };
 
@@ -177,7 +199,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         loadUser: () => dispatch(loadUser(ownProps.match.params.id)),
         deleteUser: () => dispatch(deleteUser(ownProps.match.params.id)),
-
     }
 };
 

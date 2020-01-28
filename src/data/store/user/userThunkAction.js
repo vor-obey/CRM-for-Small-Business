@@ -14,7 +14,9 @@ import {
     getRoleFailure,
     getRolesSuccess,
     deleteUserFailure,
-    deleteUserSuccess
+    deleteUserSuccess,
+    patchUserSuccess,
+    patchUserFailure,
 } from "./userActions";
 import { UserService, StorageService } from "../../../services";
 
@@ -106,5 +108,19 @@ export const deleteUser = (id) => async (dispatch) => {
     }
     catch (e) {
         dispatch(deleteUserFailure(e));
+    }
+};
+
+export const editUser = (id) => async (dispatch) => {
+    try {
+        const response = await UserService.patchUser(id);
+        if (!response.error) {
+            dispatch(patchUserSuccess(response));
+        } else {
+            dispatch(patchUserFailure(response.error));
+        }
+    }
+    catch (e) {
+        dispatch(patchUserFailure(e));
     }
 };

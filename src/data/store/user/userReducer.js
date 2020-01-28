@@ -16,8 +16,11 @@ import {
     GET_CURRENT_USER_SUCCESS,
     GET_CURRENT_USER_FAILURE,
     DELETE_USER_LOADING, 
-    DELETE_USER_SUCCESS, 
-    DELETE_USER_ERROR,
+    DELETE_USER_SUCCESS,
+    DELETE_USER_FAILURE,
+    PATCH_USER_LOADING,
+    PATCH_USER_SUCCESS,
+    PATCH_USER_FAILURE,
 } from "./userActionTypes";
 
 const initialState = {
@@ -111,11 +114,24 @@ export const userReducer = (state = initialState, action) => {
                 userList: action.deleteUser
             }
         }
-        case DELETE_USER_ERROR: {
+        case DELETE_USER_FAILURE: {
             return {
                 ...state,
                 loading: false,
                 deleteUserError: action.deleteUserError
+            }
+        }
+        case PATCH_USER_LOADING:
+        case PATCH_USER_SUCCESS: {
+            return {
+                ...state,
+                patchUser: action.patchUser
+            }
+        }
+        case PATCH_USER_FAILURE: {
+            return {
+                ...state,
+                patchUserError: action.patchUserError
             }
         }
         default: {
