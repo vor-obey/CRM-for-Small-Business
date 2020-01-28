@@ -29,7 +29,7 @@ class UsersPage extends Component {
         if (userList) {
             return (userList.map((user) => {
                 return (
-                    <TableRow style={{cursor: 'pointer'}} key={user.userId} onClick={() => this.props.history.push(`/users/${user.id}`)}>
+                    <TableRow style={{cursor: 'pointer'}} key={user.userId} onClick={() => this.props.history.push(`/users/${user.userId}`)}>
                         <TableCell align="left">{user.firstName}</TableCell>
                         <TableCell align="left">{user.lastName}</TableCell>
                         <TableCell align="left">{user.email}</TableCell>

@@ -21,8 +21,9 @@ const initialState = {
     currentUser: null,
     userList: [],
     loading: false,
-    error: "",
     roles: [],
+    error: "",
+    setNewUserError: "",
 };
 
 export const userReducer = (state = initialState, action) => {
@@ -33,12 +34,6 @@ export const userReducer = (state = initialState, action) => {
                 loginError: action.loginError
             }
         }
-        // case LOGIN_SUCCESS: {
-        //     return {
-        //         ...state,
-        //         currentUser: action.user
-        //     }
-        // }
         case SET_USER_LOADING: {
             return {
                 ...state,
@@ -70,14 +65,14 @@ export const userReducer = (state = initialState, action) => {
         case SET_NEW_USER_SUCCESS: {
             return {
                 ...state,
-                userList: action.userList,
+                newUser: action.newUser,
             };
         }
         case SET_NEW_USER_ERROR: {
             return {
                 ...state,
                 loading: false,
-                error: action.error
+                newUserError: action.newUserError,
             };
         }
         case GET_ROLES_SUCCESS: {

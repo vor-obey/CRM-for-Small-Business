@@ -5,9 +5,9 @@ import {
     setNewUserLoading,
     setNewUserSuccess,
     setNewUserError,
-    getUserLoading,
-    getUserSuccess,
-    getUserError,
+    getUserDetailsLoading,
+    getUserDetailsSuccess,
+    getUserDetailsError,
     userLoginFailure,
     getCurrentUserSuccess,
     getCurrentUserFailure,
@@ -69,9 +69,15 @@ export const loadUsers = () => async (dispatch) => {
 
 export const postUser = (user) => async (dispatch) => {
     try {
-        dispatch(setNewUserLoading());
         const response = await UserService.create(user);
-        dispatch(setNewUserSuccess(response));
+
+        if (response && !response.statusCode) {
+            dispatch(setNewUserLoading());
+            dispatch(setNewUserSuccess(response));
+        }
+
+        dispatch(setNewUserError(response.message));
+
     } catch (error) {
         dispatch(setNewUserError(error.message));
     }
@@ -79,10 +85,10 @@ export const postUser = (user) => async (dispatch) => {
 
 export const loadUser = (id) => async (dispatch) => {
     try {
-        dispatch(getUserLoading());
+        dispatch(getUserDetailsLoading());
         const response = await UserService.findOneById(id);
-        dispatch(getUserSuccess(response));
+        dispatch(getUserDetailsSuccess(response));
     } catch (error) {
-        dispatch(getUserError(error.message));
+        dispatch(getUserDetailsError(error.message));
     }
 };

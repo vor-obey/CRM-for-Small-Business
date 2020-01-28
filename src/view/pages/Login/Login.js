@@ -3,9 +3,10 @@ import { connect } from "react-redux";
 import { login } from "../../../data/store/user/userThunkAction";
 import StorageService from '../../../services/StorageService';
 
-import { Avatar, Box, Button, CssBaseline, TextField, Grid, Typography, Container, withStyles } from '@material-ui/core';
+import { Avatar, Button, CssBaseline, TextField, Grid, Typography, Container, withStyles } from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { loginStyles } from './Login.style.js';
+import { Alert } from '@material-ui/lab';
 
 class Login extends Component {
     constructor(props) {
@@ -91,7 +92,7 @@ class Login extends Component {
                         </Button>
                         <Grid container>
                             <Grid item>
-                                { this.props.loginError ? (<Box>The username or password provided were incorrect!</Box>) : null }
+                                { this.props.loginError ? (<Alert severity="error">The username or password provided were incorrect!</Alert>) : null }
                             </Grid>
                         </Grid>
                     </form>
