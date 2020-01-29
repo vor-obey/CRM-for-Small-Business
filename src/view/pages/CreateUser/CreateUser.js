@@ -1,41 +1,28 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { connect } from "react-redux";
-import { postUser } from "../../../data/store/user/userThunkAction";
+import { postUser, loadUsers } from "../../../data/store/user/userThunkAction";
 import { withStyles } from '@material-ui/core';
 
 import { createuserStyle } from './CreateUser.style.js';
 import SaveUserForm from '../../components/Form/SaveUserForm/SaveUserForm';
 
 
-class CreateUser extends Component {
+class CreateUser extends PureComponent {
     constructor(props) {
         super(props);
-        this.state = {
-            inputs: {
-                firstName: '',
-                lastName: '',
-                middleName: '',
-                email: '',
-                password: '',
-                confirmPassword: '',
-                contactNumber: '',
-                roleId: ''
-            },
-        };
-
 
         this.onSubmitHandler = this.onSubmitHandler.bind(this);
     }
 
-    onSubmitHandler(e) {
-        e.preventDefault();
+    onSubmitHandler(userInput) {
         const {
             confirmPassword,
             ...user
-        } = this.state.inputs;
-
+        } = userInput;
+        const { history } = this.props;
         if (user.password === confirmPassword) {
             this.props.postUser(user);
+            history.push('/users');
         }
     }
 
@@ -43,7 +30,9 @@ class CreateUser extends Component {
         return (
             <div>
                 <SaveUserForm
+                    titleText="Create user"
                     onSubmit={this.onSubmitHandler}
+                    submitText="Add new user"
                 />
             </div>
         );
@@ -55,6 +44,9 @@ const mapDispatchToProps = (dispatch) => {
     return {
         postUser: (user) => {
             dispatch(postUser(user));
+        },
+        loadUsers: () => {
+            dispatch(loadUsers());
         }
     }
 };

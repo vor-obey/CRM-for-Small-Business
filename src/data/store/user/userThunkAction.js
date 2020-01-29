@@ -71,6 +71,10 @@ export const loadUsers = () => async (dispatch) => {
     }
 };
 
+// export const clearEditUser = async () => {
+//
+// }
+
 export const postUser = (user) => async (dispatch) => {
     try {
         const response = await UserService.create(user);
@@ -78,6 +82,7 @@ export const postUser = (user) => async (dispatch) => {
         if (response && !response.statusCode) {
             dispatch(setNewUserLoading());
             dispatch(setNewUserSuccess(response));
+
         }
 
         dispatch(setNewUserError(response.message));

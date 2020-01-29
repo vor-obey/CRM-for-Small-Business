@@ -13,6 +13,7 @@ import CreateUser from "../../pages/CreateUser/CreateUser";
 import LogOut from "../../pages/LogOut/LogOut";
 import UserPage from "../../pages/UsersPage/UsersPage";
 import UserDetailsPage from "../../pages/UserDetailsPage/UserDetailsPage";
+import EditUser from "../../pages/EditUser/EditUser";
 
 import {getCurrentUser} from "../../../data/store/user/userThunkAction";
 import {ShippingDetails} from "../ShippingDetails/ShippingDetails";
@@ -39,7 +40,8 @@ function Routing() {
                 <PrivateRoute path="/create-user" component={CreateUser} />
                 <PrivateRoute path='/logout' component={LogOut} />
                 <PrivateRoute path='/users' exact component={UserPage} />
-                <PrivateRoute path='/users/:id' component={UserDetailsPage} />
+                <PrivateRoute exact path='/users/:id/edit' component={EditUser} />
+                <PrivateRoute exact path='/users/:id' component={UserDetailsPage} />
                 <PrivateRoute path='/create-shipping-details' component={ShippingDetails} />
             </div>
         </Router>

@@ -31,7 +31,7 @@ class UserDetailsPage extends Component{
 
         this.handleOpenDialog = this.handleOpenDialog.bind(this);
         this.handleClickDeleteUser = this.handleClickDeleteUser.bind(this);
-        // this.handleClickEdit = this.handleClickEdit.bind(this);
+        this.handleClickEdit = this.handleClickEdit.bind(this);
     }
 
     handleOpenDialog() {
@@ -40,14 +40,18 @@ class UserDetailsPage extends Component{
         }));
     };
 
-    handleClickDeleteUser(id) {
+    handleClickDeleteUser() {
         const { deleteUser, history } = this.props;
         deleteUser();
 
         if (deleteUser) {
             history.push('/users');
         }
+    };
 
+    handleClickEdit() {
+        const { location } = this.props;
+        this.props.history.push(`${location.pathname}/edit`);
     };
 
     componentDidMount() {
@@ -152,15 +156,13 @@ class UserDetailsPage extends Component{
                         <Grid  container item xs={12}
                                alignContent={'center'}
                                justify={'center'}>
-                             <Fab
+                            <Fab
                                 color="primary"
                                 aria-label="edit"
                                 size="small"
                                 className={classes.fab}
-                                >
-                                    <EditIcon
-                                        onClick={this.handleClickEdit}
-                                    />
+                                onClick={this.handleClickEdit}>
+                                <EditIcon />
                             </Fab>
                             <Fab
                                 color="primary"
@@ -168,7 +170,7 @@ class UserDetailsPage extends Component{
                                 size="small"
                                 className={classes.fab}
                                 onClick={this.handleOpenDialog}
-                             >
+                            >
                                 <DeleteIcon />
                             </Fab>
                         </Grid>

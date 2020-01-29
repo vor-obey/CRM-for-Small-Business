@@ -23,9 +23,21 @@ class UsersPage extends Component {
         loadUsers();
     }
 
+
+    //TODO refactor this shit sometime
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (this.props.userList && this.props.userList.length !== 0 && this.props.newUser) {
+            console.log(this.props.userList.findIndex((user) => user.userId === this.props.newUser.userId));
+            if (this.props.userList.findIndex((user) => user.userId === this.props.newUser.userId) === -1) {
+                const { loadUsers } = this.props;
+                loadUsers();
+            }
+        }
+    }
+
+
     renderRows() {
         const { userList } = this.props;
-
         if (userList) {
             return (userList.map((user) => {
                 return (
@@ -80,10 +92,11 @@ class UsersPage extends Component {
 }
 
 const mapStateToProps = (state) => {
-    const { userList } = state.userReducer;
+    const { userList, newUser } = state.userReducer;
 
     return {
         userList,
+        newUser
     }
 };
 

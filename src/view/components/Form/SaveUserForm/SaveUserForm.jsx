@@ -9,8 +9,8 @@ import {
     InputLabel,
     OutlinedInput, Select,
     TextField,
-    Typography, withStyles,
-
+    Typography,
+    withStyles,
 } from "@material-ui/core";
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import Visibility from '@material-ui/icons/Visibility';
@@ -32,7 +32,8 @@ class SaveUserForm extends Component {
                 password: '',
                 confirmPassword: '',
                 contactNumber: '',
-                roleId: ''
+                roleId: '',
+                ...props.userDetails
             },
             showPassword: false,
         };
@@ -75,6 +76,10 @@ class SaveUserForm extends Component {
         getRoles();
     }
 
+    onSubmit(){
+        this.props.onSubmit(this.state.inputs);
+
+    }
 
     render() {
         const { classes } = this.props;
@@ -87,9 +92,9 @@ class SaveUserForm extends Component {
                         <PersonAddIcon/>
                     </Avatar>
                     <Typography component="h1" variant="h5">
-                        Create user
+                        {this.props.titleText}
                     </Typography>
-                    <form className={classes.form} onSubmit={this.props.onSubmitHandler}>
+                    <form className={classes.form} onSubmit={this.onSubmit.bind(this)}>
                         <Grid container spacing={2}>
                             <Grid item xs={12} sm={6}>
                                 <TextField
@@ -238,7 +243,7 @@ class SaveUserForm extends Component {
                             variant={"contained"}
                             color={"primary"}
                             fullWidth
-                        >Add user</Button>
+                        >{this.props.submitText}</Button>
                     </form>
                 </div>
             </Container>
