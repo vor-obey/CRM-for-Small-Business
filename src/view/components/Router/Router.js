@@ -15,6 +15,7 @@ import UserPage from "../../pages/UsersPage/UsersPage";
 import UserDetailsPage from "../../pages/UserDetailsPage/UserDetailsPage";
 
 import {getCurrentUser} from "../../../data/store/user/userThunkAction";
+import {ShippingDetails} from "../ShippingDetails/ShippingDetails";
 
 
 function Routing() {
@@ -39,6 +40,7 @@ function Routing() {
                 <PrivateRoute path='/logout' component={LogOut} />
                 <PrivateRoute path='/users' exact component={UserPage} />
                 <PrivateRoute path='/users/:id' component={UserDetailsPage} />
+                <PrivateRoute path='/create-shipping-details' component={ShippingDetails} />
             </div>
         </Router>
 
