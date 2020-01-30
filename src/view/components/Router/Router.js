@@ -12,12 +12,14 @@ import Home from "../../pages/Home/Home";
 import CreateUser from "../../pages/CreateUser/CreateUser";
 import LogOut from "../../pages/LogOut/LogOut";
 import UserPage from "../../pages/UsersPage/UsersPage";
+import CustomersPage from "../../pages/CustomersPage/CustomersPage";
 import UserDetailsPage from "../../pages/UserDetailsPage/UserDetailsPage";
 import EditUser from "../../pages/EditUser/EditUser";
 
 import {getCurrentUser} from "../../../data/store/user/userThunkAction";
 import {ShippingDetails} from "../ShippingDetails/ShippingDetails";
 import {history} from "../../../utils/history";
+
 
 
 function Routing() {
@@ -41,6 +43,7 @@ function Routing() {
                 <PrivateRoute path="/create-user" component={CreateUser} />
                 <PrivateRoute path='/logout' component={LogOut} />
                 <PrivateRoute path='/users' exact component={UserPage} />
+                <PrivateRoute path='/customers' exact component={CustomersPage} />
                 <PrivateRoute exact path='/users/:id/edit' component={EditUser} />
                 <PrivateRoute exact path='/users/:id' component={UserDetailsPage} />
                 <PrivateRoute path='/create-shipping-details' component={ShippingDetails} />

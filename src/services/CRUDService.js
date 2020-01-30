@@ -28,4 +28,8 @@ export default class CRUDService {
     create = async (body) => {
         return await this.APIService.apiPost(USER_URLS.USERS, { body });
     };
+
+    customerList = async (params) => {
+        return await this.APIService.apiGet(addParamsToUrl(this.pathname, params));
+    };
 }
