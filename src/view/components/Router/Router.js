@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import {BrowserRouter as Router} from 'react-router-dom';
+import {BrowserRouter as Router, Route} from 'react-router-dom';
 import StorageService from "../../../services/StorageService";
 import { useDispatch } from "react-redux";
 
@@ -16,6 +16,7 @@ import UserDetailsPage from "../../pages/UserDetailsPage/UserDetailsPage";
 
 import {getCurrentUser} from "../../../data/store/user/userThunkAction";
 import {ShippingDetails} from "../ShippingDetails/ShippingDetails";
+import ForgotPassword from "../../pages/ForgotPassword/ForgotPassword";
 
 
 function Routing() {
@@ -41,6 +42,7 @@ function Routing() {
                 <PrivateRoute path='/users' exact component={UserPage} />
                 <PrivateRoute path='/users/:id' component={UserDetailsPage} />
                 <PrivateRoute path='/create-shipping-details' component={ShippingDetails} />
+                <Route path='/forgot-password' exact component={ForgotPassword} />
             </div>
         </Router>
 
