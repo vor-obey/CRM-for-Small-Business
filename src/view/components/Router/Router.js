@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import {BrowserRouter as Router} from 'react-router-dom';
+import { Router } from 'react-router-dom';
 import StorageService from "../../../services/StorageService";
 import { useDispatch } from "react-redux";
 
@@ -17,6 +17,7 @@ import EditUser from "../../pages/EditUser/EditUser";
 
 import {getCurrentUser} from "../../../data/store/user/userThunkAction";
 import {ShippingDetails} from "../ShippingDetails/ShippingDetails";
+import {history} from "../../../utils/history";
 
 
 function Routing() {
@@ -32,7 +33,7 @@ function Routing() {
 
 
     return (
-        <Router>
+        <Router history={history}>
             <div>
                 <Header />
                 <AuthRoute exact path="/" component={Login} />

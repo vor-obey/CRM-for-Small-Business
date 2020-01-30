@@ -24,34 +24,34 @@ class UsersPage extends Component {
     }
 
 
-    //TODO refactor this shit sometime
+    //TODO refactor
     componentDidUpdate(prevProps, prevState, snapshot) {
-        if (this.props.userList && this.props.userList.length !== 0 && this.props.newUser) {
-            console.log(this.props.userList.findIndex((user) => user.userId === this.props.newUser.userId));
-            if (this.props.userList.findIndex((user) => user.userId === this.props.newUser.userId) === -1) {
+        if (this.props.userList && this.props.userList.length !== 0 && this.props.userList) {
+            if (this.props.userList.findIndex((user) => user.userId === this.props.userList.userId) === -1) {
                 const { loadUsers } = this.props;
                 loadUsers();
             }
         }
     }
 
-
     renderRows() {
         const { userList } = this.props;
-        if (userList) {
-            return (userList.map((user) => {
-                return (
-                    <TableRow style={{cursor: 'pointer'}} key={user.userId} onClick={() => this.props.history.push(`/users/${user.userId}`)}>
-                        <TableCell align="left">{user.firstName}</TableCell>
-                        <TableCell align="left">{user.lastName}</TableCell>
-                        <TableCell align="left">{user.email}</TableCell>
-                        <TableCell align="left">{user.contactNumber}</TableCell>
-                        <TableCell align="left">{user.role.name}</TableCell>
-                    </TableRow>
-                )
-            }))
+
+        if (!userList || !userList.length) {
+            return null;
         }
-        return null;
+
+        return userList.map((user) => {
+            return (
+                <TableRow style={{cursor: 'pointer'}} key={user.userId} onClick={() => this.props.history.push(`/users/${user.userId}`)}>
+                    <TableCell align="left">{user.firstName}</TableCell>
+                    <TableCell align="left">{user.lastName}</TableCell>
+                    <TableCell align="left">{user.email}</TableCell>
+                    <TableCell align="left">{user.contactNumber}</TableCell>
+                    <TableCell align="left">{user.role.name}</TableCell>
+                </TableRow>
+            )
+        })
     }
 
     render() {

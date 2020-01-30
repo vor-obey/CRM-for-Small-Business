@@ -50,14 +50,15 @@ class UserDetailsPage extends Component{
     };
 
     handleClickEdit() {
-        const { location } = this.props;
-        this.props.history.push(`${location.pathname}/edit`);
+        const { userDetails } = this.props;
+        this.props.history.push(`${userDetails.userId}/edit`);
     };
 
     componentDidMount() {
         const { loadUser } = this.props;
         loadUser();
     }
+
 
     renderUserDetails() {
         const { userDetails, classes } = this.props;

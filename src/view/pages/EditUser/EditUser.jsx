@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { connect } from "react-redux";
-import { editUser } from "../../../data/store/user/userThunkAction";
+import { editUser, loadUser } from "../../../data/store/user/userThunkAction";
 import { withStyles } from '@material-ui/core';
 
 import { createuserStyle } from '../CreateUser/CreateUser.style.js';
@@ -17,58 +17,59 @@ class EditUser extends PureComponent {
     onSubmitHandler(userInput) {
         const {
             confirmPassword,
+
+            roleId,
             ...user
         } = userInput;
 
-        if (user.password === confirmPassword) {
+        const userId = this.props.match.params.id;
+        if (user.password === confirmPassword && userId) {
+            user.userId = userId;
             this.props.editUser(user);
-
+            this.props.history.goBack();
         }
     }
 
-    // componentWillUnmount() {
-    //     this.props.clearEditUser();
-    // }
-
     render() {
+        const { loadUser } = this.props;
+        console.log(loadUser.userId);
         return (
             <div>
-                {/*{*/}
-                {/*    this.props.editUser ? (*/}
-                {/*        <SaveUserForm*/}
-                {/*            onSubmit={this.onSubmitHandler}*/}
-                {/*            titleText="Edit User"*/}
-                {/*            submitText="Edit"*/}
-                {/*            userDetails={this.props.editUser}*/}
-                {/*        />*/}
-                {/*    ) : null*/}
-                {/*}*/}
-                <SaveUserForm
-                    onSubmit={this.onSubmitHandler}
-                    titleText="Edit User"
-                    submitText="Edit"
-                    // userDetails={this.props.editUser}
-                />
+                {
+                    this.props.editUser ? (
+                        <SaveUserForm
+                            onSubmit={this.onSubmitHandler}
+                            titleText="Edit User"
+                            submitText="Edit"
+                            userDetails={this.props.editUser}
+                            disabled={true}
+                            lol={loadUser.firstName}
+                        />
+                    ) : null
+                }
             </div>
         );
     }
 }
-//
-// const mapStateToProps = ( { userReducer }) => {
-//    return {
-//        user: userReducer.editUser
-//    }
-// };
 
-const mapDispatchToProps = (dispatch) => {
+
+
+const mapStateToProps = (state) => {
+    const {userDetails, user} = state.userReducer;
+
+    return {
+        userDetails,
+        user
+    }
+};
+
+const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         editUser: (user) => {
             dispatch(editUser(user));
         },
-        // clearEditUser: () => {
-        //     dispatch(clearEditUser())
-        // }
+        loadUser: () => dispatch(loadUser(ownProps.match.params.id)),
     }
 };
 
-export default withStyles(createuserStyle)(connect(null, mapDispatchToProps)(EditUser));
+export default withStyles(createuserStyle)(connect(mapStateToProps, mapDispatchToProps)(EditUser));

@@ -17,8 +17,7 @@ import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import NumberFormat from 'react-number-format';
 import { saveUserFormStyle } from './SaveUserForm.style';
-import { getRoles } from "../../../../data/store/user/userThunkAction";
-
+import { getRoles  } from "../../../../data/store/user/userThunkAction";
 
 class SaveUserForm extends Component {
     constructor(props) {
@@ -76,9 +75,9 @@ class SaveUserForm extends Component {
         getRoles();
     }
 
-    onSubmit(){
+    onSubmit(e){
+        e.preventDefault();
         this.props.onSubmit(this.state.inputs);
-
     }
 
     render() {
@@ -104,9 +103,9 @@ class SaveUserForm extends Component {
                                     type={"text"}
                                     value={this.state.inputs.firstName}
                                     onChange={this.onChangeHandler}
+                                    defaultValue={this.props.lol}
                                     required
                                     fullWidth
-                                    autoFocus
                                 />
                             </Grid>
                             <Grid item xs={12} sm={6}>
@@ -139,9 +138,11 @@ class SaveUserForm extends Component {
                                     variant={"outlined"}
                                     type="email"
                                     value={this.state.inputs.email}
+                                    defaultValue={this.props.email}
                                     onChange={this.onChangeHandler}
                                     required
                                     fullWidth
+                                    disabled={this.props.disabled}
                                 />
                             </Grid>
                             <Grid item xs={6}>
@@ -154,7 +155,7 @@ class SaveUserForm extends Component {
                                         value={this.state.inputs.password}
                                         onChange={this.onChangeHandler}
                                         labelWidth={85}
-
+                                        disabled={this.props.disabled}
                                         fullWidth
                                         endAdornment={
                                             <InputAdornment position="end">
@@ -183,6 +184,7 @@ class SaveUserForm extends Component {
                                         labelWidth={145}
                                         required
                                         fullWidth
+                                        disabled={this.props.disabled}
                                         endAdornment={
                                             <InputAdornment position="end" >
                                                 <IconButton
@@ -261,9 +263,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        getRoles: () => {
-            dispatch(getRoles());
-        }
+        getRoles: () => dispatch(getRoles()),
+
     }
 };
 

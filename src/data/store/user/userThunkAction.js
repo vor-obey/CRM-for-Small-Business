@@ -1,7 +1,7 @@
 import {
     getAllUserError,
     getAllUsersSuccess,
-    getAllUsersLoading,
+    // getAllUsersLoading,
     setNewUserLoading,
     setNewUserSuccess,
     setNewUserError,
@@ -19,6 +19,7 @@ import {
     patchUserFailure,
 } from "./userActions";
 import { UserService, StorageService } from "../../../services";
+// import {history} from "../../../utils/history";
 
 export const login = (email, password) => async (dispatch) => {
     try {
@@ -63,8 +64,9 @@ export const getRoles = () => async (dispatch) => {
 
 export const loadUsers = () => async (dispatch) => {
     try {
-        dispatch(getAllUsersLoading(true));
+        // dispatch(getAllUsersLoading(true));
         const response = await UserService.list();
+        // dispatch(getAllUsersLoading(false));
         dispatch(getAllUsersSuccess(response));
     } catch (error) {
         dispatch(getAllUserError(error.message));
@@ -74,21 +76,17 @@ export const loadUsers = () => async (dispatch) => {
 // export const clearEditUser = async () => {
 //
 // }
-
 export const postUser = (user) => async (dispatch) => {
     try {
+        dispatch(setNewUserLoading());
         const response = await UserService.create(user);
-
         if (response && !response.statusCode) {
-            dispatch(setNewUserLoading());
             dispatch(setNewUserSuccess(response));
-
         }
-
+        // history.push('/users')
         dispatch(setNewUserError(response.message));
-
     } catch (error) {
-        dispatch(setNewUserError(error.message));
+        await dispatch(setNewUserError(error.message));
     }
 };
 
@@ -116,9 +114,9 @@ export const deleteUser = (id) => async (dispatch) => {
     }
 };
 
-export const editUser = (id) => async (dispatch) => {
+export const editUser = (body) => async (dispatch) => {
     try {
-        const response = await UserService.patchUser(id);
+        const response = await UserService.patchUser(body);
         if (!response.error) {
             dispatch(patchUserSuccess(response));
         } else {

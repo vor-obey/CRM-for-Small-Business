@@ -23,10 +23,13 @@ class CreateUser extends PureComponent {
         if (user.password === confirmPassword) {
             this.props.postUser(user);
             history.push('/users');
+
         }
     }
 
+
     render() {
+
         return (
             <div>
                 <SaveUserForm

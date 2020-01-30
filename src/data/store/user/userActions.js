@@ -73,10 +73,10 @@ export const getRoleFailure = (error) => {
     }
 };
 
-export const setNewUserLoading = (loading) => {
+export const setNewUserLoading = (createUserLoading) => {
     return {
         type: SET_NEW_USER_LOADING,
-        loading,
+        createUserLoading,
     }
 };
 
@@ -116,10 +116,10 @@ export const getUserDetailsLoading = (loading) => {
     }
 };
 
-export const deleteUserSuccess = (deleteUser) => {
+export const deleteUserSuccess = (deleteUserSuccess) => {
     return {
         type: DELETE_USER_SUCCESS,
-        deleteUser,
+        deleteUserSuccess,
     }
 };
 
