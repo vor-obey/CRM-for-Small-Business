@@ -1,36 +1,28 @@
-import React from 'react';
+import React, {useState} from 'react';
 
 import {ForgotPasswordStyles} from "./ForgotPassword.style";
 import Container from '@material-ui/core/Container';
 import TextField from '@material-ui/core/TextField';
 import Typography from "@material-ui/core/Typography";
 import {Button, CssBaseline} from "@material-ui/core";
-import {withStyles} from '@material-ui/core';
+import {makeStyles} from "@material-ui/core/styles";
+import UserService from '../../../services/UserService';
 
-class ForgotPassword extends React.Component {
-   constructor(props) {
-      super(props);
+const useStyles = makeStyles(ForgotPasswordStyles);
 
-      this.state = {
-         email: '',
-      };
+export const ForgotPassword = () => {
+   const [email, setEmail] = useState('');
+   const classes = useStyles();
 
-   }
-
-   onChange = (e) => {
-      this.setState({
-         [e.target.name]: e.target.value
-      })
+   const onInputChangedHandler = (event) => {
+      const {value} = event.target;
+      setEmail(value);
    };
 
-   handleSubmit = (e) => {
-      e.preventDefault();
-      const {email} = this.state;
-      console.log(email)
+   const onSubmitHandler = async (event) => {
+      event.preventDefault();
+      await UserService.sendPasswordResetEmail(email);
    };
-
-   render() {
-      const {classes} = this.props;
 
       return (
          <Container component="main" maxWidth="xs">
@@ -39,7 +31,7 @@ class ForgotPassword extends React.Component {
                <Typography component="h1" variant="h5">
                   Enter your email to restore your password
                </Typography>
-               <form className={classes.form} onSubmit={this.handleSubmit}>
+               <form className={classes.form} onSubmit={onSubmitHandler}>
                   <TextField
                      variant="outlined"
                      margin="normal"
@@ -51,8 +43,8 @@ class ForgotPassword extends React.Component {
                      autoComplete="email"
                      type='email'
                      autoFocus
-                     value={this.state.email}
-                     onChange={this.onChange}
+                     value={email}
+                     onChange={onInputChangedHandler}
                   />
                   <Button
                      type="submit"
@@ -67,7 +59,4 @@ class ForgotPassword extends React.Component {
             </div>
          </Container>
       );
-   }
-}
-
-export default withStyles(ForgotPasswordStyles)(ForgotPassword);
+};

@@ -17,6 +17,14 @@ class UserService extends CRUDService {
         }
     };
 
+    async sendPasswordResetEmail(email) {
+        try {
+            return await this.APIService.fetch('POST', `/auth/forgot_password/${email}`)
+        } catch (e) {
+            return e;
+        }
+    }
+
     async getCurrentUser() {
         try {
             return await this.APIService.apiGet('/users/me');

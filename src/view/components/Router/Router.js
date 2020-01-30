@@ -16,7 +16,7 @@ import UserDetailsPage from "../../pages/UserDetailsPage/UserDetailsPage";
 
 import {getCurrentUser} from "../../../data/store/user/userThunkAction";
 import {ShippingDetails} from "../ShippingDetails/ShippingDetails";
-import ForgotPassword from "../../pages/ForgotPassword/ForgotPassword";
+import {ForgotPassword} from "../../pages/ForgotPassword/ForgotPassword";
 
 
 function Routing() {
