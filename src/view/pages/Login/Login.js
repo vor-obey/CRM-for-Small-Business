@@ -26,7 +26,7 @@ class Login extends Component {
         this.setState({
             [e.target.name]: e.target.value
         })
-    }
+    };
 
     async login(e) {
         e.preventDefault();
@@ -39,7 +39,11 @@ class Login extends Component {
         if (token) {
             history.push('/dashboard');
         }
-    }
+    };
+
+    handleClick = () => {
+        this.props.history.push('./restore-password')
+    };
 
     render() {
         const { classes } = this.props;
@@ -100,7 +104,7 @@ class Login extends Component {
             </Container>
         )
     }
-};
+}
 
 const mapStateToProps = (state) => {
     const {
