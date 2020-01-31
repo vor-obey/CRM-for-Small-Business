@@ -9,7 +9,4 @@ export const RestorePasswordStyle = (theme => ({
    submit: {
       margin: theme.spacing(3, 0, 2),
    },
-   error: {
-      color: '#C70039'
-   }
 }));

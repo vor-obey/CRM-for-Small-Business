@@ -43,8 +43,8 @@ function Routing() {
                 <PrivateRoute path='/users' exact component={UserPage} />
                 <PrivateRoute path='/users/:id' component={UserDetailsPage} />
                 <PrivateRoute path='/create-shipping-details' component={ShippingDetails} />
-                <Route exact path='/restore-password/:token' component={RestorePassword} />
-                <Route path='/forgot-password' exact component={ForgotPassword} />
+                <Route exact path='/restore_password/:token' component={RestorePassword} />
+                <Route path='/forgot_password' exact component={ForgotPassword} />
             </div>
         </Router>
 

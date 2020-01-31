@@ -2,45 +2,62 @@ import React, {useState} from "react";
 import {RestorePasswordStyle} from './RestorePassword.style'
 import {useParams} from 'react-router-dom';
 
-import {Button, Container, TextField, Typography} from "@material-ui/core";
+import {Box, Button, Container, TextField, Typography} from "@material-ui/core";
 import {makeStyles} from '@material-ui/core';
+import {UserService} from "../../../services";
 
 const useStyles = makeStyles(RestorePasswordStyle);
 
-export const RestorePassword = () => {
+export const RestorePassword = (props) => {
    const classes = useStyles();
    const [password, setPassword] = useState('');
    const [confirmationPassword, setConfirmationPassword] = useState('');
    const [errorMessage, setErrorMessage] = useState('');
+   const [buttonText, setButtonText] = useState('Send');
    const {token} = useParams();
 
    const onPasswordInputChangedHandler = event => {
+      setErrorMessage('');
       const {value} = event.target;
       setPassword(value);
    };
 
    const onConfirmationPasswordInputChangedHandler = event => {
+      setErrorMessage('');
       const {value} = event.target;
       setConfirmationPassword(value);
    };
 
-   const onClickHandler = (e) => {
+
+   const onSubmitHandler = async (e) => {
       e.preventDefault();
+      setButtonText('Sending...');
+      const response = await UserService.sendNewPassword({token, password});
+         setButtonText('Send');
+         if (response.success) {
+            props.history.push('/')
+         } else {
+            setErrorMessage('Error');
+            setPassword('');
+            setConfirmationPassword('');
+         }
+   };
+
+   const disableButton = () => {
       if (password !== confirmationPassword) {
-         setErrorMessage(`Password doesn't match`)
-      } else {
-         setErrorMessage('');
-         console.log({password, token})
+         return true;
       }
+      return !password || !confirmationPassword;
+
    };
 
    return (
       <Container component="main" maxWidth="xs">
          <div className={classes.root}>
             <Typography component="h1" variant="h5">
-               Restore Password
+               Restore your Password
             </Typography>
-            <form className={classes.form}>
+            <form className={classes.form} onSubmit={onSubmitHandler}>
                <TextField
                   variant="outlined"
                   margin="normal"
@@ -64,20 +81,20 @@ export const RestorePassword = () => {
                   value={confirmationPassword}
                   onChange={onConfirmationPasswordInputChangedHandler}
                />
-               <div className={classes.error}>
-                  {errorMessage}
-               </div>
+
                <Button
                   type="submit"
                   fullWidth
                   variant="contained"
                   color="primary"
+                  disabled={disableButton()}
                   className={classes.submit}
-                  onClick={onClickHandler}
                >
-                  Send
+                  {buttonText}
                </Button>
             </form>
+            {password !== confirmationPassword ? <Box>Password doesn't match</Box> : null}
+            {errorMessage ? <div>{errorMessage}</div> : null}
          </div>
       </Container>
    )

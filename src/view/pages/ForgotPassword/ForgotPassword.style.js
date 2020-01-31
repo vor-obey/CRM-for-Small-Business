@@ -12,4 +12,11 @@ export const ForgotPasswordStyles = (theme => ({
    submit: {
       margin: theme.spacing(3, 0, 2),
    },
+   display: {
+      display: 'block',
+      marginTop: theme.spacing(8),
+   },
+   button: {
+      margin: theme.spacing(3, 0, 2),
+   }
 }));

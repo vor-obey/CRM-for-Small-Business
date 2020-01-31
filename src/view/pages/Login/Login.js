@@ -101,7 +101,8 @@ class Login extends Component {
                      </Grid>
                   </Grid>
                </form>
-               <Button onClick={this.handleClick}>
+               <Button
+                  onClick={this.handleClick}>
                   Forgot you Password ?
                </Button>
             </div>
