@@ -1,9 +1,11 @@
 import {
     getAllCustomersSuccess,
-    getAllCustomersError
+    getAllCustomersError,
+    getCustomerDetailsLoading,
+    getCustomerDetailsSuccess,
+    getCustomerDetailsError,
 } from "./customerActions";
 import {ClientsService } from "../../../services";
-
 
 
 export const loadCustomers = () => async (dispatch) => {
@@ -12,5 +14,15 @@ export const loadCustomers = () => async (dispatch) => {
         dispatch(getAllCustomersSuccess(response));
     } catch (error) {
         dispatch(getAllCustomersError(error.message));
+    }
+};
+
+export const loadCustomer = (id) => async (dispatch) => {
+    try {
+        dispatch(getCustomerDetailsLoading());
+        const response = await ClientsService.findOneById(id);
+        dispatch(getCustomerDetailsSuccess(response));
+    } catch (error) {
+        dispatch(getCustomerDetailsError(error.message));
     }
 };

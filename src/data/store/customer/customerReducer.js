@@ -1,6 +1,8 @@
 import {
     GET_ALL_CUSTOMERS_SUCCESS,
     GET_ALL_CUSTOMERS_FAILURE,
+    GET_CUSTOMER_DETAILS_SUCCESS,
+    GET_CUSTOMER_DETAILS_FAILURE,
 } from "./customerActionTypes";
 
 const initialState = {
@@ -27,6 +29,19 @@ export const customerReducer = (state = initialState, action) => {
                 loading: false,
                 error: action.error
             };
+        }
+        case GET_CUSTOMER_DETAILS_SUCCESS: {
+            return {
+                ...state,
+                customerDetails: action.customerDetails,
+            }
+        }
+        case GET_CUSTOMER_DETAILS_FAILURE: {
+            return {
+                ...state,
+                loading: false,
+                error: action.error
+            }
         }
         default: {
             return state;
