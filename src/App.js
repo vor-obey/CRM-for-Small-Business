@@ -3,12 +3,12 @@ import React, { useState } from 'react';
 import { AuthContext } from "./data/context/auth";
 import { Provider } from "react-redux";
 import Router from "./view/components/Router/Router";
-import { store } from "./data/store/configureStore";
+import store from "./data/store/configureStore";
 
 import {ThemeProvider} from "@material-ui/core/styles";
 import { theme } from "./view/theme";
 
-function App(props) {
+function App() {
     const [authTokens, setAuthTokens] = useState();
     const setTokens = (data) => {
         localStorage.setItem("tokens", JSON.stringify(data));
