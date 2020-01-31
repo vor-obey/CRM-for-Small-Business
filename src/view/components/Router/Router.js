@@ -52,7 +52,6 @@ function Routing() {
                 <PrivateRoute path='/create-shipping-details' component={ShippingDetails} />
             </div>
         </Router>
-
     )
 }
 
