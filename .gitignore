@@ -44,7 +44,7 @@ node_modules/
 jspm_packages/
 https:/
 build/
-.idea
+package-lock.json
 
 # TypeScript v1 declaration files
 typings/
