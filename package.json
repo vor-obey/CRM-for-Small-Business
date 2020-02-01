@@ -21,8 +21,7 @@
     "redux": "^4.0.4",
     "redux-thunk": "^2.3.0",
     "styled-components": "^4.4.1",
-    "typeface-roboto": "0.0.75",
-    "redux-devtools-extension": "^2.13.8"
+    "typeface-roboto": "0.0.75"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -48,7 +47,8 @@
   },
   "devDependencies": {
     "eslint-plugin-react-hooks": "^2.3.0",
-    "html-webpack-plugin": "^3.2.0"
+    "html-webpack-plugin": "^3.2.0",
+    "redux-devtools-extension": "^2.13.8"
   },
   "engines": {
     "yarn": "1.*",
