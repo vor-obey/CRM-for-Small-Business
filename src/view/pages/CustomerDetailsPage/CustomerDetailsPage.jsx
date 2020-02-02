@@ -11,7 +11,7 @@ import {
     ListItemText,
     Grid,
 } from "@material-ui/core";
-import { loadCustomer } from "../../../data/store/customer/customerThunkAction";
+import { loadCustomer, deleteCustomer } from "../../../data/store/customer/customerThunkAction";
 import { customerDetailsStyle } from "../CustomerDetailsPage/CustomerDetailsPage.style";
 import { connect } from "react-redux";
 import EditIcon from '@material-ui/icons/Edit';
@@ -23,14 +23,13 @@ class CustomerDetailsPage extends Component{
         super(props);
 
         this.state = {
-            editable: true,
             deleteDialog: false,
             isShow: false,
             onClose: true,
         };
 
         this.handleOpenDialog = this.handleOpenDialog.bind(this);
-        this.handleClickDeleteUser = this.handleClickDeleteUser.bind(this);
+        this.handleClickDeleteCustomer = this.handleClickDeleteCustomer.bind(this);
         this.handleClickEdit = this.handleClickEdit.bind(this);
     }
 
@@ -40,18 +39,18 @@ class CustomerDetailsPage extends Component{
         }));
     };
 
-    handleClickDeleteUser() {
-        const { deleteUser, history } = this.props;
-        deleteUser();
+    handleClickDeleteCustomer() {
+        const { deleteCustomer } = this.props;
+        deleteCustomer();
 
-        if (deleteUser) {
-            history.push('/users');
-        }
+        // if (deleteCustomer) {
+        //     history.push('/customers');
+        // }
     };
 
     handleClickEdit() {
         const { customerDetails } = this.props;
-        this.props.history.push(`${customerDetails.userId}/edit`);
+        this.props.history.push(`${customerDetails.customerId}/edit`);
     };
 
     componentDidMount() {
@@ -169,12 +168,12 @@ class CustomerDetailsPage extends Component{
                     </Grid>
                 </Paper>
                 <CustomDialog
-                    title="Delete User"
-                    children="Are you sure you want to delete the user without the possibility of recovery?"
+                    title="Delete Customer"
+                    children="Are you sure you want to delete the customer without the possibility of recovery?"
                     isShow={this.state.isShow}
                     onClose={this.handleOpenDialog}
                     closeText="Disagree"
-                    onAction={this.handleClickDeleteUser}
+                    onAction={this.handleClickDeleteCustomer}
                 />
             </Container>
         );
@@ -192,6 +191,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         loadCustomer: () => dispatch(loadCustomer(ownProps.match.params.id)),
+        deleteCustomer: () => dispatch(deleteCustomer(ownProps.match.params.id)),
     }
 };
 
