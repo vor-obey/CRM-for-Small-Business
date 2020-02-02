@@ -4,6 +4,7 @@ import CRUDService from "./CRUDService";
 class ClientsService extends CRUDService {
     constructor(){
         super(USER_URLS.CUSTOMERS)
+
     }
 
     async getCustomerList() {

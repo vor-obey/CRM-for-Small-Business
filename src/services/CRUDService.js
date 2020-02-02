@@ -30,6 +30,6 @@ export default class CRUDService {
     };
 
     customerList = async (params) => {
-        return await this.APIService.apiGet(addParamsToUrl(this.pathname, params));
+        return await this.APIService.apiGet(addParamsToUrl(`${this.pathname}`, params));
     };
 }

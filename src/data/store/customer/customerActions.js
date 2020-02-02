@@ -6,7 +6,6 @@ import {
     GET_CUSTOMER_DETAILS_LOADING,
 } from "./customerActionTypes";
 
-
 export const getAllCustomersSuccess = (customerList) => {
     return {
         type: GET_ALL_CUSTOMERS_SUCCESS,

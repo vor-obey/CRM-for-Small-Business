@@ -12,7 +12,8 @@ const initialState = {
     roles: [],
     error: "",
     setNewCustomerError: "",
-    newCustomer: null
+    newCustomer: null,
+    isNewCustomerCreated: false,
 };
 
 export const customerReducer = (state = initialState, action) => {
