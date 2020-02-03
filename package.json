@@ -24,11 +24,11 @@
     "typeface-roboto": "0.0.75"
   },
   "scripts": {
-    "start": "PORT=4000 react-scripts start",
+    "start": "react-scripts start",
+    "start:dev": "PORT=4000 react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "server": "json-server --watch json-server/db.json --port 3003 --middlewares json-server/login-middleware.js"
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -49,5 +49,9 @@
     "eslint-plugin-react-hooks": "^2.3.0",
     "html-webpack-plugin": "^3.2.0",
     "redux-devtools-extension": "^2.13.8"
+  },
+  "engines": {
+    "yarn": "1.*",
+    "node": "10.*"
   }
 }
