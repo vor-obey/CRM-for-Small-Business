@@ -1,17 +1,22 @@
 import React, {Component} from "react";
+
 import {
     Paper,
-    Card,
-    Fab,
     Typography,
     Container,
     withStyles,
-    TextField,
-    Grid } from "@material-ui/core";
-import { loadUser } from "../../../data/store/user/userThunkAction";
+    List,
+    Fab,
+    ListItem,
+    ListItemText,
+    Grid,
+} from "@material-ui/core";
+import { loadUser, deleteUser } from "../../../data/store/user/userThunkAction";
 import { userDetailsStyle } from "../UserDetailsPage/UserDetailsPage.style.js";
 import { connect } from "react-redux";
 import EditIcon from '@material-ui/icons/Edit';
+import DeleteIcon from '@material-ui/icons/Delete';
+import { CustomDialog } from '../../components/CustomDialog/CustomDialog';
 
 class UserDetailsPage extends Component{
     constructor(props) {
@@ -19,15 +24,34 @@ class UserDetailsPage extends Component{
 
         this.state = {
             editable: true,
+            deleteDialog: false,
+            isShow: false,
+            onClose: true,
         };
 
+        this.handleOpenDialog = this.handleOpenDialog.bind(this);
+        this.handleClickDeleteUser = this.handleClickDeleteUser.bind(this);
         this.handleClickEdit = this.handleClickEdit.bind(this);
     }
 
-    handleClickEdit() {
+    handleOpenDialog() {
         this.setState((prevState) => ({
-            editable: !prevState.editable,
+            isShow: !prevState.isShow,
         }));
+    };
+
+    handleClickDeleteUser() {
+        const { deleteUser, history } = this.props;
+        deleteUser();
+
+        if (deleteUser) {
+            history.push('/users');
+        }
+    };
+
+    handleClickEdit() {
+        const { userDetails } = this.props;
+        this.props.history.push(`${userDetails.userId}/edit`);
     };
 
     componentDidMount() {
@@ -35,65 +59,80 @@ class UserDetailsPage extends Component{
         loadUser();
     }
 
+
     renderUserDetails() {
-        const { userDetails } = this.props;
-         if (userDetails) {
-             return (
-                 <Grid container item xs={12}>
-                     <TextField
-                         label={"First Name"}
-                         margin={"normal"}
-                         name={"firstName"}
-                         type={"text"}
-                         variant={"outlined"}
-                         fullWidth={true}
-                         disabled={this.state.editable}
-                         value={userDetails.firstName}
-                     />
-                     <TextField
-                         label={"Last Name"}
-                         margin={"normal"}
-                         name={"firstName"}
-                         type={"text"}
-                         variant={"outlined"}
-                         fullWidth={true}
-                         disabled={this.state.editable}
-                         value={userDetails.lastName}
-                     />
-                     <TextField
-                         label={"Middle Name"}
-                         margin={"normal"}
-                         name={"firstName"}
-                         type={"text"}
-                         variant={"outlined"}
-                         fullWidth={true}
-                         disabled={this.state.editable}
-                         value={userDetails.middleName}
-                     />
-                     <TextField
-                         label={"Email Address"}
-                         margin={"normal"}
-                         name={"firstName"}
-                         type={"text"}
-                         variant={"outlined"}
-                         fullWidth={true}
-                         disabled={this.state.editable}
-                         value={userDetails.email}
-                     />
-                     <TextField
-                         label={"Contact number"}
-                         margin={"normal"}
-                         name={"firstName"}
-                         type={"text"}
-                         variant={"outlined"}
-                         fullWidth={true}
-                         disabled={this.state.editable}
-                         value={userDetails.contactNumber}
-                     />
-                 </Grid>
-             )
-         }
-         return null;
+        const { userDetails, classes } = this.props;
+        if (userDetails) {
+            return (
+                <Grid container item xs={12} className={classes.list}>
+                    <List>
+                        <ListItem>
+                            <ListItemText>
+                                <Typography variant="overline">
+                                    First Name
+                                </Typography>
+                                <Typography variant="h6" component="h6">
+                                    {userDetails.firstName}
+                                </Typography>
+                            </ListItemText>
+                        </ListItem>
+                        <ListItem>
+                            <ListItemText>
+                                <Typography variant="overline">
+                                    Last Name
+                                </Typography>
+                                <Typography variant="h6" component="h6">
+                                    {userDetails.lastName}
+                                </Typography>
+                            </ListItemText>
+                        </ListItem>
+                        <ListItem>
+                            <ListItemText>
+                                <Typography variant="overline">
+                                    Middle Name
+                                </Typography>
+                                <Typography variant="h6" component="h6">
+                                    {userDetails.middleName}
+                                </Typography>
+                            </ListItemText>
+                        </ListItem>
+                    </List>
+                    <List>
+                        <ListItem>
+                            <ListItemText>
+                                <Typography variant="overline">
+                                    Email Address
+                                </Typography>
+                                <Typography variant="h6" component="h6">
+                                    {userDetails.email}
+                                </Typography>
+                            </ListItemText>
+                        </ListItem>
+                        <ListItem>
+                            <ListItemText>
+                                <Typography variant="overline">
+                                    Contact number
+                                </Typography>
+                                <Typography variant="h6" component="h6">
+                                    {userDetails.contactNumber}
+                                </Typography>
+                            </ListItemText>
+                        </ListItem>
+                        <ListItem>
+                            <ListItemText>
+                                <Typography variant="overline">
+                                    Role
+                                </Typography>
+                                <Typography variant="h6" component="h6">
+                                    {userDetails.role.name}
+                                </Typography>
+                            </ListItemText>
+                        </ListItem>
+                    </List>
+                </Grid>
+            )
+        }
+        return null;
     }
 
     render() {
@@ -101,32 +140,51 @@ class UserDetailsPage extends Component{
 
         return(
             <Container component="main" className={classes.allUsers}>
-                <Paper className={classes.paper} variant="outlined">
-                    <Card className={classes.card} variant="outlined">
-                        <Typography variant="h5" className={classes.title} align="center" color="textSecondary" gutterBottom>
-                            User Details
-                        </Typography>
-                        <form className={classes.form}>
-                            <Grid >
-                                {this.renderUserDetails()}
-                            </Grid>
-                        </form>
-                    </Card>
-                    <Card className={classes.card}>
-                        <Typography variant="h5" className={classes.title} align="center" color="textSecondary" gutterBottom>
-                            Orders
-                        </Typography>
-                    </Card>
-                        <Fab 
-                            color="primary"
-                            aria-label="edit"
-                            size="small">
-                            <EditIcon
-                            className="classes.fab"
-                                onClick={this.handleClickEdit}
-                            />
-                        </Fab>
+                <Paper className={classes.paper}>
+                    <Grid container item xs={12}
+                          alignContent={'center'}
+                          direction={'column'}
+                          justify={'flex-start'}>
+                        <Grid container item xs={12}
+                              justify={'center'}>
+                            <Typography variant="h4" className={classes.title} align="center" gutterBottom>
+                                User Details
+                            </Typography>
+                        </Grid>
+                        <Grid container item xs={12}>
+                            {this.renderUserDetails()}
+                        </Grid>
+                        <Grid  container item xs={12}
+                               alignContent={'center'}
+                               justify={'center'}>
+                            <Fab
+                                color="primary"
+                                aria-label="edit"
+                                size="small"
+                                className={classes.fab}
+                                onClick={this.handleClickEdit}>
+                                <EditIcon />
+                            </Fab>
+                            <Fab
+                                color="primary"
+                                aria-label="edit"
+                                size="small"
+                                className={classes.fab}
+                                onClick={this.handleOpenDialog}
+                            >
+                                <DeleteIcon />
+                            </Fab>
+                        </Grid>
+                    </Grid>
                 </Paper>
+                <CustomDialog
+                    title="Delete User"
+                    children="Are you sure you want to delete the user without the possibility of recovery?"
+                    isShow={this.state.isShow}
+                    onClose={this.handleOpenDialog}
+                    closeText="Disagree"
+                    onAction={this.handleClickDeleteUser}
+                />
             </Container>
         );
     }
@@ -136,13 +194,14 @@ const mapStateToProps = (state) => {
     const { userDetails } = state.userReducer;
 
     return {
-        userDetails,
+        userDetails
     }
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         loadUser: () => dispatch(loadUser(ownProps.match.params.id)),
+        deleteUser: () => dispatch(deleteUser(ownProps.match.params.id)),
     }
 };
 

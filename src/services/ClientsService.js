@@ -5,6 +5,14 @@ class ClientsService extends CRUDService {
     constructor(){
         super(USER_URLS.CLIENTS)
     }
+
+    async getCustomerList() {
+        try {
+            return await this.APIService.apiGet('/customers');
+        } catch (e) {
+            return e;
+        }
+    };
 }
 
 export default new ClientsService();

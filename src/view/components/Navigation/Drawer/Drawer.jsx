@@ -15,6 +15,7 @@ import PeopleIcon from '@material-ui/icons/People';
 import InsertDriveFileIcon from '@material-ui/icons/InsertDriveFile';
 import PlusIcon from '@material-ui/icons/PlusOne';
 import MenuIcon from '@material-ui/icons/Menu';
+import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
 import { drawerStyle } from "./Drawer.style";
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
@@ -63,6 +64,14 @@ function Drawer(props) {
                           selected={isActive('/create-shipping-details')}>
                     <ListItemIcon><PlusIcon /></ListItemIcon>
                     <ListItemText>Create shipping details</ListItemText>
+                </ListItem>
+                <Divider variant="inset" component="li" />
+                <ListItem button
+                          component={Link}
+                          to="/customers"
+                          selected={isActive('/customers')}>
+                    <ListItemIcon><AssignmentIndIcon /></ListItemIcon>
+                    <ListItemText>Customers</ListItemText>
                 </ListItem>
                 <Divider variant="inset" component="li" />
                 <ListItem button
