@@ -74,8 +74,8 @@ function Drawer(props) {
                 </ListItem>
                 <ListItem button
                           component={Link}
-                          to="/"
-                          selected={isActive('/#')}>
+                          to="/orders"
+                          selected={isActive('/orders')}>
                     <ListItemIcon><InsertDriveFileIcon /></ListItemIcon>
                     <ListItemText>Orders</ListItemText>
                 </ListItem>

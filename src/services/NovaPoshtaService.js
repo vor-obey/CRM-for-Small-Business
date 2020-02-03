@@ -1,7 +1,7 @@
 import CRUDService from "./CRUDService";
 import {USER_URLS} from "../constants/urls";
 
-class OrderService extends CRUDService {
+class NovaPoshtaService extends CRUDService {
     constructor() {
         super(USER_URLS.NOVA_POSHTA);
     }
@@ -23,4 +23,4 @@ class OrderService extends CRUDService {
     }
 }
 
-export default new OrderService();
+export default new NovaPoshtaService();
