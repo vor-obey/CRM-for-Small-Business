@@ -15,6 +15,7 @@ import {
     GET_CURRENT_USER_FAILURE,
     DELETE_USER_SUCCESS,
     DELETE_USER_FAILURE, PATCH_USER_LOADING, PATCH_USER_SUCCESS, PATCH_USER_FAILURE,
+    SET_NEW_USER_CREATED,
 } from "./userActionTypes";
 
 export const userLoginFailure = (loginError) => {
@@ -91,6 +92,13 @@ export const setNewUserError = (newUserError) => {
     return {
         type: SET_NEW_USER_ERROR,
         newUserError
+    }
+};
+
+export const setNewUserCreated = (isNewUserCreated) => {
+    return {
+        type: SET_NEW_USER_CREATED,
+        isNewUserCreated
     }
 };
 
