@@ -30,18 +30,25 @@ class EditUser extends PureComponent {
         }
     }
 
+    componentDidMount() {
+        const { loadUser, match} = this.props;
+        const { id } = match.params;
+
+        loadUser(id);
+    }
+
     render() {
         return (
             <div>
                 {
-                    this.props.editUser ? (
+                    this.props.userDetails ? (
                         <SaveUserForm
                             onSubmit={this.onSubmitHandler}
                             titleText="Edit User"
                             submitText="Edit"
-                            userDetails={this.props.editUser}
+                            userDetails={this.props.userDetails}
                             disabled={true}
-                            lol={loadUser.firstName}
+                            // fill={this.preFill}
                         />
                     ) : null
                 }
@@ -61,12 +68,12 @@ const mapStateToProps = (state) => {
     }
 };
 
-const mapDispatchToProps = (dispatch, ownProps) => {
+const mapDispatchToProps = (dispatch) => {
     return {
         editUser: (user) => {
             dispatch(editUser(user));
         },
-        loadUser: () => dispatch(loadUser(ownProps.match.params.id)),
+        loadUser: (id) => dispatch(loadUser(id)),
     }
 };
 

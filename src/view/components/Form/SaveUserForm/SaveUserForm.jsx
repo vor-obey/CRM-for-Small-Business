@@ -22,17 +22,33 @@ import { getRoles  } from "../../../../data/store/user/userThunkAction";
 class SaveUserForm extends Component {
     constructor(props) {
         super(props);
+
+        let prepopulatedInput = {};
+
+        if (props.userDetails)  {
+            prepopulatedInput = {
+                firstName: props.userDetails.firstName || '',
+                lastName: props.userDetails.lastName || '',
+                middleName: props.userDetails.middleName || '',
+                email: props.userDetails.email || '',
+                password: props.userDetails.password || '',
+                confirmPassword: props.userDetails.confirmPassword || '',
+                contactNumber: props.userDetails.contactNumber || '',
+                roleId: props.userDetails.roleId || '',
+            }
+        }
+
         this.state = {
             inputs: {
                 firstName: '',
-                lastName: '',
+                lastName:  '',
                 middleName: '',
                 email: '',
                 password: '',
                 confirmPassword: '',
                 contactNumber: '',
                 roleId: '',
-                ...props.userDetails
+                ...props.prepopulatedInput,
             },
             showPassword: false,
         };
@@ -73,6 +89,7 @@ class SaveUserForm extends Component {
     componentDidMount() {
         const {getRoles} = this.props;
         getRoles();
+
     }
 
     onSubmit(e){
@@ -82,7 +99,6 @@ class SaveUserForm extends Component {
 
     render() {
         const { classes } = this.props;
-
         return (
             <Container component="main" maxWidth="xs">
                 <CssBaseline/>
@@ -103,7 +119,6 @@ class SaveUserForm extends Component {
                                     type={"text"}
                                     value={this.state.inputs.firstName}
                                     onChange={this.onChangeHandler}
-                                    defaultValue={this.props.lol}
                                     required
                                     fullWidth
                                 />
@@ -142,7 +157,6 @@ class SaveUserForm extends Component {
                                     onChange={this.onChangeHandler}
                                     required
                                     fullWidth
-                                    disabled={this.props.disabled}
                                 />
                             </Grid>
                             <Grid item xs={6}>
@@ -155,7 +169,7 @@ class SaveUserForm extends Component {
                                         value={this.state.inputs.password}
                                         onChange={this.onChangeHandler}
                                         labelWidth={85}
-                                        disabled={this.props.disabled}
+                                        // disabled={this.props.disabled}
                                         fullWidth
                                         endAdornment={
                                             <InputAdornment position="end">
@@ -184,7 +198,7 @@ class SaveUserForm extends Component {
                                         labelWidth={145}
                                         required
                                         fullWidth
-                                        disabled={this.props.disabled}
+                                        // disabled={this.props.disabled}
                                         endAdornment={
                                             <InputAdornment position="end" >
                                                 <IconButton
@@ -208,7 +222,7 @@ class SaveUserForm extends Component {
                                     variant={"outlined"}
                                     format={"+38 (###) ###-##-##"}
                                     mask={"_"}
-                                    value={this.state.inputs.phone}
+                                    value={this.state.inputs.contactNumber}
                                     onChange={this.onChangeHandler}
                                     required
                                     fullWidth
@@ -226,7 +240,7 @@ class SaveUserForm extends Component {
                                     <Select
                                         native
                                         name={"roleId"}
-                                        value={this.state.inputs.role}
+                                        value={this.state.inputs.roleId}
                                         onChange={this.onChangeHandler}
                                         labelWidth={40}
                                         required
