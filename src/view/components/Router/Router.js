@@ -11,9 +11,9 @@ import Login from "../../pages/Login/Login";
 import Home from "../../pages/Home/Home";
 import CreateUser from "../../pages/CreateUser/CreateUser";
 import LogOut from "../../pages/LogOut/LogOut";
-import UserPage from "../../pages/UsersPage/UsersPage";
+import {UsersPage} from "../../pages/UsersPage/UsersPage";
 import CustomersPage from "../../pages/CustomersPage/CustomersPage";
-import UserDetailsPage from "../../pages/UserDetailsPage/UserDetailsPage";
+import {UserDetailsPage} from "../../pages/UserDetailsPage/UserDetailsPage";
 import RestorePassword from "../../pages/RestorePassword/RestorePassword";
 import EditUser from "../../pages/EditUser/EditUser";
 import CustomerDetailsPage from "../../pages/CustomerDetailsPage/CustomerDetailsPage";
@@ -53,7 +53,7 @@ function Routing() {
                 <PrivateRoute exact path='/customers' component={CustomersPage} />
                 <PrivateRoute exact path='/customers/:id' component={CustomerDetailsPage} />
                 <PrivateRoute exact path='/customers/:id/edit' component={EditCustomer} />
-                <PrivateRoute exact path='/users' component={UserPage} />
+                <PrivateRoute exact path='/users' component={UsersPage} />
                 <PrivateRoute exact path='/users/:id/edit' component={EditUser} />
                 <PrivateRoute exact path='/users/:id' component={UserDetailsPage} />
                 <PrivateRoute path='/create-shipping-details' component={ShippingDetails} />
