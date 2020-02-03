@@ -13,11 +13,11 @@ export default class CRUDService {
         return await this.APIService.apiGet(addParamsToUrl(`${this.pathname}/${id}`, params));
     };
 
-    deleteUser = async (id, params) => {
+    delete = async (id, params) => {
         return await this.APIService.apiDelete(addParamsToUrl(`${this.pathname}/${id}`, params));
     };
 
-    patchUser = async (body) => {
+    update = async (body) => {
         return await this.APIService.apiPatch(USER_URLS.USERS, { body });
     };
 

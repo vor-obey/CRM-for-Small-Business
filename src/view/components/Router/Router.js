@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import {BrowserRouter as Router, Route} from 'react-router-dom';
+import {Router, Route} from 'react-router-dom';
 import StorageService from "../../../services/StorageService";
 import { useDispatch } from "react-redux";
 
@@ -50,11 +50,10 @@ function Routing() {
                 <PrivateRoute path="/create-user" component={CreateUser} />
                 <PrivateRoute path="/create-customer" component={CreateCustomer} />
                 <PrivateRoute path='/logout' component={LogOut} />
-                <PrivateRoute path='/users' exact component={UserPage} />
                 <PrivateRoute exact path='/customers' component={CustomersPage} />
                 <PrivateRoute exact path='/customers/:id' component={CustomerDetailsPage} />
                 <PrivateRoute exact path='/customers/:id/edit' component={EditCustomer} />
-                <PrivateRoute exact path='/users'  component={UserPage} />
+                <PrivateRoute exact path='/users' component={UserPage} />
                 <PrivateRoute exact path='/users/:id/edit' component={EditUser} />
                 <PrivateRoute exact path='/users/:id' component={UserDetailsPage} />
                 <PrivateRoute path='/create-shipping-details' component={ShippingDetails} />

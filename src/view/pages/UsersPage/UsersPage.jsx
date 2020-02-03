@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { loadUsers } from "../../../data/store/user/userThunkAction";
-
+import { setNewUserCreated } from "../../../data/store/user/userActions";
 import {
     Button,
     Table,
@@ -24,13 +24,12 @@ class UsersPage extends Component {
     }
 
 
-    //TODO refactor
     componentDidUpdate(prevProps, prevState, snapshot) {
-        if (this.props.userList && this.props.userList.length !== 0 && this.props.userList) {
-            if (this.props.userList.findIndex((user) => user.userId === this.props.userList.userId) === -1) {
-                const { loadUsers } = this.props;
-                loadUsers();
-            }
+        const { isNewUserCreated, loadUsers, setNewUserCreated } = this.props;
+
+        if (isNewUserCreated) {
+            setNewUserCreated(false);
+            loadUsers();
         }
     }
 
@@ -92,17 +91,19 @@ class UsersPage extends Component {
 }
 
 const mapStateToProps = (state) => {
-    const { userList, newUser } = state.userReducer;
+    const { userList, newUser, isNewUserCreated } = state.userReducer;
 
     return {
         userList,
-        newUser
+        newUser,
+        isNewUserCreated
     }
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
         loadUsers: () => dispatch(loadUsers()),
+        setNewUserCreated: () => dispatch(setNewUserCreated()),
     }
 };
 

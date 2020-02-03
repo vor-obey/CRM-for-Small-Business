@@ -17,7 +17,6 @@ class SaveUserForm extends Component {
         super(props);
         this.state = {
             inputs: {
-                customerId: '',
                 username: '',
                 name: '',
                 contactEmail: '',
