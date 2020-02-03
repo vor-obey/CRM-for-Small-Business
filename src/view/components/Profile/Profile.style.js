@@ -12,15 +12,26 @@ export const profileStyles = (theme => ({
    },
    userName: {
       fontSize: 22,
-      height: '100%'
+      height: '100%',
+      [theme.breakpoints.down('xs')]: {
+         fontSize: 16,
+         marginLeft: theme.spacing(6)
+      },
    },
    orgName: {
-      height: '100%'
+      height: '100%',
+      [theme.breakpoints.down('xs')]: {
+         fontSize: 16,
+         marginLeft: theme.spacing(6)
+      },
    },
    icon: {
       width: 50,
       height: '100%',
       marginLeft: theme.spacing(1),
-      marginRight: theme.spacing(1)
-   }
+      marginRight: theme.spacing(1),
+      [theme.breakpoints.down('xs')]: {
+         width: 35,
+      },
+   },
 }));
