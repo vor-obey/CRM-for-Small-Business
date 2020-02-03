@@ -17,9 +17,9 @@ import {
     deleteUserSuccess,
     patchUserSuccess,
     patchUserFailure,
+    setNewUserCreated,
 } from "./userActions";
 import { UserService, StorageService } from "../../../services";
-// import {history} from "../../../utils/history";
 
 export const login = (email, password) => async (dispatch) => {
     try {
@@ -73,15 +73,14 @@ export const loadUsers = () => async (dispatch) => {
     }
 };
 
-// export const clearEditUser = async () => {
-//
-// }
 export const postUser = (user) => async (dispatch) => {
     try {
         dispatch(setNewUserLoading());
         const response = await UserService.create(user);
         if (response && !response.statusCode) {
             dispatch(setNewUserSuccess(response));
+            dispatch(setNewUserCreated(true))
+
         }
         dispatch(setNewUserError(response.message));
     } catch (error) {
@@ -101,7 +100,7 @@ export const loadUser = (id) => async (dispatch) => {
 
 export const deleteUser = (id) => async (dispatch) => {
     try {
-        const response = await UserService.deleteUser(id);
+        const response = await UserService.delete(id);
         if (!response.error) {
             dispatch(deleteUserSuccess(response));
         } else {
@@ -115,7 +114,7 @@ export const deleteUser = (id) => async (dispatch) => {
 
 export const editUser = (body) => async (dispatch) => {
     try {
-        const response = await UserService.patchUser(body);
+        const response = await UserService.update(body);
         if (!response.error) {
             dispatch(patchUserSuccess(response));
         } else {

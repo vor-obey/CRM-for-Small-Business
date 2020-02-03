@@ -31,8 +31,6 @@ class EditUser extends PureComponent {
     }
 
     render() {
-        const { loadUser } = this.props;
-        console.log(loadUser.userId);
         return (
             <div>
                 {

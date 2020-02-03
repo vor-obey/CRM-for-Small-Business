@@ -12,7 +12,6 @@ class EditUser extends PureComponent {
         super(props);
         this.state = {
             inputs: {
-                customerId: '',
                 username: '',
                 name: '',
                 contactEmail: '',
@@ -23,8 +22,8 @@ class EditUser extends PureComponent {
         this.onSubmitHandler = this.onSubmitHandler.bind(this);
     }
 
-    onSubmitHandler() {
-        this.props.editCustomer();
+    onSubmitHandler(body) {
+        this.props.editCustomer(body);
         this.props.history.goBack();
     }
 

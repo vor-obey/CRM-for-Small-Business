@@ -6,6 +6,7 @@ import {
     SET_NEW_USER_LOADING,
     SET_NEW_USER_SUCCESS,
     SET_NEW_USER_ERROR,
+    SET_NEW_USER_CREATED,
     GET_USER_DETAILS_SUCCESS,
     GET_USER_DETAILS_LOADING,
     GET_USER_DETAILS_ERROR,
@@ -31,7 +32,8 @@ const initialState = {
     roles: [],
     error: "",
     setNewUserError: "",
-    newUser: null
+    newUser: null,
+    isNewUserCreated: false,
 };
 
 export const userReducer = (state = initialState, action) => {
@@ -90,6 +92,12 @@ export const userReducer = (state = initialState, action) => {
                 newUserError: action.newUserError,
                 createUserLoading: false
             };
+        }
+        case SET_NEW_USER_CREATED: {
+            return {
+                ...state,
+                isNewUserCreated: action.isNewUserCreated
+            }
         }
         case GET_ROLES_SUCCESS: {
             return {
