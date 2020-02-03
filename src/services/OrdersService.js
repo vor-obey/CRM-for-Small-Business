@@ -9,6 +9,10 @@ class OrdersService extends CRUDService {
     getOrders = async () => {
         return await this.list();
     };
+
+    getOrderById = async (orderId) => {
+      return await this.findOneById(orderId);
+    };
 }
 
 export default new OrdersService();
