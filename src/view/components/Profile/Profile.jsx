@@ -2,6 +2,8 @@ import React from 'react'
 
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import {makeStyles} from '@material-ui/core';
+import {Container, Box, Typography} from "@material-ui/core";
+
 import {profileStyles} from "./Profile.style";
 
 const useStyles = makeStyles(profileStyles);
@@ -15,17 +17,21 @@ export const Profile = (props) => {
          return null;
       }
       return (
-         <div className={classes.container}>
-            <div className={classes.textWrapper}>
-               <div className={classes.userName}>
-                  {`${currentUser.firstName} ${currentUser.lastName}`}
-               </div>
-               <div className={classes.orgName}>
-                  {currentUser.organization.name}
-               </div>
-            </div>
+         <Container  className={classes.container}>
+            <Box className={classes.textWrapper}>
+               <Box className={classes.userName}>
+                  <Typography variant='h7'>
+                     {`${currentUser.firstName} ${currentUser.lastName}`}
+                  </Typography>
+               </Box>
+               <Box className={classes.orgName}>
+                  <Typography variant='h7'>
+                     {currentUser.organization.name}
+                  </Typography>
+               </Box>
+            </Box>
             <AccountCircleIcon className={classes.icon}/>
-         </div>
+         </Container>
       );
    };
 
