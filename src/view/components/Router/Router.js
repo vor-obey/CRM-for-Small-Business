@@ -22,6 +22,8 @@ import EditCustomer from "../../pages/EditCustomer/EditCustomer";
 import {getCurrentUser} from "../../../data/store/user/userThunkAction";
 import {ShippingDetails} from "../ShippingDetails/ShippingDetails";
 import {ForgotPassword} from "../../pages/ForgotPassword/ForgotPassword";
+import {OrdersPage} from "../../pages/OrdersPage/OrdersPage";
+import {OrderDetails} from "../../pages/OrdersPage/OrderDetails/OrderDetails";
 import {history} from "../../../utils/history";
 
 
@@ -56,6 +58,10 @@ function Routing() {
                 <PrivateRoute exact path='/users/:id/edit' component={EditUser} />
                 <PrivateRoute exact path='/users/:id' component={UserDetailsPage} />
                 <PrivateRoute path='/create-shipping-details' component={ShippingDetails} />
+                <PrivateRoute path='/orders' exact component={OrdersPage} />
+                <PrivateRoute path='/orders/:id' component={OrderDetails} />
+                <Route exact path='/restore_password/:token' component={RestorePassword} />
+                <Route path='/forgot_password' exact component={ForgotPassword} />
                 <Route exact path='/restore-password/:token' component={RestorePassword} />
                 <Route path='/forgot-password' exact component={ForgotPassword} />
             </div>

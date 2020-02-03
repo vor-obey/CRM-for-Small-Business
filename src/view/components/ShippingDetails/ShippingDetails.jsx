@@ -1,5 +1,5 @@
 import React, {useState, useCallback} from "react";
-import OrderService from "../../../services/OrderService";
+import OrderService from "../../../services/NovaPoshtaService";
 import {Container, Grid} from "@material-ui/core";
 import {setCity, setWarehouse} from "../../../data/store/autocomplete/autocompleteActions";
 import {useDispatch, useSelector} from "react-redux";
