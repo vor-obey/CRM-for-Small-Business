@@ -5,14 +5,16 @@ import {
     Avatar, Button, Container,
     CssBaseline,
     FormControl,
-    Grid,
+    Grid, IconButton, InputAdornment,
     InputLabel,
-    Select,
+    OutlinedInput, Select,
     TextField,
     Typography,
     withStyles,
 } from "@material-ui/core";
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
+import Visibility from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import NumberFormat from 'react-number-format';
 import { saveUserFormStyle } from './SaveUserForm.style';
 import { getRoles  } from "../../../../data/store/user/userThunkAction";
@@ -28,6 +30,9 @@ class SaveUserForm extends Component {
                 firstName: props.userDetails.firstName || '',
                 lastName: props.userDetails.lastName || '',
                 middleName: props.userDetails.middleName || '',
+                email: props.userDetails.email || '',
+                password: props.userDetails.password || '',
+                confirmPassword: props.userDetails.confirmPassword || '',
                 contactNumber: props.userDetails.contactNumber || '',
                 roleId: props.userDetails.roleId || '',
             }
@@ -38,6 +43,9 @@ class SaveUserForm extends Component {
                 firstName: '',
                 lastName:  '',
                 middleName: '',
+                email: '',
+                password: '',
+                confirmPassword: '',
                 contactNumber: '',
                 roleId: '',
                 ...prepopulatedInput,
@@ -137,6 +145,73 @@ class SaveUserForm extends Component {
                                     required
                                     fullWidth
                                 />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <TextField
+                                    label={"Email Address"}
+                                    name={"email"}
+                                    variant={"outlined"}
+                                    type="email"
+                                    value={this.state.inputs.email}
+                                    defaultValue={this.props.email}
+                                    onChange={this.onChangeHandler}
+                                    required
+                                    fullWidth
+                                />
+                            </Grid>
+                            <Grid item xs={6}>
+                                <FormControl variant="outlined" required>
+                                    <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+                                    <OutlinedInput
+                                        label={"Password"}
+                                        name={"password"}
+                                        type={this.state.showPassword ? 'text' : 'password'}
+                                        value={this.state.inputs.password}
+                                        onChange={this.onChangeHandler}
+                                        labelWidth={85}
+                                        // disabled={this.props.disabled}
+                                        fullWidth
+                                        endAdornment={
+                                            <InputAdornment position="end">
+                                                <IconButton
+                                                    aria-label="toggle password visibility"
+                                                    onClick={this.handleClickShowPassword}
+                                                    size='small'
+                                                    edge='end'>
+                                                    {this.state.showPassword ? <Visibility fontSize='small' /> : <VisibilityOff fontSize='small' />}
+                                                </IconButton>
+                                            </InputAdornment>
+                                        }
+                                    />
+                                </FormControl>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <FormControl variant="outlined" required>
+                                    <InputLabel htmlFor="outlined-adornment-password" >Repeat Password </InputLabel>
+                                    <OutlinedInput
+                                        label={"Password"}
+                                        name={"confirmPassword"}
+                                        placeholder={"Repeat Password *"}
+                                        type={this.state.showPassword ? 'text' : 'password'}
+                                        value={this.state.inputs.confirmPassword}
+                                        onChange={this.onChangeHandler}
+                                        labelWidth={145}
+                                        required
+                                        fullWidth
+                                        // disabled={this.props.disabled}
+                                        endAdornment={
+                                            <InputAdornment position="end" >
+                                                <IconButton
+                                                    aria-label="toggle password visibility"
+                                                    onClick={this.handleClickShowPassword}
+                                                    size='small'
+                                                    edge='end'>
+                                                    {this.state.showPassword ? <Visibility fontSize='small' /> : <VisibilityOff fontSize='small' />}
+                                                </IconButton>
+                                            </InputAdornment>
+                                        }
+                                    />
+                                </FormControl>
                             </Grid>
                             <Grid item xs={12} sm={6}>
                                 <NumberFormat
