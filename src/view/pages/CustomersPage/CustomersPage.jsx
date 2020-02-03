@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { loadCustomers } from "../../../data/store/customer/customerThunkAction";
+import { setNewCustomerCreated } from "../../../data/store/customer/customerActions";
 
 import {
     Button,
@@ -16,6 +17,7 @@ import {
 import { customersPageStyle } from "./CustomersPage.style";
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 
+
 class CustomersPage extends Component {
 
     componentDidMount() {
@@ -23,11 +25,23 @@ class CustomersPage extends Component {
         loadCustomers();
     }
 
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        const { isNewCustomerCreated, loadCustomers, setNewCustomerCreated } = this.props;
+
+        if (isNewCustomerCreated) {
+            setNewCustomerCreated(false);
+            loadCustomers();
+        }
+    }
+
     renderRows() {
         const { customerList } = this.props;
 
-        if (customerList) {
-            return customerList.map((customer) => {
+        if (!customerList || !customerList.length) {
+            return null;
+        }
+
+        return customerList.map((customer) => {
                 return (
                     <TableRow style={{cursor: 'pointer'}} key={customer.customerId} onClick={() => this.props.history.push(`/customers/${customer.customerId}`)}>
                         <TableCell align="left">{customer.username}</TableCell>
@@ -37,8 +51,6 @@ class CustomersPage extends Component {
                     </TableRow>
                 )
             })
-        }
-        return null;
     }
 
     render() {
@@ -78,16 +90,19 @@ class CustomersPage extends Component {
 }
 
 const mapStateToProps = (state) => {
-    const { customerList } = state.customerReducer;
+    const { customerList,
+        isNewCustomerCreated } = state.customerReducer;
 
     return {
-        customerList
+        customerList,
+        isNewCustomerCreated
     }
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
         loadCustomers: () => dispatch(loadCustomers()),
+        setNewCustomerCreated: () => dispatch(setNewCustomerCreated()),
     }
 };
 

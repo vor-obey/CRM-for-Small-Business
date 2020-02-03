@@ -83,7 +83,6 @@ export const postUser = (user) => async (dispatch) => {
         if (response && !response.statusCode) {
             dispatch(setNewUserSuccess(response));
         }
-        // history.push('/users')
         dispatch(setNewUserError(response.message));
     } catch (error) {
         await dispatch(setNewUserError(error.message));
