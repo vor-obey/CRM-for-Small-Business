@@ -11,26 +11,25 @@ import {
     ListItemText,
     Grid,
 } from "@material-ui/core";
-import { loadUser, deleteUser } from "../../../data/store/user/userThunkAction";
-import { userDetailsStyle } from "../UserDetailsPage/UserDetailsPage.style.js";
+import { loadCustomer, deleteCustomer } from "../../../data/store/customer/customerThunkAction";
+import { customerDetailsStyle } from "../CustomerDetailsPage/CustomerDetailsPage.style";
 import { connect } from "react-redux";
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { CustomDialog } from '../../components/CustomDialog/CustomDialog';
 
-class UserDetailsPage extends Component{
+class CustomerDetailsPage extends Component{
     constructor(props) {
         super(props);
 
         this.state = {
-            editable: true,
             deleteDialog: false,
             isShow: false,
             onClose: true,
         };
 
         this.handleOpenDialog = this.handleOpenDialog.bind(this);
-        this.handleClickDeleteUser = this.handleClickDeleteUser.bind(this);
+        this.handleClickDeleteCustomer = this.handleClickDeleteCustomer.bind(this);
         this.handleClickEdit = this.handleClickEdit.bind(this);
     }
 
@@ -40,59 +39,60 @@ class UserDetailsPage extends Component{
         }));
     };
 
-    handleClickDeleteUser() {
-        const { deleteUser, history } = this.props;
-        deleteUser();
+    handleClickDeleteCustomer() {
+        const { deleteCustomer } = this.props;
+        deleteCustomer();
 
-        if (deleteUser) {
-            history.push('/users');
-        }
+        // if (deleteCustomer) {
+        //     history.push('/customers');
+        // }
     };
 
     handleClickEdit() {
-        const { userDetails } = this.props;
-        this.props.history.push(`${userDetails.userId}/edit`);
+        const { customerDetails } = this.props;
+        this.props.history.push(`${customerDetails.customerId}/edit`);
     };
 
     componentDidMount() {
-        const { loadUser } = this.props;
-        loadUser();
+        const { loadCustomer } = this.props;
+        loadCustomer();
     }
 
 
-    renderUserDetails() {
-        const { userDetails, classes } = this.props;
-        if (userDetails) {
+    renderCustomerDetails() {
+        const { customerDetails, classes } = this.props;
+
+        if (customerDetails) {
             return (
                 <Grid container item xs={12} className={classes.list}>
                     <List>
                         <ListItem>
                             <ListItemText>
                                 <Typography variant="overline">
-                                    First Name
+                                    Username
                                 </Typography>
                                 <Typography variant="h6" component="h6">
-                                    {userDetails.firstName}
+                                    {customerDetails.username}
                                 </Typography>
                             </ListItemText>
                         </ListItem>
                         <ListItem>
                             <ListItemText>
                                 <Typography variant="overline">
-                                    Last Name
+                                    Name
                                 </Typography>
                                 <Typography variant="h6" component="h6">
-                                    {userDetails.lastName}
+                                    {customerDetails.name}
                                 </Typography>
                             </ListItemText>
                         </ListItem>
                         <ListItem>
                             <ListItemText>
                                 <Typography variant="overline">
-                                    Middle Name
+                                    Contact Number
                                 </Typography>
                                 <Typography variant="h6" component="h6">
-                                    {userDetails.middleName}
+                                    {customerDetails.contactNumber}
                                 </Typography>
                             </ListItemText>
                         </ListItem>
@@ -104,27 +104,17 @@ class UserDetailsPage extends Component{
                                     Email Address
                                 </Typography>
                                 <Typography variant="h6" component="h6">
-                                    {userDetails.email}
+                                    {customerDetails.contactEmail}
                                 </Typography>
                             </ListItemText>
                         </ListItem>
                         <ListItem>
                             <ListItemText>
                                 <Typography variant="overline">
-                                    Contact number
+                                    Details
                                 </Typography>
                                 <Typography variant="h6" component="h6">
-                                    {userDetails.contactNumber}
-                                </Typography>
-                            </ListItemText>
-                        </ListItem>
-                        <ListItem>
-                            <ListItemText>
-                                <Typography variant="overline">
-                                    Role
-                                </Typography>
-                                <Typography variant="h6" component="h6">
-                                    {userDetails.role.name}
+                                    {customerDetails.details}
                                 </Typography>
                             </ListItemText>
                         </ListItem>
@@ -152,7 +142,7 @@ class UserDetailsPage extends Component{
                             </Typography>
                         </Grid>
                         <Grid container item xs={12}>
-                            {this.renderUserDetails()}
+                            {this.renderCustomerDetails()}
                         </Grid>
                         <Grid  container item xs={12}
                                alignContent={'center'}
@@ -178,12 +168,12 @@ class UserDetailsPage extends Component{
                     </Grid>
                 </Paper>
                 <CustomDialog
-                    title="Delete User"
-                    children="Are you sure you want to delete the user without the possibility of recovery?"
+                    title="Delete Customer"
+                    children="Are you sure you want to delete the customer without the possibility of recovery?"
                     isShow={this.state.isShow}
                     onClose={this.handleOpenDialog}
                     closeText="Disagree"
-                    onAction={this.handleClickDeleteUser}
+                    onAction={this.handleClickDeleteCustomer}
                 />
             </Container>
         );
@@ -191,18 +181,18 @@ class UserDetailsPage extends Component{
 }
 
 const mapStateToProps = (state) => {
-    const { userDetails } = state.userReducer;
+    const { customerDetails } = state.customerReducer;
 
     return {
-        userDetails
+        customerDetails
     }
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
-        loadUser: () => dispatch(loadUser(ownProps.match.params.id)),
-        deleteUser: () => dispatch(deleteUser(ownProps.match.params.id)),
+        loadCustomer: () => dispatch(loadCustomer(ownProps.match.params.id)),
+        deleteCustomer: () => dispatch(deleteCustomer(ownProps.match.params.id)),
     }
 };
 
-export default withStyles(userDetailsStyle)(connect(mapStateToProps, mapDispatchToProps)(UserDetailsPage));
+export default withStyles(customerDetailsStyle)(connect(mapStateToProps, mapDispatchToProps)(CustomerDetailsPage));

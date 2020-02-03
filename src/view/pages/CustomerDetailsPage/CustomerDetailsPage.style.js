@@ -1,4 +1,4 @@
-export const userDetailsStyle = (theme =>  ({
+export const customerDetailsStyle = (theme =>  ({
     allUsers: {
         display: 'flex',
         flexDirection: 'column',

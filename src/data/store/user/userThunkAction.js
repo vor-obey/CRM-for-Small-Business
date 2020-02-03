@@ -1,7 +1,7 @@
 import {
     getAllUserError,
     getAllUsersSuccess,
-    getAllUsersLoading,
+    // getAllUsersLoading,
     setNewUserLoading,
     setNewUserSuccess,
     setNewUserError,
@@ -13,8 +13,13 @@ import {
     getCurrentUserFailure,
     getRoleFailure,
     getRolesSuccess,
+    deleteUserFailure,
+    deleteUserSuccess,
+    patchUserSuccess,
+    patchUserFailure,
 } from "./userActions";
 import { UserService, StorageService } from "../../../services";
+// import {history} from "../../../utils/history";
 
 export const login = (email, password) => async (dispatch) => {
     try {
@@ -59,27 +64,28 @@ export const getRoles = () => async (dispatch) => {
 
 export const loadUsers = () => async (dispatch) => {
     try {
-        dispatch(getAllUsersLoading(true));
+        // dispatch(getAllUsersLoading(true));
         const response = await UserService.list();
+        // dispatch(getAllUsersLoading(false));
         dispatch(getAllUsersSuccess(response));
     } catch (error) {
         dispatch(getAllUserError(error.message));
     }
 };
 
+// export const clearEditUser = async () => {
+//
+// }
 export const postUser = (user) => async (dispatch) => {
     try {
+        dispatch(setNewUserLoading());
         const response = await UserService.create(user);
-
         if (response && !response.statusCode) {
-            dispatch(setNewUserLoading());
             dispatch(setNewUserSuccess(response));
         }
-
         dispatch(setNewUserError(response.message));
-
     } catch (error) {
-        dispatch(setNewUserError(error.message));
+        await dispatch(setNewUserError(error.message));
     }
 };
 
@@ -90,5 +96,33 @@ export const loadUser = (id) => async (dispatch) => {
         dispatch(getUserDetailsSuccess(response));
     } catch (error) {
         dispatch(getUserDetailsError(error.message));
+    }
+};
+
+export const deleteUser = (id) => async (dispatch) => {
+    try {
+        const response = await UserService.deleteUser(id);
+        if (!response.error) {
+            dispatch(deleteUserSuccess(response));
+        } else {
+            dispatch(deleteUserFailure(response.error));
+        }
+    }
+    catch (e) {
+        dispatch(deleteUserFailure(e));
+    }
+};
+
+export const editUser = (body) => async (dispatch) => {
+    try {
+        const response = await UserService.patchUser(body);
+        if (!response.error) {
+            dispatch(patchUserSuccess(response));
+        } else {
+            dispatch(patchUserFailure(response.error));
+        }
+    }
+    catch (e) {
+        dispatch(patchUserFailure(e));
     }
 };
