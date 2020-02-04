@@ -1,57 +1,32 @@
-import React, { PureComponent } from 'react';
-import { connect } from "react-redux";
-import { postUser, loadUsers } from "../../../data/store/user/userThunkAction";
-import { withStyles } from '@material-ui/core';
-
-import { createuserStyle } from './CreateUser.style.js';
-import SaveUserForm from '../../components/Form/SaveUserForm/SaveUserForm';
+import React, {useCallback} from 'react';
+import { postUser} from "../../../data/store/user/userThunkAction";
+import { useDispatch } from "react-redux";
+import {SaveUserForm} from '../../components/Form/SaveUserForm/SaveUserForm';
 
 
-class CreateUser extends PureComponent {
-    constructor(props) {
-        super(props);
+export const CreateUser = (props) => {
 
-        this.onSubmitHandler = this.onSubmitHandler.bind(this);
-    }
+    const dispatch = useDispatch();
 
-    onSubmitHandler(userInput) {
+    const onSubmitHandler = useCallback((userInput) => {
         const {
             confirmPassword,
             ...user
         } = userInput;
-        const { history } = this.props;
-        if (user.password === confirmPassword) {
-            this.props.postUser(user);
-            history.push('/users');
-
-        }
-    }
-
-
-    render() {
-
-        return (
-            <div>
-                <SaveUserForm
-                    titleText="Create user"
-                    onSubmit={this.onSubmitHandler}
-                    submitText="Add new user"
-                />
-            </div>
-        );
-    }
-}
-
-
-const mapDispatchToProps = (dispatch) => {
-    return {
-        postUser: (user) => {
+        const { history } = props;
+        if (user.password === confirmPassword && user.firstName.length > 2 && user.lastName.length > 2 && user.middleName.length > 2 && user.password.length > 5) {
             dispatch(postUser(user));
-        },
-        loadUsers: () => {
-            dispatch(loadUsers());
+            history.push('/users');
         }
-    }
-};
+    }, [dispatch, props]);
 
-export default withStyles(createuserStyle)(connect(null, mapDispatchToProps)(CreateUser));
+    return (
+        <div>
+            <SaveUserForm
+                titleText="Create user"
+                onSubmit={onSubmitHandler}
+                submitButton="Add new user"
+            />
+        </div>
+    );
+};
