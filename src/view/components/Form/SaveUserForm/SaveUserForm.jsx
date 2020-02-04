@@ -11,15 +11,15 @@ import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import NumberFormat from 'react-number-format';
 import { saveUserFormStyle } from './SaveUserForm.style';
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
 import {UserService} from "../../../../services";
+import {getRoles} from "../../../../data/store/user/userThunkAction";
 
 const useStyles = makeStyles(saveUserFormStyle);
 
 export const SaveUserForm = (props) => {
     const classes = useStyles();
     const dispatch = useDispatch();
-    const roles = useSelector(state => state.userReducer.roles);
     const [roleId, setRoleId] = useState({});
     const [userDetails, setUserDetails] = useState({
         ...roleId,
@@ -45,10 +45,10 @@ export const SaveUserForm = (props) => {
         const fetchRoles = async () => {
             const response = await UserService.getRoles();
             setRoleId(response);
+            dispatch(getRoles())
         };
-
         fetchRoles();
-    }, []);
+    }, [dispatch]);
 
     const renderSelect = useCallback(() => {
         if (!roleId || !roleId.length){
