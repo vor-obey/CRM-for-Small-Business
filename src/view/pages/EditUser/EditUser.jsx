@@ -42,7 +42,6 @@ export const EditUser = (props) => {
                         titleText="Edit User"
                         submitButton="Edit"
                         userDetails={userDetails}
-                        disabled={true}
                         isEdit={false}
                     />
                 ) : null

@@ -26,6 +26,7 @@ export const CreateUser = (props) => {
                 titleText="Create user"
                 onSubmit={onSubmitHandler}
                 submitButton="Add new user"
+                isEdit={true}
             />
         </div>
     );

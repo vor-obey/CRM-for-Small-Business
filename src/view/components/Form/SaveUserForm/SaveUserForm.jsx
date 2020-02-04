@@ -1,78 +1,66 @@
-import React, {useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {
     Avatar, Button, Container,
-    CssBaseline,
-    FormControl,
+    CssBaseline, FormControl,
     Grid, IconButton, InputAdornment,
-    InputLabel,
-    OutlinedInput, Select,
-    TextField,
-    Typography,
+    InputLabel, OutlinedInput, Select,
+    TextField, Typography, makeStyles
 } from "@material-ui/core";
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import NumberFormat from 'react-number-format';
 import { saveUserFormStyle } from './SaveUserForm.style';
-import makeStyles from "@material-ui/core/styles/makeStyles";
+import {useDispatch, useSelector} from "react-redux";
+import {UserService} from "../../../../services";
 
 const useStyles = makeStyles(saveUserFormStyle);
 
 export const SaveUserForm = (props) => {
     const classes = useStyles();
+    const dispatch = useDispatch();
+    const roles = useSelector(state => state.userReducer.roles);
+    const [roleId, setRoleId] = useState({});
     const [userDetails, setUserDetails] = useState({
+        ...roleId,
         firstName: '',
         lastName:  '',
         middleName: '',
         contactNumber: '',
-        roleId: '',
+    });
+    const [user, setUser] = useState({
+        ...userDetails,
+        email: '',
+        password: '',
+        confirmPassword: '',
     });
     const [showPassword, setShowPassword] = useState(false);
-    const roles = [
-        {roleId: 1, name: 'Admin'},
-        {roleId: 2, name: 'Moderator'},
-        {roleId: 3, name: 'Manager'},
-    ];
 
-
-    //     if (props.userDetails)  {
-    //         prepopulatedInput = {
-    //             firstName: props.userDetails.firstName || '',
-    //             lastName: props.userDetails.lastName || '',
-    //             middleName: props.userDetails.middleName || '',
-    //             email: props.userDetails.email || '',
-    //             password: props.userDetails.password || '',
-    //             confirmPassword: props.userDetails.confirmPassword || '',
-    //             contactNumber: props.userDetails.contactNumber || '',
-    //             roleId: props.userDetails.roleId || '',
-    //         }
-    //     }
-    //     state = {
-    //         inputs: {
-    //             firstName: '',
-    //             lastName:  '',
-    //             middleName: '',
-    //             email: '',
-    //             password: '',
-    //             confirmPassword: '',
-    //             contactNumber: '',
-    //             roleId: '',
-    //             ...prepopulatedInput,
-    //         },
-    //         showPassword: false,
-    //     };
 
     const handleClickShowPassword = () => {
         setShowPassword(prevState => !prevState);
     };
 
-    const renderSelect = () => {
-        return roles.map((role) => {
+    useEffect(() => {
+        const fetchRoles = async () => {
+            const response = await UserService.getRoles();
+            setRoleId(response);
+        };
+
+        fetchRoles();
+    }, []);
+
+    const renderSelect = useCallback(() => {
+        if (!roleId || !roleId.length){
+            return null;
+        }
+
+        return roleId.map((role) => {
             return (
                 <option key={role.roleId} value={role.roleId}>{role.name}</option>
             )
         });
-    };
+    },[roleId]);
 
     const onChangeHandler = (event) => {
         event.persist();
@@ -82,12 +70,16 @@ export const SaveUserForm = (props) => {
                 [event.target.name]: event.target.value
             }
         });
-        console.log(event.target.name, event.target.value)
+        setUser(prevState => {
+            return {
+                ...prevState,
+                [event.target.name]: event.target.value
+            }
+        });
     };
 
     const onSubmit = (e) => {
         e.preventDefault();
-        console.log(userDetails);
     };
 
     const renderEmailPassword = () => {
@@ -99,8 +91,8 @@ export const SaveUserForm = (props) => {
                         name={"email"}
                         variant={"outlined"}
                         type="email"
-                        value={userDetails.email}
-                        defaultValue={props.email}
+                        value={user.email}
+                        defaultValue={user.email}
                         onChange={onChangeHandler}
                         required
                         fullWidth
@@ -113,10 +105,9 @@ export const SaveUserForm = (props) => {
                             label={"Password"}
                             name={"password"}
                             type={showPassword ? 'text' : 'password'}
-                            value={userDetails.password}
+                            value={user.password}
                             onChange={onChangeHandler}
                             labelWidth={85}
-                            // disabled={props.disabled}
                             fullWidth
                             endAdornment={
                                 <InputAdornment position="end">
@@ -140,12 +131,11 @@ export const SaveUserForm = (props) => {
                             name={"confirmPassword"}
                             placeholder={"Repeat Password *"}
                             type={showPassword ? 'text' : 'password'}
-                            value={userDetails.confirmPassword}
+                            value={user.confirmPassword}
                             onChange={onChangeHandler}
                             labelWidth={145}
                             required
                             fullWidth
-                            // disabled={props.disabled}
                             endAdornment={
                                 <InputAdornment position="end" >
                                     <IconButton
