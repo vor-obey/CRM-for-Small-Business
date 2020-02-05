@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { connect } from "react-redux";
 import { postCustomer, loadCustomer } from "../../../data/store/customer/customerThunkAction";
 
-import SaveCustomerForm from "../../components/Form/SaveCustomerForm/SaveCustomerForm";
+import SaveCustomerForm from "../../components/SaveCustomerForm/SaveCustomerForm";
 
 class CreateCustomer extends PureComponent {
     constructor(props) {

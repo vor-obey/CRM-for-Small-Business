@@ -1,11 +1,12 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {FormControl, Grid, IconButton, InputAdornment, InputLabel, OutlinedInput, TextField} from "@material-ui/core";
 import Visibility from "@material-ui/core/SvgIcon/SvgIcon";
+import {VisibilityOff} from "@material-ui/icons";
 
-export const UserCredentials = (props) => {
+export const SaveUserCredentials = (props) => {
 
     return (
-        <>
+        <Grid container spacing={2}>
             <Grid item xs={12}>
                 <TextField
                     label={"Email Address"}
@@ -36,7 +37,7 @@ export const UserCredentials = (props) => {
                                     onClick={handleClickShowPassword}
                                     size='small'
                                     edge='end'>
-                                    {showPassword ? <Visibility fontSize='small' /> : <VisibilityOff fontSize='small' />}
+                                    {showPassword ? <Visibility fontSize='small'/> : <VisibilityOff fontSize='small'/>}
                                 </IconButton>
                             </InputAdornment>
                         }
@@ -45,7 +46,7 @@ export const UserCredentials = (props) => {
             </Grid>
             <Grid item xs={6}>
                 <FormControl variant="outlined" required>
-                    <InputLabel htmlFor="outlined-adornment-password" >Repeat Password </InputLabel>
+                    <InputLabel htmlFor="outlined-adornment-password">Repeat Password </InputLabel>
                     <OutlinedInput
                         label={"Password"}
                         name={"confirmPassword"}
@@ -57,19 +58,19 @@ export const UserCredentials = (props) => {
                         required
                         fullWidth
                         endAdornment={
-                            <InputAdornment position="end" >
+                            <InputAdornment position="end">
                                 <IconButton
                                     aria-label="toggle password visibility"
                                     onClick={handleClickShowPassword}
                                     size='small'
                                     edge='end'>
-                                    {showPassword ? <Visibility fontSize='small' /> : <VisibilityOff fontSize='small' />}
+                                    {showPassword ? <Visibility fontSize='small'/> : <VisibilityOff fontSize='small'/>}
                                 </IconButton>
                             </InputAdornment>
                         }
                     />
                 </FormControl>
             </Grid>
-        </>
+        </Grid>
     )
 };

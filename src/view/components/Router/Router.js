@@ -26,9 +26,6 @@ import {OrdersPage} from "../../pages/OrdersPage/OrdersPage";
 import {OrderDetails} from "../../pages/OrdersPage/OrderDetails/OrderDetails";
 import {history} from "../../../utils/history";
 
-
-
-
 function Routing() {
     const dispatch = useDispatch();
 

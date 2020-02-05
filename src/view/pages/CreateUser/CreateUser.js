@@ -1,7 +1,7 @@
 import React, {useCallback} from 'react';
 import { postUser} from "../../../data/store/user/userThunkAction";
 import { useDispatch } from "react-redux";
-import {SaveUserForm} from '../../components/Form/SaveUserForm/SaveUserForm';
+import {SaveUserForm} from '../../components/SaveUser/SaveUserForm';
 
 
 export const CreateUser = (props) => {

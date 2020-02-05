@@ -1,12 +1,10 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {useDispatch} from "react-redux";
 import {useParams} from 'react-router-dom';
-import {SaveUserForm} from '../../components/Form/SaveUserForm/SaveUserForm';
+import {SaveUserForm} from '../../components/SaveUser/SaveUserForm';
 import {UserService} from "../../../services";
 import {isEmpty} from 'lodash';
 
 export const EditUser = () => {
-    const dispatch = useDispatch();
     const {id} = useParams();
     const [userDetails, setUserDetails] = useState({});
     const [roles, setRoles] = useState([]);
@@ -21,7 +19,7 @@ export const EditUser = () => {
         };
 
         fetchData(id);
-    }, [id, roles, dispatch]);
+    }, [id]);
 
 
     const onSubmitHandler = useCallback((event, userInput) => {
@@ -39,7 +37,7 @@ export const EditUser = () => {
                         buttonText="Edit"
                         userDetails={userDetails}
                         roles={roles}
-                        isEdit={false}
+                        isEdit={true}
                     />
                 ) : null
             }
