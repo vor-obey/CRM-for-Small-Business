@@ -1,51 +1,48 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {useDispatch} from "react-redux";
-import { editUser, loadUser } from "../../../data/store/user/userThunkAction";
 import {useParams} from 'react-router-dom';
 import {SaveUserForm} from '../../components/Form/SaveUserForm/SaveUserForm';
 import {UserService} from "../../../services";
+import {isEmpty} from 'lodash';
 
-
-export const EditUser = (props) => {
-
+export const EditUser = () => {
     const dispatch = useDispatch();
     const {id} = useParams();
     const [userDetails, setUserDetails] = useState({});
+    const [roles, setRoles] = useState([]);
 
     useEffect(() => {
-        const fetchUserById = async (id) => {
-            const response = await UserService.findOneById(id);
-            setUserDetails(response);
+        const fetchData = async (id) => {
+            const userDetails = await UserService.findOneById(id);
+            setUserDetails(userDetails);
+
+            const roles = await UserService.getRoles();
+            setRoles(roles);
         };
-        dispatch(loadUser(id));
 
-        fetchUserById(id);
-    }, [id, dispatch]);
+        fetchData(id);
+    }, [id, roles, dispatch]);
 
-    const onSubmitHandler = useCallback((id) => {
-        const { confirmPassword, roleId, ...user} = id;
-        const userId = id;
-        const {history} = props;
-        if (user.password === confirmPassword && userId && user.password === confirmPassword && user.firstName.length > 2 && user.lastName.length > 2 && user.middleName.length > 2 && user.password.length > 5) {
-            user.userId = userId;
-            dispatch(editUser(user));
-            history.goBack();
-        }
-    }, [dispatch, props]);
+
+    const onSubmitHandler = useCallback((event, userInput) => {
+        event.preventDefault();
+        console.log(userInput);
+    }, []);
 
     return (
-        <div>
+        <>
             {
-                userDetails ? (
+                !isEmpty(userDetails) && !isEmpty(roles) ? (
                     <SaveUserForm
                         onSubmit={onSubmitHandler}
                         titleText="Edit User"
-                        submitButton="Edit"
+                        buttonText="Edit"
                         userDetails={userDetails}
+                        roles={roles}
                         isEdit={false}
                     />
                 ) : null
             }
-        </div>
+        </>
     );
 };

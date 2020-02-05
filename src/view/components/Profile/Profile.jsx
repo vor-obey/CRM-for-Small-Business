@@ -26,7 +26,7 @@ export const Profile = (props) => {
                </Box>
                <Box className={classes.orgName}>
                   <Typography variant='h6'>
-                     {currentUser.organization.name}
+                     {/*{currentUser.organization.name}*/}
                   </Typography>
                </Box>
             </Box>
