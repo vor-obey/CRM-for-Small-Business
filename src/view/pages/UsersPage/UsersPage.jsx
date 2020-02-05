@@ -4,15 +4,10 @@ import { connect } from "react-redux";
 import { loadUsers } from "../../../data/store/user/userThunkAction";
 import { setNewUserCreated } from "../../../data/store/user/userActions";
 import {
-    Button,
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TableRow,
-    Container,
-    withStyles } from '@material-ui/core';
+    List, ListItem, ListItemText,
+    Grid, Typography, Button,
+    Hidden, Container, withStyles
+} from '@material-ui/core';
 import { usersPageStyle } from "./UsersPage.style";
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 
@@ -34,7 +29,7 @@ class UsersPage extends Component {
     }
 
     renderRows() {
-        const { userList } = this.props;
+        const { userList, classes } = this.props;
 
         if (!userList || !userList.length) {
             return null;
@@ -42,13 +37,29 @@ class UsersPage extends Component {
 
         return userList.map((user) => {
             return (
-                <TableRow style={{cursor: 'pointer'}} key={user.userId} onClick={() => this.props.history.push(`/users/${user.userId}`)}>
-                    <TableCell align="left">{user.firstName}</TableCell>
-                    <TableCell align="left">{user.lastName}</TableCell>
-                    <TableCell align="left">{user.email}</TableCell>
-                    <TableCell align="left">{user.contactNumber}</TableCell>
-                    <TableCell align="left">{user.role.name}</TableCell>
-                </TableRow>
+                <ListItem className={classes.userListItem} divider style={{cursor: 'pointer'}} key={user.userId} onClick={() => this.props.history.push(`/users/${user.userId}`)}>
+                    <Grid container justify={'space-around'}>
+                        <Grid item xs={2}>
+                            <ListItemText primary={user.firstName} />
+                        </Grid>
+                        <Grid item xs={2}>
+                            <ListItemText primary={user.lastName}/>
+                        </Grid>
+                        <Hidden smDown>
+                            <Grid item xs={3}>
+                                <ListItemText primary={user.email}/>
+                            </Grid>
+                        </Hidden>
+                        <Hidden smDown>
+                            <Grid item xs={3}>
+                                <ListItemText primary={user.contactNumber}/>
+                            </Grid>
+                        </Hidden>
+                        <Grid item xs={2}>
+                            <ListItemText primary={user.role.name}/>
+                        </Grid>
+                    </Grid>
+                </ListItem>
             )
         })
     }
@@ -57,34 +68,45 @@ class UsersPage extends Component {
         const { classes } = this.props;
 
         return(
-            <Container className={classes.allUsers}>
-                <TableContainer>
-                    <Table className={classes.table} align="center" aria-label="simple table">
-                        <TableHead>
-                            <TableRow>
-                                <TableCell align="left">First Name</TableCell>
-                                <TableCell align="left">Last Name</TableCell>
-                                <TableCell align="left">Email</TableCell>
-                                <TableCell align="left">Contact number</TableCell>
-                                <TableCell align="left">Role</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                        {this.renderRows()}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
-                <Button
-                    type='submit'
-                    variant="outlined"
-                    color="primary"
-                    className={classes.button}
-                    component={Link}
-                    to={'/create-user'}
-                >
-                    <PersonAddIcon className={classes.addUser} />
-                    Create user
-                </Button>
+            <Container className={classes.root}>
+                <List className={classes.container}>
+                    <ListItem divider >
+                        <Grid container justify={'space-around'}>
+                            <Grid item xs={2}>
+                                <Typography variant="h6" align="left">First Name</Typography>
+                            </Grid>
+                            <Grid item xs={2}>
+                                <Typography variant="h6" align="left">Last Name</Typography>
+                            </Grid>
+                            <Hidden smDown>
+                                <Grid item xs={3}>
+                                    <Typography variant="h6" align="left">Email</Typography>
+                                </Grid>
+                            </Hidden>
+                            <Hidden smDown>
+                                <Grid item xs={3}>
+                                    <Typography variant="h6" align="left">Contact Number</Typography>
+                                </Grid>
+                            </Hidden>
+                            <Grid item xs={2}>
+                                <Typography variant="h6" align="left">Role</Typography>
+                            </Grid>
+                        </Grid>
+                    </ListItem>
+                    {this.renderRows()}
+                </List>
+                <Grid container justify={'center'} >
+                    <Button
+                        type='submit'
+                        variant="outlined"
+                        color="primary"
+                        className={classes.button}
+                        component={Link}
+                        to={'/create-user'}>
+                            <PersonAddIcon className={classes.addUser} />
+                            Create user
+                    </Button>
+                </Grid>
             </Container>
         );
     }

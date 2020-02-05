@@ -1,12 +1,12 @@
 export const usersPageStyle = (theme =>  ({
-    table: {
-        maxWidth: 800,
+    root: {
+        flexGrow: 1,
+        width: '85%',
         marginTop: theme.spacing(10),
-        alignItems: 'center',
     },
-    submit: {
-        margin: theme.spacing(3, 0, 2),
-        alignItems: 'center'
+    container: {
+        display: 'flex',
+        flexWrap: 'wrap',
     },
     button: {
         margin: theme.spacing(3, 10, 2),
@@ -15,9 +15,14 @@ export const usersPageStyle = (theme =>  ({
     addUser: {
         margin: theme.spacing(0, 1, 0, 0)
     },
-    allUsers: {
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
+    userListItem: {
+        '&:nth-child(odd)': {
+            backgroundColor: '#efefef',
+        },
+        '&:hover': {
+            backgroundColor: '#cecece',
+            transitionDuration: '0.3s',
+            transitionTimingFunction: 'linear',
+        }
     },
 }));
