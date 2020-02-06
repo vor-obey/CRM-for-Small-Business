@@ -2,7 +2,7 @@ import { USER_URLS } from "../constants/urls";
 import CRUDService from "./CRUDService";
 import {addParamsToUrl} from "../utils/helpers";
 
-class ClientsService extends CRUDService {
+class CustomerService extends CRUDService {
     constructor(){
         super(USER_URLS.CUSTOMERS)
 
@@ -15,6 +15,14 @@ class ClientsService extends CRUDService {
             return e;
         }
     };
+
+    async getCustomerById(id) {
+        try {
+            return await this.findOneById(id);
+        } catch (e) {
+            return e;
+        }
+    }
 
     async postCustomer() {
         try {
@@ -41,4 +49,4 @@ class ClientsService extends CRUDService {
     };
 }
 
-export default new ClientsService();
+export default new CustomerService();

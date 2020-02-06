@@ -62,15 +62,6 @@ export const ShippingDetails = (props) => {
       setIsWarehouseOpen(prevState => !prevState);
    }, []);
 
-   const onCityClose = useCallback(() => {
-      setIsCityOpen(prevState => !prevState);
-      setWarehouseOptions([]);
-   }, []);
-
-   const onWarehouseClose = useCallback(() => {
-      setIsWarehouseOpen(prevState => !prevState);
-   }, []);
-
    return (
       <>
          <Grid
@@ -84,7 +75,7 @@ export const ShippingDetails = (props) => {
                onInputChangedHandler={onCityInputChangedHandler}
                onSelectHandler={onCitySelect}
                onToggle={onCityToggle}
-               onClose={onCityClose}
+               onClose={onCityToggle}
                options={cityOptions}
                isOpen={isCityOpen}
                isLoading={isCityLoading}
@@ -101,7 +92,7 @@ export const ShippingDetails = (props) => {
             <CustomAutocomplete
                onSelectHandler={onWarehouseSelect}
                onToggle={onWarehouseToggle}
-               onClose={onWarehouseClose}
+               onClose={onWarehouseToggle}
                options={warehouseOptions}
                isOpen={isWarehouseOpen}
                label='warehouse'

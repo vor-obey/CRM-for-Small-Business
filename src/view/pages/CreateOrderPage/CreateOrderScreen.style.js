@@ -3,10 +3,7 @@ export const CreateOrderScreenStyle = (theme => ({
             marginTop: theme.spacing(3)
          },
          paper: {
-            width: '90%',
-            paddingLeft: theme.spacing(2),
-            paddingRight: theme.spacing(2),
-            paddingBottom: theme.spacing(2),
+            padding: theme.spacing(2),
          },
          form: {
             width: '100%',
@@ -14,9 +11,9 @@ export const CreateOrderScreenStyle = (theme => ({
             display: 'flex',
             flexWrap: 'wrap'
          },
-         textOrder: {
+        heading: {
             paddingBottom: 5,
-            textAlign: 'center'
+            textAlign: 'left'
          },
          inputPrice: {
             marginLeft: theme.spacing(3),
@@ -59,8 +56,7 @@ export const CreateOrderScreenStyle = (theme => ({
             marginTop: theme.spacing(4),
          },
          gridCustomers: {
-            marginTop: theme.spacing(1),
-            marginBottom: theme.spacing(2),
+            marginTop: theme.spacing(2),
          },
          customersComplete: {
             marginTop: theme.spacing(1),
