@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { loadUsers } from "../../../data/store/user/userThunkAction";
 import { setNewUserCreated } from "../../../data/store/user/userActions";
 import {
-    List, ListItem, ListItemText,
+    List, ListItem,
     Grid, Typography, Button,
     Hidden, Container, withStyles
 } from '@material-ui/core';
@@ -38,25 +38,35 @@ class UsersPage extends Component {
         return userList.map((user) => {
             return (
                 <ListItem className={classes.userListItem} divider style={{cursor: 'pointer'}} key={user.userId} onClick={() => this.props.history.push(`/users/${user.userId}`)}>
-                    <Grid container justify={'space-around'}>
-                        <Grid item xs={2}>
-                            <ListItemText primary={user.firstName} />
+                    <Grid container justify={'space-between'} alignItems={'flex-start'}>
+                        <Grid item xs={4} md={2}>
+                            <Typography className={classes.userItem} display="block" variant="body2" textAlign="justify">
+                                {user.firstName}
+                            </Typography>
                         </Grid>
-                        <Grid item xs={2}>
-                            <ListItemText primary={user.lastName}/>
+                        <Grid item xs={4} md={2}>
+                            <Typography className={classes.userItem} display="block" variant="body2" textAlign="left" >
+                                {user.lastName}
+                            </Typography>
                         </Grid>
                         <Hidden smDown>
-                            <Grid item xs={3}>
-                                <ListItemText primary={user.email}/>
+                            <Grid item xs={3} md={2}>
+                                <Typography className={classes.userItem} display="block" variant="body2" textAlign="left">
+                                    {user.email}
+                                </Typography>
                             </Grid>
                         </Hidden>
                         <Hidden smDown>
-                            <Grid item xs={3}>
-                                <ListItemText primary={user.contactNumber}/>
+                            <Grid item xs={3} md={2}>
+                                <Typography className={classes.userItem} display="block" variant="body2" textAlign="left">
+                                    {user.contactNumber}
+                                </Typography>
                             </Grid>
                         </Hidden>
-                        <Grid item xs={2}>
-                            <ListItemText primary={user.role.name}/>
+                        <Grid item xs={4} md={2}>
+                            <Typography className={classes.userItem} display="block" variant="body2" textAlign="left">
+                                {user.role.name}
+                            </Typography>
                         </Grid>
                     </Grid>
                 </ListItem>
@@ -71,25 +81,35 @@ class UsersPage extends Component {
             <Container className={classes.root}>
                 <List className={classes.container}>
                     <ListItem divider >
-                        <Grid container justify={'space-around'}>
-                            <Grid item xs={2}>
-                                <Typography variant="h6" align="left">First Name</Typography>
+                        <Grid container justify={'space-between'} alignItems={'center'}>
+                            <Grid item xs={4} md={2}>
+                                <Typography className={classes.userItem} variant="body1" textAlign="left">
+                                    First Name
+                                </Typography>
                             </Grid>
-                            <Grid item xs={2}>
-                                <Typography variant="h6" align="left">Last Name</Typography>
+                            <Grid item xs={4} md={2}>
+                                <Typography className={classes.userItem} variant="body1" textAlign="left">
+                                    Last Name
+                                </Typography>
                             </Grid>
                             <Hidden smDown>
-                                <Grid item xs={3}>
-                                    <Typography variant="h6" align="left">Email</Typography>
+                                <Grid item xs={3} md={2}>
+                                    <Typography className={classes.userItem} variant="body1" textAlign="left">
+                                        Email
+                                    </Typography>
                                 </Grid>
                             </Hidden>
                             <Hidden smDown>
-                                <Grid item xs={3}>
-                                    <Typography variant="h6" align="left">Contact Number</Typography>
+                                <Grid item xs={3} md={2}>
+                                    <Typography className={classes.userItem} variant="body1" textAlign="left">
+                                        Contact Number
+                                    </Typography>
                                 </Grid>
                             </Hidden>
-                            <Grid item xs={2}>
-                                <Typography variant="h6" align="left">Role</Typography>
+                            <Grid item xs={4} md={2}>
+                                <Typography className={classes.userItem} variant="body1" textAlign="left">
+                                    Role
+                                </Typography>
                             </Grid>
                         </Grid>
                     </ListItem>
@@ -103,8 +123,8 @@ class UsersPage extends Component {
                         className={classes.button}
                         component={Link}
                         to={'/create-user'}>
-                            <PersonAddIcon className={classes.addUser} />
-                            Create user
+                        <PersonAddIcon className={classes.addUser} />
+                        Create user
                     </Button>
                 </Grid>
             </Container>
