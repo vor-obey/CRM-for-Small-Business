@@ -20,12 +20,12 @@ export const Profile = (props) => {
          <Container  className={classes.container}>
             <Box className={classes.textWrapper}>
                <Box className={classes.userName}>
-                  <Typography variant='h7'>
+                  <Typography className={classes.userName}>
                      {`${currentUser.firstName} ${currentUser.lastName}`}
                   </Typography>
                </Box>
                <Box className={classes.orgName}>
-                  <Typography variant='h7'>
+                  <Typography className={classes.orgName}>
                      {currentUser.organization.name}
                   </Typography>
                </Box>

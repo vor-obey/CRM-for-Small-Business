@@ -53,7 +53,7 @@ function Drawer(props) {
                 <Divider variant="inset" component="li" />
                 <ListItem button
                           component={Link}
-                          to="/"
+                          to="/create-order"
                           selected={isActive('/#')}>
                     <ListItemIcon><PlusIcon /></ListItemIcon>
                     <ListItemText>Create order</ListItemText>

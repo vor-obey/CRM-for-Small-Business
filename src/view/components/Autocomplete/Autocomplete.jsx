@@ -17,7 +17,6 @@ export const CustomAutocomplete = (props) => {
     } = props;
     return (
         <Autocomplete
-            style={{width: 300}}
             open={isOpen}
             onOpen={onToggle}
             onClose={onClose}
