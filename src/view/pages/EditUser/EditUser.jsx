@@ -2,7 +2,6 @@ import React, {useCallback, useEffect, useState} from 'react';
 import {useParams} from 'react-router-dom';
 import {SaveUserForm} from '../../components/SaveUser/SaveUserForm';
 import {UserService} from "../../../services";
-import {isEmpty} from 'lodash';
 
 export const EditUser = () => {
     const {id} = useParams();
@@ -11,8 +10,9 @@ export const EditUser = () => {
 
     useEffect(() => {
         const fetchData = async (id) => {
-            const userDetails = await UserService.findOneById(id);
-            setUserDetails(userDetails);
+            const response = await UserService.findOneById(id);
+            const {orders, organization, role: {roleId}, ...userDetails} = response;
+            setUserDetails({roleId, ...userDetails});
 
             const roles = await UserService.getRoles();
             setRoles(roles);
@@ -23,24 +23,17 @@ export const EditUser = () => {
 
 
     const onSubmitHandler = useCallback((userInput) => {
-        console.log(userInput);
-    }, []);
+        console.log({...userInput, userId: id});
+    }, [id]);
 
     return (
-        // todo refactor
-        <>
-            {
-                !isEmpty(userDetails) && !isEmpty(roles) ? (
-                    <SaveUserForm
-                        onSubmit={onSubmitHandler}
-                        titleText="Edit User"
-                        buttonText="Edit"
-                        userDetails={userDetails}
-                        roles={roles}
-                        isEdit={true}
-                    />
-                ) : null
-            }
-        </>
+        <SaveUserForm
+            onSubmit={onSubmitHandler}
+            titleText="Edit User"
+            buttonText="Edit"
+            userDetails={userDetails}
+            roles={roles}
+            isEdit={true}
+        />
     );
 };

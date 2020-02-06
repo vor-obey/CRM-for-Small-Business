@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState,useEffect} from 'react';
 import {
     Avatar, Container,
     CssBaseline,
@@ -23,12 +23,13 @@ export const SaveUserForm = (props) => {
     } = props;
 
     const classes = useStyles();
+
     const [userDetailsInputs, setUserDetailsInputs] = useState({
-        firstName: (userDetails && userDetails.firstName) || '',
-        lastName: (userDetails && userDetails.lastName) || '',
-        middleName: (userDetails && userDetails.middleName) || '',
-        contactNumber: (userDetails && userDetails.contactNumber) || '',
-        roleId: '',
+        firstName: '',
+        lastName: '',
+        middleName: '',
+        contactNumber: '',
+        roleId: ''
     });
     const [userCredentials, setUserCredentials] = useState({
         email: '',
@@ -36,6 +37,10 @@ export const SaveUserForm = (props) => {
         confirmPassword: '',
     });
     const [showPassword, setShowPassword] = useState(false);
+
+    useEffect(() => {
+        setUserDetailsInputs(userDetails);
+    }, [userDetails]);
 
     const handleClickShowPassword = () => {
         setShowPassword(prevState => !prevState)
