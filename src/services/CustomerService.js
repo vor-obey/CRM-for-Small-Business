@@ -16,6 +16,7 @@ class CustomerService extends CRUDService {
         }
     };
 
+
     async getCustomerById(id) {
         try {
             return await this.findOneById(id);
