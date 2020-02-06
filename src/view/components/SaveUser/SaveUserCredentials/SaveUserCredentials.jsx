@@ -1,9 +1,15 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {FormControl, Grid, IconButton, InputAdornment, InputLabel, OutlinedInput, TextField} from "@material-ui/core";
-import Visibility from "@material-ui/core/SvgIcon/SvgIcon";
-import {VisibilityOff} from "@material-ui/icons";
+import {Visibility, VisibilityOff} from "@material-ui/icons";
 
 export const SaveUserCredentials = (props) => {
+
+    const {
+        onChangedInput,
+        credentials,
+        showPassword,
+        toggleShowPassword
+    } = props;
 
     return (
         <Grid container spacing={2}>
@@ -13,8 +19,8 @@ export const SaveUserCredentials = (props) => {
                     name={"email"}
                     variant={"outlined"}
                     type="email"
-                    value={userCredentials.email}
-                    onChange={onChangeHandler}
+                    value={credentials.email}
+                    onChange={onChangedInput}
                     required
                     fullWidth
                 />
@@ -26,18 +32,21 @@ export const SaveUserCredentials = (props) => {
                         label={"Password"}
                         name={"password"}
                         type={showPassword ? 'text' : 'password'}
-                        value={userCredentials.password}
-                        onChange={onChangeHandler}
+                        value={credentials.password}
+                        onChange={onChangedInput}
                         labelWidth={85}
                         fullWidth
                         endAdornment={
                             <InputAdornment position="end">
                                 <IconButton
                                     aria-label="toggle password visibility"
-                                    onClick={handleClickShowPassword}
+                                    onClick={toggleShowPassword}
                                     size='small'
                                     edge='end'>
-                                    {showPassword ? <Visibility fontSize='small'/> : <VisibilityOff fontSize='small'/>}
+                                    {showPassword ?
+                                        <Visibility fontSize='small'/>
+                                        : <VisibilityOff fontSize='small'/>
+                                    }
                                 </IconButton>
                             </InputAdornment>
                         }
@@ -52,8 +61,8 @@ export const SaveUserCredentials = (props) => {
                         name={"confirmPassword"}
                         placeholder={"Repeat Password *"}
                         type={showPassword ? 'text' : 'password'}
-                        value={userCredentials.confirmPassword}
-                        onChange={onChangeHandler}
+                        value={credentials.confirmPassword}
+                        onChange={onChangedInput}
                         labelWidth={145}
                         required
                         fullWidth
@@ -61,7 +70,7 @@ export const SaveUserCredentials = (props) => {
                             <InputAdornment position="end">
                                 <IconButton
                                     aria-label="toggle password visibility"
-                                    onClick={handleClickShowPassword}
+                                    onClick={toggleShowPassword}
                                     size='small'
                                     edge='end'>
                                     {showPassword ? <Visibility fontSize='small'/> : <VisibilityOff fontSize='small'/>}

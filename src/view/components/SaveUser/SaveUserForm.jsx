@@ -6,8 +6,8 @@ import {
 } from "@material-ui/core";
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import {saveUserStyle} from './SaveUser.style';
-import {SaveUserCredentials} from "./SaveUserCredentialsForm/SaveUserCredentials";
-import {SaveUserDetailsForm} from "./SaveUserDetailsForm/SaveUserDetails";
+import {SaveUserCredentials} from "./SaveUserCredentials/SaveUserCredentials";
+import {SaveUserDetails} from "./SaveUserDetails/SaveUserDetails";
 import Button from "@material-ui/core/Button";
 
 const useStyles = makeStyles(saveUserStyle);
@@ -18,11 +18,11 @@ export const SaveUserForm = (props) => {
         titleText,
         buttonText,
         isEdit,
-        roles
+        roles,
+        onSubmit
     } = props;
 
     const classes = useStyles();
-
     const [userDetailsInputs, setUserDetailsInputs] = useState({
         firstName: (userDetails && userDetails.firstName) || '',
         lastName: (userDetails && userDetails.lastName) || '',
@@ -41,7 +41,7 @@ export const SaveUserForm = (props) => {
         setShowPassword(prevState => !prevState)
     };
 
-    const onChangedInput = (event) => {
+    const onChangedInputDetails = (event) => {
         const {name, value} = event.target;
         setUserDetailsInputs(prevState => {
             return {
@@ -49,6 +49,22 @@ export const SaveUserForm = (props) => {
                 [name]: value
             }
         })
+    };
+
+    const onChangedInputCredentials = (event) => {
+        const {name, value} = event.target;
+        setUserCredentials(prevState => {
+            return {
+                ...prevState,
+                [name]: value
+            }
+        })
+    };
+
+    const onSubmitForm = (event) => {
+      event.preventDefault();
+      const input = isEdit ? userDetailsInputs : {...userDetailsInputs, ...userCredentials};
+      onSubmit(input);
     };
 
     return (
@@ -61,17 +77,19 @@ export const SaveUserForm = (props) => {
                 <Typography component="h1" variant="h5">
                     {titleText}
                 </Typography>
-                <form className={classes.form}>
-                    <SaveUserDetailsForm
+                <form className={classes.form} onSubmit={onSubmitForm}>
+                    <SaveUserDetails
                         roles={roles}
                         userDetails={userDetailsInputs}
-                        onChangedInput={onChangedInput}
+                        onChangedInput={onChangedInputDetails}
                         classes={classes}
                     />
                     {!isEdit ?
                         <SaveUserCredentials
                             showPassword={showPassword}
                             toggleShowPassword={handleClickShowPassword}
+                            onChangedInput={onChangedInputCredentials}
+                            credentials={userCredentials}
                         /> : null}
                     <Button
                         className={classes.submit}

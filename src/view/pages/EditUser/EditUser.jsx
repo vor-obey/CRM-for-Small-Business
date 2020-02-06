@@ -22,12 +22,12 @@ export const EditUser = () => {
     }, [id]);
 
 
-    const onSubmitHandler = useCallback((event, userInput) => {
-        event.preventDefault();
+    const onSubmitHandler = useCallback((userInput) => {
         console.log(userInput);
     }, []);
 
     return (
+        // todo refactor
         <>
             {
                 !isEmpty(userDetails) && !isEmpty(roles) ? (

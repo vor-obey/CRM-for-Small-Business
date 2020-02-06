@@ -6,7 +6,7 @@ import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
 import NumberFormat from "react-number-format";
 
-export const SaveUserDetailsForm = (props) => {
+export const SaveUserDetails = (props) => {
     const {
         roles,
         onChangedInput,
