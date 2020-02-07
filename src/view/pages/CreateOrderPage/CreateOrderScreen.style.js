@@ -95,7 +95,13 @@ export const CreateOrderScreenStyle = (theme => ({
          },
          submit: {
             margin: theme.spacing(3, 0, 2),
-         }
+         },
+         selectSource: {
+            marginTop: theme.spacing(1),
+         },
+         gridManager: {
+            marginBottom: theme.spacing(2),
+         },
       }
    ))
 ;

@@ -6,6 +6,7 @@ import {CustomerFormTemp} from "./CreateCustomer/CustomerFormTemp";
 import {ManagerForm} from "./ManagerForm/ManagerForm";
 import CustomerService from "../../../services/CustomerService";
 import UserService from "../../../services/UserService";
+import SourcesService from "../../../services/SourcesService";
 
 const useStyles = makeStyles(CreateOrderScreenStyle);
 
@@ -34,7 +35,8 @@ const CreateOrderPage = () => {
       name: "",
       contactNumber: "",
       contactEmail: "",
-      details: ""
+      details: "",
+      sourceId: 'c7b1a81c-ebfa-4dc1-9420-41ffcf2569d5'
    });
    const [managerDetails, setManagerDetails] = useState({
       userId: "",
@@ -44,18 +46,30 @@ const CreateOrderPage = () => {
       email: "",
       contactNumber: ""
    });
+   const [open, setOpen] = useState(false);
+   const [sources, setSources] = useState([]);
    const [managers, setManagers] = useState([]);
    const [customers, setCustomers] = useState([]);
 
-   useEffect(() => {
-      const fetchData = async () => {
-         const customers = await CustomerService.list();
-         setCustomers(customers);
+   console.log(customerDetails);
 
-         const managers = await UserService.list();
-         setManagers(managers);
-      };
-      fetchData();
+   useEffect(() => {
+      (async function () {
+         try {
+            const [customers, managers, sources] = await Promise.all(
+               [
+                  CustomerService.list(),
+                  UserService.list(),
+                  SourcesService.list()
+               ]
+            );
+            setCustomers(customers);
+            setManagers(managers);
+            setSources(sources);
+         } catch (e) {
+            console.log(e);
+         }
+      })()
    }, []);
 
    const onChangedProductInput = event => {
@@ -78,6 +92,11 @@ const CreateOrderPage = () => {
       });
    };
 
+
+   const handleClose = () => {
+      setOpen(false);
+   };
+
    const onCustomerSelectHandler = async customer => {
       if (!customer) {
          setCustomerDetails({
@@ -86,10 +105,14 @@ const CreateOrderPage = () => {
             name: "",
             contactNumber: "",
             contactEmail: "",
-            details: ""
+            details: "",
+            sourceId: 'c7b1a81c-ebfa-4dc1-9420-41ffcf2569d5'
          });
       } else {
-         setCustomerDetails(customer);
+         setCustomerDetails({
+            ...customer,
+            sourceId: 'c7b1a81c-ebfa-4dc1-9420-41ffcf2569d5'
+         });
       }
    };
 
@@ -109,20 +132,24 @@ const CreateOrderPage = () => {
       }
    };
 
-   console.log(managerDetails);
+   const onSubmitClicked = (e) => {
+      e.preventDefault();
+      console.log('hello')
+   };
 
    return (
       <Container maxWidth='lg' className={classes.root}>
          <Grid container>
             <Grid container item>
                <Paper className={classes.paper}>
-                  <form>
+                  <form onSubmit={onSubmitClicked}>
                      <Grid container item xl={12}>
                         <ProductForm
                            classes={classes}
                            currencies={currencies}
                            onChangedInput={onChangedProductInput}
                            productDetails={productDetails}
+                           onClose={handleClose}
                         />
                      </Grid>
                      <Grid container item xl={12}>
@@ -133,29 +160,28 @@ const CreateOrderPage = () => {
                            customerDetails={customerDetails}
                            onSelectHandler={onCustomerSelectHandler}
                            onChangedInput={onChangedCustomerInput}
+                           sources={sources}
                         />
                      </Grid>
                      <Grid container item xl={12}>
                         <ManagerForm
+                           open={open}
                            managers={managers}
                            classes={classes}
                            autocompleteBreakpoints={autocompleteBreakpoints}
-                           onSelectHandler={onManagerSelectHandler}
                         />
                      </Grid>
+                     <Button
+                        fullWidth
+                        className={classes.submit}
+                        type={"submit"}
+                        variant={"contained"}
+                        color={"primary"}
+                     >
+                        Create Order
+                     </Button>
                   </form>
                </Paper>
-            </Grid>
-            <Grid item lg={6} md={6} sm={6} xs={12} className={classes.gridButton}>
-               <Button
-                  fullWidth
-                  className={classes.submit}
-                  type={"submit"}
-                  variant={"contained"}
-                  color={"primary"}
-               >
-                  Create Order
-               </Button>
             </Grid>
          </Grid>
       </Container>

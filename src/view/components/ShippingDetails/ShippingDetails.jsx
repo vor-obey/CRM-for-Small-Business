@@ -28,27 +28,27 @@ export const ShippingDetails = (props) => {
       } else {
          setIsCityLoading(true);
          const response = await fetchCities(value);
-         setCityOptions(response.data);
+         setCityOptions(response.data.map(co => ({title: co.DescriptionRu, ref: co.Ref})));
          setIsCityLoading(false);
       }
    }, [fetchCities]);
 
    const onCitySelect = useCallback(async item => {
       if (!item) {
-         dispatch(setCity({}));
+         dispatch(setCity(null));
          dispatch(setWarehouse({}));
          setWarehouseOptions([]);
          setCityOptions([]);
       } else {
-         dispatch(setCity({description: item.Description, ref: item.Ref}));
-         const response = await OrderService.getNovaPoshtaWarehouses(item.Ref);
-         setWarehouseOptions(response.data);
+         dispatch(setCity({description: item.title, ref: item.ref}));
+         const response = await OrderService.getNovaPoshtaWarehouses(item.ref);
+         setWarehouseOptions(response.data.map(co => ({title: co.DescriptionRu, ref: co.Ref})));
       }
    }, [dispatch]);
 
    const onWarehouseSelect = useCallback(async (item) => {
       if (!item) {
-         dispatch(setWarehouse({}));
+         dispatch(setWarehouse(null));
       } else {
          dispatch(setWarehouse({description: item.Description, ref: item.Ref}));
       }
@@ -79,7 +79,8 @@ export const ShippingDetails = (props) => {
                options={cityOptions}
                isOpen={isCityOpen}
                isLoading={isCityLoading}
-               label='city'
+               primaryText="title"
+               label="city"
             />
          </Grid>
          <Grid
@@ -95,7 +96,8 @@ export const ShippingDetails = (props) => {
                onClose={onWarehouseToggle}
                options={warehouseOptions}
                isOpen={isWarehouseOpen}
-               label='warehouse'
+               primaryText="title"
+               label="warehouse"
                disabled={warehouseOptions.length === 0}
             />
          </Grid>

@@ -1,11 +1,12 @@
 import React, {useState} from "react";
-import {Divider, Grid, Typography} from "@material-ui/core";
+import {Divider, Grid, Typography, Select, MenuItem} from "@material-ui/core";
 import {CustomAutocomplete} from "../../../components/Autocomplete/Autocomplete";
 
 export const ManagerForm = (props) => {
    const {
+      classes,
       managers,
-      onSelectHandler
+      onSelectHandlerManager,
    } = props;
 
    const [isOpen, setIsOpen] = useState(false);
@@ -16,25 +17,27 @@ export const ManagerForm = (props) => {
 
    return (
       <>
-         <Grid item xl={12} xs={12}>
-            <Typography  variant='h6'>
+         <Grid item xl={12} xs={12} className={classes.gridManager}>
+            <Typography variant='h6'>
                Manager
             </Typography>
             <Divider/>
          </Grid>
-         <Grid item lg={12} xs={2} >
-            <CustomAutocomplete
-               isOpen={isOpen}
-               options={managers}
-               isLoading={!managers.length}
-               onToggle={onToggle}
-               onClose={onToggle}
-               onSelectHandler={onSelectHandler}
-               inputLabel='Select Manager'
-               primaryText='firstName'
-               secondaryText='lastName'
-               optionKey='userId'
-            />
+         <Grid item lg={12} xs={12}>
+            <Grid item>
+               <CustomAutocomplete
+                  isOpen={isOpen}
+                  options={managers}
+                  isLoading={!managers.length}
+                  onToggle={onToggle}
+                  onClose={onToggle}
+                  onSelectHandler={onSelectHandlerManager}
+                  inputLabel='Select Manager'
+                  primaryText='firstName'
+                  secondaryText='lastName'
+                  optionKey='userId'
+               />
+            </Grid>
          </Grid>
       </>
    );
