@@ -27,7 +27,7 @@ export const EditUser = () => {
         const {roleId, ...user} = userInput;
         const response = await UserService.update({userId: id, ...user});
         if (response.success) {
-            history.push('/users');
+            history.goBack();
         } else {
             console.log('error');
         }
