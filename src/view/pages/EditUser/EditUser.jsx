@@ -2,6 +2,8 @@ import React, {useCallback, useEffect, useState} from 'react';
 import {useParams} from 'react-router-dom';
 import {SaveUserForm} from '../../components/SaveUser/SaveUserForm';
 import {UserService} from "../../../services";
+import {history} from "../../../utils/history";
+
 
 export const EditUser = () => {
     const {id} = useParams();
@@ -23,7 +25,17 @@ export const EditUser = () => {
 
 
     const onSubmitHandler = useCallback((userInput) => {
-        console.log({...userInput, userId: id});
+        const {roleId, ...user} = userInput;
+        UserService.update({...user})
+            .then(res => {
+                if (res.success) {
+                    history.push('/users');
+                }
+            })
+            .catch(e => {
+                console.log(e);
+            });
+
     }, [id]);
 
     return (

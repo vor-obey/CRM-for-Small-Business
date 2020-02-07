@@ -25,14 +25,22 @@ export const CreateUser = (props) => {
         setIsOpen(false);
     };
 
-    const onSubmitHandler = useCallback((userInput) => {
-        const {confirmPassword, ...user} = userInput;
-        if (user.password !== confirmPassword) {
-            setErrorMessage(`Password doesn't match`);
-            setIsOpen(true);
-            return;
+    const onSubmitHandler = useCallback(async (userInput) => {
+        try {
+            const {confirmPassword, ...user} = userInput;
+            if (user.password !== confirmPassword) {
+                setErrorMessage(`Password doesn't match`);
+                setIsOpen(true);
+                return;
+            }
+            console.log(confirmPassword, user);
+
+            await UserService.create()
+        } catch (e) {
+            return e;
         }
-        console.log(confirmPassword, user);
+
+
     }, []);
 
     console.log(isOpen, errorMessage);

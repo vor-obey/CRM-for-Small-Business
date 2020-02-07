@@ -63,7 +63,7 @@ export const SaveUserCredentials = (props) => {
                         type={showPassword ? 'text' : 'password'}
                         value={credentials.confirmPassword}
                         onChange={onChangedInput}
-                        labelWidth={145}
+                        labelWidth={200}
                         required
                         fullWidth
                         endAdornment={
