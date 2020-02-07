@@ -4,7 +4,6 @@ import {SaveUserForm} from '../../components/SaveUser/SaveUserForm';
 import {UserService} from "../../../services";
 import {history} from "../../../utils/history";
 
-
 export const EditUser = () => {
     const {id} = useParams();
     const [userDetails, setUserDetails] = useState({});
@@ -24,18 +23,14 @@ export const EditUser = () => {
     }, [id]);
 
 
-    const onSubmitHandler = useCallback((userInput) => {
+    const onSubmitHandler = useCallback(async (userInput) => {
         const {roleId, ...user} = userInput;
-        UserService.update({...user})
-            .then(res => {
-                if (res.success) {
-                    history.push('/users');
-                }
-            })
-            .catch(e => {
-                console.log(e);
-            });
-
+        const response = await UserService.update({userId: id, ...user});
+        if (response.success) {
+            history.push('/users');
+        } else {
+            console.log('error');
+        }
     }, [id]);
 
     return (

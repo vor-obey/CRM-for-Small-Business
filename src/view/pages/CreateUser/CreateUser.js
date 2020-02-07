@@ -1,13 +1,10 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {SaveUserForm} from '../../components/SaveUser/SaveUserForm';
 import {UserService} from "../../../services";
-import {Snackbar} from "@material-ui/core";
-import Alert from "@material-ui/lab/Alert";
+import {history} from "../../../utils/history";
 
-export const CreateUser = (props) => {
+export const CreateUser = () => {
     const [roles, setRoles] = useState([]);
-    const [isOpen, setIsOpen] = useState(false);
-    const [errorMessage, setErrorMessage] = useState('');
 
     useEffect(() => {
         const fetchRoles = async () => {
@@ -17,52 +14,23 @@ export const CreateUser = (props) => {
         fetchRoles();
     }, []);
 
-    const onClosedHandler = (event, reason) => {
-        if (reason === 'clickaway') {
-            return;
+    const onSubmitHandler = useCallback( async (userInput) => {
+        const {confirmPassword, ...user} = userInput;
+        const response = await UserService.create(user);
+        if (response) {
+            history.push('/users');
+        } else {
+            console.log('error');
         }
-        setErrorMessage('');
-        setIsOpen(false);
-    };
-
-    const onSubmitHandler = useCallback(async (userInput) => {
-        try {
-            const {confirmPassword, ...user} = userInput;
-            if (user.password !== confirmPassword) {
-                setErrorMessage(`Password doesn't match`);
-                setIsOpen(true);
-                return;
-            }
-            console.log(confirmPassword, user);
-
-            await UserService.create()
-        } catch (e) {
-            return e;
-        }
-
-
     }, []);
 
-    console.log(isOpen, errorMessage);
-
     return (
-        <>
-            <SaveUserForm
-                onSubmit={onSubmitHandler}
-                titleText="Create User"
-                buttonText="Create"
-                roles={roles}
-                isEdit={false}
-            />
-            <Snackbar
-                open={isOpen}
-                autoHideDuration={6000}
-                onClose={onClosedHandler}
-            >
-                <Alert onClose={onClosedHandler} severity='error'>
-                    {errorMessage}
-                </Alert>
-            </Snackbar>
-        </>
+        <SaveUserForm
+            onSubmit={onSubmitHandler}
+            titleText="Create User"
+            buttonText="Create"
+            roles={roles}
+            isEdit={false}
+        />
     );
 };

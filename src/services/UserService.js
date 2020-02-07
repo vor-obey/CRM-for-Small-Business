@@ -49,6 +49,14 @@ class UserService extends CRUDService {
         }
     };
 
+    async create(body) {
+        try {
+            return await this.create({body})
+        } catch (e) {
+            return e;
+        }
+    };
+
     async deleteUser(id) {
         try {
             return await this.APIService.apiDelete('/users');
