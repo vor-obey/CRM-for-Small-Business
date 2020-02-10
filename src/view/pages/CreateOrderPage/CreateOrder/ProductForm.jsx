@@ -1,5 +1,5 @@
 import React from "react";
-import {Divider, Grid, Select, TextField, Typography} from "@material-ui/core";
+import {Divider, Grid, TextField, Typography} from "@material-ui/core";
 
 export const ProductForm = (props) => {
    const {
@@ -8,8 +8,6 @@ export const ProductForm = (props) => {
       onChangedInput,
       productDetails,
    } = props;
-
-
 
    return (
       <>
@@ -34,7 +32,6 @@ export const ProductForm = (props) => {
          </Grid>
          <Grid item xl={3} lg={3} sm={3}>
             <TextField
-               className={classes.inputQuantity}
                required
                autoFocus
                label='Quantity'

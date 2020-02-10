@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {Divider, Grid, Select, TextField, Typography} from "@material-ui/core";
+import {Divider, Grid, Select, TextField, Typography, FormControl} from "@material-ui/core";
 import NumberFormat from "react-number-format";
 import {ShippingDetails} from "../../../components/ShippingDetails/ShippingDetails";
 import {CustomAutocomplete} from "../../../components/Autocomplete/Autocomplete";
@@ -12,7 +12,8 @@ export const CustomerFormTemp = (props) => {
       onSelectHandler,
       customerDetails,
       onChangedInput,
-      sources
+      sources,
+      methods
    } = props;
    const [isOpen, setIsOpen] = useState(false);
 
@@ -25,13 +26,24 @@ export const CustomerFormTemp = (props) => {
          return null;
       }
 
-      return sources.map(source => {
+      return sources.map(sources => {
          return (
-            <option key={source.sourceId} value={source.sourceId}>{source.name}</option>
+            <option key={sources.sourceId} value={sources.sourceId}>{sources.name}</option>
          );
       })
    };
 
+   const renderMethods = () => {
+      if (!methods || !methods.length) {
+         return null;
+      }
+
+      return methods.map(methods => {
+         return (
+            <option key={methods.shippingMethodId} value={methods.shippingMethodId}>{methods.name}</option>
+         );
+      })
+   };
    return (
       <>
          <Grid item xl={12} xs={12}>
@@ -53,6 +65,11 @@ export const CustomerFormTemp = (props) => {
                secondaryText='username'
                optionKey='customerId'
             />
+         </Grid>
+         <Grid item xl={12} xs={12}>
+            <Typography className={classes.heading} variant='h6'>
+               Or create new one
+            </Typography>
          </Grid>
          <Grid item lg={3} md={4} sm={6} xs={12}>
             <TextField
@@ -121,18 +138,20 @@ export const CustomerFormTemp = (props) => {
             />
          </Grid>
          <Grid item lg={12} xs={12}>
-            <Select
-               native
-               name='sourceId'
-               className={classes.selectSource}
-               variant="outlined"
-               fullWidth
-               onChange={onChangedInput}
-               value={customerDetails.sourceId}
-               required
-            >
-               {renderSources()}
-            </Select>
+            <FormControl fullWidth lg={12} xs={12}>
+               <Select
+                  native
+                  name='sourceId'
+                  className={classes.selectSource}
+                  variant="outlined"
+                  fullWidth
+                  onChange={onChangedInput}
+                  value={customerDetails.sourceId}
+                  required
+               >
+                  {renderSources()}
+               </Select>
+            </FormControl>
          </Grid>
          <ShippingDetails
             breakPoints={autocompleteBreakpoints}
@@ -141,6 +160,21 @@ export const CustomerFormTemp = (props) => {
                warehouse: classes.warehouseAutocomplete
             }}
          />
+         <Grid item lg={12} xs={12}>
+            <FormControl fullWidth lg={12} xs={12}>
+               <Select
+                  native
+                  name='shippingMethodId'
+                  className={classes.selectSource}
+                  variant="outlined"
+                  fullWidth
+                  value={methods.shippingMethodId}
+                  required
+               >
+                  {renderMethods()}
+               </Select>
+            </FormControl>
+         </Grid>
       </>
    );
 };

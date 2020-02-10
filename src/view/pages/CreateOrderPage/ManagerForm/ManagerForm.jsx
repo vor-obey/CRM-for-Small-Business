@@ -1,12 +1,12 @@
 import React, {useState} from "react";
-import {Divider, Grid, Typography, Select, MenuItem} from "@material-ui/core";
+import {Divider, Grid, Typography} from "@material-ui/core";
 import {CustomAutocomplete} from "../../../components/Autocomplete/Autocomplete";
 
 export const ManagerForm = (props) => {
    const {
       classes,
       managers,
-      onSelectHandlerManager,
+      onSelectHandler,
    } = props;
 
    const [isOpen, setIsOpen] = useState(false);
@@ -31,7 +31,7 @@ export const ManagerForm = (props) => {
                   isLoading={!managers.length}
                   onToggle={onToggle}
                   onClose={onToggle}
-                  onSelectHandler={onSelectHandlerManager}
+                  onSelectHandler={onSelectHandler}
                   inputLabel='Select Manager'
                   primaryText='firstName'
                   secondaryText='lastName'

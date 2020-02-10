@@ -11,8 +11,9 @@ export const CreateOrderScreenStyle = (theme => ({
             display: 'flex',
             flexWrap: 'wrap'
          },
-        heading: {
+         heading: {
             paddingBottom: 5,
+            paddingTop: 5,
             textAlign: 'left'
          },
          inputPrice: {
@@ -91,7 +92,7 @@ export const CreateOrderScreenStyle = (theme => ({
             marginTop: theme.spacing(3),
          },
          inputDetails: {
-           paddingRight: theme.spacing(10)
+            paddingRight: theme.spacing(10)
          },
          submit: {
             margin: theme.spacing(3, 0, 2),
