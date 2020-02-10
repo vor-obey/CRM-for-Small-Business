@@ -39,33 +39,33 @@ export const UsersPage = (props) => {
         return userList.map((user) => {
             return (
                 <ListItem className={classes.userBlock} divider style={{cursor: 'pointer'}} key={user.userId} onClick={() => navigateToUserDetails(user.userId)}>
-                    <Grid container justify={'space-between'} alignItems={'flex-start'}>
+                    <Grid container className={classes.userListContainer}>
                         <Grid item xs={4} md={2}>
-                            <Typography className={classes.userItem} display="block" variant="body2" align="justify">
+                            <Typography className={classes.userItem} variant={'body2'}>
                                 {user.firstName}
                             </Typography>
                         </Grid>
                         <Grid item xs={4} md={2}>
-                            <Typography className={classes.userItem} display="block" variant="body2" align="left" >
+                            <Typography className={classes.userItem} variant={'body2'}>
                                 {user.lastName}
                             </Typography>
                         </Grid>
                         <Hidden smDown>
                             <Grid item xs={3} md={2}>
-                                <Typography className={classes.userItem} display="block" variant="body2" align="left">
+                                <Typography className={classes.userItem} variant={'body2'}>
                                     {user.email}
                                 </Typography>
                             </Grid>
                         </Hidden>
                         <Hidden smDown>
                             <Grid item xs={3} md={2}>
-                                <Typography className={classes.userItem} display="block" variant="body2" align="left">
+                                <Typography className={classes.userItem} variant={'body2'}>
                                     {user.contactNumber}
                                 </Typography>
                             </Grid>
                         </Hidden>
                         <Grid item xs={4} md={2}>
-                            <Typography className={classes.userItem} display="block" variant="body2" align="left">
+                            <Typography className={classes.userItem} variant={'body2'}>
                                 {user.role.name}
                             </Typography>
                         </Grid>
@@ -79,33 +79,33 @@ export const UsersPage = (props) => {
         <Container className={classes.root}>
             <List className={classes.container}>
                 <ListItem divider >
-                    <Grid container justify={'space-between'} alignItems={'center'}>
+                    <Grid container className={classes.userListContainer}>
                         <Grid item xs={4} md={2}>
-                            <Typography className={classes.userItem} variant="body1" align="left">
+                            <Typography className={classes.userItemTitle}>
                                 First Name
                             </Typography>
                         </Grid>
                         <Grid item xs={4} md={2}>
-                            <Typography className={classes.userItem} variant="body1" align="left">
+                            <Typography className={classes.userItemTitle}>
                                 Last Name
                             </Typography>
                         </Grid>
                         <Hidden smDown>
                             <Grid item xs={3} md={2}>
-                                <Typography className={classes.userItem} variant="body1" align="left">
+                                <Typography className={classes.userItemTitle}>
                                     Email
                                 </Typography>
                             </Grid>
                         </Hidden>
                         <Hidden smDown>
                             <Grid item xs={3} md={2}>
-                                <Typography className={classes.userItem} variant="body1" align="left">
+                                <Typography className={classes.userItemTitle}>
                                     Contact Number
                                 </Typography>
                             </Grid>
                         </Hidden>
                         <Grid item xs={4} md={2}>
-                            <Typography className={classes.userItem} variant="body1" align="left">
+                            <Typography className={classes.userItemTitle}>
                                 Role
                             </Typography>
                         </Grid>

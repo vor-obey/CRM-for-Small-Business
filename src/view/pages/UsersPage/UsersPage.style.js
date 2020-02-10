@@ -27,7 +27,18 @@ export const usersPageStyle = (theme =>  ({
             transitionTimingFunction: 'linear',
         }
     },
+    userListContainer: {
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    },
     userItem: {
         paddingRight: '4px',
-    }
+        display: 'block',
+        textAlign: 'left',
+    },
+    userItemTitle: {
+        paddingRight: '4px',
+        textAlign: 'left',
+        variant: 'body1',
+    },
 }));
