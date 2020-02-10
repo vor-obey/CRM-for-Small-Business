@@ -8,7 +8,6 @@ import {
     List,
     Fab,
     ListItem,
-    ListItemText,
     Grid,
 } from "@material-ui/core";
 import { loadUser, deleteUser } from "../../../data/store/user/userThunkAction";
@@ -62,71 +61,72 @@ class UserDetailsPage extends Component{
 
     renderUserDetails() {
         const { userDetails, classes } = this.props;
+
         if (userDetails) {
             return (
-                <Grid container item xs={12} className={classes.list}>
-                    <List>
-                        <ListItem>
-                            <ListItemText>
-                                <Typography variant="overline">
-                                    First Name
-                                </Typography>
-                                <Typography variant="h6" component="h6">
-                                    {userDetails.firstName}
-                                </Typography>
-                            </ListItemText>
-                        </ListItem>
-                        <ListItem>
-                            <ListItemText>
-                                <Typography variant="overline">
-                                    Last Name
-                                </Typography>
-                                <Typography variant="h6" component="h6">
-                                    {userDetails.lastName}
-                                </Typography>
-                            </ListItemText>
-                        </ListItem>
-                        <ListItem>
-                            <ListItemText>
-                                <Typography variant="overline">
-                                    Middle Name
-                                </Typography>
-                                <Typography variant="h6" component="h6">
-                                    {userDetails.middleName}
-                                </Typography>
-                            </ListItemText>
-                        </ListItem>
-                    </List>
-                    <List>
-                        <ListItem>
-                            <ListItemText>
-                                <Typography variant="overline">
-                                    Email Address
-                                </Typography>
-                                <Typography variant="h6" component="h6">
-                                    {userDetails.email}
-                                </Typography>
-                            </ListItemText>
-                        </ListItem>
-                        <ListItem>
-                            <ListItemText>
-                                <Typography variant="overline">
-                                    Contact number
-                                </Typography>
-                                <Typography variant="h6" component="h6">
-                                    {userDetails.contactNumber}
-                                </Typography>
-                            </ListItemText>
-                        </ListItem>
-                        <ListItem>
-                            <ListItemText>
-                                <Typography variant="overline">
-                                    Role
-                                </Typography>
-                                <Typography variant="h6" component="h6">
-                                    {userDetails.role.name}
-                                </Typography>
-                            </ListItemText>
+                <Grid className={classes.root}>
+                    <List className={classes.containerList}>
+                        <ListItem className={classes.container}>
+                            <Grid
+                                item
+                                direction={'column'}
+                                justify={'space-around'}
+                                xs={12} sm={6}>
+                                <Grid item xs={12} md={12} className={classes.userItem}>
+                                    <Typography variant="h6">
+                                        First Name
+                                    </Typography>
+                                    <Typography variant="body1">
+                                        {userDetails.firstName}
+                                    </Typography>
+                                </Grid>
+                                <Grid item xs={12} md={12} className={classes.userItem}>
+                                    <Typography variant="h6">
+                                        Last Name
+                                    </Typography>
+                                    <Typography variant="body1">
+                                        {userDetails.lastName}
+                                    </Typography>
+                                </Grid>
+                                <Grid item xs={12} md={12} className={classes.userItem}>
+                                    <Typography variant="h6">
+                                        Middle Name
+                                    </Typography>
+                                    <Typography variant="body1">
+                                        {userDetails.middleName}
+                                    </Typography>
+                                </Grid>
+                            </Grid>
+                            <Grid
+                                item
+                                justify={'space-around'}
+                                direction={'column'}
+                                xs={12} sm={6}>
+                                <Grid item xs={12} md={12} className={classes.userItem}>
+                                    <Typography variant="h6">
+                                        Email Address
+                                    </Typography>
+                                    <Typography variant="body1">
+                                        {userDetails.email}
+                                    </Typography>
+                                </Grid>
+                                <Grid item xs={12} md={12} className={classes.userItem} >
+                                    <Typography variant="h6">
+                                        Contact number
+                                    </Typography>
+                                    <Typography variant="body1">
+                                        {userDetails.contactNumber}
+                                    </Typography>
+                                </Grid>
+                                <Grid item xs={12} md={12} className={classes.userItem}>
+                                    <Typography variant="h6">
+                                        Role
+                                    </Typography>
+                                    <Typography variant="body1">
+                                        {userDetails.role.name}
+                                    </Typography>
+                                </Grid>
+                            </Grid>
                         </ListItem>
                     </List>
                 </Grid>
@@ -147,7 +147,7 @@ class UserDetailsPage extends Component{
                           justify={'flex-start'}>
                         <Grid container item xs={12}
                               justify={'center'}>
-                            <Typography variant="h4" className={classes.title} align="center" gutterBottom>
+                            <Typography variant="h4" className={classes.title} textAlign="center" gutterBottom>
                                 User Details
                             </Typography>
                         </Grid>
