@@ -1,11 +1,10 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import { Link } from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
 import {Button, Container, List, ListItem, Grid, Typography, Hidden, makeStyles} from '@material-ui/core';
 import { usersPageStyle } from "./UsersPage.style";
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import {UserService} from "../../../services";
-import {setNewUserCreated} from "../../../data/store/user/userActions";
 
 const useStyles = makeStyles(usersPageStyle);
 
@@ -13,19 +12,16 @@ export const UsersPage = (props) => {
 
     const classes = useStyles();
     const dispatch = useDispatch();
-    const isNewUserCreated = useSelector(state => state.userReducer.isNewUserCreated);
     const [userList, setUserList] = useState([]);
 
-    // todo refactor to optimize renders
     useEffect(() => {
         const fetchUsers = async () => {
             const response = await UserService.list();
             setUserList(response);
-            dispatch(setNewUserCreated(false))
         };
 
         fetchUsers();
-    }, [dispatch, isNewUserCreated]);
+    }, [dispatch]);
 
     const navigateToUserDetails = useCallback((userId) => {
         props.history.push(`/users/${userId}`)

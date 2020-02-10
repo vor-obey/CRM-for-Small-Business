@@ -25,7 +25,7 @@ export const EditUser = () => {
 
     const onSubmitHandler = useCallback(async (userInput) => {
         const {roleId, ...user} = userInput;
-        const response = await UserService.update({userId: id, ...user});
+        const response = await UserService.update({userId: id, ...user, roleId});
         if (response.success) {
             history.goBack();
         } else {
