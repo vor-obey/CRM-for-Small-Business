@@ -12,24 +12,26 @@ export const CustomAutocomplete = (props) => {
         onSelectHandler,
         onToggle,
         onClose,
-        label,
-        disabled
+        inputLabel,
+        disabled,
+        optionKey,
+        primaryText,
+        secondaryText
     } = props;
     return (
         <Autocomplete
-            style={{width: 300}}
             open={isOpen}
             onOpen={onToggle}
             onClose={onClose}
-            getOptionLabel={option => option.Description}
             options={options}
             loading={isLoading}
+            getOptionLabel={option => option[primaryText]}
             disabled={disabled}
             onChange={(event, value) => onSelectHandler(value)}
             renderInput={params => (
                 <TextField
                     {...params}
-                    label={`Choose ${label}`}
+                    label={inputLabel}
                     fullWidth
                     variant="outlined"
                     onChange={onInputChangedHandler}
@@ -48,11 +50,11 @@ export const CustomAutocomplete = (props) => {
                 return (
                     <Grid container alignItems="center">
                         <Grid item xs>
-                          <span key={option.Ref}>
-                              {option.DescriptionRu}
+                          <span key={option[optionKey]}>
+                              {option[primaryText]}
                           </span>
                             <Typography variant='body2' color="textSecondary">
-                                {option.Description}
+                                {option[secondaryText]}
                             </Typography>
                         </Grid>
                     </Grid>

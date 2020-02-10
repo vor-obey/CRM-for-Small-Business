@@ -25,6 +25,7 @@ import {ForgotPassword} from "../../pages/ForgotPassword/ForgotPassword";
 import {OrdersPage} from "../../pages/OrdersPage/OrdersPage";
 import {OrderDetails} from "../../pages/OrdersPage/OrderDetails/OrderDetails";
 import {history} from "../../../utils/history";
+import CreateOrderPage from "../../pages/CreateOrderPage/CreateOrderPage";
 
 function Routing() {
     const dispatch = useDispatch();
@@ -56,6 +57,7 @@ function Routing() {
                 <PrivateRoute path='/create-shipping-details' component={ShippingDetails} />
                 <PrivateRoute path='/orders' exact component={OrdersPage} />
                 <PrivateRoute path='/orders/:id' component={OrderDetails} />
+                <PrivateRoute path='/create-order' component={CreateOrderPage}/>
                 <Route exact path='/restore_password/:token' component={RestorePassword} />
                 <Route path='/forgot_password' exact component={ForgotPassword} />
                 <Route exact path='/restore-password/:token' component={RestorePassword} />

@@ -3,8 +3,8 @@ import {
 } from "./autocompleteActionTypes";
 
 const initialState = {
-    city: {},
-    warehouse: {}
+    city: null,
+    warehouse: null
 };
 
 export const autocompleteReducer = (state = initialState, action) => {
