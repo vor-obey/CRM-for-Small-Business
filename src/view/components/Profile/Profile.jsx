@@ -20,13 +20,13 @@ export const Profile = (props) => {
          <Container  className={classes.container}>
             <Box className={classes.textWrapper}>
                <Box className={classes.userName}>
-                  <Typography variant='h7'>
+                  <Typography variant='h6'>
                      {`${currentUser.firstName} ${currentUser.lastName}`}
                   </Typography>
                </Box>
                <Box className={classes.orgName}>
-                  <Typography variant='h7'>
-                     {currentUser.organization.name}
+                  <Typography variant='h6'>
+                     {/*{currentUser.organization.name}*/}
                   </Typography>
                </Box>
             </Box>

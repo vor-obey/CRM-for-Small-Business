@@ -1,70 +1,71 @@
-import React, { Component } from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import { Link } from "react-router-dom";
-import { connect } from "react-redux";
-import { loadUsers } from "../../../data/store/user/userThunkAction";
-import { setNewUserCreated } from "../../../data/store/user/userActions";
-import {
-    List, ListItem,
-    Grid, Typography, Button,
-    Hidden, Container, withStyles
-} from '@material-ui/core';
+import {useDispatch, useSelector} from "react-redux";
+import {Button, Container, List, ListItem, Grid, Typography, Hidden, makeStyles} from '@material-ui/core';
 import { usersPageStyle } from "./UsersPage.style";
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
+import {UserService} from "../../../services";
+import {setNewUserCreated} from "../../../data/store/user/userActions";
 
-class UsersPage extends Component {
+const useStyles = makeStyles(usersPageStyle);
 
-    componentDidMount() {
-        const { loadUsers } = this.props;
-        loadUsers();
-    }
+export const UsersPage = (props) => {
 
+    const classes = useStyles();
+    const dispatch = useDispatch();
+    const isNewUserCreated = useSelector(state => state.userReducer.isNewUserCreated);
+    const [userList, setUserList] = useState([]);
 
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        const { isNewUserCreated, loadUsers, setNewUserCreated } = this.props;
+    // todo refactor to optimize renders
+    useEffect(() => {
+        const fetchUsers = async () => {
+            const response = await UserService.list();
+            setUserList(response);
+            dispatch(setNewUserCreated(false))
+        };
 
-        if (isNewUserCreated) {
-            setNewUserCreated(false);
-            loadUsers();
-        }
-    }
+        fetchUsers();
+    }, [dispatch, isNewUserCreated]);
 
-    renderRows() {
-        const { userList, classes } = this.props;
+    const navigateToUserDetails = useCallback((userId) => {
+        props.history.push(`/users/${userId}`)
+    }, [props.history]);
 
+    const renderRows = useCallback(() => {
         if (!userList || !userList.length) {
             return null;
         }
 
         return userList.map((user) => {
             return (
-                <ListItem className={classes.userListItem} divider style={{cursor: 'pointer'}} key={user.userId} onClick={() => this.props.history.push(`/users/${user.userId}`)}>
+                <ListItem className={classes.userBlock} divider style={{cursor: 'pointer'}} key={user.userId} onClick={() => navigateToUserDetails(user.userId)}>
                     <Grid container justify={'space-between'} alignItems={'flex-start'}>
                         <Grid item xs={4} md={2}>
-                            <Typography className={classes.userItem} display="block" variant="body2" textAlign="justify">
+                            <Typography className={classes.userItem} display="block" variant="body2" align="justify">
                                 {user.firstName}
                             </Typography>
                         </Grid>
                         <Grid item xs={4} md={2}>
-                            <Typography className={classes.userItem} display="block" variant="body2" textAlign="left" >
+                            <Typography className={classes.userItem} display="block" variant="body2" align="left" >
                                 {user.lastName}
                             </Typography>
                         </Grid>
                         <Hidden smDown>
                             <Grid item xs={3} md={2}>
-                                <Typography className={classes.userItem} display="block" variant="body2" textAlign="left">
+                                <Typography className={classes.userItem} display="block" variant="body2" align="left">
                                     {user.email}
                                 </Typography>
                             </Grid>
                         </Hidden>
                         <Hidden smDown>
                             <Grid item xs={3} md={2}>
-                                <Typography className={classes.userItem} display="block" variant="body2" textAlign="left">
+                                <Typography className={classes.userItem} display="block" variant="body2" align="left">
                                     {user.contactNumber}
                                 </Typography>
                             </Grid>
                         </Hidden>
                         <Grid item xs={4} md={2}>
-                            <Typography className={classes.userItem} display="block" variant="body2" textAlign="left">
+                            <Typography className={classes.userItem} display="block" variant="body2" align="left">
                                 {user.role.name}
                             </Typography>
                         </Grid>
@@ -72,82 +73,58 @@ class UsersPage extends Component {
                 </ListItem>
             )
         })
-    }
+    }, [userList, classes, navigateToUserDetails]);
 
-    render() {
-        const { classes } = this.props;
-
-        return(
-            <Container className={classes.root}>
-                <List className={classes.container}>
-                    <ListItem divider >
-                        <Grid container justify={'space-between'} alignItems={'center'}>
-                            <Grid item xs={4} md={2}>
-                                <Typography className={classes.userItem} variant="body1" textAlign="left">
-                                    First Name
-                                </Typography>
-                            </Grid>
-                            <Grid item xs={4} md={2}>
-                                <Typography className={classes.userItem} variant="body1" textAlign="left">
-                                    Last Name
-                                </Typography>
-                            </Grid>
-                            <Hidden smDown>
-                                <Grid item xs={3} md={2}>
-                                    <Typography className={classes.userItem} variant="body1" textAlign="left">
-                                        Email
-                                    </Typography>
-                                </Grid>
-                            </Hidden>
-                            <Hidden smDown>
-                                <Grid item xs={3} md={2}>
-                                    <Typography className={classes.userItem} variant="body1" textAlign="left">
-                                        Contact Number
-                                    </Typography>
-                                </Grid>
-                            </Hidden>
-                            <Grid item xs={4} md={2}>
-                                <Typography className={classes.userItem} variant="body1" textAlign="left">
-                                    Role
-                                </Typography>
-                            </Grid>
+    return(
+        <Container className={classes.root}>
+            <List className={classes.container}>
+                <ListItem divider >
+                    <Grid container justify={'space-between'} alignItems={'center'}>
+                        <Grid item xs={4} md={2}>
+                            <Typography className={classes.userItem} variant="body1" align="left">
+                                First Name
+                            </Typography>
                         </Grid>
-                    </ListItem>
-                    {this.renderRows()}
-                </List>
-                <Grid container justify={'center'} >
-                    <Button
-                        type='submit'
-                        variant="outlined"
-                        color="primary"
-                        className={classes.button}
-                        component={Link}
-                        to={'/create-user'}>
-                        <PersonAddIcon className={classes.addUser} />
-                        Create user
-                    </Button>
-                </Grid>
-            </Container>
-        );
-    }
-}
-
-const mapStateToProps = (state) => {
-    const { userList, newUser, isNewUserCreated } = state.userReducer;
-
-    return {
-        userList,
-        newUser,
-        isNewUserCreated
-    }
+                        <Grid item xs={4} md={2}>
+                            <Typography className={classes.userItem} variant="body1" align="left">
+                                Last Name
+                            </Typography>
+                        </Grid>
+                        <Hidden smDown>
+                            <Grid item xs={3} md={2}>
+                                <Typography className={classes.userItem} variant="body1" align="left">
+                                    Email
+                                </Typography>
+                            </Grid>
+                        </Hidden>
+                        <Hidden smDown>
+                            <Grid item xs={3} md={2}>
+                                <Typography className={classes.userItem} variant="body1" align="left">
+                                    Contact Number
+                                </Typography>
+                            </Grid>
+                        </Hidden>
+                        <Grid item xs={4} md={2}>
+                            <Typography className={classes.userItem} variant="body1" align="left">
+                                Role
+                            </Typography>
+                        </Grid>
+                    </Grid>
+                </ListItem>
+                {renderRows()}
+            </List>
+            <Grid container justify={'center'} >
+                <Button
+                    type='submit'
+                    variant="outlined"
+                    color="primary"
+                    className={classes.button}
+                    component={Link}
+                    to={'/create-user'}>
+                    <PersonAddIcon className={classes.addUser} />
+                    Create user
+                </Button>
+            </Grid>
+        </Container>
+    );
 };
-
-const mapDispatchToProps = (dispatch) => {
-    return {
-        loadUsers: () => dispatch(loadUsers()),
-        setNewUserCreated: () => dispatch(setNewUserCreated()),
-    }
-};
-
-export default withStyles(usersPageStyle)(connect(mapStateToProps, mapDispatchToProps)(UsersPage));
-

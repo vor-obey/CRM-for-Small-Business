@@ -1,80 +1,46 @@
-import React, { PureComponent } from 'react';
-import { connect } from "react-redux";
-import { editUser, loadUser } from "../../../data/store/user/userThunkAction";
-import { withStyles } from '@material-ui/core';
+import React, {useCallback, useEffect, useState} from 'react';
+import {useParams} from 'react-router-dom';
+import {SaveUserForm} from '../../components/SaveUser/SaveUserForm';
+import {UserService} from "../../../services";
+import {history} from "../../../utils/history";
 
-import { createuserStyle } from '../CreateUser/CreateUser.style.js';
-import SaveUserForm from '../../components/Form/SaveUserForm/SaveUserForm';
+export const EditUser = () => {
+    const {id} = useParams();
+    const [userDetails, setUserDetails] = useState({});
+    const [roles, setRoles] = useState([]);
+
+    useEffect(() => {
+        const fetchData = async (id) => {
+            const response = await UserService.findOneById(id);
+            const {orders, organization, role: {roleId}, ...userDetails} = response;
+            setUserDetails({roleId, ...userDetails});
+
+            const roles = await UserService.getRoles();
+            setRoles(roles);
+        };
+
+        fetchData(id);
+    }, [id]);
 
 
-class EditUser extends PureComponent {
-    constructor(props) {
-        super(props);
-
-        this.onSubmitHandler = this.onSubmitHandler.bind(this);
-    }
-
-    onSubmitHandler(userInput) {
-        const {
-            confirmPassword,
-
-            roleId,
-            ...user
-        } = userInput;
-
-        const userId = this.props.match.params.id;
-        if (user.password === confirmPassword && userId) {
-            user.userId = userId;
-            this.props.editUser(user);
-            this.props.history.goBack();
+    const onSubmitHandler = useCallback(async (userInput) => {
+        const {roleId, ...user} = userInput;
+        const response = await UserService.update({userId: id, ...user});
+        if (response.success) {
+            history.goBack();
+        } else {
+            console.log('error');
         }
-    }
+    }, [id]);
 
-    componentDidMount() {
-        const { loadUser, match} = this.props;
-        const { id } = match.params;
-
-        loadUser(id);
-    }
-
-    render() {
-        return (
-            <div>
-                {
-                    this.props.userDetails ? (
-                        <SaveUserForm
-                            onSubmit={this.onSubmitHandler}
-                            titleText="Edit User"
-                            submitText="Edit"
-                            userDetails={this.props.userDetails}
-                            disabled={true}
-                            // fill={this.preFill}
-                        />
-                    ) : null
-                }
-            </div>
-        );
-    }
-}
-
-
-
-const mapStateToProps = (state) => {
-    const {userDetails, user} = state.userReducer;
-
-    return {
-        userDetails,
-        user
-    }
+    return (
+        <SaveUserForm
+            onSubmit={onSubmitHandler}
+            titleText="Edit User"
+            buttonText="Edit"
+            userDetails={userDetails}
+            roles={roles}
+            isEdit={true}
+        />
+    );
 };
-
-const mapDispatchToProps = (dispatch) => {
-    return {
-        editUser: (user) => {
-            dispatch(editUser(user));
-        },
-        loadUser: (id) => dispatch(loadUser(id)),
-    }
-};
-
-export default withStyles(createuserStyle)(connect(mapStateToProps, mapDispatchToProps)(EditUser));

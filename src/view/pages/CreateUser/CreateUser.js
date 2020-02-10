@@ -1,57 +1,36 @@
-import React, { PureComponent } from 'react';
-import { connect } from "react-redux";
-import { postUser, loadUsers } from "../../../data/store/user/userThunkAction";
-import { withStyles } from '@material-ui/core';
+import React, {useCallback, useEffect, useState} from 'react';
+import {SaveUserForm} from '../../components/SaveUser/SaveUserForm';
+import {UserService} from "../../../services";
+import {history} from "../../../utils/history";
 
-import { createuserStyle } from './CreateUser.style.js';
-import SaveUserForm from '../../components/Form/SaveUserForm/SaveUserForm';
+export const CreateUser = () => {
+    const [roles, setRoles] = useState([]);
 
+    useEffect(() => {
+        const fetchRoles = async () => {
+            const roles = await UserService.getRoles();
+            setRoles(roles);
+        };
+        fetchRoles();
+    }, []);
 
-class CreateUser extends PureComponent {
-    constructor(props) {
-        super(props);
-
-        this.onSubmitHandler = this.onSubmitHandler.bind(this);
-    }
-
-    onSubmitHandler(userInput) {
-        const {
-            confirmPassword,
-            ...user
-        } = userInput;
-        const { history } = this.props;
-        if (user.password === confirmPassword) {
-            this.props.postUser(user);
+    const onSubmitHandler = useCallback( async (userInput) => {
+        const {confirmPassword, ...user} = userInput;
+        const response = await UserService.create(user);
+        if (response) {
             history.push('/users');
-
+        } else {
+            console.log('error');
         }
-    }
+    }, []);
 
-
-    render() {
-
-        return (
-            <div>
-                <SaveUserForm
-                    titleText="Create user"
-                    onSubmit={this.onSubmitHandler}
-                    submitText="Add new user"
-                />
-            </div>
-        );
-    }
-}
-
-
-const mapDispatchToProps = (dispatch) => {
-    return {
-        postUser: (user) => {
-            dispatch(postUser(user));
-        },
-        loadUsers: () => {
-            dispatch(loadUsers());
-        }
-    }
+    return (
+        <SaveUserForm
+            onSubmit={onSubmitHandler}
+            titleText="Create User"
+            buttonText="Create"
+            roles={roles}
+            isEdit={false}
+        />
+    );
 };
-
-export default withStyles(createuserStyle)(connect(null, mapDispatchToProps)(CreateUser));

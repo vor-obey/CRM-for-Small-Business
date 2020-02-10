@@ -16,7 +16,7 @@ export const usersPageStyle = (theme =>  ({
     addUser: {
         margin: theme.spacing(0, 1, 0, 0)
     },
-    userListItem: {
+    userBlock: {
         wordWrap: 'break-word',
         '&:nth-child(odd)': {
             backgroundColor: '#efefef',
