@@ -4,7 +4,7 @@ export const profileStyles = (theme => ({
       justifyContent: 'flex-end',
       position: 'absolute',
       right: 0,
-      height: '100%'
+      height: '100%',
    },
    textWrapper: {
       display: 'flex',

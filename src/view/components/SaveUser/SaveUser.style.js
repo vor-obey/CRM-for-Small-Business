@@ -1,4 +1,4 @@
-export const saveUserFormStyle = (theme =>  ({
+export const saveUserStyle = (theme =>  ({
     paper: {
         marginTop: theme.spacing(4),
         display: 'flex',
