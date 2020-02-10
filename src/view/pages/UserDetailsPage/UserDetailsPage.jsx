@@ -53,6 +53,7 @@ export const UserDetailsPage = (props) => {
         history.push(`${id}/edit`);
     }, [id, props]);
 
+
     const renderUserDetails = useCallback(() => {
         if (isEmpty(userDetails)) {
             return null;

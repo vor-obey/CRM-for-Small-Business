@@ -1,16 +1,7 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import { Link } from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {
-    Button,
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TableRow,
-    Container,
-    makeStyles } from '@material-ui/core';
+import {Button, Container, List, ListItem, Grid, Typography, Hidden, makeStyles} from '@material-ui/core';
 import { usersPageStyle } from "./UsersPage.style";
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import {UserService} from "../../../services";
@@ -36,6 +27,10 @@ export const UsersPage = (props) => {
         fetchUsers();
     }, [dispatch, isNewUserCreated]);
 
+    const navigateToUserDetails = useCallback((userId) => {
+        props.history.push(`/users/${userId}`)
+    }, [props.history]);
+
     const renderRows = useCallback(() => {
         if (!userList || !userList.length) {
             return null;
@@ -43,46 +38,93 @@ export const UsersPage = (props) => {
 
         return userList.map((user) => {
             return (
-                <TableRow style={{cursor: 'pointer'}} key={user.userId} onClick={() => props.history.push(`/users/${user.userId}`)}>
-                    <TableCell align="left">{user.firstName}</TableCell>
-                    <TableCell align="left">{user.lastName}</TableCell>
-                    <TableCell align="left">{user.email}</TableCell>
-                    <TableCell align="left">{user.contactNumber}</TableCell>
-                    <TableCell align="left">{user.role.name}</TableCell>
-                </TableRow>
+                <ListItem className={classes.userBlock} divider style={{cursor: 'pointer'}} key={user.userId} onClick={() => navigateToUserDetails(user.userId)}>
+                    <Grid container justify={'space-between'} alignItems={'flex-start'}>
+                        <Grid item xs={4} md={2}>
+                            <Typography className={classes.userItem} display="block" variant="body2" align="justify">
+                                {user.firstName}
+                            </Typography>
+                        </Grid>
+                        <Grid item xs={4} md={2}>
+                            <Typography className={classes.userItem} display="block" variant="body2" align="left" >
+                                {user.lastName}
+                            </Typography>
+                        </Grid>
+                        <Hidden smDown>
+                            <Grid item xs={3} md={2}>
+                                <Typography className={classes.userItem} display="block" variant="body2" align="left">
+                                    {user.email}
+                                </Typography>
+                            </Grid>
+                        </Hidden>
+                        <Hidden smDown>
+                            <Grid item xs={3} md={2}>
+                                <Typography className={classes.userItem} display="block" variant="body2" align="left">
+                                    {user.contactNumber}
+                                </Typography>
+                            </Grid>
+                        </Hidden>
+                        <Grid item xs={4} md={2}>
+                            <Typography className={classes.userItem} display="block" variant="body2" align="left">
+                                {user.role.name}
+                            </Typography>
+                        </Grid>
+                    </Grid>
+                </ListItem>
             )
         })
-    }, [userList, props.history]);
+    }, [userList, classes, navigateToUserDetails]);
 
     return(
-        <Container className={classes.allUsers}>
-            <TableContainer>
-                <Table className={classes.table} align="center" aria-label="simple table">
-                    <TableHead>
-                        <TableRow>
-                            <TableCell align="left">First Name</TableCell>
-                            <TableCell align="left">Last Name</TableCell>
-                            <TableCell align="left">Email</TableCell>
-                            <TableCell align="left">Contact number</TableCell>
-                            <TableCell align="left">Role</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {renderRows()}
-                    </TableBody>
-                </Table>
-            </TableContainer>
-            <Button
-                type='submit'
-                variant="outlined"
-                color="primary"
-                className={classes.button}
-                component={Link}
-                to={'/create-user'}
-            >
-                <PersonAddIcon className={classes.addUser} />
-                Create user
-            </Button>
+        <Container className={classes.root}>
+            <List className={classes.container}>
+                <ListItem divider >
+                    <Grid container justify={'space-between'} alignItems={'center'}>
+                        <Grid item xs={4} md={2}>
+                            <Typography className={classes.userItem} variant="body1" align="left">
+                                First Name
+                            </Typography>
+                        </Grid>
+                        <Grid item xs={4} md={2}>
+                            <Typography className={classes.userItem} variant="body1" align="left">
+                                Last Name
+                            </Typography>
+                        </Grid>
+                        <Hidden smDown>
+                            <Grid item xs={3} md={2}>
+                                <Typography className={classes.userItem} variant="body1" align="left">
+                                    Email
+                                </Typography>
+                            </Grid>
+                        </Hidden>
+                        <Hidden smDown>
+                            <Grid item xs={3} md={2}>
+                                <Typography className={classes.userItem} variant="body1" align="left">
+                                    Contact Number
+                                </Typography>
+                            </Grid>
+                        </Hidden>
+                        <Grid item xs={4} md={2}>
+                            <Typography className={classes.userItem} variant="body1" align="left">
+                                Role
+                            </Typography>
+                        </Grid>
+                    </Grid>
+                </ListItem>
+                {renderRows()}
+            </List>
+            <Grid container justify={'center'} >
+                <Button
+                    type='submit'
+                    variant="outlined"
+                    color="primary"
+                    className={classes.button}
+                    component={Link}
+                    to={'/create-user'}>
+                    <PersonAddIcon className={classes.addUser} />
+                    Create user
+                </Button>
+            </Grid>
         </Container>
     );
 };
