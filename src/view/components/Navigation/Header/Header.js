@@ -3,12 +3,11 @@ import {useSelector} from "react-redux";
 import {
    AppBar,
    Toolbar,
-   makeStyles, Snackbar
+   makeStyles
 } from '@material-ui/core';
 import Drawer from "../Drawer/Drawer";
 import { Profile } from '../../Profile/Profile';
 import ProgressBar from '../../ProgressBar/ProgressBar';
-import Alert from "@material-ui/lab/Alert";
 
 const useStyles = makeStyles(theme => ({
    root: {
@@ -27,14 +26,6 @@ function Header() {
    const loading = useSelector(state => state.userReducer.loading);
    const currentUser = useSelector(state => state.userReducer.currentUser);
 
-   const onClosedHandler = (event, reason) => {
-      if (reason === 'clickaway') {
-         return;
-      }
-      setErrorMessage('');
-      setIsOpen(false);
-   };
-
    return (
       <div className={classes.root}>
          <AppBar position="static">
@@ -44,16 +35,6 @@ function Header() {
             <Profile currentUser={currentUser}/>
          </AppBar>
          <ProgressBar isLoading={loading}/>
-         <Snackbar
-             anchorOrigin={{vertical: top, }}
-             open={isOpen}
-             autoHideDuration={6000}
-             onClose={onClosedHandler}
-         >
-            <Alert onClose={onClosedHandler} severity='error'>
-               {errorMessage}
-            </Alert>
-         </Snackbar>
       </div>
    );
 }
