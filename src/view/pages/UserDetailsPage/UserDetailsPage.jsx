@@ -53,6 +53,7 @@ export const UserDetailsPage = (props) => {
         history.push(`${id}/edit`);
     }, [id, props]);
 
+
     const renderUserDetails = useCallback(() => {
         if (isEmpty(userDetails)) {
             return null;
@@ -61,39 +62,32 @@ export const UserDetailsPage = (props) => {
     }, [classes, userDetails]);
 
     return(
-        <Container component="main" className={classes.allUsers}>
+        <Container component="main" className={classes.userDetailsContainer}>
             <Paper className={classes.paper}>
-                <Grid container item xs={12}
-                      alignContent={'center'}
-                      direction={'column'}
-                      justify={'flex-start'}>
-                    <Grid container item xs={12}
-                          justify={'center'}>
-                        <Typography variant="h4" className={classes.title} align="center" gutterBottom>
+                <Grid container item xs={12} className={classes.userGrid}>
+                    <Grid item xs={12}>
+                        <Typography variant="h5" className={classes.title}>
                             User Details
                         </Typography>
                     </Grid>
                     <Grid container item xs={12}>
                         {renderUserDetails()}
                     </Grid>
-                    <Grid  container item xs={12}
-                           alignContent={'center'}
-                           justify={'center'}>
+                    <Grid container item xs={12} className={classes.buttonContainer}>
                         <Fab
+                            className={classes.buttonFab}
+                            onClick={handleClickEdit}
                             color="primary"
                             aria-label="edit"
-                            size="small"
-                            className={classes.fab}
-                            onClick={handleClickEdit}>
+                            size="small">
                             <EditIcon />
                         </Fab>
                         <Fab
-                            color="primary"
-                            aria-label="edit"
-                            size="small"
-                            className={classes.fab}
+                            className={classes.buttonFab}
                             onClick={handleOpenDialog}
-                        >
+                            color="primary"
+                            aria-label="delete"
+                            size="small">
                             <DeleteIcon />
                         </Fab>
                     </Grid>

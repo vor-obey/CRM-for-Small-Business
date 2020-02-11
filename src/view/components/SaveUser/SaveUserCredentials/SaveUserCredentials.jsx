@@ -25,8 +25,8 @@ export const SaveUserCredentials = (props) => {
                     fullWidth
                 />
             </Grid>
-            <Grid item xs={6}>
-                <FormControl variant="outlined" required>
+            <Grid item  sm={6} xs={12}>
+                <FormControl variant="outlined" required fullWidth>
                     <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
                     <OutlinedInput
                         label={"Password"}
@@ -53,9 +53,9 @@ export const SaveUserCredentials = (props) => {
                     />
                 </FormControl>
             </Grid>
-            <Grid item xs={6}>
-                <FormControl variant="outlined" required>
-                    <InputLabel htmlFor="outlined-adornment-password">Repeat Password </InputLabel>
+            <Grid item sm={6} xs={12}>
+                <FormControl variant="outlined" required fullWidth>
+                    <InputLabel htmlFor="outlined-adornment-password">Repeat Password</InputLabel>
                     <OutlinedInput
                         label={"Password"}
                         name={"confirmPassword"}
@@ -63,7 +63,7 @@ export const SaveUserCredentials = (props) => {
                         type={showPassword ? 'text' : 'password'}
                         value={credentials.confirmPassword}
                         onChange={onChangedInput}
-                        labelWidth={145}
+                        labelWidth={200}
                         required
                         fullWidth
                         endAdornment={

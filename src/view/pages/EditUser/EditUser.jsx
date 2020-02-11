@@ -2,7 +2,7 @@ import React, {useCallback, useEffect, useState} from 'react';
 import {useParams} from 'react-router-dom';
 import {SaveUserForm} from '../../components/SaveUser/SaveUserForm';
 import {UserService} from "../../../services";
-import {isEmpty} from 'lodash';
+import {history} from "../../../utils/history";
 
 export const EditUser = () => {
     const {id} = useParams();
@@ -11,8 +11,9 @@ export const EditUser = () => {
 
     useEffect(() => {
         const fetchData = async (id) => {
-            const userDetails = await UserService.findOneById(id);
-            setUserDetails(userDetails);
+            const response = await UserService.findOneById(id);
+            const {orders, organization, role: {roleId}, ...userDetails} = response;
+            setUserDetails({roleId, ...userDetails});
 
             const roles = await UserService.getRoles();
             setRoles(roles);
@@ -22,25 +23,24 @@ export const EditUser = () => {
     }, [id]);
 
 
-    const onSubmitHandler = useCallback((userInput) => {
-        console.log(userInput);
-    }, []);
+    const onSubmitHandler = useCallback(async (userInput) => {
+        const {roleId, ...user} = userInput;
+        const response = await UserService.update({userId: id, ...user});
+        if (response.success) {
+            history.goBack();
+        } else {
+            console.log('error');
+        }
+    }, [id]);
 
     return (
-        // todo refactor
-        <>
-            {
-                !isEmpty(userDetails) && !isEmpty(roles) ? (
-                    <SaveUserForm
-                        onSubmit={onSubmitHandler}
-                        titleText="Edit User"
-                        buttonText="Edit"
-                        userDetails={userDetails}
-                        roles={roles}
-                        isEdit={true}
-                    />
-                ) : null
-            }
-        </>
+        <SaveUserForm
+            onSubmit={onSubmitHandler}
+            titleText="Edit User"
+            buttonText="Edit"
+            userDetails={userDetails}
+            roles={roles}
+            isEdit={true}
+        />
     );
 };

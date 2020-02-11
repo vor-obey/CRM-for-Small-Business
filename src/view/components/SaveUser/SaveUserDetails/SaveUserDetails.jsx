@@ -14,6 +14,7 @@ export const SaveUserDetails = (props) => {
         classes
     } = props;
 
+
     const renderSelect = useCallback(() => {
         return roles.map((role) => {
             return (
@@ -30,7 +31,7 @@ export const SaveUserDetails = (props) => {
                     name={"firstName"}
                     variant={"outlined"}
                     type={"text"}
-                    value={userDetails.firstName}
+                    value={(userDetails && userDetails.firstName) || ''}
                     onChange={onChangedInput}
                     required
                     fullWidth
@@ -42,7 +43,7 @@ export const SaveUserDetails = (props) => {
                     name={"lastName"}
                     variant={"outlined"}
                     type={"text"}
-                    value={userDetails.lastName}
+                    value={(userDetails && userDetails.lastName) || ''}
                     onChange={onChangedInput}
                     required
                     fullWidth
@@ -52,7 +53,7 @@ export const SaveUserDetails = (props) => {
                 <TextField
                     label={"Middle Name"}
                     name={"middleName"}
-                    value={userDetails.middleName}
+                    value={(userDetails && userDetails.middleName) || ''}
                     onChange={onChangedInput}
                     variant={"outlined"}
                     required
@@ -68,7 +69,7 @@ export const SaveUserDetails = (props) => {
                     variant={"outlined"}
                     format={"+38 (###) ###-##-##"}
                     mask={"_"}
-                    value={userDetails.contactNumber}
+                    value={(userDetails && userDetails.contactNumber) || ''}
                     onChange={onChangedInput}
                     required
                     fullWidth
@@ -86,7 +87,7 @@ export const SaveUserDetails = (props) => {
                     <Select
                         native
                         name={"roleId"}
-                        value={userDetails.roleId}
+                        value={(userDetails && userDetails.roleId) || ''}
                         onChange={onChangedInput}
                         labelWidth={40}
                         required
