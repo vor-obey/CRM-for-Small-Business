@@ -19,7 +19,7 @@ export const SaveUserForm = (props) => {
         buttonText,
         isEdit,
         roles,
-        onSubmit
+        onSubmit,
     } = props;
 
     const classes = useStyles();

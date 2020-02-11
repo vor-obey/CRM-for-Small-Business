@@ -12,7 +12,7 @@ export const UserDetails = (props) => {
                     <Typography variant="body1">
                         First Name
                     </Typography>
-                    <Typography variant="body2">
+                    <Typography className={classes.userTypography} variant="body2">
                         {userDetails.firstName}
                     </Typography>
                 </Grid>
@@ -20,7 +20,7 @@ export const UserDetails = (props) => {
                     <Typography variant="body1">
                         Last Name
                     </Typography>
-                    <Typography variant="body2">
+                    <Typography className={classes.userTypography} variant="body2">
                         {userDetails.lastName}
                     </Typography>
                 </Grid>
@@ -28,7 +28,7 @@ export const UserDetails = (props) => {
                     <Typography variant="body1">
                         Middle Name
                     </Typography>
-                    <Typography variant="body2">
+                    <Typography className={classes.userTypography} variant="body2">
                         {userDetails.middleName}
                     </Typography>
                 </Grid>
@@ -38,7 +38,7 @@ export const UserDetails = (props) => {
                     <Typography variant="body1">
                         Email Address
                     </Typography>
-                    <Typography variant="body2">
+                    <Typography className={classes.userTypography} variant="body2">
                         {userDetails.email}
                     </Typography>
                 </Grid>
@@ -46,7 +46,7 @@ export const UserDetails = (props) => {
                     <Typography variant="body1">
                         Contact number
                     </Typography>
-                    <Typography variant="body2">
+                    <Typography className={classes.userTypography} variant="body2">
                         {userDetails.contactNumber}
                     </Typography>
                 </Grid>
@@ -54,7 +54,7 @@ export const UserDetails = (props) => {
                     <Typography variant="body1">
                         Role
                     </Typography>
-                    <Typography variant="body2">
+                    <Typography className={classes.userTypography} variant="body2">
                         {userDetails.role.name}
                     </Typography>
                 </Grid>

@@ -23,7 +23,7 @@ const useStyles = makeStyles(theme => ({
 
 function Header() {
    const classes = useStyles();
-   const loading = useSelector(state => state.userReducer.loading);
+   const isLoading = useSelector(state => state.auxiliaryReducer.isLoading);
    const currentUser = useSelector(state => state.userReducer.currentUser);
 
    return (
@@ -34,7 +34,7 @@ function Header() {
             </Toolbar>
             <Profile currentUser={currentUser}/>
          </AppBar>
-         <ProgressBar isLoading={loading}/>
+         <ProgressBar isLoading={isLoading}/>
       </div>
    );
 }

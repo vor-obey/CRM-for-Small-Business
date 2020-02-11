@@ -8,16 +8,16 @@ import {
     Fab,
     Grid,
 } from "@material-ui/core";
-import { deleteUser } from "../../../data/store/user/userThunkAction";
-import { userDetailsStyle } from "../UserDetailsPage/UserDetailsPage.style.js";
+import {userDetailsStyle} from "../UserDetailsPage/UserDetailsPage.style.js";
 import {useDispatch} from "react-redux";
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
-import { CustomDialog } from '../../components/CustomDialog/CustomDialog';
+import {CustomDialog} from '../../components/CustomDialog/CustomDialog';
 import {useParams} from 'react-router-dom';
 import {UserService} from "../../../services";
 import {isEmpty} from 'lodash';
 import {UserDetails} from './UserDetails/UserDetails';
+import {setIsLoading} from "../../../data/store/auxiliary/auxiliaryActions";
 
 const useStyles = makeStyles(userDetailsStyle);
 
@@ -35,17 +35,26 @@ export const UserDetailsPage = (props) => {
 
     useEffect(() => {
         const fetchUserById = async (id) => {
+            dispatch(setIsLoading(true));
             const response = await UserService.findOneById(id);
             setUserDetails(response);
+            dispatch(setIsLoading(false));
         };
 
         fetchUserById(id);
-    }, [id]);
+    }, [id, dispatch]);
 
-    const handleClickDeleteUser = useCallback(() => {
+    const handleClickDeleteUser = useCallback(async () => {
         const {history} = props;
-        dispatch(deleteUser(id));
-        history.push('/users');
+
+        dispatch(setIsLoading(true));
+        const response = await UserService.delete(id);
+        if (response.success) {
+            dispatch(setIsLoading(false));
+            history.push('/users');
+        } else {
+            dispatch(setIsLoading(false));
+        }
     }, [dispatch, id, props]);
 
     const handleClickEdit = useCallback(() => {
@@ -61,10 +70,11 @@ export const UserDetailsPage = (props) => {
         return <UserDetails userDetails={userDetails} classes={classes}/>
     }, [classes, userDetails]);
 
-    return(
+    return (
         <Container component="main" className={classes.userDetailsContainer}>
             <Paper className={classes.paper}>
                 <Grid container item xs={12} className={classes.userGrid}>
+
                     <Grid item xs={12}>
                         <Typography variant="h5" className={classes.title}>
                             User Details
@@ -80,7 +90,7 @@ export const UserDetailsPage = (props) => {
                             color="primary"
                             aria-label="edit"
                             size="small">
-                            <EditIcon />
+                            <EditIcon/>
                         </Fab>
                         <Fab
                             className={classes.buttonFab}
@@ -88,7 +98,7 @@ export const UserDetailsPage = (props) => {
                             color="primary"
                             aria-label="delete"
                             size="small">
-                            <DeleteIcon />
+                            <DeleteIcon/>
                         </Fab>
                     </Grid>
                 </Grid>

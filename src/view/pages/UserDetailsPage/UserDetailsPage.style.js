@@ -47,6 +47,9 @@ export const userDetailsStyle = (theme =>  ({
     userInfo: {
         wordWrap: 'break-word',
     },
+    userTypography: {
+        wordBreak: 'break-word'
+    },
     userDetail: {
         display: 'grid',
         justifyContent: 'space-evenly',

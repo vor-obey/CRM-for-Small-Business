@@ -36,6 +36,7 @@ export const usersPageStyle = (theme =>  ({
         display: 'block',
         textAlign: 'left',
     },
+
     userItemTitle: {
         paddingRight: '4px',
         textAlign: 'left',

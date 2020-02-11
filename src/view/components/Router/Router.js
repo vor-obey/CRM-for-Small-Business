@@ -9,7 +9,7 @@ import AuthRoute from "../../../AuthRoute";
 import PrivateRoute from "../../../PrivateRoute";
 import Login from "../../pages/Login/Login";
 import Home from "../../pages/Home/Home";
-import {CreateUser} from "../../pages/CreateUser/CreateUser";
+import {CreateUser} from "../../pages/CreateUser/CreateUser.jsx";
 import LogOut from "../../pages/LogOut/LogOut";
 import {UsersPage} from "../../pages/UsersPage/UsersPage";
 import CustomersPage from "../../pages/CustomersPage/CustomersPage";

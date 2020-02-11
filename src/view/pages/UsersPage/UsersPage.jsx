@@ -1,31 +1,31 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import { Link } from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
 import {Button, Container, List, ListItem, Grid, Typography, Hidden, makeStyles} from '@material-ui/core';
 import { usersPageStyle } from "./UsersPage.style";
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import {UserService} from "../../../services";
-import {setNewUserCreated} from "../../../data/store/user/userActions";
+import {useDispatch} from "react-redux";
+import {UserListItem} from "./UserListItem/UserListItem";
+import {setIsLoading} from "../../../data/store/auxiliary/auxiliaryActions";
 
 const useStyles = makeStyles(usersPageStyle);
 
 export const UsersPage = (props) => {
 
-    const classes = useStyles();
     const dispatch = useDispatch();
-    const isNewUserCreated = useSelector(state => state.userReducer.isNewUserCreated);
+    const classes = useStyles();
     const [userList, setUserList] = useState([]);
 
-    // todo refactor to optimize renders
     useEffect(() => {
         const fetchUsers = async () => {
+            dispatch(setIsLoading(true));
             const response = await UserService.list();
             setUserList(response);
-            dispatch(setNewUserCreated(false))
+            dispatch(setIsLoading(false));
         };
 
         fetchUsers();
-    }, [dispatch, isNewUserCreated]);
+    }, [dispatch]);
 
     const navigateToUserDetails = useCallback((userId) => {
         props.history.push(`/users/${userId}`)
@@ -35,43 +35,15 @@ export const UsersPage = (props) => {
         if (!userList || !userList.length) {
             return null;
         }
-
         return userList.map((user) => {
             return (
-                <ListItem className={classes.userBlock} divider style={{cursor: 'pointer'}} key={user.userId} onClick={() => navigateToUserDetails(user.userId)}>
-                    <Grid container className={classes.userListContainer}>
-                        <Grid item xs={4} md={2}>
-                            <Typography className={classes.userItem} variant={'body2'}>
-                                {user.firstName}
-                            </Typography>
-                        </Grid>
-                        <Grid item xs={4} md={2}>
-                            <Typography className={classes.userItem} variant={'body2'}>
-                                {user.lastName}
-                            </Typography>
-                        </Grid>
-                        <Hidden smDown>
-                            <Grid item xs={3} md={2}>
-                                <Typography className={classes.userItem} variant={'body2'}>
-                                    {user.email}
-                                </Typography>
-                            </Grid>
-                        </Hidden>
-                        <Hidden smDown>
-                            <Grid item xs={3} md={2}>
-                                <Typography className={classes.userItem} variant={'body2'}>
-                                    {user.contactNumber}
-                                </Typography>
-                            </Grid>
-                        </Hidden>
-                        <Grid item xs={4} md={2}>
-                            <Typography className={classes.userItem} variant={'body2'}>
-                                {user.role.name}
-                            </Typography>
-                        </Grid>
-                    </Grid>
-                </ListItem>
-            )
+                <UserListItem
+                    key={user.userId}
+                    user={user}
+                    classes={classes}
+                    navigateToUserDetails={navigateToUserDetails}
+                />
+            );
         })
     }, [userList, classes, navigateToUserDetails]);
 
