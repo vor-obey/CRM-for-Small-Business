@@ -68,7 +68,7 @@ export const CustomerFormTemp = (props) => {
          </Grid>
          <Grid item xl={12} xs={12}>
             <Typography className={classes.heading} variant='h6'>
-               Or create new one
+               or create new one
             </Typography>
          </Grid>
          <Grid item lg={3} md={4} sm={6} xs={12}>

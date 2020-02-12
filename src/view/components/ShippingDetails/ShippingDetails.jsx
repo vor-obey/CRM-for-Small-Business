@@ -5,7 +5,6 @@ import {setCity, setWarehouse} from "../../../data/store/autocomplete/autocomple
 import {useDispatch} from "react-redux";
 import {CustomAutocomplete} from '../Autocomplete/Autocomplete';
 
-
 export const ShippingDetails = (props) => {
    const {breakPoints, classes} = props;
    const dispatch = useDispatch();
@@ -14,6 +13,7 @@ export const ShippingDetails = (props) => {
    const [cityOptions, setCityOptions] = useState([]);
    const [warehouseOptions, setWarehouseOptions] = useState([]);
    const [isCityLoading, setIsCityLoading] = useState(false);
+   const [warehouseInput, setWarehouseInput] = useState(0);
 
    const fetchCities = useCallback(async (inputValue) => {
       return await OrderService.getNovaPoshtaCities(inputValue);
@@ -39,6 +39,7 @@ export const ShippingDetails = (props) => {
          dispatch(setWarehouse({}));
          setWarehouseOptions([]);
          setCityOptions([]);
+         setWarehouseInput(prevState => ++prevState);
       } else {
          dispatch(setCity({description: item.title, ref: item.ref}));
          const response = await OrderService.getNovaPoshtaWarehouses(item.ref);
@@ -80,7 +81,7 @@ export const ShippingDetails = (props) => {
                isOpen={isCityOpen}
                isLoading={isCityLoading}
                primaryText="title"
-               label="city"
+               inputLabel="Select City"
             />
          </Grid>
          <Grid
@@ -97,8 +98,9 @@ export const ShippingDetails = (props) => {
                options={warehouseOptions}
                isOpen={isWarehouseOpen}
                primaryText="title"
-               label="warehouse"
+               inputLabel="Select Warehouse"
                disabled={warehouseOptions.length === 0}
+               key={warehouseInput}
             />
          </Grid>
       </>

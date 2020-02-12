@@ -3,7 +3,6 @@ import {useSelector} from "react-redux";
 import {
    AppBar,
    Toolbar,
-   IconButton,
    makeStyles
 } from '@material-ui/core';
 import Drawer from "../Drawer/Drawer";
@@ -33,10 +32,8 @@ function Header() {
       <div className={classes.root}>
          <AppBar position="static">
             <Toolbar>
-               <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-                  <Drawer/>
-               </IconButton>
-               <Profile currentUser={currentUser} />
+               <Drawer/>
+               <Profile currentUser={currentUser}/>
             </Toolbar>
             <ProgressBar isLoading={loading}/>
          </AppBar>
