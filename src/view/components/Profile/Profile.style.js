@@ -10,10 +10,8 @@ export const profileStyles = (theme => ({
       },
       [theme.breakpoints.down('xs')]: {
          padding: 0,
-         position: 'static'
       },
    },
-
    textWrapper: {
       display: 'flex',
       flexDirection: 'column'
@@ -36,10 +34,7 @@ export const profileStyles = (theme => ({
    icon: {
       width: 50,
       height: '100%',
-      marginLeft: theme.spacing(1),
-      marginRight: theme.spacing(1),
-      marginTop: 'auto',
-      marginBottom: 'auto',
+      margin: `auto ${theme.spacing(1)}px`,
       [theme.breakpoints.down('xs')]: {
          width: 35,
       }

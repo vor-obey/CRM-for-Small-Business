@@ -9,6 +9,7 @@ import {
 import Drawer from "../Drawer/Drawer";
 
 import {Profile} from '../../Profile/Profile';
+import ProgressBar from "../../ProgressBar/ProgressBar";
 
 const useStyles = makeStyles(theme => ({
    root: {
@@ -37,6 +38,7 @@ function Header() {
                </IconButton>
                <Profile currentUser={currentUser} />
             </Toolbar>
+            <ProgressBar isLoading={loading}/>
          </AppBar>
       </div>
    );
