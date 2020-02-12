@@ -1,5 +1,5 @@
 import React from 'react';
-import {Snackbar } from '@material-ui/core';
+import {Snackbar, useMediaQuery, useTheme} from '@material-ui/core';
 import MuiAlert from '@material-ui/lab/Alert';
 
 function Alert(props) {
@@ -7,12 +7,13 @@ function Alert(props) {
 }
 
 export const AlertSnackbar = (props) => {
-
+    const theme = useTheme();
+    const breakpoint = useMediaQuery(theme.breakpoints.up('sm'));
     const {isOpen, errorMessage, onClose} = props;
 
     return (
         <Snackbar
-            anchorOrigin={{vertical: 'bottom', horizontal: 'right'}}
+            anchorOrigin={{vertical: (!breakpoint && 'top') || 'bottom', horizontal: (!breakpoint && 'center' ) || 'right'}}
             open={isOpen}
             autoHideDuration={4000}
             onClose={onClose}

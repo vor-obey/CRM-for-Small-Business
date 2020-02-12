@@ -3,27 +3,16 @@ import {useDispatch, useSelector} from "react-redux";
 import {
     AppBar,
     Toolbar,
-    makeStyles
+    makeStyles,
 } from '@material-ui/core';
 import Drawer from "../Drawer/Drawer";
 import {Profile} from '../../Profile/Profile';
 import ProgressBar from '../../ProgressBar/ProgressBar';
 import {AlertSnackbar} from "../../Snackbar/Snackbar";
 import {setSnackBarStatus} from "../../../../data/store/auxiliary/auxiliaryActions";
+import {headerStyle} from "./Header.style";
 
-
-// todo move styles to style.js
-const useStyles = makeStyles(theme => ({
-    root: {
-        flexGrow: 1,
-    },
-    menuButton: {
-        marginRight: theme.spacing(2),
-    },
-    title: {
-        flexGrow: 1,
-    },
-}));
+const useStyles = makeStyles(headerStyle);
 
 function Header() {
     const classes = useStyles();
