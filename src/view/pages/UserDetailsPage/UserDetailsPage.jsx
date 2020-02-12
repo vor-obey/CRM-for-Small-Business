@@ -17,7 +17,7 @@ import {useParams} from 'react-router-dom';
 import {UserService} from "../../../services";
 import {isEmpty} from 'lodash';
 import {UserDetails} from './UserDetails/UserDetails';
-import {setIsLoading} from "../../../data/store/auxiliary/auxiliaryActions";
+import {setIsLoading, setSnackBarStatus} from "../../../data/store/auxiliary/auxiliaryActions";
 
 const useStyles = makeStyles(userDetailsStyle);
 
@@ -34,14 +34,17 @@ export const UserDetailsPage = (props) => {
     }, []);
 
     useEffect(() => {
-        const fetchUserById = async (id) => {
-            dispatch(setIsLoading(true));
-            const response = await UserService.findOneById(id);
-            setUserDetails(response);
-            dispatch(setIsLoading(false));
-        };
-
-        fetchUserById(id);
+        (async function () {
+            try {
+                dispatch(setIsLoading(true));
+                const response = await UserService.findOneById(id);
+                setUserDetails(response);
+                dispatch(setIsLoading(false));
+            } catch (e) {
+                dispatch(setIsLoading(false));
+                dispatch(setSnackBarStatus({isOpen: true, errorMessage: 'Something wrong'}))
+            }
+        })()
     }, [id, dispatch]);
 
     const handleClickDeleteUser = useCallback(async () => {
@@ -54,6 +57,7 @@ export const UserDetailsPage = (props) => {
             history.push('/users');
         } else {
             dispatch(setIsLoading(false));
+            dispatch(setSnackBarStatus({isOpen: true, errorMessage: 'Something wrong'}))
         }
     }, [dispatch, id, props]);
 

@@ -1,4 +1,4 @@
-import {SET_ERROR_MESSAGE, SET_IS_LOADING, SET_IS_OPEN} from "./auxiliaryActionTypes";
+import {SET_SNACKBAR_STATUS, SET_IS_LOADING} from "./auxiliaryActionTypes";
 
 export const setIsLoading = (isLoading) => {
     return {
@@ -7,16 +7,9 @@ export const setIsLoading = (isLoading) => {
     }
 };
 
-export const setIsOpen = (isOpen) => {
+export const setSnackBarStatus = ({isOpen, errorMessage}) => {
     return {
-        type: SET_IS_OPEN,
-        isOpen
-    }
-};
-
-export const setErrorMessage = (errorMessage) => {
-    return {
-        type: SET_ERROR_MESSAGE,
-        errorMessage
+        type: SET_SNACKBAR_STATUS,
+        snackBarStatus: {isOpen, errorMessage}
     }
 };

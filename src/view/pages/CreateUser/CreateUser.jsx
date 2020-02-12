@@ -3,20 +3,23 @@ import {SaveUserForm} from '../../components/SaveUser/SaveUserForm';
 import {UserService} from "../../../services";
 import {history} from "../../../utils/history";
 import {useDispatch} from "react-redux";
-import {setIsLoading} from "../../../data/store/auxiliary/auxiliaryActions";
+import {setIsLoading, setSnackBarStatus} from "../../../data/store/auxiliary/auxiliaryActions";
 
 export const CreateUser = () => {
     const dispatch = useDispatch();
     const [roles, setRoles] = useState([]);
 
     useEffect(() => {
-        const fetchRoles = async () => {
-            dispatch(setIsLoading(true));
-            const roles = await UserService.getRoles();
-            setRoles(roles);
-            dispatch(setIsLoading(false));
-        };
-        fetchRoles();
+        (async function () {
+           try {
+               dispatch(setIsLoading(true));
+               const roles = await UserService.getRoles();
+               setRoles(roles);
+           } catch (e) {
+               dispatch(setIsLoading(false));
+               dispatch(setSnackBarStatus({isOpen: true, errorMessage: 'Something wrong'}))
+           }
+        })()
     }, [dispatch]);
 
     const onSubmitHandler = useCallback( async (userInput) => {
@@ -28,6 +31,7 @@ export const CreateUser = () => {
             history.push('/users');
         } else {
             dispatch(setIsLoading(false));
+            dispatch(setSnackBarStatus({isOpen: true, errorMessage: 'Something wrong'}))
         }
     }, [dispatch]);
 

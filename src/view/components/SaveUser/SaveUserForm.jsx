@@ -2,13 +2,12 @@ import React, {useState,useEffect} from 'react';
 import {
     Avatar, Container,
     CssBaseline,
-    Typography, makeStyles
+    Typography, Button, makeStyles
 } from "@material-ui/core";
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import {saveUserStyle} from './SaveUser.style';
 import {SaveUserCredentials} from "./SaveUserCredentials/SaveUserCredentials";
 import {SaveUserDetails} from "./SaveUserDetails/SaveUserDetails";
-import Button from "@material-ui/core/Button";
 
 const useStyles = makeStyles(saveUserStyle);
 

@@ -1,12 +1,12 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import { Link } from "react-router-dom";
+import {Link} from "react-router-dom";
 import {Button, Container, List, ListItem, Grid, Typography, Hidden, makeStyles} from '@material-ui/core';
-import { usersPageStyle } from "./UsersPage.style";
+import {usersPageStyle} from "./UsersPage.style";
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import {UserService} from "../../../services";
 import {useDispatch} from "react-redux";
 import {UserListItem} from "./UserListItem/UserListItem";
-import {setIsLoading} from "../../../data/store/auxiliary/auxiliaryActions";
+import {setIsLoading, setSnackBarStatus} from "../../../data/store/auxiliary/auxiliaryActions";
 
 const useStyles = makeStyles(usersPageStyle);
 
@@ -17,14 +17,17 @@ export const UsersPage = (props) => {
     const [userList, setUserList] = useState([]);
 
     useEffect(() => {
-        const fetchUsers = async () => {
-            dispatch(setIsLoading(true));
-            const response = await UserService.list();
-            setUserList(response);
-            dispatch(setIsLoading(false));
-        };
-
-        fetchUsers();
+        (async function () {
+            try {
+                dispatch(setIsLoading(true));
+                const response = await UserService.list();
+                setUserList(response);
+                dispatch(setIsLoading(false));
+            } catch (e) {
+                dispatch(setIsLoading(false));
+                dispatch(setSnackBarStatus({isOpen: true, errorMessage: 'Something wrong'}))
+            }
+        })()
     }, [dispatch]);
 
     const navigateToUserDetails = useCallback((userId) => {
@@ -47,10 +50,10 @@ export const UsersPage = (props) => {
         })
     }, [userList, classes, navigateToUserDetails]);
 
-    return(
+    return (
         <Container className={classes.root}>
             <List className={classes.container}>
-                <ListItem divider >
+                <ListItem divider>
                     <Grid container className={classes.userListContainer}>
                         <Grid item xs={4} md={2}>
                             <Typography className={classes.userItemTitle}>
@@ -85,7 +88,7 @@ export const UsersPage = (props) => {
                 </ListItem>
                 {renderRows()}
             </List>
-            <Grid container justify={'center'} >
+            <Grid container justify={'center'}>
                 <Button
                     type='submit'
                     variant="outlined"
@@ -93,7 +96,7 @@ export const UsersPage = (props) => {
                     className={classes.button}
                     component={Link}
                     to={'/create-user'}>
-                    <PersonAddIcon className={classes.addUser} />
+                    <PersonAddIcon className={classes.addUser}/>
                     Create user
                 </Button>
             </Grid>

@@ -4,7 +4,7 @@ import {SaveUserForm} from '../../components/SaveUser/SaveUserForm';
 import {UserService} from "../../../services";
 import {history} from "../../../utils/history";
 import {useDispatch} from "react-redux";
-import {setIsLoading} from "../../../data/store/auxiliary/auxiliaryActions";
+import {setSnackBarStatus, setIsLoading} from "../../../data/store/auxiliary/auxiliaryActions";
 
 export const EditUser = () => {
 
@@ -24,7 +24,7 @@ export const EditUser = () => {
                 dispatch(setIsLoading(false));
             } catch (e) {
                 dispatch(setIsLoading(false));
-                //    snackbar
+                dispatch(setSnackBarStatus({isOpen: true, errorMessage: 'Something wrong'}))
             }
         })()
     }, [id, dispatch]);
@@ -39,7 +39,7 @@ export const EditUser = () => {
             history.goBack();
         } else {
             dispatch(setIsLoading(false));
-            console.log('error');
+            dispatch(setSnackBarStatus({isOpen: true, errorMessage: 'Something wrong'}))
         }
     }, [id, dispatch]);
 

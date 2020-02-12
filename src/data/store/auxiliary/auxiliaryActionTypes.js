@@ -1,3 +1,2 @@
 export const SET_IS_LOADING = 'SET_IS_LOADING';
-export const SET_IS_OPEN = 'SET_IS_OPEN';
-export const SET_ERROR_MESSAGE = 'SET_ERROR_MESSAGE';
+export const SET_SNACKBAR_STATUS = 'SET_SNACKBAR_STATUS';
