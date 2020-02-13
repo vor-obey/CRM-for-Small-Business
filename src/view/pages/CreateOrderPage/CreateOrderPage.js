@@ -1,16 +1,14 @@
 import React, {useState, useEffect} from 'react';
-
-import {Formik} from 'formik';
 import {makeStyles, Button, Grid, Container, Paper} from '@material-ui/core';
 import {CreateOrderScreenStyle} from './CreateOrderScreen.style'
-import {ProductForm} from "./CreateOrder/ProductForm";
+import {ProductForm} from "./ProductForm/ProductForm";
 import {CustomerFormTemp} from "./CreateCustomer/CustomerFormTemp";
 import {ManagerForm} from "./ManagerForm/ManagerForm";
 import CustomerService from "../../../services/CustomerService";
 import UserService from "../../../services/UserService";
 import SourcesService from "../../../services/SourcesService";
 import MethodService from "../../../services/MethodsService";
-
+import {useSelector} from "react-redux";
 
 const useStyles = makeStyles(CreateOrderScreenStyle);
 
@@ -27,6 +25,9 @@ const CreateOrderPage = () => {
 
    const classes = useStyles();
 
+   const city = useSelector(state => state.autocompleteReducer.city);
+   const warehouse = useSelector(state => state.autocompleteReducer.warehouse);
+
    const [productDetails, setProductDetails] = useState({
       description: '',
       price: '',
@@ -40,22 +41,15 @@ const CreateOrderPage = () => {
       contactNumber: "",
       contactEmail: "",
       details: "",
-      sourceId: 'c7b1a81c-ebfa-4dc1-9420-41ffcf2569d5'
    });
-   const [managerDetails, setManagerDetails] = useState({
-      userId: "",
-      firstName: "",
-      lastName: "",
-      middleName: "",
-      email: "",
-      contactNumber: ""
-   });
+   const [managerId, setManagerId] = useState('');
+   const [sourceId, setSourceId] = useState('');
+   const [shippingMethodId, setShippingMethodId] = useState('');
    const [open, setOpen] = useState(false);
    const [sources, setSources] = useState([]);
    const [managers, setManagers] = useState([]);
    const [methods, setMethods] = useState([]);
    const [customers, setCustomers] = useState([]);
-
 
    useEffect(() => {
       (async function () {
@@ -98,7 +92,6 @@ const CreateOrderPage = () => {
       });
    };
 
-
    const handleClose = () => {
       setOpen(false);
    };
@@ -112,34 +105,43 @@ const CreateOrderPage = () => {
             contactNumber: "",
             contactEmail: "",
             details: "",
-            sourceId: 'c7b1a81c-ebfa-4dc1-9420-41ffcf2569d5'
          });
       } else {
          setCustomerDetails({
-            ...customer,
-            sourceId: 'c7b1a81c-ebfa-4dc1-9420-41ffcf2569d5'
+            ...customer
          });
+      }
+   };
+
+   const onSourceSelectHandler = (event) => {
+      const {value} = event.target;
+      if (!sources) {
+         setSourceId('');
+      } else {
+         setSourceId(value);
+      }
+   };
+
+   const onMethodSelectHandler = (event) => {
+      const {value} = event.target;
+      if (!methods) {
+         setShippingMethodId('');
+      } else {
+         setShippingMethodId(value);
       }
    };
 
    const onManagerSelectHandler = async manager => {
       if (!manager) {
-         setManagerDetails({
-            userId: "",
-            firstName: "",
-            lastName: "",
-            middleName: "",
-            email: "",
-            contactNumber: ""
-         });
+         setManagerId('')
       } else {
-         setManagerDetails(manager);
+         setManagerId(manager.userId);
       }
    };
 
    const onSubmitClicked = (e) => {
       e.preventDefault();
-      console.log(productDetails, customerDetails);
+      console.log({productDetails, customerDetails, managerId, city, warehouse, sourceId, shippingMethodId});
    };
 
    return (
@@ -147,53 +149,54 @@ const CreateOrderPage = () => {
          <Grid container>
             <Grid container item>
                <Paper className={classes.paper}>
-                  <Formik>
-                     <form onSubmit={onSubmitClicked}>
-                        <Grid container item xl={12}>
-                           <ProductForm
-                              classes={classes}
-                              currencies={currencies}
-                              onChangedInput={onChangedProductInput}
-                              productDetails={productDetails}
-                              onClose={handleClose}
-                              onSubmit={onSubmitClicked}
-                           />
-                        </Grid>
-                        <Grid container item xl={12}>
-                           <CustomerFormTemp
-                              classes={classes}
-                              autocompleteBreakpoints={autocompleteBreakpoints}
-                              customers={customers}
-                              customerDetails={customerDetails}
-                              onSelectHandler={onCustomerSelectHandler}
-                              onChangedInput={onChangedCustomerInput}
-                              sources={sources}
-                              methods={methods}
-                              onSubmit={onSubmitClicked}
-                           />
-                        </Grid>
-                        <Grid container item xl={12}>
-                           <ManagerForm
-                              open={open}
-                              managers={managers}
-                              classes={classes}
-                              autocompleteBreakpoints={autocompleteBreakpoints}
-                              onSelectHandler={onManagerSelectHandler}
-                              managerDetails={managerDetails}
-                              onSubmit={onSubmitClicked}
-                           />
-                        </Grid>
-                        <Button
-                           fullWidth
-                           className={classes.submit}
-                           type={"submit"}
-                           variant={"contained"}
-                           color={"primary"}
-                        >
-                           Create Order
-                        </Button>
-                     </form>
-                  </Formik>
+                  <form onSubmit={onSubmitClicked}>
+                     <Grid container item xl={12}>
+                        <ProductForm
+                           classes={classes}
+                           currencies={currencies}
+                           onChangedInput={onChangedProductInput}
+                           productDetails={productDetails}
+                           onClose={handleClose}
+                           onSubmit={onSubmitClicked}
+                        />
+                     </Grid>
+                     <Grid container item xl={12}>
+                        <CustomerFormTemp
+                           classes={classes}
+                           autocompleteBreakpoints={autocompleteBreakpoints}
+                           customers={customers}
+                           customerDetails={customerDetails}
+                           onSelectHandler={onCustomerSelectHandler}
+                           onChangedInput={onChangedCustomerInput}
+                           sources={sources}
+                           sourceId={sourceId}
+                           shippingMethodId={shippingMethodId}
+                           methods={methods}
+                           onSubmit={onSubmitClicked}
+                           onSourceSelectHandler={onSourceSelectHandler}
+                           onMethodSelectHandler={onMethodSelectHandler}
+                        />
+                     </Grid>
+                     <Grid container item xl={12}>
+                        <ManagerForm
+                           open={open}
+                           managers={managers}
+                           classes={classes}
+                           autocompleteBreakpoints={autocompleteBreakpoints}
+                           onSelectHandler={onManagerSelectHandler}
+                           onSubmit={onSubmitClicked}
+                        />
+                     </Grid>
+                     <Button
+                        fullWidth
+                        className={classes.submit}
+                        type={"submit"}
+                        variant={"contained"}
+                        color={"primary"}
+                     >
+                        Create Order
+                     </Button>
+                  </form>
                </Paper>
             </Grid>
          </Grid>

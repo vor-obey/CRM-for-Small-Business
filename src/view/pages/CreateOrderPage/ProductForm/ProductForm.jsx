@@ -30,7 +30,7 @@ export const ProductForm = (props) => {
                value={productDetails.description}
             />
          </Grid>
-         <Grid item xl={3} lg={3} sm={3}>
+         <Grid item xl={3} lg={3} sm={3} xs={12}>
             <TextField
                required
                autoFocus

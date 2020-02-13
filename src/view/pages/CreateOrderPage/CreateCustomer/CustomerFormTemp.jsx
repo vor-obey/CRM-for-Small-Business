@@ -1,5 +1,5 @@
-import React, {useState} from "react";
-import {Divider, Grid, Select, TextField, Typography, FormControl} from "@material-ui/core";
+import React, {useState, useEffect, useRef} from "react";
+import {InputLabel, Divider, Grid, Select, TextField, Typography, FormControl} from "@material-ui/core";
 import NumberFormat from "react-number-format";
 import {ShippingDetails} from "../../../components/ShippingDetails/ShippingDetails";
 import {CustomAutocomplete} from "../../../components/Autocomplete/Autocomplete";
@@ -12,10 +12,22 @@ export const CustomerFormTemp = (props) => {
       onSelectHandler,
       customerDetails,
       onChangedInput,
+      onMethodSelectHandler,
+      onSourceSelectHandler,
       sources,
-      methods
+      methods,
+      sourceId,
+      shippingMethodId
    } = props;
    const [isOpen, setIsOpen] = useState(false);
+
+   const inputLabel = useRef(null);
+
+   const [labelWidth, setLabelWidth] = useState(0);
+
+   useEffect(() => {
+      setLabelWidth(inputLabel.current.offsetWidth);
+   }, []);
 
    const onToggle = () => {
       setIsOpen(prevState => !prevState);
@@ -26,9 +38,9 @@ export const CustomerFormTemp = (props) => {
          return null;
       }
 
-      return sources.map(sources => {
+      return sources.map(source => {
          return (
-            <option key={sources.sourceId} value={sources.sourceId}>{sources.name}</option>
+            <option key={source.sourceId} value={source.sourceId}>{source.name}</option>
          );
       })
    };
@@ -38,9 +50,9 @@ export const CustomerFormTemp = (props) => {
          return null;
       }
 
-      return methods.map(methods => {
+      return methods.map(method => {
          return (
-            <option key={methods.shippingMethodId} value={methods.shippingMethodId}>{methods.name}</option>
+            <option key={method.shippingMethodId} value={method.shippingMethodId}>{method.name}</option>
          );
       })
    };
@@ -138,22 +150,27 @@ export const CustomerFormTemp = (props) => {
             />
          </Grid>
          <Grid item lg={12} xs={12}>
-            <FormControl fullWidth lg={12} xs={12}>
+            <FormControl variant={"outlined"} fullWidth lg={12} xs={12}>
+               <InputLabel ref={inputLabel} required className={classes.labelInput} variant={"outlined"}>
+                  Select Source
+               </InputLabel>
                <Select
                   native
-                  name='sourceId'
-                  className={classes.selectSource}
-                  variant="outlined"
                   fullWidth
-                  onChange={onChangedInput}
-                  value={customerDetails.sourceId}
-                  required
+                  name='sourceId'
+                  value={sourceId}
+                  variant="outlined"
+                  labelWidth={labelWidth}
+                  className={classes.selectSource}
+                  onChange={onSourceSelectHandler}
                >
+                  <option value=""></option>
                   {renderSources()}
                </Select>
             </FormControl>
          </Grid>
          <ShippingDetails
+            onChangeInput={onChangedInput}
             breakPoints={autocompleteBreakpoints}
             classes={{
                city: classes.cityAutocomplete,
@@ -161,16 +178,21 @@ export const CustomerFormTemp = (props) => {
             }}
          />
          <Grid item lg={12} xs={12}>
-            <FormControl fullWidth lg={12} xs={12}>
+            <FormControl fullWidth lg={12} xs={12} variant={"outlined"}>
+               <InputLabel ref={inputLabel} required className={classes.labelInput}>
+                  Select Method
+               </InputLabel>
                <Select
                   native
-                  name='shippingMethodId'
-                  className={classes.selectSource}
-                  variant="outlined"
                   fullWidth
-                  value={methods.shippingMethodId}
-                  required
+                  variant="outlined"
+                  name='shippingMethodId'
+                  labelWidth={labelWidth}
+                  value={shippingMethodId}
+                  className={classes.selectSource}
+                  onChange={onMethodSelectHandler}
                >
+                  <option value=""></option>
                   {renderMethods()}
                </Select>
             </FormControl>

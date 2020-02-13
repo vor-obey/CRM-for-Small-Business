@@ -103,6 +103,10 @@ export const CreateOrderScreenStyle = (theme => ({
          gridManager: {
             marginBottom: theme.spacing(2),
          },
+         labelInput: {
+            marginTop: theme.spacing(1),
+            marginBottom: theme.spacing(1),
+         },
       }
    ))
 ;
