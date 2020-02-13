@@ -6,7 +6,7 @@ class UserService extends CRUDService {
         super(USER_URLS.USERS)
     }
 
-    async login(email, password) {
+    async login({email, password}) {
         try {
             return await this.APIService.fetch('POST', '/auth/login', {
                 email,

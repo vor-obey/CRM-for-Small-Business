@@ -15,6 +15,7 @@ export const CreateUser = () => {
                dispatch(setIsLoading(true));
                const roles = await UserService.getRoles();
                setRoles(roles);
+               dispatch(setIsLoading(false));
            } catch (e) {
                dispatch(setIsLoading(false));
                dispatch(setSnackBarStatus({isOpen: true, errorMessage: 'Something wrong'}))

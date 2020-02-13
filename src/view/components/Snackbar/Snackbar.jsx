@@ -8,12 +8,15 @@ function Alert(props) {
 
 export const AlertSnackbar = (props) => {
     const theme = useTheme();
-    const breakpoint = useMediaQuery(theme.breakpoints.up('sm'));
+    const breakpointOnSm = useMediaQuery(theme.breakpoints.down('sm'));
     const {isOpen, errorMessage, onClose} = props;
 
     return (
         <Snackbar
-            anchorOrigin={{vertical: (!breakpoint && 'top') || 'bottom', horizontal: (!breakpoint && 'center' ) || 'right'}}
+            anchorOrigin={{
+                vertical: breakpointOnSm ? 'top' : 'bottom',
+                horizontal: breakpointOnSm ? 'center' : 'right'
+            }}
             open={isOpen}
             autoHideDuration={4000}
             onClose={onClose}
