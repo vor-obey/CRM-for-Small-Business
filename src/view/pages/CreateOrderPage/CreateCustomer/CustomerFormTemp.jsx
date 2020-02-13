@@ -1,33 +1,20 @@
-import React, {useState, useEffect, useRef} from "react";
+import React, {useState} from "react";
 import {InputLabel, Divider, Grid, Select, TextField, Typography, FormControl} from "@material-ui/core";
 import NumberFormat from "react-number-format";
-import {ShippingDetails} from "../../../components/ShippingDetails/ShippingDetails";
 import {CustomAutocomplete} from "../../../components/Autocomplete/Autocomplete";
 
 export const CustomerFormTemp = (props) => {
    const {
       classes,
-      autocompleteBreakpoints,
       customers,
       onSelectHandler,
       customerDetails,
       onChangedInput,
-      onMethodSelectHandler,
       onSourceSelectHandler,
       sources,
-      methods,
       sourceId,
-      shippingMethodId
    } = props;
    const [isOpen, setIsOpen] = useState(false);
-
-   const inputLabel = useRef(null);
-
-   const [labelWidth, setLabelWidth] = useState(0);
-
-   useEffect(() => {
-      setLabelWidth(inputLabel.current.offsetWidth);
-   }, []);
 
    const onToggle = () => {
       setIsOpen(prevState => !prevState);
@@ -45,17 +32,6 @@ export const CustomerFormTemp = (props) => {
       })
    };
 
-   const renderMethods = () => {
-      if (!methods || !methods.length) {
-         return null;
-      }
-
-      return methods.map(method => {
-         return (
-            <option key={method.shippingMethodId} value={method.shippingMethodId}>{method.name}</option>
-         );
-      })
-   };
    return (
       <>
          <Grid item xl={12} xs={12}>
@@ -151,7 +127,7 @@ export const CustomerFormTemp = (props) => {
          </Grid>
          <Grid item lg={12} xs={12}>
             <FormControl variant={"outlined"} fullWidth lg={12} xs={12}>
-               <InputLabel ref={inputLabel} required className={classes.labelInput} variant={"outlined"}>
+               <InputLabel className={classes.labelInput} variant={"outlined"}>
                   Select Source
                </InputLabel>
                <Select
@@ -160,40 +136,12 @@ export const CustomerFormTemp = (props) => {
                   name='sourceId'
                   value={sourceId}
                   variant="outlined"
-                  labelWidth={labelWidth}
+                  labelWidth={105}
                   className={classes.selectSource}
                   onChange={onSourceSelectHandler}
                >
                   <option value=""></option>
                   {renderSources()}
-               </Select>
-            </FormControl>
-         </Grid>
-         <ShippingDetails
-            onChangeInput={onChangedInput}
-            breakPoints={autocompleteBreakpoints}
-            classes={{
-               city: classes.cityAutocomplete,
-               warehouse: classes.warehouseAutocomplete
-            }}
-         />
-         <Grid item lg={12} xs={12}>
-            <FormControl fullWidth lg={12} xs={12} variant={"outlined"}>
-               <InputLabel ref={inputLabel} required className={classes.labelInput}>
-                  Select Method
-               </InputLabel>
-               <Select
-                  native
-                  fullWidth
-                  variant="outlined"
-                  name='shippingMethodId'
-                  labelWidth={labelWidth}
-                  value={shippingMethodId}
-                  className={classes.selectSource}
-                  onChange={onMethodSelectHandler}
-               >
-                  <option value=""></option>
-                  {renderMethods()}
                </Select>
             </FormControl>
          </Grid>

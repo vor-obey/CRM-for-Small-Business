@@ -9,6 +9,7 @@ import UserService from "../../../services/UserService";
 import SourcesService from "../../../services/SourcesService";
 import MethodService from "../../../services/MethodsService";
 import {useSelector} from "react-redux";
+import {ShippingDetailsForm} from "./ShippingDetailsForm/ShippingDetailsForm";
 
 const useStyles = makeStyles(CreateOrderScreenStyle);
 
@@ -141,7 +142,7 @@ const CreateOrderPage = () => {
 
    const onSubmitClicked = (e) => {
       e.preventDefault();
-      console.log({productDetails, customerDetails, managerId, city, warehouse, sourceId, shippingMethodId});
+      console.log({productDetails, customerDetails, managerId, shippingDetails: {city, warehouse}, sourceId, shippingMethodId});
    };
 
    return (
@@ -170,11 +171,17 @@ const CreateOrderPage = () => {
                            onChangedInput={onChangedCustomerInput}
                            sources={sources}
                            sourceId={sourceId}
-                           shippingMethodId={shippingMethodId}
-                           methods={methods}
                            onSubmit={onSubmitClicked}
                            onSourceSelectHandler={onSourceSelectHandler}
+                        />
+                     </Grid>
+                     <Grid container item xl={12}>
+                        <ShippingDetailsForm
+                           classes={classes}
+                           autocompleteBreakpoints={autocompleteBreakpoints}
                            onMethodSelectHandler={onMethodSelectHandler}
+                           shippingMethodId={shippingMethodId}
+                           methods={methods}
                         />
                      </Grid>
                      <Grid container item xl={12}>
