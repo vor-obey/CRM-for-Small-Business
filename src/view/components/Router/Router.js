@@ -12,7 +12,7 @@ import Home from "../../pages/Home/Home";
 import {CreateUser} from "../../pages/CreateUser/CreateUser";
 import LogOut from "../../pages/LogOut/LogOut";
 import {UsersPage} from "../../pages/UsersPage/UsersPage";
-import CustomersPage from "../../pages/CustomersPage/CustomersPage";
+import {CustomersPage} from "../../pages/CustomersPage/CustomersPage";
 import {UserDetailsPage} from "../../pages/UserDetailsPage/UserDetailsPage";
 import RestorePassword from "../../pages/RestorePassword/RestorePassword";
 import {EditUser} from "../../pages/EditUser/EditUser";

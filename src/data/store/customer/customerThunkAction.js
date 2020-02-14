@@ -1,6 +1,4 @@
 import {
-    getAllCustomersSuccess,
-    getAllCustomersError,
     getCustomerDetailsLoading,
     getCustomerDetailsSuccess,
     getCustomerDetailsError,
@@ -13,21 +11,12 @@ import {
     patchCustomerFailure,
     setNewCustomerCreated,
 } from "./customerActions";
-import {ClientsService, UserService} from "../../../services";
-
-export const loadCustomers = () => async (dispatch) => {
-    try {
-        const response = await ClientsService.getCustomerList();
-        dispatch(getAllCustomersSuccess(response));
-    } catch (error) {
-        dispatch(getAllCustomersError(error.message));
-    }
-};
+import {CustomerService, UserService} from "../../../services";
 
 export const loadCustomer = (id) => async (dispatch) => {
     try {
         dispatch(getCustomerDetailsLoading());
-        const response = await ClientsService.findOneById(id);
+        const response = await CustomerService.findOneById(id);
         dispatch(getCustomerDetailsSuccess(response));
     } catch (error) {
         dispatch(getCustomerDetailsError(error.message));

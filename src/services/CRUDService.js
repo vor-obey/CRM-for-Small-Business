@@ -28,20 +28,4 @@ export default class CRUDService {
     create = async (body) => {
         return await this.APIService.apiPost(USER_URLS.USERS, { body });
     };
-
-    customerList = async (params) => {
-        return await this.APIService.apiGet(addParamsToUrl(`${this.pathname}`, params));
-    };
-
-    createCustomer = async (body) => {
-        return await this.APIService.apiPost(USER_URLS.CUSTOMERS, { body });
-    };
-
-    deleteCustomer = async (id, params) => {
-        return await this.APIService.apiDelete(addParamsToUrl(`${USER_URLS.CUSTOMERS}/${id}`, params));
-    };
-
-    patchCustomer = async (body) => {
-        return await this.APIService.apiPatch(`${USER_URLS.CUSTOMERS}`, { body });
-    };
 }
