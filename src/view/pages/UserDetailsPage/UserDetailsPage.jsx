@@ -18,11 +18,13 @@ import {UserService} from "../../../services";
 import {isEmpty} from 'lodash';
 import {UserDetails} from './UserDetails/UserDetails';
 import {setIsLoading, setSnackBarStatus} from "../../../data/store/auxiliary/auxiliaryActions";
+import {COMMON_ERROR_MESSAGE} from "../../../constants/statuses";
 
 const useStyles = makeStyles(userDetailsStyle);
 
 export const UserDetailsPage = (props) => {
 
+    const {history} = props;
     const dispatch = useDispatch();
     const {id} = useParams();
     const classes = useStyles();
@@ -34,7 +36,7 @@ export const UserDetailsPage = (props) => {
     }, []);
 
     useEffect(() => {
-        (async function () {
+        const fetchUserById = async () => {
             try {
                 dispatch(setIsLoading(true));
                 const response = await UserService.findOneById(id);
@@ -42,14 +44,13 @@ export const UserDetailsPage = (props) => {
                 dispatch(setIsLoading(false));
             } catch (e) {
                 dispatch(setIsLoading(false));
-                dispatch(setSnackBarStatus({isOpen: true, errorMessage: 'Something wrong'}))
+                dispatch(setSnackBarStatus({isOpen: true, errorMessage: COMMON_ERROR_MESSAGE}))
             }
-        })()
-    }, [id, dispatch]);
+        };
+        fetchUserById();
+    }, [id, history, dispatch]);
 
     const handleClickDeleteUser = useCallback(async () => {
-        const {history} = props;
-
         dispatch(setIsLoading(true));
         const response = await UserService.delete(id);
         if (response.success) {
@@ -57,14 +58,13 @@ export const UserDetailsPage = (props) => {
             history.push('/users');
         } else {
             dispatch(setIsLoading(false));
-            dispatch(setSnackBarStatus({isOpen: true, errorMessage: 'Something wrong'}))
+            dispatch(setSnackBarStatus({isOpen: true, errorMessage: COMMON_ERROR_MESSAGE}))
         }
-    }, [dispatch, id, props]);
+    }, [dispatch, id, history]);
 
     const handleClickEdit = useCallback(() => {
-        const {history} = props;
         history.push(`${id}/edit`);
-    }, [id, props]);
+    }, [id, history]);
 
 
     const renderUserDetails = useCallback(() => {

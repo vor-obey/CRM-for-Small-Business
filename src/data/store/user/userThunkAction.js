@@ -1,33 +1,40 @@
 import {
-    userLoginFailure,
-    getCurrentUserSuccess,
-    getCurrentUserFailure
+    setCurrentUser,
 } from "./userActions";
 import { UserService, StorageService } from "../../../services";
+import {setIsLoading, setSnackBarStatus} from "../auxiliary/auxiliaryActions";
+import {COMMON_ERROR_MESSAGE} from "../../../constants/statuses";
 
 export const login = (email, password) => async (dispatch) => {
     try {
+        dispatch(setIsLoading(true));
         const response = await UserService.login(email, password);
-        if(!response.error && response.accessToken) {
+        if (response.accessToken) {
             StorageService.setJWTToken(response.accessToken);
-            dispatch(getCurrentUser())
+            dispatch(setIsLoading(false));
         } else {
-            dispatch(userLoginFailure(response.error));
+            dispatch(setIsLoading(false));
+            dispatch(setSnackBarStatus({isOpen: true, errorMessage: COMMON_ERROR_MESSAGE}));
         }
     } catch (e) {
-        dispatch(userLoginFailure(e));
+        dispatch(setIsLoading(false));
+        dispatch(setSnackBarStatus({isOpen: true, errorMessage: COMMON_ERROR_MESSAGE}));
     }
 };
 
 export const getCurrentUser = () => async (dispatch) => {
     try {
+        dispatch(setIsLoading(true));
         const response = await UserService.getCurrentUser();
         if (!response.error && response) {
-            dispatch(getCurrentUserSuccess(response));
+            dispatch(setCurrentUser(response));
+            dispatch(setIsLoading(false));
         } else {
-            dispatch(getCurrentUserFailure(response.error));
+            dispatch(setIsLoading(false));
+            dispatch(setSnackBarStatus({isOpen: true, errorMessage: COMMON_ERROR_MESSAGE}));
         }
     } catch (e) {
-        dispatch(getCurrentUserFailure(e));
+        dispatch(setIsLoading(false));
+        dispatch(setSnackBarStatus({isOpen: true, errorMessage: COMMON_ERROR_MESSAGE}));
     }
 };

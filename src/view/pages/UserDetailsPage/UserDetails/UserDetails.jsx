@@ -7,7 +7,7 @@ export const UserDetails = (props) => {
 
     return  (
         <Grid className={classes.root}>
-            <Grid item container direction={'column'} xs={12} sm={3}>
+            <Grid item container direction={'column'} xs={12} sm={6}>
                 <Grid className={classes.userItem}>
                     <Typography variant="body1">
                         First Name
@@ -33,7 +33,7 @@ export const UserDetails = (props) => {
                     </Typography>
                 </Grid>
             </Grid>
-            <Grid item container direction={'column'} xs={12} sm={3}>
+            <Grid item container direction={'column'} xs={12} sm={6}>
                 <Grid className={classes.userItem}>
                     <Typography variant="body1">
                         Email Address

@@ -1,40 +1,42 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {SaveUserForm} from '../../components/SaveUser/SaveUserForm';
-import {UserService} from "../../../services";
-import {history} from "../../../utils/history";
+import {RoleService, UserService} from "../../../services";
 import {useDispatch} from "react-redux";
 import {setIsLoading, setSnackBarStatus} from "../../../data/store/auxiliary/auxiliaryActions";
+import {COMMON_ERROR_MESSAGE} from "../../../constants/statuses";
 
-export const CreateUser = () => {
+export const CreateUser = (props) => {
+    const {history} = props;
     const dispatch = useDispatch();
     const [roles, setRoles] = useState([]);
 
     useEffect(() => {
-        (async function () {
-           try {
-               dispatch(setIsLoading(true));
-               const roles = await UserService.getRoles();
-               setRoles(roles);
-               dispatch(setIsLoading(false));
-           } catch (e) {
-               dispatch(setIsLoading(false));
-               dispatch(setSnackBarStatus({isOpen: true, errorMessage: 'Something wrong'}))
-           }
-        })()
+        const fetchRoles = async () => {
+            try {
+                dispatch(setIsLoading(true));
+                const roles = await RoleService.list();
+                setRoles(roles);
+                dispatch(setIsLoading(false));
+            } catch (e) {
+                dispatch(setIsLoading(false));
+                dispatch(setSnackBarStatus({isOpen: true, errorMessage: COMMON_ERROR_MESSAGE}))
+            }
+        };
+        fetchRoles();
     }, [dispatch]);
 
-    const onSubmitHandler = useCallback( async (userInput) => {
+    const onSubmitHandler = useCallback(async (userInput) => {
         const {confirmPassword, ...user} = userInput;
-        dispatch(setIsLoading(true));
-        const response = await UserService.create(user);
-        if (response) {
+        try {
+            dispatch(setIsLoading(true));
+            await UserService.create(user);
             dispatch(setIsLoading(false));
             history.push('/users');
-        } else {
+        } catch (e) {
             dispatch(setIsLoading(false));
-            dispatch(setSnackBarStatus({isOpen: true, errorMessage: 'Something wrong'}))
+            dispatch(setSnackBarStatus({isOpen: true, errorMessage: COMMON_ERROR_MESSAGE}))
         }
-    }, [dispatch]);
+    }, [dispatch, history]);
 
     return (
         <SaveUserForm

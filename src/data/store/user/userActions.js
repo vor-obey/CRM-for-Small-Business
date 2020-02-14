@@ -11,7 +11,7 @@ export const userLoginFailure = (loginError) => {
     }
 };
 
-export const getCurrentUserSuccess = (currentUser) => {
+export const setCurrentUser = (currentUser) => {
     return {
         type: GET_CURRENT_USER_SUCCESS,
         currentUser

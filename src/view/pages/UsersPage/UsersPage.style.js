@@ -1,7 +1,6 @@
 export const usersPageStyle = (theme =>  ({
     root: {
         flexGrow: 1,
-        // width: '85%',
         marginTop: theme.spacing(10),
         padding: theme.spacing(0),
     },
@@ -16,7 +15,7 @@ export const usersPageStyle = (theme =>  ({
     addUser: {
         margin: theme.spacing(0, 1, 0, 0)
     },
-    userBlock: {
+    userListItem: {
         wordWrap: 'break-word',
         '&:nth-child(odd)': {
             backgroundColor: '#efefef',
@@ -25,7 +24,8 @@ export const usersPageStyle = (theme =>  ({
             backgroundColor: '#cecece',
             transitionDuration: '0.3s',
             transitionTimingFunction: 'linear',
-        }
+        },
+        cursor: 'pointer'
     },
     userListContainer: {
         justifyContent: 'space-between',

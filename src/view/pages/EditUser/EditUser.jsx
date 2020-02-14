@@ -5,6 +5,7 @@ import {UserService} from "../../../services";
 import {history} from "../../../utils/history";
 import {useDispatch} from "react-redux";
 import {setSnackBarStatus, setIsLoading} from "../../../data/store/auxiliary/auxiliaryActions";
+import {COMMON_ERROR_MESSAGE} from "../../../constants/statuses";
 
 export const EditUser = () => {
 
@@ -14,7 +15,7 @@ export const EditUser = () => {
     const [roles, setRoles] = useState([]);
 
     useEffect(() => {
-        (async function () {
+        const fetchData = async () => {
             try {
                 dispatch(setIsLoading(true));
                 const [userDetails, roles] = await Promise.all([UserService.findOneById(id), UserService.getRoles()]);
@@ -24,22 +25,23 @@ export const EditUser = () => {
                 dispatch(setIsLoading(false));
             } catch (e) {
                 dispatch(setIsLoading(false));
-                dispatch(setSnackBarStatus({isOpen: true, errorMessage: 'Something wrong'}))
+                dispatch(setSnackBarStatus({isOpen: true, errorMessage: COMMON_ERROR_MESSAGE}))
             }
-        })()
+        };
+        fetchData();
     }, [id, dispatch]);
 
 
     const onSubmitHandler = useCallback(async (userInput) => {
         const {roleId, ...user} = userInput;
         dispatch(setIsLoading(true));
-        const response = await UserService.update({userId: id, ...user});
+        const response = await UserService.update({userId: id, ...user, roleId});
         if (response.success) {
             dispatch(setIsLoading(false));
             history.goBack();
         } else {
             dispatch(setIsLoading(false));
-            dispatch(setSnackBarStatus({isOpen: true, errorMessage: 'Something wrong'}))
+            dispatch(setSnackBarStatus({isOpen: true, errorMessage: COMMON_ERROR_MESSAGE}))
         }
     }, [id, dispatch]);
 
@@ -47,7 +49,7 @@ export const EditUser = () => {
     return (
         <SaveUserForm
             onSubmit={onSubmitHandler}
-            titleText="Edit User"
+            title="Edit User"
             buttonText="Edit"
             userDetails={userDetails}
             roles={roles}

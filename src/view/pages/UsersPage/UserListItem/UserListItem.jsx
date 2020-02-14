@@ -10,7 +10,7 @@ export const UserListItem = (props) =>{
     } = props;
 
     return (
-        <ListItem className={classes.userBlock} divider style={{cursor: 'pointer'}} onClick={() => navigateToUserDetails(user.userId)}>
+        <ListItem className={classes.userListItem} divider onClick={() => navigateToUserDetails(user.userId)}>
             <Grid container className={classes.userListContainer}>
                 <Grid item xs={4} md={2}>
                     <Typography className={classes.userItem} variant={'body2'}>
@@ -44,4 +44,4 @@ export const UserListItem = (props) =>{
             </Grid>
         </ListItem>
     )
-}
+};

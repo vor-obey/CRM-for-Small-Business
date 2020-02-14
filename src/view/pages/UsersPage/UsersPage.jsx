@@ -7,17 +7,18 @@ import {UserService} from "../../../services";
 import {useDispatch} from "react-redux";
 import {UserListItem} from "./UserListItem/UserListItem";
 import {setIsLoading, setSnackBarStatus} from "../../../data/store/auxiliary/auxiliaryActions";
+import {COMMON_ERROR_MESSAGE} from "../../../constants/statuses";
 
 const useStyles = makeStyles(usersPageStyle);
 
 export const UsersPage = (props) => {
-
+    const {history} = props;
     const dispatch = useDispatch();
     const classes = useStyles();
     const [userList, setUserList] = useState([]);
 
     useEffect(() => {
-        (async function () {
+        const fetchUsers = async () => {
             try {
                 dispatch(setIsLoading(true));
                 const response = await UserService.list();
@@ -25,14 +26,15 @@ export const UsersPage = (props) => {
                 dispatch(setIsLoading(false));
             } catch (e) {
                 dispatch(setIsLoading(false));
-                dispatch(setSnackBarStatus({isOpen: true, errorMessage: 'Something wrong'}))
+                dispatch(setSnackBarStatus({isOpen: true, errorMessage: COMMON_ERROR_MESSAGE}))
             }
-        })()
+        };
+        fetchUsers();
     }, [dispatch]);
 
     const navigateToUserDetails = useCallback((userId) => {
-        props.history.push(`/users/${userId}`)
-    }, [props.history]);
+        history.push(`/users/${userId}`)
+    }, [history]);
 
     const renderRows = useCallback(() => {
         if (!userList || !userList.length) {

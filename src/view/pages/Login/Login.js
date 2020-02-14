@@ -1,12 +1,11 @@
 import React, {useCallback, useState} from "react";
 import {useDispatch} from "react-redux";
-import {UserService, StorageService} from "../../../services";
 
 import {Avatar, Button, CssBaseline, TextField, Typography, Container, makeStyles} from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import {loginStyles} from './Login.style.js';
-import {setIsLoading, setSnackBarStatus} from "../../../data/store/auxiliary/auxiliaryActions";
-import {getCurrentUser} from "../../../data/store/user/userThunkAction";
+import {setIsLoading} from "../../../data/store/auxiliary/auxiliaryActions";
+import {getCurrentUser, login} from "../../../data/store/user/userThunkAction";
 
 
 const useStyles = makeStyles(loginStyles);
@@ -34,28 +33,16 @@ export const Login = (props) => {
 
     const onSubmitForm = useCallback(async (event) => {
         event.preventDefault();
-        dispatch(setIsLoading(true));
-        const response = await UserService.login(userLoginData);
-
-        if (!response.error && response.accessToken) {
-            StorageService.setJWTToken(response.accessToken);
-            dispatch(getCurrentUser());
-            dispatch(setIsLoading(false));
-            history.push('/dashboard');
-        } else {
-            dispatch(setIsLoading(false));
-            dispatch(setSnackBarStatus({
-                isOpen: true,
-                errorMessage: 'The username or password provided were incorrect!'
-            }))
-        }
-    }, [userLoginData, props, dispatch]);
+        const {email, password} = userLoginData;
+        await dispatch(login(email, password));
+        await dispatch(getCurrentUser());
+        history.push('/dashboard')
+    }, [userLoginData, history, dispatch]);
 
 
     const handleClick = () => {
         history.push('/forgot-password');
     };
-
 
     return (
         <Container component="main" maxWidth="xs">
