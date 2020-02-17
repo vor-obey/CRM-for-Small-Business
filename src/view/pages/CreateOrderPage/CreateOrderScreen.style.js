@@ -5,11 +5,8 @@ export const CreateOrderScreenStyle = (theme => ({
          paper: {
             padding: theme.spacing(2),
          },
-         form: {
-            width: '100%',
-            marginTop: theme.spacing(3),
-            display: 'flex',
-            flexWrap: 'wrap'
+         submit: {
+            margin: theme.spacing(3, 0, 2),
          },
          heading: {
             paddingBottom: 5,
@@ -94,14 +91,15 @@ export const CreateOrderScreenStyle = (theme => ({
          inputDetails: {
             paddingRight: theme.spacing(10)
          },
-         submit: {
-            margin: theme.spacing(3, 0, 2),
-         },
          selectSource: {
             marginTop: theme.spacing(1),
          },
          gridManager: {
             marginBottom: theme.spacing(2),
+         },
+         labelInput: {
+            marginTop: theme.spacing(1),
+            marginBottom: theme.spacing(1),
          },
       }
    ))
