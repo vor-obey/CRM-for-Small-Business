@@ -2,6 +2,7 @@ import React from "react";
 import {Divider, Grid, TextField, Typography} from "@material-ui/core";
 
 export const ProductForm = (props) => {
+
    const {
       classes,
       currencies,

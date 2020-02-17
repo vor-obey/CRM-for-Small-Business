@@ -4,12 +4,12 @@ import {CreateOrderScreenStyle} from './CreateOrderScreen.style'
 import {ProductForm} from "./ProductForm/ProductForm";
 import {CustomerFormTemp} from "./CreateCustomer/CustomerFormTemp";
 import {ManagerForm} from "./ManagerForm/ManagerForm";
+import {ShippingDetailsForm} from "./ShippingDetailsForm/ShippingDetailsForm";
 import CustomerService from "../../../services/CustomerService";
 import UserService from "../../../services/UserService";
 import SourcesService from "../../../services/SourcesService";
 import MethodService from "../../../services/MethodsService";
 import {useSelector} from "react-redux";
-import {ShippingDetailsForm} from "./ShippingDetailsForm/ShippingDetailsForm";
 
 const useStyles = makeStyles(CreateOrderScreenStyle);
 
@@ -46,7 +46,6 @@ const CreateOrderPage = () => {
    const [managerId, setManagerId] = useState('');
    const [sourceId, setSourceId] = useState('');
    const [shippingMethodId, setShippingMethodId] = useState('');
-   const [open, setOpen] = useState(false);
    const [sources, setSources] = useState([]);
    const [managers, setManagers] = useState([]);
    const [methods, setMethods] = useState([]);
@@ -93,10 +92,6 @@ const CreateOrderPage = () => {
       });
    };
 
-   const handleClose = () => {
-      setOpen(false);
-   };
-
    const onCustomerSelectHandler = async customer => {
       if (!customer) {
          setCustomerDetails({
@@ -140,9 +135,24 @@ const CreateOrderPage = () => {
       }
    };
 
+   const onValidate = () => {
+      if (!sourceId || !managerId || !shippingMethodId || !city || !warehouse) {
+         console.log('All Fields Must Be Filled')
+      } else {
+         console.log({
+            productDetails,
+            customerDetails,
+            sourceId,
+            shippingDetails: {city, warehouse},
+            shippingMethodId,
+            managerId
+         });
+      }
+   };
+
    const onSubmitClicked = (e) => {
       e.preventDefault();
-      console.log({productDetails, customerDetails, managerId, shippingDetails: {city, warehouse}, sourceId, shippingMethodId});
+      onValidate();
    };
 
    return (
@@ -157,21 +167,17 @@ const CreateOrderPage = () => {
                            currencies={currencies}
                            onChangedInput={onChangedProductInput}
                            productDetails={productDetails}
-                           onClose={handleClose}
-                           onSubmit={onSubmitClicked}
                         />
                      </Grid>
                      <Grid container item xl={12}>
                         <CustomerFormTemp
                            classes={classes}
-                           autocompleteBreakpoints={autocompleteBreakpoints}
                            customers={customers}
                            customerDetails={customerDetails}
                            onSelectHandler={onCustomerSelectHandler}
                            onChangedInput={onChangedCustomerInput}
                            sources={sources}
                            sourceId={sourceId}
-                           onSubmit={onSubmitClicked}
                            onSourceSelectHandler={onSourceSelectHandler}
                         />
                      </Grid>
@@ -186,12 +192,9 @@ const CreateOrderPage = () => {
                      </Grid>
                      <Grid container item xl={12}>
                         <ManagerForm
-                           open={open}
                            managers={managers}
                            classes={classes}
-                           autocompleteBreakpoints={autocompleteBreakpoints}
                            onSelectHandler={onManagerSelectHandler}
-                           onSubmit={onSubmitClicked}
                         />
                      </Grid>
                      <Button
