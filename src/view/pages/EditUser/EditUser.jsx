@@ -18,7 +18,7 @@ export const EditUser = () => {
         const fetchData = async () => {
             try {
                 dispatch(setIsLoading(true));
-                const [userDetails, roles] = await Promise.all([UserService.findOneById(id), RoleService.getRoles()]);
+                const [userDetails, roles] = await Promise.all([UserService.findOneById(id), RoleService.list()]);
                 const {orders, organization, role: {roleId}, ...user} = userDetails;
                 setUserDetails({roleId, ...user});
                 setRoles(roles);
