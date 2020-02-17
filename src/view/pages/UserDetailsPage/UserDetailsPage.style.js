@@ -1,12 +1,8 @@
 export const userDetailsStyle = (theme =>  ({
     root: {
         marginTop: theme.spacing(2),
+        padding: theme.spacing(2),
         width: '100%',
-    },
-    containerList: {
-        width: '100%',
-    },
-    container: {
         display: 'flex',
         flexWrap: 'wrap',
         flexDirection: 'row',
@@ -17,10 +13,15 @@ export const userDetailsStyle = (theme =>  ({
         wordWrap: 'break-word',
         margin: theme.spacing(0, 0, 2, 0),
     },
-    allUsers: {
+    userDetailsContainer: {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
+    },
+    userGrid: {
+        flexDirection: 'column',
+        alignContent: 'center',
+        justifyContent: 'center',
     },
     paper: {
         width: '100%',
@@ -33,13 +34,21 @@ export const userDetailsStyle = (theme =>  ({
     },
     title: {
         marginTop: theme.spacing(3),
+        textAlign: 'center',
     },
-    fab: {
+    buttonContainer: {
+        alignContent: 'center',
+        justifyContent: 'center',
+    },
+    buttonFab: {
         margin: theme.spacing(3),
         backgroundColor: theme.palette.primary.main,
     },
     userInfo: {
         wordWrap: 'break-word',
+    },
+    userTypography: {
+        wordBreak: 'break-word'
     },
     userDetail: {
         display: 'grid',
