@@ -32,8 +32,8 @@ function Header() {
             <AppBar position="static">
                 <Toolbar>
                     <Drawer/>
+                    <Profile currentUser={currentUser}/>
                 </Toolbar>
-                <Profile currentUser={currentUser}/>
             </AppBar>
             <ProgressBar isLoading={isLoading}/>
             <AlertSnackbar
