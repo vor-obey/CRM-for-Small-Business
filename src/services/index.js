@@ -1,13 +1,13 @@
 import StorageService from './StorageService';
 import UserService from './UserService';
-import OredersService from './OrdersService';
-import ClientsService from './ClientsService';
+import OrderService from './OrdersService';
+import CustomerService from './CustomerService';
 import RoleService from "./RoleService";
 
 export {
     StorageService,
     UserService,
-    OredersService,
-    ClientsService,
+    OrderService,
+    CustomerService,
     RoleService
 }
