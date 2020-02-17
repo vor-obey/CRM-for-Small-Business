@@ -30,7 +30,7 @@ function Header() {
     return (
         <div className={classes.root}>
             <AppBar position="static">
-                <Toolbar>
+                <Toolbar className={classes.toolbar} >
                     <Drawer/>
                     <Profile currentUser={currentUser}/>
                 </Toolbar>

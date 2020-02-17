@@ -8,4 +8,7 @@ export const headerStyle = (theme => ({
     title: {
         flexGrow: 1,
     },
+    toolbar: {
+        justifyContent: 'space-between',
+    },
 }));

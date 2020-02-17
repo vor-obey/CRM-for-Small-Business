@@ -31,12 +31,13 @@ export const profileStyles = (theme => ({
          fontSize: 16,
       },
    },
-   icon: {
-      width: 50,
-      height: '100%',
-      margin: `auto ${theme.spacing(1)}px`,
-      [theme.breakpoints.down('xs')]: {
-         width: 35,
-      }
+   account: {
+      color: '#ffffff',
+   },
+   list: {
+      width: 250,
+   },
+   fullList: {
+      width: 'auto',
    },
 }));

@@ -41,7 +41,7 @@ export const CreateUser = (props) => {
     return (
         <SaveUserForm
             onSubmit={onSubmitHandler}
-            titleText="Create User"
+            title="Create User"
             buttonText="Create"
             roles={roles}
             isEdit={false}

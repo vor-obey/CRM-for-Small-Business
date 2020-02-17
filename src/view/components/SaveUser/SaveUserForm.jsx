@@ -19,6 +19,7 @@ export const SaveUserForm = (props) => {
         isEdit,
         roles,
         onSubmit,
+        currentUser,
     } = props;
 
     const classes = useStyles();
@@ -71,6 +72,22 @@ export const SaveUserForm = (props) => {
       onSubmit(input);
     }, [isEdit, onSubmit, userCredentials, userDetailsInputs]);
 
+    const renderCredentials = () => {
+        if ((isEdit && (userDetails.userId = currentUser)) || !isEdit) {
+            return (
+                <SaveUserCredentials
+                    showPassword={showPassword}
+                    toggleShowPassword={handleClickShowPassword}
+                    onChangedInput={onChangedInputCredentials}
+                    credentials={userCredentials}
+                />
+            )
+        }
+
+        return null;
+
+    };
+
     return (
         <Container component="main" maxWidth="xs">
             <CssBaseline/>
@@ -88,13 +105,7 @@ export const SaveUserForm = (props) => {
                         onChangedInput={onChangedInputDetails}
                         classes={classes}
                     />
-                    {!isEdit ?
-                        <SaveUserCredentials
-                            showPassword={showPassword}
-                            toggleShowPassword={handleClickShowPassword}
-                            onChangedInput={onChangedInputCredentials}
-                            credentials={userCredentials}
-                        /> : null}
+                    {renderCredentials()}
                     <Button
                         className={classes.submit}
                         type={"submit"}

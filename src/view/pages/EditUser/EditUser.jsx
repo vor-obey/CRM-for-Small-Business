@@ -3,11 +3,13 @@ import {useParams} from 'react-router-dom';
 import {SaveUserForm} from '../../components/SaveUser/SaveUserForm';
 import {RoleService, UserService} from "../../../services";
 import {history} from "../../../utils/history";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {setSnackBarStatus, setIsLoading} from "../../../data/store/auxiliary/auxiliaryActions";
 import {COMMON_ERROR_MESSAGE} from "../../../constants/statuses";
 
 export const EditUser = () => {
+
+    const currentUser = useSelector(state => state.userReducer.currentUser);
 
     const {id} = useParams();
     const dispatch = useDispatch();
@@ -48,6 +50,7 @@ export const EditUser = () => {
 
     return (
         <SaveUserForm
+            currentUser={currentUser}
             onSubmit={onSubmitHandler}
             title="Edit User"
             buttonText="Edit"
