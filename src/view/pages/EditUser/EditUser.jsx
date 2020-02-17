@@ -1,7 +1,7 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {useParams} from 'react-router-dom';
 import {SaveUserForm} from '../../components/SaveUser/SaveUserForm';
-import {UserService} from "../../../services";
+import {RoleService, UserService} from "../../../services";
 import {history} from "../../../utils/history";
 import {useDispatch} from "react-redux";
 import {setSnackBarStatus, setIsLoading} from "../../../data/store/auxiliary/auxiliaryActions";
@@ -18,7 +18,7 @@ export const EditUser = () => {
         const fetchData = async () => {
             try {
                 dispatch(setIsLoading(true));
-                const [userDetails, roles] = await Promise.all([UserService.findOneById(id), UserService.getRoles()]);
+                const [userDetails, roles] = await Promise.all([UserService.findOneById(id), RoleService.getRoles()]);
                 const {orders, organization, role: {roleId}, ...user} = userDetails;
                 setUserDetails({roleId, ...user});
                 setRoles(roles);

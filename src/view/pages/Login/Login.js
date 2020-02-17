@@ -4,7 +4,6 @@ import {useDispatch} from "react-redux";
 import {Avatar, Button, CssBaseline, TextField, Typography, Container, makeStyles} from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import {loginStyles} from './Login.style.js';
-import {setIsLoading} from "../../../data/store/auxiliary/auxiliaryActions";
 import {getCurrentUser, login} from "../../../data/store/user/userThunkAction";
 
 
@@ -20,8 +19,7 @@ export const Login = (props) => {
         password: '',
     });
 
-    // todo useCallback
-    const onChange = (event) => {
+    const onChange = useCallback(async (event) => {
         const {name, value} = event.target;
         setUserLoginData(prevState => {
             return {
@@ -29,14 +27,15 @@ export const Login = (props) => {
                 [name]: value
             }
         });
-    };
+    },[]);
 
     const onSubmitForm = useCallback(async (event) => {
         event.preventDefault();
         const {email, password} = userLoginData;
         await dispatch(login(email, password));
         await dispatch(getCurrentUser());
-        history.push('/dashboard')
+
+        history.push('/dashboard');
     }, [userLoginData, history, dispatch]);
 
 
