@@ -5,6 +5,7 @@ export const USER_URLS = {
     CLIENTS: `/clients`,
     CUSTOMERS: `/customers`,
     NOVA_POSHTA: `/np`,
+    ROLES: '/roles',
     SOURCES: `/sources`,
     METHODS: `/shipping-methods`
 };

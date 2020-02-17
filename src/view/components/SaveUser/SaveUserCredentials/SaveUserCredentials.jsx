@@ -25,7 +25,7 @@ export const SaveUserCredentials = (props) => {
                     fullWidth
                 />
             </Grid>
-            <Grid item  sm={6} xs={12}>
+            <Grid item sm={6} xs={12}>
                 <FormControl variant="outlined" required fullWidth>
                     <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
                     <OutlinedInput

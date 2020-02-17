@@ -8,21 +8,23 @@ import {
     Fab,
     Grid,
 } from "@material-ui/core";
-import { deleteUser } from "../../../data/store/user/userThunkAction";
-import { userDetailsStyle } from "../UserDetailsPage/UserDetailsPage.style.js";
+import {userDetailsStyle} from "../UserDetailsPage/UserDetailsPage.style.js";
 import {useDispatch} from "react-redux";
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
-import { CustomDialog } from '../../components/CustomDialog/CustomDialog';
+import {CustomDialog} from '../../components/CustomDialog/CustomDialog';
 import {useParams} from 'react-router-dom';
 import {UserService} from "../../../services";
 import {isEmpty} from 'lodash';
 import {UserDetails} from './UserDetails/UserDetails';
+import {setIsLoading, setSnackBarStatus} from "../../../data/store/auxiliary/auxiliaryActions";
+import {COMMON_ERROR_MESSAGE} from "../../../constants/statuses";
 
 const useStyles = makeStyles(userDetailsStyle);
 
 export const UserDetailsPage = (props) => {
 
+    const {history} = props;
     const dispatch = useDispatch();
     const {id} = useParams();
     const classes = useStyles();
@@ -34,24 +36,35 @@ export const UserDetailsPage = (props) => {
     }, []);
 
     useEffect(() => {
-        const fetchUserById = async (id) => {
-            const response = await UserService.findOneById(id);
-            setUserDetails(response);
+        const fetchUserById = async () => {
+            try {
+                dispatch(setIsLoading(true));
+                const response = await UserService.findOneById(id);
+                setUserDetails(response);
+                dispatch(setIsLoading(false));
+            } catch (e) {
+                dispatch(setIsLoading(false));
+                dispatch(setSnackBarStatus({isOpen: true, errorMessage: COMMON_ERROR_MESSAGE}))
+            }
         };
+        fetchUserById();
+    }, [id, history, dispatch]);
 
-        fetchUserById(id);
-    }, [id]);
-
-    const handleClickDeleteUser = useCallback(() => {
-        const {history} = props;
-        dispatch(deleteUser(id));
-        history.push('/users');
-    }, [dispatch, id, props]);
+    const handleClickDeleteUser = useCallback(async () => {
+        dispatch(setIsLoading(true));
+        const response = await UserService.delete(id);
+        if (response.success) {
+            dispatch(setIsLoading(false));
+            history.push('/users');
+        } else {
+            dispatch(setIsLoading(false));
+            dispatch(setSnackBarStatus({isOpen: true, errorMessage: COMMON_ERROR_MESSAGE}))
+        }
+    }, [dispatch, id, history]);
 
     const handleClickEdit = useCallback(() => {
-        const {history} = props;
         history.push(`${id}/edit`);
-    }, [id, props]);
+    }, [id, history]);
 
 
     const renderUserDetails = useCallback(() => {
@@ -61,41 +74,35 @@ export const UserDetailsPage = (props) => {
         return <UserDetails userDetails={userDetails} classes={classes}/>
     }, [classes, userDetails]);
 
-    return(
-        <Container component="main" className={classes.allUsers}>
+    return (
+        <Container component="main" className={classes.userDetailsContainer}>
             <Paper className={classes.paper}>
-                <Grid container item xs={12}
-                      alignContent={'center'}
-                      direction={'column'}
-                      justify={'flex-start'}>
-                    <Grid container item xs={12}
-                          justify={'center'}>
-                        <Typography variant="h4" className={classes.title} align="center" gutterBottom>
+                <Grid container item xs={12} className={classes.userGrid}>
+
+                    <Grid item xs={12}>
+                        <Typography variant="h5" className={classes.title}>
                             User Details
                         </Typography>
                     </Grid>
                     <Grid container item xs={12}>
                         {renderUserDetails()}
                     </Grid>
-                    <Grid  container item xs={12}
-                           alignContent={'center'}
-                           justify={'center'}>
+                    <Grid container item xs={12} className={classes.buttonContainer}>
                         <Fab
+                            className={classes.buttonFab}
+                            onClick={handleClickEdit}
                             color="primary"
                             aria-label="edit"
-                            size="small"
-                            className={classes.fab}
-                            onClick={handleClickEdit}>
-                            <EditIcon />
+                            size="small">
+                            <EditIcon/>
                         </Fab>
                         <Fab
-                            color="primary"
-                            aria-label="edit"
-                            size="small"
-                            className={classes.fab}
+                            className={classes.buttonFab}
                             onClick={handleOpenDialog}
-                        >
-                            <DeleteIcon />
+                            color="primary"
+                            aria-label="delete"
+                            size="small">
+                            <DeleteIcon/>
                         </Fab>
                     </Grid>
                 </Grid>
