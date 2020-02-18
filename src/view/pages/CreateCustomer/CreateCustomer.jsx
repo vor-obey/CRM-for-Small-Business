@@ -1,52 +1,62 @@
-import React, { PureComponent } from 'react';
-import { connect } from "react-redux";
-import { postCustomer, loadCustomer } from "../../../data/store/customer/customerThunkAction";
+import React, {useCallback, useEffect, useState} from 'react';
 
 import SaveCustomerForm from "../../components/SaveCustomerForm/SaveCustomerForm";
+import {CustomerService} from "../../../services";
+import SourcesService from "../../../services/SourcesService";
 
-class CreateCustomer extends PureComponent {
-    constructor(props) {
-        super(props);
+const CreateCustomer = (props) => {
 
-        this.onSubmitHandler = this.onSubmitHandler.bind(this);
-    }
+   const [sources, setSources] = useState([]);
 
-    onSubmitHandler(userInput) {
-        const {
-            ...body
-        } = userInput;
-        const { history } = this.props;
-        if (body) {
-            this.props.postCustomer(body);
-            history.push('/customers');
+   const {history} = props;
 
-        }
-    }
+   const onSubmitHandler = useCallback(async (userInput) => {
+      const {
+         ...body
+      } = userInput;
+      try {
+         await CustomerService.postCustomer(body);
+         history.push('/customers');
+      } catch (e) {
+         console.log(e);
+      }
+   }, [ history]);
 
-    render() {
+   useEffect(() => {
+      (async function () {
+         try {
+            const [sources] = await Promise.all(
+               [
+                  SourcesService.list(),
+               ]
+            );
+            setSources(sources);
+         } catch (e) {
+            console.log(e);
+         }
+      })()
+   }, []);
 
-        return (
-            <div>
-                <SaveCustomerForm
-                    titleText="Create Customer"
-                    onSubmit={this.onSubmitHandler}
-                    submitText="Add new customer"
-                />
-            </div>
-        );
-    }
-}
+   const renderSources = () => {
+      if (!sources || !sources.length) {
+         return null;
+      }
 
+      return sources.map(source => {
+         return (
+            <option key={source.sourceId} value={source.sourceId}>{source.name}</option>
+         );
+      })
+   };
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        postCustomer: (body) => {
-            dispatch(postCustomer(body));
-        },
-        loadCustomer: () => {
-            dispatch(loadCustomer());
-        }
-    }
+   return (
+      <SaveCustomerForm
+         renderSource={renderSources()}
+         titleText="Create Customer"
+         onSubmit={onSubmitHandler}
+         submitText="Add new customer"
+      />
+   )
 };
 
-export default (connect(null, mapDispatchToProps)(CreateCustomer));
+export default CreateCustomer;

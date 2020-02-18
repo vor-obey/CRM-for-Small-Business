@@ -25,40 +25,42 @@ import {ForgotPassword} from "../../pages/ForgotPassword/ForgotPassword";
 import {OrdersPage} from "../../pages/OrdersPage/OrdersPage";
 import {OrderDetails} from "../../pages/OrdersPage/OrderDetails/OrderDetails";
 import {history} from "../../../utils/history";
+import CreateOrderPage from "../../pages/CreateOrderPage/CreateOrderPage";
 
 export const Routing = () => {
-    const dispatch = useDispatch();
+   const dispatch = useDispatch();
 
-    useEffect(() => {
-        const token = StorageService.getJWTToken();
+   useEffect(() => {
+      const token = StorageService.getJWTToken();
 
-        if (token) {
-            dispatch(getCurrentUser());
-        }
-    }, [dispatch]);
+      if (token) {
+         dispatch(getCurrentUser());
+      }
+   }, [dispatch]);
 
 
-    return (
-        <Router history={history}>
-            <Header/>
-            <AuthRoute exact path="/" component={Login}/>
-            <PrivateRoute path="/dashboard" component={Home}/>
-            <PrivateRoute path="/create-user" component={CreateUser}/>
-            <PrivateRoute path="/create-customer" component={CreateCustomer}/>
-            <PrivateRoute path='/logout' component={LogOut}/>
-            <PrivateRoute exact path='/customers' component={CustomersPage}/>
-            <PrivateRoute exact path='/customers/:id' component={CustomerDetailsPage}/>
-            <PrivateRoute exact path='/customers/:id/edit' component={EditCustomer}/>
-            <PrivateRoute exact path='/users' component={UsersPage}/>
-            <PrivateRoute exact path='/users/:id/edit' component={EditUser}/>
-            <PrivateRoute exact path='/users/:id' component={UserDetailsPage}/>
-            <PrivateRoute path='/create-shipping-details' component={ShippingDetails}/>
-            <PrivateRoute path='/orders' exact component={OrdersPage}/>
-            <PrivateRoute path='/orders/:id' component={OrderDetails}/>
-            <Route exact path='/restore_password/:token' component={RestorePassword}/>
-            <Route path='/forgot_password' exact component={ForgotPassword}/>
-            <Route exact path='/restore-password/:token' component={RestorePassword}/>
-            <Route path='/forgot-password' exact component={ForgotPassword}/>
-        </Router>
-    )
+   return (
+      <Router history={history}>
+         <Header/>
+         <AuthRoute exact path="/" component={Login}/>
+         <PrivateRoute path="/dashboard" component={Home}/>
+         <PrivateRoute path="/create-user" component={CreateUser}/>
+         <PrivateRoute path="/create-customer" component={CreateCustomer}/>
+         <PrivateRoute path='/logout' component={LogOut}/>
+         <PrivateRoute exact path='/customers' component={CustomersPage}/>
+         <PrivateRoute exact path='/customers/:id' component={CustomerDetailsPage}/>
+         <PrivateRoute exact path='/customers/:id/edit' component={EditCustomer}/>
+         <PrivateRoute exact path='/users' component={UsersPage}/>
+         <PrivateRoute exact path='/users/:id/edit' component={EditUser}/>
+         <PrivateRoute exact path='/users/:id' component={UserDetailsPage}/>
+         <PrivateRoute path='/create-shipping-details' component={ShippingDetails}/>
+         <PrivateRoute path='/orders' exact component={OrdersPage}/>
+         <PrivateRoute path='/create-order' exact component={CreateOrderPage}/>
+         <PrivateRoute path='/orders/:id' component={OrderDetails}/>
+         <Route exact path='/restore_password/:token' component={RestorePassword}/>
+         <Route path='/forgot_password' exact component={ForgotPassword}/>
+         <Route exact path='/restore-password/:token' component={RestorePassword}/>
+         <Route path='/forgot-password' exact component={ForgotPassword}/>
+      </Router>
+   )
 }

@@ -1,5 +1,5 @@
 import React from "react";
-import {InputLabel, Grid, Select, FormControl} from "@material-ui/core";
+import {InputLabel, Grid, Select, FormControl, Typography, Divider} from "@material-ui/core";
 import {ShippingDetails} from "../../../components/ShippingDetails/ShippingDetails";
 
 export const ShippingDetailsForm = (props) => {
@@ -25,6 +25,12 @@ export const ShippingDetailsForm = (props) => {
    };
    return (
       <>
+         <Grid item xl={12} xs={12} className={classes.gridManager}>
+            <Typography variant='h6'>
+               Shipping Details
+            </Typography>
+            <Divider/>
+         </Grid>
          <ShippingDetails
             onChangeInput={onChangedInput}
             breakPoints={autocompleteBreakpoints}
