@@ -1,7 +1,24 @@
 import React, {useState} from "react";
-import {InputLabel, Divider, Grid, Select, TextField, Typography, FormControl} from "@material-ui/core";
+
+import {
+   InputLabel,
+   Button,
+   Divider,
+   Grid,
+   Dialog,
+   DialogActions,
+   DialogContent,
+   Select,
+   TextField,
+   Typography,
+   FormControl
+} from "@material-ui/core";
+
 import NumberFormat from "react-number-format";
 import {CustomAutocomplete} from "../../../components/Autocomplete/Autocomplete";
+import PersonAddIcon from "@material-ui/icons/PersonAdd";
+import CloseIcon from '@material-ui/icons/Close';
+import CreateCustomer from "../../CreateCustomer/CreateCustomer";
 
 export const CustomerFormTemp = (props) => {
    const {
@@ -11,6 +28,9 @@ export const CustomerFormTemp = (props) => {
       customerDetails,
       onChangedInput,
       onSourceSelectHandler,
+      onClick,
+      onClickClose,
+      open,
       sources,
       sourceId,
    } = props;
@@ -40,7 +60,29 @@ export const CustomerFormTemp = (props) => {
             </Typography>
             <Divider/>
          </Grid>
-         <Grid item lg={12} xs={12} className={classes.gridCustomers}>
+         <Grid item lg={1} sm={2} md={2} xs={2} className={classes.gridButton}>
+            <Button
+               margin='normal'
+               color='primary'
+               fullWidth
+               onClick={onClick}
+            >
+               <PersonAddIcon/>
+            </Button>
+            <Dialog disableBackdropClick disableEscapeKeyDown open={open} onClose={onClickClose}>
+               <DialogContent>
+                  <form className={classes.container}>
+                     <CreateCustomer/>
+                  </form>
+               </DialogContent>
+               <DialogActions>
+                  <Button onClick={onClickClose} color="black">
+                     <CloseIcon/>
+                  </Button>
+               </DialogActions>
+            </Dialog>
+         </Grid>
+         <Grid item lg={11} sm={10} md={10} xs={10} className={classes.gridCustomers}>
             <CustomAutocomplete
                isOpen={isOpen}
                options={customers}
@@ -54,11 +96,7 @@ export const CustomerFormTemp = (props) => {
                optionKey='customerId'
             />
          </Grid>
-         <Grid item xl={12} xs={12}>
-            <Typography className={classes.heading} variant='h6'>
-               or create new one
-            </Typography>
-         </Grid>
+
          <Grid item lg={3} md={4} sm={6} xs={12}>
             <TextField
                className={classes.inputUserName}
@@ -112,7 +150,7 @@ export const CustomerFormTemp = (props) => {
                onChange={onChangedInput}
             />
          </Grid>
-         <Grid item xs={12}>
+         <Grid item xs={12} className={classes.gridDetails}>
             <TextField
                label="Details"
                name="details"
@@ -125,7 +163,7 @@ export const CustomerFormTemp = (props) => {
                onChange={onChangedInput}
             />
          </Grid>
-         <Grid item lg={12} xs={12}>
+         <Grid item lg={12} xs={12} className={classes.gridSource}>
             <FormControl variant={"outlined"} fullWidth lg={12} xs={12}>
                <InputLabel className={classes.labelInput} variant={"outlined"}>
                   Select Source

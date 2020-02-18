@@ -28,6 +28,7 @@ const CreateOrderPage = () => {
 
    const city = useSelector(state => state.autocompleteReducer.city);
    const warehouse = useSelector(state => state.autocompleteReducer.warehouse);
+   const currentUser = useSelector(state => state.userReducer.currentUser);
 
    const [productDetails, setProductDetails] = useState({
       description: '',
@@ -50,6 +51,7 @@ const CreateOrderPage = () => {
    const [managers, setManagers] = useState([]);
    const [methods, setMethods] = useState([]);
    const [customers, setCustomers] = useState([]);
+   const [open, setOpen] = useState(false);
 
    useEffect(() => {
       (async function () {
@@ -150,6 +152,13 @@ const CreateOrderPage = () => {
       }
    };
 
+   const handleClickOpen = () => {
+     setOpen(true) ;
+   };
+
+   const handleClickClose = () => {
+      setOpen(false) ;
+   };
    const onSubmitClicked = (e) => {
       e.preventDefault();
       onValidate();
@@ -171,6 +180,9 @@ const CreateOrderPage = () => {
                      </Grid>
                      <Grid container item xl={12}>
                         <CustomerFormTemp
+                           onClick={handleClickOpen}
+                           onClickClose={handleClickClose}
+                           open={open}
                            classes={classes}
                            customers={customers}
                            customerDetails={customerDetails}
@@ -195,6 +207,7 @@ const CreateOrderPage = () => {
                            managers={managers}
                            classes={classes}
                            onSelectHandler={onManagerSelectHandler}
+                           currentUser={currentUser}
                         />
                      </Grid>
                      <Button
