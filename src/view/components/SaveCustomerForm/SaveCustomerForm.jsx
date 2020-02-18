@@ -1,52 +1,31 @@
-import React, {Component} from 'react';
-
-import {
-    Avatar, Button, Container,
-    CssBaseline,
-    Grid,
-    TextField,
-    Typography,
-    withStyles,
-} from "@material-ui/core";
-import PersonAddIcon from '@material-ui/icons/PersonAdd';
-import NumberFormat from 'react-number-format';
-import { saveCustomerStyle } from './SaveCustomerForm.style';
-
-class SaveUserForm extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            inputs: {
-                username: '',
-                name: '',
-                contactEmail: '',
-                contactNumber: '',
-                details: '',
-            },
-        };
-
-        this.onChangeHandler = this.onChangeHandler.bind(this);
-    }
-
-    onChangeHandler(e) {
-        const inputs = {
-            ...this.state.inputs,
-            [e.target.name]: e.target.value,
-        };
-        this.setState({ inputs });
-
-    }
+import React from 'react';
+import {Avatar, Button, Container, CssBaseline, Grid, TextField, Typography, makeStyles} from "@material-ui/core";
+import PersonAddIcon from "@material-ui/core/SvgIcon/SvgIcon";
+import NumberFormat from "react-number-format";
+import {saveCustomerStyle} from "./SaveCustomerForm.style";
+import FormControl from "@material-ui/core/FormControl";
+import InputLabel from "@material-ui/core/InputLabel";
+import Select from "@material-ui/core/Select";
 
 
-    onSubmit(e){
-        e.preventDefault();
-        this.props.onSubmit(this.state.inputs);
-    }
+const useStyles = makeStyles(saveCustomerStyle);
 
-    render() {
-        const { classes } = this.props;
 
-        return (
+export const SaveCustomerForm = (props) => {
+
+    const {
+        renderSource,
+        titleText,
+        submitText,
+        details,
+        onSubmit,
+        onChange
+    } = props;
+
+    const classes = useStyles();
+
+    return (
+        <div>
             <Container component="main" maxWidth="xs">
                 <CssBaseline/>
                 <div className={classes.paper}>
@@ -54,9 +33,9 @@ class SaveUserForm extends Component {
                         <PersonAddIcon/>
                     </Avatar>
                     <Typography component="h1" variant="h5">
-                        {this.props.titleText}
+                        {titleText}
                     </Typography>
-                    <form className={classes.form} onSubmit={this.onSubmit.bind(this)}>
+                    <form className={classes.form} onSubmit={(event) => onSubmit(event, details)}>
                         <Grid container spacing={2}>
                             <Grid item xs={12} sm={6}>
                                 <TextField
@@ -64,8 +43,8 @@ class SaveUserForm extends Component {
                                     name={"username"}
                                     variant={"outlined"}
                                     type={"text"}
-                                    value={this.state.inputs.username}
-                                    onChange={this.onChangeHandler}
+                                    value={details.username}
+                                    onChange={onChange}
                                     required
                                     fullWidth
                                 />
@@ -76,8 +55,8 @@ class SaveUserForm extends Component {
                                     name={"name"}
                                     variant={"outlined"}
                                     type={"text"}
-                                    value={this.state.inputs.name}
-                                    onChange={this.onChangeHandler}
+                                    value={details.name}
+                                    onChange={onChange}
                                     required
                                     fullWidth
                                 />
@@ -89,8 +68,8 @@ class SaveUserForm extends Component {
                                     name={"contactEmail"}
                                     variant={"outlined"}
                                     type="email"
-                                    value={this.state.inputs.contactEmail}
-                                    onChange={this.onChangeHandler}
+                                    value={details.contactEmail}
+                                    onChange={onChange}
                                     required
                                     fullWidth
                                 />
@@ -104,8 +83,8 @@ class SaveUserForm extends Component {
                                     variant={"outlined"}
                                     format={"+38 (###) ###-##-##"}
                                     mask={"_"}
-                                    value={this.state.inputs.contactNumber}
-                                    onChange={this.onChangeHandler}
+                                    value={details.contactNumber}
+                                    onChange={onChange}
                                     required
                                     fullWidth
                                 />
@@ -114,14 +93,38 @@ class SaveUserForm extends Component {
                                 <TextField
                                     label={"Details"}
                                     name={"details"}
-                                    value={this.state.inputs.details}
-                                    onChange={this.onChangeHandler}
+                                    value={details.details}
+                                    onChange={onChange}
                                     variant={"outlined"}
                                     required
                                     fullWidth
                                     rows="4"
                                     multiline
                                 />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <FormControl
+                                    variant="outlined"
+                                    className={classes.formControl}
+                                    required
+                                >
+                                    <InputLabel id="demo-simple-select-outlined-label">
+                                        Source
+                                    </InputLabel>
+                                    <Select
+                                        native
+                                        name={"sourceId"}
+                                        value={(details && details.sourceId) || ''}
+                                        onChange={onChange}
+                                        labelWidth={40}
+                                        required
+                                        inputProps={{
+                                            name: 'sourceId',
+                                        }}>
+                                        <option value=""></option>
+                                        {renderSource()}
+                                    </Select>
+                                </FormControl>
                             </Grid>
                         </Grid>
                         <Button
@@ -130,13 +133,11 @@ class SaveUserForm extends Component {
                             variant={"contained"}
                             color={"primary"}
                             fullWidth
-                        >{this.props.submitText}</Button>
+                        >{submitText}</Button>
                     </form>
                 </div>
             </Container>
-        );
-    }
-}
+        </div>
+    );
+};
 
-
-export default withStyles(saveCustomerStyle)(SaveUserForm);
