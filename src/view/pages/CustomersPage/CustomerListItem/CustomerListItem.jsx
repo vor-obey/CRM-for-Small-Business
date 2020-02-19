@@ -15,12 +15,12 @@ export const CustomerListItem = (props) => {
                   style={{cursor: 'pointer'}}
                   onClick={() => navigateToCustomerDetails(customer.customerId)} >
             <Grid container className={classes.customerListContainer}>
-                <Grid item xs={4} md={2}>
+                <Grid item xs={5} md={2}>
                     <Typography className={classes.customerItem} variant={'body2'}>
                         {customer.username}
                     </Typography>
                 </Grid>
-                <Grid item xs={4} md={2}>
+                <Grid item xs={5} md={2}>
                     <Typography className={classes.customerItem} variant={'body2'}>
                         {customer.name}
                     </Typography>

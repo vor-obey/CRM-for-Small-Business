@@ -61,12 +61,12 @@ export const CustomersPage = (props) => {
             <List className={classes.container}>
                 <ListItem divider>
                     <Grid container className={classes.customerListContainer}>
-                        <Grid item xs={4} md={2}>
+                        <Grid item xs={5} md={2}>
                             <Typography className={classes.customerItemTitle}>
                                 Username
                             </Typography>
                         </Grid>
-                        <Grid item xs={4} md={2}>
+                        <Grid item xs={5} md={2}>
                             <Typography className={classes.customerItemTitle}>
                                 Name
                             </Typography>
