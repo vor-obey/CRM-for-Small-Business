@@ -1,6 +1,6 @@
 import React from 'react';
 import {Avatar, Button, Container, CssBaseline, Grid, TextField, Typography, makeStyles} from "@material-ui/core";
-import PersonAddIcon from "@material-ui/core/SvgIcon/SvgIcon";
+import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import NumberFormat from "react-number-format";
 import {saveCustomerStyle} from "./SaveCustomerForm.style";
 import FormControl from "@material-ui/core/FormControl";
@@ -30,7 +30,7 @@ export const SaveCustomerForm = (props) => {
                 <CssBaseline/>
                 <div className={classes.paper}>
                     <Avatar className={classes.avatar}>
-                        <PersonAddIcon/>
+                        <PersonAddIcon className={classes.create}/>
                     </Avatar>
                     <Typography component="h1" variant="h5">
                         {titleText}
