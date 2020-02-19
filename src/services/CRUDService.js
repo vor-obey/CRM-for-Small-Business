@@ -1,5 +1,4 @@
 import HTTPService from "./HTTPService";
-import {USER_URLS} from "../constants/urls";
 import { addParamsToUrl } from "../utils/helpers";
 
 export default class CRUDService {
@@ -18,7 +17,7 @@ export default class CRUDService {
     };
 
     update = async (body) => {
-        return await this.APIService.apiPatch(USER_URLS.USERS, { body });
+        return await this.APIService.apiPatch(this.pathname, { body });
     };
 
     list = async (params) => {
@@ -26,7 +25,7 @@ export default class CRUDService {
     };
 
     create = async (body) => {
-        return await this.APIService.apiPost(USER_URLS.USERS, { body });
+        return await this.APIService.apiPost(this.pathname, { body });
     };
 
-}
+};
