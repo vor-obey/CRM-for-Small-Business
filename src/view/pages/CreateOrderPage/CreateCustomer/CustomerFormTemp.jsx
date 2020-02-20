@@ -18,7 +18,7 @@ import NumberFormat from "react-number-format";
 import {CustomAutocomplete} from "../../../components/Autocomplete/Autocomplete";
 import PersonAddIcon from "@material-ui/icons/PersonAdd";
 import CloseIcon from '@material-ui/icons/Close';
-import CreateCustomer from "../../CreateCustomer/CreateCustomer";
+import {CreateCustomer} from "../../CreateCustomer/CreateCustomer";
 
 export const CustomerFormTemp = (props) => {
    const {
