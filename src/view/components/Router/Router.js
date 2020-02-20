@@ -17,7 +17,7 @@ import {UserDetailsPage} from "../../pages/UserDetailsPage/UserDetailsPage";
 import RestorePassword from "../../pages/RestorePassword/RestorePassword";
 import {EditUser} from "../../pages/EditUser/EditUser";
 import CustomerDetailsPage from "../../pages/CustomerDetailsPage/CustomerDetailsPage";
-import CreateCustomer from "../../pages/CreateCustomer/CreateCustomer";
+import {CreateCustomer} from "../../pages/CreateCustomer/CreateCustomer";
 import EditCustomer from "../../pages/EditCustomer/EditCustomer";
 import {getCurrentUser} from "../../../data/store/user/userThunkAction";
 import {ShippingDetails} from "../ShippingDetails/ShippingDetails";
