@@ -1,47 +1,48 @@
 import React from 'react';
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {
-   AppBar,
-   Toolbar,
-   IconButton,
-   makeStyles
+    AppBar,
+    Toolbar,
+    makeStyles,
 } from '@material-ui/core';
 import Drawer from "../Drawer/Drawer";
-
 import {Profile} from '../../Profile/Profile';
-import ProgressBar from "../../ProgressBar/ProgressBar";
+import ProgressBar from '../../ProgressBar/ProgressBar';
+import {AlertSnackbar} from "../../Snackbar/Snackbar";
+import {setSnackBarStatus} from "../../../../data/store/auxiliary/auxiliaryActions";
+import {headerStyle} from "./Header.style";
 
-const useStyles = makeStyles(theme => ({
-   root: {
-      flexGrow: 1,
-   },
-   menuButton: {
-      marginRight: theme.spacing(2),
-   },
-   title: {
-      flexGrow: 1,
-   },
-}));
+const useStyles = makeStyles(headerStyle);
 
 function Header() {
-   const classes = useStyles();
-   const loading = useSelector(state => state.userReducer.loading);
-   const currentUser = useSelector(state => state.userReducer.currentUser);
+    const classes = useStyles();
+    const dispatch = useDispatch();
+
+    const isLoading = useSelector(state => state.auxiliaryReducer.isLoading);
+    const snackBarStatus = useSelector(state => state.auxiliaryReducer.snackBarStatus);
+    const currentUser = useSelector(state => state.userReducer.currentUser);
 
 
-   return (
-      <div className={classes.root}>
-         <AppBar position="static">
-            <Toolbar>
-               <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-                  <Drawer/>
-               </IconButton>
-               <Profile currentUser={currentUser} />
-            </Toolbar>
-            <ProgressBar isLoading={loading}/>
-         </AppBar>
-      </div>
-   );
+    const onClosedHandler = () => {
+        dispatch(setSnackBarStatus({isOpen: false, errorMessage: ''}))
+    };
+
+    return (
+        <div className={classes.root}>
+            <AppBar position="static">
+                <Toolbar>
+                    <Drawer/>
+                    <Profile currentUser={currentUser}/>
+                </Toolbar>
+            </AppBar>
+            <ProgressBar isLoading={isLoading}/>
+            <AlertSnackbar
+                isOpen={snackBarStatus.isOpen}
+                errorMessage={snackBarStatus.errorMessage}
+                onClose={onClosedHandler}
+            />
+        </div>
+    );
 }
 
 export default Header;

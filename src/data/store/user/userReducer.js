@@ -1,6 +1,5 @@
 import {
     SET_USER_LOADING,
-    GET_ALL_USERS_LOADING,
     GET_ALL_USERS_SUCCESS,
     GET_ALL_USERS_ERROR,
     SET_NEW_USER_LOADING,
@@ -8,10 +7,8 @@ import {
     SET_NEW_USER_ERROR,
     SET_NEW_USER_CREATED,
     GET_USER_DETAILS_SUCCESS,
-    GET_USER_DETAILS_LOADING,
     GET_USER_DETAILS_ERROR,
     LOGIN_FAILURE,
-    // LOGIN_SUCCESS,
     GET_ROLES_SUCCESS,
     GET_ROLES_FAILURE,
     GET_CURRENT_USER_SUCCESS,
@@ -19,7 +16,6 @@ import {
     DELETE_USER_LOADING,
     DELETE_USER_SUCCESS,
     DELETE_USER_FAILURE,
-    PATCH_USER_LOADING,
     PATCH_USER_SUCCESS,
     PATCH_USER_FAILURE,
 } from "./userActionTypes";
@@ -57,7 +53,6 @@ export const userReducer = (state = initialState, action) => {
                  currentUser: action.currentUser
              };
         }
-        case GET_ALL_USERS_LOADING:
         case GET_ALL_USERS_SUCCESS: {
             return {
                 ...state,
@@ -111,7 +106,6 @@ export const userReducer = (state = initialState, action) => {
                 error: action.error
             }
         }
-        case GET_USER_DETAILS_LOADING:
         case GET_USER_DETAILS_SUCCESS: {
             return {
                 ...state,
@@ -139,7 +133,6 @@ export const userReducer = (state = initialState, action) => {
                 deleteUserError: action.deleteUserError
             }
         }
-        case PATCH_USER_LOADING:
         case PATCH_USER_SUCCESS: {
             return {
                 ...state,

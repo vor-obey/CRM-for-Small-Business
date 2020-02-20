@@ -1,26 +1,20 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {useParams} from 'react-router-dom';
 import {SaveUserForm} from '../../components/SaveUser/SaveUserForm';
 import {RoleService, UserService} from "../../../services";
-import {history} from "../../../utils/history";
 import {useDispatch} from "react-redux";
-import {setSnackBarStatus, setIsLoading} from "../../../data/store/auxiliary/auxiliaryActions";
+import {setIsLoading, setSnackBarStatus} from "../../../data/store/auxiliary/auxiliaryActions";
 import {COMMON_ERROR_MESSAGE} from "../../../constants/statuses";
 
-export const EditUser = () => {
-
-    const {id} = useParams();
+export const CreateUser = (props) => {
+    const {history} = props;
     const dispatch = useDispatch();
-    const [userDetails, setUserDetails] = useState({});
     const [roles, setRoles] = useState([]);
 
     useEffect(() => {
-        const fetchData = async () => {
+        const fetchRoles = async () => {
             try {
                 dispatch(setIsLoading(true));
-                const [userDetails, roles] = await Promise.all([UserService.findOneById(id), RoleService.list()]);
-                const {orders, organization, role: {roleId}, ...user} = userDetails;
-                setUserDetails({roleId, ...user});
+                const roles = await RoleService.list();
                 setRoles(roles);
                 dispatch(setIsLoading(false));
             } catch (e) {
@@ -28,32 +22,29 @@ export const EditUser = () => {
                 dispatch(setSnackBarStatus({isOpen: true, errorMessage: COMMON_ERROR_MESSAGE}))
             }
         };
-        fetchData();
-    }, [id, dispatch]);
-
+        fetchRoles();
+    }, [dispatch]);
 
     const onSubmitHandler = useCallback(async (userInput) => {
-        const {roleId, ...user} = userInput;
-        dispatch(setIsLoading(true));
-        const response = await UserService.update({userId: id, ...user, roleId});
-        if (response.success) {
+        const {confirmPassword, ...user} = userInput;
+        try {
+            dispatch(setIsLoading(true));
+            await UserService.create(user);
             dispatch(setIsLoading(false));
-            history.goBack();
-        } else {
+            history.push('/users');
+        } catch (e) {
             dispatch(setIsLoading(false));
             dispatch(setSnackBarStatus({isOpen: true, errorMessage: COMMON_ERROR_MESSAGE}))
         }
-    }, [id, dispatch]);
-
+    }, [dispatch, history]);
 
     return (
         <SaveUserForm
             onSubmit={onSubmitHandler}
-            title="Edit User"
-            buttonText="Edit"
-            userDetails={userDetails}
+            titleText="Create User"
+            buttonText="Create"
             roles={roles}
-            isEdit={true}
+            isEdit={false}
         />
     );
 };

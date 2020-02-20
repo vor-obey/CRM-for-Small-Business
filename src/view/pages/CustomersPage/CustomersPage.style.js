@@ -8,6 +8,9 @@ export const customersPageStyle = (theme =>  ({
         display: 'flex',
         flexWrap: 'wrap',
     },
+    title: {
+        textAlign: 'center',
+    },
     button: {
         margin: theme.spacing(3, 2, 2),
         alignItems: 'center',

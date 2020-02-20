@@ -17,7 +17,7 @@ export const profileStyles = (theme => ({
       flexDirection: 'column'
    },
    userName: {
-      fontSize: 22,
+      fontSize: 18,
       height: '100%',
       textAlign: 'end',
       [theme.breakpoints.down('xs')]: {

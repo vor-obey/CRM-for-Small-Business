@@ -1,52 +1,88 @@
-import React, { PureComponent } from 'react';
-import { connect } from "react-redux";
-import { postCustomer, loadCustomer } from "../../../data/store/customer/customerThunkAction";
+import React, {useCallback, useEffect, useState} from 'react';
 
-import SaveCustomerForm from "../../components/SaveCustomerForm/SaveCustomerForm";
+import {SaveCustomerForm} from "../../components/SaveCustomerForm/SaveCustomerForm";
+import {CustomerService} from "../../../services";
+import SourcesService from "../../../services/SourcesService";
+import {setIsLoading, setSnackBarStatus} from "../../../data/store/auxiliary/auxiliaryActions";
+import {COMMON_ERROR_MESSAGE} from "../../../constants/statuses";
+import {useDispatch} from "react-redux";
 
-class CreateCustomer extends PureComponent {
-    constructor(props) {
-        super(props);
+export const CreateCustomer = (props) => {
 
-        this.onSubmitHandler = this.onSubmitHandler.bind(this);
-    }
+    const dispatch = useDispatch();
 
-    onSubmitHandler(userInput) {
-        const {
-            ...body
-        } = userInput;
-        const { history } = this.props;
-        if (body) {
-            this.props.postCustomer(body);
-            history.push('/customers');
+    const [customerDetails, setCustomerDetails] = useState({
+        username: '',
+        name: '',
+        contactNumber: '',
+        contactEmail: '',
+        details: '',
+        sourceId: '',
+    });
+    const [sources, setSources] = useState([]);
 
+    const {history} = props;
+
+    useEffect(() => {
+        const fetchSources = async () => {
+            try {
+                dispatch(setIsLoading(true));
+                const sources = await SourcesService.list();
+                setSources(sources);
+                dispatch(setIsLoading(false));
+            } catch (e) {
+                dispatch(setIsLoading(false));
+                dispatch(setSnackBarStatus({isOpen: true, errorMessage: COMMON_ERROR_MESSAGE}))
+            }
+        };
+        fetchSources();
+    }, [dispatch]);
+
+    const onChangeHandler = useCallback((event) => {
+        const {name, value} = event.target;
+        setCustomerDetails(prevState => {
+            return {
+                ...prevState,
+                [name]: value
+            }
+        })
+    }, []);
+
+    const onSubmitHandler = useCallback(async (event, customerDetails) => {
+        event.preventDefault();
+        try {
+            dispatch(setIsLoading(true));
+            const  response = await CustomerService.create(customerDetails);
+            if (response) {
+                history.push('/customers');
+                dispatch(setIsLoading(false));
+            }
+        } catch (e) {
+            dispatch(setIsLoading(false));
+            dispatch(setSnackBarStatus({isOpen: true, errorMessage: COMMON_ERROR_MESSAGE}))
         }
-    }
+    }, [history, dispatch]);
 
-    render() {
-
-        return (
-            <div>
-                <SaveCustomerForm
-                    titleText="Create Customer"
-                    onSubmit={this.onSubmitHandler}
-                    submitText="Add new customer"
-                />
-            </div>
-        );
-    }
-}
-
-
-const mapDispatchToProps = (dispatch) => {
-    return {
-        postCustomer: (body) => {
-            dispatch(postCustomer(body));
-        },
-        loadCustomer: () => {
-            dispatch(loadCustomer());
+    const renderSources = () => {
+        if (!sources || !sources.length) {
+            return null;
         }
-    }
+
+        return sources.map(source => {
+            return (
+                <option key={source.sourceId} value={source.sourceId}>{source.name}</option>
+            );
+        })
+    };
+
+    return (
+        <SaveCustomerForm
+            details={customerDetails}
+            renderSource={renderSources}
+            titleText="Create Customer"
+            onSubmit={onSubmitHandler}
+            submitText="Add new customer"
+            onChange={onChangeHandler}
+        />
+    )
 };
-
-export default (connect(null, mapDispatchToProps)(CreateCustomer));

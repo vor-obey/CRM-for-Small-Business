@@ -8,11 +8,23 @@ import {
     Button,
     Slide
 } from '@material-ui/core';
-
+import {makeStyles} from "@material-ui/core/styles";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
+
+const useStyles = makeStyles((() => ({
+    title: {
+        textAlign: 'center'
+    },
+    text: {
+        textAlign: 'justify'
+    },
+    buttons: {
+        justifyContent: 'space-between'
+    }
+})));
 
 export function CustomDialog({
                                  isShow,
@@ -23,6 +35,7 @@ export function CustomDialog({
                                  onClose,
                                  onAction,
                              }){
+    const classes = useStyles();
     const renderActionButton = useMemo(() => {
         if (typeof onAction === "undefined") {
             return null;
@@ -44,13 +57,13 @@ export function CustomDialog({
             aria-labelledby="alert-dialog-slide-title"
             aria-describedby="alert-dialog-slide-description"
         >
-            <DialogTitle id="alert-dialog-slide-title">{title}</DialogTitle>
-            <DialogContent>
+            <DialogTitle id="alert-dialog-slide-title" className={classes.title}>{title}</DialogTitle>
+            <DialogContent className={classes.text}>
                 <DialogContentText id="alert-dialog-slide-description">
                     {children}
                 </DialogContentText>
             </DialogContent>
-            <DialogActions>
+            <DialogActions className={classes.buttons}>
                 <Button onClick={onClose} color="primary">
                     {closeText}
                 </Button>

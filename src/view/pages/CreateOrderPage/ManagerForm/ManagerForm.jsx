@@ -6,10 +6,11 @@ export const ManagerForm = (props) => {
    const {
       classes,
       managers,
-      onSelectHandler,
+      onSelectHandler
    } = props;
 
    const [isOpen, setIsOpen] = useState(false);
+
 
    const onToggle = () => {
       setIsOpen(prevState => !prevState);

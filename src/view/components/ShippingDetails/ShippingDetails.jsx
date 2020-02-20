@@ -5,15 +5,23 @@ import {setCity, setWarehouse} from "../../../data/store/autocomplete/autocomple
 import {useDispatch} from "react-redux";
 import {CustomAutocomplete} from '../Autocomplete/Autocomplete';
 
-
 export const ShippingDetails = (props) => {
-   const {breakPoints, classes} = props;
+
+   const {
+      classes,
+      optionKey,
+      breakPoints,
+      secondaryText
+   } = props;
+
    const dispatch = useDispatch();
    const [isCityOpen, setIsCityOpen] = useState(false);
    const [isWarehouseOpen, setIsWarehouseOpen] = useState(false);
    const [cityOptions, setCityOptions] = useState([]);
    const [warehouseOptions, setWarehouseOptions] = useState([]);
    const [isCityLoading, setIsCityLoading] = useState(false);
+   const [warehouseInput, setWarehouseInput] = useState(0);
+
 
    const fetchCities = useCallback(async (inputValue) => {
       return await OrderService.getNovaPoshtaCities(inputValue);
@@ -28,7 +36,7 @@ export const ShippingDetails = (props) => {
       } else {
          setIsCityLoading(true);
          const response = await fetchCities(value);
-         setCityOptions(response.data.map(co => ({title: co.DescriptionRu, ref: co.Ref})));
+         setCityOptions(response.data);
          setIsCityLoading(false);
       }
    }, [fetchCities]);
@@ -39,10 +47,11 @@ export const ShippingDetails = (props) => {
          dispatch(setWarehouse({}));
          setWarehouseOptions([]);
          setCityOptions([]);
+         setWarehouseInput(prevState => ++prevState);
       } else {
-         dispatch(setCity({description: item.title, ref: item.ref}));
-         const response = await OrderService.getNovaPoshtaWarehouses(item.ref);
-         setWarehouseOptions(response.data.map(co => ({title: co.DescriptionRu, ref: co.Ref})));
+         dispatch(setCity({city: item.Description, Ref: item.Ref}));
+         const response = await OrderService.getNovaPoshtaWarehouses(item.Ref);
+         setWarehouseOptions(response.data);
       }
    }, [dispatch]);
 
@@ -50,7 +59,7 @@ export const ShippingDetails = (props) => {
       if (!item) {
          dispatch(setWarehouse(null));
       } else {
-         dispatch(setWarehouse({description: item.Description, ref: item.Ref}));
+         dispatch(setWarehouse({warehouse: item.Description, Ref: item.Ref}));
       }
    }, [dispatch]);
 
@@ -79,8 +88,10 @@ export const ShippingDetails = (props) => {
                options={cityOptions}
                isOpen={isCityOpen}
                isLoading={isCityLoading}
-               primaryText="title"
-               label="city"
+               primaryText="Description"
+               inputLabel="Select City"
+               optionKey={optionKey}
+               secondaryText={secondaryText}
             />
          </Grid>
          <Grid
@@ -96,12 +107,14 @@ export const ShippingDetails = (props) => {
                onClose={onWarehouseToggle}
                options={warehouseOptions}
                isOpen={isWarehouseOpen}
-               primaryText="title"
-               label="warehouse"
+               primaryText="Description"
+               inputLabel="Select Warehouse"
                disabled={warehouseOptions.length === 0}
+               key={warehouseInput}
+               optionKey={optionKey}
+               secondaryText={secondaryText}
             />
          </Grid>
       </>
    );
-
 };

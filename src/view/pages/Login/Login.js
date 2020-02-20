@@ -1,132 +1,97 @@
-import React, {Component} from "react";
-import {connect} from "react-redux";
-import {login} from "../../../data/store/user/userThunkAction";
-import StorageService from '../../../services/StorageService';
+import React, {useCallback, useState} from "react";
+import {useDispatch} from "react-redux";
 
-import {Avatar, Button, CssBaseline, TextField, Grid, Typography, Container, withStyles} from '@material-ui/core';
+import {Avatar, Button, CssBaseline, TextField, Typography, Container, makeStyles} from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import {loginStyles} from './Login.style.js';
-import {Alert} from '@material-ui/lab';
+import {getCurrentUser, login} from "../../../data/store/user/userThunkAction";
 
-class Login extends Component {
-   constructor(props) {
-      super(props);
 
-      this.state = {
-         email: '',
-         password: '',
-         isAuthenticated: false,
-      };
+const useStyles = makeStyles(loginStyles);
 
-      this.onChange = this.onChange.bind(this);
-      this.login = this.login.bind(this);
-   }
+export const Login = (props) => {
+    const {history} = props;
+    const classes = useStyles();
+    const dispatch = useDispatch();
 
-   onChange(e) {
-      this.setState({
-         [e.target.name]: e.target.value
-      })
-   }
+    const [userLoginData, setUserLoginData] = useState({
+        email: '',
+        password: '',
+    });
 
-   async login(e) {
-      e.preventDefault();
-      const {email, password} = this.state;
-      const {login, history} = this.props;
-      await login(email, password);
+    const onChange = useCallback(async (event) => {
+        const {name, value} = event.target;
+        setUserLoginData(prevState => {
+            return {
+                ...prevState,
+                [name]: value
+            }
+        });
+    },[]);
 
-      const token = StorageService.getJWTToken();
+    const onSubmitForm = useCallback(async (event) => {
+        event.preventDefault();
+        const {email, password} = userLoginData;
+        await dispatch(login(email, password));
+        await dispatch(getCurrentUser());
 
-      if (token) {
-         history.push('/dashboard');
-      }
-   }
+        history.push('/dashboard');
+    }, [userLoginData, history, dispatch]);
 
-   handleClick = () => {
-         this.props.history.push('/forgot-password');
-   };
 
-   render() {
-      const {classes} = this.props;
+    const handleClick = () => {
+        history.push('/forgot-password');
+    };
 
-      return (
-         <Container component="main" maxWidth="xs">
+    return (
+        <Container component="main" maxWidth="xs">
             <CssBaseline/>
             <div className={classes.paper}>
-               <Avatar className={classes.avatar}>
-                  <LockOutlinedIcon/>
-               </Avatar>
-               <Typography component="h1" variant="h5">
-                  Log in
-               </Typography>
-               <form className={classes.form} onSubmit={this.login}>
-                  <TextField
-                     variant="outlined"
-                     margin="normal"
-                     required
-                     fullWidth
-                     id="email"
-                     label="Email Address"
-                     name="email"
-                     autoComplete="email"
-                     autoFocus
-                     value={this.state.email}
-                     onChange={this.onChange}
-                  />
-                  <TextField
-                     variant="outlined"
-                     margin="normal"
-                     required
-                     fullWidth
-                     name="password"
-                     label="Password"
-                     type="password"
-                     id="password"
-                     autoComplete="current-password"
-                     value={this.state.password}
-                     onChange={this.onChange}
-                  />
-                  <Button
-                     type="submit"
-                     fullWidth
-                     variant="contained"
-                     color="primary"
-                     className={classes.submit}
-                  >
-                     Log In
-                  </Button>
-                  <Grid container>
-                     <Grid item>
-                        {this.props.loginError ? (
-                           <Alert severity="error">The username or password provided were incorrect!</Alert>) : null}
-                     </Grid>
-                  </Grid>
-               </form>
-               <Button
-                  onClick={this.handleClick}>
-                  Forgot you Password ?
-               </Button>
+                <Avatar className={classes.avatar}>
+                    <LockOutlinedIcon/>
+                </Avatar>
+                <Typography component="h1" variant="h5">
+                    Log in
+                </Typography>
+                <form className={classes.form} onSubmit={onSubmitForm}>
+                    <TextField
+                        variant="outlined"
+                        margin="normal"
+                        required
+                        fullWidth
+                        label="Email Address"
+                        name="email"
+                        autoComplete="email"
+                        autoFocus
+                        value={userLoginData.email}
+                        onChange={onChange}
+                    />
+                    <TextField
+                        variant="outlined"
+                        margin="normal"
+                        required
+                        fullWidth
+                        name="password"
+                        label="Password"
+                        type="password"
+                        value={userLoginData.password}
+                        onChange={onChange}
+                    />
+                    <Button
+                        type="submit"
+                        fullWidth
+                        variant="contained"
+                        color="primary"
+                        className={classes.submit}
+                    >
+                        Log In
+                    </Button>
+                </form>
+                <Button
+                    onClick={handleClick}>
+                    Forgot your Password ?
+                </Button>
             </div>
-         </Container>
-      )
-   }
-}
-
-const mapStateToProps = (state) => {
-   const {
-      currentUser,
-      loginError
-   } = state.userReducer;
-
-   return {
-      currentUser,
-      loginError
-   }
+        </Container>
+    )
 };
-
-const mapDispatchToProps = (dispatch) => {
-   return {
-      login: (email, password) => dispatch(login(email, password)),
-   }
-};
-
-export default withStyles(loginStyles)(connect(mapStateToProps, mapDispatchToProps)(Login));

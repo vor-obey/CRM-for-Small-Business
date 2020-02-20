@@ -1,19 +1,38 @@
 import React, {useState} from "react";
-import {Divider, Grid, Select, TextField, Typography, FormControl} from "@material-ui/core";
+
+import {
+   InputLabel,
+   Button,
+   Divider,
+   Grid,
+   Dialog,
+   DialogActions,
+   DialogContent,
+   Select,
+   TextField,
+   Typography,
+   FormControl
+} from "@material-ui/core";
+
 import NumberFormat from "react-number-format";
-import {ShippingDetails} from "../../../components/ShippingDetails/ShippingDetails";
 import {CustomAutocomplete} from "../../../components/Autocomplete/Autocomplete";
+import PersonAddIcon from "@material-ui/icons/PersonAdd";
+import CloseIcon from '@material-ui/icons/Close';
+import {CreateCustomer} from "../../CreateCustomer/CreateCustomer";
 
 export const CustomerFormTemp = (props) => {
    const {
       classes,
-      autocompleteBreakpoints,
       customers,
       onSelectHandler,
       customerDetails,
       onChangedInput,
+      onSourceSelectHandler,
+      onClick,
+      onClickClose,
+      open,
       sources,
-      methods
+      sourceId,
    } = props;
    const [isOpen, setIsOpen] = useState(false);
 
@@ -26,24 +45,13 @@ export const CustomerFormTemp = (props) => {
          return null;
       }
 
-      return sources.map(sources => {
+      return sources.map(source => {
          return (
-            <option key={sources.sourceId} value={sources.sourceId}>{sources.name}</option>
+            <option key={source.sourceId} value={source.sourceId}>{source.name}</option>
          );
       })
    };
 
-   const renderMethods = () => {
-      if (!methods || !methods.length) {
-         return null;
-      }
-
-      return methods.map(methods => {
-         return (
-            <option key={methods.shippingMethodId} value={methods.shippingMethodId}>{methods.name}</option>
-         );
-      })
-   };
    return (
       <>
          <Grid item xl={12} xs={12}>
@@ -52,7 +60,29 @@ export const CustomerFormTemp = (props) => {
             </Typography>
             <Divider/>
          </Grid>
-         <Grid item lg={12} xs={12} className={classes.gridCustomers}>
+         <Grid item lg={1} sm={2} md={2} xs={2} className={classes.gridButton}>
+            <Button
+               margin='normal'
+               color='primary'
+               fullWidth
+               onClick={onClick}
+            >
+               <PersonAddIcon/>
+            </Button>
+            <Dialog disableBackdropClick disableEscapeKeyDown open={open} onClose={onClickClose}>
+               <DialogContent>
+                  <form className={classes.container}>
+                     <CreateCustomer/>
+                  </form>
+               </DialogContent>
+               <DialogActions>
+                  <Button onClick={onClickClose} color="black">
+                     <CloseIcon/>
+                  </Button>
+               </DialogActions>
+            </Dialog>
+         </Grid>
+         <Grid item lg={11} sm={10} md={10} xs={10} className={classes.gridCustomers}>
             <CustomAutocomplete
                isOpen={isOpen}
                options={customers}
@@ -66,11 +96,7 @@ export const CustomerFormTemp = (props) => {
                optionKey='customerId'
             />
          </Grid>
-         <Grid item xl={12} xs={12}>
-            <Typography className={classes.heading} variant='h6'>
-               Or create new one
-            </Typography>
-         </Grid>
+
          <Grid item lg={3} md={4} sm={6} xs={12}>
             <TextField
                className={classes.inputUserName}
@@ -124,7 +150,7 @@ export const CustomerFormTemp = (props) => {
                onChange={onChangedInput}
             />
          </Grid>
-         <Grid item xs={12}>
+         <Grid item xs={12} className={classes.gridDetails}>
             <TextField
                label="Details"
                name="details"
@@ -137,41 +163,23 @@ export const CustomerFormTemp = (props) => {
                onChange={onChangedInput}
             />
          </Grid>
-         <Grid item lg={12} xs={12}>
-            <FormControl fullWidth lg={12} xs={12}>
+         <Grid item lg={12} xs={12} className={classes.gridSource}>
+            <FormControl variant={"outlined"} fullWidth lg={12} xs={12}>
+               <InputLabel className={classes.labelInput} variant={"outlined"}>
+                  Select Source
+               </InputLabel>
                <Select
                   native
+                  fullWidth
                   name='sourceId'
-                  className={classes.selectSource}
+                  value={sourceId}
                   variant="outlined"
-                  fullWidth
-                  onChange={onChangedInput}
-                  value={customerDetails.sourceId}
-                  required
+                  labelWidth={105}
+                  className={classes.selectSource}
+                  onChange={onSourceSelectHandler}
                >
+                  <option value=""></option>
                   {renderSources()}
-               </Select>
-            </FormControl>
-         </Grid>
-         <ShippingDetails
-            breakPoints={autocompleteBreakpoints}
-            classes={{
-               city: classes.cityAutocomplete,
-               warehouse: classes.warehouseAutocomplete
-            }}
-         />
-         <Grid item lg={12} xs={12}>
-            <FormControl fullWidth lg={12} xs={12}>
-               <Select
-                  native
-                  name='shippingMethodId'
-                  className={classes.selectSource}
-                  variant="outlined"
-                  fullWidth
-                  value={methods.shippingMethodId}
-                  required
-               >
-                  {renderMethods()}
                </Select>
             </FormControl>
          </Grid>

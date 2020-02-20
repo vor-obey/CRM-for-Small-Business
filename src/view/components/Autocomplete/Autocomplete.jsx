@@ -16,10 +16,12 @@ export const CustomAutocomplete = (props) => {
         disabled,
         optionKey,
         primaryText,
-        secondaryText
+        secondaryText,
+        inputValue
     } = props;
     return (
         <Autocomplete
+            inputValue={inputValue}
             open={isOpen}
             onOpen={onToggle}
             onClose={onClose}

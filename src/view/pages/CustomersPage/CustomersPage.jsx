@@ -58,6 +58,9 @@ export const CustomersPage = (props) => {
 
     return (
         <Container className={classes.root}>
+            <Typography variant="h5" className={classes.title}>
+             Customers
+            </Typography>
             <List className={classes.container}>
                 <ListItem divider>
                     <Grid container className={classes.customerListContainer}>
@@ -74,14 +77,14 @@ export const CustomersPage = (props) => {
                         <Hidden smDown>
                             <Grid item xs={3} md={2}>
                                 <Typography className={classes.customerItemTitle}>
-                                    Email
+                                    Contact Number
                                 </Typography>
                             </Grid>
                         </Hidden>
                         <Hidden smDown>
                             <Grid item xs={3} md={2}>
                                 <Typography className={classes.customerItemTitle}>
-                                    Contact Number
+                                    Email
                                 </Typography>
                             </Grid>
                         </Hidden>

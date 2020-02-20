@@ -1,25 +1,24 @@
-import React, {useState,useEffect} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import {
     Avatar, Container,
     CssBaseline,
-    Typography, makeStyles
+    Typography, Button, makeStyles
 } from "@material-ui/core";
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import {saveUserStyle} from './SaveUser.style';
 import {SaveUserCredentials} from "./SaveUserCredentials/SaveUserCredentials";
 import {SaveUserDetails} from "./SaveUserDetails/SaveUserDetails";
-import Button from "@material-ui/core/Button";
 
 const useStyles = makeStyles(saveUserStyle);
 
 export const SaveUserForm = (props) => {
     const {
         userDetails,
-        titleText,
+        title,
         buttonText,
         isEdit,
         roles,
-        onSubmit
+        onSubmit,
     } = props;
 
     const classes = useStyles();
@@ -42,11 +41,11 @@ export const SaveUserForm = (props) => {
         setUserDetailsInputs(userDetails);
     }, [userDetails]);
 
-    const handleClickShowPassword = () => {
+    const handleClickShowPassword = useCallback(() => {
         setShowPassword(prevState => !prevState)
-    };
+    }, []);
 
-    const onChangedInputDetails = (event) => {
+    const onChangedInputDetails = useCallback((event) => {
         const {name, value} = event.target;
         setUserDetailsInputs(prevState => {
             return {
@@ -54,9 +53,9 @@ export const SaveUserForm = (props) => {
                 [name]: value
             }
         })
-    };
+    }, []);
 
-    const onChangedInputCredentials = (event) => {
+    const onChangedInputCredentials = useCallback((event) => {
         const {name, value} = event.target;
         setUserCredentials(prevState => {
             return {
@@ -64,13 +63,13 @@ export const SaveUserForm = (props) => {
                 [name]: value
             }
         })
-    };
+    }, []);
 
-    const onSubmitForm = (event) => {
+    const onSubmitForm = useCallback((event) => {
       event.preventDefault();
       const input = isEdit ? userDetailsInputs : {...userDetailsInputs, ...userCredentials};
       onSubmit(input);
-    };
+    }, [isEdit, onSubmit, userCredentials, userDetailsInputs]);
 
     return (
         <Container component="main" maxWidth="xs">
@@ -80,7 +79,7 @@ export const SaveUserForm = (props) => {
                     <PersonAddIcon/>
                 </Avatar>
                 <Typography component="h1" variant="h5">
-                    {titleText}
+                    {title}
                 </Typography>
                 <form className={classes.form} onSubmit={onSubmitForm}>
                     <SaveUserDetails

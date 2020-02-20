@@ -41,36 +41,6 @@ class UserService extends CRUDService {
         }
     };
 
-    async update(body) {
-        try {
-            return await this.update({ body })
-        } catch (e) {
-            return e;
-        }
-    };
-
-    async create(body) {
-        try {
-            return await this.create({body})
-        } catch (e) {
-            return e;
-        }
-    };
-
-    async deleteUser(id) {
-        try {
-            return await this.APIService.apiDelete('/users');
-        } catch (e) {
-            return e;
-        }
-    };
-    async getRoles() {
-        try {
-            return await this.APIService.apiGet('/roles');
-        } catch (e) {
-            return e;
-        }
-    }
 }
 
 export default new UserService();
