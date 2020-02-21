@@ -23,12 +23,12 @@ import {COMMON_ERROR_MESSAGE} from "../../../constants/statuses";
 const useStyles = makeStyles(customerDetailsStyle);
 
 export const CustomerDetailsPage = (props) => {
-
+    const {history} = props;
+    const [customerDetails, setCustomerDetails] = useState({});
+    const [isShow, setIsShow] = useState(false);
     const dispatch = useDispatch();
     const {id} = useParams();
     const classes = useStyles();
-    const [isShow, setIsShow] = useState(false);
-    const [customerDetails, setCustomerDetails] = useState({});
 
     const handleOpenDialog = useCallback(() => {
         setIsShow(prevState => !prevState);
@@ -36,15 +36,21 @@ export const CustomerDetailsPage = (props) => {
 
     useEffect(() => {
         const fetchCustomerById = async (id) => {
-            const response = await CustomerService.getCustomerById(id);
-            setCustomerDetails(response);
+            try {
+                dispatch(setIsLoading(true));
+                const response = await CustomerService.getCustomerById(id);
+                setCustomerDetails(response);
+                dispatch(setIsLoading(false));
+            } catch (e) {
+                dispatch(setIsLoading(false));
+                dispatch(setSnackBarStatus({isOpen: true, errorMessage: COMMON_ERROR_MESSAGE}));
+            }
         };
 
         fetchCustomerById(id);
     }, [dispatch, id]);
 
     const handleClickDeleteCustomer = useCallback(async () => {
-        const {history} = props;
         try {
             dispatch(setIsLoading( true));
             const response = await CustomerService.delete(id);
@@ -57,12 +63,11 @@ export const CustomerDetailsPage = (props) => {
             dispatch(setSnackBarStatus({isOpen: true, errorMessage: COMMON_ERROR_MESSAGE}))
         }
 
-    }, [props, dispatch, id]);
+    }, [history, dispatch, id]);
 
     const handleClickEdit = useCallback(() => {
-        const {history} = props;
         history.push(`${id}/edit`);
-    }, [id, props]);
+    }, [id, history]);
 
 
     const renderCustomerDetails = useCallback(() => {

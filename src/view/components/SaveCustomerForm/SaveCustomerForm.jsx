@@ -7,9 +7,7 @@ import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
 
-
 const useStyles = makeStyles(saveCustomerStyle);
-
 
 export const SaveCustomerForm = (props) => {
 
@@ -61,7 +59,6 @@ export const SaveCustomerForm = (props) => {
                                     fullWidth
                                 />
                             </Grid>
-
                             <Grid item xs={12}>
                                 <TextField
                                     label={"Email Address"}

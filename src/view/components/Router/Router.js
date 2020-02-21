@@ -63,4 +63,4 @@ export const Routing = () => {
          <Route path='/forgot-password' exact component={ForgotPassword}/>
       </Router>
    )
-}
+};

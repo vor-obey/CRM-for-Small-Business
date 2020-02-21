@@ -13,31 +13,39 @@ import {
     Hidden,
     makeStyles
 } from '@material-ui/core';
-import { customersPageStyle } from "./CustomersPage.style";
+import {customersPageStyle} from "./CustomersPage.style";
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import {CustomerListItem} from "./CustomerListItem/CustomerListItem";
+import {setIsLoading, setSnackBarStatus} from "../../../data/store/auxiliary/auxiliaryActions";
+import {COMMON_ERROR_MESSAGE} from "../../../constants/statuses";
+import {USER_URLS} from "../../../constants/urls";
 
 const useStyles = makeStyles(customersPageStyle);
 
 export const CustomersPage = (props) => {
-
+    const {history} = props;
+    const [customerList, setCustomerList] = useState([]);
     const dispatch = useDispatch();
     const classes = useStyles();
-    const [customerList, setCustomerList] = useState([]);
 
     useEffect(() => {
-        (async function () {
+        const fetchCustomers = async () => {
             try {
+                dispatch(setIsLoading(true));
                 const response = await CustomerService.getCustomerList();
                 setCustomerList(response);
+                dispatch(setIsLoading(true));
             } catch (e) {
+                dispatch(setIsLoading(false));
+                dispatch(setSnackBarStatus({isOpen: true, errorMessage: COMMON_ERROR_MESSAGE}));
             }
-        })()
+        };
+        fetchCustomers();
     }, [dispatch]);
 
     const navigateToCustomerDetails = useCallback((customerId) => {
-        props.history.push(`/customers/${customerId}`)
-    }, [props.history]);
+        history.push(`${USER_URLS.CUSTOMERS}/${customerId}`)
+    }, [history]);
 
 
     const renderRows = useCallback(() => {
@@ -59,7 +67,7 @@ export const CustomersPage = (props) => {
     return (
         <Container className={classes.root}>
             <Typography variant="h5" className={classes.title}>
-             Customers
+                Customers
             </Typography>
             <List className={classes.container}>
                 <ListItem divider>
