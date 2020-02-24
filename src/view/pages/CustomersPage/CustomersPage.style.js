@@ -1,23 +1,46 @@
 export const customersPageStyle = (theme =>  ({
-    table: {
-        maxWidth: 800,
+    root: {
+        flexGrow: 1,
         marginTop: theme.spacing(10),
-        alignItems: 'center',
+        padding: theme.spacing(0),
     },
-    submit: {
-        margin: theme.spacing(3, 0, 2),
-        alignItems: 'center'
+    container: {
+        display: 'flex',
+        flexWrap: 'wrap',
+    },
+    title: {
+        textAlign: 'center',
     },
     button: {
-        margin: theme.spacing(3, 10, 2),
+        margin: theme.spacing(3, 2, 2),
         alignItems: 'center',
     },
-    addUser: {
+    addCustomer: {
         margin: theme.spacing(0, 1, 0, 0)
     },
-    allUsers: {
-        display: 'flex',
-        flexDirection: 'column',
+    customerBlock: {
+        wordWrap: 'break-word',
+        '&:nth-child(odd)': {
+            backgroundColor: '#efefef',
+        },
+        '&:hover': {
+            backgroundColor: '#cecece',
+            transitionDuration: '0.3s',
+            transitionTimingFunction: 'linear',
+        }
+    },
+    customerListContainer: {
+        justifyContent: 'space-between',
         alignItems: 'center',
+    },
+    customerItem: {
+        paddingRight: '4px',
+        display: 'block',
+        textAlign: 'left',
+    },
+    customerItemTitle: {
+        paddingRight: '4px',
+        textAlign: 'left',
+        variant: 'body1',
     },
 }));

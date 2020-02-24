@@ -1,69 +1,82 @@
-import React, { PureComponent } from 'react';
-import { connect } from "react-redux";
-import { editCustomer, loadCustomer } from "../../../data/store/customer/customerThunkAction";
-import { withStyles } from '@material-ui/core';
+import React, {useCallback, useEffect, useState} from 'react';
+import {useParams} from 'react-router-dom';
+import { SaveCustomerForm} from '../../components/SaveCustomerForm/SaveCustomerForm';
+import {CustomerService} from "../../../services";
+import SourcesService from "../../../services/SourcesService";
+import {useDispatch} from "react-redux";
+import {setSnackBarStatus, setIsLoading} from "../../../data/store/auxiliary/auxiliaryActions";
+import {COMMON_ERROR_MESSAGE} from "../../../constants/statuses";
 
-import { createuserStyle } from '../CreateUser/CreateUser.style.js';
-import {SaveCustomerForm} from '../../components/SaveCustomerForm/SaveCustomerForm';
+export const EditCustomer = (props) => {
 
+    const {id} = useParams();
+    const dispatch = useDispatch();
+    const [customerDetails, setCustomerDetails] = useState({});
+    const [sources, setSources] = useState([]);
+    const {history} = props;
 
-class EditUser extends PureComponent {
-    constructor(props) {
-        super(props);
-        this.state = {
-            inputs: {
-                username: '',
-                name: '',
-                contactEmail: '',
-                contactNumber: '',
-                details: '',
-            },
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                dispatch(setIsLoading(true));
+                const [customerDetails, sources] = await Promise.all([CustomerService.findOneById(id), SourcesService.list()]);
+                const {orders, source: {sourceId}, ...customer} = customerDetails;
+                setCustomerDetails({sourceId, ...customer});
+                setSources(sources);
+                dispatch(setIsLoading(false));
+            } catch (e) {
+                dispatch(setIsLoading(false));
+                dispatch(setSnackBarStatus({isOpen: true, errorMessage: COMMON_ERROR_MESSAGE}))
+            }
         };
-        this.onSubmitHandler = this.onSubmitHandler.bind(this);
-    }
+        fetchData();
+    }, [id, dispatch]);
 
-    onSubmitHandler(body) {
-        this.props.editCustomer(body);
-        this.props.history.goBack();
-    }
+    const onChangeHandler = useCallback((event) => {
+        const {name, value} = event.target;
+        setCustomerDetails(prevState => {
+            return {
+                ...prevState,
+                [name]: value
+            }
+        })
+    }, []);
 
-    render() {
-        return (
-            <div>
-                {
-                    this.props.editCustomer ? (
-                        <SaveCustomerForm
-                            onSubmit={this.onSubmitHandler}
-                            titleText="Edit Customer"
-                            submitText="Edit"
-                            userDetails={this.props.editCustomer}
-                            disabled={true}
-                        />
-                    ) : null
-                }
-            </div>
-        );
-    }
-}
+    const onSubmitHandler = useCallback(async (event, customerDetails) => {
+        event.preventDefault();
+        try {
+            dispatch(setIsLoading(true));
+            const response = await CustomerService.update(customerDetails);
+            if (response) {
+                history.goBack();
+                dispatch(setIsLoading(false));
+            }
+        } catch (e) {
+            dispatch(setIsLoading(false));
+            dispatch(setSnackBarStatus({isOpen: true, errorMessage: COMMON_ERROR_MESSAGE}))
+        }
+    }, [history, dispatch]);
 
+    const renderSources = () => {
+        if (!sources || !sources.length) {
+            return null;
+        }
 
+        return sources.map(source => {
+            return (
+                <option key={source.sourceId} value={source.sourceId}>{source.name}</option>
+            );
+        })
+    };
 
-const mapStateToProps = (state) => {
-    const {userDetails, user} = state.userReducer;
-
-    return {
-        userDetails,
-        user
-    }
+    return (
+        <SaveCustomerForm
+            onSubmit={onSubmitHandler}
+            renderSource={renderSources}
+            titleText="Edit Customer"
+            submitText="Edit"
+            details={customerDetails}
+            onChange={onChangeHandler}
+        />
+    )
 };
-
-const mapDispatchToProps = (dispatch, ownProps) => {
-    return {
-        editCustomer: (body) => {
-            dispatch(editCustomer(body));
-        },
-        loadCustomer: () => dispatch(loadCustomer(ownProps.match.params.id)),
-    }
-};
-
-export default withStyles(createuserStyle)(connect(mapStateToProps, mapDispatchToProps)(EditUser));
