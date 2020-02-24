@@ -34,7 +34,7 @@ export const CustomersPage = (props) => {
                 dispatch(setIsLoading(true));
                 const response = await CustomerService.getCustomerList();
                 setCustomerList(response);
-                dispatch(setIsLoading(true));
+                dispatch(setIsLoading(false));
             } catch (e) {
                 dispatch(setIsLoading(false));
                 dispatch(setSnackBarStatus({isOpen: true, errorMessage: COMMON_ERROR_MESSAGE}));

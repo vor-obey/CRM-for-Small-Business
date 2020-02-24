@@ -37,10 +37,10 @@ export const SaveCustomerForm = (props) => {
                         <Grid container spacing={2}>
                             <Grid item xs={12} sm={6}>
                                 <TextField
-                                    label={"Username"}
-                                    name={"username"}
-                                    variant={"outlined"}
-                                    type={"text"}
+                                    label="Username"
+                                    name="username"
+                                    variant="outlined"
+                                    type="text"
                                     value={(details && details.username) || ''}
                                     onChange={onChange}
                                     required
@@ -49,10 +49,10 @@ export const SaveCustomerForm = (props) => {
                             </Grid>
                             <Grid item xs={12} sm={6}>
                                 <TextField
-                                    label={"Name"}
-                                    name={"name"}
-                                    variant={"outlined"}
-                                    type={"text"}
+                                    label="Name"
+                                    name="name"
+                                    variant="outlined"
+                                    type="text"
                                     value={(details && details.name) || ''}
                                     onChange={onChange}
                                     required
@@ -61,9 +61,9 @@ export const SaveCustomerForm = (props) => {
                             </Grid>
                             <Grid item xs={12}>
                                 <TextField
-                                    label={"Email Address"}
-                                    name={"contactEmail"}
-                                    variant={"outlined"}
+                                    label="Email Address"
+                                    name="contactEmail"
+                                    variant="outlined"
                                     type="email"
                                     value={(details && details.contactEmail) || ''}
                                     onChange={onChange}
@@ -74,12 +74,12 @@ export const SaveCustomerForm = (props) => {
                             <Grid item xs={12}>
                                 <NumberFormat
                                     customInput={TextField}
-                                    label={"Contact number"}
-                                    name={"contactNumber"}
-                                    type={"tel"}
-                                    variant={"outlined"}
-                                    format={"+38 (###) ###-##-##"}
-                                    mask={"_"}
+                                    label="Contact number"
+                                    name="contactNumber"
+                                    type="tel"
+                                    variant="outlined"
+                                    format="+38 (###) ###-##-##"
+                                    mask="_"
                                     value={(details && details.contactNumber) || ''}
                                     onChange={onChange}
                                     required
@@ -88,11 +88,11 @@ export const SaveCustomerForm = (props) => {
                             </Grid>
                             <Grid item xs={12}>
                                 <TextField
-                                    label={"Details"}
-                                    name={"details"}
+                                    label="Details"
+                                    name="details"
                                     value={(details && details.details) || ''}
                                     onChange={onChange}
-                                    variant={"outlined"}
+                                    variant="outlined"
                                     required
                                     fullWidth
                                     rows="4"
@@ -110,7 +110,7 @@ export const SaveCustomerForm = (props) => {
                                     </InputLabel>
                                     <Select
                                         native
-                                        name={"sourceId"}
+                                        name="sourceId"
                                         value={(details && details.sourceId) || ''}
                                         onChange={onChange}
                                         labelWidth={70}
@@ -126,9 +126,9 @@ export const SaveCustomerForm = (props) => {
                         </Grid>
                         <Button
                             className={classes.submit}
-                            type={"submit"}
-                            variant={"contained"}
-                            color={"primary"}
+                            type="submit"
+                            variant="contained"
+                            color="primary"
                             fullWidth
                         >{submitText}</Button>
                     </form>

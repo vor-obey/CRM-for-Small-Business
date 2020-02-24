@@ -86,7 +86,7 @@ export const CustomerDetailsPage = (props) => {
                       justify={'flex-start'}>
                     <Grid container item xs={12}
                           justify={'center'}>
-                        <Typography variant="h4" className={classes.title} align="center" gutterBottom>
+                        <Typography variant="h5" className={classes.title} align="center" gutterBottom>
                             Customer Details
                         </Typography>
                     </Grid>
@@ -118,12 +118,13 @@ export const CustomerDetailsPage = (props) => {
             </Paper>
             <CustomDialog
                 title="Delete Customer"
-                children="Are you sure you want to delete the customer without the possibility of recovery?"
                 isShow={isShow}
                 onClose={handleOpenDialog}
                 closeText="Disagree"
                 onAction={handleClickDeleteCustomer}
-            />
+            >
+                Are you sure you want to delete the customer without the possibility of recovery?
+            </CustomDialog>
         </Container>
     );
 };
