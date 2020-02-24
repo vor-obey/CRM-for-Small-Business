@@ -7,9 +7,7 @@ import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
 
-
 const useStyles = makeStyles(saveCustomerStyle);
-
 
 export const SaveCustomerForm = (props) => {
 
@@ -39,11 +37,11 @@ export const SaveCustomerForm = (props) => {
                         <Grid container spacing={2}>
                             <Grid item xs={12} sm={6}>
                                 <TextField
-                                    label={"Username"}
-                                    name={"username"}
-                                    variant={"outlined"}
-                                    type={"text"}
-                                    value={details.username}
+                                    label="Username"
+                                    name="username"
+                                    variant="outlined"
+                                    type="text"
+                                    value={(details && details.username) || ''}
                                     onChange={onChange}
                                     required
                                     fullWidth
@@ -51,24 +49,23 @@ export const SaveCustomerForm = (props) => {
                             </Grid>
                             <Grid item xs={12} sm={6}>
                                 <TextField
-                                    label={"Name"}
-                                    name={"name"}
-                                    variant={"outlined"}
-                                    type={"text"}
-                                    value={details.name}
+                                    label="Name"
+                                    name="name"
+                                    variant="outlined"
+                                    type="text"
+                                    value={(details && details.name) || ''}
                                     onChange={onChange}
                                     required
                                     fullWidth
                                 />
                             </Grid>
-
                             <Grid item xs={12}>
                                 <TextField
-                                    label={"Email Address"}
-                                    name={"contactEmail"}
-                                    variant={"outlined"}
+                                    label="Email Address"
+                                    name="contactEmail"
+                                    variant="outlined"
                                     type="email"
-                                    value={details.contactEmail}
+                                    value={(details && details.contactEmail) || ''}
                                     onChange={onChange}
                                     required
                                     fullWidth
@@ -77,13 +74,13 @@ export const SaveCustomerForm = (props) => {
                             <Grid item xs={12}>
                                 <NumberFormat
                                     customInput={TextField}
-                                    label={"Contact number"}
-                                    name={"contactNumber"}
-                                    type={"tel"}
-                                    variant={"outlined"}
-                                    format={"+38 (###) ###-##-##"}
-                                    mask={"_"}
-                                    value={details.contactNumber}
+                                    label="Contact number"
+                                    name="contactNumber"
+                                    type="tel"
+                                    variant="outlined"
+                                    format="+38 (###) ###-##-##"
+                                    mask="_"
+                                    value={(details && details.contactNumber) || ''}
                                     onChange={onChange}
                                     required
                                     fullWidth
@@ -91,11 +88,11 @@ export const SaveCustomerForm = (props) => {
                             </Grid>
                             <Grid item xs={12}>
                                 <TextField
-                                    label={"Details"}
-                                    name={"details"}
-                                    value={details.details}
+                                    label="Details"
+                                    name="details"
+                                    value={(details && details.details) || ''}
                                     onChange={onChange}
-                                    variant={"outlined"}
+                                    variant="outlined"
                                     required
                                     fullWidth
                                     rows="4"
@@ -113,10 +110,10 @@ export const SaveCustomerForm = (props) => {
                                     </InputLabel>
                                     <Select
                                         native
-                                        name={"sourceId"}
+                                        name="sourceId"
                                         value={(details && details.sourceId) || ''}
                                         onChange={onChange}
-                                        labelWidth={40}
+                                        labelWidth={70}
                                         required
                                         inputProps={{
                                             name: 'sourceId',
@@ -129,9 +126,9 @@ export const SaveCustomerForm = (props) => {
                         </Grid>
                         <Button
                             className={classes.submit}
-                            type={"submit"}
-                            variant={"contained"}
-                            color={"primary"}
+                            type="submit"
+                            variant="contained"
+                            color="primary"
                             fullWidth
                         >{submitText}</Button>
                     </form>

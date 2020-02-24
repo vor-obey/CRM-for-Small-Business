@@ -1,5 +1,23 @@
 export const customerDetailsStyle = (theme =>  ({
-    allUsers: {
+    root: {
+        marginTop: theme.spacing(2),
+        width: '100%',
+    },
+    containerList: {
+        width: '100%',
+    },
+    container: {
+        display: 'flex',
+        flexWrap: 'wrap',
+        flexDirection: 'row',
+        alignItems: 'flex-start',
+        justifyContent: 'space-evenly',
+    },
+    customerItem: {
+        wordWrap: 'break-word',
+        margin: theme.spacing(0, 0, 2, 0),
+    },
+    allCustomers: {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -16,28 +34,15 @@ export const customerDetailsStyle = (theme =>  ({
     title: {
         marginTop: theme.spacing(3),
     },
-    form: {
-        margin: theme.spacing(3),
-    },
-    list: {
-        display: 'flex',
-        flexDirection: 'row',
-        alignItems: 'flex-start',
-        flexWrap: 'wrap',
-        justifyContent: 'space-around',
-    },
     fab: {
         margin: theme.spacing(3),
         backgroundColor: theme.palette.primary.main,
     },
-    submit: {
-        margin: theme.spacing(3, 0, 2),
-        alignItems: 'center',
+    userInfo: {
+        wordWrap: 'break-word',
     },
-    addUser: {
-        margin: theme.spacing(0, 1, 0, 0)
+    userDetail: {
+        display: 'grid',
+        justifyContent: 'space-evenly',
     },
-    textField: {
-        width: '100%',
-    }
 }));
