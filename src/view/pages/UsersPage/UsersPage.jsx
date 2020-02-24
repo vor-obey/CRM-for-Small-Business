@@ -8,6 +8,7 @@ import {useDispatch} from "react-redux";
 import {UserListItem} from "./UserListItem/UserListItem";
 import {setIsLoading, setSnackBarStatus} from "../../../data/store/auxiliary/auxiliaryActions";
 import {COMMON_ERROR_MESSAGE} from "../../../constants/statuses";
+import {FilterInput} from "../../components/Filter/FilterInput/FilterInput";
 
 const useStyles = makeStyles(usersPageStyle);
 
@@ -16,6 +17,7 @@ export const UsersPage = (props) => {
     const dispatch = useDispatch();
     const classes = useStyles();
     const [userList, setUserList] = useState([]);
+    const [inputFilter, setInputFilter] = useState('');
 
     useEffect(() => {
         const fetchUsers = async () => {
@@ -36,24 +38,42 @@ export const UsersPage = (props) => {
         history.push(`/users/${userId}`)
     }, [history]);
 
+
+    const onChangeHandler = (event) => {
+        const {value} = event.target;
+        setInputFilter(value)
+    };
+
+
     const renderRows = useCallback(() => {
         if (!userList || !userList.length) {
             return null;
         }
-        return userList.map((user) => {
-            return (
-                <UserListItem
-                    key={user.userId}
-                    user={user}
-                    classes={classes}
-                    navigateToUserDetails={navigateToUserDetails}
-                />
-            );
-        })
-    }, [userList, classes, navigateToUserDetails]);
+        return userList
+            .filter((user) => {
+                if (!inputFilter) return true;
+                return user.firstName.toLowerCase().indexOf(inputFilter.toLowerCase()) !== -1;
+            })
+            .map((user) => {
+                return (
+                    <UserListItem
+                        key={user.userId}
+                        user={user}
+                        classes={classes}
+                        navigateToUserDetails={navigateToUserDetails}
+                    />
+                );
+            })
+    }, [userList, classes, navigateToUserDetails, inputFilter]);
 
     return (
         <Container className={classes.root}>
+            <FilterInput
+                className={classes.search}
+                placeholder={'Search'}
+                value={inputFilter}
+                onChange={onChangeHandler}
+            />
             <List className={classes.container}>
                 <ListItem divider>
                     <Grid container className={classes.userListContainer}>

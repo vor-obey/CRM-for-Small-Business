@@ -25,16 +25,35 @@ export const addParamsToUrl = (urlPath, params = {}) =>{
     return url;
 };
 
-//
-// export const isAuthenticated = () => {
-//     const token = this.getCookie(COOKIE_KEYS.TOKEN);
-//     let authenticated = false;
-//     if (token !== '') {
-//         authenticated = !this.isTokenExpired(token);
-//         if (!authenticated) {
-//             this.removeCookie(COOKIE_KEYS.TOKEN);
-//             this.removeCookie(COOKIE_KEYS.REFRESH_TOKEN);
-//         }
-//     }
-//     return authenticated;
-// }
+
+export const filter = (data, params) => {
+    return data.filter((item) => {
+        const keys = Object.keys(params);
+        const values = Object.values(params);
+
+        for (let i = 0; i <= keys.length; i++) {
+            if (Object.prototype.hasOwnProperty.call(values, i)) {
+                let value = item[keys[i]];
+                let param = params[keys[i]];
+
+                if (value.firstName) {
+                    return value.firstName.toLowerCase().indexOf(params.toLowerCase()) !== -1;
+                }
+
+                if (typeof value === 'number') {
+                    value = value.toString();
+                }
+
+                if (typeof param === 'number') {
+                    param = param.toString();
+                }
+
+                if (value !== param) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    });
+};
