@@ -25,7 +25,7 @@ import {ForgotPassword} from "../../pages/ForgotPassword/ForgotPassword";
 import {OrdersPage} from "../../pages/OrdersPage/OrdersPage";
 import {OrderDetails} from "../../pages/OrdersPage/OrderDetails/OrderDetails";
 import {history} from "../../../utils/history";
-import CreateOrderPage from "../../pages/CreateOrderPage/CreateOrderPage";
+import {CreateOrderPage} from "../../pages/CreateOrderPage/CreateOrderPage";
 
 export const Routing = () => {
    const dispatch = useDispatch();
@@ -63,4 +63,5 @@ export const Routing = () => {
          <Route path='/forgot-password' exact component={ForgotPassword}/>
       </Router>
    )
-}
+};
+

@@ -1,4 +1,4 @@
-export const CreateOrderScreenStyle = (theme => ({
+export const createOrderPageStyles = (theme => ({
          root: {
             marginTop: theme.spacing(3)
          },
@@ -57,29 +57,7 @@ export const CreateOrderScreenStyle = (theme => ({
             [theme.breakpoints.down('xs')]:
                {
                   marginBottom: theme.spacing(1),
-                  paddingRight: theme.spacing(1),
                   paddingLeft: theme.spacing(4)
-               },
-         },
-         inputUserName: {
-            marginTop: theme.spacing(1),
-            [theme.breakpoints.down('xs')]:
-               {
-                  paddingRight: 0
-               }
-         },
-         inputName: {
-            marginTop: theme.spacing(1),
-            [theme.breakpoints.down('xs')]:
-               {
-                  paddingLeft: 0
-               }
-         },
-         inputNumber: {
-            marginTop: theme.spacing(1),
-            [theme.breakpoints.down('xs')]:
-               {
-                  paddingLeft: 0
                },
          },
          gridButton: {
@@ -90,27 +68,29 @@ export const CreateOrderScreenStyle = (theme => ({
                   paddingRight: 0,
                }
          },
-         inputDetails: {
-            paddingRight: theme.spacing(10)
+         gridShipping: {
+            marginTop: theme.spacing(1),
+            marginBottom: theme.spacing(1)
          },
-         selectSource: {
+         shippingText: {
+            marginBottom: theme.spacing(1)
+         },
+         modal: {
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+         },
+         gridModal: {
+            display: 'flex',
+            backgroundColor: '#fff',
+            justifyContent: 'flex-end'
+         },
+         buttonClose: {
+            position: 'absolute',
             marginTop: theme.spacing(1)
          },
-         gridManager: {
-            marginTop: theme.spacing(1),
-            marginBottom: theme.spacing(2)
-         },
-         labelInput: {
-            marginTop: theme.spacing(1),
-            marginBottom: theme.spacing(1)
-         },
-         gridDetails: {
-            marginTop: theme.spacing(1),
-            marginBottom: theme.spacing(1)
-         },
-         gridSource: {
-            marginBottom: theme.spacing(1)
-         },
+         fadeLoading: {
+            alignItems: 'center'
+         }
       }
-   ))
-;
+   ));

@@ -1,5 +1,5 @@
 import React from "react";
-import {InputLabel, Grid, Select, FormControl, Typography, Divider} from "@material-ui/core";
+import {Grid, Typography, Divider} from "@material-ui/core";
 import {ShippingDetails} from "../../../components/ShippingDetails/ShippingDetails";
 
 export const ShippingDetailsForm = (props) => {
@@ -7,26 +7,12 @@ export const ShippingDetailsForm = (props) => {
       classes,
       autocompleteBreakpoints,
       onChangedInput,
-      onMethodSelectHandler,
-      methods,
-      shippingMethodId
    } = props;
 
-   const renderMethods = () => {
-      if (!methods || !methods.length) {
-         return null;
-      }
-
-      return methods.map(method => {
-         return (
-            <option key={method.shippingMethodId} value={method.shippingMethodId}>{method.name}</option>
-         );
-      })
-   };
    return (
       <>
-         <Grid item xl={12} xs={12} className={classes.gridManager}>
-            <Typography variant='h6'>
+         <Grid item xl={12} xs={12} className={classes.gridShipping} >
+            <Typography variant='h6' className={classes.shippingText}>
                Shipping Details
             </Typography>
             <Divider/>
@@ -39,26 +25,6 @@ export const ShippingDetailsForm = (props) => {
                warehouse: classes.warehouseAutocomplete
             }}
          />
-         <Grid item lg={12} xs={12}>
-            <FormControl fullWidth lg={12} xs={12} variant={"outlined"}>
-               <InputLabel className={classes.labelInput}>
-                  Select Method
-               </InputLabel>
-               <Select
-                  native
-                  fullWidth
-                  variant="outlined"
-                  name='shippingMethodId'
-                  labelWidth={110}
-                  value={shippingMethodId}
-                  className={classes.selectSource}
-                  onChange={onMethodSelectHandler}
-               >
-                  <option value=""></option>
-                  {renderMethods()}
-               </Select>
-            </FormControl>
-         </Grid>
       </>
    );
 };

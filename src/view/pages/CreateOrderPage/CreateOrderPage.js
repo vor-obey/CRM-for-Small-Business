@@ -1,17 +1,14 @@
 import React, {useState, useEffect} from 'react';
 import {makeStyles, Button, Grid, Container, Paper} from '@material-ui/core';
-import {CreateOrderScreenStyle} from './CreateOrderScreen.style'
+import {createOrderPageStyles} from './CreateOrderScreen.style'
 import {ProductForm} from "./ProductForm/ProductForm";
-import {CustomerFormTemp} from "./CreateCustomer/CustomerFormTemp";
-import {ManagerForm} from "./ManagerForm/ManagerForm";
+import {CustomerForm} from "./CreateCustomer/CustomerForm";
 import {ShippingDetailsForm} from "./ShippingDetailsForm/ShippingDetailsForm";
 import CustomerService from "../../../services/CustomerService";
 import UserService from "../../../services/UserService";
-import SourcesService from "../../../services/SourcesService";
-import MethodService from "../../../services/MethodsService";
 import {useSelector} from "react-redux";
 
-const useStyles = makeStyles(CreateOrderScreenStyle);
+const useStyles = makeStyles(createOrderPageStyles);
 
 const currencies = ['UAH', 'USD', 'EUR'];
 
@@ -22,13 +19,13 @@ const autocompleteBreakpoints = {
    xs: 12,
 };
 
-const CreateOrderPage = () => {
+export const CreateOrderPage = () => {
 
    const classes = useStyles();
 
+
    const city = useSelector(state => state.autocompleteReducer.city);
    const warehouse = useSelector(state => state.autocompleteReducer.warehouse);
-   const currentUser = useSelector(state => state.userReducer.currentUser);
 
    const [productDetails, setProductDetails] = useState({
       description: '',
@@ -38,41 +35,50 @@ const CreateOrderPage = () => {
    });
    const [customerDetails, setCustomerDetails] = useState({
       customerId: "",
-      username: "",
-      name: "",
-      contactNumber: "",
-      contactEmail: "",
-      details: "",
+      username: '',
+      name: '',
+      contactNumber: '',
+      contactEmail: '',
+      details: '',
+      sourceId: '',
    });
    const [managerId, setManagerId] = useState('');
-   const [sourceId, setSourceId] = useState('');
-   const [shippingMethodId, setShippingMethodId] = useState('');
-   const [sources, setSources] = useState([]);
    const [managers, setManagers] = useState([]);
-   const [methods, setMethods] = useState([]);
    const [customers, setCustomers] = useState([]);
    const [open, setOpen] = useState(false);
+   const [update, setUpdate] = useState(false);
 
    useEffect(() => {
-      (async function () {
+      const fetchCustomers = async () => {
          try {
-            const [customers, methods, managers, sources] = await Promise.all(
-               [
-                  CustomerService.list(),
-                  MethodService.list(),
-                  UserService.list(),
-                  SourcesService.list(),
-               ]
-            );
+            const customers = await CustomerService.list();
             setCustomers(customers);
-            setManagers(managers);
-            setMethods(methods);
-            setSources(sources);
          } catch (e) {
-            console.log(e);
+            console.log(e)
          }
-      })()
+      };
+      fetchCustomers();
+   }, [update]);
+
+   useEffect(() => {
+      const fetchManagers = async () => {
+         try {
+            const managers = await UserService.list();
+            setManagers(managers);
+         } catch (e) {
+            console.log(e)
+         }
+      };
+      fetchManagers();
    }, []);
+
+   const handleOpen = () => {
+      setOpen(true);
+   };
+
+   const handleClose = () => {
+      setOpen(false);
+   };
 
    const onChangedProductInput = event => {
       const {value, name} = event.target;
@@ -98,11 +104,6 @@ const CreateOrderPage = () => {
       if (!customer) {
          setCustomerDetails({
             customerId: "",
-            username: "",
-            name: "",
-            contactNumber: "",
-            contactEmail: "",
-            details: "",
          });
       } else {
          setCustomerDetails({
@@ -111,54 +112,27 @@ const CreateOrderPage = () => {
       }
    };
 
-   const onSourceSelectHandler = (event) => {
-      const {value} = event.target;
-      if (!sources) {
-         setSourceId('');
-      } else {
-         setSourceId(value);
-      }
-   };
-
-   const onMethodSelectHandler = (event) => {
-      const {value} = event.target;
-      if (!methods) {
-         setShippingMethodId('');
-      } else {
-         setShippingMethodId(value);
-      }
-   };
 
    const onManagerSelectHandler = async manager => {
       if (!manager) {
-         setManagerId('')
+         setManagerId('');
       } else {
          setManagerId(manager.userId);
       }
    };
 
    const onValidate = () => {
-      if (!sourceId || !managerId || !shippingMethodId || !city || !warehouse) {
-         console.log('All Fields Must Be Filled')
+      if (!managerId || !city || !warehouse || !customerDetails) {
       } else {
          console.log({
             productDetails,
             customerDetails,
-            sourceId,
             shippingDetails: {city, warehouse},
-            shippingMethodId,
             managerId
          });
       }
    };
 
-   const handleClickOpen = () => {
-     setOpen(true) ;
-   };
-
-   const handleClickClose = () => {
-      setOpen(false) ;
-   };
    const onSubmitClicked = (e) => {
       e.preventDefault();
       onValidate();
@@ -179,43 +153,33 @@ const CreateOrderPage = () => {
                         />
                      </Grid>
                      <Grid container item xl={12}>
-                        <CustomerFormTemp
-                           onClick={handleClickOpen}
-                           onClickClose={handleClickClose}
+                        <CustomerForm
                            open={open}
+                           setUpdate={setUpdate}
+                           onClick={handleOpen}
+                           onClose={handleClose}
                            classes={classes}
                            customers={customers}
                            customerDetails={customerDetails}
                            onSelectHandler={onCustomerSelectHandler}
                            onChangedInput={onChangedCustomerInput}
-                           sources={sources}
-                           sourceId={sourceId}
-                           onSourceSelectHandler={onSourceSelectHandler}
+                           managers={managers}
+                           setManagers={setManagers}
+                           onManagerSelectHandler={onManagerSelectHandler}
                         />
                      </Grid>
                      <Grid container item xl={12}>
                         <ShippingDetailsForm
                            classes={classes}
                            autocompleteBreakpoints={autocompleteBreakpoints}
-                           onMethodSelectHandler={onMethodSelectHandler}
-                           shippingMethodId={shippingMethodId}
-                           methods={methods}
-                        />
-                     </Grid>
-                     <Grid container item xl={12}>
-                        <ManagerForm
-                           managers={managers}
-                           classes={classes}
-                           onSelectHandler={onManagerSelectHandler}
-                           currentUser={currentUser}
                         />
                      </Grid>
                      <Button
                         fullWidth
                         className={classes.submit}
-                        type={"submit"}
-                        variant={"contained"}
-                        color={"primary"}
+                        type="submit"
+                        variant="contained"
+                        color="primary"
                      >
                         Create Order
                      </Button>
@@ -227,4 +191,3 @@ const CreateOrderPage = () => {
    )
 };
 
-export default CreateOrderPage;

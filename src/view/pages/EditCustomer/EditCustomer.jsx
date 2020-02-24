@@ -4,7 +4,7 @@ import { editCustomer, loadCustomer } from "../../../data/store/customer/custome
 import { withStyles } from '@material-ui/core';
 
 import { createuserStyle } from '../CreateUser/CreateUser.style.js';
-import { SaveCustomerForm} from '../../components/SaveCustomerForm/SaveCustomerForm';
+import {SaveCustomerForm} from '../../components/SaveCustomerForm/SaveCustomerForm';
 
 
 class EditUser extends PureComponent {
