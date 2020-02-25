@@ -1,9 +1,5 @@
-import React, {useState, useEffect, useCallback} from 'react';
-import {
-    Avatar, Container,
-    CssBaseline,
-    Typography, Button, makeStyles
-} from "@material-ui/core";
+import React, {useCallback, useEffect, useState} from 'react';
+import {Avatar, Button, Container, CssBaseline, makeStyles, Typography} from "@material-ui/core";
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import {saveUserStyle} from './SaveUser.style';
 import {SaveUserCredentials} from "./SaveUserCredentials/SaveUserCredentials";
@@ -67,13 +63,17 @@ export const SaveUserForm = (props) => {
     }, []);
 
     const onSubmitForm = useCallback((event) => {
-      event.preventDefault();
-      const input = isEdit ? userDetailsInputs : {...userDetailsInputs, ...userCredentials};
-      onSubmit(input);
+        event.preventDefault();
+        let input = {...userDetailsInputs, ...userCredentials};
+
+        if (isEdit && userDetails.userId !== currentUser.userId) {
+            input = userDetailsInputs;
+        }
+        onSubmit(input);
     }, [isEdit, onSubmit, userCredentials, userDetailsInputs]);
 
     const renderCredentials = () => {
-        if ((isEdit && (userDetails.userId = currentUser)) || !isEdit) {
+        if ((isEdit && currentUser && (userDetails.userId === currentUser.userId)) || !isEdit) {
             return (
                 <SaveUserCredentials
                     showPassword={showPassword}
@@ -83,9 +83,7 @@ export const SaveUserForm = (props) => {
                 />
             )
         }
-
         return null;
-
     };
 
     return (
