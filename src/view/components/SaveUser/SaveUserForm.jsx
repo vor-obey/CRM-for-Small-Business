@@ -64,27 +64,36 @@ export const SaveUserForm = (props) => {
 
     const onSubmitForm = useCallback((event) => {
         event.preventDefault();
-        let input = {...userDetailsInputs, ...userCredentials};
+        const {confirmPassword, ...userCreds} = userCredentials;
+        let input = {...userDetailsInputs, ...userCreds};
 
         if (isEdit && userDetails.userId !== currentUser.userId) {
             input = userDetailsInputs;
         }
         onSubmit(input);
-    }, [isEdit, onSubmit, userCredentials, userDetailsInputs]);
+    }, [isEdit, onSubmit, userCredentials, userDetailsInputs, currentUser, userDetails]);
 
-    const renderCredentials = () => {
-        if ((isEdit && currentUser && (userDetails.userId === currentUser.userId)) || !isEdit) {
-            return (
-                <SaveUserCredentials
-                    showPassword={showPassword}
-                    toggleShowPassword={handleClickShowPassword}
-                    onChangedInput={onChangedInputCredentials}
-                    credentials={userCredentials}
-                />
-            )
+    const renderCredentials = useCallback(() => {
+        if (isEdit && (currentUser && userDetails && currentUser.userId !== userDetails.userId)) {
+            return null;
         }
-        return null;
-    };
+        return (
+            <SaveUserCredentials
+                showPassword={showPassword}
+                toggleShowPassword={handleClickShowPassword}
+                onChangedInput={onChangedInputCredentials}
+                credentials={userCredentials}
+            />
+        )
+    }, [
+        currentUser,
+        isEdit,
+        handleClickShowPassword,
+        onChangedInputCredentials,
+        showPassword,
+        userCredentials,
+        userDetails
+    ]);
 
     return (
         <Container component="main" maxWidth="xs">
