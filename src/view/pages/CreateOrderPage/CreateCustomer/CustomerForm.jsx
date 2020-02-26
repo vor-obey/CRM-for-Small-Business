@@ -20,24 +20,14 @@ import {useDispatch, useSelector} from "react-redux";
 export const CustomerForm = (props) => {
 
    const {
-      open,
       classes,
       setUpdate,
       customers,
-      onSelectHandler,
-      onClick,
-      onClose,
       managers,
-      onManagerSelectHandler,
    } = props;
 
-   const [isOpen, setIsOpen] = useState(false);
-   const [sources, setSources] = useState([]);
-   const [isOpenManager, setIsOpenManager] = useState(false);
-   const dispatch = useDispatch();
-   const currentUser = useSelector(state => state.userReducer.currentUser);
-
    const [customerDetails, setCustomerDetails] = useState({
+      customerId: "",
       username: '',
       name: '',
       contactNumber: '',
@@ -45,15 +35,14 @@ export const CustomerForm = (props) => {
       details: '',
       sourceId: '',
    });
+   const [managerId, setManagerId] = useState('');
 
-
-   const onToggle = () => {
-      setIsOpen(prevState => !prevState);
-   };
-
-   const onToggleManager = () => {
-      setIsOpenManager(prevState => !prevState);
-   };
+   const [isModalOpen, setIsModalOpen] = useState(false);
+   const [isCustomerAutocompleteOpen, setIsCustomerAutocompleteOpen] = useState(false);
+   const [isManagerAutocompleteOpen, setIsManagerAutocompleteOpen] = useState(false);
+   const [sources, setSources] = useState([]);
+   const dispatch = useDispatch();
+   const currentUser = useSelector(state => state.userReducer.currentUser);
 
    useEffect(() => {
       const fetchSources = async () => {
@@ -70,7 +59,19 @@ export const CustomerForm = (props) => {
       fetchSources();
    }, [dispatch]);
 
-   const onChangeHandler = useCallback((event) => {
+   const toggleCustomerAutocomplete = useCallback(() => {
+      setIsCustomerAutocompleteOpen(prevState => !prevState);
+   }, []);
+
+   const toggleManagerAutocomplete = useCallback(() => {
+      setIsManagerAutocompleteOpen(prevState => !prevState);
+   }, []);
+
+   const toggleModal = useCallback(() => {
+      setIsModalOpen(prevState => !prevState);
+   }, []);
+
+   const onChangedCustomerInput = useCallback((event) => {
       const {name, value} = event.target;
       setCustomerDetails(prevState => {
          return {
@@ -80,7 +81,25 @@ export const CustomerForm = (props) => {
       })
    }, []);
 
-   const getUpdate = useCallback(() => {
+   const onSelectedCustomer = useCallback((async (customer) => {
+      if (!customer) {
+         setCustomerDetails({
+            customerId: "",
+            username: '',
+            name: '',
+            contactNumber: '',
+            contactEmail: '',
+            details: '',
+            sourceId: '',
+         });
+      } else {
+         setCustomerDetails({
+            ...customer
+         });
+      }
+   }), []);
+
+   const updateCustomersList = useCallback(() => {
       setUpdate(true);
    }, [setUpdate]);
 
@@ -91,14 +110,21 @@ export const CustomerForm = (props) => {
          const response = await CustomerService.create(customerDetails);
          if (response) {
             dispatch(setIsLoading(false));
-            getUpdate();
-            onClose();
+            updateCustomersList();
          }
       } catch (e) {
          dispatch(setIsLoading(false));
          dispatch(setSnackBarStatus({isOpen: true, errorMessage: COMMON_ERROR_MESSAGE}))
       }
-   }, [dispatch, onClose, getUpdate]);
+   }, [dispatch, updateCustomersList]);
+
+   const onManagerSelectHandler = async (manager) => {
+      if (!manager) {
+         setManagerId('');
+      } else {
+         setManagerId(manager.userId);
+      }
+   };
 
    const renderSources = () => {
       if (!sources || !sources.length) {
@@ -113,7 +139,9 @@ export const CustomerForm = (props) => {
    };
 
    const getOptionSelected = useCallback(() => {
-      return(managers.find((manager) => manager.userId === currentUser.userId));
+      const manager = managers.find((manager) => manager.userId === currentUser.userId);
+      console.log(manager);
+      return manager;
    }, [currentUser, managers]);
 
    return (
@@ -129,15 +157,15 @@ export const CustomerForm = (props) => {
                margin='normal'
                color='primary'
                fullWidth
-               onClick={onClick}
+               onClick={toggleModal}
             >
                <PersonAddIcon/>
             </Button>
          </Grid>
          <CustomModal
-            open={open}
+            open={isModalOpen}
             classes={classes}
-            handleClose={onClose}
+            handleClose={toggleModal}
          >
             <SaveCustomerForm
                details={customerDetails}
@@ -145,17 +173,17 @@ export const CustomerForm = (props) => {
                titleText="Create Customer"
                onSubmit={onSubmitHandler}
                submitText="Add new customer"
-               onChange={onChangeHandler}
+               onChange={onChangedCustomerInput}
             />
          </CustomModal>
          <Grid item lg={11} sm={10} md={10} xs={10} className={classes.gridCustomers}>
             <CustomAutocomplete
-               isOpen={isOpen}
+               isOpen={isCustomerAutocompleteOpen}
                options={customers}
                isLoading={!customers.length}
-               onSelectHandler={onSelectHandler}
-               onToggle={onToggle}
-               onClose={onToggle}
+               onSelectHandler={onSelectedCustomer}
+               onToggle={toggleCustomerAutocomplete}
+               onClose={toggleCustomerAutocomplete}
                inputLabel='Select customer'
                primaryText='name'
                secondaryText='username'
@@ -165,11 +193,11 @@ export const CustomerForm = (props) => {
          <Grid item lg={12} xs={12}>
             <Grid item>
                <CustomAutocomplete
-                  isOpen={isOpenManager}
+                  isOpen={isManagerAutocompleteOpen}
                   options={managers}
                   isLoading={!managers.length}
-                  onToggle={onToggleManager}
-                  onClose={onToggleManager}
+                  onToggle={toggleManagerAutocomplete}
+                  onClose={toggleManagerAutocomplete}
                   onSelectHandler={onManagerSelectHandler}
                   getOptionSelected={getOptionSelected}
                   inputLabel='Select Manager'

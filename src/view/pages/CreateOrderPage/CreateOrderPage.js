@@ -6,7 +6,11 @@ import {CustomerForm} from "./CreateCustomer/CustomerForm";
 import {ShippingDetailsForm} from "./ShippingDetailsForm/ShippingDetailsForm";
 import CustomerService from "../../../services/CustomerService";
 import UserService from "../../../services/UserService";
-import {useSelector} from "react-redux";
+import {useDispatch,
+   // useSelector
+} from "react-redux";
+import {setIsLoading, setSnackBarStatus} from "../../../data/store/auxiliary/auxiliaryActions";
+import {COMMON_ERROR_MESSAGE} from "../../../constants/statuses";
 
 const useStyles = makeStyles(createOrderPageStyles);
 
@@ -22,63 +26,50 @@ const autocompleteBreakpoints = {
 export const CreateOrderPage = () => {
 
    const classes = useStyles();
-
-
-   const city = useSelector(state => state.autocompleteReducer.city);
-   const warehouse = useSelector(state => state.autocompleteReducer.warehouse);
-
+   // const city = useSelector(state => state.autocompleteReducer.city);
+   // const warehouse = useSelector(state => state.autocompleteReducer.warehouse);
    const [productDetails, setProductDetails] = useState({
       description: '',
       price: '',
       amount: '',
       currency: 'UAH'
    });
-   const [customerDetails, setCustomerDetails] = useState({
-      customerId: "",
-      username: '',
-      name: '',
-      contactNumber: '',
-      contactEmail: '',
-      details: '',
-      sourceId: '',
-   });
-   const [managerId, setManagerId] = useState('');
+
+   // const [managerId, setManagerId] = useState('');
    const [managers, setManagers] = useState([]);
    const [customers, setCustomers] = useState([]);
-   const [open, setOpen] = useState(false);
-   const [update, setUpdate] = useState(false);
+   const [shouldUpdate, setShouldUpdate] = useState(false);
+   const dispatch = useDispatch();
 
    useEffect(() => {
       const fetchCustomers = async () => {
          try {
+            dispatch(setIsLoading(true));
             const customers = await CustomerService.list();
             setCustomers(customers);
+            dispatch(setIsLoading(false));
          } catch (e) {
-            console.log(e)
+            dispatch(setIsLoading(false));
+            dispatch(setSnackBarStatus({isOpen: true, errorMessage: COMMON_ERROR_MESSAGE}));
          }
       };
       fetchCustomers();
-   }, [update]);
+   }, [shouldUpdate, dispatch]);
 
    useEffect(() => {
       const fetchManagers = async () => {
          try {
+            dispatch(setIsLoading(true));
             const managers = await UserService.list();
             setManagers(managers);
+            dispatch(setIsLoading(false));
          } catch (e) {
-            console.log(e)
+            dispatch(setIsLoading(false));
+            dispatch(setSnackBarStatus({isOpen: true, errorMessage: COMMON_ERROR_MESSAGE}));
          }
       };
       fetchManagers();
-   }, []);
-
-   const handleOpen = () => {
-      setOpen(true);
-   };
-
-   const handleClose = () => {
-      setOpen(false);
-   };
+   }, [dispatch]);
 
    const onChangedProductInput = event => {
       const {value, name} = event.target;
@@ -90,52 +81,9 @@ export const CreateOrderPage = () => {
       });
    };
 
-   const onChangedCustomerInput = event => {
-      const {value, name} = event.target;
-      setCustomerDetails(prevState => {
-         return {
-            ...prevState,
-            [name]: value
-         };
-      });
-   };
-
-   const onCustomerSelectHandler = async customer => {
-      if (!customer) {
-         setCustomerDetails({
-            customerId: "",
-         });
-      } else {
-         setCustomerDetails({
-            ...customer
-         });
-      }
-   };
-
-
-   const onManagerSelectHandler = async manager => {
-      if (!manager) {
-         setManagerId('');
-      } else {
-         setManagerId(manager.userId);
-      }
-   };
-
-   const onValidate = () => {
-      if (!managerId || !city || !warehouse || !customerDetails) {
-      } else {
-         console.log({
-            productDetails,
-            customerDetails,
-            shippingDetails: {city, warehouse},
-            managerId
-         });
-      }
-   };
-
    const onSubmitClicked = (e) => {
       e.preventDefault();
-      onValidate();
+      console.log('clicked');
    };
 
    return (
@@ -154,18 +102,11 @@ export const CreateOrderPage = () => {
                      </Grid>
                      <Grid container item xl={12}>
                         <CustomerForm
-                           open={open}
-                           setUpdate={setUpdate}
-                           onClick={handleOpen}
-                           onClose={handleClose}
+                           setUpdate={setShouldUpdate}
                            classes={classes}
                            customers={customers}
-                           customerDetails={customerDetails}
-                           onSelectHandler={onCustomerSelectHandler}
-                           onChangedInput={onChangedCustomerInput}
                            managers={managers}
                            setManagers={setManagers}
-                           onManagerSelectHandler={onManagerSelectHandler}
                         />
                      </Grid>
                      <Grid container item xl={12}>

@@ -78,7 +78,6 @@ export const ProductForm = (props) => {
                ))}
             </TextField>
          </Grid>
-
       </>
    );
 };

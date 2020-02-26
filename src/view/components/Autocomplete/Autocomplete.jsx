@@ -27,6 +27,7 @@ export const CustomAutocomplete = (props) => {
          options={options}
          loading={isLoading}
          getOptionLabel={option => option[primaryText]}
+         getOptionSelected={option => {console.log(option)}}
          disabled={disabled}
          onChange={(event, value) => onSelectHandler(value)}
          renderInput={params => (
