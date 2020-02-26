@@ -9,6 +9,7 @@ import {UserListItem} from "./UserListItem/UserListItem";
 import {setIsLoading, setSnackBarStatus} from "../../../data/store/auxiliary/auxiliaryActions";
 import {COMMON_ERROR_MESSAGE} from "../../../constants/statuses";
 import {FilterInput} from "../../components/Filter/FilterInput/FilterInput";
+import {filter} from "../../../utils/helpers";
 
 const useStyles = makeStyles(usersPageStyle);
 
@@ -49,12 +50,7 @@ export const UsersPage = (props) => {
         if (!userList || !userList.length) {
             return null;
         }
-        return userList
-            .filter((user) => {
-                if (!inputFilter) return true;
-                return user.firstName.toLowerCase().indexOf(inputFilter.toLowerCase()) !== -1;
-            })
-            .map((user) => {
+        return filter(userList, inputFilter).map((user) => {
                 return (
                     <UserListItem
                         key={user.userId}
@@ -70,8 +66,8 @@ export const UsersPage = (props) => {
         <Container className={classes.root}>
             <FilterInput
                 className={classes.search}
-                placeholder={'Search'}
                 value={inputFilter}
+                label={'Filter'}
                 onChange={onChangeHandler}
             />
             <List className={classes.container}>

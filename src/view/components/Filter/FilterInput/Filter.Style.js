@@ -4,9 +4,13 @@ export const filterStyle = (theme => ({
         justifyContent: 'flex-end',
     },
     form: {
-        padding: '2px 4px',
-        display: 'flex',
         width: 200,
+        margin: '2px 4px',
+        display: 'flex',
+        [theme.breakpoints.down('xs')]: {
+            width: '100%',
+            margin: '2px 15px',
+        }
     },
     input: {
         marginLeft: theme.spacing(1),

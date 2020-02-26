@@ -4,7 +4,6 @@ import TextField from "@material-ui/core/TextField";
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
-import NumberFormat from "react-number-format";
 
 export const SaveUserDetails = (props) => {
     const {
@@ -61,14 +60,11 @@ export const SaveUserDetails = (props) => {
                 />
             </Grid>
             <Grid item xs={12} sm={6}>
-                <NumberFormat
-                    customInput={TextField}
+                <TextField
                     label={"Contact number"}
                     name={"contactNumber"}
                     type={"tel"}
                     variant={"outlined"}
-                    format={"+38 (###) ###-##-##"}
-                    mask={"_"}
                     value={(userDetails && userDetails.contactNumber) || ''}
                     onChange={onChangedInput}
                     required

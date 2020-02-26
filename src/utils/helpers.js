@@ -1,4 +1,4 @@
-export const addParamsToUrl = (urlPath, params = {}) =>{
+export const addParamsToUrl = (urlPath, params = {}) => {
     let paramCurrentCount = 1;
     let url = urlPath;
 
@@ -27,33 +27,8 @@ export const addParamsToUrl = (urlPath, params = {}) =>{
 
 
 export const filter = (data, params) => {
+    const keys = data[0] ? Object.keys(data[0]) : [];
     return data.filter((item) => {
-        const keys = Object.keys(params);
-        const values = Object.values(params);
-
-        for (let i = 0; i <= keys.length; i++) {
-            if (Object.prototype.hasOwnProperty.call(values, i)) {
-                let value = item[keys[i]];
-                let param = params[keys[i]];
-
-                if (value.firstName) {
-                    return value.firstName.toLowerCase().indexOf(params.toLowerCase()) !== -1;
-                }
-
-                if (typeof value === 'number') {
-                    value = value.toString();
-                }
-
-                if (typeof param === 'number') {
-                    param = param.toString();
-                }
-
-                if (value !== param) {
-                    return false;
-                }
-            }
-        }
-
-        return true;
+        return keys.some(key => item[key].toString().toLowerCase().indexOf(params.toLowerCase().toString()) !== -1)
     });
 };
