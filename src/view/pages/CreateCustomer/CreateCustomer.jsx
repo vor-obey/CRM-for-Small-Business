@@ -7,8 +7,10 @@ import {setIsLoading, setSnackBarStatus} from "../../../data/store/auxiliary/aux
 import {COMMON_ERROR_MESSAGE} from "../../../constants/statuses";
 import {useDispatch} from "react-redux";
 
-export const CreateCustomer = (props) => {
-    const {history} = props;
+export const CreateCustomer = ({
+                                   history,
+                                   updateCustomerList
+                               }) => {
     const [customerDetails, setCustomerDetails] = useState({
         username: '',
         name: '',
@@ -46,19 +48,25 @@ export const CreateCustomer = (props) => {
     }, []);
 
     const onSubmitHandler = useCallback(async (event, customerDetails) => {
+        event.stopPropagation();
         event.preventDefault();
         try {
             dispatch(setIsLoading(true));
             const response = await CustomerService.create(customerDetails);
             if (response) {
-                history.push('/customers');
-                dispatch(setIsLoading(false));
+                if (typeof updateCustomerList === 'function') {
+                    updateCustomerList();
+                    dispatch(setIsLoading(false));
+                } else {
+                    history.push('/customers');
+                    dispatch(setIsLoading(false));
+                }
             }
         } catch (e) {
             dispatch(setIsLoading(false));
             dispatch(setSnackBarStatus({isOpen: true, errorMessage: COMMON_ERROR_MESSAGE}))
         }
-    }, [history, dispatch]);
+    }, [history, dispatch, updateCustomerList]);
 
     const renderSources = () => {
         if (!sources || !sources.length) {
