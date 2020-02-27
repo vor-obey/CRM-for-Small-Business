@@ -15,10 +15,11 @@ import isEmpty from 'lodash/isEmpty';
 
 export const CustomerForm = ({
                                  classes,
-                                 setShouldUpdate,
+                                 setCreatedCustomer,
                                  customers,
                                  managers,
                                  manager,
+                                 customer,
                                  onManagerSelectHandler,
                                  onCustomerSelectHandler
                              }) => {
@@ -38,10 +39,10 @@ export const CustomerForm = ({
         setIsModalOpen(prevState => !prevState);
     }, []);
 
-    const updateCustomersList = useCallback(() => {
-        setShouldUpdate(true);
+    const updateCustomersList = useCallback((customer) => {
+        setCreatedCustomer(customer);
         toggleModal();
-    }, [setShouldUpdate, toggleModal]);
+    }, [setCreatedCustomer, toggleModal]);
 
     const renderCustomerOptions = useCallback((customer) => {
         return (
@@ -58,7 +59,12 @@ export const CustomerForm = ({
         );
     }, []);
 
-    const getCustomerOptionLabel = useCallback(customer => customer.name, []);
+    const getCustomerOptionLabel = useCallback(customer => {
+        if (isEmpty(customer)) {
+            return '';
+        }
+        return customer.name
+    }, []);
 
     const renderManagerOptions = useCallback((manager) => {
         return (
@@ -120,6 +126,7 @@ export const CustomerForm = ({
                     renderOption={renderCustomerOptions}
                     inputLabel='Select Customer'
                     getOptionLabel={getCustomerOptionLabel}
+                    value={customer}
                 />
             </Grid>
             <Grid item lg={12} xs={12}>

@@ -55,7 +55,7 @@ export const CreateCustomer = ({
             const response = await CustomerService.create(customerDetails);
             if (response) {
                 if (typeof updateCustomerList === 'function') {
-                    updateCustomerList();
+                    updateCustomerList(response);
                     dispatch(setIsLoading(false));
                 } else {
                     history.push('/customers');

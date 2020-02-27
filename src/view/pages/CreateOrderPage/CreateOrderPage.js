@@ -32,10 +32,10 @@ export const CreateOrderPage = () => {
         currency: 'UAH'
     });
     const [manager, setManager] = useState({});
-    const [customerId, setCustomerId] = useState('');
+    const [customer, setCustomer] = useState({});
     const [managers, setManagers] = useState([]);
     const [customers, setCustomers] = useState([]);
-    const [shouldUpdate, setShouldUpdate] = useState(false);
+    const [createdCustomer, setCreatedCustomer] = useState({});
     const city = useSelector(state => state.autocompleteReducer.city);
     const warehouse = useSelector(state => state.autocompleteReducer.warehouse);
     const currentUser = useSelector(state => state.userReducer.currentUser);
@@ -53,7 +53,10 @@ export const CreateOrderPage = () => {
             }
         };
         fetchCustomers();
-    }, [shouldUpdate, dispatch]);
+        if (!isEmpty(createdCustomer)) {
+            setCustomer(createdCustomer);
+        }
+    }, [createdCustomer, dispatch]);
 
     useEffect(() => {
         const fetchManagers = async () => {
@@ -97,16 +100,16 @@ export const CreateOrderPage = () => {
 
     const onCustomerSelectHandler = useCallback((async (customer) => {
         if (!customer) {
-            setCustomerId('');
+            setCustomer({});
         } else {
-            setCustomerId(customer.customerId);
+            setCustomer(customer);
         }
     }), []);
 
     const onSubmitHandler = useCallback((e) => {
         e.preventDefault();
         if (isEmpty(productDetails) || isEmpty(manager)
-            || isEmpty(customerId) || isEmpty(city) || isEmpty(warehouse)
+            || isEmpty(customer) || isEmpty(city) || isEmpty(warehouse)
         ) {
             dispatch(setSnackBarStatus({isOpen: true, errorMessage: 'Fill all the fields'}));
         } else {
@@ -114,14 +117,14 @@ export const CreateOrderPage = () => {
             console.log({
                 productDetails,
                 managerId: manager.userId,
-                customerId,
+                customer,
                 city,
                 warehouse
             });
         }
     }, [
         city,
-        customerId,
+        customer,
         manager,
         productDetails,
         warehouse,
@@ -144,11 +147,12 @@ export const CreateOrderPage = () => {
                             </Grid>
                             <Grid container item xl={12}>
                                 <CustomerForm
-                                    setShouldUpdate={setShouldUpdate}
+                                    setCreatedCustomer={setCreatedCustomer}
                                     classes={classes}
                                     customers={customers}
                                     managers={managers}
                                     manager={manager}
+                                    customer={customer}
                                     onCustomerSelectHandler={onCustomerSelectHandler}
                                     onManagerSelectHandler={onManagerSelectHandler}
                                 />
