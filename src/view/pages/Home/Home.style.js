@@ -18,35 +18,72 @@ export const HomeStyles = (theme => ({
          marginRight: theme.spacing(10),
       }
    },
-   textInCloud: {
+   textInOne: {
       color: '#F2AA1B',
-      top: '22%',
-      fontSize: 38,
+      top: '26%',
+      fontSize: 40,
       position: 'absolute',
+      letterSpacing: -1.5,
+      fontWeight: 'bold',
       paddingLeft: theme.spacing(8),
       [theme.breakpoints.down('lg')]: {
-         top: '28%',
+         top: '30%',
          fontSize: 36,
          position: 'absolute',
          paddingLeft: theme.spacing(8),
       },
       [theme.breakpoints.down('md')]: {
-         top: '24%',
+         top: '26%',
          fontSize: 32,
          position: 'absolute',
          paddingLeft: theme.spacing(5),
       },
       [theme.breakpoints.down('sm')]: {
-         top: '22%',
+         top: '24%',
          fontSize: 28,
          position: 'absolute',
-         paddingLeft: theme.spacing(5),
+         paddingLeft: theme.spacing(6),
       },
       [theme.breakpoints.down('xs')]: {
-         top: '18%',
-         fontSize: 20,
+         top: '19%',
+         fontSize: 23,
+         fontWeight: 'bold',
          position: 'absolute',
-         paddingLeft: theme.spacing(3),
+         paddingLeft: theme.spacing(2),
+      }
+   },
+   textInTwo: {
+      color: '#F2AA1B',
+      top: '30%',
+      fontSize: 40,
+      position: 'absolute',
+      letterSpacing: -1.5,
+      fontWeight: 'bold',
+      paddingLeft: theme.spacing(8),
+      [theme.breakpoints.down('lg')]: {
+         top: '36%',
+         fontSize: 36,
+         position: 'absolute',
+         paddingLeft: theme.spacing(18),
+      },
+      [theme.breakpoints.down('md')]: {
+         top: '31%',
+         fontSize: 32,
+         position: 'absolute',
+         paddingLeft: theme.spacing(15),
+      },
+      [theme.breakpoints.down('sm')]: {
+         top: '29%',
+         fontSize: 28,
+         position: 'absolute',
+         paddingLeft: theme.spacing(13),
+      },
+      [theme.breakpoints.down('xs')]: {
+         top: '23%',
+         fontSize: 23,
+         fontWeight: 'bold',
+         position: 'absolute',
+         paddingLeft: theme.spacing(9),
       }
    },
    gridDog: {

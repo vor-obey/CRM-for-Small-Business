@@ -6,8 +6,11 @@ import {
    Typography
 } from "@material-ui/core";
 
-import logo from '../../components/img/1.png';
-import cloud from '../../components/img/Cloud.svg'
+
+import {
+   dog,
+   cloud
+} from '../../../constants/images';
 
 import {HomeStyles} from "./Home.style";
 
@@ -20,10 +23,11 @@ export const Home = () => {
       <Grid container className={classes.root}>
          <Grid item className={classes.gridCloud}>
             <img className={classes.imgCloud} src={cloud} alt='cloud'/>
-            <Typography className={classes.textInCloud} > Тут скоро будет наш <br />дашборд</Typography>
+            <Typography className={classes.textInOne} > Тут скоро будет наш </Typography>
+            <Typography className={classes.textInTwo}>дашборд</Typography>
          </Grid>
          <Grid item className={classes.gridDog}>
-            <img className={classes.imgDog} src={logo} alt='logo'/>
+            <img className={classes.imgDog} src={dog} alt='logo'/>
          </Grid>
       </Grid>
    )
