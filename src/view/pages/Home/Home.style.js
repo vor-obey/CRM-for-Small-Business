@@ -4,6 +4,7 @@ export const HomeStyles = (theme => ({
       justifyContent: 'center'
    },
    gridCloud: {
+      position: 'relative',
       marginTop: theme.spacing(2),
       marginRight: theme.spacing(50),
       [theme.breakpoints.down('md')]: {
@@ -20,15 +21,15 @@ export const HomeStyles = (theme => ({
    },
    textInOne: {
       color: '#F2AA1B',
-      top: '26%',
+      top: '25%',
       fontSize: 40,
       position: 'absolute',
       letterSpacing: -1.5,
       fontWeight: 'bold',
       paddingLeft: theme.spacing(8),
       [theme.breakpoints.down('lg')]: {
-         top: '30%',
-         fontSize: 36,
+         top: '28%',
+         fontSize: 40,
          position: 'absolute',
          paddingLeft: theme.spacing(8),
       },
@@ -45,7 +46,7 @@ export const HomeStyles = (theme => ({
          paddingLeft: theme.spacing(6),
       },
       [theme.breakpoints.down('xs')]: {
-         top: '19%',
+         top: '26%',
          fontSize: 23,
          fontWeight: 'bold',
          position: 'absolute',
@@ -54,32 +55,28 @@ export const HomeStyles = (theme => ({
    },
    textInTwo: {
       color: '#F2AA1B',
-      top: '30%',
+      top: '36%',
       fontSize: 40,
       position: 'absolute',
       letterSpacing: -1.5,
       fontWeight: 'bold',
-      paddingLeft: theme.spacing(8),
+      paddingLeft: theme.spacing(20),
       [theme.breakpoints.down('lg')]: {
-         top: '36%',
          fontSize: 36,
          position: 'absolute',
          paddingLeft: theme.spacing(18),
       },
       [theme.breakpoints.down('md')]: {
-         top: '31%',
          fontSize: 32,
          position: 'absolute',
          paddingLeft: theme.spacing(15),
       },
       [theme.breakpoints.down('sm')]: {
-         top: '29%',
          fontSize: 28,
          position: 'absolute',
          paddingLeft: theme.spacing(13),
       },
       [theme.breakpoints.down('xs')]: {
-         top: '23%',
          fontSize: 23,
          fontWeight: 'bold',
          position: 'absolute',

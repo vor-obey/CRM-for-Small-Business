@@ -23,7 +23,7 @@ export const Home = () => {
       <Grid container className={classes.root}>
          <Grid item className={classes.gridCloud}>
             <img className={classes.imgCloud} src={cloud} alt='cloud'/>
-            <Typography className={classes.textInOne} > Тут скоро будет наш </Typography>
+            <Typography className={classes.textInOne}> Тут скоро будет наш </Typography>
             <Typography className={classes.textInTwo}>дашборд</Typography>
          </Grid>
          <Grid item className={classes.gridDog}>
