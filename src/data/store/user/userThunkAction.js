@@ -1,6 +1,7 @@
 import {
     setCurrentUser,
 } from "./userActions";
+import isEmpty from "lodash/isEmpty"
 import { UserService, StorageService } from "../../../services";
 import {setIsLoading, setSnackBarStatus} from "../auxiliary/auxiliaryActions";
 import {COMMON_ERROR_MESSAGE} from "../../../constants/statuses";
@@ -26,7 +27,7 @@ export const getCurrentUser = () => async (dispatch) => {
     try {
         dispatch(setIsLoading(true));
         const response = await UserService.getCurrentUser();
-        if (!response.error && response) {
+        if (!response.error && !isEmpty(response)) {
             dispatch(setCurrentUser(response));
             dispatch(setIsLoading(false));
         } else {

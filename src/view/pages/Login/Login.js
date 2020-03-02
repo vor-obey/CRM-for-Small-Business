@@ -28,15 +28,20 @@ export const Login = (props) => {
             }
         });
     },[]);
-
     const onSubmitForm = useCallback(async (event) => {
-        event.preventDefault();
-        const {email, password} = userLoginData;
-        await dispatch(login(email, password));
-        await dispatch(getCurrentUser());
 
-        history.push('/dashboard');
-    }, [userLoginData, history, dispatch]);
+       event.preventDefault();
+       try {
+          const {email, password} = userLoginData;
+
+          await dispatch(login(email, password));
+          await dispatch(getCurrentUser());
+
+       } catch(e) {
+            console.log('Error:', e) 
+       }
+
+    }, [userLoginData, dispatch]);
 
 
     const handleClick = () => {
