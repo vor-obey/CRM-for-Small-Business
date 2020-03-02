@@ -12,13 +12,13 @@ import Home from "../../pages/Home/Home";
 import {CreateUser} from "../../pages/CreateUser/CreateUser.jsx";
 import LogOut from "../../pages/LogOut/LogOut";
 import {UsersPage} from "../../pages/UsersPage/UsersPage";
-import CustomersPage from "../../pages/CustomersPage/CustomersPage";
+import {CustomersPage} from "../../pages/CustomersPage/CustomersPage";
 import {UserDetailsPage} from "../../pages/UserDetailsPage/UserDetailsPage";
 import RestorePassword from "../../pages/RestorePassword/RestorePassword";
 import {EditUser} from "../../pages/EditUser/EditUser";
-import CustomerDetailsPage from "../../pages/CustomerDetailsPage/CustomerDetailsPage";
+import {CustomerDetailsPage} from "../../pages/CustomerDetailsPage/CustomerDetailsPage";
 import {CreateCustomer} from "../../pages/CreateCustomer/CreateCustomer";
-import EditCustomer from "../../pages/EditCustomer/EditCustomer";
+import {EditCustomer} from "../../pages/EditCustomer/EditCustomer";
 import {getCurrentUser} from "../../../data/store/user/userThunkAction";
 import {ShippingDetails} from "../ShippingDetails/ShippingDetails";
 import {ForgotPassword} from "../../pages/ForgotPassword/ForgotPassword";
@@ -63,4 +63,4 @@ export const Routing = () => {
          <Route path='/forgot-password' exact component={ForgotPassword}/>
       </Router>
    )
-}
+};

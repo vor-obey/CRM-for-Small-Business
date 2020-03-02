@@ -8,9 +8,7 @@ import {COMMON_ERROR_MESSAGE} from "../../../constants/statuses";
 import {useDispatch} from "react-redux";
 
 export const CreateCustomer = (props) => {
-
-    const dispatch = useDispatch();
-
+    const {history} = props;
     const [customerDetails, setCustomerDetails] = useState({
         username: '',
         name: '',
@@ -20,8 +18,7 @@ export const CreateCustomer = (props) => {
         sourceId: '',
     });
     const [sources, setSources] = useState([]);
-
-    const {history} = props;
+    const dispatch = useDispatch();
 
     useEffect(() => {
         const fetchSources = async () => {
@@ -52,7 +49,7 @@ export const CreateCustomer = (props) => {
         event.preventDefault();
         try {
             dispatch(setIsLoading(true));
-            const  response = await CustomerService.create(customerDetails);
+            const response = await CustomerService.create(customerDetails);
             if (response) {
                 history.push('/customers');
                 dispatch(setIsLoading(false));

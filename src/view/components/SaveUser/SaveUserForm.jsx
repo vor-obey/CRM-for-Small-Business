@@ -1,9 +1,5 @@
-import React, {useState, useEffect, useCallback} from 'react';
-import {
-    Avatar, Container,
-    CssBaseline,
-    Typography, Button, makeStyles
-} from "@material-ui/core";
+import React, {useCallback, useEffect, useState} from 'react';
+import {Avatar, Button, Container, CssBaseline, makeStyles, Typography} from "@material-ui/core";
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import {saveUserStyle} from './SaveUser.style';
 import {SaveUserCredentials} from "./SaveUserCredentials/SaveUserCredentials";
@@ -19,6 +15,7 @@ export const SaveUserForm = (props) => {
         isEdit,
         roles,
         onSubmit,
+        currentUser,
     } = props;
 
     const classes = useStyles();
@@ -66,10 +63,37 @@ export const SaveUserForm = (props) => {
     }, []);
 
     const onSubmitForm = useCallback((event) => {
-      event.preventDefault();
-      const input = isEdit ? userDetailsInputs : {...userDetailsInputs, ...userCredentials};
-      onSubmit(input);
-    }, [isEdit, onSubmit, userCredentials, userDetailsInputs]);
+        event.preventDefault();
+        const {confirmPassword, ...userCreds} = userCredentials;
+        let input = {...userDetailsInputs, ...userCreds};
+
+        if (isEdit && userDetails.userId !== currentUser.userId) {
+            input = userDetailsInputs;
+        }
+        onSubmit(input);
+    }, [isEdit, onSubmit, userCredentials, userDetailsInputs, currentUser, userDetails]);
+
+    const renderCredentials = useCallback(() => {
+        if (isEdit && (currentUser && userDetails && currentUser.userId !== userDetails.userId)) {
+            return null;
+        }
+        return (
+            <SaveUserCredentials
+                showPassword={showPassword}
+                toggleShowPassword={handleClickShowPassword}
+                onChangedInput={onChangedInputCredentials}
+                credentials={userCredentials}
+            />
+        )
+    }, [
+        currentUser,
+        isEdit,
+        handleClickShowPassword,
+        onChangedInputCredentials,
+        showPassword,
+        userCredentials,
+        userDetails
+    ]);
 
     return (
         <Container component="main" maxWidth="xs">
@@ -88,13 +112,7 @@ export const SaveUserForm = (props) => {
                         onChangedInput={onChangedInputDetails}
                         classes={classes}
                     />
-                    {!isEdit ?
-                        <SaveUserCredentials
-                            showPassword={showPassword}
-                            toggleShowPassword={handleClickShowPassword}
-                            onChangedInput={onChangedInputCredentials}
-                            credentials={userCredentials}
-                        /> : null}
+                    {renderCredentials()}
                     <Button
                         className={classes.submit}
                         type={"submit"}

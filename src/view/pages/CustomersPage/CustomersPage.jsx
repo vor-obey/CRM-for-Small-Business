@@ -1,110 +1,129 @@
-import React, { Component } from 'react';
-import { Link } from "react-router-dom";
-import { connect } from "react-redux";
-import { loadCustomers } from "../../../data/store/customer/customerThunkAction";
-import { setNewCustomerCreated } from "../../../data/store/customer/customerActions";
-
+import React, {useCallback, useEffect, useState} from 'react';
+import {Link} from "react-router-dom";
+import {useDispatch} from "react-redux";
+import {CustomerService} from "../../../services";
 import {
-    Button,
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TableRow,
-    Container,
-    withStyles } from '@material-ui/core';
-import { customersPageStyle } from "./CustomersPage.style";
+   Button,
+   Grid,
+   List,
+   ListItem,
+   Typography,
+   Container,
+   Hidden,
+   makeStyles
+} from '@material-ui/core';
+import {customersPageStyle} from "./CustomersPage.style";
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
+import {CustomerListItem} from "./CustomerListItem/CustomerListItem";
+import {setIsLoading, setSnackBarStatus} from "../../../data/store/auxiliary/auxiliaryActions";
+import {COMMON_ERROR_MESSAGE} from "../../../constants/statuses";
+import {USER_URLS} from "../../../constants/urls";
+import {FilterInput} from "../../components/Filter/FilterInput/FilterInput";
+import {filter} from "../../../utils/helpers";
 
+const useStyles = makeStyles(customersPageStyle);
 
-class CustomersPage extends Component {
+export const CustomersPage = (props) => {
+   const {history} = props;
+   const [customerList, setCustomerList] = useState([]);
+   const dispatch = useDispatch();
+   const classes = useStyles();
+   const [inputFilter, setInputFilter] = useState('');
 
-    componentDidMount() {
-        const { loadCustomers } = this.props;
-        loadCustomers();
-    }
+   useEffect(() => {
+      const fetchCustomers = async () => {
+         try {
+            dispatch(setIsLoading(true));
+            const response = await CustomerService.getCustomerList();
+            setCustomerList(response);
+            dispatch(setIsLoading(false));
+         } catch (e) {
+            dispatch(setIsLoading(false));
+            dispatch(setSnackBarStatus({isOpen: true, errorMessage: COMMON_ERROR_MESSAGE}));
+         }
+      };
+      fetchCustomers();
+   }, [dispatch]);
 
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        const { isNewCustomerCreated, loadCustomers, setNewCustomerCreated } = this.props;
+   const navigateToCustomerDetails = useCallback((customerId) => {
+      history.push(`${USER_URLS.CUSTOMERS}/${customerId}`)
+   }, [history]);
 
-        if (isNewCustomerCreated) {
-            setNewCustomerCreated(false);
-            loadCustomers();
-        }
-    }
+   const onChangeHandler = (event) => {
+      const {value} = event.target;
+      setInputFilter(value)
+   };
 
-    renderRows() {
-        const { customerList } = this.props;
+   const renderRows = useCallback(() => {
+      if (!customerList || !customerList.length) {
+         return null;
+      }
+      return filter(customerList, inputFilter).map((customer) => {
+         return (
+            <CustomerListItem
+               key={customer.customerId}
+               customer={customer}
+               classes={classes}
+               navigateToCustomerDetails={navigateToCustomerDetails}
+            />
+         )
+      })
+   }, [customerList, classes, navigateToCustomerDetails, inputFilter]);
 
-        if (!customerList || !customerList.length) {
-            return null;
-        }
-
-        return customerList.map((customer) => {
-                return (
-                    <TableRow style={{cursor: 'pointer'}} key={customer.customerId} onClick={() => this.props.history.push(`/customers/${customer.customerId}`)}>
-                        <TableCell align="left">{customer.username}</TableCell>
-                        <TableCell align="left">{customer.name}</TableCell>
-                        <TableCell align="left">{customer.contactEmail}</TableCell>
-                        <TableCell align="left">{customer.contactNumber}</TableCell>
-                    </TableRow>
-                )
-            })
-    }
-
-    render() {
-        const { classes } = this.props;
-
-        return(
-            <Container className={classes.allUsers}>
-                <TableContainer>
-                    <Table className={classes.table} align="center" aria-label="simple table">
-                        <TableHead>
-                            <TableRow>
-                                <TableCell align="left">Username</TableCell>
-                                <TableCell align="left">Name</TableCell>
-                                <TableCell align="left">Email</TableCell>
-                                <TableCell align="left">Contact number</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {this.renderRows()}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
-                <Button
-                    type='submit'
-                    variant="outlined"
-                    color="primary"
-                    className={classes.button}
-                    component={Link}
-                    to={'/create-customer'}
-                >
-                    <PersonAddIcon className={classes.addUser} />
-                    Create customer
-                </Button>
-            </Container>
-        );
-    }
-}
-
-const mapStateToProps = (state) => {
-    const { customerList,
-        isNewCustomerCreated } = state.customerReducer;
-
-    return {
-        customerList,
-        isNewCustomerCreated
-    }
+   return (
+      <Container className={classes.root}>
+         <Typography variant='h5' className={classes.title}>
+            Customers
+         </Typography>
+         <FilterInput
+            className={classes.search}
+            value={inputFilter}
+            label={'Filter'}
+            onChange={onChangeHandler}
+         />
+         <List className={classes.container}>
+            <ListItem divider>
+               <Grid container className={classes.customerListContainer}>
+                  <Grid item xs={5} md={2}>
+                     <Typography className={classes.customerItemTitle}>
+                        Username
+                     </Typography>
+                  </Grid>
+                  <Grid item xs={5} md={2}>
+                     <Typography className={classes.customerItemTitle}>
+                        Name
+                     </Typography>
+                  </Grid>
+                  <Hidden smDown>
+                     <Grid item xs={3} md={2}>
+                        <Typography className={classes.customerItemTitle}>
+                           Contact Number
+                        </Typography>
+                     </Grid>
+                  </Hidden>
+                  <Hidden smDown>
+                     <Grid item xs={3} md={2}>
+                        <Typography className={classes.customerItemTitle}>
+                           Email
+                        </Typography>
+                     </Grid>
+                  </Hidden>
+               </Grid>
+            </ListItem>
+            {renderRows()}
+         </List>
+         <Grid container justify={'center'}>
+            <Button
+               type='submit'
+               variant="outlined"
+               color="primary"
+               className={classes.button}
+               component={Link}
+               to={'/create-customer'}>
+               <PersonAddIcon className={classes.addCustomer}/>
+               Create customer
+            </Button>
+         </Grid>
+      </Container>
+   )
 };
-
-const mapDispatchToProps = (dispatch) => {
-    return {
-        loadCustomers: () => dispatch(loadCustomers()),
-        setNewCustomerCreated: () => dispatch(setNewCustomerCreated()),
-    }
-};
-
-export default withStyles(customersPageStyle)(connect(mapStateToProps, mapDispatchToProps)(CustomersPage));
-

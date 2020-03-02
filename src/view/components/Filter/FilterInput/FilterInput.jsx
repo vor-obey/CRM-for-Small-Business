@@ -7,7 +7,6 @@ import {filterStyle} from "./Filter.Style";
 
 const useStyles = makeStyles(filterStyle);
 
-
 export const FilterInput = (props) => {
 
     const {
