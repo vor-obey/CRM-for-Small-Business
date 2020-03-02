@@ -1,16 +1,17 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {Link} from "react-router-dom";
 import {useDispatch} from "react-redux";
+
 import {CustomerService} from "../../../services";
 import {
-   Button,
-   Grid,
-   List,
-   ListItem,
-   Typography,
-   Container,
-   Hidden,
-   makeStyles
+    Button,
+    Grid,
+    List,
+    ListItem,
+    Typography,
+    Container,
+    Hidden,
+    makeStyles
 } from '@material-ui/core';
 import {customersPageStyle} from "./CustomersPage.style";
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
@@ -24,30 +25,30 @@ import {filter} from "../../../utils/helpers";
 const useStyles = makeStyles(customersPageStyle);
 
 export const CustomersPage = (props) => {
-   const {history} = props;
-   const [customerList, setCustomerList] = useState([]);
-   const dispatch = useDispatch();
-   const classes = useStyles();
-   const [inputFilter, setInputFilter] = useState('');
+    const {history} = props;
+    const [customerList, setCustomerList] = useState([]);
+    const dispatch = useDispatch();
+    const classes = useStyles();
+    const [inputFilter, setInputFilter] = useState('');
 
-   useEffect(() => {
-      const fetchCustomers = async () => {
-         try {
-            dispatch(setIsLoading(true));
-            const response = await CustomerService.getCustomerList();
-            setCustomerList(response);
-            dispatch(setIsLoading(false));
-         } catch (e) {
-            dispatch(setIsLoading(false));
-            dispatch(setSnackBarStatus({isOpen: true, errorMessage: COMMON_ERROR_MESSAGE}));
-         }
-      };
-      fetchCustomers();
-   }, [dispatch]);
+    useEffect(() => {
+        const fetchCustomers = async () => {
+            try {
+                dispatch(setIsLoading(true));
+                const response = await CustomerService.getCustomerList();
+                setCustomerList(response);
+                dispatch(setIsLoading(false));
+            } catch (e) {
+                dispatch(setIsLoading(false));
+                dispatch(setSnackBarStatus({isOpen: true, errorMessage: COMMON_ERROR_MESSAGE}));
+            }
+        };
+        fetchCustomers();
+    }, [dispatch]);
 
-   const navigateToCustomerDetails = useCallback((customerId) => {
-      history.push(`${USER_URLS.CUSTOMERS}/${customerId}`)
-   }, [history]);
+    const navigateToCustomerDetails = useCallback((customerId) => {
+        history.push(`${USER_URLS.CUSTOMERS}/${customerId}`)
+    }, [history]);
 
    const onChangeHandler = (event) => {
       const {value} = event.target;
@@ -70,60 +71,60 @@ export const CustomersPage = (props) => {
       })
    }, [customerList, classes, navigateToCustomerDetails, inputFilter]);
 
-   return (
-      <Container className={classes.root}>
-         <Typography variant='h5' className={classes.title}>
-            Customers
-         </Typography>
-         <FilterInput
-            className={classes.search}
-            value={inputFilter}
-            label={'Filter'}
-            onChange={onChangeHandler}
-         />
-         <List className={classes.container}>
-            <ListItem divider>
-               <Grid container className={classes.customerListContainer}>
-                  <Grid item xs={5} md={2}>
-                     <Typography className={classes.customerItemTitle}>
-                        Username
-                     </Typography>
-                  </Grid>
-                  <Grid item xs={5} md={2}>
-                     <Typography className={classes.customerItemTitle}>
-                        Name
-                     </Typography>
-                  </Grid>
-                  <Hidden smDown>
-                     <Grid item xs={3} md={2}>
-                        <Typography className={classes.customerItemTitle}>
-                           Contact Number
-                        </Typography>
-                     </Grid>
-                  </Hidden>
-                  <Hidden smDown>
-                     <Grid item xs={3} md={2}>
-                        <Typography className={classes.customerItemTitle}>
-                           Email
-                        </Typography>
-                     </Grid>
-                  </Hidden>
-               </Grid>
-            </ListItem>
-            {renderRows()}
-         </List>
-         <Grid container justify={'center'}>
-            <Button
-               type='submit'
-               variant="outlined"
-               color="primary"
-               className={classes.button}
-               component={Link}
-               to={'/create-customer'}>
-               <PersonAddIcon className={classes.addCustomer}/>
-               Create customer
-            </Button>
-         </Grid>
-      </Container>
-   )
+    return (
+        <Container className={classes.root}>
+            <Typography variant="h5" className={classes.title}>
+                Customers
+            </Typography>
+            <FilterInput
+                className={classes.search}
+                value={inputFilter}
+                label={'Filter'}
+                onChange={onChangeHandler}
+            />
+            <List className={classes.container}>
+                <ListItem divider>
+                    <Grid container className={classes.customerListContainer}>
+                        <Grid item xs={5} md={2}>
+                            <Typography className={classes.customerItemTitle}>
+                                Username
+                            </Typography>
+                        </Grid>
+                        <Grid item xs={5} md={2}>
+                            <Typography className={classes.customerItemTitle}>
+                                Name
+                            </Typography>
+                        </Grid>
+                        <Hidden smDown>
+                            <Grid item xs={3} md={2}>
+                                <Typography className={classes.customerItemTitle}>
+                                    Contact Number
+                                </Typography>
+                            </Grid>
+                        </Hidden>
+                        <Hidden smDown>
+                            <Grid item xs={3} md={2}>
+                                <Typography className={classes.customerItemTitle}>
+                                    Email
+                                </Typography>
+                            </Grid>
+                        </Hidden>
+                    </Grid>
+                </ListItem>
+                {renderRows()}
+            </List>
+            <Grid container justify={'center'}>
+                <Button
+                    type='submit'
+                    variant="outlined"
+                    color="primary"
+                    className={classes.button}
+                    component={Link}
+                    to={'/create-customer'}>
+                    <PersonAddIcon className={classes.addCustomer}/>
+                    Create customer
+                </Button>
+            </Grid>
+        </Container>
+    )
 };

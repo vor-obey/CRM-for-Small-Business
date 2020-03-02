@@ -1,230 +1,182 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import {makeStyles, Button, Grid, Container, Paper} from '@material-ui/core';
-import {CreateOrderScreenStyle} from './CreateOrderScreen.style'
+import {createOrderPageStyles} from './CreateOrderScreen.style'
 import {ProductForm} from "./ProductForm/ProductForm";
-import {CustomerFormTemp} from "./CreateCustomer/CustomerFormTemp";
-import {ManagerForm} from "./ManagerForm/ManagerForm";
+import {CustomerForm} from "./CustomerManagerForm/CustomerForm";
 import {ShippingDetailsForm} from "./ShippingDetailsForm/ShippingDetailsForm";
 import CustomerService from "../../../services/CustomerService";
 import UserService from "../../../services/UserService";
-import SourcesService from "../../../services/SourcesService";
-import MethodService from "../../../services/MethodsService";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+import {setIsLoading, setSnackBarStatus} from "../../../data/store/auxiliary/auxiliaryActions";
+import {COMMON_ERROR_MESSAGE} from "../../../constants/statuses";
+import isEmpty from 'lodash/isEmpty';
 
-const useStyles = makeStyles(CreateOrderScreenStyle);
+const useStyles = makeStyles(createOrderPageStyles);
 
 const currencies = ['UAH', 'USD', 'EUR'];
 
 const autocompleteBreakpoints = {
-   xl: 6,
-   lg: 6,
-   sm: 6,
-   xs: 12,
+    xl: 6,
+    lg: 6,
+    sm: 6,
+    xs: 12,
 };
 
-const CreateOrderPage = () => {
+export const CreateOrderPage = () => {
+    const classes = useStyles();
+    const dispatch = useDispatch();
+    const [productDetails, setProductDetails] = useState({
+        description: '',
+        price: '',
+        amount: '',
+        currency: 'UAH'
+    });
+    const [manager, setManager] = useState({});
+    const [customer, setCustomer] = useState({});
+    const [managers, setManagers] = useState([]);
+    const [customers, setCustomers] = useState([]);
+    const [createdCustomer, setCreatedCustomer] = useState({});
+    const city = useSelector(state => state.autocompleteReducer.city);
+    const warehouse = useSelector(state => state.autocompleteReducer.warehouse);
+    const currentUser = useSelector(state => state.userReducer.currentUser);
 
-   const classes = useStyles();
+    useEffect(() => {
+        const fetchCustomers = async () => {
+            try {
+                dispatch(setIsLoading(true));
+                const customers = await CustomerService.list();
+                setCustomers(customers);
+                dispatch(setIsLoading(false));
+            } catch (e) {
+                dispatch(setIsLoading(false));
+                dispatch(setSnackBarStatus({isOpen: true, errorMessage: COMMON_ERROR_MESSAGE}));
+            }
+        };
+        fetchCustomers();
+        if (!isEmpty(createdCustomer)) {
+            setCustomer(createdCustomer);
+        }
+    }, [createdCustomer, dispatch]);
 
-   const city = useSelector(state => state.autocompleteReducer.city);
-   const warehouse = useSelector(state => state.autocompleteReducer.warehouse);
-   const currentUser = useSelector(state => state.userReducer.currentUser);
+    useEffect(() => {
+        const fetchManagers = async () => {
+            try {
+                dispatch(setIsLoading(true));
+                const managers = await UserService.list();
+                setManagers(managers);
+                dispatch(setIsLoading(false));
+            } catch (e) {
+                dispatch(setIsLoading(false));
+                dispatch(setSnackBarStatus({isOpen: true, errorMessage: COMMON_ERROR_MESSAGE}));
+            }
+        };
+        fetchManagers();
+    }, [dispatch]);
 
-   const [productDetails, setProductDetails] = useState({
-      description: '',
-      price: '',
-      amount: '',
-      currency: 'UAH'
-   });
-   const [customerDetails, setCustomerDetails] = useState({
-      customerId: "",
-      username: "",
-      name: "",
-      contactNumber: "",
-      contactEmail: "",
-      details: "",
-   });
-   const [managerId, setManagerId] = useState('');
-   const [sourceId, setSourceId] = useState('');
-   const [shippingMethodId, setShippingMethodId] = useState('');
-   const [sources, setSources] = useState([]);
-   const [managers, setManagers] = useState([]);
-   const [methods, setMethods] = useState([]);
-   const [customers, setCustomers] = useState([]);
-   const [open, setOpen] = useState(false);
+    useEffect(() => {
+        if (managers && currentUser) {
+            const selectedManager = managers.find(manager => manager.userId === currentUser.userId);
+            setManager(selectedManager);
+        }
+    }, [managers, currentUser]);
 
-   useEffect(() => {
-      (async function () {
-         try {
-            const [customers, methods, managers, sources] = await Promise.all(
-               [
-                  CustomerService.list(),
-                  MethodService.list(),
-                  UserService.list(),
-                  SourcesService.list(),
-               ]
-            );
-            setCustomers(customers);
-            setManagers(managers);
-            setMethods(methods);
-            setSources(sources);
-         } catch (e) {
-            console.log(e);
-         }
-      })()
-   }, []);
+    const onChangedProductInput = useCallback((event) => {
+        const {value, name} = event.target;
+        setProductDetails(prevState => {
+            return {
+                ...prevState,
+                [name]: value
+            };
+        });
+    }, []);
 
-   const onChangedProductInput = event => {
-      const {value, name} = event.target;
-      setProductDetails(prevState => {
-         return {
-            ...prevState,
-            [name]: value
-         };
-      });
-   };
+    const onManagerSelectHandler = useCallback(async (manager) => {
+        if (!manager) {
+            setManager({});
+        } else {
+            setManager(manager);
+        }
+    }, []);
 
-   const onChangedCustomerInput = event => {
-      const {value, name} = event.target;
-      setCustomerDetails(prevState => {
-         return {
-            ...prevState,
-            [name]: value
-         };
-      });
-   };
+    const onCustomerSelectHandler = useCallback((async (customer) => {
+        if (!customer) {
+            setCustomer({});
+        } else {
+            setCustomer(customer);
+        }
+    }), []);
 
-   const onCustomerSelectHandler = async customer => {
-      if (!customer) {
-         setCustomerDetails({
-            customerId: "",
-            username: "",
-            name: "",
-            contactNumber: "",
-            contactEmail: "",
-            details: "",
-         });
-      } else {
-         setCustomerDetails({
-            ...customer
-         });
-      }
-   };
+    const onSubmitHandler = useCallback((e) => {
+        e.preventDefault();
+        if (isEmpty(productDetails) || isEmpty(manager)
+            || isEmpty(customer) || isEmpty(city) || isEmpty(warehouse)
+        ) {
+            dispatch(setSnackBarStatus({isOpen: true, errorMessage: 'Fill all the fields'}));
+        } else {
+            // call API POST Order
+            console.log({
+                productDetails,
+                managerId: manager.userId,
+                customer,
+                city,
+                warehouse
+            });
+        }
+    }, [
+        city,
+        customer,
+        manager,
+        productDetails,
+        warehouse,
+        dispatch
+    ]);
 
-   const onSourceSelectHandler = (event) => {
-      const {value} = event.target;
-      if (!sources) {
-         setSourceId('');
-      } else {
-         setSourceId(value);
-      }
-   };
-
-   const onMethodSelectHandler = (event) => {
-      const {value} = event.target;
-      if (!methods) {
-         setShippingMethodId('');
-      } else {
-         setShippingMethodId(value);
-      }
-   };
-
-   const onManagerSelectHandler = async manager => {
-      if (!manager) {
-         setManagerId('')
-      } else {
-         setManagerId(manager.userId);
-      }
-   };
-
-   const onValidate = () => {
-      if (!sourceId || !managerId || !shippingMethodId || !city || !warehouse) {
-         console.log('All Fields Must Be Filled')
-      } else {
-         console.log({
-            productDetails,
-            customerDetails,
-            sourceId,
-            shippingDetails: {city, warehouse},
-            shippingMethodId,
-            managerId
-         });
-      }
-   };
-
-   const handleClickOpen = () => {
-     setOpen(true) ;
-   };
-
-   const handleClickClose = () => {
-      setOpen(false) ;
-   };
-   const onSubmitClicked = (e) => {
-      e.preventDefault();
-      onValidate();
-   };
-
-   return (
-      <Container maxWidth='lg' className={classes.root}>
-         <Grid container>
-            <Grid container item>
-               <Paper className={classes.paper}>
-                  <form onSubmit={onSubmitClicked}>
-                     <Grid container item xl={12}>
-                        <ProductForm
-                           classes={classes}
-                           currencies={currencies}
-                           onChangedInput={onChangedProductInput}
-                           productDetails={productDetails}
-                        />
-                     </Grid>
-                     <Grid container item xl={12}>
-                        <CustomerFormTemp
-                           onClick={handleClickOpen}
-                           onClickClose={handleClickClose}
-                           open={open}
-                           classes={classes}
-                           customers={customers}
-                           customerDetails={customerDetails}
-                           onSelectHandler={onCustomerSelectHandler}
-                           onChangedInput={onChangedCustomerInput}
-                           sources={sources}
-                           sourceId={sourceId}
-                           onSourceSelectHandler={onSourceSelectHandler}
-                        />
-                     </Grid>
-                     <Grid container item xl={12}>
-                        <ShippingDetailsForm
-                           classes={classes}
-                           autocompleteBreakpoints={autocompleteBreakpoints}
-                           onMethodSelectHandler={onMethodSelectHandler}
-                           shippingMethodId={shippingMethodId}
-                           methods={methods}
-                        />
-                     </Grid>
-                     <Grid container item xl={12}>
-                        <ManagerForm
-                           managers={managers}
-                           classes={classes}
-                           onSelectHandler={onManagerSelectHandler}
-                           currentUser={currentUser}
-                        />
-                     </Grid>
-                     <Button
-                        fullWidth
-                        className={classes.submit}
-                        type={"submit"}
-                        variant={"contained"}
-                        color={"primary"}
-                     >
-                        Create Order
-                     </Button>
-                  </form>
-               </Paper>
+    return (
+        <Container maxWidth='lg' className={classes.root}>
+            <Grid container>
+                <Grid container item>
+                    <Paper className={classes.paper}>
+                        <form onSubmit={onSubmitHandler}>
+                            <Grid container item xl={12}>
+                                <ProductForm
+                                    classes={classes}
+                                    currencies={currencies}
+                                    onChangedInput={onChangedProductInput}
+                                    productDetails={productDetails}
+                                />
+                            </Grid>
+                            <Grid container item xl={12}>
+                                <CustomerForm
+                                    setCreatedCustomer={setCreatedCustomer}
+                                    classes={classes}
+                                    customers={customers}
+                                    managers={managers}
+                                    manager={manager}
+                                    customer={customer}
+                                    onCustomerSelectHandler={onCustomerSelectHandler}
+                                    onManagerSelectHandler={onManagerSelectHandler}
+                                />
+                            </Grid>
+                            <Grid container item xl={12}>
+                                <ShippingDetailsForm
+                                    classes={classes}
+                                    autocompleteBreakpoints={autocompleteBreakpoints}
+                                />
+                            </Grid>
+                            <Button
+                                fullWidth
+                                className={classes.submit}
+                                type='submit'
+                                variant='contained'
+                                color='primary'
+                            >
+                                Create Order
+                            </Button>
+                        </form>
+                    </Paper>
+                </Grid>
             </Grid>
-         </Grid>
-      </Container>
-   )
+        </Container>
+    )
 };
 
-export default CreateOrderPage;

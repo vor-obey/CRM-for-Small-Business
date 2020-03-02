@@ -1,11 +1,11 @@
 import React from 'react';
 import {Avatar, Button, Container, CssBaseline, Grid, TextField, Typography, makeStyles} from "@material-ui/core";
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
+import NumberFormat from "react-number-format";
 import {saveCustomerStyle} from "./SaveCustomerForm.style";
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
-import NumberFormat from "react-number-format";
 
 const useStyles = makeStyles(saveCustomerStyle);
 
