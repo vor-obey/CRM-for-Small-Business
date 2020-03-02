@@ -11,7 +11,8 @@ export const SaveUserDetails = (props) => {
         roles,
         onChangedInput,
         userDetails,
-        classes
+        classes,
+        defRoleAdmin
     } = props;
 
 
@@ -22,6 +23,8 @@ export const SaveUserDetails = (props) => {
             )
         });
     }, [roles]);
+
+
 
     return (
         <Grid container spacing={2}>
@@ -87,8 +90,9 @@ export const SaveUserDetails = (props) => {
                     <Select
                         native
                         name={"roleId"}
-                        value={(userDetails && userDetails.roleId) || ''}
+                        value={(userDetails && userDetails.roleId) || (defRoleAdmin && defRoleAdmin.roleId) ||  '' }
                         onChange={onChangedInput}
+                        disabled={(defRoleAdmin ? true : false)}
                         labelWidth={40}
                         required
                         inputProps={{

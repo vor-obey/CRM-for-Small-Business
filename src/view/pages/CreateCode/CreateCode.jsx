@@ -4,7 +4,7 @@ import {saveOrganizationStyle} from "../../components/SaveOrganization/SaveOrgan
 import VpnKeyIcon from '@material-ui/icons/VpnKey';
 import Grid from "@material-ui/core/Grid";
 import {setIsLoading, setSnackBarStatus} from "../../../data/store/auxiliary/auxiliaryActions";
-import {COMMON_CODE_SUCCESS} from "../../../constants/statuses";
+import {COMMON_CODE_SUCCESS, COMMON_ERROR_MESSAGE} from "../../../constants/statuses";
 import {useDispatch} from "react-redux";
 
 const useStyles = makeStyles(saveOrganizationStyle);
@@ -30,9 +30,10 @@ export const CreateCode = (props) => {
             dispatch(setIsLoading(true));
             // await OrgService.create(code);
             dispatch(setIsLoading(false));
+            dispatch(setSnackBarStatus({isOpen: true, errorMessage: COMMON_CODE_SUCCESS}))
         } catch (e) {
             dispatch(setIsLoading(false));
-            dispatch(setSnackBarStatus({isOpen: true, errorMessage: COMMON_CODE_SUCCESS}))
+            dispatch(setSnackBarStatus({isOpen: true, errorMessage: COMMON_ERROR_MESSAGE}))
         }
     }, [dispatch]);
 

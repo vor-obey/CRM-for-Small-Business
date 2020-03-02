@@ -16,6 +16,7 @@ export const SaveUserForm = (props) => {
         roles,
         onSubmit,
         currentUser,
+        defRoleAdmin,
     } = props;
 
     const classes = useStyles();
@@ -111,6 +112,7 @@ export const SaveUserForm = (props) => {
                         userDetails={userDetailsInputs}
                         onChangedInput={onChangedInputDetails}
                         classes={classes}
+                        defRoleAdmin={defRoleAdmin}
                     />
                     {renderCredentials()}
                     <Button
