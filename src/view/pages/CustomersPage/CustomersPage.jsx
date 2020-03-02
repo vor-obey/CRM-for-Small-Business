@@ -19,6 +19,8 @@ import {CustomerListItem} from "./CustomerListItem/CustomerListItem";
 import {setIsLoading, setSnackBarStatus} from "../../../data/store/auxiliary/auxiliaryActions";
 import {COMMON_ERROR_MESSAGE} from "../../../constants/statuses";
 import {USER_URLS} from "../../../constants/urls";
+import {FilterInput} from "../../components/Filter/FilterInput/FilterInput";
+import {filter} from "../../../utils/helpers";
 
 const useStyles = makeStyles(customersPageStyle);
 
@@ -27,6 +29,7 @@ export const CustomersPage = (props) => {
     const [customerList, setCustomerList] = useState([]);
     const dispatch = useDispatch();
     const classes = useStyles();
+    const [inputFilter, setInputFilter] = useState('');
 
     useEffect(() => {
         const fetchCustomers = async () => {
@@ -47,28 +50,38 @@ export const CustomersPage = (props) => {
         history.push(`${USER_URLS.CUSTOMERS}/${customerId}`)
     }, [history]);
 
+   const onChangeHandler = (event) => {
+      const {value} = event.target;
+      setInputFilter(value)
+   };
 
-    const renderRows = useCallback(() => {
-        if (!customerList || !customerList.length) {
-            return null;
-        }
-        return customerList.map((customer) => {
-            return (
-                <CustomerListItem
-                    key={customer.customerId}
-                    customer={customer}
-                    classes={classes}
-                    navigateToCustomerDetails={navigateToCustomerDetails}
-                />
-            )
-        })
-    }, [customerList, classes, navigateToCustomerDetails]);
+   const renderRows = useCallback(() => {
+      if (!customerList || !customerList.length) {
+         return null;
+      }
+      return filter(customerList, inputFilter).map((customer) => {
+         return (
+            <CustomerListItem
+               key={customer.customerId}
+               customer={customer}
+               classes={classes}
+               navigateToCustomerDetails={navigateToCustomerDetails}
+            />
+         )
+      })
+   }, [customerList, classes, navigateToCustomerDetails, inputFilter]);
 
     return (
         <Container className={classes.root}>
             <Typography variant="h5" className={classes.title}>
                 Customers
             </Typography>
+            <FilterInput
+                className={classes.search}
+                value={inputFilter}
+                label={'Filter'}
+                onChange={onChangeHandler}
+            />
             <List className={classes.container}>
                 <ListItem divider>
                     <Grid container className={classes.customerListContainer}>
