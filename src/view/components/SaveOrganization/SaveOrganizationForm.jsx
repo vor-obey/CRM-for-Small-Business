@@ -1,5 +1,5 @@
 import React from "react";
-import {Button, TextField} from "@material-ui/core";
+import {TextField} from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 
 export const SaveOrganizationForm = (props) => {
@@ -19,7 +19,7 @@ export const SaveOrganizationForm = (props) => {
                     variant={"outlined"}
                     type={"text"}
                     onChange={onChangedInput}
-                    value={(organization && organization.name) || ''}
+                    value={(organization && organization.organizationName) || ''}
                     required
                     fullWidth
                 />
@@ -29,6 +29,7 @@ export const SaveOrganizationForm = (props) => {
                     label={"Nova Poshta API Key"}
                     name={"apiKeyNP"}
                     variant={"outlined"}
+                    onChange={onChangedInput}
                     value={(organization && organization.apiKeyNP) || ''}
                     required
                     fullWidth
@@ -37,20 +38,13 @@ export const SaveOrganizationForm = (props) => {
             <Grid item xs={12} sm={12}>
                 <TextField
                     label={"Auth Code"}
-                    name={"authCode"}
+                    name={"codeValue"}
                     variant={"outlined"}
-                    value={(organization && organization.code) || ''}
+                    onChange={onChangedInput}
+                    value={(organization && organization.codeValue) || ''}
                     required
                     fullWidth
                 />
-            </Grid>
-            <Grid item xs={12} sm={12}>
-                <Button
-                    type={"submit"}
-                    variant={"contained"}
-                    color={"primary"}
-                    fullWidth
-                >Accept</Button>
             </Grid>
         </Grid>
     )

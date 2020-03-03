@@ -7,9 +7,9 @@ export const setIsLoading = (isLoading) => {
     }
 };
 
-export const setSnackBarStatus = ({isOpen, errorMessage}) => {
+export const setSnackBarStatus = ({isOpen, errorMessage, success}) => {
     return {
         type: SET_SNACKBAR_STATUS,
-        snackBarStatus: {isOpen, errorMessage}
+        snackBarStatus: {isOpen, errorMessage, success}
     }
 };

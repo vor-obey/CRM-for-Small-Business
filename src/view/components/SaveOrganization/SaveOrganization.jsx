@@ -16,11 +16,9 @@ export const SaveOrganization = (props) => {
 
     const {
         title,
+        organization
     } = props;
     const classes = useStyles();
-    const [organization, setOrganization] = useState({
-
-    });
 
     const onChangedInput = (event) => {
         console.log(event)

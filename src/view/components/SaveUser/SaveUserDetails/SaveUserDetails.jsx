@@ -12,7 +12,7 @@ export const SaveUserDetails = (props) => {
         onChangedInput,
         userDetails,
         classes,
-        defRoleAdmin
+        setRole
     } = props;
 
 
@@ -23,7 +23,6 @@ export const SaveUserDetails = (props) => {
             )
         });
     }, [roles]);
-
 
 
     return (
@@ -78,31 +77,32 @@ export const SaveUserDetails = (props) => {
                     fullWidth
                 />
             </Grid>
-            <Grid item xs={12} sm={6}>
-                <FormControl
-                    variant="outlined"
-                    className={classes.formControl}
-                    required
-                >
-                    <InputLabel id="demo-simple-select-outlined-label">
-                        Role
-                    </InputLabel>
-                    <Select
-                        native
-                        name={"roleId"}
-                        value={(userDetails && userDetails.roleId) || (defRoleAdmin && defRoleAdmin.roleId) ||  '' }
-                        onChange={onChangedInput}
-                        disabled={(defRoleAdmin ? true : false)}
-                        labelWidth={40}
+            {setRole ?
+                null
+                : <Grid item xs={12} sm={6}>
+                    <FormControl
+                        variant="outlined"
+                        className={classes.formControl}
                         required
-                        inputProps={{
-                            name: 'roleId',
-                        }}>
-                        <option value=""></option>
-                        {renderSelect()}
-                    </Select>
-                </FormControl>
-            </Grid>
+                    >
+                        <InputLabel id="demo-simple-select-outlined-label">
+                            Role
+                        </InputLabel>
+                        <Select
+                            native
+                            name={"roleId"}
+                            value={(userDetails && userDetails.roleId) || ''}
+                            onChange={onChangedInput}
+                            labelWidth={40}
+                            required
+                            inputProps={{
+                                name: 'roleId',
+                            }}>
+                            <option value=""></option>
+                            {renderSelect()}
+                        </Select>
+                    </FormControl>
+                </Grid>}
         </Grid>
-    );
+    )
 }

@@ -1,91 +1,118 @@
-import React, {useCallback, useEffect, useState} from "react";
-import {SaveOrganization} from "../../components/SaveOrganization/SaveOrganization";
-import {SaveUserForm} from "../../components/SaveUser/SaveUserForm";
-import {applyMiddleware as dispatch} from "redux";
+import React, {useCallback, useState} from "react";
+import {useDispatch} from "react-redux";
 import {setIsLoading, setSnackBarStatus} from "../../../data/store/auxiliary/auxiliaryActions";
-import {RoleService, UserService} from "../../../services";
-import {COMMON_ERROR_MESSAGE} from "../../../constants/statuses";
+import {OrganizationService} from "../../../services";
+import {Avatar, Button, Container, CssBaseline, Typography} from "@material-ui/core";
+import BusinessIcon from '@material-ui/icons/Business';
+import {makeStyles} from "@material-ui/core/styles";
+import {saveOrganizationStyle} from "../../components/SaveOrganization/SaveOrganizationStyle";
+import {SaveOrganizationForm} from "../../components/SaveOrganization/SaveOrganizationForm";
+import {SaveUserDetails} from "../../components/SaveUser/SaveUserDetails/SaveUserDetails";
+import {SaveUserCredentials} from "../../components/SaveUser/SaveUserCredentials/SaveUserCredentials";
+import Grid from "@material-ui/core/Grid";
+
+
+const useStyles = makeStyles(saveOrganizationStyle);
 
 export const CreateOrganization = (props) => {
 
     const {history} = props;
-    const [isForm, setIsForm] = useState(false);
-    const [roles, setRoles] = useState([]);
+    const dispatch = useDispatch();
+    const classes = useStyles();
+    const [organization, setOrganization] = useState({
+        organizationName: '',
+        apiKeyNP: '',
+        codeValue: '',
+        firstName: '',
+        lastName: '',
+        middleName: '',
+        email: '',
+        contactNumber: '',
+        password: '',
+        confirmPassword: '',
+    });
+    const [showPassword, setShowPassword] = useState(false);
 
 
+    const onSubmitHandler = useCallback(async (event) => {
+        event.preventDefault();
+        const {confirmPassword, ...org} = organization;
+        dispatch(setIsLoading(true));
+        const response = await OrganizationService.create(org);
 
-    useEffect(() => {
-        const fetchRoles = async () => {
-            try {
-                dispatch(setIsLoading(true));
-                const roles = await RoleService.list();
-                setRoles(roles);
-                dispatch(setIsLoading(false));
-            } catch (e) {
-                dispatch(setIsLoading(false));
-                dispatch(setSnackBarStatus({isOpen: true, errorMessage: COMMON_ERROR_MESSAGE}))
-            }
-        };
-        fetchRoles();
-    }, []);
-
-    const defRoleAdmin = () => {
-        return roles.find(role => role.name === 'Admin')
-    };
-
-
-    const onSubmitHandler = useCallback(async (userInput) => {
-        const {confirmPassword, ...user} = userInput;
-        try {
-            dispatch(setIsLoading(true));
-            await UserService.create(user);
+        if (response.success) {
             dispatch(setIsLoading(false));
             history.push('/login');
-        } catch (e) {
+        } else {
             dispatch(setIsLoading(false));
-            dispatch(setSnackBarStatus({isOpen: true, errorMessage: COMMON_ERROR_MESSAGE}))
+            dispatch(setSnackBarStatus({isOpen: true, errorMessage: response.message, success: false}));
         }
-    }, [dispatch, history]);
-    //
-    // const onSubmitOrg = useCallback(async (userInput) => {
-    //     const {confirmPassword, ...user} = userInput;
-    //     try {
-    //         dispatch(setIsLoading(true));
-    //         await Щкп.create(user);
-    //         dispatch(setIsLoading(false));
-    //         history.push('/login');
-    //     } catch (e) {
-    //         dispatch(setIsLoading(false));
-    //         dispatch(setSnackBarStatus({isOpen: true, errorMessage: COMMON_ERROR_MESSAGE}))
-    //     }
-    // }, [dispatch, history]);
+    }, [dispatch, organization, history]);
 
 
-    const renderCreateOrganization = () => {
-        return (
-            <SaveOrganization
-                // onSubmit={onSubmitOrg}
-                title={'Create Organization'}
-            />
-        )
-    };
 
-    const renderCreateUser = () => {
-        return (
-            <SaveUserForm
-                onSubmit={onSubmitHandler}
-                title="Create User"
-                buttonText="Create"
-                roles={roles}
-                defRoleAdmin={defRoleAdmin()}
-            />
-        )
-    };
+
+    const onChangeHandler = useCallback((event) => {
+        const {name, value} = event.target;
+        setOrganization(prevState => {
+            return {
+                ...prevState,
+                [name]: value
+            }
+        })
+    }, []);
+
+
+
+    const handleClickShowPassword = useCallback(() => {
+        setShowPassword(prevState => !prevState)
+    }, []);
 
 
     return (
-        <>
-        {isForm ? renderCreateOrganization() : renderCreateUser()}
-        </>
+        <Container component="main" maxWidth="xs">
+            <CssBaseline/>
+            <div className={classes.paper}>
+                <Avatar className={classes.avatar}>
+                    <BusinessIcon/>
+                </Avatar>
+                <Typography component="h1" variant="h5">
+                    Create Organization
+                </Typography>
+                <form className={classes.form} onSubmit={onSubmitHandler}>
+                    <SaveOrganizationForm
+                        organization={organization}
+                        onChangedInput={onChangeHandler}
+                        title={'Create Organization'}
+                    />
+                    <Typography className={classes.user} component="h1" variant="h6">
+                        Create User
+                    </Typography>
+                    <SaveUserDetails
+                        userDetails={organization}
+                        onChangedInput={onChangeHandler}
+                        classes={classes}
+                        setRole={true}
+                    />
+                    <Grid item xs={12} sm={12} className={classes.cred}>
+                    <SaveUserCredentials
+                        credentials={organization}
+                        showPassword={showPassword}
+                        toggleShowPassword={handleClickShowPassword}
+                        onChangedInput={onChangeHandler}
+                    />
+                    </Grid>
+                    <Grid item xs={12} sm={12}>
+                        <Button
+                            className={classes.submit}
+                            type={"submit"}
+                            variant={"contained"}
+                            color={"primary"}
+                            fullWidth
+                        >Accept</Button>
+                    </Grid>
+                </form>
+            </div>
+        </Container>
     )
 };

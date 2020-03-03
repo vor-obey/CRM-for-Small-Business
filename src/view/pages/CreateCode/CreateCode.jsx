@@ -1,41 +1,37 @@
 import React, {useCallback, useState} from "react";
-import {Avatar, Container, CssBaseline, TextField, Typography, makeStyles, Button} from "@material-ui/core";
+import {Avatar, Container, CssBaseline, TextField, Typography, makeStyles, Button, Grid} from "@material-ui/core";
 import {saveOrganizationStyle} from "../../components/SaveOrganization/SaveOrganizationStyle";
 import VpnKeyIcon from '@material-ui/icons/VpnKey';
-import Grid from "@material-ui/core/Grid";
+import {CodeService} from "../../../services";
 import {setIsLoading, setSnackBarStatus} from "../../../data/store/auxiliary/auxiliaryActions";
-import {COMMON_CODE_SUCCESS, COMMON_ERROR_MESSAGE} from "../../../constants/statuses";
+import {COMMON_CODE_SUCCESS} from "../../../constants/statuses";
 import {useDispatch} from "react-redux";
+
 
 const useStyles = makeStyles(saveOrganizationStyle);
 
 export const CreateCode = (props) => {
 
     const dispatch = useDispatch();
-    const [code, setCode] = useState({});
+    const [code, setCode] = useState('');
 
     const onChangeHandler = useCallback((event) => {
-        const {name, value} = event.target;
-        setCode(prevState => {
-            return {
-                ...prevState,
-                [name]: value
-            }
-        })
+        const {value} = event.target;
+        setCode(value)
     }, []);
 
     const onSubmitHandler = useCallback(async (event) => {
         event.preventDefault();
-        try {
-            dispatch(setIsLoading(true));
-            // await OrgService.create(code);
+        dispatch(setIsLoading(true));
+        const response = await CodeService.create({code});
+        if (response.isActive) {
             dispatch(setIsLoading(false));
-            dispatch(setSnackBarStatus({isOpen: true, errorMessage: COMMON_CODE_SUCCESS}))
-        } catch (e) {
+            dispatch(setSnackBarStatus({isOpen: true, errorMessage: COMMON_CODE_SUCCESS, success: true}))
+        } else if (response.message) {
             dispatch(setIsLoading(false));
-            dispatch(setSnackBarStatus({isOpen: true, errorMessage: COMMON_ERROR_MESSAGE}))
+            dispatch(setSnackBarStatus({isOpen: true, errorMessage: response.message, success: false}))
         }
-    }, [dispatch]);
+    }, [dispatch, code]);
 
     const classes = useStyles();
 
@@ -57,6 +53,7 @@ export const CreateCode = (props) => {
                                 name={"code"}
                                 variant={"outlined"}
                                 type={"text"}
+                                value={code || ''}
                                 onChange={onChangeHandler}
                                 required
                                 fullWidth

@@ -13,6 +13,13 @@ export const saveOrganizationStyle = (theme =>  ({
         width: '100%', // Fix IE 11 issue.
         marginTop: theme.spacing(3),
     },
+    user: {
+        margin: theme.spacing(3, 0),
+        textAlign: 'center',
+    },
+    cred: {
+        margin: theme.spacing(1, 0),
+    },
     select: {
         margin: theme.spacing(1, 0),
         minWidth: '100%',

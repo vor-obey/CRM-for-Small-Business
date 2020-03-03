@@ -24,7 +24,7 @@ function Header() {
 
 
     const onClosedHandler = () => {
-        dispatch(setSnackBarStatus({isOpen: false, errorMessage: ''}))
+        dispatch(setSnackBarStatus({isOpen: false, errorMessage: '', status: false}))
     };
 
     return (
@@ -39,6 +39,7 @@ function Header() {
             <AlertSnackbar
                 isOpen={snackBarStatus.isOpen}
                 errorMessage={snackBarStatus.errorMessage}
+                success={snackBarStatus.success}
                 onClose={onClosedHandler}
             />
         </div>
