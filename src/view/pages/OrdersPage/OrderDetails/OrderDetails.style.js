@@ -1,9 +1,47 @@
-export const orderDetailsStyles = (() => ({
-    root: {
-      marginTop: 80
-    },
-    paddingX: {
-        paddingLeft: 15,
-        paddingRight: 15,
-    }
+export const orderDetailsStyles = ((theme) => ({
+   root: {
+      marginTop: theme.spacing(10),
+      [theme.breakpoints.down('xs')]: {
+         marginTop: theme.spacing(5)
+      }
+
+   },
+   orderRender: {
+      marginBottom:  theme.spacing(9),
+      [theme.breakpoints.down('lg')]: {
+         marginBottom: 0
+      }
+   },
+   inputDesciption: {
+      paddingRight: theme.spacing(1) 
+   },
+   inputCurrency: {
+      paddingLeft: theme.spacing(1),
+      [theme.breakpoints.down('lg')]: {
+         paddingLeft: 0
+      }
+   },
+   managerRender: {
+      marginTop: theme.spacing(2)
+   },
+   typographyManager: {
+      paddingTop: theme.spacing(3),
+   },
+   inputName: {
+      paddingRight: theme.spacing(2),
+      [theme.breakpoints.down('xs')]: {
+         paddingRight: 0
+      }
+   },
+   order: {
+      paddingRight: theme.spacing(2)
+   },
+   customer: {
+      [theme.breakpoints.down('xs')]: {
+         marginTop: theme.spacing(3)
+      }
+   },
+   manager: {
+      paddingBottom: theme.spacing(2)
+   },
 }));
