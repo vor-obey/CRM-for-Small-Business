@@ -26,7 +26,7 @@ export const CreateCode = (props) => {
         const response = await CodeService.create({code});
         if (response.isActive) {
             dispatch(setIsLoading(false));
-            dispatch(setSnackBarStatus({isOpen: true, errorMessage: COMMON_CODE_SUCCESS, success: true}))
+            dispatch(setSnackBarStatus({isOpen: true, errorMessage: `Congratulations! Your code ${code} was created!`, success: true}))
         } else if (response.message) {
             dispatch(setIsLoading(false));
             dispatch(setSnackBarStatus({isOpen: true, errorMessage: response.message, success: false}))

@@ -42,7 +42,7 @@ export const CreateOrganization = (props) => {
 
         if (response.success) {
             dispatch(setIsLoading(false));
-            history.push('/login');
+            history.push('/');
         } else {
             dispatch(setIsLoading(false));
             dispatch(setSnackBarStatus({isOpen: true, errorMessage: response.message, success: false}));
@@ -93,6 +93,7 @@ export const CreateOrganization = (props) => {
                         onChangedInput={onChangeHandler}
                         classes={classes}
                         setRole={true}
+                        setSize={12}
                     />
                     <Grid item xs={12} sm={12} className={classes.cred}>
                     <SaveUserCredentials

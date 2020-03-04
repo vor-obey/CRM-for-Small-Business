@@ -12,7 +12,8 @@ export const SaveUserDetails = (props) => {
         onChangedInput,
         userDetails,
         classes,
-        setRole
+        setRole,
+        setSize
     } = props;
 
 
@@ -62,7 +63,7 @@ export const SaveUserDetails = (props) => {
                     fullWidth
                 />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12} sm={(setSize && setSize) || 6}>
                 <NumberFormat
                     customInput={TextField}
                     label={"Contact number"}
