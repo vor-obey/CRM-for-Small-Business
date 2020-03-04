@@ -24,7 +24,7 @@ function Header() {
 
 
     const onClosedHandler = () => {
-        dispatch(setSnackBarStatus({isOpen: false, errorMessage: '', status: false}))
+        dispatch(setSnackBarStatus({isOpen: false, message: '', success: false}))
     };
 
     return (
@@ -38,7 +38,7 @@ function Header() {
             <ProgressBar isLoading={isLoading}/>
             <AlertSnackbar
                 isOpen={snackBarStatus.isOpen}
-                errorMessage={snackBarStatus.errorMessage}
+                message={snackBarStatus.message}
                 success={snackBarStatus.success}
                 onClose={onClosedHandler}
             />

@@ -26,7 +26,7 @@ export const EditCustomer = (props) => {
                 dispatch(setIsLoading(false));
             } catch (e) {
                 dispatch(setIsLoading(false));
-                dispatch(setSnackBarStatus({isOpen: true, errorMessage: COMMON_ERROR_MESSAGE}))
+                dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE}))
             }
         };
         fetchData();
@@ -53,7 +53,7 @@ export const EditCustomer = (props) => {
             }
         } catch (e) {
             dispatch(setIsLoading(false));
-            dispatch(setSnackBarStatus({isOpen: true, errorMessage: COMMON_ERROR_MESSAGE}))
+            dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE}))
         }
     }, [history, dispatch]);
 

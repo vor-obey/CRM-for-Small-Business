@@ -27,7 +27,7 @@ export const EditUser = () => {
                 dispatch(setIsLoading(false));
             } catch (e) {
                 dispatch(setIsLoading(false));
-                dispatch(setSnackBarStatus({isOpen: true, errorMessage: COMMON_ERROR_MESSAGE}))
+                dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE}))
             }
         };
         fetchData();
@@ -43,7 +43,7 @@ export const EditUser = () => {
             history.goBack();
         } else {
             dispatch(setIsLoading(false));
-            dispatch(setSnackBarStatus({isOpen: true, errorMessage: COMMON_ERROR_MESSAGE}))
+            dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE}))
         }
     }, [id, dispatch]);
 

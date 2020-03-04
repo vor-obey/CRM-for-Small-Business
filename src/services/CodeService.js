@@ -3,7 +3,7 @@ import CRUDService from "./CRUDService";
 
 class CodeService extends CRUDService {
     constructor() {
-        super(USER_URLS.CODE)
+        super(USER_URLS.CODES)
     }
 
 }

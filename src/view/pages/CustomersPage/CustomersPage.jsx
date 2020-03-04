@@ -37,7 +37,7 @@ export const CustomersPage = (props) => {
                 dispatch(setIsLoading(false));
             } catch (e) {
                 dispatch(setIsLoading(false));
-                dispatch(setSnackBarStatus({isOpen: true, errorMessage: COMMON_ERROR_MESSAGE}));
+                dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE}));
             }
         };
         fetchCustomers();

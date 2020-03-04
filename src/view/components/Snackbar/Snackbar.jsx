@@ -9,7 +9,7 @@ function Alert(props) {
 export const AlertSnackbar = (props) => {
     const theme = useTheme();
     const breakpointOnSm = useMediaQuery(theme.breakpoints.down('sm'));
-    const {isOpen, errorMessage, onClose, success} = props;
+    const {isOpen, message, onClose, success} = props;
 
     return (
         <Snackbar
@@ -22,7 +22,7 @@ export const AlertSnackbar = (props) => {
             onClose={onClose}
         >
             <Alert severity={success ? "success" : "error"} onClose={onClose}>
-                {errorMessage}
+                {message}
             </Alert>
         </Snackbar>
     );

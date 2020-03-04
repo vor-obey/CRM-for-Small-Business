@@ -14,34 +14,35 @@ export const SaveOrganizationForm = (props) => {
         <Grid container spacing={2}>
             <Grid item xs={12} sm={12}>
                 <TextField
-                    label={"Organization Name"}
-                    name={"organizationName"}
-                    variant={"outlined"}
-                    type={"text"}
+                    label="Organization Name"
+                    name="organizationName"
+                    variant="outlined"
+                    type="text"
                     onChange={onChangedInput}
-                    value={(organization && organization.organizationName) || ''}
+                    value={organization.organizationName}
                     required
                     fullWidth
                 />
             </Grid>
             <Grid item xs={12} sm={12}>
                 <TextField
-                    label={"Nova Poshta API Key"}
-                    name={"apiKeyNP"}
-                    variant={"outlined"}
+                    label="Nova Poshta API Key"
+                    name="apiKeyNP"
+                    variant="outlined"
+                    type="text"
                     onChange={onChangedInput}
-                    value={(organization && organization.apiKeyNP) || ''}
+                    value={organization.apiKeyNP}
                     required
                     fullWidth
                 />
             </Grid>
             <Grid item xs={12} sm={12}>
                 <TextField
-                    label={"Auth Code"}
-                    name={"codeValue"}
-                    variant={"outlined"}
+                    label="Auth Code"
+                    name="codeValue"
+                    variant="outlined"
                     onChange={onChangedInput}
-                    value={(organization && organization.codeValue) || ''}
+                    value={organization.codeValue}
                     required
                     fullWidth
                 />

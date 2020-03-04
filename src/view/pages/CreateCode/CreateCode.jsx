@@ -4,15 +4,15 @@ import {saveOrganizationStyle} from "../../components/SaveOrganization/SaveOrgan
 import VpnKeyIcon from '@material-ui/icons/VpnKey';
 import {CodeService} from "../../../services";
 import {setIsLoading, setSnackBarStatus} from "../../../data/store/auxiliary/auxiliaryActions";
-import {COMMON_CODE_SUCCESS} from "../../../constants/statuses";
 import {useDispatch} from "react-redux";
 
 
 const useStyles = makeStyles(saveOrganizationStyle);
 
-export const CreateCode = (props) => {
+export const CreateCode = () => {
 
     const dispatch = useDispatch();
+    const classes = useStyles();
     const [code, setCode] = useState('');
 
     const onChangeHandler = useCallback((event) => {
@@ -22,18 +22,24 @@ export const CreateCode = (props) => {
 
     const onSubmitHandler = useCallback(async (event) => {
         event.preventDefault();
-        dispatch(setIsLoading(true));
-        const response = await CodeService.create({code});
-        if (response.isActive) {
+        try {
+            dispatch(setIsLoading(true));
+            const response = await CodeService.create({code});
+            if (response && response.success === undefined) {
+                dispatch(setIsLoading(false));
+                dispatch(setSnackBarStatus({
+                    isOpen: true,
+                    message: `Congratulations! Your code ${code} was created!`,
+                    success: true
+                }))
+            } else {
+                dispatch(setIsLoading(false));
+                dispatch(setSnackBarStatus({isOpen: true, message: response.message, success: false}))
+            }
+        } catch {
             dispatch(setIsLoading(false));
-            dispatch(setSnackBarStatus({isOpen: true, errorMessage: `Congratulations! Your code ${code} was created!`, success: true}))
-        } else if (response.message) {
-            dispatch(setIsLoading(false));
-            dispatch(setSnackBarStatus({isOpen: true, errorMessage: response.message, success: false}))
         }
     }, [dispatch, code]);
-
-    const classes = useStyles();
 
     return (
         <Container component="main" maxWidth="xs">

@@ -37,19 +37,21 @@ export const CreateOrganization = (props) => {
     const onSubmitHandler = useCallback(async (event) => {
         event.preventDefault();
         const {confirmPassword, ...org} = organization;
-        dispatch(setIsLoading(true));
-        const response = await OrganizationService.create(org);
 
-        if (response.success) {
+        try {
+            dispatch(setIsLoading(true));
+            const response = await OrganizationService.create(org);
+            if (response && response.success) {
+                dispatch(setIsLoading(false));
+                history.push('/');
+            } else {
+                dispatch(setIsLoading(false));
+                dispatch(setSnackBarStatus({isOpen: true, message: response.message, success: false}));
+            }
+        } catch {
             dispatch(setIsLoading(false));
-            history.push('/');
-        } else {
-            dispatch(setIsLoading(false));
-            dispatch(setSnackBarStatus({isOpen: true, errorMessage: response.message, success: false}));
         }
     }, [dispatch, organization, history]);
-
-
 
 
     const onChangeHandler = useCallback((event) => {
@@ -61,7 +63,6 @@ export const CreateOrganization = (props) => {
             }
         })
     }, []);
-
 
 
     const handleClickShowPassword = useCallback(() => {
@@ -83,7 +84,6 @@ export const CreateOrganization = (props) => {
                     <SaveOrganizationForm
                         organization={organization}
                         onChangedInput={onChangeHandler}
-                        title={'Create Organization'}
                     />
                     <Typography className={classes.user} component="h1" variant="h6">
                         Create User
@@ -92,16 +92,16 @@ export const CreateOrganization = (props) => {
                         userDetails={organization}
                         onChangedInput={onChangeHandler}
                         classes={classes}
-                        setRole={true}
-                        setSize={12}
+                        setRoleRender={true}
+                        setFieldSize={12}
                     />
                     <Grid item xs={12} sm={12} className={classes.cred}>
-                    <SaveUserCredentials
-                        credentials={organization}
-                        showPassword={showPassword}
-                        toggleShowPassword={handleClickShowPassword}
-                        onChangedInput={onChangeHandler}
-                    />
+                        <SaveUserCredentials
+                            credentials={organization}
+                            showPassword={showPassword}
+                            toggleShowPassword={handleClickShowPassword}
+                            onChangedInput={onChangeHandler}
+                        />
                     </Grid>
                     <Grid item xs={12} sm={12}>
                         <Button

@@ -19,7 +19,7 @@ export const CreateUser = (props) => {
                 dispatch(setIsLoading(false));
             } catch (e) {
                 dispatch(setIsLoading(false));
-                dispatch(setSnackBarStatus({isOpen: true, errorMessage: COMMON_ERROR_MESSAGE}))
+                dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE}))
             }
         };
         fetchRoles();
@@ -34,7 +34,7 @@ export const CreateUser = (props) => {
             history.push('/users');
         } catch (e) {
             dispatch(setIsLoading(false));
-            dispatch(setSnackBarStatus({isOpen: true, errorMessage: COMMON_ERROR_MESSAGE}))
+            dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE}))
         }
     }, [dispatch, history]);
 

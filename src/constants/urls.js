@@ -8,6 +8,6 @@ export const USER_URLS = {
     ROLES: '/roles',
     SOURCES: `/sources`,
     METHODS: `/shipping-methods`,
-    ORGANIZATION: '/organizations',
-    CODE: '/codes',
+    ORGANIZATIONS: '/organizations',
+    CODES: '/codes',
 };

@@ -12,12 +12,12 @@ export const SaveUserDetails = (props) => {
         onChangedInput,
         userDetails,
         classes,
-        setRole,
-        setSize
+        setRoleRender,
+        setFieldSize
     } = props;
 
 
-    const renderSelect = useCallback(() => {
+    const renderOptions = useCallback(() => {
         return roles.map((role) => {
             return (
                 <option key={role.roleId} value={role.roleId}>{role.name}</option>
@@ -25,6 +25,43 @@ export const SaveUserDetails = (props) => {
         });
     }, [roles]);
 
+    const renderRoleSelect = useCallback(() => {
+        if (setRoleRender) {
+         return null;
+        }
+        return (
+            <Grid item xs={12} sm={6}>
+                <FormControl
+                    variant="outlined"
+                    className={classes.formControl}
+                    required
+                >
+                    <InputLabel id="demo-simple-select-outlined-label">
+                        Role
+                    </InputLabel>
+                    <Select
+                        native
+                        name={"roleId"}
+                        value={(userDetails && userDetails.roleId) || ''}
+                        onChange={onChangedInput}
+                        labelWidth={40}
+                        required
+                        inputProps={{
+                            name: 'roleId',
+                        }}>
+                        <option value=""></option>
+                        {renderOptions()}
+                    </Select>
+                </FormControl>
+            </Grid>
+        )
+    },[
+        classes.formControl,
+        onChangedInput,
+        renderOptions,
+        setRoleRender,
+        userDetails
+    ]);
 
     return (
         <Grid container spacing={2}>
@@ -63,7 +100,7 @@ export const SaveUserDetails = (props) => {
                     fullWidth
                 />
             </Grid>
-            <Grid item xs={12} sm={(setSize && setSize) || 6}>
+            <Grid item xs={12} sm={(setFieldSize && setFieldSize) || 6}>
                 <NumberFormat
                     customInput={TextField}
                     label={"Contact number"}
@@ -78,32 +115,7 @@ export const SaveUserDetails = (props) => {
                     fullWidth
                 />
             </Grid>
-            {setRole ?
-                null
-                : <Grid item xs={12} sm={6}>
-                    <FormControl
-                        variant="outlined"
-                        className={classes.formControl}
-                        required
-                    >
-                        <InputLabel id="demo-simple-select-outlined-label">
-                            Role
-                        </InputLabel>
-                        <Select
-                            native
-                            name={"roleId"}
-                            value={(userDetails && userDetails.roleId) || ''}
-                            onChange={onChangedInput}
-                            labelWidth={40}
-                            required
-                            inputProps={{
-                                name: 'roleId',
-                            }}>
-                            <option value=""></option>
-                            {renderSelect()}
-                        </Select>
-                    </FormControl>
-                </Grid>}
+            {setRoleRender ? null : renderRoleSelect()}
         </Grid>
     )
-}
+};

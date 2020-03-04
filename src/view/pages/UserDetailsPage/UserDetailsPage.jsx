@@ -44,7 +44,7 @@ export const UserDetailsPage = (props) => {
                 dispatch(setIsLoading(false));
             } catch (e) {
                 dispatch(setIsLoading(false));
-                dispatch(setSnackBarStatus({isOpen: true, errorMessage: COMMON_ERROR_MESSAGE}))
+                dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE}))
             }
         };
         fetchUserById();
@@ -58,7 +58,7 @@ export const UserDetailsPage = (props) => {
             history.push('/users');
         } else {
             dispatch(setIsLoading(false));
-            dispatch(setSnackBarStatus({isOpen: true, errorMessage: COMMON_ERROR_MESSAGE}))
+            dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE}))
         }
     }, [dispatch, id, history]);
 

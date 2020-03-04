@@ -3,7 +3,7 @@ import CRUDService from "./CRUDService";
 
 class OrganizationService extends CRUDService {
     constructor() {
-        super(USER_URLS.ORGANIZATION)
+        super(USER_URLS.ORGANIZATIONS)
     }
 
 }
