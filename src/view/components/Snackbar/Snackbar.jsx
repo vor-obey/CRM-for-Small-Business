@@ -6,10 +6,14 @@ function Alert(props) {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
-export const AlertSnackbar = (props) => {
+export const AlertSnackbar = ({
+                                  isOpen,
+                                  message,
+                                  onClose,
+                                  success
+                              }) => {
     const theme = useTheme();
     const breakpointOnSm = useMediaQuery(theme.breakpoints.down('sm'));
-    const {isOpen, message, onClose, success} = props;
 
     return (
         <Snackbar

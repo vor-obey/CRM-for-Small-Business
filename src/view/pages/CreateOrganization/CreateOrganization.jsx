@@ -11,12 +11,9 @@ import {SaveUserDetails} from "../../components/SaveUser/SaveUserDetails/SaveUse
 import {SaveUserCredentials} from "../../components/SaveUser/SaveUserCredentials/SaveUserCredentials";
 import Grid from "@material-ui/core/Grid";
 
-
 const useStyles = makeStyles(saveOrganizationStyle);
 
-export const CreateOrganization = (props) => {
-
-    const {history} = props;
+export const CreateOrganization = ({history}) => {
     const dispatch = useDispatch();
     const classes = useStyles();
     const [organization, setOrganization] = useState({
@@ -33,7 +30,6 @@ export const CreateOrganization = (props) => {
     });
     const [showPassword, setShowPassword] = useState(false);
 
-
     const onSubmitHandler = useCallback(async (event) => {
         event.preventDefault();
         const {confirmPassword, ...org} = organization;
@@ -41,15 +37,16 @@ export const CreateOrganization = (props) => {
         try {
             dispatch(setIsLoading(true));
             const response = await OrganizationService.create(org);
-            if (response && response.success) {
+            if (response.success) {
                 dispatch(setIsLoading(false));
                 history.push('/');
             } else {
                 dispatch(setIsLoading(false));
                 dispatch(setSnackBarStatus({isOpen: true, message: response.message, success: false}));
             }
-        } catch {
+        } catch (e) {
             dispatch(setIsLoading(false));
+            dispatch(setSnackBarStatus({isOpen: true, message: e.message, success: false}));
         }
     }, [dispatch, organization, history]);
 
@@ -64,11 +61,9 @@ export const CreateOrganization = (props) => {
         })
     }, []);
 
-
     const handleClickShowPassword = useCallback(() => {
         setShowPassword(prevState => !prevState)
     }, []);
-
 
     return (
         <Container component="main" maxWidth="xs">
@@ -92,8 +87,7 @@ export const CreateOrganization = (props) => {
                         userDetails={organization}
                         onChangedInput={onChangeHandler}
                         classes={classes}
-                        setRoleRender={true}
-                        setFieldSize={12}
+                        renderRoles={false}
                     />
                     <Grid item xs={12} sm={12} className={classes.cred}>
                         <SaveUserCredentials
@@ -106,9 +100,9 @@ export const CreateOrganization = (props) => {
                     <Grid item xs={12} sm={12}>
                         <Button
                             className={classes.submit}
-                            type={"submit"}
-                            variant={"contained"}
-                            color={"primary"}
+                            type="submit"
+                            variant="contained"
+                            color="primary"
                             fullWidth
                         >Accept</Button>
                     </Grid>

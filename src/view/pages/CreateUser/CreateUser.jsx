@@ -5,8 +5,7 @@ import {useDispatch} from "react-redux";
 import {setIsLoading, setSnackBarStatus} from "../../../data/store/auxiliary/auxiliaryActions";
 import {COMMON_ERROR_MESSAGE} from "../../../constants/statuses";
 
-export const CreateUser = (props) => {
-    const {history} = props;
+export const CreateUser = ({history}) => {
     const dispatch = useDispatch();
     const [roles, setRoles] = useState([]);
 
@@ -19,7 +18,7 @@ export const CreateUser = (props) => {
                 dispatch(setIsLoading(false));
             } catch (e) {
                 dispatch(setIsLoading(false));
-                dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE}))
+                dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE, success: false}))
             }
         };
         fetchRoles();
@@ -29,12 +28,14 @@ export const CreateUser = (props) => {
         const {confirmPassword, ...user} = userInput;
         try {
             dispatch(setIsLoading(true));
-            await UserService.create(user);
-            dispatch(setIsLoading(false));
-            history.push('/users');
+            const response = await UserService.create(user);
+            if (response) {
+                dispatch(setIsLoading(false));
+                history.push('/users');
+            }
         } catch (e) {
             dispatch(setIsLoading(false));
-            dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE}))
+            dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE, success: false}))
         }
     }, [dispatch, history]);
 

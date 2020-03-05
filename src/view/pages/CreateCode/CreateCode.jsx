@@ -6,7 +6,6 @@ import {CodeService} from "../../../services";
 import {setIsLoading, setSnackBarStatus} from "../../../data/store/auxiliary/auxiliaryActions";
 import {useDispatch} from "react-redux";
 
-
 const useStyles = makeStyles(saveOrganizationStyle);
 
 export const CreateCode = () => {
@@ -17,7 +16,7 @@ export const CreateCode = () => {
 
     const onChangeHandler = useCallback((event) => {
         const {value} = event.target;
-        setCode(value)
+        setCode(value);
     }, []);
 
     const onSubmitHandler = useCallback(async (event) => {
@@ -25,19 +24,20 @@ export const CreateCode = () => {
         try {
             dispatch(setIsLoading(true));
             const response = await CodeService.create({code});
-            if (response && response.success === undefined) {
+            if (response.success) {
                 dispatch(setIsLoading(false));
                 dispatch(setSnackBarStatus({
                     isOpen: true,
-                    message: `Congratulations! Your code ${code} was created!`,
+                    message: `Your code ${code} was created!`,
                     success: true
                 }))
             } else {
                 dispatch(setIsLoading(false));
                 dispatch(setSnackBarStatus({isOpen: true, message: response.message, success: false}))
             }
-        } catch {
+        } catch (e) {
             dispatch(setIsLoading(false));
+            dispatch(setSnackBarStatus({isOpen: true, message: e.message, success: false}))
         }
     }, [dispatch, code]);
 
@@ -55,20 +55,20 @@ export const CreateCode = () => {
                     <Grid container spacing={2}>
                         <Grid item xs={12} sm={12}>
                             <TextField
-                                label={'Enter your code'}
-                                name={"code"}
-                                variant={"outlined"}
-                                type={"text"}
-                                value={code || ''}
+                                label='Enter your code'
+                                name="code"
+                                variant="outlined"
+                                type="text"
+                                value={code}
                                 onChange={onChangeHandler}
                                 required
                                 fullWidth
                             />
                             <Button
                                 className={classes.submit}
-                                type={"submit"}
-                                variant={"contained"}
-                                color={"primary"}
+                                type="submit"
+                                variant="contained"
+                                color="primary"
                                 fullWidth
                             >Send code</Button>
                         </Grid>

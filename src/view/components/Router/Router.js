@@ -3,7 +3,7 @@ import {Router, Route} from 'react-router-dom';
 import StorageService from "../../../services/StorageService";
 import {useDispatch} from "react-redux";
 
-import Header from "../Navigation/Header/Header";
+import {Header} from "../Navigation/Header/Header";
 import AuthRoute from "../../../AuthRoute";
 
 import PrivateRoute from "../../../PrivateRoute";

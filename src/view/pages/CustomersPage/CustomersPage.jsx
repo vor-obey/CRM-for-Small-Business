@@ -22,8 +22,7 @@ import {USER_URLS} from "../../../constants/urls";
 
 const useStyles = makeStyles(customersPageStyle);
 
-export const CustomersPage = (props) => {
-    const {history} = props;
+export const CustomersPage = ({history}) => {
     const [customerList, setCustomerList] = useState([]);
     const dispatch = useDispatch();
     const classes = useStyles();
@@ -32,12 +31,12 @@ export const CustomersPage = (props) => {
         const fetchCustomers = async () => {
             try {
                 dispatch(setIsLoading(true));
-                const response = await CustomerService.getCustomerList();
+                const response = await CustomerService.list();
                 setCustomerList(response);
                 dispatch(setIsLoading(false));
             } catch (e) {
                 dispatch(setIsLoading(false));
-                dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE}));
+                dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE, success: false}));
             }
         };
         fetchCustomers();
@@ -100,14 +99,15 @@ export const CustomersPage = (props) => {
                 </ListItem>
                 {renderRows()}
             </List>
-            <Grid container justify={'center'}>
+            <Grid container justify='center'>
                 <Button
                     type='submit'
                     variant="outlined"
                     color="primary"
                     className={classes.button}
                     component={Link}
-                    to={'/create-customer'}>
+                    to='/create-customer'
+                >
                     <PersonAddIcon className={classes.addCustomer}/>
                     Create customer
                 </Button>

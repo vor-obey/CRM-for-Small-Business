@@ -5,7 +5,6 @@ class CodeService extends CRUDService {
     constructor() {
         super(USER_URLS.CODES)
     }
-
 }
 
 export default new CodeService();

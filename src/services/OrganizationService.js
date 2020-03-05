@@ -5,7 +5,6 @@ class OrganizationService extends CRUDService {
     constructor() {
         super(USER_URLS.ORGANIZATIONS)
     }
-
 }
 
 export default new OrganizationService();

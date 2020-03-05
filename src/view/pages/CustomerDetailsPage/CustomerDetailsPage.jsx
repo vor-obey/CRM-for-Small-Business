@@ -1,5 +1,4 @@
 import React, {useState, useCallback, useEffect} from "react";
-
 import {
     Paper,
     Typography,
@@ -22,23 +21,18 @@ import {COMMON_ERROR_MESSAGE} from "../../../constants/statuses";
 
 const useStyles = makeStyles(customerDetailsStyle);
 
-export const CustomerDetailsPage = (props) => {
-    const {history} = props;
+export const CustomerDetailsPage = ({history}) => {
     const [customerDetails, setCustomerDetails] = useState({});
     const [isShow, setIsShow] = useState(false);
     const dispatch = useDispatch();
     const {id} = useParams();
     const classes = useStyles();
 
-    const handleOpenDialog = useCallback(() => {
-        setIsShow(prevState => !prevState);
-    }, []);
-
     useEffect(() => {
         const fetchCustomerById = async (id) => {
             try {
                 dispatch(setIsLoading(true));
-                const response = await CustomerService.getCustomerById(id);
+                const response = await CustomerService.findOneById(id);
                 setCustomerDetails(response);
                 dispatch(setIsLoading(false));
             } catch (e) {
@@ -49,6 +43,10 @@ export const CustomerDetailsPage = (props) => {
 
         fetchCustomerById(id);
     }, [dispatch, id]);
+
+    const handleOpenDialog = useCallback(() => {
+        setIsShow(prevState => !prevState);
+    }, []);
 
     const handleClickDeleteCustomer = useCallback(async () => {
         try {
@@ -81,11 +79,11 @@ export const CustomerDetailsPage = (props) => {
         <Container component="main" className={classes.allCustomers}>
             <Paper className={classes.paper}>
                 <Grid container item xs={12}
-                      alignContent={'center'}
-                      direction={'column'}
-                      justify={'flex-start'}>
+                      alignContent='center'
+                      direction='column'
+                      justify='flex-start'>
                     <Grid container item xs={12}
-                          justify={'center'}>
+                          justify='center'>
                         <Typography variant="h5" className={classes.title} align="center" gutterBottom>
                             Customer Details
                         </Typography>
@@ -94,8 +92,8 @@ export const CustomerDetailsPage = (props) => {
                         {renderCustomerDetails()}
                     </Grid>
                     <Grid  container item xs={12}
-                           alignContent={'center'}
-                           justify={'center'}>
+                           alignContent='center'
+                           justify='center'>
                         <Fab
                             color="primary"
                             aria-label="edit"

@@ -2,14 +2,10 @@ import React from "react";
 import {TextField} from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 
-export const SaveOrganizationForm = (props) => {
-
-    const {
-        onChangedInput,
-        organization
-    } = props;
-
-
+export const SaveOrganizationForm = ({
+                                         onChangedInput,
+                                         organization
+                                     }) => {
     return (
         <Grid container spacing={2}>
             <Grid item xs={12} sm={12}>
@@ -38,7 +34,7 @@ export const SaveOrganizationForm = (props) => {
             </Grid>
             <Grid item xs={12} sm={12}>
                 <TextField
-                    label="Auth Code"
+                    label="Code"
                     name="codeValue"
                     variant="outlined"
                     onChange={onChangedInput}
