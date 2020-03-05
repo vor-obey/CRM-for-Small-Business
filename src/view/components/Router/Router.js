@@ -3,10 +3,9 @@ import {Router, Route} from 'react-router-dom';
 import StorageService from "../../../services/StorageService";
 import {useDispatch} from "react-redux";
 
-import Header from "../Navigation/Header/Header";
-import AuthRoute from "../../../AuthRoute";
-
-import PrivateRoute from "../../../PrivateRoute";
+import {Header} from "../Navigation/Header/Header";
+import {AuthRoute} from "../../../AuthRoute";
+import {PrivateRoute} from "../../../PrivateRoute";
 import {Login} from "../../pages/Login/Login";
 import Home from "../../pages/Home/Home";
 import {CreateUser} from "../../pages/CreateUser/CreateUser.jsx";
@@ -26,6 +25,8 @@ import {OrdersPage} from "../../pages/OrdersPage/OrdersPage";
 import {OrderDetails} from "../../pages/OrdersPage/OrderDetails/OrderDetails";
 import {history} from "../../../utils/history";
 import {CreateOrderPage} from "../../pages/CreateOrderPage/CreateOrderPage";
+import {CreateOrganization} from "../../pages/CreateOrganization/CreateOrganization";
+import {CreateCode} from "../../pages/CreateCode/CreateCode";
 
 export const Routing = () => {
    const dispatch = useDispatch();
@@ -57,10 +58,12 @@ export const Routing = () => {
          <PrivateRoute path='/orders' exact component={OrdersPage}/>
          <PrivateRoute path='/create-order' exact component={CreateOrderPage}/>
          <PrivateRoute path='/orders/:id' component={OrderDetails}/>
+         <PrivateRoute path='/create-code' exact component={CreateCode} />
          <Route exact path='/restore_password/:token' component={RestorePassword}/>
-         <Route path='/forgot_password' exact component={ForgotPassword}/>
+         <Route exact path='/forgot_password' component={ForgotPassword}/>
          <Route exact path='/restore-password/:token' component={RestorePassword}/>
-         <Route path='/forgot-password' exact component={ForgotPassword}/>
+         <Route exact path='/forgot-password' component={ForgotPassword}/>
+         <Route exact path='/create-organization' component={CreateOrganization} />
       </Router>
    )
 };

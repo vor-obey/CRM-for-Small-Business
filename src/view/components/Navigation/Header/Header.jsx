@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {
     AppBar,
@@ -14,18 +14,17 @@ import {headerStyle} from "./Header.style";
 
 const useStyles = makeStyles(headerStyle);
 
-function Header() {
+export const Header = () => {
     const classes = useStyles();
     const dispatch = useDispatch();
 
     const isLoading = useSelector(state => state.auxiliaryReducer.isLoading);
-    const snackBarStatus = useSelector(state => state.auxiliaryReducer.snackBarStatus);
+    const {isOpen, message, success} = useSelector(state => state.auxiliaryReducer.snackBarStatus);
     const currentUser = useSelector(state => state.userReducer.currentUser);
 
-
-    const onClosedHandler = () => {
-        dispatch(setSnackBarStatus({isOpen: false, errorMessage: ''}))
-    };
+    const onClosedHandler = useCallback(() => {
+        dispatch(setSnackBarStatus({isOpen: !isOpen, message: message, success: success}))
+    }, [dispatch, isOpen, message, success]);
 
     return (
         <div className={classes.root}>
@@ -37,12 +36,11 @@ function Header() {
             </AppBar>
             <ProgressBar isLoading={isLoading}/>
             <AlertSnackbar
-                isOpen={snackBarStatus.isOpen}
-                errorMessage={snackBarStatus.errorMessage}
+                isOpen={isOpen}
+                message={message}
+                success={success}
                 onClose={onClosedHandler}
             />
         </div>
     );
-}
-
-export default Header;
+};

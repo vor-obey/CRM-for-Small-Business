@@ -10,11 +10,11 @@ import {setIsLoading, setSnackBarStatus} from "../../../data/store/auxiliary/aux
 import {COMMON_ERROR_MESSAGE} from "../../../constants/statuses";
 import {FilterInput} from "../../components/Filter/FilterInput/FilterInput";
 import {filter} from "../../../utils/helpers";
+import {USER_URLS} from '../../../constants/urls';
 
 const useStyles = makeStyles(usersPageStyle);
 
-export const UsersPage = (props) => {
-    const {history} = props;
+export const UsersPage = ({history}) => {
     const dispatch = useDispatch();
     const classes = useStyles();
     const [userList, setUserList] = useState([]);
@@ -29,21 +29,21 @@ export const UsersPage = (props) => {
                 dispatch(setIsLoading(false));
             } catch (e) {
                 dispatch(setIsLoading(false));
-                dispatch(setSnackBarStatus({isOpen: true, errorMessage: COMMON_ERROR_MESSAGE}))
+                dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE, success: false}))
             }
         };
         fetchUsers();
     }, [dispatch]);
 
     const navigateToUserDetails = useCallback((userId) => {
-        history.push(`/users/${userId}`)
+        history.push(`${USER_URLS.USERS}/${userId}`)
     }, [history]);
 
 
-    const onChangeHandler = (event) => {
+    const onChangeHandler = useCallback((event) => {
         const {value} = event.target;
         setInputFilter(value)
-    };
+    }, []);
 
 
     const renderRows = useCallback(() => {
@@ -67,7 +67,7 @@ export const UsersPage = (props) => {
             <FilterInput
                 className={classes.search}
                 value={inputFilter}
-                label={'Filter'}
+                label='Filter'
                 onChange={onChangeHandler}
             />
             <List className={classes.container}>
@@ -113,7 +113,8 @@ export const UsersPage = (props) => {
                     color="primary"
                     className={classes.button}
                     component={Link}
-                    to={'/create-user'}>
+                    to='/create-user'
+                >
                     <PersonAddIcon className={classes.addUser}/>
                     Create user
                 </Button>

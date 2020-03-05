@@ -4,17 +4,16 @@ import TextField from "@material-ui/core/TextField";
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
+import NumberFormat from "react-number-format";
 
-export const SaveUserDetails = (props) => {
-    const {
-        roles,
-        onChangedInput,
-        userDetails,
-        classes
-    } = props;
-
-
-    const renderSelect = useCallback(() => {
+export const SaveUserDetails = ({
+                                    roles,
+                                    onChangedInput,
+                                    userDetails,
+                                    classes,
+                                    renderRoles = true,
+                                }) => {
+    const renderRoleOptions = useCallback(() => {
         return roles.map((role) => {
             return (
                 <option key={role.roleId} value={role.roleId}>{role.name}</option>
@@ -22,55 +21,11 @@ export const SaveUserDetails = (props) => {
         });
     }, [roles]);
 
-    return (
-        <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
-                <TextField
-                    label={"First Name"}
-                    name={"firstName"}
-                    variant={"outlined"}
-                    type={"text"}
-                    value={(userDetails && userDetails.firstName) || ''}
-                    onChange={onChangedInput}
-                    required
-                    fullWidth
-                />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-                <TextField
-                    label={"Last Name"}
-                    name={"lastName"}
-                    variant={"outlined"}
-                    type={"text"}
-                    value={(userDetails && userDetails.lastName) || ''}
-                    onChange={onChangedInput}
-                    required
-                    fullWidth
-                />
-            </Grid>
-            <Grid item xs={12}>
-                <TextField
-                    label={"Middle Name"}
-                    name={"middleName"}
-                    value={(userDetails && userDetails.middleName) || ''}
-                    onChange={onChangedInput}
-                    variant={"outlined"}
-                    required
-                    fullWidth
-                />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-                <TextField
-                    label={"Contact number"}
-                    name={"contactNumber"}
-                    type={"tel"}
-                    variant={"outlined"}
-                    value={(userDetails && userDetails.contactNumber) || ''}
-                    onChange={onChangedInput}
-                    required
-                    fullWidth
-                />
-            </Grid>
+    const renderRoleSelect = useCallback(() => {
+        if (!renderRoles) {
+            return null;
+        }
+        return (
             <Grid item xs={12} sm={6}>
                 <FormControl
                     variant="outlined"
@@ -82,7 +37,7 @@ export const SaveUserDetails = (props) => {
                     </InputLabel>
                     <Select
                         native
-                        name={"roleId"}
+                        name="roleId"
                         value={(userDetails && userDetails.roleId) || ''}
                         onChange={onChangedInput}
                         labelWidth={40}
@@ -90,11 +45,73 @@ export const SaveUserDetails = (props) => {
                         inputProps={{
                             name: 'roleId',
                         }}>
-                        <option value=""></option>
-                        {renderSelect()}
+                        <option value=""/>
+                        {renderRoleOptions()}
                     </Select>
                 </FormControl>
             </Grid>
+        )
+    }, [
+        classes.formControl,
+        onChangedInput,
+        renderRoleOptions,
+        renderRoles,
+        userDetails
+    ]);
+
+    return (
+        <Grid container spacing={2}>
+            <Grid item xs={12} sm={6}>
+                <TextField
+                    label="First Name"
+                    name="firstName"
+                    variant="outlined"
+                    type="text"
+                    value={(userDetails && userDetails.firstName) || ''}
+                    onChange={onChangedInput}
+                    required
+                    fullWidth
+                />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+                <TextField
+                    label="Last Name"
+                    name="lastName"
+                    variant="outlined"
+                    type="text"
+                    value={(userDetails && userDetails.lastName) || ''}
+                    onChange={onChangedInput}
+                    required
+                    fullWidth
+                />
+            </Grid>
+            <Grid item xs={12}>
+                <TextField
+                    label="Middle Name"
+                    name="middleName"
+                    value={(userDetails && userDetails.middleName) || ''}
+                    onChange={onChangedInput}
+                    variant="outlined"
+                    required
+                    fullWidth
+                />
+            </Grid>
+            <Grid item xs={12} sm={renderRoles ? 6 : 12}>
+                <NumberFormat
+                    customInput={TextField}
+                    label="Contact number"
+                    name="contactNumber"
+                    type="tel"
+                    variant="outlined"
+                    format="+38 (###) ###-##-##"
+                    mask="_"
+                    value={(userDetails && userDetails.contactNumber) || ''}
+                    onChange={onChangedInput}
+                    required
+                    fullWidth
+                />
+            </Grid>
+            {renderRoleSelect()}
         </Grid>
-    );
-}
+    )
+};

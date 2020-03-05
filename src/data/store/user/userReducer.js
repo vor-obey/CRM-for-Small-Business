@@ -1,149 +1,18 @@
 import {
-    SET_USER_LOADING,
-    GET_ALL_USERS_SUCCESS,
-    GET_ALL_USERS_ERROR,
-    SET_NEW_USER_LOADING,
-    SET_NEW_USER_SUCCESS,
-    SET_NEW_USER_ERROR,
-    SET_NEW_USER_CREATED,
-    GET_USER_DETAILS_SUCCESS,
-    GET_USER_DETAILS_ERROR,
-    LOGIN_FAILURE,
-    GET_ROLES_SUCCESS,
-    GET_ROLES_FAILURE,
     GET_CURRENT_USER_SUCCESS,
-    GET_CURRENT_USER_FAILURE,
-    DELETE_USER_LOADING,
-    DELETE_USER_SUCCESS,
-    DELETE_USER_FAILURE,
-    PATCH_USER_SUCCESS,
-    PATCH_USER_FAILURE,
 } from "./userActionTypes";
 
 const initialState = {
     currentUser: null,
-    userList: [],
-    loading: false,
-    createUserLoading: false,
-    roles: [],
-    error: "",
-    setNewUserError: "",
-    newUser: null,
-    isNewUserCreated: false,
 };
 
 export const userReducer = (state = initialState, action) => {
     switch (action.type) {
-        case LOGIN_FAILURE: {
-            return {
-                ...state,
-                loginError: action.loginError
-            }
-        }
-        case SET_USER_LOADING: {
-            return {
-                ...state,
-                loading: action.loading,
-            };
-        }
-        case GET_CURRENT_USER_SUCCESS:
-        case GET_CURRENT_USER_FAILURE:{
+        case GET_CURRENT_USER_SUCCESS:{
              return {
                  ...state,
                  currentUser: action.currentUser
              };
-        }
-        case GET_ALL_USERS_SUCCESS: {
-            return {
-                ...state,
-                userList: action.userList,
-            };
-        }
-        case GET_ALL_USERS_ERROR: {
-            return {
-                ...state,
-                loading: false,
-                error: action.error
-            };
-        }
-        case SET_NEW_USER_LOADING: {
-            return  {
-                ...state,
-                newUser: null,
-                createUserLoading: true
-            };
-        }
-        case SET_NEW_USER_SUCCESS: {
-            return {
-                ...state,
-                newUser: action.newUser,
-                createUserLoading: false
-            };
-        }
-        case SET_NEW_USER_ERROR: {
-            return {
-                ...state,
-                loading: false,
-                newUserError: action.newUserError,
-                createUserLoading: false
-            };
-        }
-        case SET_NEW_USER_CREATED: {
-            return {
-                ...state,
-                isNewUserCreated: action.isNewUserCreated
-            }
-        }
-        case GET_ROLES_SUCCESS: {
-            return {
-                ...state,
-                roles: action.roles
-            };
-        }
-        case GET_ROLES_FAILURE: {
-            return {
-                ...state,
-                error: action.error
-            }
-        }
-        case GET_USER_DETAILS_SUCCESS: {
-            return {
-                ...state,
-                userDetails: action.userDetails,
-            }
-        }
-        case GET_USER_DETAILS_ERROR: {
-            return {
-                ...state,
-                loading: false,
-                error: action.error
-            }
-        }
-        case DELETE_USER_LOADING:
-        case DELETE_USER_SUCCESS: {
-            return {
-                ...state,
-                deleteUserSuccess: action.deleteUserSuccess
-            }
-        }
-        case DELETE_USER_FAILURE: {
-            return {
-                ...state,
-                loading: false,
-                deleteUserError: action.deleteUserError
-            }
-        }
-        case PATCH_USER_SUCCESS: {
-            return {
-                ...state,
-                patchUser: action.patchUser
-            }
-        }
-        case PATCH_USER_FAILURE: {
-            return {
-                ...state,
-                patchUserError: action.patchUserError
-            }
         }
         default: {
             return state;
