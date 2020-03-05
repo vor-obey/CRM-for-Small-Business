@@ -1,124 +1,50 @@
 export const HomeStyles = (theme => ({
+   container: {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginTop: theme.spacing(5)
+   },
    root: {
-      display: 'inline-grid',
-      justifyContent: 'center'
-   },
-   gridCloud: {
-      position: 'relative',
-      marginTop: theme.spacing(2),
-      marginRight: theme.spacing(50),
+      width: 800,
+      marginRight: theme.spacing(15),
       [theme.breakpoints.down('md')]: {
-         width: 400
       },
       [theme.breakpoints.down('sm')]: {
-         width: 300,
-         marginRight: theme.spacing(30)
-      },
-      [theme.breakpoints.down('xs')]: {
-         width: 240,
-         marginRight: theme.spacing(10),
-      }
-   },
-   textInOne: {
-      color: '#F2AA1B',
-      top: '25%',
-      fontSize: 40,
-      position: 'absolute',
-      letterSpacing: -1.5,
-      fontWeight: 'bold',
-      paddingLeft: theme.spacing(8),
-      [theme.breakpoints.down('lg')]: {
-         top: '28%',
-         fontSize: 40,
-         position: 'absolute',
-         paddingLeft: theme.spacing(8),
-      },
-      [theme.breakpoints.down('md')]: {
-         top: '26%',
-         fontSize: 32,
-         position: 'absolute',
-         paddingLeft: theme.spacing(5),
-      },
-      [theme.breakpoints.down('sm')]: {
-         top: '24%',
-         fontSize: 28,
-         position: 'absolute',
-         paddingLeft: theme.spacing(6),
-      },
-      [theme.breakpoints.down('xs')]: {
-         top: '26%',
-         fontSize: 23,
-         fontWeight: 'bold',
-         position: 'absolute',
-         paddingLeft: theme.spacing(2),
-      }
-   },
-   textInTwo: {
-      color: '#F2AA1B',
-      top: '36%',
-      fontSize: 40,
-      position: 'absolute',
-      letterSpacing: -1.5,
-      fontWeight: 'bold',
-      paddingLeft: theme.spacing(20),
-      [theme.breakpoints.down('lg')]: {
-         fontSize: 36,
-         position: 'absolute',
-         paddingLeft: theme.spacing(18),
-      },
-      [theme.breakpoints.down('md')]: {
-         fontSize: 32,
-         position: 'absolute',
-         paddingLeft: theme.spacing(15),
-      },
-      [theme.breakpoints.down('sm')]: {
-         fontSize: 28,
-         position: 'absolute',
-         paddingLeft: theme.spacing(13),
-      },
-      [theme.breakpoints.down('xs')]: {
-         fontSize: 23,
-         fontWeight: 'bold',
-         position: 'absolute',
-         paddingLeft: theme.spacing(9),
-      }
-   },
-   gridDog: {
-      marginLeft: theme.spacing(25),
-      [theme.breakpoints.down('md')]: {
-         width: 400
-      },
-      [theme.breakpoints.down('sm')]: {
-         width: 350,
-         marginLeft: theme.spacing(10)
-      },
-      [theme.breakpoints.down('xs')]: {
-         width: 300,
-         marginLeft: theme.spacing(2),
-      }
-   },
-   imgDog: {
-      width: 500,
-      [theme.breakpoints.down('md')]: {
-         width: 400
-      },
-      [theme.breakpoints.down('sm')]: {
-         width: 400
-      },
-      [theme.breakpoints.down('xs')]: {
-         width: 300
       },
    },
-   imgCloud: {
-      width: 500,
+   card: {
+      width: 300,
+      height: 250,
+      display: 'flex',
+      textAlign: 'center',
+      alignItems: 'center',
+      justifyContent: 'center',
       [theme.breakpoints.down('md')]: {
-         width: 400
+         width: 250,
+         height: 200
       },
       [theme.breakpoints.down('sm')]: {
-         width: 350
+         width: 200,
+         height: 150 
       },
-      [theme.breakpoints.down('xs')]: {
-         width: 240,
-      }
+   },
+   chat: {
+      width: 300,
+      height: 415,
+      marginTop: theme.spacing(3),
+      [theme.breakpoints.down('md')]: {
+         width: 250,
+         height: 390 
+      },
+   },
+   graph: {
+      width: 640,
+      height: 415,
+      marginTop: theme.spacing(3),
+      [theme.breakpoints.down('md')]: {
+         width: 590,
+         height: 390 
+      },
    }
 }));
