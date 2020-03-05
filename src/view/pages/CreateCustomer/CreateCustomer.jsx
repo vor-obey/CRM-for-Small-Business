@@ -8,7 +8,8 @@ import {COMMON_ERROR_MESSAGE} from "../../../constants/statuses";
 import {useDispatch} from "react-redux";
 
 export const CreateCustomer = ({
-                                   history
+                                   history,
+                                   updateCustomerList
                                }) => {
     const [customerDetails, setCustomerDetails] = useState({
         username: '',
@@ -47,19 +48,25 @@ export const CreateCustomer = ({
     }, []);
 
     const onSubmitHandler = useCallback(async (event, customerDetails) => {
+        event.stopPropagation();
         event.preventDefault();
         try {
             dispatch(setIsLoading(true));
             const response = await CustomerService.create(customerDetails);
             if (response) {
-                history.push('/customers');
-                dispatch(setIsLoading(false));
+                if (typeof updateCustomerList === 'function') {
+                    updateCustomerList(response);
+                    dispatch(setIsLoading(false));
+                } else {
+                    history.push('/customers');
+                    dispatch(setIsLoading(false));
+                }
             }
         } catch (e) {
             dispatch(setIsLoading(false));
             dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE, success: false}))
         }
-    }, [history, dispatch]);
+    }, [history, dispatch, updateCustomerList]);
 
     const renderSources = useCallback(() => {
         if (!sources || !sources.length) {
