@@ -10,6 +10,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {setIsLoading, setSnackBarStatus} from "../../../data/store/auxiliary/auxiliaryActions";
 import {COMMON_ERROR_MESSAGE} from "../../../constants/statuses";
 import isEmpty from 'lodash/isEmpty';
+import OrdersService from '../../../services/OrdersService';
 
 const useStyles = makeStyles(createOrderPageStyles);
 
@@ -27,8 +28,6 @@ export const CreateOrderPage = () => {
     const dispatch = useDispatch();
     const [productDetails, setProductDetails] = useState({
         description: '',
-        price: '',
-        amount: '',
         currency: 'UAH'
     });
     const [manager, setManager] = useState({});
@@ -113,13 +112,11 @@ export const CreateOrderPage = () => {
         ) {
             dispatch(setSnackBarStatus({isOpen: true, errorMessage: 'Fill all the fields'}));
         } else {
-            // call API POST Order
-            console.log({
-                productDetails,
+            OrdersService.create({
+                product: productDetails,
                 managerId: manager.userId,
-                customer,
-                city,
-                warehouse
+                customerId: customer.customerId,
+                shippingDetails: {city, warehouse},
             });
         }
     }, [
