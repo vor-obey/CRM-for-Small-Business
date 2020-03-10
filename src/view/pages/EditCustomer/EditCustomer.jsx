@@ -5,15 +5,13 @@ import {CustomerService} from "../../../services";
 import SourcesService from "../../../services/SourcesService";
 import {useDispatch} from "react-redux";
 import {setSnackBarStatus, setIsLoading} from "../../../data/store/auxiliary/auxiliaryActions";
-import {COMMON_ERROR_MESSAGE} from "../../../constants/statuses";
 
-export const EditCustomer = (props) => {
+export const EditCustomer = ({history}) => {
 
     const {id} = useParams();
     const dispatch = useDispatch();
     const [customerDetails, setCustomerDetails] = useState({});
     const [sources, setSources] = useState([]);
-    const {history} = props;
 
     useEffect(() => {
         const fetchData = async () => {
@@ -26,7 +24,7 @@ export const EditCustomer = (props) => {
                 dispatch(setIsLoading(false));
             } catch (e) {
                 dispatch(setIsLoading(false));
-                dispatch(setSnackBarStatus({isOpen: true, errorMessage: COMMON_ERROR_MESSAGE}))
+                dispatch(setSnackBarStatus({isOpen: true, message: e.message, success: false}))
             }
         };
         fetchData();
@@ -53,11 +51,11 @@ export const EditCustomer = (props) => {
             }
         } catch (e) {
             dispatch(setIsLoading(false));
-            dispatch(setSnackBarStatus({isOpen: true, errorMessage: COMMON_ERROR_MESSAGE}))
+            dispatch(setSnackBarStatus({isOpen: true, message: e.message, success: false}))
         }
     }, [history, dispatch]);
 
-    const renderSources = () => {
+    const renderSources = useCallback(() => {
         if (!sources || !sources.length) {
             return null;
         }
@@ -67,7 +65,7 @@ export const EditCustomer = (props) => {
                 <option key={source.sourceId} value={source.sourceId}>{source.name}</option>
             );
         })
-    };
+    }, [sources]);
 
     return (
         <SaveCustomerForm

@@ -3,7 +3,7 @@ import { Route, Redirect } from "react-router-dom";
 import StorageService from './services/StorageService';
 import { useSelector } from "react-redux";
 
-function PrivateRoute({ component: Component, ...rest }) {
+export const PrivateRoute = ({ component: Component, ...rest }) => {
     const [isAuthenticated, setAuthenticated] = useState(StorageService.getJWTToken());
     const currentUser = useSelector((state) => state.userReducer.currentUser);
 
@@ -29,7 +29,4 @@ function PrivateRoute({ component: Component, ...rest }) {
             }
         />
     );
-}
-
-
-export default PrivateRoute;
+};

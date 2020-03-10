@@ -8,15 +8,17 @@ import {useDispatch} from "react-redux";
 import {UserListItem} from "./UserListItem/UserListItem";
 import {setIsLoading, setSnackBarStatus} from "../../../data/store/auxiliary/auxiliaryActions";
 import {COMMON_ERROR_MESSAGE} from "../../../constants/statuses";
-import isEmpty from 'lodash/isEmpty';
+import {FilterInput} from "../../components/Filter/FilterInput/FilterInput";
+import {filter} from "../../../utils/helpers";
+import {USER_URLS} from '../../../constants/urls';
 
 const useStyles = makeStyles(usersPageStyle);
 
-export const UsersPage = (props) => {
-    const {history} = props;
+export const UsersPage = ({history}) => {
     const dispatch = useDispatch();
     const classes = useStyles();
     const [userList, setUserList] = useState([]);
+    const [inputFilter, setInputFilter] = useState('');
 
     useEffect(() => {
         const fetchUsers = async () => {
@@ -27,34 +29,47 @@ export const UsersPage = (props) => {
                 dispatch(setIsLoading(false));
             } catch (e) {
                 dispatch(setIsLoading(false));
-                dispatch(setSnackBarStatus({isOpen: true, errorMessage: COMMON_ERROR_MESSAGE}))
+                dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE, success: false}))
             }
         };
         fetchUsers();
     }, [dispatch]);
 
     const navigateToUserDetails = useCallback((userId) => {
-        history.push(`/users/${userId}`)
+        history.push(`${USER_URLS.USERS}/${userId}`)
     }, [history]);
 
+
+    const onChangeHandler = useCallback((event) => {
+        const {value} = event.target;
+        setInputFilter(value)
+    }, []);
+
+
     const renderRows = useCallback(() => {
-        if (isEmpty(userList) || isEmpty(userList)) {
+        if (!userList || !userList.length) {
             return null;
         }
-        return userList.map((user) => {
-            return (
-                <UserListItem
-                    key={user.userId}
-                    user={user}
-                    classes={classes}
-                    navigateToUserDetails={navigateToUserDetails}
-                />
-            );
-        })
-    }, [userList, classes, navigateToUserDetails]);
+        return filter(userList, inputFilter).map((user) => {
+                return (
+                    <UserListItem
+                        key={user.userId}
+                        user={user}
+                        classes={classes}
+                        navigateToUserDetails={navigateToUserDetails}
+                    />
+                );
+            })
+    }, [userList, classes, navigateToUserDetails, inputFilter]);
 
     return (
         <Container className={classes.root}>
+            <FilterInput
+                className={classes.search}
+                value={inputFilter}
+                label='Filter'
+                onChange={onChangeHandler}
+            />
             <List className={classes.container}>
                 <ListItem divider>
                     <Grid container className={classes.userListContainer}>
@@ -98,7 +113,8 @@ export const UsersPage = (props) => {
                     color="primary"
                     className={classes.button}
                     component={Link}
-                    to={'/create-user'}>
+                    to='/create-user'
+                >
                     <PersonAddIcon className={classes.addUser}/>
                     Create user
                 </Button>

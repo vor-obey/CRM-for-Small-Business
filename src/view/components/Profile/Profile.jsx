@@ -1,41 +1,94 @@
 import React from 'react'
 
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import {makeStyles} from '@material-ui/core';
-import {Container, Box, Typography} from "@material-ui/core";
-
+import {
+    Button,
+    SwipeableDrawer,
+    List,
+    ListItem,
+    ListItemText,
+    makeStyles, Divider, ListItemIcon,
+} from '@material-ui/core';
 import {profileStyles} from "./Profile.style";
+import {Link} from "react-router-dom";
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import EditIcon from '@material-ui/icons/Edit';
 
 const useStyles = makeStyles(profileStyles);
 
 export const Profile = (props) => {
-   const classes = useStyles();
-   const {currentUser} = props;
+    const {currentUser} = props;
+    const classes = useStyles();
+    const [userDrawer, setUserDrawer] = React.useState({
+        right: false,
+    });
 
-   const displayUser = () => {
-      if (!currentUser) {
-         return null;
-      }
-      return (
-         <Container  className={classes.container}>
-            <Box className={classes.textWrapper}>
-               <Box className={classes.userName}>
-                  <Typography className={classes.userName}>
-                     {`${currentUser.firstName} ${currentUser.lastName}`}
-                  </Typography>
-               </Box>
-               <Box className={classes.orgName}>
-                  <Typography className={classes.orgName}>
-                     {currentUser.organization.name}
-                  </Typography>
-               </Box>
-            </Box>
-            <AccountCircleIcon className={classes.icon}/>
-         </Container>
-      );
-   };
+    const toggleDrawer = (side, open) => event => {
+        if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+            return;
+        }
+        setUserDrawer({...userDrawer, [side]: open});
+    };
 
-   return (
-      displayUser()
-   );
+    const isActive = (e) => window.location.pathname === e ? true : null;
+
+    const displayUser = side => {
+
+        if (!currentUser) {
+            return null;
+        }
+
+        return (
+            <div
+                className={classes.list}
+                role="presentation"
+                onClick={toggleDrawer(side, false)}
+                onKeyDown={toggleDrawer(side, false)}
+            >
+                <List>
+                    <ListItem>
+                        <ListItemText>{`${currentUser.firstName} ${currentUser.lastName}`}</ListItemText>
+                    </ListItem>
+                    <ListItem>
+                        <ListItemText>{currentUser.organization.name}</ListItemText>
+                    </ListItem>
+                    <Divider variant="fullWidth" component="li"/>
+                    <ListItem button
+                              component={Link}
+                              to={`/users/${currentUser.userId}/edit`}
+                              selected={isActive('/')}>
+                        <ListItemIcon><EditIcon/></ListItemIcon>
+                        <ListItemText>Edit profile</ListItemText>
+                    </ListItem>
+                    <Divider variant="fullWidth" component="li"/>
+                    <ListItem button
+                              component={Link}
+                              to="/logout"
+                              selected={isActive('/logout')}>
+                        <ListItemIcon><ExitToAppIcon/></ListItemIcon>
+                        <ListItemText>Log Out</ListItemText>
+                    </ListItem>
+                </List>
+            </div>
+        )
+    };
+
+    return (
+
+        <div>
+            <Button onClick={toggleDrawer('right', true)}>
+                <AccountCircleIcon
+                    className={classes.account}
+                />
+            </Button>
+            <SwipeableDrawer
+                anchor="right"
+                open={userDrawer.right}
+                onClose={toggleDrawer('right', false)}
+                onOpen={toggleDrawer('right', true)}
+            >
+                {displayUser('right')}
+            </SwipeableDrawer>
+        </div>
+    );
 };

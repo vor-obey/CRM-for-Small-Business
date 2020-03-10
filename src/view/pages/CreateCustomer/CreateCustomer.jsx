@@ -31,7 +31,7 @@ export const CreateCustomer = ({
                 dispatch(setIsLoading(false));
             } catch (e) {
                 dispatch(setIsLoading(false));
-                dispatch(setSnackBarStatus({isOpen: true, errorMessage: COMMON_ERROR_MESSAGE}))
+                dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE, success: false}))
             }
         };
         fetchSources();
@@ -64,11 +64,11 @@ export const CreateCustomer = ({
             }
         } catch (e) {
             dispatch(setIsLoading(false));
-            dispatch(setSnackBarStatus({isOpen: true, errorMessage: COMMON_ERROR_MESSAGE}))
+            dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE, success: false}))
         }
     }, [history, dispatch, updateCustomerList]);
 
-    const renderSources = () => {
+    const renderSources = useCallback(() => {
         if (!sources || !sources.length) {
             return null;
         }
@@ -78,7 +78,7 @@ export const CreateCustomer = ({
                 <option key={source.sourceId} value={source.sourceId}>{source.name}</option>
             );
         })
-    };
+    }, [sources]);
 
     return (
         <SaveCustomerForm

@@ -4,7 +4,8 @@ const initialState = {
     isLoading: false,
     snackBarStatus: {
         isOpen: false,
-        errorMessage: ''
+        message: '',
+        success: true,
     }
 };
 
