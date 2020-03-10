@@ -11,6 +11,7 @@ import {COMMON_ERROR_MESSAGE} from "../../../constants/statuses";
 import {FilterInput} from "../../components/Filter/FilterInput/FilterInput";
 import {filter} from "../../../utils/helpers";
 import {USER_URLS} from '../../../constants/urls';
+import {Users} from "../../../constants/userModule/users";
 
 const useStyles = makeStyles(usersPageStyle);
 
@@ -75,31 +76,31 @@ export const UsersPage = ({history}) => {
                     <Grid container className={classes.userListContainer}>
                         <Grid item xs={4} md={2}>
                             <Typography className={classes.userItemTitle}>
-                                First Name
+                                {Users.FIRSTNAME}
                             </Typography>
                         </Grid>
                         <Grid item xs={4} md={2}>
                             <Typography className={classes.userItemTitle}>
-                                Last Name
+                                {Users.LASNAME}
                             </Typography>
                         </Grid>
                         <Hidden smDown>
                             <Grid item xs={3} md={2}>
                                 <Typography className={classes.userItemTitle}>
-                                    Email
+                                    {Users.EMAIL}
                                 </Typography>
                             </Grid>
                         </Hidden>
                         <Hidden smDown>
                             <Grid item xs={3} md={2}>
                                 <Typography className={classes.userItemTitle}>
-                                    Contact Number
+                                    {Users.NUMBER}
                                 </Typography>
                             </Grid>
                         </Hidden>
                         <Grid item xs={4} md={2}>
                             <Typography className={classes.userItemTitle}>
-                                Role
+                                {Users.ROLE}
                             </Typography>
                         </Grid>
                     </Grid>
