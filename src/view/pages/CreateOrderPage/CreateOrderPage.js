@@ -49,7 +49,7 @@ export const CreateOrderPage = (props) => {
                 dispatch(setIsLoading(false));
             } catch (e) {
                 dispatch(setIsLoading(false));
-                dispatch(setSnackBarStatus({isOpen: true, errorMessage: COMMON_ERROR_MESSAGE}));
+                dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE, success: false}));
             }
         };
         fetchCustomers();
@@ -67,7 +67,7 @@ export const CreateOrderPage = (props) => {
                 dispatch(setIsLoading(false));
             } catch (e) {
                 dispatch(setIsLoading(false));
-                dispatch(setSnackBarStatus({isOpen: true, errorMessage: COMMON_ERROR_MESSAGE}));
+                dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE, success: false}));
             }
         };
         fetchManagers();
@@ -111,7 +111,7 @@ export const CreateOrderPage = (props) => {
         if (isEmpty(productDetails) || isEmpty(manager)
             || isEmpty(customer) || isEmpty(city) || isEmpty(warehouse)
         ) {
-            dispatch(setSnackBarStatus({isOpen: true, errorMessage: 'Fill all the fields'}));
+            dispatch(setSnackBarStatus({isOpen: true, message: 'Fill all the fields', success: false}));
         } else {
             try {
                 dispatch(setIsLoading(true));
@@ -123,14 +123,14 @@ export const CreateOrderPage = (props) => {
                 });
                 if (response.success) {
                     dispatch(setIsLoading(false));
-                    dispatch(setSnackBarStatus({isOpen: true, errorMessage: 'Error'}));
+                    dispatch(setSnackBarStatus({isOpen: true, message: 'Error', success: false}));
                 } else {
                     dispatch(setIsLoading(false));
                     history.push('/orders');
                 }
             } catch {
                 dispatch(setIsLoading(false));
-                dispatch(setSnackBarStatus({isOpen: true, errorMessage: 'Error'}));
+                dispatch(setSnackBarStatus({isOpen: true, message: 'Error', success: false}));
             }
         }
     }, [
