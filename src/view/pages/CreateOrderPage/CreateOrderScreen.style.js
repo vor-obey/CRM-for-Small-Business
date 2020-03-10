@@ -84,8 +84,8 @@ export const createOrderPageStyles = (theme => ({
             justifyContent: 'flex-end'
         },
         select: {
-            marginLeft: theme.spacing(1),
-            [theme.breakpoints.down('md')]: {
+            marginLeft: theme.spacing(2),
+            [theme.breakpoints.down('xs')]: {
                 marginLeft: 0
             }
         },
