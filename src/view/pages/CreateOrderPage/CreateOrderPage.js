@@ -121,7 +121,7 @@ export const CreateOrderPage = (props) => {
                     customerId: customer.customerId,
                     shippingDetails: {city, warehouse},
                 });
-                if (response && response.success === false) {
+                if (response.success) {
                     dispatch(setIsLoading(false));
                     dispatch(setSnackBarStatus({isOpen: true, errorMessage: 'Error'}));
                 } else {
@@ -129,9 +129,8 @@ export const CreateOrderPage = (props) => {
                     history.push('/orders');
                 }
             } catch {
-                dispatch(setIsLoading(true));
-                dispatch(setSnackBarStatus({isOpen: true, errorMessage: 'Error'}));
                 dispatch(setIsLoading(false));
+                dispatch(setSnackBarStatus({isOpen: true, errorMessage: 'Error'}));
             }
         }
     }, [
