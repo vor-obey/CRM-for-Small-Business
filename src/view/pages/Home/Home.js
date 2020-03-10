@@ -11,7 +11,7 @@ import {
 } from "@material-ui/core";
 
 import {HomeStyles} from "./Home.style";
-import {Graph} from './Graph/Graph'
+import {Graph} from '../../components/Graph/Graph'
 
 const useStyles = makeStyles(HomeStyles);
 

@@ -2,8 +2,8 @@ import React, {useState} from 'react';
 
 import {Line} from 'react-chartjs-2'
 
-export const Graph = (props) => {
-   const [date, setDate] = useState({
+export const Graph = () => {
+   const [data, setData] = useState({
       labels: ['1', '2', '3', '4', '5'],
       datasets: [
          {
@@ -25,8 +25,8 @@ export const Graph = (props) => {
             options={{
                responsive: true
             }}
-            data={date}
-            setDate={setDate}
+            data={data}
+            setDate={setData}
          />
       </div>
    )
