@@ -83,6 +83,12 @@ export const createOrderPageStyles = (theme => ({
             backgroundColor: '#fff',
             justifyContent: 'flex-end'
         },
+        select: {
+            marginLeft: theme.spacing(1),
+            [theme.breakpoints.down('md')]: {
+                marginLeft: 0
+            }
+        },
         buttonClose: {
             position: 'absolute',
             marginTop: theme.spacing(1)

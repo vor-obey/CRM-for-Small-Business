@@ -23,9 +23,10 @@ const autocompleteBreakpoints = {
     xs: 12,
 };
 
-export const CreateOrderPage = () => {
+export const CreateOrderPage = (props) => {
     const classes = useStyles();
     const dispatch = useDispatch();
+    const {history} = props;
     const [productDetails, setProductDetails] = useState({
         description: '',
         currency: 'UAH'
@@ -105,19 +106,33 @@ export const CreateOrderPage = () => {
         }
     }), []);
 
-    const onSubmitHandler = useCallback((e) => {
+    const onSubmitHandler = useCallback(async (e) => {
         e.preventDefault();
         if (isEmpty(productDetails) || isEmpty(manager)
             || isEmpty(customer) || isEmpty(city) || isEmpty(warehouse)
         ) {
             dispatch(setSnackBarStatus({isOpen: true, errorMessage: 'Fill all the fields'}));
         } else {
-            OrdersService.create({
-                product: productDetails,
-                managerId: manager.userId,
-                customerId: customer.customerId,
-                shippingDetails: {city, warehouse},
-            });
+            try {
+                dispatch(setIsLoading(true));
+                const response = await OrdersService.create({
+                    product: productDetails,
+                    managerId: manager.userId,
+                    customerId: customer.customerId,
+                    shippingDetails: {city, warehouse},
+                });
+                if (response && response.success === false) {
+                    dispatch(setIsLoading(false));
+                    dispatch(setSnackBarStatus({isOpen: true, errorMessage: 'Error'}));
+                } else {
+                    dispatch(setIsLoading(false));
+                    history.push('/orders');
+                }
+            } catch {
+                dispatch(setIsLoading(true));
+                dispatch(setSnackBarStatus({isOpen: true, errorMessage: 'Error'}));
+                dispatch(setIsLoading(false));
+            }
         }
     }, [
         city,
@@ -125,7 +140,8 @@ export const CreateOrderPage = () => {
         manager,
         productDetails,
         warehouse,
-        dispatch
+        dispatch,
+        history
     ]);
 
     return (

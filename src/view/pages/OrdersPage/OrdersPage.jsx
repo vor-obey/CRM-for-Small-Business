@@ -1,62 +1,77 @@
-import React, {useEffect} from "react";
+import React, {useEffect,  useState, useCallback} from "react";
 import {Container, List, useMediaQuery} from "@material-ui/core";
-import {useDispatch, useSelector} from "react-redux";
-import {getOrders} from "../../../data/store/order/orderThunkActions";
+import {useDispatch} from "react-redux";
 import ListItem from "@material-ui/core/ListItem";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
-import ListItemText from "@material-ui/core/ListItemText";
+import {OrderListItem} from "./OrderListItem/OrderListItem";
 import {makeStyles} from "@material-ui/core/styles";
+import OrdersService from "../../../services/OrdersService";
 import {ordersPageStyles} from "./OrdersPage.style";
+import {setIsLoading, setSnackBarStatus} from "../../../data/store/auxiliary/auxiliaryActions";
+import {COMMON_ERROR_MESSAGE} from "../../../constants/statuses";
+import isEmpty from 'lodash/isEmpty';
 
 const useStyles = makeStyles(ordersPageStyles);
 
 export const OrdersPage = (props) => {
-    const dispatch = useDispatch();
-    const orders = useSelector(state => state.orderReducer.orders);
-    const minWidth350 = useMediaQuery('(min-width:350px)');
-    const classes = useStyles();
+   const [orderList, setOrderList] = useState([]);
+   const dispatch = useDispatch();
+   const minWidth350 = useMediaQuery('(min-width:350px)');
+   const classes = useStyles();
+   const {history} = props;
 
-    useEffect(() => {
-        dispatch(getOrders())
-    }, [dispatch]);
+   useEffect(() => {
+      const fetchOrders = async () => {
+         try {
+            dispatch(setIsLoading(true));
+            const response = await OrdersService.list();
+            setOrderList(response);
+            dispatch(setIsLoading(false));
+         } catch (e) {
+            dispatch(setIsLoading(false));
+            dispatch(setSnackBarStatus({isOpen: true, errorMessage: COMMON_ERROR_MESSAGE}))
+         }
+      };
+      fetchOrders();
+   }, [dispatch]);
 
-    const onClickedHandler = (orderId) => {
-      props.history.push(`/orders/${orderId}`);
-    };
+   const navigationToOrderDetails = useCallback((orderId) => {
+      history.push(`/orders/${orderId}`);
+   }, [history]);
 
-    const renderListItems = () => {
-        return orders.map(order => {
-          return (
-              <ListItem key={order.orderId} disableGutters divider button onClick={() => onClickedHandler(order.orderId)}>
-                  <Grid container>
-                      <Grid item xs={6}>
-                          <ListItemText primary={order.description} secondary={order.currency}/>
-                      </Grid>
-                      <Grid item xs={6}>
-                          <ListItemText primary={order.customerUserName} secondary={minWidth350 && order.customerEmail}/>
-                      </Grid>
+   const renderRows = useCallback(() => {
+      if (isEmpty(orderList) || isEmpty(orderList)) {
+         return null;
+      }
+      return orderList.map((order) => {
+         return (
+            <OrderListItem
+               key={order.orderId}
+               order={order}
+               minWidth350={minWidth350}
+               navigationToOrderDetails={navigationToOrderDetails}
+            />
+         );
+      })
+   }, [orderList, navigationToOrderDetails, minWidth350]);
+
+
+   return (
+      <Container className={classes.root}>
+         <List>
+            <ListItem disableGutters divider>
+               <Grid container>
+                  <Grid item xs={6}>
+                     <Typography>Description</Typography>
                   </Grid>
-              </ListItem>
-          );
-        });
-    };
-
-    return (
-        <Container className={classes.root}>
-            <List>
-                <ListItem disableGutters divider>
-                    <Grid container>
-                        <Grid item xs={6}>
-                            <Typography>Description</Typography>
-                        </Grid>
-                        <Grid item xs={6}>
-                            <Typography>Customer</Typography>
-                        </Grid>
-                    </Grid>
-                </ListItem>
-                {orders.length !== 0 && renderListItems()}
-            </List>
-        </Container>
-    );
+                  <Grid item xs={6}>
+                     <Typography>Customer</Typography>
+                  </Grid>
+               </Grid>
+            </ListItem>
+            {renderRows()}
+         </List>
+      </Container>
+   );
 };

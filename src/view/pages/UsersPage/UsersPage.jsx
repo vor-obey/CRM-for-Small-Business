@@ -8,6 +8,7 @@ import {useDispatch} from "react-redux";
 import {UserListItem} from "./UserListItem/UserListItem";
 import {setIsLoading, setSnackBarStatus} from "../../../data/store/auxiliary/auxiliaryActions";
 import {COMMON_ERROR_MESSAGE} from "../../../constants/statuses";
+import isEmpty from 'lodash/isEmpty';
 
 const useStyles = makeStyles(usersPageStyle);
 
@@ -37,7 +38,7 @@ export const UsersPage = (props) => {
     }, [history]);
 
     const renderRows = useCallback(() => {
-        if (!userList || !userList.length) {
+        if (isEmpty(userList) || isEmpty(userList)) {
             return null;
         }
         return userList.map((user) => {

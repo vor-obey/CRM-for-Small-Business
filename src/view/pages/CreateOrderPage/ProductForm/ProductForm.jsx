@@ -28,7 +28,7 @@ export const ProductForm = ({
                     value={productDetails.description}
                 />
             </Grid>
-            <Grid item lg={1} sm={2} xs={6}>
+            <Grid item lg={1} sm={2} xs={6} className={classes.select}>
                 <TextField
                     id="outlined-select-currency-native"
                     select
