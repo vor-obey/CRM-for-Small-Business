@@ -11,7 +11,7 @@ import Button from "@material-ui/core/Button";
 
 const useStyles = makeStyles(orderDetailsStyles);
 
-export const OrderDetails = () => {
+export const OrderDetails = (props) => {
     const {id} = useParams();
     const [orderDetails, setOrderDetails] = useState({});
     const classes = useStyles();

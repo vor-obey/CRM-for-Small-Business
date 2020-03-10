@@ -10,6 +10,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {setIsLoading, setSnackBarStatus} from "../../../data/store/auxiliary/auxiliaryActions";
 import {COMMON_ERROR_MESSAGE} from "../../../constants/statuses";
 import isEmpty from 'lodash/isEmpty';
+import OrdersService from '../../../services/OrdersService';
 
 const useStyles = makeStyles(createOrderPageStyles);
 
@@ -22,13 +23,12 @@ const autocompleteBreakpoints = {
     xs: 12,
 };
 
-export const CreateOrderPage = () => {
+export const CreateOrderPage = (props) => {
     const classes = useStyles();
     const dispatch = useDispatch();
+    const {history} = props;
     const [productDetails, setProductDetails] = useState({
         description: '',
-        price: '',
-        amount: '',
         currency: 'UAH'
     });
     const [manager, setManager] = useState({});
@@ -49,7 +49,7 @@ export const CreateOrderPage = () => {
                 dispatch(setIsLoading(false));
             } catch (e) {
                 dispatch(setIsLoading(false));
-                dispatch(setSnackBarStatus({isOpen: true, errorMessage: COMMON_ERROR_MESSAGE}));
+                dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE, success: false}));
             }
         };
         fetchCustomers();
@@ -67,7 +67,7 @@ export const CreateOrderPage = () => {
                 dispatch(setIsLoading(false));
             } catch (e) {
                 dispatch(setIsLoading(false));
-                dispatch(setSnackBarStatus({isOpen: true, errorMessage: COMMON_ERROR_MESSAGE}));
+                dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE, success: false}));
             }
         };
         fetchManagers();
@@ -106,21 +106,32 @@ export const CreateOrderPage = () => {
         }
     }), []);
 
-    const onSubmitHandler = useCallback((e) => {
+    const onSubmitHandler = useCallback(async (e) => {
         e.preventDefault();
         if (isEmpty(productDetails) || isEmpty(manager)
             || isEmpty(customer) || isEmpty(city) || isEmpty(warehouse)
         ) {
-            dispatch(setSnackBarStatus({isOpen: true, errorMessage: 'Fill all the fields'}));
+            dispatch(setSnackBarStatus({isOpen: true, message: 'Fill all the fields', success: false}));
         } else {
-            // call API POST Order
-            console.log({
-                productDetails,
-                managerId: manager.userId,
-                customer,
-                city,
-                warehouse
-            });
+            try {
+                dispatch(setIsLoading(true));
+                const response = await OrdersService.create({
+                    product: productDetails,
+                    managerId: manager.userId,
+                    customerId: customer.customerId,
+                    shippingDetails: {city, warehouse},
+                });
+                if (response.success) {
+                    dispatch(setIsLoading(false));
+                    dispatch(setSnackBarStatus({isOpen: true, message: 'Error', success: false}));
+                } else {
+                    dispatch(setIsLoading(false));
+                    history.push('/orders');
+                }
+            } catch {
+                dispatch(setIsLoading(false));
+                dispatch(setSnackBarStatus({isOpen: true, message: 'Error', success: false}));
+            }
         }
     }, [
         city,
@@ -128,7 +139,8 @@ export const CreateOrderPage = () => {
         manager,
         productDetails,
         warehouse,
-        dispatch
+        dispatch,
+        history
     ]);
 
     return (

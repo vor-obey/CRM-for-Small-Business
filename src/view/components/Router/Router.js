@@ -14,7 +14,6 @@ import {UsersPage} from "../../pages/UsersPage/UsersPage";
 import {CustomersPage} from "../../pages/CustomersPage/CustomersPage";
 import {UserDetailsPage} from "../../pages/UserDetailsPage/UserDetailsPage";
 import RestorePassword from "../../pages/RestorePassword/RestorePassword";
-import {EditUser} from "../../pages/EditUser/EditUser";
 import {CustomerDetailsPage} from "../../pages/CustomerDetailsPage/CustomerDetailsPage";
 import {CreateCustomer} from "../../pages/CreateCustomer/CreateCustomer";
 import {EditCustomer} from "../../pages/EditCustomer/EditCustomer";
@@ -52,7 +51,6 @@ export const Routing = () => {
          <PrivateRoute exact path='/customers/:id' component={CustomerDetailsPage}/>
          <PrivateRoute exact path='/customers/:id/edit' component={EditCustomer}/>
          <PrivateRoute exact path='/users' component={UsersPage}/>
-         <PrivateRoute exact path='/users/:id/edit' component={EditUser}/>
          <PrivateRoute exact path='/users/:id' component={UserDetailsPage}/>
          <PrivateRoute path='/create-shipping-details' component={ShippingDetails}/>
          <PrivateRoute path='/orders' exact component={OrdersPage}/>
