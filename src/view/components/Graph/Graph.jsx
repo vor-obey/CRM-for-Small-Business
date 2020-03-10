@@ -1,9 +1,10 @@
-import React, {useState} from 'react';
+import React from 'react';
 
 import {Line} from 'react-chartjs-2'
 
 export const Graph = () => {
-   const [data, setData] = useState({
+
+   const Data = {
       labels: ['1', '2', '3', '4', '5'],
       datasets: [
          {
@@ -17,7 +18,7 @@ export const Graph = () => {
             data: [14, 15, 21, 0, 12, 4, 2]
          },
       ]
-   });
+   };
 
    return (
       <div>
@@ -25,8 +26,7 @@ export const Graph = () => {
             options={{
                responsive: true
             }}
-            data={data}
-            setDate={setData}
+            data={Data}
          />
       </div>
    )
