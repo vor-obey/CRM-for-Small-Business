@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 
 import {
     Grid,
@@ -16,19 +16,15 @@ export const OrderListItem = (props) => {
         navigationToOrderDetails
     } = props;
 
-    const [status, setStatus] = useState('');
+    const StatusEnum = {
+        0: 'New',
+        1: 'In Progress',
+        2: 'Ready For Shipping',
+        3: 'Shipping',
+        4: 'Completed',
+        5: 'Cancelled'
+    };
 
-    useEffect(() => {
-        // eslint-disable-next-line default-case
-        switch (order.status) {
-            case 0: setStatus('New'); break;
-            case 1: setStatus('In Progress'); break;
-            case 2: setStatus('Ready For Shipping'); break;
-            case 3: setStatus('Shipping'); break;
-            case 4: setStatus('Completed'); break;
-            case 5: setStatus('Cancelled'); break;
-        }
-    }, [order.status]);
     return (
         <ListItem key={order.orderId} disableGutters divider button
                   onClick={() => navigationToOrderDetails(order.orderId)}>
@@ -40,7 +36,7 @@ export const OrderListItem = (props) => {
                     <ListItemText primary={order.customer.name} secondary={minWidth350 && order.customer.contactEmail}/>
                 </Grid>
                 <Grid item xs={2} className={classes.statusGrid}>
-                    <ListItemText>{status}</ListItemText>
+                    <ListItemText>{StatusEnum[order.status]}</ListItemText>
                 </Grid>
             </Grid>
         </ListItem>
