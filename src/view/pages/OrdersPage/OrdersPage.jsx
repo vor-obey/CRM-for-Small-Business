@@ -49,12 +49,13 @@ export const OrdersPage = (props) => {
             <OrderListItem
                key={order.orderId}
                order={order}
+               classes={classes}
                minWidth350={minWidth350}
                navigationToOrderDetails={navigationToOrderDetails}
             />
          );
       })
-   }, [orderList, navigationToOrderDetails, minWidth350]);
+   }, [orderList, navigationToOrderDetails, minWidth350, classes]);
 
 
    return (
@@ -62,11 +63,14 @@ export const OrdersPage = (props) => {
          <List>
             <ListItem disableGutters divider>
                <Grid container>
-                  <Grid item xs={6}>
+                  <Grid item xs={5}>
                      <Typography>Description</Typography>
                   </Grid>
-                  <Grid item xs={6}>
+                  <Grid item xs={5}>
                      <Typography>Customer</Typography>
+                  </Grid>
+                  <Grid item xs={2} className={classes.textStatus}>
+                     <Typography>Status</Typography>
                   </Grid>
                </Grid>
             </ListItem>
