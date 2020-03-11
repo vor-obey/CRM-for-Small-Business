@@ -32,10 +32,12 @@ export const Login = (props) => {
     const onSubmitForm = useCallback(async (event) => {
         event.preventDefault();
         const {email, password} = userLoginData;
-        await dispatch(login(email, password));
-        await dispatch(getCurrentUser());
+        const response = await dispatch(login(email, password));
 
-        history.push('/dashboard');
+        if (response) {
+            await dispatch(getCurrentUser());
+            history.push('/dashboard');
+        }
     }, [userLoginData, history, dispatch]);
 
 

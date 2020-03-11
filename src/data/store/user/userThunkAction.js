@@ -12,13 +12,19 @@ export const login = (email, password) => async (dispatch) => {
         if (response.accessToken) {
             StorageService.setJWTToken(response.accessToken);
             dispatch(setIsLoading(false));
-        } else {
-            dispatch(setIsLoading(false));
-            dispatch(setSnackBarStatus({isOpen: true, errorMessage: COMMON_ERROR_MESSAGE}));
+
+            return true;
         }
+
+        dispatch(setIsLoading(false));
+        dispatch(setSnackBarStatus({isOpen: true, errorMessage: COMMON_ERROR_MESSAGE}));
+
+        return false;
     } catch (e) {
         dispatch(setIsLoading(false));
         dispatch(setSnackBarStatus({isOpen: true, errorMessage: COMMON_ERROR_MESSAGE}));
+
+        return false;
     }
 };
 
