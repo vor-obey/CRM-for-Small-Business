@@ -1,4 +1,13 @@
 export const SystemEN = {
+    LOGIN: 'Login',
+    LOGINBUTTON: 'Log in',
+    FORGOTPASS: 'Forgot your password?',
+    SEND: 'Send',
+    SENDING: 'Sending...',
+    CHECKEMAIL: 'Please, check your email',
+    ENTEREMAIL: 'Enter e-mail to restore your password',
+    NOEMAIL: 'Sorry. There is no such email address...',
+    TRYAGAIN: 'Try again',
     AGREE: 'Agree',
     DISAGREE: 'Disagree',
     EDIT: 'Edit',
