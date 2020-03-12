@@ -12,6 +12,7 @@ import i18n from '../src/i18n/i18n';
 
 function App() {
 
+
     return (
         <I18nextProvider i18n={i18n}>
             <Provider store={store}>

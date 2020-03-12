@@ -21,12 +21,7 @@ export const UsersPage = ({history}) => {
     const classes = useStyles();
     const [userList, setUserList] = useState([]);
     const [inputFilter, setInputFilter] = useState('');
-    const { t, i18n } = useTranslation('');
-
-    const changeLanguage = lng => {
-        i18n.changeLanguage(lng);
-    };
-
+    const { t } = useTranslation('');
 
     useEffect(() => {
         const fetchUsers = async () => {
@@ -75,7 +70,7 @@ export const UsersPage = ({history}) => {
             <FilterInput
                 className={classes.search}
                 value={inputFilter}
-                label='Filter'
+                label={t('FILTER')}
                 onChange={onChangeHandler}
             />
             <List className={classes.container}>
@@ -124,22 +119,7 @@ export const UsersPage = ({history}) => {
                     to='/create-user'
                 >
                     <PersonAddIcon className={classes.addUser}/>
-                    {t('CREATEUSER')}
-                </Button>
-
-                <Button onClick={() => changeLanguage("ua")}
-                >
-                    ua
-                </Button>
-                <Button
-                    onClick={() => changeLanguage("en")}
-                >
-                    en
-                </Button>
-                <Button
-                    onClick={() => changeLanguage("ru")}
-                >
-                    ru
+                    {t('CREATE')}
                 </Button>
             </Grid>
         </Container>

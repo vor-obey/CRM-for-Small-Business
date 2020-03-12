@@ -1,0 +1,15 @@
+export const UsersEN = {
+    FIRSTNAME: 'First Name',
+    LASTNAME: 'Last Name',
+    MIDDLENAME: 'Middle Name',
+    EMAIL: 'E-mail',
+    NUMBER: 'Contact Number',
+    ROLE: 'Role',
+    PASSWORD: 'Password',
+    RPASSWORD: 'Repeat password',
+    CREATEUSER: 'Create User',
+    USERDETAILS: 'User Details',
+    DELETEUSER: 'Delete User',
+    DELETEUSERTEXT: 'Are you sure you want to delete the user without the possibility of recovery?',
+    EDITUSER: 'Edit User',
+};

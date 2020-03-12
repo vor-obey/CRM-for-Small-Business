@@ -4,10 +4,12 @@ import {RoleService, UserService} from "../../../services";
 import {useDispatch} from "react-redux";
 import {setIsLoading, setSnackBarStatus} from "../../../data/store/auxiliary/auxiliaryActions";
 import {COMMON_ERROR_MESSAGE} from "../../../constants/statuses";
+import {useTranslation} from "react-i18next";
 
 export const CreateUser = ({history}) => {
     const dispatch = useDispatch();
     const [roles, setRoles] = useState([]);
+    const { t } = useTranslation('');
 
     useEffect(() => {
         const fetchRoles = async () => {
@@ -42,8 +44,8 @@ export const CreateUser = ({history}) => {
     return (
         <SaveUserForm
             onSubmit={onSubmitHandler}
-            title="Create User"
-            buttonText="Create"
+            title={t('CREATEUSER')}
+            buttonText={t('CREATE')}
             roles={roles}
             isEdit={false}
         />

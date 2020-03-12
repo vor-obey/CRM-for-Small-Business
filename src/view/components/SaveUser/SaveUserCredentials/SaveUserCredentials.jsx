@@ -1,8 +1,10 @@
 import React from 'react';
 import {FormControl, Grid, IconButton, InputAdornment, InputLabel, OutlinedInput, TextField} from "@material-ui/core";
 import {Visibility, VisibilityOff} from "@material-ui/icons";
+import {useTranslation} from "react-i18next";
 
 export const SaveUserCredentials = (props) => {
+    const { t } = useTranslation('');
 
     const {
         onChangedInput,
@@ -15,9 +17,9 @@ export const SaveUserCredentials = (props) => {
         <Grid container spacing={2}>
             <Grid item xs={12}>
                 <TextField
-                    label={"Email Address"}
-                    name={"email"}
-                    variant={"outlined"}
+                    label={t('EMAIL')}
+                    name="email"
+                    variant="outlined"
                     type="email"
                     value={credentials.email}
                     onChange={onChangedInput}
@@ -27,10 +29,10 @@ export const SaveUserCredentials = (props) => {
             </Grid>
             <Grid item sm={6} xs={12}>
                 <FormControl variant="outlined" required fullWidth>
-                    <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+                    <InputLabel htmlFor="outlined-adornment-password">{t('PASSWORD')}</InputLabel>
                     <OutlinedInput
-                        label={"Password"}
-                        name={"password"}
+                        label={t('PASSWORD')}
+                        name="password"
                         type={showPassword ? 'text' : 'password'}
                         value={credentials.password}
                         onChange={onChangedInput}
@@ -55,11 +57,10 @@ export const SaveUserCredentials = (props) => {
             </Grid>
             <Grid item sm={6} xs={12}>
                 <FormControl variant="outlined" required fullWidth>
-                    <InputLabel htmlFor="outlined-adornment-password">Repeat Password</InputLabel>
+                    <InputLabel htmlFor="outlined-adornment-password">{t('RPASSWORD')}</InputLabel>
                     <OutlinedInput
-                        label={"Password"}
-                        name={"confirmPassword"}
-                        placeholder={"Repeat Password *"}
+                        label={t('RPASSWORD')}
+                        name="confirmPassword"
                         type={showPassword ? 'text' : 'password'}
                         value={credentials.confirmPassword}
                         onChange={onChangedInput}

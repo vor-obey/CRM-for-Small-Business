@@ -26,6 +26,7 @@ import {history} from "../../../utils/history";
 import {CreateOrderPage} from "../../pages/CreateOrderPage/CreateOrderPage";
 import {CreateOrganization} from "../../pages/CreateOrganization/CreateOrganization";
 import {CreateCode} from "../../pages/CreateCode/CreateCode";
+import {EditUser} from "../../pages/EditUser/EditUser";
 
 export const Routing = () => {
    const dispatch = useDispatch();
@@ -52,6 +53,7 @@ export const Routing = () => {
          <PrivateRoute exact path='/customers/:id/edit' component={EditCustomer}/>
          <PrivateRoute exact path='/users' component={UsersPage}/>
          <PrivateRoute exact path='/users/:id' component={UserDetailsPage}/>
+         <PrivateRoute exact path='/users/:id/edit' component={EditUser}/>
          <PrivateRoute path='/create-shipping-details' component={ShippingDetails}/>
          <PrivateRoute path='/orders' exact component={OrdersPage}/>
          <PrivateRoute path='/create-order' exact component={CreateOrderPage}/>

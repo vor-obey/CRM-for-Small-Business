@@ -11,6 +11,7 @@ import ProgressBar from '../../ProgressBar/ProgressBar';
 import {AlertSnackbar} from "../../Snackbar/Snackbar";
 import {setSnackBarStatus} from "../../../../data/store/auxiliary/auxiliaryActions";
 import {headerStyle} from "./Header.style";
+import {Flags} from "../Flags/Flags";
 
 const useStyles = makeStyles(headerStyle);
 
@@ -29,9 +30,12 @@ export const Header = () => {
     return (
         <div className={classes.root}>
             <AppBar position="static">
-                <Toolbar className={classes.toolbar} >
+                <Toolbar className={classes.toolbar}>
                     <Drawer/>
-                    <Profile currentUser={currentUser}/>
+                    <div className={classes.user}>
+                        <Flags classes={classes}/>
+                        <Profile currentUser={currentUser}/>
+                    </div>
                 </Toolbar>
             </AppBar>
             <ProgressBar isLoading={isLoading}/>

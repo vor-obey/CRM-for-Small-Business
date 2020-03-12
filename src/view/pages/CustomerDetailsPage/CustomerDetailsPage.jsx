@@ -18,6 +18,7 @@ import {isEmpty} from 'lodash';
 import {CustomerDetails} from './CustomerDetails/CustomerDetails';
 import {setIsLoading, setSnackBarStatus} from "../../../data/store/auxiliary/auxiliaryActions";
 import {COMMON_ERROR_MESSAGE} from "../../../constants/statuses";
+import {useTranslation} from "react-i18next";
 
 const useStyles = makeStyles(customerDetailsStyle);
 
@@ -27,6 +28,7 @@ export const CustomerDetailsPage = ({history}) => {
     const dispatch = useDispatch();
     const {id} = useParams();
     const classes = useStyles();
+    const { t } = useTranslation('');
 
     useEffect(() => {
         const fetchCustomerById = async (id) => {
@@ -85,7 +87,7 @@ export const CustomerDetailsPage = ({history}) => {
                     <Grid container item xs={12}
                           justify='center'>
                         <Typography variant="h5" className={classes.title} align="center" gutterBottom>
-                            Customer Details
+                            {t('CUSTOMERDETAILS')}
                         </Typography>
                     </Grid>
                     <Grid container item xs={12}>
@@ -115,14 +117,13 @@ export const CustomerDetailsPage = ({history}) => {
                 </Grid>
             </Paper>
             <CustomDialog
-                title="Delete Customer"
+                title={t('DELETECUSTOMER')}
                 isShow={isShow}
                 onClose={handleOpenDialog}
-                closeText="Disagree"
+                closeText={t('DISAGREE')}
+                actionText={t('AGREE')}
                 onAction={handleClickDeleteCustomer}
-            >
-                Are you sure you want to delete the customer without the possibility of recovery?
-            </CustomDialog>
+            >{t('DELETECUSTOMERTEXXT')}</CustomDialog>
         </Container>
     );
 };
