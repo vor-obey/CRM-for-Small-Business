@@ -13,7 +13,7 @@ export const orderDetailsStyles = ((theme) => ({
       }
    },
    inputDesciption: {
-      paddingRight: theme.spacing(1) 
+      paddingRight: theme.spacing(1)
    },
    inputCurrency: {
       paddingLeft: theme.spacing(1),
@@ -22,12 +22,21 @@ export const orderDetailsStyles = ((theme) => ({
       }
    },
    managerRender: {
-      marginTop: theme.spacing(2)
+      marginTop: theme.spacing(1),
+          [theme.breakpoints.down('xs')]: {
+         marginTop: theme.spacing(2)
+      }
+   },
+   statusRender: {
+      marginTop: theme.spacing(1),
+      [theme.breakpoints.down('xs')]: {
+         marginTop: theme.spacing(0)
+      }
    },
    typographyManager: {
-      paddingTop: theme.spacing(3),
+     marginBottom: theme.spacing(2)
    },
-   inputName: {
+   inputStatus: {
       paddingRight: theme.spacing(2),
       [theme.breakpoints.down('xs')]: {
          paddingRight: 0
