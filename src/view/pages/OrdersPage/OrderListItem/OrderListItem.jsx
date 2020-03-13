@@ -5,15 +5,7 @@ import {
 } from "@material-ui/core";
 
 import ListItemText from "@material-ui/core/ListItemText";
-
-const EStatus = {
-    0: 'New',
-    1: 'In Progress',
-    2: 'Ready For Shipping',
-    3: 'Shipping',
-    4: 'Completed',
-    5: 'Cancelled'
-};
+import {EOrderStatus} from '../../../../constants/statuses';
 
 export const OrderListItem = ({
                                   order,
@@ -32,7 +24,7 @@ export const OrderListItem = ({
                     <ListItemText primary={order.customer.name} secondary={minWidth350 && order.customer.contactEmail}/>
                 </Grid>
                 <Grid item xs={2} className={classes.statusGrid}>
-                    <ListItemText>{EStatus[order.status]}</ListItemText>
+                    <ListItemText>{EOrderStatus[order.status]}</ListItemText>
                 </Grid>
             </Grid>
         </ListItem>
