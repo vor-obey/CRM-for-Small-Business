@@ -123,10 +123,10 @@ export const CreateOrderPage = (props) => {
                 });
                 if (response.success) {
                     dispatch(setIsLoading(false));
-                    dispatch(setSnackBarStatus({isOpen: true, message: 'Error', success: false}));
+                    history.push('/orders');
                 } else {
                     dispatch(setIsLoading(false));
-                    history.push('/orders');
+                    dispatch(setSnackBarStatus({isOpen: true, message: 'Error', success: false}));
                 }
             } catch {
                 dispatch(setIsLoading(false));
