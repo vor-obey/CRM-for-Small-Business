@@ -10,7 +10,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {setIsLoading, setSnackBarStatus} from "../../../data/store/auxiliary/auxiliaryActions";
 import {COMMON_ERROR_MESSAGE} from "../../../constants/statuses";
 import isEmpty from 'lodash/isEmpty';
-import OrdersService from '../../../services/OrdersService';
+import {OrderService} from '../../../services/index';
 
 const useStyles = makeStyles(createOrderPageStyles);
 
@@ -115,7 +115,7 @@ export const CreateOrderPage = (props) => {
         } else {
             try {
                 dispatch(setIsLoading(true));
-                const response = await OrdersService.create({
+                const response = await OrderService.create({
                     product: productDetails,
                     managerId: manager.userId,
                     customerId: customer.customerId,
