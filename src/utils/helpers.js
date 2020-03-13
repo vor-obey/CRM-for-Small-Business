@@ -24,17 +24,3 @@ export const addParamsToUrl = (urlPath, params = {}) =>{
 
     return url;
 };
-
-//
-// export const isAuthenticated = () => {
-//     const token = this.getCookie(COOKIE_KEYS.TOKEN);
-//     let authenticated = false;
-//     if (token !== '') {
-//         authenticated = !this.isTokenExpired(token);
-//         if (!authenticated) {
-//             this.removeCookie(COOKIE_KEYS.TOKEN);
-//             this.removeCookie(COOKIE_KEYS.REFRESH_TOKEN);
-//         }
-//     }
-//     return authenticated;
-// }

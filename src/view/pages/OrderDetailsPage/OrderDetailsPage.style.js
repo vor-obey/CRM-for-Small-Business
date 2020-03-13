@@ -4,7 +4,6 @@ export const orderDetailsStyles = ((theme) => ({
       [theme.breakpoints.down('xs')]: {
          marginTop: theme.spacing(5)
       }
-
    },
    orderRender: {
       marginBottom:  theme.spacing(9),
@@ -12,7 +11,7 @@ export const orderDetailsStyles = ((theme) => ({
          marginBottom: 0
       }
    },
-   inputDesciption: {
+   inputDescription: {
       paddingRight: theme.spacing(1)
    },
    inputCurrency: {
