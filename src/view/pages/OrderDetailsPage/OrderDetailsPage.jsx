@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useState} from "react";
 import {OrderService} from "../../../services/index";
-import {useParams} from 'react-router-dom';
+import {Link, useParams} from 'react-router-dom';
 import {makeStyles} from "@material-ui/core/styles";
 import {orderDetailsStyles} from "./OrderDetailsPage.style";
 import {OrderDetails} from './OrderDetails/OrderDetails';
@@ -10,12 +10,16 @@ import {COMMON_ERROR_MESSAGE} from '../../../constants/statuses';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import isEmpty from 'lodash/isEmpty';
+import {Container} from '@material-ui/core';
+import Button from '@material-ui/core/Button';
+import {CustomDialog} from '../../components/CustomDialog/CustomDialog';
 
 const useStyles = makeStyles(orderDetailsStyles);
 
-export const OrderDetailsPage = () => {
+export const OrderDetailsPage = ({history}) => {
     const {id} = useParams();
     const [orderDetails, setOrderDetails] = useState({});
+    const [isOpen, setIsOpen] = useState(false);
     const classes = useStyles();
     const dispatch = useDispatch();
 
@@ -93,11 +97,64 @@ export const OrderDetailsPage = () => {
         )
     }, [orderDetails]);
 
+    const deleteOrder = useCallback(async () => {
+        try {
+            dispatch(setIsLoading(true));
+            const response = await OrderService.delete(id);
+            if (response.success) {
+                dispatch(setIsLoading(false));
+                history.push('/orders');
+            } else {
+                dispatch(setIsLoading(false));
+                dispatch(setSnackBarStatus({isOpen: false, message: COMMON_ERROR_MESSAGE, success: false}));
+            }
+        } catch (e) {
+            dispatch(setIsLoading(false));
+            dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE, success: false}));
+        }
+    }, [id, history, dispatch]);
+
+    const toggleDialog = useCallback(() => {
+        setIsOpen(prevState => !prevState);
+    }, []);
+
     return (
-        <OrderDetails
-            orderDetails={orderDetails}
-            classes={classes}
-            renderShippingAddress={renderShippingAddress}
-        />
+        <Container className={classes.root}>
+            <OrderDetails
+                orderDetails={orderDetails}
+                classes={classes}
+                renderShippingAddress={renderShippingAddress}
+            />
+            <Grid container justify="center">
+                <Button
+                    type='submit'
+                    variant="outlined"
+                    color="primary"
+                    className={classes.button}
+                    component={Link}
+                    to='/orders'
+                >
+                    Back
+                </Button>
+                <Button
+                    type='submit'
+                    variant="outlined"
+                    color="primary"
+                    className={classes.button}
+                    onClick={toggleDialog}
+                >
+                    Delete
+                </Button>
+            </Grid>
+            <CustomDialog
+                title="Delete Order"
+                isShow={isOpen}
+                onClose={toggleDialog}
+                closeText="Disagree"
+                onAction={deleteOrder}
+            >
+                Are you sure you want to delete the order?
+            </CustomDialog>
+        </Container>
     );
 };
