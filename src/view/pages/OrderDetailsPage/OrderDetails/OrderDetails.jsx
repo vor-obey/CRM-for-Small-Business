@@ -4,7 +4,7 @@ import Button from '@material-ui/core/Button';
 import {Link} from 'react-router-dom';
 import {Container, TextField} from '@material-ui/core';
 import React from 'react';
-import {StatusEnum} from '../../../../constants/statuses';
+import {EOrderStatus} from '../../../../constants/statuses';
 
 export const OrderDetails = ({
                                  classes,
@@ -15,10 +15,10 @@ export const OrderDetails = ({
     return (
         <Container className={classes.root}>
             <Grid container>
-                <Grid container item xl={6} lg={6} md={6} sm={6} xs={12} className={classes.order}>
+                <Grid container item xl={6} lg={6} md={6} sm={6} xs={12} className={classes.wrapper}>
                     <Typography variant='h5'>Order</Typography>
-                    <Grid container item className={classes.orderRender}>
-                        <Grid item xl={10} xs={12} className={classes.inputDescription}>
+                    <Grid container item className={classes.orderContainer}>
+                        <Grid item xl={10} xs={12} className={classes.orderDescription}>
                             <TextField
                                 label="Description"
                                 margin="normal"
@@ -31,7 +31,7 @@ export const OrderDetails = ({
                                 fullWidth
                             />
                         </Grid>
-                        <Grid item xl={2} xs={12} className={classes.inputCurrency}>
+                        <Grid item xl={2} xs={12} className={classes.orderCurrency}>
                             <TextField
                                 label="Currency"
                                 margin="normal"
@@ -58,13 +58,13 @@ export const OrderDetails = ({
                                 fullWidth
                             />
                         </Grid>
-                        <Grid item xl={12} lg={12} md={12} sm={12} xs={12} className={classes.inputStatus}>
+                        <Grid item xl={12} lg={12} md={12} sm={12} xs={12} className={classes.orderStatus}>
                             <TextField
                                 label="Status"
                                 margin="normal"
                                 name="status"
                                 type="text"
-                                value={StatusEnum[order.status] || ''}
+                                value={EOrderStatus[order.status] || ''}
                                 inputProps={{
                                     readOnly: true
                                 }}
@@ -73,7 +73,7 @@ export const OrderDetails = ({
                         </Grid>
                     </Grid>
                 </Grid>
-                <Grid container item xl={6} lg={6} md={6} sm={6} xs={12} className={classes.customer}>
+                <Grid container item xl={6} lg={6} md={6} sm={6} xs={12} className={classes.customerContainer}>
                     <Typography variant='h5'>Customer</Typography>
                     <Grid container item>
                         <Grid item xs={12}>
@@ -130,12 +130,12 @@ export const OrderDetails = ({
                         </Grid>
                     </Grid>
                 </Grid>
-                <Grid container item xl={6} lg={6} md={6} sm={12} xs={12} className={classes.manager}>
+                <Grid container item xl={6} lg={6} md={6} sm={12} xs={12} className={classes.managerContainer}>
                     <Grid container item xl={12} lg={12} md={12} sm={12} xs={12} className={classes.managerRender}>
-                        <Grid item xl={12} lg={12} md={12} sm={12} xs={12} className={classes.typographyManager}>
+                        <Grid item xl={12} lg={12} md={12} sm={12} xs={12} className={classes.managerHeading}>
                             <Typography variant='h5'>Manager</Typography>
                         </Grid>
-                        <Grid item xl={12} lg={12} md={12} sm={12} xs={12} className={classes.inputName}>
+                        <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
                             <TextField
                                 label="Name"
                                 margin="normal"

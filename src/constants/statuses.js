@@ -1,5 +1,5 @@
 export const COMMON_ERROR_MESSAGE = 'Something went wrong!';
-export const StatusEnum = {
+export const EOrderStatus = {
     0: 'New',
     1: 'In Progress',
     2: 'Ready For Shipping',

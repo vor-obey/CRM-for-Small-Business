@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect, useState} from "react";
-import OrdersService from "../../../services/OrdersService";
+import {OrderService} from "../../../services/index";
 import {useParams} from 'react-router-dom';
 import {makeStyles} from "@material-ui/core/styles";
 import {orderDetailsStyles} from "./OrderDetailsPage.style";
@@ -23,11 +23,11 @@ export const OrderDetailsPage = () => {
         const fetchOrderById = async (id) => {
             try {
                 dispatch(setIsLoading(true));
-                const response = await OrdersService.getOrderById(id);
+                const response = await OrderService.findOneById(id);
                 setOrderDetails(response);
                 dispatch(setIsLoading(false));
             } catch (e) {
-                dispatch(setSnackBarStatus({isOpen: true, errorMessage: COMMON_ERROR_MESSAGE}));
+                dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE, success: false}));
                 dispatch(setIsLoading(false))
             }
         };
@@ -45,7 +45,7 @@ export const OrderDetailsPage = () => {
             const parsedAddress = JSON.parse(address);
             return (
                 <Grid container xl={12}>
-                    <Grid item lg={12} xs={12} className={classes.city}>
+                    <Grid item lg={12} xs={12}>
                         <TextField
                             label="City"
                             margin="normal"
@@ -58,7 +58,7 @@ export const OrderDetailsPage = () => {
                             fullWidth
                         />
                     </Grid>
-                    <Grid item lg={12} xs={12} className={classes.warehouse}>
+                    <Grid item lg={12} xs={12}>
                         <TextField
                             label="Warehouse"
                             margin="normal"
@@ -76,7 +76,7 @@ export const OrderDetailsPage = () => {
         }
         return (
             <Grid container>
-                <Grid item xl={12} lg={12} xs={12} className={classes.city}>
+                <Grid item xl={12} lg={12} xs={12}>
                     <TextField
                         label="City"
                         margin="normal"
@@ -91,10 +91,7 @@ export const OrderDetailsPage = () => {
                 </Grid>
             </Grid>
         )
-    }, [
-        classes,
-        orderDetails
-    ]);
+    }, [orderDetails]);
 
     return (
         <OrderDetails
