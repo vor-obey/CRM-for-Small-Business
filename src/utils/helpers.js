@@ -1,4 +1,4 @@
-export const addParamsToUrl = (urlPath, params = {}) =>{
+export const addParamsToUrl = (urlPath, params = {}) => {
     let paramCurrentCount = 1;
     let url = urlPath;
 
@@ -23,4 +23,12 @@ export const addParamsToUrl = (urlPath, params = {}) =>{
     });
 
     return url;
+};
+
+
+export const filter = (data, params) => {
+    const keys = data[0] ? Object.keys(data[0]) : [];
+    return data.filter((item) => {
+        return keys.some(key => item[key].toString().toLowerCase().indexOf(params.toLowerCase().toString()) !== -1)
+    });
 };
