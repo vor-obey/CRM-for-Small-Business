@@ -65,10 +65,10 @@ export const OrdersPage = ({history}) => {
                   <Grid item xs={5}>
                      <Typography>Description</Typography>
                   </Grid>
-                  <Grid item xs={5}>
+                  <Grid item xs={4}>
                      <Typography>Customer</Typography>
                   </Grid>
-                  <Grid item xs={2} className={classes.textStatus}>
+                  <Grid item xs={3} className={classes.textStatus}>
                      <Typography>Status</Typography>
                   </Grid>
                </Grid>

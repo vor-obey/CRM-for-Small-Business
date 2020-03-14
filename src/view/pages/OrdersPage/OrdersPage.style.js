@@ -1,6 +1,9 @@
 export const ordersPageStyles = ((theme) => ({
     root: {
-        marginTop: 80
+        marginTop: theme.spacing(10),
+        [theme.breakpoints.down('xs')]: {
+            marginTop: theme.spacing(3)
+        }
     },
     statusGrid: {
         display: 'flex',
