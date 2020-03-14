@@ -5,10 +5,10 @@ export const orderDetailsStyles = ((theme) => ({
          marginTop: theme.spacing(5)
       }
    },
-   orderContainer: {
-      marginBottom:  theme.spacing(9),
+   container: {
+      marginBottom: theme.spacing(4),
       [theme.breakpoints.down('lg')]: {
-         marginBottom: 0
+         marginBottom: theme.spacing(2),
       }
    },
    orderDescription: {
@@ -22,28 +22,20 @@ export const orderDetailsStyles = ((theme) => ({
    },
    managerRender: {
       marginTop: theme.spacing(1),
-          [theme.breakpoints.down('xs')]: {
+      [theme.breakpoints.down('xs')]: {
          marginTop: theme.spacing(2)
       }
    },
    managerHeading: {
-     marginBottom: theme.spacing(2)
-   },
-   orderStatus: {
-      paddingRight: theme.spacing(2),
-      [theme.breakpoints.down('xs')]: {
-         paddingRight: 0
-      }
+      marginBottom: theme.spacing(2)
    },
    wrapper: {
       paddingRight: theme.spacing(2)
    },
-   customerContainer: {
-      [theme.breakpoints.down('xs')]: {
-         marginTop: theme.spacing(3)
-      }
+   button: {
+      marginRight: theme.spacing(1),
    },
    managerContainer: {
-      paddingBottom: theme.spacing(2)
+      paddingBottom: theme.spacing()
    },
 }));

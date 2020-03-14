@@ -39,10 +39,9 @@ export const OrderDetailsPage = ({history}) => {
     }, [id, dispatch]);
 
     const renderShippingAddress = useCallback(() => {
-        if (isEmpty(orderDetails)) {
-            return null;
+        if (isEmpty(orderDetails.shippingDetails)) {
+           return null;
         }
-
         const {isCustom, address} = orderDetails.shippingDetails.address;
 
         if (!isCustom) {
@@ -55,7 +54,7 @@ export const OrderDetailsPage = ({history}) => {
                             margin="normal"
                             name="City"
                             type="text"
-                            value={parsedAddress.city.city}
+                            value={(parsedAddress.city.city) || ''}
                             inputProps={{
                                 readOnly: true
                             }}
@@ -68,7 +67,7 @@ export const OrderDetailsPage = ({history}) => {
                             margin="normal"
                             name="warehouse"
                             type="text"
-                            value={parsedAddress.warehouse.warehouse}
+                            value={(parsedAddress.warehouse.warehouse) || ''}
                             inputProps={{
                                 readOnly: true
                             }}
@@ -86,7 +85,7 @@ export const OrderDetailsPage = ({history}) => {
                         margin="normal"
                         name="City"
                         type="text"
-                        value={address}
+                        value={(address) || ''}
                         inputProps={{
                             readOnly: true
                         }}
