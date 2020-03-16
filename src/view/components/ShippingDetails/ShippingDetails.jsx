@@ -5,6 +5,7 @@ import {setCity, setWarehouse} from "../../../data/store/autocomplete/autocomple
 import {useDispatch} from "react-redux";
 import {CustomAutocomplete} from '../Autocomplete/Autocomplete';
 import Typography from "@material-ui/core/Typography";
+import {useTranslation} from "react-i18next";
 
 export const ShippingDetails = ({
                                     classes,
@@ -17,6 +18,7 @@ export const ShippingDetails = ({
     const [warehouseOptions, setWarehouseOptions] = useState([]);
     const [isCityLoading, setIsCityLoading] = useState(false);
     const [warehouseInput, setWarehouseInput] = useState(0);
+    const { t } = useTranslation('');
 
     const fetchCities = useCallback(async (inputValue) => {
         return await OrderService.getNovaPoshtaCities(inputValue);
@@ -118,7 +120,7 @@ export const ShippingDetails = ({
                     onToggle={toggleCityAutocomplete}
                     onClose={toggleCityAutocomplete}
                     renderOption={renderCityOptions}
-                    inputLabel="Select City"
+                    inputLabel={t('SELECTCITY')}
                     getOptionLabel={getCityOptionLabel}
                 />
             </Grid>
@@ -136,7 +138,7 @@ export const ShippingDetails = ({
                     onToggle={toggleWarehouseAutocomplete}
                     onClose={toggleWarehouseAutocomplete}
                     renderOption={renderWarehouseOptions}
-                    inputLabel='Select Warehouse'
+                    inputLabel={t('SELECTWAREHOUSE')}
                     getOptionLabel={getWarehouseOptionLabel}
                     disabled={warehouseOptions.length === 0}
                     key={warehouseInput}

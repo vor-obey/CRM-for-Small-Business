@@ -11,6 +11,7 @@ import {setIsLoading, setSnackBarStatus} from "../../../data/store/auxiliary/aux
 import {COMMON_ERROR_MESSAGE} from "../../../constants/statuses";
 import isEmpty from 'lodash/isEmpty';
 import {OrderService} from '../../../services/index';
+import {useTranslation} from "react-i18next";
 
 const useStyles = makeStyles(createOrderPageStyles);
 
@@ -24,6 +25,7 @@ const autocompleteBreakpoints = {
 };
 
 export const CreateOrderPage = (props) => {
+    const { t } = useTranslation('');
     const classes = useStyles();
     const dispatch = useDispatch();
     const {history} = props;
@@ -182,7 +184,7 @@ export const CreateOrderPage = (props) => {
                                 variant='contained'
                                 color='primary'
                             >
-                                Create Order
+                                {t('CREATEORDER')}
                             </Button>
                         </form>
                     </Paper>
