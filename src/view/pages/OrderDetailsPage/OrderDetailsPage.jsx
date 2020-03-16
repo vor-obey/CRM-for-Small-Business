@@ -13,6 +13,7 @@ import isEmpty from 'lodash/isEmpty';
 import {Container} from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import {CustomDialog} from '../../components/CustomDialog/CustomDialog';
+import {useTranslation} from "react-i18next";
 
 const useStyles = makeStyles(orderDetailsStyles);
 
@@ -22,6 +23,7 @@ export const OrderDetailsPage = ({history}) => {
     const [isOpen, setIsOpen] = useState(false);
     const classes = useStyles();
     const dispatch = useDispatch();
+    const { t } = useTranslation('');
 
     useEffect(() => {
         const fetchOrderById = async (id) => {
@@ -51,7 +53,7 @@ export const OrderDetailsPage = ({history}) => {
                 <Grid container xl={12}>
                     <Grid item lg={12} xs={12}>
                         <TextField
-                            label="City"
+                            label={t('CITY')}
                             margin="normal"
                             name="City"
                             type="text"
@@ -64,7 +66,7 @@ export const OrderDetailsPage = ({history}) => {
                     </Grid>
                     <Grid item lg={12} xs={12}>
                         <TextField
-                            label="Warehouse"
+                            label={t('WAREHOUSE')}
                             margin="normal"
                             name="warehouse"
                             type="text"
@@ -82,7 +84,7 @@ export const OrderDetailsPage = ({history}) => {
             <Grid container>
                 <Grid item xl={12} lg={12} xs={12}>
                     <TextField
-                        label="City"
+                        label={t('CITY')}
                         margin="normal"
                         name="City"
                         type="text"
@@ -95,7 +97,7 @@ export const OrderDetailsPage = ({history}) => {
                 </Grid>
             </Grid>
         )
-    }, [orderDetails]);
+    }, [orderDetails, t]);
 
     const deleteOrder = useCallback(async () => {
         try {
@@ -134,7 +136,7 @@ export const OrderDetailsPage = ({history}) => {
                     component={Link}
                     to='/orders'
                 >
-                    Back
+                    {t('BACK')}
                 </Button>
                 <Button
                     type='submit'
@@ -143,17 +145,18 @@ export const OrderDetailsPage = ({history}) => {
                     className={classes.button}
                     onClick={toggleDialog}
                 >
-                    Delete
+                    {t('DELETE')}
                 </Button>
             </Grid>
             <CustomDialog
-                title="Delete Order"
+                title={t('DELETEORDER')}
                 isShow={isOpen}
                 onClose={toggleDialog}
-                closeText="Disagree"
+                closeText={t('DISAGREE')}
+                actionText={t('AGREE')}
                 onAction={deleteOrder}
             >
-                Are you sure you want to delete the order?
+                {t('SUREDELETE')}
             </CustomDialog>
         </Container>
     );
