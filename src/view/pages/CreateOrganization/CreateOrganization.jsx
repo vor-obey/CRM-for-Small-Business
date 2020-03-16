@@ -10,10 +10,12 @@ import {SaveOrganizationForm} from "../../components/SaveOrganization/SaveOrgani
 import {SaveUserDetails} from "../../components/SaveUser/SaveUserDetails/SaveUserDetails";
 import {SaveUserCredentials} from "../../components/SaveUser/SaveUserCredentials/SaveUserCredentials";
 import Grid from "@material-ui/core/Grid";
+import {useTranslation} from "react-i18next";
 
 const useStyles = makeStyles(saveOrganizationStyle);
 
 export const CreateOrganization = ({history}) => {
+    const { t } = useTranslation('');
     const dispatch = useDispatch();
     const classes = useStyles();
     const [organization, setOrganization] = useState({
@@ -73,7 +75,7 @@ export const CreateOrganization = ({history}) => {
                     <BusinessIcon/>
                 </Avatar>
                 <Typography component="h1" variant="h5">
-                    Create Organization
+                    {t('CREATEORG')}
                 </Typography>
                 <form className={classes.form} onSubmit={onSubmitHandler}>
                     <SaveOrganizationForm
@@ -81,7 +83,7 @@ export const CreateOrganization = ({history}) => {
                         onChangedInput={onChangeHandler}
                     />
                     <Typography className={classes.user} component="h1" variant="h6">
-                        Create User
+                        {t('CREATEADMIN')}
                     </Typography>
                     <SaveUserDetails
                         userDetails={organization}
@@ -104,7 +106,8 @@ export const CreateOrganization = ({history}) => {
                             variant="contained"
                             color="primary"
                             fullWidth
-                        >Accept</Button>
+                        >
+                            {t('CREATE')}</Button>
                     </Grid>
                 </form>
             </div>

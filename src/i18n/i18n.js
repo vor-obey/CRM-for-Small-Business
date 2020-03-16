@@ -10,6 +10,9 @@ import {SystemRU} from "./localization/system/systemRU";
 import {CustomerEN} from "./localization/customerModule/customerEN";
 import {CustomerUA} from "./localization/customerModule/customerUA";
 import {CustomerRU} from "./localization/customerModule/customerRU";
+import {OrgRU} from "./localization/organizationModule/orgRU";
+import {OrgUA} from "./localization/organizationModule/orgUA";
+import {OrgEN} from "./localization/organizationModule/orgEN";
 import {orderEN} from "./localization/orderModule/orderEN";
 import {orderUA} from "./localization/orderModule/orderUA";
 import {orderRU} from "./localization/orderModule/orderRU";
@@ -26,6 +29,7 @@ i18n
                     ...SystemEN,
                     ...CustomerEN,
                     ...orderEN,
+                    ...OrgEN,
                 }
             },
             ua: {
@@ -33,6 +37,7 @@ i18n
                     ...UsersUA,
                     ...SystemUA,
                     ...CustomerUA,
+                    ...OrgUA,
                     ...orderUA,
                 }
             },
@@ -42,6 +47,7 @@ i18n
                     ...SystemRU,
                     ...CustomerRU,
                     ...orderRU,
+                    ...OrgRU,
                 }
             },
         },
