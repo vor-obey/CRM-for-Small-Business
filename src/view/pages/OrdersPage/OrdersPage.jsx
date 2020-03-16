@@ -6,7 +6,7 @@ import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import {OrderListItem} from "./OrderListItem/OrderListItem";
 import {makeStyles} from "@material-ui/core/styles";
-import OrdersService from "../../../services/OrdersService";
+import {OrderService} from "../../../services/index";
 import {ordersPageStyles} from "./OrdersPage.style";
 import {setIsLoading, setSnackBarStatus} from "../../../data/store/auxiliary/auxiliaryActions";
 import {COMMON_ERROR_MESSAGE} from "../../../constants/statuses";
@@ -14,23 +14,22 @@ import isEmpty from 'lodash/isEmpty';
 
 const useStyles = makeStyles(ordersPageStyles);
 
-export const OrdersPage = (props) => {
+export const OrdersPage = ({history}) => {
    const [orderList, setOrderList] = useState([]);
    const dispatch = useDispatch();
    const minWidth350 = useMediaQuery('(min-width:350px)');
    const classes = useStyles();
-   const {history} = props;
 
    useEffect(() => {
       const fetchOrders = async () => {
          try {
             dispatch(setIsLoading(true));
-            const response = await OrdersService.list();
+            const response = await OrderService.list();
             setOrderList(response);
             dispatch(setIsLoading(false));
          } catch (e) {
             dispatch(setIsLoading(false));
-            dispatch(setSnackBarStatus({isOpen: true, errorMessage: COMMON_ERROR_MESSAGE}))
+            dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE, success: false}))
          }
       };
       fetchOrders();
@@ -41,7 +40,7 @@ export const OrdersPage = (props) => {
    }, [history]);
 
    const renderRows = useCallback(() => {
-      if (isEmpty(orderList) || isEmpty(orderList)) {
+      if (isEmpty(orderList)) {
          return null;
       }
       return orderList.map((order) => {
@@ -49,12 +48,13 @@ export const OrdersPage = (props) => {
             <OrderListItem
                key={order.orderId}
                order={order}
+               classes={classes}
                minWidth350={minWidth350}
                navigationToOrderDetails={navigationToOrderDetails}
             />
          );
       })
-   }, [orderList, navigationToOrderDetails, minWidth350]);
+   }, [orderList, navigationToOrderDetails, minWidth350, classes]);
 
 
    return (
@@ -62,11 +62,14 @@ export const OrdersPage = (props) => {
          <List>
             <ListItem disableGutters divider>
                <Grid container>
-                  <Grid item xs={6}>
+                  <Grid item xs={5}>
                      <Typography>Description</Typography>
                   </Grid>
-                  <Grid item xs={6}>
+                  <Grid item xs={5}>
                      <Typography>Customer</Typography>
+                  </Grid>
+                  <Grid item xs={2} className={classes.textStatus}>
+                     <Typography>Status</Typography>
                   </Grid>
                </Grid>
             </ListItem>
