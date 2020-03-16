@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from "react";
+import React, {useCallback, useState} from "react";
 import {OrderService} from "../../../services/index";
 import {Link, useParams} from 'react-router-dom';
 import {makeStyles} from "@material-ui/core/styles";
@@ -13,30 +13,16 @@ import isEmpty from 'lodash/isEmpty';
 import {Container} from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import {CustomDialog} from '../../components/CustomDialog/CustomDialog';
+import {useOrderDetailsById} from '../../../utils/customHooks';
 
 const useStyles = makeStyles(orderDetailsStyles);
 
 export const OrderDetailsPage = ({history}) => {
     const {id} = useParams();
-    const [orderDetails, setOrderDetails] = useState({});
+    const orderDetails = useOrderDetailsById(id);
     const [isOpen, setIsOpen] = useState(false);
     const classes = useStyles();
     const dispatch = useDispatch();
-
-    useEffect(() => {
-        const fetchOrderById = async (id) => {
-            try {
-                dispatch(setIsLoading(true));
-                const response = await OrderService.findOneById(id);
-                setOrderDetails(response);
-                dispatch(setIsLoading(false));
-            } catch (e) {
-                dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE, success: false}));
-                dispatch(setIsLoading(false))
-            }
-        };
-        fetchOrderById(id);
-    }, [id, dispatch]);
 
     const renderShippingAddress = useCallback(() => {
         if (isEmpty(orderDetails)) {

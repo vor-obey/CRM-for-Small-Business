@@ -1,6 +1,6 @@
 import React from "react";
 import {Grid, Typography, Divider} from "@material-ui/core";
-import {ShippingDetails} from "../../../components/ShippingDetails/ShippingDetails";
+import {ShippingDetails} from "../../ShippingDetails/ShippingDetails";
 
 export const ShippingDetailsForm = ({
                                         classes,

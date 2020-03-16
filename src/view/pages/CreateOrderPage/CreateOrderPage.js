@@ -1,9 +1,6 @@
 import React, {useState, useEffect, useCallback} from 'react';
-import {makeStyles, Button, Grid, Container, Paper} from '@material-ui/core';
+import {makeStyles} from '@material-ui/core';
 import {createOrderPageStyles} from './CreateOrderScreen.style'
-import {ProductForm} from "./ProductForm/ProductForm";
-import {CustomerForm} from "./CustomerManagerForm/CustomerForm";
-import {ShippingDetailsForm} from "./ShippingDetailsForm/ShippingDetailsForm";
 import CustomerService from "../../../services/CustomerService";
 import UserService from "../../../services/UserService";
 import {useDispatch, useSelector} from "react-redux";
@@ -11,17 +8,9 @@ import {setIsLoading, setSnackBarStatus} from "../../../data/store/auxiliary/aux
 import {COMMON_ERROR_MESSAGE} from "../../../constants/statuses";
 import isEmpty from 'lodash/isEmpty';
 import {OrderService} from '../../../services/index';
+import {SaveOrderForm} from '../../components/SaveOrderForm/SaveOrderForm';
 
 const useStyles = makeStyles(createOrderPageStyles);
-
-const currencies = ['UAH', 'USD', 'EUR'];
-
-const autocompleteBreakpoints = {
-    xl: 6,
-    lg: 6,
-    sm: 6,
-    xs: 12,
-};
 
 export const CreateOrderPage = (props) => {
     const classes = useStyles();
@@ -144,51 +133,19 @@ export const CreateOrderPage = (props) => {
     ]);
 
     return (
-        <Container maxWidth='lg' className={classes.root}>
-            <Grid container>
-                <Grid container item>
-                    <Paper className={classes.paper}>
-                        <form onSubmit={onSubmitHandler}>
-                            <Grid container item xl={12}>
-                                <ProductForm
-                                    classes={classes}
-                                    currencies={currencies}
-                                    onChangedInput={onChangedProductInput}
-                                    productDetails={productDetails}
-                                />
-                            </Grid>
-                            <Grid container item xl={12}>
-                                <CustomerForm
-                                    setCreatedCustomer={setCreatedCustomer}
-                                    classes={classes}
-                                    customers={customers}
-                                    managers={managers}
-                                    manager={manager}
-                                    customer={customer}
-                                    onCustomerSelectHandler={onCustomerSelectHandler}
-                                    onManagerSelectHandler={onManagerSelectHandler}
-                                />
-                            </Grid>
-                            <Grid container item xl={12}>
-                                <ShippingDetailsForm
-                                    classes={classes}
-                                    autocompleteBreakpoints={autocompleteBreakpoints}
-                                />
-                            </Grid>
-                            <Button
-                                fullWidth
-                                className={classes.submit}
-                                type='submit'
-                                variant='contained'
-                                color='primary'
-                            >
-                                Create Order
-                            </Button>
-                        </form>
-                    </Paper>
-                </Grid>
-            </Grid>
-        </Container>
+        <SaveOrderForm
+            classes={classes}
+            customer={customer}
+            customers={customers}
+            manager={manager}
+            managers={managers}
+            onChangedProductInput={onChangedProductInput}
+            onManagerSelectHandler={onManagerSelectHandler}
+            onCustomerSelectHandler={onCustomerSelectHandler}
+            onSubmitHandler={onSubmitHandler}
+            setCreatedCustomer={setCreatedCustomer}
+            productDetails={productDetails}
+        />
     )
 };
 

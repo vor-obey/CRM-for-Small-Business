@@ -27,6 +27,7 @@ import {CreateOrderPage} from "../../pages/CreateOrderPage/CreateOrderPage";
 import {CreateOrganization} from "../../pages/CreateOrganization/CreateOrganization";
 import {CreateCode} from "../../pages/CreateCode/CreateCode";
 import {EditUser} from '../../pages/EditUser/EditUser';
+import {EditOrder} from '../../pages/EditOrder/EditOrder';
 
 export const Routing = () => {
    const dispatch = useDispatch();
@@ -58,6 +59,7 @@ export const Routing = () => {
          <PrivateRoute exact path='/orders' component={OrdersPage}/>
          <PrivateRoute exact path='/create-order' component={CreateOrderPage}/>
          <PrivateRoute exact path='/orders/:id' component={OrderDetailsPage}/>
+         <PrivateRoute exact path='/orders/:id/edit' component={EditOrder}/>
          <PrivateRoute exact path='/create-code' component={CreateCode} />
          <Route exact path='/restore_password/:token' component={RestorePassword}/>
          <Route exact path='/forgot_password' component={ForgotPassword}/>
