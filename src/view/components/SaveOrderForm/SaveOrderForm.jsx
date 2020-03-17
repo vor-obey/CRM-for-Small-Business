@@ -1,8 +1,12 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import {Button, Container, Grid, Paper} from '@material-ui/core';
 import {ProductForm} from './ProductForm/ProductForm';
 import {CustomerForm} from './CustomerManagerForm/CustomerForm';
 import {ShippingDetailsForm} from './ShippingDetailsForm/ShippingDetailsForm';
+import FormControl from '@material-ui/core/FormControl';
+import InputLabel from '@material-ui/core/InputLabel';
+import Select from '@material-ui/core/Select';
+import {EOrderStatus} from '../../../constants/statuses';
 
 const currencies = ['UAH', 'USD', 'EUR'];
 
@@ -24,8 +28,23 @@ export const SaveOrderForm = ({
                                   manager,
                                   customer,
                                   onCustomerSelectHandler,
-                                  onManagerSelectHandler
+                                  onManagerSelectHandler,
+                                  isCustom,
+                                  shippingMethod,
+                                  shippingMethods,
+                                  address,
+                                  onChangedAddressInput,
+                                  onShippingMethodSelectHandler,
+                                  onStatusSelectHandler,
+                                  buttonText,
                               }) => {
+    const renderStatuses = useCallback(() => {
+        const entries = Object.entries(EOrderStatus);
+        return entries.map(([key, value]) => {
+            return <option key={key} value={key}>{value}</option>
+        });
+    }, []);
+
     return (
         <Container maxWidth='lg' className={classes.root}>
             <Grid container>
@@ -56,7 +75,36 @@ export const SaveOrderForm = ({
                                 <ShippingDetailsForm
                                     classes={classes}
                                     autocompleteBreakpoints={autocompleteBreakpoints}
+                                    isCustom={isCustom}
+                                    shippingMethod={shippingMethod}
+                                    shippingMethods={shippingMethods}
+                                    address={address}
+                                    onChangedAddressInput={onChangedAddressInput}
+                                    onShippingMethodSelectHandler={onShippingMethodSelectHandler}
                                 />
+                            </Grid>
+                            <Grid item xl={12} xs={12} style={{marginTop: 16}}>
+                                <FormControl
+                                    variant="outlined"
+                                    required
+                                    fullWidth
+                                >
+                                    <InputLabel id="demo-simple-select-outlined-label">
+                                        Status
+                                    </InputLabel>
+                                    <Select
+                                        native
+                                        name="status"
+                                        value={productDetails.status}
+                                        labelWidth={70}
+                                        required
+                                        onChange={onStatusSelectHandler}
+                                        inputProps={{
+                                            name: 'status',
+                                        }}>
+                                        {renderStatuses()}
+                                    </Select>
+                                </FormControl>
                             </Grid>
                             <Button
                                 fullWidth
@@ -65,7 +113,7 @@ export const SaveOrderForm = ({
                                 variant='contained'
                                 color='primary'
                             >
-                                Create Order
+                                {buttonText}
                             </Button>
                         </form>
                     </Paper>

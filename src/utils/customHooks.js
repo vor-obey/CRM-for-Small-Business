@@ -1,11 +1,10 @@
 import {useEffect, useState} from 'react';
 import {setIsLoading, setSnackBarStatus} from '../data/store/auxiliary/auxiliaryActions';
-import {OrderService} from '../services';
+import {OrderService, ShippingMethodService} from '../services';
 import {COMMON_ERROR_MESSAGE} from '../constants/statuses';
 import {useDispatch} from 'react-redux';
 import CustomerService from '../services/CustomerService';
 import UserService from '../services/UserService';
-import isEmpty from 'lodash/isEmpty';
 
 export const useOrderDetailsById = (id) => {
     const [orderDetails, setOrderDetails] = useState({});
@@ -29,9 +28,8 @@ export const useOrderDetailsById = (id) => {
     return orderDetails;
 };
 
-export const useCustomersAndSelectCreated = (newCustomer) => {
+export const useCustomers = () => {
     const [customers, setCustomers] = useState([]);
-    const [createdCustomer, setCreatedCustomer] = useState({});
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -47,17 +45,14 @@ export const useCustomersAndSelectCreated = (newCustomer) => {
             }
         };
         fetchCustomers();
-        if (!isEmpty(newCustomer)) {
-            setCreatedCustomer(createdCustomer);
-        }
-    }, [createdCustomer, newCustomer, dispatch]);
+    }, [dispatch]);
 
-    return [customers, createdCustomer];
+    return [customers, setCustomers];
 };
 
 export const useManagers = () => {
-  const [managers, setManagers] = useState([]);
-  const dispatch = useDispatch();
+    const [managers, setManagers] = useState([]);
+    const dispatch = useDispatch();
 
     useEffect(() => {
         const fetchManagers = async () => {
@@ -74,5 +69,27 @@ export const useManagers = () => {
         fetchManagers();
     }, [dispatch]);
 
-    return managers;
+    return [managers, setManagers];
+};
+
+export const useShippingMethods = () => {
+    const [methods, setMethods] = useState([]);
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        const fetchShippingMethods = async () => {
+            try {
+                dispatch(setIsLoading(true));
+                const methods = await ShippingMethodService.list();
+                setMethods(methods);
+                dispatch(setIsLoading(false));
+            } catch (e) {
+                dispatch(setIsLoading(false));
+                dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE, success: false}));
+            }
+        };
+        fetchShippingMethods();
+    }, [dispatch]);
+
+    return [methods, setMethods];
 };

@@ -30,9 +30,9 @@ export const OrderDetailsPage = ({history}) => {
         }
 
         const {isCustom, address} = orderDetails.shippingDetails.address;
+        const parsedAddress = JSON.parse(address);
 
         if (!isCustom) {
-            const parsedAddress = JSON.parse(address);
             return (
                 <Grid container xl={12}>
                     <Grid item lg={12} xs={12}>
@@ -41,7 +41,7 @@ export const OrderDetailsPage = ({history}) => {
                             margin="normal"
                             name="City"
                             type="text"
-                            value={parsedAddress.city.city}
+                            value={parsedAddress.city.Description}
                             inputProps={{
                                 readOnly: true
                             }}
@@ -54,7 +54,7 @@ export const OrderDetailsPage = ({history}) => {
                             margin="normal"
                             name="warehouse"
                             type="text"
-                            value={parsedAddress.warehouse.warehouse}
+                            value={parsedAddress.warehouse.Description}
                             inputProps={{
                                 readOnly: true
                             }}
@@ -68,11 +68,11 @@ export const OrderDetailsPage = ({history}) => {
             <Grid container>
                 <Grid item xl={12} lg={12} xs={12}>
                     <TextField
-                        label="City"
+                        label="Address"
                         margin="normal"
-                        name="City"
+                        name="Address"
                         type="text"
-                        value={address}
+                        value={parsedAddress}
                         inputProps={{
                             readOnly: true
                         }}
@@ -130,6 +130,16 @@ export const OrderDetailsPage = ({history}) => {
                     onClick={toggleDialog}
                 >
                     Delete
+                </Button>
+                <Button
+                    type='submit'
+                    variant="outlined"
+                    color="primary"
+                    className={classes.button}
+                    component={Link}
+                    to={`/orders/${id}/edit`}
+                >
+                    Edit
                 </Button>
             </Grid>
             <CustomDialog

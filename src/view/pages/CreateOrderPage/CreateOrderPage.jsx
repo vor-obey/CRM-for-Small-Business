@@ -1,66 +1,44 @@
 import React, {useState, useEffect, useCallback} from 'react';
 import {makeStyles} from '@material-ui/core';
-import {createOrderPageStyles} from './CreateOrderScreen.style'
-import CustomerService from "../../../services/CustomerService";
-import UserService from "../../../services/UserService";
+import {createOrderPageStyles} from './CreateOrderPage.style'
 import {useDispatch, useSelector} from "react-redux";
 import {setIsLoading, setSnackBarStatus} from "../../../data/store/auxiliary/auxiliaryActions";
-import {COMMON_ERROR_MESSAGE} from "../../../constants/statuses";
 import isEmpty from 'lodash/isEmpty';
 import {OrderService} from '../../../services/index';
 import {SaveOrderForm} from '../../components/SaveOrderForm/SaveOrderForm';
+import {useCustomers, useManagers, useShippingMethods} from '../../../utils/customHooks';
 
 const useStyles = makeStyles(createOrderPageStyles);
 
-export const CreateOrderPage = (props) => {
+export const CreateOrderPage = ({history}) => {
     const classes = useStyles();
     const dispatch = useDispatch();
-    const {history} = props;
     const [productDetails, setProductDetails] = useState({
         description: '',
-        currency: 'UAH'
+        currency: 'UAH',
+        status: 0
     });
+    const [shippingMethods] = useShippingMethods();
+    const [shippingMethod, setShippingMethod] = useState({});
+    const [managers] = useManagers();
     const [manager, setManager] = useState({});
+    const [customers, setCustomers] = useCustomers();
     const [customer, setCustomer] = useState({});
-    const [managers, setManagers] = useState([]);
-    const [customers, setCustomers] = useState([]);
     const [createdCustomer, setCreatedCustomer] = useState({});
     const city = useSelector(state => state.autocompleteReducer.city);
     const warehouse = useSelector(state => state.autocompleteReducer.warehouse);
     const currentUser = useSelector(state => state.userReducer.currentUser);
+    const [isCustom, setIsCustom] = useState(false);
+    const [address, setAddress] = useState('');
 
     useEffect(() => {
-        const fetchCustomers = async () => {
-            try {
-                dispatch(setIsLoading(true));
-                const customers = await CustomerService.list();
-                setCustomers(customers);
-                dispatch(setIsLoading(false));
-            } catch (e) {
-                dispatch(setIsLoading(false));
-                dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE, success: false}));
-            }
-        };
-        fetchCustomers();
         if (!isEmpty(createdCustomer)) {
+            setCustomers(prevState => {
+                return [...prevState, createdCustomer];
+            });
             setCustomer(createdCustomer);
         }
-    }, [createdCustomer, dispatch]);
-
-    useEffect(() => {
-        const fetchManagers = async () => {
-            try {
-                dispatch(setIsLoading(true));
-                const managers = await UserService.list();
-                setManagers(managers);
-                dispatch(setIsLoading(false));
-            } catch (e) {
-                dispatch(setIsLoading(false));
-                dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE, success: false}));
-            }
-        };
-        fetchManagers();
-    }, [dispatch]);
+    }, [createdCustomer, setCustomers]);
 
     useEffect(() => {
         if (managers && currentUser) {
@@ -68,6 +46,12 @@ export const CreateOrderPage = (props) => {
             setManager(selectedManager);
         }
     }, [managers, currentUser]);
+
+    useEffect(() => {
+        if (shippingMethods.length) {
+            setShippingMethod(shippingMethods.find((item) => item.name === 'novaposta'));
+        }
+    }, [setShippingMethod, shippingMethods]);
 
     const onChangedProductInput = useCallback((event) => {
         const {value, name} = event.target;
@@ -79,7 +63,7 @@ export const CreateOrderPage = (props) => {
         });
     }, []);
 
-    const onManagerSelectHandler = useCallback(async (manager) => {
+    const onManagerSelectHandler = useCallback((manager) => {
         if (!manager) {
             setManager({});
         } else {
@@ -87,13 +71,29 @@ export const CreateOrderPage = (props) => {
         }
     }, []);
 
-    const onCustomerSelectHandler = useCallback((async (customer) => {
+    const onCustomerSelectHandler = useCallback((customer) => {
         if (!customer) {
             setCustomer({});
         } else {
             setCustomer(customer);
         }
-    }), []);
+    }, []);
+
+    const onShippingMethodSelectHandler = (event) => {
+        const {value} = event.target;
+        const selectedShippingMethod = shippingMethods.find(method => method.shippingMethodId === value);
+        if (selectedShippingMethod.name === 'custom') {
+            setIsCustom(true);
+        } else {
+            setIsCustom(false);
+        }
+        setShippingMethod(selectedShippingMethod);
+    };
+
+    const onChangedAddressInput = useCallback((event) => {
+        const {value} = event.target;
+        setAddress(value);
+    }, []);
 
     const onSubmitHandler = useCallback(async (e) => {
         e.preventDefault();
@@ -108,7 +108,11 @@ export const CreateOrderPage = (props) => {
                     product: productDetails,
                     managerId: manager.userId,
                     customerId: customer.customerId,
-                    shippingDetails: {city, warehouse},
+                    shippingDetails: {
+                        isCustom,
+                        address: isCustom ? address : {city, warehouse},
+                        shippingMethodId: shippingMethod.shippingMethodId
+                    },
                 });
                 if (response.success) {
                     dispatch(setIsLoading(false));
@@ -129,7 +133,10 @@ export const CreateOrderPage = (props) => {
         productDetails,
         warehouse,
         dispatch,
-        history
+        history,
+        address,
+        isCustom,
+        shippingMethod
     ]);
 
     return (
@@ -145,6 +152,14 @@ export const CreateOrderPage = (props) => {
             onSubmitHandler={onSubmitHandler}
             setCreatedCustomer={setCreatedCustomer}
             productDetails={productDetails}
+            shippingMethods={shippingMethods}
+            shippingMethod={shippingMethod}
+            onShippingMethodSelectHandler={onShippingMethodSelectHandler}
+            onStatusSelectHandler={onChangedProductInput}
+            isCustom={isCustom}
+            address={address}
+            onChangedAddressInput={onChangedAddressInput}
+            buttonText='Create Order'
         />
     )
 };
