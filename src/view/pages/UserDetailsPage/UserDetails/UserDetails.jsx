@@ -1,6 +1,7 @@
 import React from 'react';
 import {Grid, Typography} from "@material-ui/core";
 import {useTranslation} from "react-i18next";
+import {ROLES} from "../../../../constants/statuses";
 
 export const UserDetails = (props) => {
     const { t } = useTranslation('');
@@ -57,7 +58,7 @@ export const UserDetails = (props) => {
                         {t('ROLE')}
                     </Typography>
                     <Typography className={classes.userTypography} variant="body2">
-                        {userDetails.role.name}
+                        {t(ROLES[userDetails.role.name])}
                     </Typography>
                 </Grid>
             </Grid>
