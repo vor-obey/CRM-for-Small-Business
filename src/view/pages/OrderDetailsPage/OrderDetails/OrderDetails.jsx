@@ -64,7 +64,7 @@ export const OrderDetails = ({
                             margin="normal"
                             name="status"
                             type="text"
-                            value={EOrderStatus[order.status] || ''}
+                            value={t(EOrderStatus[order.status]) || ''}
                             inputProps={{
                                 readOnly: true
                             }}
