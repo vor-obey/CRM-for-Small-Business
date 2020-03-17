@@ -1,4 +1,4 @@
-export const addParamsToUrl = (urlPath, params = {}) =>{
+export const addParamsToUrl = (urlPath, params = {}) => {
     let paramCurrentCount = 1;
     let url = urlPath;
 
@@ -25,16 +25,10 @@ export const addParamsToUrl = (urlPath, params = {}) =>{
     return url;
 };
 
-//
-// export const isAuthenticated = () => {
-//     const token = this.getCookie(COOKIE_KEYS.TOKEN);
-//     let authenticated = false;
-//     if (token !== '') {
-//         authenticated = !this.isTokenExpired(token);
-//         if (!authenticated) {
-//             this.removeCookie(COOKIE_KEYS.TOKEN);
-//             this.removeCookie(COOKIE_KEYS.REFRESH_TOKEN);
-//         }
-//     }
-//     return authenticated;
-// }
+
+export const filter = (data, params) => {
+    const keys = data[0] ? Object.keys(data[0]) : [];
+    return data.filter((item) => {
+        return keys.some(key => item[key].toString().toLowerCase().indexOf(params.toLowerCase().toString()) !== -1)
+    });
+};

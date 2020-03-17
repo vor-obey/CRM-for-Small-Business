@@ -22,9 +22,7 @@ import {COMMON_ERROR_MESSAGE} from "../../../constants/statuses";
 
 const useStyles = makeStyles(userDetailsStyle);
 
-export const UserDetailsPage = (props) => {
-
-    const {history} = props;
+export const UserDetailsPage = ({history}) => {
     const dispatch = useDispatch();
     const {id} = useParams();
     const classes = useStyles();
@@ -44,7 +42,7 @@ export const UserDetailsPage = (props) => {
                 dispatch(setIsLoading(false));
             } catch (e) {
                 dispatch(setIsLoading(false));
-                dispatch(setSnackBarStatus({isOpen: true, errorMessage: COMMON_ERROR_MESSAGE}))
+                dispatch(setSnackBarStatus({isOpen: true, message: e.message, success: false}))
             }
         };
         fetchUserById();
@@ -58,7 +56,7 @@ export const UserDetailsPage = (props) => {
             history.push('/users');
         } else {
             dispatch(setIsLoading(false));
-            dispatch(setSnackBarStatus({isOpen: true, errorMessage: COMMON_ERROR_MESSAGE}))
+            dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE, success: false}))
         }
     }, [dispatch, id, history]);
 
@@ -78,7 +76,6 @@ export const UserDetailsPage = (props) => {
         <Container component="main" className={classes.userDetailsContainer}>
             <Paper className={classes.paper}>
                 <Grid container item xs={12} className={classes.userGrid}>
-
                     <Grid item xs={12}>
                         <Typography variant="h5" className={classes.title}>
                             User Details
