@@ -9,6 +9,7 @@ export const ordersPageStyles = ((theme) => ({
         display: 'flex',
         alignItems: 'center',
         textAlign: 'center',
+        overflowWrap: 'break-word'
     },
     customerGrid: {
         overflowWrap: 'break-word'
@@ -17,6 +18,6 @@ export const ordersPageStyles = ((theme) => ({
         overflowWrap: 'break-word'
     },
     textStatus: {
-        textAlign: 'center'
-    }
+        textAlign: 'center',
+    },
 }));

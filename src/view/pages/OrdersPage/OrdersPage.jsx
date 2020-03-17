@@ -67,11 +67,11 @@ export const OrdersPage = ({history}) => {
                   <Grid item xs={5}>
                      <Typography>{t('DESCRIPTION')}</Typography>
                   </Grid>
-                  <Grid item xs={5}>
+                  <Grid item xl={5} lg={5} md={5} sm={5} xs={4}>
                      <Typography>{t('CUSTOMER')}</Typography>
                   </Grid>
-                  <Grid item xs={2} className={classes.textStatus}>
-                     <Typography>{t('STATUS')}</Typography>
+                  <Grid item  xl={2} lg={2} md={2} sm={2} xs={3} >
+                     <Typography className={classes.textStatus}>{t('STATUS')}</Typography>
                   </Grid>
                </Grid>
             </ListItem>
