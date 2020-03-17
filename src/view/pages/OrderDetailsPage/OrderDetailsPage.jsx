@@ -32,9 +32,9 @@ export const OrderDetailsPage = ({history}) => {
         }
 
         const {isCustom, address} = orderDetails.shippingDetails.address;
-        const parsedAddress = JSON.parse(address);
 
         if (!isCustom) {
+            const parsedAddress = JSON.parse(address);
             return (
                 <Grid container xl={12}>
                     <Grid item lg={12} xs={12}>
@@ -43,7 +43,7 @@ export const OrderDetailsPage = ({history}) => {
                             margin="normal"
                             name="City"
                             type="text"
-                            value={parsedAddress.city.Description}
+                            value={parsedAddress.address.city.Description}
                             inputProps={{
                                 readOnly: true
                             }}
@@ -56,7 +56,7 @@ export const OrderDetailsPage = ({history}) => {
                             margin="normal"
                             name="warehouse"
                             type="text"
-                            value={parsedAddress.warehouse.Description}
+                            value={parsedAddress.address.warehouse.Description}
                             inputProps={{
                                 readOnly: true
                             }}
@@ -74,7 +74,7 @@ export const OrderDetailsPage = ({history}) => {
                         margin="normal"
                         name="Address"
                         type="text"
-                        value={parsedAddress}
+                        value={orderDetails.shippingDetails.address.address}
                         inputProps={{
                             readOnly: true
                         }}
@@ -105,6 +105,8 @@ export const OrderDetailsPage = ({history}) => {
     const toggleDialog = useCallback(() => {
         setIsOpen(prevState => !prevState);
     }, []);
+
+    console.log(orderDetails)
 
     return (
         <Container className={classes.root}>

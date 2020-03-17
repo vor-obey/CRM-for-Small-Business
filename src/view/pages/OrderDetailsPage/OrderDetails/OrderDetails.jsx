@@ -17,8 +17,8 @@ export const OrderDetails = ({
         <Grid container>
             <Grid container item xl={6} lg={6} md={6} sm={6} xs={12} className={classes.wrapper}>
                 <Typography variant='h5'>{t('ORDER')}</Typography>
-                <Grid container item className={classes.orderContainer}>
-                    <Grid item xl={10} xs={12} className={classes.orderDescription}>
+                <Grid container item >
+                    <Grid item xl={10} lg={10} md={2} sm={10} xs={12} className={classes.orderDescription}>
                         <TextField
                             label={t('DESCRIPTION')}
                             margin="normal"
@@ -31,7 +31,7 @@ export const OrderDetails = ({
                             fullWidth
                         />
                     </Grid>
-                    <Grid item xl={2} xs={12} className={classes.orderCurrency}>
+                    <Grid item xl={2} lg={2} md={2} sm={2} xs={12} className={classes.orderCurrency}>
                         <TextField
                             label={t('CURRENCY')}
                             margin="normal"
@@ -58,7 +58,7 @@ export const OrderDetails = ({
                             fullWidth
                         />
                     </Grid>
-                    <Grid item xl={12} lg={12} md={12} sm={12} xs={12} className={classes.orderStatus}>
+                    <Grid item xl={12} lg={12} md={12} sm={12} xs={12} >
                         <TextField
                             label={t('STATUS')}
                             margin="normal"
@@ -73,9 +73,9 @@ export const OrderDetails = ({
                     </Grid>
                 </Grid>
             </Grid>
-            <Grid container item xl={6} lg={6} md={6} sm={6} xs={12} className={classes.customerContainer}>
+            <Grid container item xl={6} lg={6} md={6} sm={6} xs={12} className={classes.wrapper}>
                 <Typography variant='h5'>{t('CUSTOMER')}</Typography>
-                <Grid container item>
+                <Grid container item className={classes.customerGrid}>
                     <Grid item xs={12}>
                         <TextField
                             label={t('USERNAME')}
@@ -130,12 +130,12 @@ export const OrderDetails = ({
                     </Grid>
                 </Grid>
             </Grid>
-            <Grid container item xl={6} lg={6} md={6} sm={12} xs={12} className={classes.managerContainer}>
-                <Grid container item xl={12} lg={12} md={12} sm={12} xs={12} className={classes.managerRender}>
-                    <Grid item xl={12} lg={12} md={12} sm={12} xs={12} className={classes.managerHeading}>
+            <Grid container item xl={6} lg={6} md={6} sm={6} xs={12} className={classes.managerGrid}>
+                <Grid container item  xs={12}>
+                    <Grid item xs={12}>
                         <Typography variant='h5'>{t('MANAGER')}</Typography>
                     </Grid>
-                    <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
+                    <Grid item xl={12} lg={12} xs={12} className={classes.inputManager}>
                         <TextField
                             label={t('NAME')}
                             margin="normal"
