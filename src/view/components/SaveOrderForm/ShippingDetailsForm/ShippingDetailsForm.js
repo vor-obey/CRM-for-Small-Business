@@ -5,6 +5,7 @@ import {CustomAddress} from '../../CustomAddress/CustomAddress';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
+import {useTranslation} from 'react-i18next';
 
 export const ShippingDetailsForm = ({
                                         classes,
@@ -17,6 +18,7 @@ export const ShippingDetailsForm = ({
                                         onChangedAddressInput,
                                         onShippingMethodSelectHandler
                                     }) => {
+    const {t} = useTranslation();
     const renderAddress = () => {
         return isCustom ?
             <CustomAddress
@@ -48,7 +50,7 @@ export const ShippingDetailsForm = ({
         <>
             <Grid item xl={12} xs={12} className={classes.gridShipping}>
                 <Typography variant='h6' className={classes.shippingText}>
-                    Shipping Details
+                    {t('SHIPPINGDETAILS')}
                 </Typography>
                 <Divider/>
             </Grid>
@@ -60,13 +62,13 @@ export const ShippingDetailsForm = ({
                     fullWidth
                 >
                     <InputLabel id="demo-simple-select-outlined-label">
-                        Method
+                        {t('SHIPPINGMETHOD')}
                     </InputLabel>
                     <Select
                         native
                         name="shippingMethodId"
                         value={(shippingMethod && shippingMethod.shippingMethodId) || ''}
-                        labelWidth={70}
+                        labelWidth={120}
                         required
                         onChange={onShippingMethodSelectHandler}
                         inputProps={{

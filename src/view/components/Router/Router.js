@@ -65,7 +65,7 @@ export const Routing = () => {
          <Route exact path='/forgot_password' component={ForgotPassword}/>
          <Route exact path='/restore-password/:token' component={RestorePassword}/>
          <Route exact path='/forgot-password' component={ForgotPassword}/>
-         <Route exact path='/create-organization' component={CreateOrganization} />
+         <Route exact path='/create-organization' component={CreateOrganization}/>
       </Router>
    )
 };

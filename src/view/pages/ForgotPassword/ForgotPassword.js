@@ -8,10 +8,12 @@ import Box from "@material-ui/core/Box";
 import {Button} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
 import UserService from "../../../services/UserService";
+import {useTranslation} from "react-i18next";
 
 const useStyles = makeStyles(ForgotPasswordStyles);
 
 export const ForgotPassword = () => {
+   const { t } = useTranslation('');
    const [email, setEmail] = useState('');
    const [messageText, setMessageText] = useState('hello');
    const [buttonText, setButtonText] = useState('Send');
@@ -26,15 +28,15 @@ export const ForgotPassword = () => {
 
    const onSubmitHandler = async (event) => {
       event.preventDefault();
-      setButtonText('Sending...');
+      setButtonText(t('SENDING'));
       const response = await UserService.sendPasswordResetEmail(email);
-      setButtonText('Send');
+      setButtonText(t('SEND'));
       setIsForm(false);
 
       if (response.success) {
-         setMessageText('Check your email!');
+         setMessageText(t('CHECKEMAIL'));
       } else {
-         setMessageText('There is no such email address...');
+         setMessageText(t('NOEMAIL'));
       }
    };
 
@@ -59,7 +61,7 @@ export const ForgotPassword = () => {
                variant="contained"
                onClick={onClickedHandler}
                className={classes.button}>
-               Try Again
+               {t('TRYAGAIN')}
             </Button>
          </Box>
       )
@@ -69,7 +71,7 @@ export const ForgotPassword = () => {
       return (
          <Box className={classes.root}>
             <Typography component="h1" variant="h5">
-               Enter Email To Restore Your Password
+               {t('ENTEREMAIL')}
             </Typography>
             <form className={classes.form} onSubmit={onSubmitHandler}>
                <TextField
@@ -78,7 +80,7 @@ export const ForgotPassword = () => {
                   required
                   fullWidth
                   id="email"
-                  label="Email Address"
+                  label={t('EMAIL')}
                   name="email"
                   autoComplete="email"
                   type='email'

@@ -6,6 +6,7 @@ import {useDispatch} from "react-redux";
 import {CustomAutocomplete} from '../Autocomplete/Autocomplete';
 import Typography from "@material-ui/core/Typography";
 import isEmpty from 'lodash/isEmpty';
+import {useTranslation} from "react-i18next";
 
 export const NovaPoshtaAddress = ({
                                       classes,
@@ -25,6 +26,7 @@ export const NovaPoshtaAddress = ({
     const [warehouseInput, setWarehouseInput] = useState({
         Description: ''
     });
+    const { t } = useTranslation('');
 
     const fetchCities = useCallback(async (inputValue) => {
         return await OrderService.getNovaPoshtaCities(inputValue);
@@ -160,7 +162,7 @@ export const NovaPoshtaAddress = ({
                     onToggle={toggleCityAutocomplete}
                     onClose={toggleCityAutocomplete}
                     renderOption={renderCityOptions}
-                    inputLabel="Select City"
+                    inputLabel={t('SELECTCITY')}
                     getOptionLabel={getCityOptionLabel}
                     value={cityInput}
                 />
@@ -179,7 +181,7 @@ export const NovaPoshtaAddress = ({
                     onToggle={toggleWarehouseAutocomplete}
                     onClose={toggleWarehouseAutocomplete}
                     renderOption={renderWarehouseOptions}
-                    inputLabel='Select Warehouse'
+                    inputLabel={t('SELECTWAREHOUSE')}
                     getOptionLabel={getWarehouseOptionLabel}
                     disabled={warehouseOptions.length === 0}
                     key={warehouseReset}

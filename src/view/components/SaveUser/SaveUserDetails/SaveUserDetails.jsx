@@ -5,6 +5,7 @@ import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
 import NumberFormat from "react-number-format";
+import {useTranslation} from "react-i18next";
 
 export const SaveUserDetails = ({
                                     roles,
@@ -21,6 +22,8 @@ export const SaveUserDetails = ({
         });
     }, [roles]);
 
+    const { t } = useTranslation('');
+
     const renderRoleSelect = useCallback(() => {
         if (!renderRoles) {
             return null;
@@ -33,7 +36,7 @@ export const SaveUserDetails = ({
                     required
                 >
                     <InputLabel id="demo-simple-select-outlined-label">
-                        Role
+                        {t('ROLE')}
                     </InputLabel>
                     <Select
                         native
@@ -56,14 +59,15 @@ export const SaveUserDetails = ({
         onChangedInput,
         renderRoleOptions,
         renderRoles,
-        userDetails
+        userDetails,
+        t
     ]);
 
     return (
         <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
                 <TextField
-                    label="First Name"
+                    label={t('FIRSTNAME')}
                     name="firstName"
                     variant="outlined"
                     type="text"
@@ -75,7 +79,7 @@ export const SaveUserDetails = ({
             </Grid>
             <Grid item xs={12} sm={6}>
                 <TextField
-                    label="Last Name"
+                    label={t('LASTNAME')}
                     name="lastName"
                     variant="outlined"
                     type="text"
@@ -87,7 +91,7 @@ export const SaveUserDetails = ({
             </Grid>
             <Grid item xs={12}>
                 <TextField
-                    label="Middle Name"
+                    label={t('MIDDLENAME')}
                     name="middleName"
                     value={(userDetails && userDetails.middleName) || ''}
                     onChange={onChangedInput}
@@ -99,7 +103,7 @@ export const SaveUserDetails = ({
             <Grid item xs={12} sm={renderRoles ? 6 : 12}>
                 <NumberFormat
                     customInput={TextField}
-                    label="Contact number"
+                    label={t('NUMBER')}
                     name="contactNumber"
                     type="tel"
                     variant="outlined"

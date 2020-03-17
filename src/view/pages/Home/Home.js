@@ -12,11 +12,13 @@ import {
 
 import {HomeStyles} from "./Home.style";
 import {Graph} from '../../components/Graph/Graph'
+import {useTranslation} from "react-i18next";
 
 const useStyles = makeStyles(HomeStyles);
 
 export const Home = () => {
    const classes = useStyles();
+   const { t } = useTranslation('');
 
    return (
       <Container className={classes.container}> 
@@ -25,7 +27,7 @@ export const Home = () => {
                <Card className={classes.card}>
                   <CardContent>
                      <Typography variant='h6' className={classes.typography}>
-                        NEW ORDERS
+                        {t('NEWORDERS')}
                      </Typography>
                      <Typography variant='h4'>
                         6
@@ -37,7 +39,7 @@ export const Home = () => {
                <Card className={classes.card}>
                   <CardContent> 
                      <Typography variant='h6' className={classes.typography}>
-                        IN PROGRESS 
+                        {t('INPROGRESS')}
                      </Typography>
                      <Typography variant='h4'>
                         10
@@ -49,7 +51,7 @@ export const Home = () => {
                <Card className={classes.card}>
                   <CardContent >
                      <Typography variant='h6' className={classes.typography}>
-                        READY TO SHIPPING 
+                        {t('READYTOSHIPPING')}
                      </Typography>
                      <Typography variant='h4'>
                         4 
@@ -60,7 +62,7 @@ export const Home = () => {
             <Grid item lg={5} md={5} sm={6} xs={6} className={classes.gridChat}>
                <Card className={classes.chat}>
                   <CardHeader 
-                     title='Chat'
+                     title={t('CHAT')}
                      className={classes.header}
                   />
                   <CardContent>
@@ -70,7 +72,7 @@ export const Home = () => {
             <Grid item lg={7} md={7} sm={12} xs={12} className={classes.gridGraph}>
                <Card className={classes.graph}>
                   <CardHeader 
-                     title='Statistic'
+                     title={t('STATISTIC')}
                      className={classes.header}
                   />
                   <CardContent>

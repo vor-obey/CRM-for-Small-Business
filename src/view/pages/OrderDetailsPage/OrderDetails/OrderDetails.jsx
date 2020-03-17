@@ -3,21 +3,24 @@ import Typography from '@material-ui/core/Typography';
 import {TextField} from '@material-ui/core';
 import React from 'react';
 import {EOrderStatus} from '../../../../constants/statuses';
+import {useTranslation} from "react-i18next";
 
 export const OrderDetails = ({
                                  classes,
                                  orderDetails,
                                  renderShippingAddress
                              }) => {
+    const { t } = useTranslation('');
+
     const {customer, manager, shippingDetails: {shippingMethod} = {}, ...order} = orderDetails;
     return (
         <Grid container>
             <Grid container item xl={6} lg={6} md={6} sm={6} xs={12} className={classes.wrapper}>
-                <Typography variant='h5'>Order</Typography>
+                <Typography variant='h5'>{t('ORDER')}</Typography>
                 <Grid container item className={classes.orderContainer}>
                     <Grid item xl={10} xs={12} className={classes.orderDescription}>
                         <TextField
-                            label="Description"
+                            label={t('DESCRIPTION')}
                             margin="normal"
                             name="description"
                             type="text"
@@ -30,7 +33,7 @@ export const OrderDetails = ({
                     </Grid>
                     <Grid item xl={2} xs={12} className={classes.orderCurrency}>
                         <TextField
-                            label="Currency"
+                            label={t('CURRENCY')}
                             margin="normal"
                             name="currency"
                             type="text"
@@ -44,7 +47,7 @@ export const OrderDetails = ({
                     {renderShippingAddress()}
                     <Grid item xs={12}>
                         <TextField
-                            label="Shipping Method"
+                            label={t('SHIPPINGMETHOD')}
                             margin="normal"
                             name="shippingMethod"
                             type="text"
@@ -57,7 +60,7 @@ export const OrderDetails = ({
                     </Grid>
                     <Grid item xl={12} lg={12} md={12} sm={12} xs={12} className={classes.orderStatus}>
                         <TextField
-                            label="Status"
+                            label={t('STATUS')}
                             margin="normal"
                             name="status"
                             type="text"
@@ -71,11 +74,11 @@ export const OrderDetails = ({
                 </Grid>
             </Grid>
             <Grid container item xl={6} lg={6} md={6} sm={6} xs={12} className={classes.customerContainer}>
-                <Typography variant='h5'>Customer</Typography>
+                <Typography variant='h5'>{t('CUSTOMER')}</Typography>
                 <Grid container item>
                     <Grid item xs={12}>
                         <TextField
-                            label="Username"
+                            label={t('USERNAME')}
                             margin="normal"
                             name="username"
                             type="text"
@@ -88,7 +91,7 @@ export const OrderDetails = ({
                     </Grid>
                     <Grid item xs={12}>
                         <TextField
-                            label="Name"
+                            label={t('NAME')}
                             margin="normal"
                             name="name"
                             type="text"
@@ -101,7 +104,7 @@ export const OrderDetails = ({
                     </Grid>
                     <Grid item xs={12}>
                         <TextField
-                            label="Contact Number"
+                            label={t('NUMBER')}
                             margin="normal"
                             name="contactNumber"
                             type="text"
@@ -114,7 +117,7 @@ export const OrderDetails = ({
                     </Grid>
                     <Grid item xs={12}>
                         <TextField
-                            label="Contact Email"
+                            label={t('EMAIL')}
                             margin="normal"
                             name="contactEmail"
                             type="text"
@@ -130,11 +133,11 @@ export const OrderDetails = ({
             <Grid container item xl={6} lg={6} md={6} sm={12} xs={12} className={classes.managerContainer}>
                 <Grid container item xl={12} lg={12} md={12} sm={12} xs={12} className={classes.managerRender}>
                     <Grid item xl={12} lg={12} md={12} sm={12} xs={12} className={classes.managerHeading}>
-                        <Typography variant='h5'>Manager</Typography>
+                        <Typography variant='h5'>{t('MANAGER')}</Typography>
                     </Grid>
                     <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
                         <TextField
-                            label="Name"
+                            label={t('NAME')}
                             margin="normal"
                             name="name"
                             type="text"

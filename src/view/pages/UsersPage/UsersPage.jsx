@@ -11,6 +11,8 @@ import {COMMON_ERROR_MESSAGE} from "../../../constants/statuses";
 import {FilterInput} from "../../components/Filter/FilterInput/FilterInput";
 import {filter} from "../../../utils/helpers";
 import {USER_URLS} from '../../../constants/urls';
+import { useTranslation } from 'react-i18next';
+
 
 const useStyles = makeStyles(usersPageStyle);
 
@@ -19,6 +21,7 @@ export const UsersPage = ({history}) => {
     const classes = useStyles();
     const [userList, setUserList] = useState([]);
     const [inputFilter, setInputFilter] = useState('');
+    const { t } = useTranslation('');
 
     useEffect(() => {
         const fetchUsers = async () => {
@@ -67,7 +70,7 @@ export const UsersPage = ({history}) => {
             <FilterInput
                 className={classes.search}
                 value={inputFilter}
-                label='Filter'
+                label={t('FILTER')}
                 onChange={onChangeHandler}
             />
             <List className={classes.container}>
@@ -75,31 +78,31 @@ export const UsersPage = ({history}) => {
                     <Grid container className={classes.userListContainer}>
                         <Grid item xs={4} md={2}>
                             <Typography className={classes.userItemTitle}>
-                                First Name
+                                {t('FIRSTNAME')}
                             </Typography>
                         </Grid>
                         <Grid item xs={4} md={2}>
                             <Typography className={classes.userItemTitle}>
-                                Last Name
+                                {t('LASTNAME')}
                             </Typography>
                         </Grid>
                         <Hidden smDown>
                             <Grid item xs={3} md={2}>
                                 <Typography className={classes.userItemTitle}>
-                                    Email
+                                    {t('EMAIL')}
                                 </Typography>
                             </Grid>
                         </Hidden>
                         <Hidden smDown>
                             <Grid item xs={3} md={2}>
                                 <Typography className={classes.userItemTitle}>
-                                    Contact Number
+                                    {t('NUMBER')}
                                 </Typography>
                             </Grid>
                         </Hidden>
                         <Grid item xs={4} md={2}>
                             <Typography className={classes.userItemTitle}>
-                                Role
+                                {t('ROLE')}
                             </Typography>
                         </Grid>
                     </Grid>
@@ -116,7 +119,7 @@ export const UsersPage = ({history}) => {
                     to='/create-user'
                 >
                     <PersonAddIcon className={classes.addUser}/>
-                    Create user
+                    {t('CREATE')}
                 </Button>
             </Grid>
         </Container>

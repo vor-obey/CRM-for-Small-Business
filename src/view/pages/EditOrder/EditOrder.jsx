@@ -8,6 +8,7 @@ import isEmpty from 'lodash/isEmpty';
 import {useDispatch, useSelector} from 'react-redux';
 import {setIsLoading, setSnackBarStatus} from '../../../data/store/auxiliary/auxiliaryActions';
 import {OrderService} from '../../../services';
+import {useTranslation} from 'react-i18next';
 
 const useStyles = makeStyles(editOrderStyles);
 
@@ -29,6 +30,7 @@ export const EditOrder = ({history}) => {
     const [isCustom, setIsCustom] = useState(false);
     const city = useSelector(state => state.autocompleteReducer.city);
     const warehouse = useSelector(state => state.autocompleteReducer.warehouse);
+    const {t} = useTranslation();
 
     useEffect(() => {
         if (!isEmpty(orderDetails)) {
@@ -135,8 +137,6 @@ export const EditOrder = ({history}) => {
         });
     }, []);
 
-    console.log(city, warehouse);
-
     const onSubmitHandler = useCallback(async (e) => {
         e.preventDefault();
         const {shippingDetails, orderId} = orderDetails;
@@ -202,7 +202,7 @@ export const EditOrder = ({history}) => {
             onChangedAddressInput={onChangedAddressInput}
             onShippingMethodSelectHandler={onShippingMethodSelectHandler}
             onStatusSelectHandler={onStatusSelectHandler}
-            buttonText='Edit Order'
+            buttonText={t('EDIT_ORDER')}
         />
     );
 };

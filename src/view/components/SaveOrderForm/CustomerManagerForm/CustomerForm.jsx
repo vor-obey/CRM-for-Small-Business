@@ -12,6 +12,7 @@ import PersonAddIcon from "@material-ui/icons/PersonAdd";
 import {CustomModal} from "../../CustomModal/CustomModal";
 import {CreateCustomer} from "../../../pages/CreateCustomer/CreateCustomer";
 import isEmpty from 'lodash/isEmpty';
+import {useTranslation} from "react-i18next";
 
 export const CustomerForm = ({
                                  classes,
@@ -23,6 +24,7 @@ export const CustomerForm = ({
                                  onManagerSelectHandler,
                                  onCustomerSelectHandler
                              }) => {
+    const { t } = useTranslation('');
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isCustomerAutocompleteOpen, setIsCustomerAutocompleteOpen] = useState(false);
     const [isManagerAutocompleteOpen, setIsManagerAutocompleteOpen] = useState(false);
@@ -92,7 +94,7 @@ export const CustomerForm = ({
         <>
             <Grid item xl={12} xs={12}>
                 <Typography className={classes.heading} variant='h6'>
-                    Customer
+                    {t('CUSTOMER')}
                 </Typography>
                 <Divider/>
             </Grid>
@@ -124,7 +126,7 @@ export const CustomerForm = ({
                     onToggle={toggleCustomerAutocomplete}
                     onClose={toggleCustomerAutocomplete}
                     renderOption={renderCustomerOptions}
-                    inputLabel='Select Customer'
+                    inputLabel={t('SELECTCUSTOMER')}
                     getOptionLabel={getCustomerOptionLabel}
                     value={customer}
                 />
@@ -139,7 +141,7 @@ export const CustomerForm = ({
                         onClose={toggleManagerAutocomplete}
                         onSelectHandler={onManagerSelectHandler}
                         renderOption={renderManagerOptions}
-                        inputLabel='Select Manager'
+                        inputLabel={t('SELECTMANAGER')}
                         getOptionLabel={getManagerOptionLabel}
                         value={manager}
                     />
