@@ -19,7 +19,7 @@ export const OrderDetails = ({
             <Grid container item xl={6} lg={6} md={6} sm={6} xs={12} className={classes.wrapper}>
                 <Typography variant='h5'>{t('ORDER')}</Typography>
                 <Grid container item >
-                    <Grid item xl={10} lg={10} md={2} sm={10} xs={12} className={classes.orderDescription}>
+                    <Grid item xl={10} lg={10} md={10} sm={10} xs={12} className={classes.orderDescription}>
                         <TextField
                             label={t('DESCRIPTION')}
                             margin="normal"
