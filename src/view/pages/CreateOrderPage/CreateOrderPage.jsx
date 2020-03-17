@@ -7,6 +7,7 @@ import isEmpty from 'lodash/isEmpty';
 import {OrderService} from '../../../services/index';
 import {SaveOrderForm} from '../../components/SaveOrderForm/SaveOrderForm';
 import {useCustomers, useManagers, useShippingMethods} from '../../../utils/customHooks';
+import {useTranslation} from 'react-i18next';
 
 const useStyles = makeStyles(createOrderPageStyles);
 
@@ -30,6 +31,7 @@ export const CreateOrderPage = ({history}) => {
     const currentUser = useSelector(state => state.userReducer.currentUser);
     const [isCustom, setIsCustom] = useState(false);
     const [address, setAddress] = useState('');
+    const {t} = useTranslation();
 
     useEffect(() => {
         if (!isEmpty(createdCustomer)) {
@@ -159,7 +161,7 @@ export const CreateOrderPage = ({history}) => {
             isCustom={isCustom}
             address={address}
             onChangedAddressInput={onChangedAddressInput}
-            buttonText='Create Order'
+            buttonText={t('CREATEORDER')}
         />
     )
 };
