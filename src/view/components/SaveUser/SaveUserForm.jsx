@@ -10,127 +10,123 @@ import {setSnackBarStatus} from "../../../data/store/auxiliary/auxiliaryActions"
 
 const useStyles = makeStyles(saveUserStyle);
 
-export const SaveUserForm = (props) => {
-   const {
-      userDetails,
-      title,
-      buttonText,
-      isEdit,
-      roles,
-      onSubmit,
-      currentUser,
-   } = props;
+export const SaveUserForm = ({
+                                 userDetails,
+                                 title,
+                                 buttonText,
+                                 isEdit,
+                                 roles,
+                                 onSubmit,
+                                 currentUser,
+                             }) => {
+    const classes = useStyles();
+    const dispatch = useDispatch();
+    const [userDetailsInputs, setUserDetailsInputs] = useState({
+        firstName: '',
+        lastName: '',
+        middleName: '',
+        contactNumber: '',
+        roleId: ''
+    });
+    const [userCredentials, setUserCredentials] = useState({
+        email: '',
+        password: '',
+        confirmPassword: '',
+    });
+    const [showPassword, setShowPassword] = useState(false);
 
-   const classes = useStyles();
+    useEffect(() => {
+        setUserDetailsInputs(userDetails);
+    }, [userDetails]);
 
-   const dispatch = useDispatch();
+    const handleClickShowPassword = useCallback(() => {
+        setShowPassword(prevState => !prevState)
+    }, []);
 
-   const [userDetailsInputs, setUserDetailsInputs] = useState({
-      firstName: '',
-      lastName: '',
-      middleName: '',
-      contactNumber: '',
-      roleId: ''
-   });
-   const [userCredentials, setUserCredentials] = useState({
-      email: '',
-      password: '',
-      confirmPassword: '',
-   });
-   const [showPassword, setShowPassword] = useState(false);
+    const onChangedInputDetails = useCallback((event) => {
+        const {name, value} = event.target;
+        setUserDetailsInputs(prevState => {
+            return {
+                ...prevState,
+                [name]: value
+            }
+        })
+    }, []);
 
-   useEffect(() => {
-      setUserDetailsInputs(userDetails);
-   }, [userDetails]);
+    const onChangedInputCredentials = useCallback((event) => {
+        const {name, value} = event.target;
+        setUserCredentials(prevState => {
+            return {
+                ...prevState,
+                [name]: value
+            }
+        })
+    }, []);
 
-   const handleClickShowPassword = useCallback(() => {
-      setShowPassword(prevState => !prevState)
-   }, []);
+    const onSubmitForm = useCallback((event) => {
+        event.preventDefault();
+        if (userCredentials.password !== userCredentials.confirmPassword) {
+            dispatch(setSnackBarStatus({isOpen: true, errorMessage: COMMON_ERROR_MESSAGE_VALIDATE, success: false}));
+        } else {
+            const {confirmPassword, ...userCreds} = userCredentials;
+            let input = {...userDetailsInputs, ...userCreds};
 
-   const onChangedInputDetails = useCallback((event) => {
-      const {name, value} = event.target;
-      setUserDetailsInputs(prevState => {
-         return {
-            ...prevState,
-            [name]: value
-         }
-      })
-   }, []);
+            if (isEdit && userDetails.userId !== currentUser.userId) {
+                input = userDetailsInputs;
+            }
+            onSubmit(input);
+        }
+    }, [isEdit, onSubmit, userCredentials, userDetailsInputs, currentUser, userDetails, dispatch]);
 
-   const onChangedInputCredentials = useCallback((event) => {
-      const {name, value} = event.target;
-      setUserCredentials(prevState => {
-         return {
-            ...prevState,
-            [name]: value
-         }
-      })
-   }, []);
+    const renderCredentials = useCallback(() => {
+        if (isEdit && (currentUser && userDetails && currentUser.userId !== userDetails.userId)) {
+            return null;
+        }
+        return (
+            <SaveUserCredentials
+                showPassword={showPassword}
+                toggleShowPassword={handleClickShowPassword}
+                onChangedInput={onChangedInputCredentials}
+                credentials={userCredentials}
+            />
+        )
+    }, [
+        currentUser,
+        isEdit,
+        handleClickShowPassword,
+        onChangedInputCredentials,
+        showPassword,
+        userCredentials,
+        userDetails
+    ]);
 
-   const onSubmitForm = useCallback((event) => {
-      event.preventDefault();
-      if (userCredentials.password !== userCredentials.confirmPassword) {
-         dispatch(setSnackBarStatus({isOpen: true, errorMessage: COMMON_ERROR_MESSAGE_VALIDATE}));
-      } else {
-         const {confirmPassword, ...userCreds} = userCredentials;
-         let input = {...userDetailsInputs, ...userCreds};
-
-         if (isEdit && userDetails.userId !== currentUser.userId) {
-            input = userDetailsInputs;
-         }
-         onSubmit(input);
-      }
-   }, [isEdit, onSubmit, userCredentials, userDetailsInputs, currentUser, userDetails, dispatch]);
-
-   const renderCredentials = useCallback(() => {
-      if (isEdit && (currentUser && userDetails && currentUser.userId !== userDetails.userId)) {
-         return null;
-      }
-      return (
-         <SaveUserCredentials
-            showPassword={showPassword}
-            toggleShowPassword={handleClickShowPassword}
-            onChangedInput={onChangedInputCredentials}
-            credentials={userCredentials}
-         />
-      )
-   }, [
-      currentUser,
-      isEdit,
-      handleClickShowPassword,
-      onChangedInputCredentials,
-      showPassword,
-      userCredentials,
-      userDetails
-   ]);
-
-   return (
-      <Container component="main" maxWidth="xs">
-         <CssBaseline/>
-         <div className={classes.paper}>
-            <Avatar className={classes.avatar}>
-               <PersonAddIcon/>
-            </Avatar>
-            <Typography component="h1" variant="h5">
-               {title}
-            </Typography>
-            <form className={classes.form} onSubmit={onSubmitForm}>
-               <SaveUserDetails
-                  roles={roles}
-                  userDetails={userDetailsInputs}
-                  onChangedInput={onChangedInputDetails}
-                  classes={classes}
-               />
-               {renderCredentials()}
-               <Button
-                  className={classes.submit}
-                  type={"submit"}
-                  variant={"contained"}
-                  color={"primary"}
-                  fullWidth
-               >{buttonText}</Button>
-            </form>
-         </div>
-      </Container>
-   );
+    return (
+        <Container component="main" maxWidth="xs">
+            <CssBaseline/>
+            <div className={classes.paper}>
+                <Avatar className={classes.avatar}>
+                    <PersonAddIcon/>
+                </Avatar>
+                <Typography component="h1" variant="h5">
+                    {title}
+                </Typography>
+                <form className={classes.form} onSubmit={onSubmitForm}>
+                    <SaveUserDetails
+                        roles={roles}
+                        userDetails={userDetailsInputs}
+                        onChangedInput={onChangedInputDetails}
+                        classes={classes}
+                    />
+                    {renderCredentials()}
+                    <Button
+                        className={classes.submit}
+                        type={"submit"}
+                        variant={"contained"}
+                        color={"primary"}
+                        fullWidth
+                    >{buttonText}</Button>
+                </form>
+            </div>
+        </Container>
+    );
 };
