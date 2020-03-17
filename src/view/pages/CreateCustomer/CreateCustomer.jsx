@@ -7,8 +7,10 @@ import {setIsLoading, setSnackBarStatus} from "../../../data/store/auxiliary/aux
 import {COMMON_ERROR_MESSAGE} from "../../../constants/statuses";
 import {useDispatch} from "react-redux";
 
-export const CreateCustomer = (props) => {
-    const {history} = props;
+export const CreateCustomer = ({
+                                   history,
+                                   updateCustomerList
+                               }) => {
     const [customerDetails, setCustomerDetails] = useState({
         username: '',
         name: '',
@@ -29,7 +31,7 @@ export const CreateCustomer = (props) => {
                 dispatch(setIsLoading(false));
             } catch (e) {
                 dispatch(setIsLoading(false));
-                dispatch(setSnackBarStatus({isOpen: true, errorMessage: COMMON_ERROR_MESSAGE}))
+                dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE, success: false}))
             }
         };
         fetchSources();
@@ -46,21 +48,27 @@ export const CreateCustomer = (props) => {
     }, []);
 
     const onSubmitHandler = useCallback(async (event, customerDetails) => {
+        event.stopPropagation();
         event.preventDefault();
         try {
             dispatch(setIsLoading(true));
             const response = await CustomerService.create(customerDetails);
             if (response) {
-                history.push('/customers');
-                dispatch(setIsLoading(false));
+                if (typeof updateCustomerList === 'function') {
+                    updateCustomerList(response);
+                    dispatch(setIsLoading(false));
+                } else {
+                    history.push('/customers');
+                    dispatch(setIsLoading(false));
+                }
             }
         } catch (e) {
             dispatch(setIsLoading(false));
-            dispatch(setSnackBarStatus({isOpen: true, errorMessage: COMMON_ERROR_MESSAGE}))
+            dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE, success: false}))
         }
-    }, [history, dispatch]);
+    }, [history, dispatch, updateCustomerList]);
 
-    const renderSources = () => {
+    const renderSources = useCallback(() => {
         if (!sources || !sources.length) {
             return null;
         }
@@ -70,7 +78,7 @@ export const CreateCustomer = (props) => {
                 <option key={source.sourceId} value={source.sourceId}>{source.name}</option>
             );
         })
-    };
+    }, [sources]);
 
     return (
         <SaveCustomerForm

@@ -19,25 +19,27 @@ import {CustomerListItem} from "./CustomerListItem/CustomerListItem";
 import {setIsLoading, setSnackBarStatus} from "../../../data/store/auxiliary/auxiliaryActions";
 import {COMMON_ERROR_MESSAGE} from "../../../constants/statuses";
 import {USER_URLS} from "../../../constants/urls";
+import {FilterInput} from "../../components/Filter/FilterInput/FilterInput";
+import {filter} from "../../../utils/helpers";
 
 const useStyles = makeStyles(customersPageStyle);
 
-export const CustomersPage = (props) => {
-    const {history} = props;
+export const CustomersPage = ({history}) => {
     const [customerList, setCustomerList] = useState([]);
     const dispatch = useDispatch();
     const classes = useStyles();
+    const [inputFilter, setInputFilter] = useState('');
 
     useEffect(() => {
         const fetchCustomers = async () => {
             try {
                 dispatch(setIsLoading(true));
-                const response = await CustomerService.getCustomerList();
+                const response = await CustomerService.list();
                 setCustomerList(response);
                 dispatch(setIsLoading(false));
             } catch (e) {
                 dispatch(setIsLoading(false));
-                dispatch(setSnackBarStatus({isOpen: true, errorMessage: COMMON_ERROR_MESSAGE}));
+                dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE, success: false}));
             }
         };
         fetchCustomers();
@@ -47,28 +49,38 @@ export const CustomersPage = (props) => {
         history.push(`${USER_URLS.CUSTOMERS}/${customerId}`)
     }, [history]);
 
+   const onChangeHandler = (event) => {
+      const {value} = event.target;
+      setInputFilter(value)
+   };
 
-    const renderRows = useCallback(() => {
-        if (!customerList || !customerList.length) {
-            return null;
-        }
-        return customerList.map((customer) => {
-            return (
-                <CustomerListItem
-                    key={customer.customerId}
-                    customer={customer}
-                    classes={classes}
-                    navigateToCustomerDetails={navigateToCustomerDetails}
-                />
-            )
-        })
-    }, [customerList, classes, navigateToCustomerDetails]);
+   const renderRows = useCallback(() => {
+      if (!customerList || !customerList.length) {
+         return null;
+      }
+      return filter(customerList, inputFilter).map((customer) => {
+         return (
+            <CustomerListItem
+               key={customer.customerId}
+               customer={customer}
+               classes={classes}
+               navigateToCustomerDetails={navigateToCustomerDetails}
+            />
+         )
+      })
+   }, [customerList, classes, navigateToCustomerDetails, inputFilter]);
 
     return (
         <Container className={classes.root}>
             <Typography variant="h5" className={classes.title}>
                 Customers
             </Typography>
+            <FilterInput
+                className={classes.search}
+                value={inputFilter}
+                label={'Filter'}
+                onChange={onChangeHandler}
+            />
             <List className={classes.container}>
                 <ListItem divider>
                     <Grid container className={classes.customerListContainer}>
@@ -100,14 +112,15 @@ export const CustomersPage = (props) => {
                 </ListItem>
                 {renderRows()}
             </List>
-            <Grid container justify={'center'}>
+            <Grid container justify='center'>
                 <Button
                     type='submit'
                     variant="outlined"
                     color="primary"
                     className={classes.button}
                     component={Link}
-                    to={'/create-customer'}>
+                    to='/create-customer'
+                >
                     <PersonAddIcon className={classes.addCustomer}/>
                     Create customer
                 </Button>

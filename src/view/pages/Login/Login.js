@@ -5,6 +5,8 @@ import {Avatar, Button, CssBaseline, TextField, Typography, Container, makeStyle
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import {loginStyles} from './Login.style.js';
 import {getCurrentUser, login} from "../../../data/store/user/userThunkAction";
+import {setSnackBarStatus} from '../../../data/store/auxiliary/auxiliaryActions';
+import {COMMON_ERROR_MESSAGE} from '../../../constants/statuses';
 
 
 const useStyles = makeStyles(loginStyles);
@@ -27,16 +29,18 @@ export const Login = (props) => {
                 [name]: value
             }
         });
-    },[]);
+    }, []);
 
     const onSubmitForm = useCallback(async (event) => {
         event.preventDefault();
-        const {email, password} = userLoginData;
-        await dispatch(login(email, password));
-        await dispatch(getCurrentUser());
-
-        history.push('/dashboard');
-    }, [userLoginData, history, dispatch]);
+        try {
+            const {email, password} = userLoginData;
+            await dispatch(login(email, password));
+            await dispatch(getCurrentUser());
+        } catch (e) {
+            dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE, success: false}));
+        }
+    }, [userLoginData, dispatch]);
 
 
     const handleClick = () => {
