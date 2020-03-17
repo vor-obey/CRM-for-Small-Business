@@ -12,7 +12,7 @@ export const UserDetails = (props) => {
             <Grid item container direction={'column'} xs={12} sm={6}>
                 <Grid className={classes.userItem}>
                     <Typography variant="body1">
-                        {t('FIRSTNAME')}
+                        {t('FIRST_NAME')}
                     </Typography>
                     <Typography className={classes.userTypography} variant="body2">
                         {userDetails.firstName}
@@ -20,7 +20,7 @@ export const UserDetails = (props) => {
                 </Grid>
                 <Grid className={classes.userItem}>
                     <Typography variant="body1">
-                        {t('LASTNAME')}
+                        {t('LAST_NAME')}
                     </Typography>
                     <Typography className={classes.userTypography} variant="body2">
                         {userDetails.lastName}
@@ -28,7 +28,7 @@ export const UserDetails = (props) => {
                 </Grid>
                 <Grid className={classes.userItem}>
                     <Typography variant="body1">
-                        {t('MIDDLENAME')}
+                        {t('MIDDLE_NAME')}
                     </Typography>
                     <Typography className={classes.userTypography} variant="body2">
                         {userDetails.middleName}
