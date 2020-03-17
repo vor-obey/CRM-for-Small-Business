@@ -7,6 +7,7 @@ import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 import {EOrderStatus} from '../../../constants/statuses';
+import {useTranslation} from 'react-i18next';
 
 const currencies = ['UAH', 'USD', 'EUR'];
 
@@ -38,12 +39,13 @@ export const SaveOrderForm = ({
                                   onStatusSelectHandler,
                                   buttonText,
                               }) => {
+    const {t} = useTranslation();
     const renderStatuses = useCallback(() => {
         const entries = Object.entries(EOrderStatus);
         return entries.map(([key, value]) => {
-            return <option key={key} value={key}>{value}</option>
+            return <option key={key} value={key}>{t(value)}</option>
         });
-    }, []);
+    }, [t]);
 
     return (
         <Container maxWidth='lg' className={classes.root}>
@@ -90,7 +92,7 @@ export const SaveOrderForm = ({
                                     fullWidth
                                 >
                                     <InputLabel id="demo-simple-select-outlined-label">
-                                        Status
+                                        {t('STATUS')}
                                     </InputLabel>
                                     <Select
                                         native

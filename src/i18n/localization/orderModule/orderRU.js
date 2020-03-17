@@ -15,7 +15,9 @@ export const orderRU = {
     NEW: 'Новый',
     CANCELLED: 'Отменен',
     SHIPPING: 'Доставляется',
-    READYTOSHIPPING: 'Готов к оптравке',
+    IN_PROGRESS: 'В обработке',
+    COMPLETED: 'Завершен',
+    READY_FOR_SHIPPING: 'Готов к оптравке',
     CURRENCY: 'Валюта',
     SHIPPINGMETHOD: 'Метод доставки',
     MANAGER: 'Менеджер',
@@ -23,4 +25,6 @@ export const orderRU = {
     DELETE: 'Удалить',
     DELETEORDER: 'Удалить заказ',
     SUREDELETE: 'Вы уверены, что хотите удалить заказ?',
+    ADDRESS: 'Адрес',
+    EDIT_ORDER: 'Редактировать заказ'
 };

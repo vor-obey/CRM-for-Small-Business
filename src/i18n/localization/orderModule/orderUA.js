@@ -16,7 +16,9 @@ export const orderUA = {
     NEW: 'Новий',
     CANCELLED: 'Скасован',
     SHIPPING: 'Відправляється',
-    READYTOSHIPPING: 'Готовий до доставки',
+    IN_PROGRESS: 'В роботi',
+    READY_FOR_SHIPPING: 'Готовий до доставки',
+    COMPLETED: 'Завершено',
     CURRENCY: 'Валюта',
     SHIPPINGMETHOD: 'Метод доставки',
     MANAGER: 'Менеджер',
@@ -24,4 +26,6 @@ export const orderUA = {
     DELETE: 'Видалити',
     DELETEORDER: 'Видалити замовлення',
     SUREDELETE: 'Ви впевнені, що хочете видалити замовлення?',
+    ADDRESS: 'Адреса',
+    EDIT_ORDER: 'Редагувати замовлення'
 };

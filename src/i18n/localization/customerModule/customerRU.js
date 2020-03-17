@@ -7,6 +7,6 @@ export const CustomerRU = {
     DETAILS: 'Детали',
     SOURCES: 'Ресурс',
     DELETECUSTOMERTEXXT: 'Вы уверены, что хотите удалить клиента без возможности восстановления?',
-    DELETECUSTOMER: 'Удалить пользователя',
+    DELETECUSTOMER: 'Удалить клиента',
     EDITCUSTOMER: 'Редактировать клиента',
 };

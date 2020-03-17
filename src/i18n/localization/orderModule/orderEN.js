@@ -5,6 +5,7 @@ export const orderEN = {
     SELECTCUSTOMER: 'Select customer',
     SELECTMANAGER: 'Select manager',
     SHIPPINGDETAILS: 'Shipping details',
+    ADDRESS: 'Address',
     SELECTCITY: 'Select city',
     CITY: 'City',
     SELECTWAREHOUSE: 'Select Warehouse',
@@ -15,8 +16,10 @@ export const orderEN = {
     STATUS: 'Status',
     NEW: 'New',
     CANCELLED: 'Cancelled',
+    COMPLETED: 'Completed',
     SHIPPING: 'Shipping',
-    READYTOSHIPPING: 'Ready for shipping',
+    IN_PROGRESS: 'In progress',
+    READY_FOR_SHIPPING: 'Ready for shipping',
     CURRENCY: 'Currency',
     SHIPPINGMETHOD: 'Shipping method',
     MANAGER: 'Manager',
@@ -24,4 +27,5 @@ export const orderEN = {
     DELETEORDER: 'Delete order',
     DELETE: 'Delete',
     SUREDELETE: 'Are you sure you want to delete the order?',
+    EDIT_ORDER: 'Edit Order'
 };
