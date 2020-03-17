@@ -6,6 +6,7 @@ import SourcesService from "../../../services/SourcesService";
 import {setIsLoading, setSnackBarStatus} from "../../../data/store/auxiliary/auxiliaryActions";
 import {COMMON_ERROR_MESSAGE} from "../../../constants/statuses";
 import {useDispatch} from "react-redux";
+import {useTranslation} from "react-i18next";
 
 export const CreateCustomer = ({
                                    history,
@@ -21,6 +22,7 @@ export const CreateCustomer = ({
     });
     const [sources, setSources] = useState([]);
     const dispatch = useDispatch();
+    const { t } = useTranslation('');
 
     useEffect(() => {
         const fetchSources = async () => {
@@ -84,9 +86,9 @@ export const CreateCustomer = ({
         <SaveCustomerForm
             details={customerDetails}
             renderSource={renderSources}
-            titleText="Create Customer"
+            titleText={t('CREATECUSTOMER')}
             onSubmit={onSubmitHandler}
-            submitText="Add new customer"
+            submitText={t('CREATE')}
             onChange={onChangeHandler}
         />
     )

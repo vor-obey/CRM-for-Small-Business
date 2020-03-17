@@ -1,7 +1,9 @@
 import React from 'react';
 import {Grid, List, ListItem, Typography} from "@material-ui/core";
+import {useTranslation} from "react-i18next";
 
 export const CustomerDetails = (props) => {
+    const { t } = useTranslation('');
 
     const {customerDetails, classes} = props;
 
@@ -16,7 +18,7 @@ export const CustomerDetails = (props) => {
                         xs={12} sm={6}>
                         <Grid item xs={12} md={12} className={classes.customerItem}>
                             <Typography variant="h6">
-                                Username
+                                {t('USERNAME')}
                             </Typography>
                             <Typography variant="body1">
                                 {customerDetails.username}
@@ -24,7 +26,7 @@ export const CustomerDetails = (props) => {
                         </Grid>
                         <Grid item xs={12} md={12} className={classes.customerItem}>
                             <Typography variant="h6">
-                                Name
+                                {t('NAME')}
                             </Typography>
                             <Typography variant="body1">
                                 {customerDetails.name}
@@ -33,7 +35,7 @@ export const CustomerDetails = (props) => {
                         {customerDetails.source.name ? (
                             <Grid item xs={12} md={12} className={classes.customerItem}>
                                 <Typography variant="h6">
-                                    Source
+                                    {t('SOURCES')}
                                 </Typography>
                                 <Typography variant="body1">
                                     {customerDetails.source.name}
@@ -49,7 +51,7 @@ export const CustomerDetails = (props) => {
                         xs={12} sm={6}>
                         <Grid item xs={12} md={12} className={classes.customerItem}>
                             <Typography variant="h6">
-                                Email Address
+                                {t('EMAIL')}
                             </Typography>
                             <Typography variant="body1">
                                 {customerDetails.contactEmail}
@@ -57,7 +59,7 @@ export const CustomerDetails = (props) => {
                         </Grid>
                         <Grid item xs={12} md={12} className={classes.customerItem}>
                             <Typography variant="h6">
-                                Contact number
+                                {t('NUMBER')}
                             </Typography>
                             <Typography variant="body1">
                                 {customerDetails.contactNumber}
@@ -65,7 +67,7 @@ export const CustomerDetails = (props) => {
                         </Grid>
                         <Grid item xs={12} md={12} className={classes.customerItem}>
                             <Typography variant="h6">
-                                Details
+                                {t('DETAILS')}
                             </Typography>
                             <Typography variant="body1">
                                 {customerDetails.details}

@@ -13,6 +13,7 @@ import {profileStyles} from "./Profile.style";
 import {Link} from "react-router-dom";
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import EditIcon from '@material-ui/icons/Edit';
+import {useTranslation} from "react-i18next";
 
 const useStyles = makeStyles(profileStyles);
 
@@ -22,6 +23,7 @@ export const Profile = (props) => {
     const [userDrawer, setUserDrawer] = React.useState({
         right: false,
     });
+    const { t } = useTranslation('');
 
     const toggleDrawer = (side, open) => event => {
         if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
@@ -58,7 +60,7 @@ export const Profile = (props) => {
                               to={`/users/${currentUser.userId}/edit`}
                               selected={isActive('/')}>
                         <ListItemIcon><EditIcon/></ListItemIcon>
-                        <ListItemText>Edit profile</ListItemText>
+                        <ListItemText>{t('EDITPROFILE')}</ListItemText>
                     </ListItem>
                     <Divider variant="fullWidth" component="li"/>
                     <ListItem button
@@ -66,7 +68,7 @@ export const Profile = (props) => {
                               to="/logout"
                               selected={isActive('/logout')}>
                         <ListItemIcon><ExitToAppIcon/></ListItemIcon>
-                        <ListItemText>Log Out</ListItemText>
+                        <ListItemText>{t('LOGOUT')}</ListItemText>
                     </ListItem>
                 </List>
             </div>

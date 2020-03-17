@@ -1,0 +1,15 @@
+export const UsersUA = {
+    FIRSTNAME: 'Ім\'я',
+    LASTNAME: 'Прізвище',
+    MIDDLENAME: 'По батькові',
+    EMAIL: 'E-mail',
+    NUMBER: 'Контактний номер',
+    ROLE: 'Роль',
+    PASSWORD: 'Пароль',
+    RPASSWORD: 'Повторіть пароль',
+    CREATEUSER: "Створити користувача",
+    USERDETAILS: 'Інформація про користувача',
+    DELETEUSER: 'Видалити користувача',
+    DELETEUSERTEXT: 'Ви впевнені, що хочете видалити користувача без можливості відновлення?',
+    EDITUSER: 'Редагувати користувача',
+};

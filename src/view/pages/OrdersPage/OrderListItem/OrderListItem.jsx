@@ -6,6 +6,7 @@ import {
 
 import ListItemText from "@material-ui/core/ListItemText";
 import {EOrderStatus} from '../../../../constants/statuses';
+import {useTranslation} from 'react-i18next';
 
 export const OrderListItem = ({
                                   order,
@@ -13,6 +14,7 @@ export const OrderListItem = ({
                                   minWidth350,
                                   navigationToOrderDetails
                               }) => {
+    const {t} = useTranslation();
     return (
         <ListItem key={order.orderId} disableGutters divider button
                   onClick={() => navigationToOrderDetails(order.orderId)}>
@@ -24,7 +26,7 @@ export const OrderListItem = ({
                     <ListItemText primary={order.customer.name} secondary={minWidth350 && order.customer.contactEmail}/>
                 </Grid>
                 <Grid item xs={2} className={classes.statusGrid}>
-                    <ListItemText>{EOrderStatus[order.status]}</ListItemText>
+                    <ListItemText>{t(EOrderStatus[order.status])}</ListItemText>
                 </Grid>
             </Grid>
         </ListItem>

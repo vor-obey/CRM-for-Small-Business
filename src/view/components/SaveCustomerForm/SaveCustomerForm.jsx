@@ -6,6 +6,7 @@ import {saveCustomerStyle} from "./SaveCustomerForm.style";
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
+import {useTranslation} from "react-i18next";
 
 const useStyles = makeStyles(saveCustomerStyle);
 
@@ -21,6 +22,8 @@ export const SaveCustomerForm = (props) => {
     } = props;
 
     const classes = useStyles();
+    const { t } = useTranslation('');
+
 
     return (
         <div>
@@ -37,7 +40,7 @@ export const SaveCustomerForm = (props) => {
                         <Grid container spacing={2}>
                             <Grid item xs={12} sm={6}>
                                 <TextField
-                                    label="Username"
+                                    label={t('USERNAME')}
                                     name="username"
                                     variant="outlined"
                                     type="text"
@@ -49,7 +52,7 @@ export const SaveCustomerForm = (props) => {
                             </Grid>
                             <Grid item xs={12} sm={6}>
                                 <TextField
-                                    label="Name"
+                                    label={t('NAME')}
                                     name="name"
                                     variant="outlined"
                                     type="text"
@@ -61,7 +64,7 @@ export const SaveCustomerForm = (props) => {
                             </Grid>
                             <Grid item xs={12}>
                                 <TextField
-                                    label="Email Address"
+                                    label={t('EMAIL')}
                                     name="contactEmail"
                                     variant="outlined"
                                     type="email"
@@ -74,7 +77,7 @@ export const SaveCustomerForm = (props) => {
                             <Grid item xs={12}>
                                 <NumberFormat
                                     customInput={TextField}
-                                    label="Contact number"
+                                    label={t('NUMBER')}
                                     name="contactNumber"
                                     type="tel"
                                     variant="outlined"
@@ -88,7 +91,7 @@ export const SaveCustomerForm = (props) => {
                             </Grid>
                             <Grid item xs={12}>
                                 <TextField
-                                    label="Details"
+                                    label={t('DETAILS')}
                                     name="details"
                                     value={(details && details.details) || ''}
                                     onChange={onChange}
@@ -106,7 +109,7 @@ export const SaveCustomerForm = (props) => {
                                     required
                                 >
                                     <InputLabel id="demo-simple-select-outlined-label">
-                                        Source
+                                        {t('SOURCES')}
                                     </InputLabel>
                                     <Select
                                         native
