@@ -1,16 +1,21 @@
 import React from 'react';
-import {FormControl, Grid, IconButton, InputAdornment, InputLabel, OutlinedInput, TextField} from "@material-ui/core";
+import {
+    FormControl,
+    Grid,
+    IconButton,
+    InputAdornment,
+    InputLabel,
+    OutlinedInput,
+    TextField
+} from "@material-ui/core";
 import {Visibility, VisibilityOff} from "@material-ui/icons";
 
-export const SaveUserCredentials = (props) => {
-
-    const {
-        onChangedInput,
-        credentials,
-        showPassword,
-        toggleShowPassword
-    } = props;
-
+export const SaveUserCredentials = ({
+                                        onChangedInput,
+                                        credentials,
+                                        showPassword,
+                                        toggleShowPassword
+                                    }) => {
     return (
         <Grid container spacing={2}>
             <Grid item xs={12}>
@@ -34,7 +39,7 @@ export const SaveUserCredentials = (props) => {
                         type={showPassword ? 'text' : 'password'}
                         value={credentials.password}
                         onChange={onChangedInput}
-                        labelWidth={85}
+                        labelWidth={110}
                         fullWidth
                         endAdornment={
                             <InputAdornment position="end">
@@ -57,13 +62,11 @@ export const SaveUserCredentials = (props) => {
                 <FormControl variant="outlined" required fullWidth>
                     <InputLabel htmlFor="outlined-adornment-password">Repeat Password</InputLabel>
                     <OutlinedInput
-                        label={"Password"}
                         name={"confirmPassword"}
-                        placeholder={"Repeat Password *"}
                         type={showPassword ? 'text' : 'password'}
                         value={credentials.confirmPassword}
                         onChange={onChangedInput}
-                        labelWidth={200}
+                        labelWidth={150}
                         required
                         fullWidth
                         endAdornment={

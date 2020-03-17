@@ -4,22 +4,23 @@ import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import {saveUserStyle} from './SaveUser.style';
 import {SaveUserCredentials} from "./SaveUserCredentials/SaveUserCredentials";
 import {SaveUserDetails} from "./SaveUserDetails/SaveUserDetails";
+import {COMMON_ERROR_MESSAGE_VALIDATE} from "../../../constants/statuses";
+import {useDispatch} from "react-redux";
+import {setSnackBarStatus} from "../../../data/store/auxiliary/auxiliaryActions";
 
 const useStyles = makeStyles(saveUserStyle);
 
-export const SaveUserForm = (props) => {
-    const {
-        userDetails,
-        title,
-        buttonText,
-        isEdit,
-        roles,
-        onSubmit,
-        currentUser,
-    } = props;
-
+export const SaveUserForm = ({
+                                 userDetails,
+                                 title,
+                                 buttonText,
+                                 isEdit,
+                                 roles,
+                                 onSubmit,
+                                 currentUser,
+                             }) => {
     const classes = useStyles();
-
+    const dispatch = useDispatch();
     const [userDetailsInputs, setUserDetailsInputs] = useState({
         firstName: '',
         lastName: '',
@@ -64,14 +65,18 @@ export const SaveUserForm = (props) => {
 
     const onSubmitForm = useCallback((event) => {
         event.preventDefault();
-        const {confirmPassword, ...userCreds} = userCredentials;
-        let input = {...userDetailsInputs, ...userCreds};
+        if (userCredentials.password !== userCredentials.confirmPassword) {
+            dispatch(setSnackBarStatus({isOpen: true, errorMessage: COMMON_ERROR_MESSAGE_VALIDATE, success: false}));
+        } else {
+            const {confirmPassword, ...userCreds} = userCredentials;
+            let input = {...userDetailsInputs, ...userCreds};
 
-        if (isEdit && userDetails.userId !== currentUser.userId) {
-            input = userDetailsInputs;
+            if (isEdit && userDetails.userId !== currentUser.userId) {
+                input = userDetailsInputs;
+            }
+            onSubmit(input);
         }
-        onSubmit(input);
-    }, [isEdit, onSubmit, userCredentials, userDetailsInputs, currentUser, userDetails]);
+    }, [isEdit, onSubmit, userCredentials, userDetailsInputs, currentUser, userDetails, dispatch]);
 
     const renderCredentials = useCallback(() => {
         if (isEdit && (currentUser && userDetails && currentUser.userId !== userDetails.userId)) {
