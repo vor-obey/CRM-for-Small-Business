@@ -1,18 +1,23 @@
 import React from 'react';
-import {FormControl, Grid, IconButton, InputAdornment, InputLabel, OutlinedInput, TextField} from "@material-ui/core";
+import {
+    FormControl,
+    Grid,
+    IconButton,
+    InputAdornment,
+    InputLabel,
+    OutlinedInput,
+    TextField
+} from "@material-ui/core";
 import {Visibility, VisibilityOff} from "@material-ui/icons";
 import {useTranslation} from "react-i18next";
 
-export const SaveUserCredentials = (props) => {
+export const SaveUserCredentials = ({
+                                        onChangedInput,
+                                        credentials,
+                                        showPassword,
+                                        toggleShowPassword
+                                    }) => {
     const { t } = useTranslation('');
-
-    const {
-        onChangedInput,
-        credentials,
-        showPassword,
-        toggleShowPassword
-    } = props;
-
     return (
         <Grid container spacing={2}>
             <Grid item xs={12}>
@@ -36,7 +41,7 @@ export const SaveUserCredentials = (props) => {
                         type={showPassword ? 'text' : 'password'}
                         value={credentials.password}
                         onChange={onChangedInput}
-                        labelWidth={85}
+                        labelWidth={110}
                         fullWidth
                         endAdornment={
                             <InputAdornment position="end">
@@ -64,7 +69,7 @@ export const SaveUserCredentials = (props) => {
                         type={showPassword ? 'text' : 'password'}
                         value={credentials.confirmPassword}
                         onChange={onChangedInput}
-                        labelWidth={200}
+                        labelWidth={150}
                         required
                         fullWidth
                         endAdornment={

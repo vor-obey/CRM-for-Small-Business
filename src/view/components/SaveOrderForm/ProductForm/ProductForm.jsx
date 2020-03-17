@@ -27,7 +27,7 @@ export const ProductForm = ({
                     margin="normal"
                     name='description'
                     onChange={onChangedInput}
-                    value={productDetails.description}
+                    value={productDetails.description || ''}
                 />
             </Grid>
             <Grid item lg={1} sm={2} xs={6} className={classes.select}>
@@ -35,7 +35,7 @@ export const ProductForm = ({
                     id="outlined-select-currency-native"
                     select
                     fullWidth
-                    value={productDetails.currency}
+                    value={productDetails.currency || ''}
                     SelectProps={{
                         native: true,
                     }}

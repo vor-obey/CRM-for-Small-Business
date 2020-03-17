@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from "react";
+import React, {useCallback, useState} from "react";
 import {OrderService} from "../../../services/index";
 import {Link, useParams} from 'react-router-dom';
 import {makeStyles} from "@material-ui/core/styles";
@@ -13,32 +13,18 @@ import isEmpty from 'lodash/isEmpty';
 import {Container} from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import {CustomDialog} from '../../components/CustomDialog/CustomDialog';
+import {useOrderDetailsById} from '../../../utils/customHooks';
 import {useTranslation} from "react-i18next";
 
 const useStyles = makeStyles(orderDetailsStyles);
 
 export const OrderDetailsPage = ({history}) => {
     const {id} = useParams();
-    const [orderDetails, setOrderDetails] = useState({});
+    const orderDetails = useOrderDetailsById(id);
     const [isOpen, setIsOpen] = useState(false);
     const classes = useStyles();
     const dispatch = useDispatch();
     const { t } = useTranslation('');
-
-    useEffect(() => {
-        const fetchOrderById = async (id) => {
-            try {
-                dispatch(setIsLoading(true));
-                const response = await OrderService.findOneById(id);
-                setOrderDetails(response);
-                dispatch(setIsLoading(false));
-            } catch (e) {
-                dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE, success: false}));
-                dispatch(setIsLoading(false))
-            }
-        };
-        fetchOrderById(id);
-    }, [id, dispatch]);
 
     const renderShippingAddress = useCallback(() => {
         if (isEmpty(orderDetails)) {
@@ -46,9 +32,9 @@ export const OrderDetailsPage = ({history}) => {
         }
 
         const {isCustom, address} = orderDetails.shippingDetails.address;
+        const parsedAddress = JSON.parse(address);
 
         if (!isCustom) {
-            const parsedAddress = JSON.parse(address);
             return (
                 <Grid container xl={12}>
                     <Grid item lg={12} xs={12}>
@@ -57,7 +43,7 @@ export const OrderDetailsPage = ({history}) => {
                             margin="normal"
                             name="City"
                             type="text"
-                            value={parsedAddress.city.city}
+                            value={parsedAddress.city.Description}
                             inputProps={{
                                 readOnly: true
                             }}
@@ -70,7 +56,7 @@ export const OrderDetailsPage = ({history}) => {
                             margin="normal"
                             name="warehouse"
                             type="text"
-                            value={parsedAddress.warehouse.warehouse}
+                            value={parsedAddress.warehouse.Description}
                             inputProps={{
                                 readOnly: true
                             }}
@@ -84,11 +70,11 @@ export const OrderDetailsPage = ({history}) => {
             <Grid container>
                 <Grid item xl={12} lg={12} xs={12}>
                     <TextField
-                        label={t('CITY')}
+                        label={t('ADDRESS')}
                         margin="normal"
-                        name="City"
+                        name="Address"
                         type="text"
-                        value={address}
+                        value={parsedAddress}
                         inputProps={{
                             readOnly: true
                         }}
@@ -146,6 +132,16 @@ export const OrderDetailsPage = ({history}) => {
                     onClick={toggleDialog}
                 >
                     {t('DELETE')}
+                </Button>
+                <Button
+                    type='submit'
+                    variant="outlined"
+                    color="primary"
+                    className={classes.button}
+                    component={Link}
+                    to={`/orders/${id}/edit`}
+                >
+                    {t('EDIT')}
                 </Button>
             </Grid>
             <CustomDialog
