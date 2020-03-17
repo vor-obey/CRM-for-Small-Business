@@ -106,7 +106,6 @@ export const OrderDetailsPage = ({history}) => {
         setIsOpen(prevState => !prevState);
     }, []);
 
-    console.log(orderDetails)
 
     return (
         <Container className={classes.root}>

@@ -1,7 +1,7 @@
+import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import {TextField} from '@material-ui/core';
-import React from 'react';
 import {EOrderStatus} from '../../../../constants/statuses';
 import {useTranslation} from "react-i18next";
 
@@ -13,6 +13,7 @@ export const OrderDetails = ({
     const { t } = useTranslation('');
 
     const {customer, manager, shippingDetails: {shippingMethod} = {}, ...order} = orderDetails;
+
     return (
         <Grid container>
             <Grid container item xl={6} lg={6} md={6} sm={6} xs={12} className={classes.wrapper}>
@@ -75,7 +76,7 @@ export const OrderDetails = ({
             </Grid>
             <Grid container item xl={6} lg={6} md={6} sm={6} xs={12} className={classes.wrapper}>
                 <Typography variant='h5'>{t('CUSTOMER')}</Typography>
-                <Grid container item className={classes.customerGrid}>
+                <Grid container item className={orderDetails.shippingDetails && orderDetails.shippingDetails.address.isCustom ? classes.customerTwo : classes.customerGrid }>
                     <Grid item xs={12}>
                         <TextField
                             label={t('USERNAME')}
