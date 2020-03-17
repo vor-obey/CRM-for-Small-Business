@@ -15,7 +15,6 @@ export const OrderListItem = ({
                                   navigationToOrderDetails
                               }) => {
     const {t} = useTranslation();
-    console.log(t(EOrderStatus[order.status]));
     return (
         <ListItem key={order.orderId} disableGutters divider button
                   onClick={() => navigationToOrderDetails(order.orderId)}>
