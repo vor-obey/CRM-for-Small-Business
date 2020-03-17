@@ -6,6 +6,7 @@ import {history} from "../../../utils/history";
 import {useDispatch, useSelector} from "react-redux";
 import {setSnackBarStatus, setIsLoading} from "../../../data/store/auxiliary/auxiliaryActions";
 import {COMMON_ERROR_MESSAGE} from "../../../constants/statuses";
+import {useTranslation} from "react-i18next";
 
 export const EditUser = () => {
     const currentUser = useSelector(state => state.userReducer.currentUser);
@@ -13,6 +14,7 @@ export const EditUser = () => {
     const dispatch = useDispatch();
     const [userDetails, setUserDetails] = useState({});
     const [roles, setRoles] = useState([]);
+    const { t } = useTranslation('');
 
     useEffect(() => {
         const fetchData = async () => {
@@ -50,8 +52,8 @@ export const EditUser = () => {
         <SaveUserForm
             currentUser={currentUser}
             onSubmit={onSubmitHandler}
-            title="Edit User"
-            buttonText="Edit"
+            title={t('EDITUSER')}
+            buttonText={t('EDIT')}
             userDetails={userDetails}
             roles={roles}
             isEdit={true}

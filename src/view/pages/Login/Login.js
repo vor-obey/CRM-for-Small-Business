@@ -5,6 +5,9 @@ import {Avatar, Button, CssBaseline, TextField, Typography, Container, makeStyle
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import {loginStyles} from './Login.style.js';
 import {getCurrentUser, login} from "../../../data/store/user/userThunkAction";
+import {setSnackBarStatus} from '../../../data/store/auxiliary/auxiliaryActions';
+import {COMMON_ERROR_MESSAGE} from '../../../constants/statuses';
+import {useTranslation} from "react-i18next";
 
 
 const useStyles = makeStyles(loginStyles);
@@ -13,6 +16,7 @@ export const Login = (props) => {
     const {history} = props;
     const classes = useStyles();
     const dispatch = useDispatch();
+    const { t } = useTranslation('');
 
     const [userLoginData, setUserLoginData] = useState({
         email: '',
@@ -27,16 +31,18 @@ export const Login = (props) => {
                 [name]: value
             }
         });
-    },[]);
+    }, []);
 
     const onSubmitForm = useCallback(async (event) => {
         event.preventDefault();
-        const {email, password} = userLoginData;
-        await dispatch(login(email, password));
-        await dispatch(getCurrentUser());
-
-        history.push('/dashboard');
-    }, [userLoginData, history, dispatch]);
+        try {
+            const {email, password} = userLoginData;
+            await dispatch(login(email, password));
+            await dispatch(getCurrentUser());
+        } catch (e) {
+            dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE, success: false}));
+        }
+    }, [userLoginData, dispatch]);
 
 
     const handleClick = () => {
@@ -51,7 +57,7 @@ export const Login = (props) => {
                     <LockOutlinedIcon/>
                 </Avatar>
                 <Typography component="h1" variant="h5">
-                    Log in
+                    {t('LOGIN')}
                 </Typography>
                 <form className={classes.form} onSubmit={onSubmitForm}>
                     <TextField
@@ -59,7 +65,7 @@ export const Login = (props) => {
                         margin="normal"
                         required
                         fullWidth
-                        label="Email Address"
+                        label={t('EMAIL')}
                         name="email"
                         autoComplete="email"
                         autoFocus
@@ -72,7 +78,7 @@ export const Login = (props) => {
                         required
                         fullWidth
                         name="password"
-                        label="Password"
+                        label={t('PASSWORD')}
                         type="password"
                         value={userLoginData.password}
                         onChange={onChange}
@@ -84,12 +90,12 @@ export const Login = (props) => {
                         color="primary"
                         className={classes.submit}
                     >
-                        Log In
+                        {t('LOGINBUTTON')}
                     </Button>
                 </form>
                 <Button
                     onClick={handleClick}>
-                    Forgot your Password ?
+                    {t('FORGOTPASS')}
                 </Button>
             </div>
         </Container>

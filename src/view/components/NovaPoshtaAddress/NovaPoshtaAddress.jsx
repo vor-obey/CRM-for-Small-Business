@@ -1,26 +1,59 @@
-import React, {useState, useCallback} from "react";
+import React, {useState, useCallback, useEffect} from "react";
 import OrderService from "../../../services/NovaPoshtaService";
 import {Grid} from "@material-ui/core";
 import {setCity, setWarehouse} from "../../../data/store/autocomplete/autocompleteActions";
 import {useDispatch} from "react-redux";
 import {CustomAutocomplete} from '../Autocomplete/Autocomplete';
 import Typography from "@material-ui/core/Typography";
+import isEmpty from 'lodash/isEmpty';
+import {useTranslation} from "react-i18next";
 
-export const ShippingDetails = ({
-                                    classes,
-                                    breakPoints
-                                }) => {
+export const NovaPoshtaAddress = ({
+                                      classes,
+                                      breakPoints,
+                                      address
+                                  }) => {
     const dispatch = useDispatch();
     const [isCityOpen, setIsCityOpen] = useState(false);
     const [isWarehouseOpen, setIsWarehouseOpen] = useState(false);
     const [cityOptions, setCityOptions] = useState([]);
     const [warehouseOptions, setWarehouseOptions] = useState([]);
     const [isCityLoading, setIsCityLoading] = useState(false);
-    const [warehouseInput, setWarehouseInput] = useState(0);
+    const [warehouseReset, setWarehouseReset] = useState(0);
+    const [cityInput, setCityInput] = useState({
+        Description: ''
+    });
+    const [warehouseInput, setWarehouseInput] = useState({
+        Description: ''
+    });
+    const { t } = useTranslation('');
 
     const fetchCities = useCallback(async (inputValue) => {
         return await OrderService.getNovaPoshtaCities(inputValue);
     }, []);
+
+    const fetchWarehouses = useCallback(async (ref) => {
+       return await OrderService.getNovaPoshtaWarehouses(ref);
+    }, []);
+
+    useEffect(() => {
+        const fetchData = async (address) => {
+            const {city, warehouse} = address;
+            if (city && warehouse) {
+                const citiesResponse = await fetchCities(city.DescriptionRu);
+                setCityOptions(citiesResponse.data);
+                setCityInput(city);
+                dispatch(setCity(city));
+                const warehousesResponse = await fetchWarehouses(city.Ref);
+                setWarehouseOptions(warehousesResponse.data);
+                setWarehouseInput(warehouse);
+                dispatch(setWarehouse(warehouse));
+            }
+        };
+        if (!isEmpty(address)) {
+            fetchData(address);
+        }
+    }, [address, fetchCities, fetchWarehouses, dispatch]);
 
     const onCityInputChangedHandler = useCallback(async event => {
         const {value} = event.target;
@@ -42,9 +75,16 @@ export const ShippingDetails = ({
             dispatch(setWarehouse({}));
             setWarehouseOptions([]);
             setCityOptions([]);
-            setWarehouseInput(prevState => ++prevState);
+            setCityInput({
+                Description: ''
+            });
+            setWarehouseInput({
+                Description: ''
+            });
+            setWarehouseReset(prevState => ++prevState);
         } else {
-            dispatch(setCity({city: item.Description, Ref: item.Ref}));
+            dispatch(setCity(item));
+            setCityInput(item);
             const response = await OrderService.getNovaPoshtaWarehouses(item.Ref);
             setWarehouseOptions(response.data);
         }
@@ -53,8 +93,12 @@ export const ShippingDetails = ({
     const onWarehouseSelectHandler = useCallback(async (item) => {
         if (!item) {
             dispatch(setWarehouse(null));
+            setWarehouseInput({
+                Description: ''
+            });
         } else {
-            dispatch(setWarehouse({warehouse: item.Description, Ref: item.Ref}));
+            dispatch(setWarehouse(item));
+            setWarehouseInput(item);
         }
     }, [dispatch]);
 
@@ -118,8 +162,9 @@ export const ShippingDetails = ({
                     onToggle={toggleCityAutocomplete}
                     onClose={toggleCityAutocomplete}
                     renderOption={renderCityOptions}
-                    inputLabel="Select City"
+                    inputLabel={t('SELECTCITY')}
                     getOptionLabel={getCityOptionLabel}
+                    value={cityInput}
                 />
             </Grid>
             <Grid
@@ -136,10 +181,11 @@ export const ShippingDetails = ({
                     onToggle={toggleWarehouseAutocomplete}
                     onClose={toggleWarehouseAutocomplete}
                     renderOption={renderWarehouseOptions}
-                    inputLabel='Select Warehouse'
+                    inputLabel={t('SELECTWAREHOUSE')}
                     getOptionLabel={getWarehouseOptionLabel}
                     disabled={warehouseOptions.length === 0}
-                    key={warehouseInput}
+                    key={warehouseReset}
+                    value={warehouseInput}
                 />
             </Grid>
         </>

@@ -19,15 +19,19 @@ import {isEmpty} from 'lodash';
 import {UserDetails} from './UserDetails/UserDetails';
 import {setIsLoading, setSnackBarStatus} from "../../../data/store/auxiliary/auxiliaryActions";
 import {COMMON_ERROR_MESSAGE} from "../../../constants/statuses";
+import {useTranslation} from "react-i18next";
 
 const useStyles = makeStyles(userDetailsStyle);
 
 export const UserDetailsPage = ({history}) => {
+
     const dispatch = useDispatch();
     const {id} = useParams();
     const classes = useStyles();
     const [isShow, setIsShow] = useState(false);
     const [userDetails, setUserDetails] = useState({});
+    const { t } = useTranslation('');
+
 
     const handleOpenDialog = useCallback(() => {
         setIsShow(prevState => !prevState);
@@ -78,7 +82,7 @@ export const UserDetailsPage = ({history}) => {
                 <Grid container item xs={12} className={classes.userGrid}>
                     <Grid item xs={12}>
                         <Typography variant="h5" className={classes.title}>
-                            User Details
+                            {t('USERDETAILS')}
                         </Typography>
                     </Grid>
                     <Grid container item xs={12}>
@@ -105,11 +109,12 @@ export const UserDetailsPage = ({history}) => {
                 </Grid>
             </Paper>
             <CustomDialog
-                title="Delete User"
-                children="Are you sure you want to delete the user without the possibility of recovery?"
+                title={t('DELETEUSER')}
+                children={t('DELETEUSERTEXT')}
                 isShow={isShow}
                 onClose={handleOpenDialog}
-                closeText="Disagree"
+                closeText={t('DISAGREE')}
+                actionText={t('AGREE')}
                 onAction={handleClickDeleteUser}
             />
         </Container>

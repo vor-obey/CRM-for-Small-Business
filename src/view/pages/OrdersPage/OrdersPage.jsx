@@ -11,6 +11,7 @@ import {ordersPageStyles} from "./OrdersPage.style";
 import {setIsLoading, setSnackBarStatus} from "../../../data/store/auxiliary/auxiliaryActions";
 import {COMMON_ERROR_MESSAGE} from "../../../constants/statuses";
 import isEmpty from 'lodash/isEmpty';
+import {useTranslation} from "react-i18next";
 
 const useStyles = makeStyles(ordersPageStyles);
 
@@ -19,6 +20,7 @@ export const OrdersPage = ({history}) => {
    const dispatch = useDispatch();
    const minWidth350 = useMediaQuery('(min-width:350px)');
    const classes = useStyles();
+   const { t } = useTranslation('');
 
    useEffect(() => {
       const fetchOrders = async () => {
@@ -63,13 +65,13 @@ export const OrdersPage = ({history}) => {
             <ListItem disableGutters divider>
                <Grid container>
                   <Grid item xs={5}>
-                     <Typography>Description</Typography>
+                     <Typography>{t('DESCRIPTION')}</Typography>
                   </Grid>
-                  <Grid item xl={5} lg={5} md={5} sm={5} xs={4}>
-                     <Typography>Customer</Typography>
+                  <Grid item xs={5}>
+                     <Typography>{t('CUSTOMER')}</Typography>
                   </Grid>
-                  <Grid item xl={2} lg={2} md={2} sm={2} xs={3} className={classes.textStatus}>
-                     <Typography>Status</Typography>
+                  <Grid item xs={2} className={classes.textStatus}>
+                     <Typography>{t('STATUS')}</Typography>
                   </Grid>
                </Grid>
             </ListItem>

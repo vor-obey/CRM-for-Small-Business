@@ -1,5 +1,6 @@
 import React from "react";
 import {Divider, Grid, TextField, Typography} from "@material-ui/core";
+import {useTranslation} from "react-i18next";
 
 export const ProductForm = ({
                                 classes,
@@ -7,11 +8,12 @@ export const ProductForm = ({
                                 onChangedInput,
                                 productDetails
                             }) => {
+    const { t } = useTranslation('');
     return (
         <>
             <Grid item xl={12} xs={12}>
                 <Typography className={classes.heading} variant='h6'>
-                    Product Details
+                    {t('PRODUCTDETAILS')}
                 </Typography>
                 <Divider/>
             </Grid>
@@ -20,12 +22,12 @@ export const ProductForm = ({
                     required
                     fullWidth
                     autoFocus
-                    label='Product'
+                    label={t('PRODUCT')}
                     variant="outlined"
                     margin="normal"
                     name='description'
                     onChange={onChangedInput}
-                    value={productDetails.description}
+                    value={productDetails.description || ''}
                 />
             </Grid>
             <Grid item lg={1} sm={2} xs={6} className={classes.select}>
@@ -33,7 +35,7 @@ export const ProductForm = ({
                     id="outlined-select-currency-native"
                     select
                     fullWidth
-                    value={productDetails.currency}
+                    value={productDetails.currency || ''}
                     SelectProps={{
                         native: true,
                     }}

@@ -17,12 +17,14 @@ import PlusIcon from '@material-ui/icons/PlusOne';
 import MenuIcon from '@material-ui/icons/Menu';
 import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
 import { drawerStyle } from "./Drawer.style";
+import {useTranslation} from "react-i18next";
 
 function Drawer(props) {
     const { classes } = props;
     const [state, setState] = React.useState({
         left: false,
     });
+    const { t } = useTranslation('');
 
     const toggleDrawer = (side, open) => event => {
         if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
@@ -46,7 +48,7 @@ function Drawer(props) {
                           to="/dashboard"
                           selected={isActive('/')}>
                     <ListItemIcon><HomeIcon /></ListItemIcon>
-                    <ListItemText>Home</ListItemText>
+                    <ListItemText>{t('HOME')}</ListItemText>
                 </ListItem>
                 <Divider variant="inset" component="li" />
                 <ListItem button
@@ -54,7 +56,7 @@ function Drawer(props) {
                           to="/create-order"
                           selected={isActive('/#')}>
                     <ListItemIcon><PlusIcon /></ListItemIcon>
-                    <ListItemText>Create order</ListItemText>
+                    <ListItemText>{t('CREATEORDER')}</ListItemText>
                 </ListItem>
                 <Divider variant="inset" component="li" />
                 <ListItem button
@@ -62,7 +64,7 @@ function Drawer(props) {
                           to="/customers"
                           selected={isActive('/customers')}>
                     <ListItemIcon><AssignmentIndIcon /></ListItemIcon>
-                    <ListItemText>Customers</ListItemText>
+                    <ListItemText>{t('CUSTOMERS')}</ListItemText>
                 </ListItem>
                 <Divider variant="inset" component="li" />
                 <ListItem button
@@ -70,14 +72,14 @@ function Drawer(props) {
                           to="/users"
                           selected={isActive('/users')}>
                     <ListItemIcon><PeopleIcon /></ListItemIcon>
-                    <ListItemText>Users</ListItemText>
+                    <ListItemText>{t('USERS')}</ListItemText>
                 </ListItem>
                 <ListItem button
                           component={Link}
                           to="/orders"
                           selected={isActive('/orders')}>
                     <ListItemIcon><InsertDriveFileIcon /></ListItemIcon>
-                    <ListItemText>Orders</ListItemText>
+                    <ListItemText>{t('ORDERS')}</ListItemText>
                 </ListItem>
             </List>
         </div>

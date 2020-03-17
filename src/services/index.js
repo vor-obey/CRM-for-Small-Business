@@ -5,6 +5,7 @@ import CustomerService from './CustomerService';
 import RoleService from "./RoleService";
 import OrganizationService from './OrganizationService';
 import CodeService from "./CodeService";
+import ShippingMethodService from "./ShippingMethodService";
 
 export {
     StorageService,
@@ -14,4 +15,5 @@ export {
     RoleService,
     OrganizationService,
     CodeService,
+    ShippingMethodService,
 }

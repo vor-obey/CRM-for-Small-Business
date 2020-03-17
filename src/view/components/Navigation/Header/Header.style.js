@@ -11,4 +11,16 @@ export const headerStyle = (theme => ({
     toolbar: {
         justifyContent: 'space-between',
     },
+    user: {
+        display: 'flex',
+        flexDirection: 'row',
+    },
+    flags: {
+        outlinedRoot: {
+            border: 'none',
+        },
+        MuiSelectIcon: {
+            display: 'none',
+        }
+    }
 }));

@@ -46,4 +46,7 @@ export const orderDetailsStyles = ((theme) => ({
    managerContainer: {
       paddingBottom: theme.spacing(2)
    },
+   button: {
+      margin: '0 5px 0 5px'
+   }
 }));

@@ -5,9 +5,10 @@ import {CustomerService} from "../../../services";
 import SourcesService from "../../../services/SourcesService";
 import {useDispatch} from "react-redux";
 import {setSnackBarStatus, setIsLoading} from "../../../data/store/auxiliary/auxiliaryActions";
+import {useTranslation} from "react-i18next";
 
 export const EditCustomer = ({history}) => {
-
+    const { t } = useTranslation('');
     const {id} = useParams();
     const dispatch = useDispatch();
     const [customerDetails, setCustomerDetails] = useState({});
@@ -71,8 +72,8 @@ export const EditCustomer = ({history}) => {
         <SaveCustomerForm
             onSubmit={onSubmitHandler}
             renderSource={renderSources}
-            titleText="Edit Customer"
-            submitText="Edit"
+            titleText={t('EDITCUSTOMER')}
+            submitText={t('EDIT')}
             details={customerDetails}
             onChange={onChangeHandler}
         />

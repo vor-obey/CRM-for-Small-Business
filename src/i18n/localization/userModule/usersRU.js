@@ -1,0 +1,15 @@
+export const UsersRU = {
+    FIRSTNAME: 'Имя',
+    LASTNAME: 'Фамилия',
+    MIDDLENAME: 'Отчество',
+    EMAIL: 'E-mail',
+    NUMBER: 'Контактный номер',
+    ROLE: 'Роль',
+    PASSWORD: 'Пароль',
+    RPASSWORD: 'Повторите пароль',
+    CREATEUSER: 'Создать пользователя',
+    USERDETAILS: 'Данные пользователя',
+    DELETEUSER: 'Удалить пользователя',
+    DELETEUSERTEXT: 'Вы уверены, что хотите удалить пользователя без возможности восстановления?',
+    EDITUSER: 'Редактировать пользователя',
+};
