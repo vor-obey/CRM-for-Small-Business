@@ -7,10 +7,10 @@ import {
     Typography,
 } from "@material-ui/core";
 
-import {CustomAutocomplete} from "../../../components/Autocomplete/Autocomplete";
+import {CustomAutocomplete} from "../../Autocomplete/Autocomplete";
 import PersonAddIcon from "@material-ui/icons/PersonAdd";
-import {CustomModal} from "../../../components/CustomModal/CustomModal";
-import {CreateCustomer} from "../../CreateCustomer/CreateCustomer";
+import {CustomModal} from "../../CustomModal/CustomModal";
+import {CreateCustomer} from "../../../pages/CreateCustomer/CreateCustomer";
 import isEmpty from 'lodash/isEmpty';
 
 export const CustomerForm = ({
