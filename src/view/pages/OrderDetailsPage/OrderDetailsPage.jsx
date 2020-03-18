@@ -43,7 +43,7 @@ export const OrderDetailsPage = ({history}) => {
                             margin="normal"
                             name="City"
                             type="text"
-                            value={parsedAddress.address.city.Description}
+                            value={parsedAddress.city.Description}
                             inputProps={{
                                 readOnly: true
                             }}
@@ -56,7 +56,7 @@ export const OrderDetailsPage = ({history}) => {
                             margin="normal"
                             name="warehouse"
                             type="text"
-                            value={parsedAddress.address.warehouse.Description}
+                            value={parsedAddress.warehouse.Description}
                             inputProps={{
                                 readOnly: true
                             }}
