@@ -12,11 +12,13 @@ export const ordersPageStyles = ((theme) => ({
         overflowWrap: 'break-word'
     },
     customerGrid: {
+        display: 'flex',
+        alignItems: 'center',
         overflowWrap: 'break-word'
     },
     orderGrid: {
-        overflowWrap: 'break-word',
-        hyphens: 'auto'
+        hyphens: 'auto',
+        overflowWrap: 'break-word'
     },
     textStatus: {
         textAlign: 'center',
