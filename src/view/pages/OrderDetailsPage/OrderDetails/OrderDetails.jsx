@@ -76,7 +76,7 @@ export const OrderDetails = ({
             </Grid>
             <Grid container item xl={6} lg={6} md={6} sm={6} xs={12} className={classes.wrapper}>
                 <Typography variant='h5'>{t('CUSTOMER')}</Typography>
-                <Grid container item className={orderDetails.shippingDetails && orderDetails.shippingDetails.address.isCustom ? classes.customerTwo : classes.customerGrid }>
+                <Grid container item className={orderDetails.shippingDetails && orderDetails.shippingDetails.address.isCustom ? null : classes.customerGrid }>
                     <Grid item xs={12}>
                         <TextField
                             label={t('USERNAME')}
