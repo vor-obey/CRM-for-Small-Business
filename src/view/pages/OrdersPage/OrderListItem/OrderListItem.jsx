@@ -4,7 +4,6 @@ import {
     ListItem,
 } from "@material-ui/core";
 
-import {Typography} from "@material-ui/core";
 import ListItemText from "@material-ui/core/ListItemText";
 import {EOrderStatus} from '../../../../constants/statuses';
 import {useTranslation} from 'react-i18next';
@@ -27,7 +26,9 @@ export const OrderListItem = ({
                     <ListItemText primary={order.customer.name} secondary={minWidth350 && order.customer.contactEmail}/>
                 </Grid>
                 <Grid item xl={2} lg={2} md={2} sm={2} xs={3} className={classes.statusGrid}>
-                    <ListItemText>{t(EOrderStatus[order.status])}</ListItemText>
+                    <ListItemText className={classes.textStatus}>
+                        {t(EOrderStatus[order.status])}
+                    </ListItemText>
                 </Grid>
             </Grid>
         </ListItem>

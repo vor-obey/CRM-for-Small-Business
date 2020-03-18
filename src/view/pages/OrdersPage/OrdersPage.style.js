@@ -15,9 +15,11 @@ export const ordersPageStyles = ((theme) => ({
         overflowWrap: 'break-word'
     },
     orderGrid: {
-        overflowWrap: 'break-word'
+        overflowWrap: 'break-word',
+        hyphens: 'auto'
     },
     textStatus: {
         textAlign: 'center',
+        wordBreak: 'break-all'
     },
 }));
