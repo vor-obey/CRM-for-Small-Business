@@ -53,7 +53,7 @@ export const UsersPage = ({history}) => {
         if (!userList || !userList.length) {
             return null;
         }
-        return filter(userList, inputFilter).map((user) => {
+        return filter(userList, inputFilter, ['role']).map((user) => {
                 return (
                     <UserListItem
                         key={user.userId}
