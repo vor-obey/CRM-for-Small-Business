@@ -62,9 +62,9 @@ export const SaveUserCredentials = ({
             </Grid>
             <Grid item sm={6} xs={12}>
                 <FormControl variant="outlined" required fullWidth>
-                    <InputLabel htmlFor="outlined-adornment-password">{t('RPASSWORD')}</InputLabel>
+                    <InputLabel htmlFor="outlined-adornment-password">{t('REPEAT_PASSWORD')}</InputLabel>
                     <OutlinedInput
-                        label={t('RPASSWORD')}
+                        label={t('REPEAT_PASSWORD')}
                         name="confirmPassword"
                         type={showPassword ? 'text' : 'password'}
                         value={credentials.confirmPassword}

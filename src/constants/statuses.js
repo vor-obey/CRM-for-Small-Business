@@ -8,3 +8,9 @@ export const EOrderStatus = {
     4: 'COMPLETED',
     5: 'CANCELLED'
 };
+export const ROLES = {
+    'Admin': 'ROLE_ADMIN',
+    'Manager': 'ROLE_MANAGER',
+    'Moderator': 'ROLE_MODERATOR',
+};
+

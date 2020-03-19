@@ -15,7 +15,7 @@ export const Graph = () => {
             data: [4, 5, 1, 10, 32, 2, 12]
          },
          {
-            label: t('NEWORDERS'),
+            label: t('NEW_ORDERS'),
             backgroundColor: 'rgba(0, 0,  255, 0.3)',
             data: [14, 15, 21, 0, 12, 4, 2]
          },

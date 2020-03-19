@@ -53,7 +53,7 @@ export const UsersPage = ({history}) => {
         if (!userList || !userList.length) {
             return null;
         }
-        return filter(userList, inputFilter).map((user) => {
+        return filter(userList, inputFilter, ['role']).map((user) => {
                 return (
                     <UserListItem
                         key={user.userId}
@@ -78,12 +78,12 @@ export const UsersPage = ({history}) => {
                     <Grid container className={classes.userListContainer}>
                         <Grid item xs={4} md={2}>
                             <Typography className={classes.userItemTitle}>
-                                {t('FIRSTNAME')}
+                                {t('FIRST_NAME')}
                             </Typography>
                         </Grid>
                         <Grid item xs={4} md={2}>
                             <Typography className={classes.userItemTitle}>
-                                {t('LASTNAME')}
+                                {t('LAST_NAME')}
                             </Typography>
                         </Grid>
                         <Hidden smDown>
