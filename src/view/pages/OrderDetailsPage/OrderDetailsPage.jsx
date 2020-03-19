@@ -27,14 +27,14 @@ export const OrderDetailsPage = ({history}) => {
    const {t} = useTranslation('');
 
    const renderShippingAddress = useCallback(() => {
-      if (isEmpty(orderDetails.shippingDetails)) {
+      if (isEmpty(orderDetails)) {
          return null;
       }
 
       const {isCustom, address} = orderDetails.shippingDetails.address;
+      const parsedAddress = JSON.parse(address);
 
-      if (!isCustom) {
-         const parsedAddress = JSON.parse(address);
+       if (!isCustom) {
          return (
             <Grid container xl={12}>
                <Grid item lg={12} xs={12}>
@@ -74,7 +74,7 @@ export const OrderDetailsPage = ({history}) => {
                   margin="normal"
                   name="Address"
                   type="text"
-                  value={address}
+                  value={parsedAddress}
                   inputProps={{
                      readOnly: true
                   }}
