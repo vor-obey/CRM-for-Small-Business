@@ -30,12 +30,12 @@ export const orderDetailsStyles = ((theme) => ({
         paddingRight: theme.spacing(2)
     },
     inputManager: {
-      paddingRight: theme.spacing(2),
+        paddingRight: theme.spacing(2),
     },
     managerGrid: {
-      marginTop: theme.spacing(2)
+        marginTop: theme.spacing(2)
     },
     button: {
-        margin: '0 5px 0 5px'
-    }
+        margin: '5px 5px 0 5px'
+    },
 }));
