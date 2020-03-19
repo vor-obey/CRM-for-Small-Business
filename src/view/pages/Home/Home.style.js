@@ -48,6 +48,21 @@ export const HomeStyles = (theme => ({
          marginTop: theme.spacing(1),
       },
    },
+   cardAction: {
+      width: 300,
+      height: 250,
+      [theme.breakpoints.down('md')]: {
+         width: 250,
+         height: 200
+      },
+      [theme.breakpoints.down('sm')]: {
+         width: '95%',
+         height: 200,
+      },
+      [theme.breakpoints.down('xs')]: {
+         width: '95%',
+      },
+   },
    chat: {
       width: 300,
       height: 395,

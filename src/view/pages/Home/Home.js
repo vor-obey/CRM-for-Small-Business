@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useCallback, useEffect, useState} from "react";
 
 import {
    Card,
@@ -7,81 +7,117 @@ import {
    CardHeader,
    makeStyles,
    Typography,
+   CardActionArea,
    CardContent,
 } from "@material-ui/core";
 
 import {HomeStyles} from "./Home.style";
 import {Graph} from '../../components/Graph/Graph'
 import {useTranslation} from "react-i18next";
+import {useDispatch} from "react-redux";
+import {setIsLoading, setSnackBarStatus} from "../../../data/store/auxiliary/auxiliaryActions";
+import {OrderService} from "../../../services";
+import {COMMON_ERROR_MESSAGE} from "../../../constants/statuses";
 
 const useStyles = makeStyles(HomeStyles);
 
 export const Home = () => {
-   const classes = useStyles();
-   const { t } = useTranslation('');
+      const [orderArray, setOrderArray] = useState([]);
 
-   return (
-      <Container className={classes.container}> 
-         <Grid  container className={classes.root}>
-            <Grid item xl={5} lg={5} md={5} sm={6} xs={6} className={classes.grid}>
-               <Card className={classes.card}>
-                  <CardContent>
-                     <Typography variant='h6' className={classes.typography}>
-                        {t('NEWORDERS')}
-                     </Typography>
-                     <Typography variant='h4'>
-                        6
-                     </Typography>
-                  </CardContent>
-               </Card>
+      const classes = useStyles();
+      const dispatch = useDispatch();
+      const {t} = useTranslation('');
+
+      useEffect(() => {
+         const fetchOrders = async () => {
+            try {
+               dispatch(setIsLoading(true));
+               const response = await OrderService.list();
+               setOrderArray(response);
+               dispatch(setIsLoading(false));
+            } catch (e) {
+               dispatch(setIsLoading(false));
+               dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE, success: false}))
+            }
+         };
+         fetchOrders();
+      }, [dispatch]);
+
+      const filterStatusOrderArr = useCallback((status) => {
+         const statusOrder = orderArray.filter(order => order.status === status);
+         return <div>{statusOrder.length}</div>;
+      }, [orderArray]);
+
+
+      return (
+         <Container className={classes.container}>
+            <Grid container className={classes.root}>
+               <Grid item xl={5} lg={5} md={5} sm={6} xs={6} className={classes.grid}>
+                  <Card className={classes.card}>
+                     <CardActionArea className={classes.cardAction}>
+                        <CardContent>
+                           <Typography variant='h6' className={classes.typography}>
+                              {t('NEWORDERS')}
+                           </Typography>
+                           <Typography variant='h4'>
+                              {filterStatusOrderArr(0)}
+                           </Typography>
+                        </CardContent>
+                     </CardActionArea>
+                  </Card>
+               </Grid>
+               <Grid item xl={5} lg={5} md={5} sm={6} xs={6} className={classes.grid}>
+                  <Card className={classes.card}>
+                     <CardActionArea className={classes.cardAction}>
+                        <CardContent>
+                           <Typography variant='h6' className={classes.typography}>
+                              {t('INPROGRESS')}
+                           </Typography>
+                           <Typography variant='h4'>
+                              {filterStatusOrderArr(1)}
+                           </Typography>
+                        </CardContent>
+                     </CardActionArea>
+                  </Card>
+               </Grid>
+               <Grid item xl={2} lg={2} md={2} sm={6} xs={6} className={classes.grid}>
+                  <Card className={classes.card}>
+                     <CardActionArea className={classes.cardAction}>
+                        <CardContent>
+                           <Typography variant='h6' className={classes.typography}>
+                              {t('READYTOSHIPPING')}
+                           </Typography>
+                           <Typography variant='h4'>
+                              {filterStatusOrderArr(2)}
+                           </Typography>
+                        </CardContent>
+                     </CardActionArea>
+                  </Card>
+               </Grid>
+               <Grid item lg={5} md={5} sm={6} xs={6} className={classes.gridChat}>
+                  <Card className={classes.chat}>
+                     <CardHeader
+                        title={t('CHAT')}
+                        className={classes.header}
+                     />
+                     <CardContent>
+                     </CardContent>
+                  </Card>
+               </Grid>
+               <Grid item lg={7} md={7} sm={12} xs={12} className={classes.gridGraph}>
+                  <Card className={classes.graph}>
+                     <CardHeader
+                        title={t('STATISTIC')}
+                        className={classes.header}
+                     />
+                     <CardContent>
+                        <Graph/>
+                     </CardContent>
+                  </Card>
+               </Grid>
             </Grid>
-            <Grid item xl={5} lg={5} md={5} sm={6} xs={6} className={classes.grid}>
-               <Card className={classes.card}>
-                  <CardContent> 
-                     <Typography variant='h6' className={classes.typography}>
-                        {t('INPROGRESS')}
-                     </Typography>
-                     <Typography variant='h4'>
-                        10
-                     </Typography>
-                  </CardContent>
-               </Card>
-            </Grid>
-            <Grid item xl={2} lg={2} md={2} sm={6} xs={6} className={classes.grid}>
-               <Card className={classes.card}>
-                  <CardContent >
-                     <Typography variant='h6' className={classes.typography}>
-                        {t('READYTOSHIPPING')}
-                     </Typography>
-                     <Typography variant='h4'>
-                        4 
-                     </Typography>
-                  </CardContent>
-               </Card>
-            </Grid>
-            <Grid item lg={5} md={5} sm={6} xs={6} className={classes.gridChat}>
-               <Card className={classes.chat}>
-                  <CardHeader 
-                     title={t('CHAT')}
-                     className={classes.header}
-                  />
-                  <CardContent>
-                  </CardContent>
-               </Card>
-            </Grid>
-            <Grid item lg={7} md={7} sm={12} xs={12} className={classes.gridGraph}>
-               <Card className={classes.graph}>
-                  <CardHeader 
-                     title={t('STATISTIC')}
-                     className={classes.header}
-                  />
-                  <CardContent>
-                     <Graph />
-                  </CardContent>
-               </Card>
-            </Grid>
-         </Grid>
-      </Container>
-   );
-};
+         </Container>
+      );
+   }
+;
 
