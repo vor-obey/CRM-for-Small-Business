@@ -22,7 +22,7 @@ export const OrderListItem = ({
                 <Grid item xl={5} lg={5} md={5} sm={5} xs={4} className={classes.orderGrid}>
                     <ListItemText primary={order.description} secondary={order.currency}/>
                 </Grid>
-                <Grid item xs={4} className={classes.customerGrid}>
+                <Grid item xl={5} lg={5} md={5} sm={5} xs={4} className={classes.customerGrid}>
                     <ListItemText primary={order.customer.name} secondary={minWidth350 && order.customer.contactEmail}/>
                 </Grid>
                 <Grid item xl={2} lg={2} md={2} sm={2} xs={4} className={classes.statusGrid}>
