@@ -20,8 +20,15 @@ export const ordersPageStyles = ((theme) => ({
         display: 'flex',
         flexWrap: 'wrap',
         justifyContent: 'flex-end',
+        [theme.breakpoints.down('xs')]: {
+            justifyContent: 'center',
+        }
+    },
+    search: {
+        width: '300px',
     },
     selector: {
-        width: '150px',
+        width: '200px',
+        paddingTop: '2px',
     },
 }));

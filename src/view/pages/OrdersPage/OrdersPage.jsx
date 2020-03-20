@@ -75,6 +75,7 @@ export const OrdersPage = ({history}) => {
                         classes={classes}
                         label={t('SORT_BY_STATUS')}
                         value={select}
+                        statuses={true}
                         onChange={onChangeSelect}
                     />
         )
