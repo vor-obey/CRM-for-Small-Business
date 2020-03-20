@@ -14,16 +14,21 @@ import isEmpty from 'lodash/isEmpty';
 import {useTranslation} from "react-i18next";
 import {filter} from "../../../utils/helpers";
 import {FilterInput} from "../../components/Filter/FilterInput/FilterInput";
+import {ListSelector} from "../../components/ListSelector/ListSelector";
 
 const useStyles = makeStyles(ordersPageStyles);
 
 export const OrdersPage = ({history}) => {
+    const classes = useStyles();
+    const dispatch = useDispatch();
+    const {t} = useTranslation('');
+
+    const minWidth350 = useMediaQuery('(min-width:350px)');
+
     const [orderList, setOrderList] = useState([]);
     const [inputFilter, setInputFilter] = useState('');
-    const dispatch = useDispatch();
-    const minWidth350 = useMediaQuery('(min-width:350px)');
-    const classes = useStyles();
-    const {t} = useTranslation('');
+    const [select, setSelect] = useState('');
+
 
     useEffect(() => {
         const fetchOrders = async () => {
@@ -49,11 +54,37 @@ export const OrdersPage = ({history}) => {
         setInputFilter(value)
     }, []);
 
+    const onChangeSelect = useCallback((event) => {
+        const {value} = event.target;
+        setSelect(value);
+    }, []);
+
+    const filterStatus= useCallback(() => {
+        let filteredStatus = filter(orderList, inputFilter, ['customer']);
+
+        if (!select) {
+            return filteredStatus;
+        }
+
+        return filter(filteredStatus, select, null, 'status');
+    }, [inputFilter, select, orderList]);
+
+    const renderSelect = useCallback(() => {
+        return (
+            <ListSelector
+                        classes={classes}
+                        label={t('SORT_BY_STATUS')}
+                        value={select}
+                        onChange={onChangeSelect}
+                    />
+        )
+    }, [classes, t, select, onChangeSelect]);
+
     const renderRows = useCallback(() => {
         if (isEmpty(orderList)) {
             return null;
         }
-        return filter(orderList, inputFilter, ['customer']).map((order) => {
+        return filterStatus().map((order) => {
             return (
                 <OrderListItem
                     key={order.orderId}
@@ -64,17 +95,20 @@ export const OrdersPage = ({history}) => {
                 />
             );
         })
-    }, [orderList, navigationToOrderDetails, minWidth350, classes, inputFilter]);
-
+    }, [orderList, navigationToOrderDetails, filterStatus,  minWidth350, classes]);
 
     return (
         <Container className={classes.root}>
-            <FilterInput
-                className={classes.search}
-                value={inputFilter}
-                label={t('FILTER')}
-                onChange={onChangeHandler}
-            />
+            <Grid className={classes.searchBox}>
+                <FilterInput
+                    className={classes.search}
+                    value={inputFilter}
+                    label={t('FILTER')}
+                    onChange={onChangeHandler}
+                />
+                {renderSelect()}
+            </Grid>
+
             <List>
                 <ListItem disableGutters divider>
                     <Grid container>

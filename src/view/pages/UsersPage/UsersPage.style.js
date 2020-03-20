@@ -36,10 +36,17 @@ export const usersPageStyle = (theme =>  ({
         display: 'block',
         textAlign: 'left',
     },
-
     userItemTitle: {
         paddingRight: '4px',
         textAlign: 'left',
         variant: 'body1',
+    },
+    searchBox: {
+        display: 'flex',
+        flexWrap: 'wrap',
+        justifyContent: 'flex-end',
+    },
+    selector: {
+        width: '150px',
     },
 }));

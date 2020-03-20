@@ -5,6 +5,7 @@ export const UsersRU = {
     EMAIL: 'E-mail',
     NUMBER: 'Контактный номер',
     ROLE: 'Роль',
+    SORT_BY_ROLE: 'Сортировать по роли',
     PASSWORD: 'Пароль',
     REPEAT_PASSWORD: 'Повторите пароль',
     CREATE_USER: 'Создать пользователя',
