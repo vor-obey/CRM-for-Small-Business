@@ -36,7 +36,7 @@ export const filter = (data, params, nestedObjectsKeys) => {
                 return false;
             }
 
-            if (!Array.isArray(property) && typeof property === "object" && nestedObjectsKeys.includes(key)) {
+            if (!Array.isArray(property) && typeof property === "object" && nestedObjectsKeys && nestedObjectsKeys.includes(key)) {
                 for (let propertyKey in property) {
                     if (property.hasOwnProperty(propertyKey) && property[propertyKey].toString().toLowerCase().indexOf(params.toLowerCase().toString()) !== -1) {
                         return true;
