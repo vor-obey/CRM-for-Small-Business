@@ -7,7 +7,6 @@ export const ListSelector = ({
                                  classes,
                                  label,
                                  roles,
-                                 orderList,
                                  onChange,
                                  value
                              }) => {
@@ -22,21 +21,22 @@ export const ListSelector = ({
     }, [roles, t]);
 
     const renderStatusOptions = useCallback(() => {
-        return orderList.map((order) => {
+        const entries = Object.entries(EOrderStatus);
+        return entries.map(([key, value]) => {
             return (
-                <option key={order.orderId} value={order.orderId}>{t(EOrderStatus[order.status])}</option>
+                <option key={key} value={key}>{t(value)}</option>
             )
         });
-    }, [orderList, t]);
+    }, [t]);
 
-    const renderSelect = useCallback(() => {
-        if (roles) {
-            return renderRoleOptions();
-        }
-        if (orderList) {
-            return renderStatusOptions();
-        }
-    }, [roles, orderList, renderRoleOptions, renderStatusOptions]);
+    // const renderSelect = useCallback(() => {
+    //     if (roles) {
+    //         return renderRoleOptions();
+    //     }
+    //     if (orderList) {
+    //         return renderStatusOptions();
+    //     }
+    // }, [roles, orderList, renderRoleOptions, renderStatusOptions]);
 
     return (
         <FormControl className={classes.selector}>
@@ -46,7 +46,7 @@ export const ListSelector = ({
                 onChange={onChange}
                 value={value}>
                 <option value=""/>
-                {renderSelect()}
+                {renderStatusOptions()}
             </Select>
         </FormControl>
     )

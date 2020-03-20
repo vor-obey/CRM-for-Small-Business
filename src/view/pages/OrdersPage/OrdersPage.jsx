@@ -74,7 +74,6 @@ export const OrdersPage = ({history}) => {
             <ListSelector
                         classes={classes}
                         label={t('SORT_BY_STATUS')}
-                        orderList={orderList}
                         value={select}
                         onChange={onChangeSelect}
                     />
