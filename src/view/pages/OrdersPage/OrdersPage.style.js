@@ -15,5 +15,13 @@ export const ordersPageStyles = ((theme) => ({
     },
     textStatus: {
         textAlign: 'center'
-    }
+    },
+    searchBox: {
+        display: 'flex',
+        flexWrap: 'wrap',
+        justifyContent: 'flex-end',
+    },
+    selector: {
+        width: '150px',
+    },
 }));

@@ -1,12 +1,13 @@
 import React, {useCallback} from 'react';
 import {FormControl, InputLabel, Select} from '@material-ui/core';
-import {ROLES} from "../../../constants/statuses";
+import {ROLES, EOrderStatus} from "../../../constants/statuses";
 import {useTranslation} from "react-i18next";
 
 export const ListSelector = ({
                                  classes,
                                  label,
                                  roles,
+                                 orderList,
                                  onChange,
                                  value
                              }) => {
@@ -20,6 +21,22 @@ export const ListSelector = ({
         });
     }, [roles, t]);
 
+    const renderStatusOptions = useCallback(() => {
+        return orderList.map((order) => {
+            return (
+                <option key={order.orderId} value={order.orderId}>{t(EOrderStatus[order.status])}</option>
+            )
+        });
+    }, [orderList, t]);
+
+    const renderSelect = useCallback(() => {
+        if (roles) {
+            return renderRoleOptions();
+        }
+        if (orderList) {
+            return renderStatusOptions();
+        }
+    }, [roles, orderList, renderRoleOptions, renderStatusOptions]);
 
     return (
         <FormControl className={classes.selector}>
@@ -27,13 +44,9 @@ export const ListSelector = ({
             <Select
                 native
                 onChange={onChange}
-                value={value}
-                name="roleId"
-                inputProps={{
-                    name: 'roleId',
-                }}>
+                value={value}>
                 <option value=""/>
-                {renderRoleOptions()}
+                {renderSelect()}
             </Select>
         </FormControl>
     )

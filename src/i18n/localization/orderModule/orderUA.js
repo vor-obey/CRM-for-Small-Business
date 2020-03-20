@@ -13,6 +13,7 @@ export const orderUA = {
     DESCRIPTION: 'Опис',
     ORDER: 'Замовлення',
     STATUS: 'Статус',
+    SORT_BY_STATUS: 'Сортувати за статусом',
     NEW: 'Новий',
     CANCELLED: 'Скасован',
     SHIPPING: 'Відправляється',

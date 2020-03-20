@@ -14,6 +14,7 @@ export const orderEN = {
     DESCRIPTION: 'Description',
     ORDER: 'Order',
     STATUS: 'Status',
+    SORT_BY_STATUS: 'Sort by status',
     NEW: 'New',
     CANCELLED: 'Cancelled',
     COMPLETED: 'Completed',
