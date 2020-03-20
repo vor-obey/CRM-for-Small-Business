@@ -60,13 +60,13 @@ export const OrdersPage = ({history}) => {
     }, []);
 
     const filterStatus= useCallback(() => {
-        let filteredStatus = filter(orderList, inputFilter);
+        let filteredStatus = filter(orderList, inputFilter, ['customer']);
 
         if (!select) {
             return filteredStatus;
         }
 
-        return filter(filteredStatus, select, ['customer']);
+        return filter(filteredStatus, select, null, 'status');
     }, [inputFilter, select, orderList]);
 
     const renderSelect = useCallback(() => {
@@ -78,12 +78,13 @@ export const OrdersPage = ({history}) => {
                         onChange={onChangeSelect}
                     />
         )
-    }, [orderList, classes, t, select, onChangeSelect]);
+    }, [classes, t, select, onChangeSelect]);
 
     const renderRows = useCallback(() => {
         if (isEmpty(orderList)) {
             return null;
         }
+        console.log(filterStatus());
         return filterStatus().map((order) => {
             return (
                 <OrderListItem
@@ -106,7 +107,7 @@ export const OrdersPage = ({history}) => {
                     label={t('FILTER')}
                     onChange={onChangeHandler}
                 />
-                {orderList ? renderSelect() : null}
+                {renderSelect()}
             </Grid>
 
             <List>

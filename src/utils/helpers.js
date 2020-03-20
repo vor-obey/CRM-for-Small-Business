@@ -26,13 +26,19 @@ export const addParamsToUrl = (urlPath, params = {}) => {
 };
 
 
-export const filter = (data, params, nestedObjectsKeys) => {
+export const filter = (data, params, nestedObjectsKeys, additionalKey) => {
     const keys = data[0] ? Object.keys(data[0]) : [];
     return data.filter((item) => {
+
+        if (item[additionalKey]) {
+            console.log(item[additionalKey], item[additionalKey].toString() === params);
+            return item[additionalKey].toString() === params;
+        }
+
         return keys.some(key => {
             const property = item[key];
 
-            if (property === null){
+            if (property === null) {
                 return false;
             }
 

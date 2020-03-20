@@ -1,24 +1,25 @@
 import React, {useCallback} from 'react';
 import {FormControl, InputLabel, Select} from '@material-ui/core';
-import {ROLES, EOrderStatus} from "../../../constants/statuses";
+// import {ROLES, EOrderStatus} from "../../../constants/statuses";
+import {EOrderStatus} from "../../../constants/statuses";
 import {useTranslation} from "react-i18next";
 
 export const ListSelector = ({
                                  classes,
                                  label,
-                                 roles,
+                                 // roles,
                                  onChange,
                                  value
                              }) => {
     const {t} = useTranslation();
 
-    const renderRoleOptions = useCallback(() => {
-        return roles.map((role) => {
-            return (
-                <option key={role.roleId} value={role.roleId}>{t(ROLES[role.name])}</option>
-            )
-        });
-    }, [roles, t]);
+    // const renderRoleOptions = useCallback(() => {
+    //     return roles.map((role) => {
+    //         return (
+    //             <option key={role.roleId} value={role.roleId}>{t(ROLES[role.name])}</option>
+    //         )
+    //     });
+    // }, [roles, t]);
 
     const renderStatusOptions = useCallback(() => {
         const entries = Object.entries(EOrderStatus);
