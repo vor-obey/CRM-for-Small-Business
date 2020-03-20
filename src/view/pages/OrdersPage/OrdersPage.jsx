@@ -18,12 +18,14 @@ import {FilterInput} from "../../components/Filter/FilterInput/FilterInput";
 const useStyles = makeStyles(ordersPageStyles);
 
 export const OrdersPage = ({history}) => {
+    const classes = useStyles();
+    const dispatch = useDispatch();
+    const {t} = useTranslation('');
+
     const [orderList, setOrderList] = useState([]);
     const [inputFilter, setInputFilter] = useState('');
-    const dispatch = useDispatch();
+
     const minWidth350 = useMediaQuery('(min-width:350px)');
-    const classes = useStyles();
-    const {t} = useTranslation('');
 
     useEffect(() => {
         const fetchOrders = async () => {
@@ -53,6 +55,7 @@ export const OrdersPage = ({history}) => {
         if (isEmpty(orderList)) {
             return null;
         }
+
         return filter(orderList, inputFilter, ['customer']).map((order) => {
             return (
                 <OrderListItem
