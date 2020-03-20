@@ -84,7 +84,6 @@ export const OrdersPage = ({history}) => {
         if (isEmpty(orderList)) {
             return null;
         }
-        console.log(filterStatus());
         return filterStatus().map((order) => {
             return (
                 <OrderListItem
