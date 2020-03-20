@@ -1,28 +1,42 @@
 import React from 'react';
-import { Redirect } from "react-router-dom";
-import {Button} from "@material-ui/core";
+import {Button, Container, Grid, makeStyles} from "@material-ui/core";
+import {useTranslation} from "react-i18next";
+import {logOutStyle} from "./LogOut.Style";
 
-export default function LogOut(){
-    let token = localStorage.getItem("acc");
+const useStyles = makeStyles(logOutStyle);
 
-    if(token == null){
-        return <Redirect to='/'/>
-    }
+export default function LogOut() {
+    const classes = useStyles();
+    const {t} = useTranslation('');
 
-    function onClick(){
-        localStorage.removeItem("acc")
-    }
+    const onClickHandler = () => {
+        let token = localStorage.getItem("acc");
 
-        return (
-            <div>
-                U could logout, just click <br />
-                <Button
-                type="submit"
-                href='/'
-                onClick={onClick()}
-                variant="contained"
-                color="secondary"
-                >Log out</Button>
-            </div>
-        );
+        if (token) {
+            return localStorage.removeItem("acc");
+        }
+    };
+
+    return (
+        <Container component="main">
+            <Grid className={classes.root}>
+                <Grid className={classes.container}>
+                    <Grid className={classes.textBar}>
+                        {t('LOGOUT_TEXT')}
+                    </Grid>
+                    <Grid className={classes.buttonBar}>
+                        <Button
+                            className={classes.button}
+                            href='/'
+                            onClick={onClickHandler}
+                            color="primary"
+                            variant="outlined"
+                        >
+                            {t('LOGOUT_BUTTON')}
+                        </Button>
+                    </Grid>
+                </Grid>
+            </Grid>
+        </Container>
+    );
 }
