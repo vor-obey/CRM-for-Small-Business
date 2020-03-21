@@ -1,25 +1,25 @@
 import React, {useCallback} from 'react';
 import {FormControl, InputLabel, Select} from '@material-ui/core';
-// import {ROLES, EOrderStatus} from "../../../constants/statuses";
-import {EOrderStatus} from "../../../constants/statuses";
+import {ROLES, EOrderStatus} from "../../../constants/statuses";
 import {useTranslation} from "react-i18next";
 
 export const ListSelector = ({
                                  classes,
                                  label,
-                                 // roles,
+                                 roles,
                                  onChange,
+                                 statuses,
                                  value
                              }) => {
     const {t} = useTranslation();
 
-    // const renderRoleOptions = useCallback(() => {
-    //     return roles.map((role) => {
-    //         return (
-    //             <option key={role.roleId} value={role.roleId}>{t(ROLES[role.name])}</option>
-    //         )
-    //     });
-    // }, [roles, t]);
+    const renderRoleOptions = useCallback(() => {
+        return roles.map((role) => {
+            return (
+                <option key={role.roleId} value={role.roleId}>{t(ROLES[role.name])}</option>
+            )
+        });
+    }, [roles, t]);
 
     const renderStatusOptions = useCallback(() => {
         const entries = Object.entries(EOrderStatus);
@@ -30,14 +30,14 @@ export const ListSelector = ({
         });
     }, [t]);
 
-    // const renderSelect = useCallback(() => {
-    //     if (roles) {
-    //         return renderRoleOptions();
-    //     }
-    //     if (orderList) {
-    //         return renderStatusOptions();
-    //     }
-    // }, [roles, orderList, renderRoleOptions, renderStatusOptions]);
+    const renderSelect = useCallback(() => {
+        if (roles) {
+            return renderRoleOptions();
+        }
+        if (statuses) {
+            return renderStatusOptions();
+        }
+    }, [roles, statuses, renderRoleOptions, renderStatusOptions]);
 
     return (
         <FormControl className={classes.selector}>
@@ -47,7 +47,7 @@ export const ListSelector = ({
                 onChange={onChange}
                 value={value}>
                 <option value=""/>
-                {renderStatusOptions()}
+                {renderSelect()}
             </Select>
         </FormControl>
     )

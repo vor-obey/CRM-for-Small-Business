@@ -28,10 +28,11 @@ export const UsersPage = ({history}) => {
     const [select, setSelect] = useState('');
 
     useEffect(() => {
-        const fetchRoles = async () => {
+        const fetchData = async () => {
             try {
                 dispatch(setIsLoading(true));
-                const roles = await RoleService.list();
+                const [response, roles] = await Promise.all([UserService.list(), RoleService.list()]);
+                setUserList(response);
                 setRoles(roles);
                 dispatch(setIsLoading(false));
             } catch (e) {
@@ -39,22 +40,7 @@ export const UsersPage = ({history}) => {
                 dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE, success: false}))
             }
         };
-        fetchRoles();
-    }, [dispatch]);
-
-    useEffect(() => {
-        const fetchUsers = async () => {
-            try {
-                dispatch(setIsLoading(true));
-                const response = await UserService.list();
-                setUserList(response);
-                dispatch(setIsLoading(false));
-            } catch (e) {
-                dispatch(setIsLoading(false));
-                dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE, success: false}))
-            }
-        };
-        fetchUsers();
+        fetchData();
     }, [dispatch]);
 
     const navigateToUserDetails = useCallback((userId) => {

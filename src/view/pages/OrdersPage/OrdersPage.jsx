@@ -15,6 +15,7 @@ import {useTranslation} from "react-i18next";
 import {filter} from "../../../utils/helpers";
 import {FilterInput} from "../../components/Filter/FilterInput/FilterInput";
 import {ListSelector} from "../../components/ListSelector/ListSelector";
+import { useLocation } from "react-router-dom";
 
 const useStyles = makeStyles(ordersPageStyles);
 
@@ -22,7 +23,7 @@ export const OrdersPage = ({history}) => {
     const classes = useStyles();
     const dispatch = useDispatch();
     const {t} = useTranslation('');
-
+    const location = useLocation();
     const minWidth350 = useMediaQuery('(min-width:350px)');
 
     const [orderList, setOrderList] = useState([]);
@@ -69,14 +70,22 @@ export const OrdersPage = ({history}) => {
         return filter(filteredStatus, select, null, 'status');
     }, [inputFilter, select, orderList]);
 
+    useEffect(() => {
+        if (location.state) {
+            const status = location.state.status;
+            setSelect(String(status))
+        }
+    }, [location]);
+
     const renderSelect = useCallback(() => {
         return (
             <ListSelector
-                        classes={classes}
-                        label={t('SORT_BY_STATUS')}
-                        value={select}
-                        onChange={onChangeSelect}
-                    />
+                classes={classes}
+                label={t('SORT_BY_STATUS')}
+                value={select}
+                statuses={true}
+                onChange={onChangeSelect}
+            />
         )
     }, [classes, t, select, onChangeSelect]);
 
