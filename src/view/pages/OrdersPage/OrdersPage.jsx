@@ -13,8 +13,8 @@ import {COMMON_ERROR_MESSAGE} from "../../../constants/statuses";
 import isEmpty from 'lodash/isEmpty';
 import {useTranslation} from "react-i18next";
 import {filter} from "../../../utils/helpers";
-import {FilterInput} from "../../components/Filter/FilterInput/FilterInput";
-import {ListSelector} from "../../components/ListSelector/ListSelector";
+import {InputFilter} from "../../components/Filter/InputFilter";
+import {SelectFilter} from "../../components/Filter/SelectFilter";
 
 const useStyles = makeStyles(ordersPageStyles);
 
@@ -27,7 +27,7 @@ export const OrdersPage = ({history}) => {
 
     const [orderList, setOrderList] = useState([]);
     const [inputFilter, setInputFilter] = useState('');
-    const [select, setSelect] = useState('');
+    const [selectedOption, setSelectedOption] = useState('');
 
     useEffect(() => {
         const fetchOrders = async () => {
@@ -53,32 +53,31 @@ export const OrdersPage = ({history}) => {
         setInputFilter(value)
     }, []);
 
-    const onChangeSelect = useCallback((event) => {
+    const onSelectHandler = useCallback((event) => {
         const {value} = event.target;
-        setSelect(value);
+        setSelectedOption(value);
     }, []);
 
     const filterStatus= useCallback(() => {
         let filteredStatus = filter(orderList, inputFilter, ['customer']);
 
-        if (!select) {
+        if (!selectedOption) {
             return filteredStatus;
         }
 
-        return filter(filteredStatus, select, null, 'status');
-    }, [inputFilter, select, orderList]);
+        return filter(filteredStatus, selectedOption, null, 'status');
+    }, [inputFilter, selectedOption, orderList]);
 
     const renderSelect = useCallback(() => {
         return (
-            <ListSelector
+            <SelectFilter
                         classes={classes}
                         label={t('SORT_BY_STATUS')}
-                        value={select}
-                        statuses={true}
-                        onChange={onChangeSelect}
+                        value={selectedOption}
+                        onChange={onSelectHandler}
                     />
         )
-    }, [classes, t, select, onChangeSelect]);
+    }, [classes, t, selectedOption, onSelectHandler]);
 
     const renderRows = useCallback(() => {
         if (isEmpty(orderList)) {
@@ -100,7 +99,7 @@ export const OrdersPage = ({history}) => {
     return (
         <Container className={classes.root}>
             <Grid className={classes.searchBox}>
-                <FilterInput
+                <InputFilter
                     className={classes.search}
                     value={inputFilter}
                     label={t('FILTER')}
