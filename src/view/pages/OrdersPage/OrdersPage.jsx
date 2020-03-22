@@ -29,7 +29,6 @@ export const OrdersPage = ({history}) => {
     const [inputFilter, setInputFilter] = useState('');
     const [select, setSelect] = useState('');
 
-
     useEffect(() => {
         const fetchOrders = async () => {
             try {
@@ -49,7 +48,7 @@ export const OrdersPage = ({history}) => {
         history.push(`/orders/${orderId}`);
     }, [history]);
 
-    const onChangeHandler = useCallback((event) => {
+    const onFilterChangedHandler = useCallback((event) => {
         const {value} = event.target;
         setInputFilter(value)
     }, []);
@@ -105,7 +104,7 @@ export const OrdersPage = ({history}) => {
                     className={classes.search}
                     value={inputFilter}
                     label={t('FILTER')}
-                    onChange={onChangeHandler}
+                    onChange={onFilterChangedHandler}
                 />
                 {renderSelect()}
             </Grid>
