@@ -9,8 +9,8 @@ export const EOrderStatus = {
     5: 'CANCELLED'
 };
 export const ROLES = {
-    'Admin': 'ROLE_ADMIN',
-    'Manager': 'ROLE_MANAGER',
-    'Moderator': 'ROLE_MODERATOR',
+    ADMIN: 'ROLE_ADMIN',
+    MANAGER: 'ROLE_MANAGER',
+    MODERATOR: 'ROLE_MODERATOR',
 };
 

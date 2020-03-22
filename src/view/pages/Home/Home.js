@@ -27,7 +27,7 @@ export const Home = () => {
                <Card className={classes.card}>
                   <CardContent>
                      <Typography variant='h6' className={classes.typography}>
-                        {t('NEW_ORDERS')}
+                        {t('NEW_ORDERS').toUpperCase()}
                      </Typography>
                      <Typography variant='h4'>
                         6
@@ -39,7 +39,7 @@ export const Home = () => {
                <Card className={classes.card}>
                   <CardContent> 
                      <Typography variant='h6' className={classes.typography}>
-                        {t('IN_PROGRESS')}
+                        {t('IN_PROGRESS').toUpperCase()}
                      </Typography>
                      <Typography variant='h4'>
                         10
@@ -51,7 +51,7 @@ export const Home = () => {
                <Card className={classes.card}>
                   <CardContent >
                      <Typography variant='h6' className={classes.typography}>
-                        {t('READY_TO_SHIPPING')}
+                        {t('READY_FOR_SHIPPING').toUpperCase()}
                      </Typography>
                      <Typography variant='h4'>
                         4 

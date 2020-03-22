@@ -21,8 +21,6 @@ export const SystemEN = {
     USERS: 'Users',
     ORDERS: 'Orders',
     NEW_ORDERS: 'NEW ORDERS',
-    IN_PROGRESS: 'IN PROGRESS',
-    READY_TO_SHIPPING: 'READY TO SHIPPING',
     CHAT: 'Chat',
     STATISTIC: 'Statistic',
     LOGOUT_TEXT: 'You could logout, just click',

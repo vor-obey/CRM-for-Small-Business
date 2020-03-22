@@ -41,7 +41,7 @@ export const UserListItem = (props) =>{
                 </Hidden>
                 <Grid item xs={4} md={2}>
                     <Typography className={classes.userItem} variant={'body2'}>
-                       {t(ROLES[user.role.name])}
+                       {t(ROLES[user.role.name.toUpperCase()])}
                     </Typography>
                 </Grid>
             </Grid>
