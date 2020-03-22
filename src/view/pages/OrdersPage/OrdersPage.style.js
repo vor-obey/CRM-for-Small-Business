@@ -14,14 +14,19 @@ export const ordersPageStyles = ((theme) => ({
         overflowWrap: 'break-word'
     },
     textStatus: {
-        textAlign: 'center'
+        textAlign: 'center',
+        overflowWrap: 'break-word'
     },
     searchBox: {
         display: 'flex',
         flexWrap: 'wrap',
+        alignItems: 'center',
         justifyContent: 'flex-end',
     },
     selector: {
-        width: '150px',
+        width: 205,
+        [theme.breakpoints.down('xs')]: {
+            width: 200
+        }
     },
 }));

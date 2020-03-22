@@ -8,8 +8,8 @@ export const filterStyle = (theme => ({
         margin: '2px 4px',
         display: 'flex',
         [theme.breakpoints.down('xs')]: {
-            width: '100%',
-            margin: '2px 15px',
+            width: 75,
+            margin: '0px 5px 0px 5px',
         }
     },
     input: {

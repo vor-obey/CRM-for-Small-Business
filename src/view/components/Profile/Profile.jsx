@@ -70,15 +70,20 @@ export const Profile = (props) => {
                         <ListItemText>{currentUser.organization.name}</ListItemText>
                     </ListItem>
                     <Divider variant="fullWidth" component="li"/>
-                    <ListItem button
-                              component={Link}
-                              to={`/users/${currentUser.userId}/edit`}
-                              selected={isActive('/')}>
+                    <ListItem
+                        className={classes.menuItem}
+                        button
+                        component={Link}
+                        to={`/users/${currentUser.userId}/edit`}
+                        selected={isActive('/')}>
                         <ListItemIcon><EditIcon/></ListItemIcon>
                         <ListItemText>{t('EDIT_PROFILE')}</ListItemText>
                     </ListItem>
                     <Divider variant="fullWidth" component="li"/>
-                    <ListItem button onClick={handleOpenDialog}>
+                    <ListItem
+                        className={classes.menuItem}
+                        button
+                        onClick={handleOpenDialog}>
                         <ListItemIcon><ExitToAppIcon/></ListItemIcon>
                         <ListItemText>{t('LOGOUT')}</ListItemText>
                     </ListItem>
