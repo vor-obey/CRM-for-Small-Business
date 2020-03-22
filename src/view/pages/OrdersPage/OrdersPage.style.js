@@ -24,4 +24,19 @@ export const ordersPageStyles = ((theme) => ({
         textAlign: 'center',
         wordBreak: 'break-all'
     },
+    searchBox: {
+        display: 'flex',
+        flexWrap: 'wrap',
+        justifyContent: 'flex-end',
+        [theme.breakpoints.down('xs')]: {
+            justifyContent: 'center',
+        }
+    },
+    search: {
+        width: '300px',
+    },
+    selector: {
+        width: '200px',
+        paddingTop: '2px',
+    },
 }));

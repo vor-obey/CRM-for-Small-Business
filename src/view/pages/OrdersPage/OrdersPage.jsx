@@ -13,7 +13,8 @@ import {COMMON_ERROR_MESSAGE} from "../../../constants/statuses";
 import isEmpty from 'lodash/isEmpty';
 import {useTranslation} from "react-i18next";
 import {filter} from "../../../utils/helpers";
-import {FilterInput} from "../../components/Filter/FilterInput/FilterInput";
+import {InputFilter} from "../../components/Filter/InputFilter";
+import {SelectFilter} from "../../components/Filter/SelectFilter";
 
 const useStyles = makeStyles(ordersPageStyles);
 
@@ -22,10 +23,11 @@ export const OrdersPage = ({history}) => {
     const dispatch = useDispatch();
     const {t} = useTranslation('');
 
+    const minWidth350 = useMediaQuery('(min-width:350px)');
+
     const [orderList, setOrderList] = useState([]);
     const [inputFilter, setInputFilter] = useState('');
-
-    const minWidth350 = useMediaQuery('(min-width:350px)');
+    const [selectedOption, setSelectedOption] = useState('');
 
     useEffect(() => {
         const fetchOrders = async () => {
@@ -51,12 +53,37 @@ export const OrdersPage = ({history}) => {
         setInputFilter(value)
     }, []);
 
+    const onSelectHandler = useCallback((event) => {
+        const {value} = event.target;
+        setSelectedOption(value);
+    }, []);
+
+    const filterStatus= useCallback(() => {
+        let filteredStatus = filter(orderList, inputFilter, ['customer']);
+
+        if (!selectedOption) {
+            return filteredStatus;
+        }
+
+        return filter(filteredStatus, selectedOption, null, 'status');
+    }, [inputFilter, selectedOption, orderList]);
+
+    const renderSelect = useCallback(() => {
+        return (
+            <SelectFilter
+                        classes={classes}
+                        label={t('SORT_BY_STATUS')}
+                        value={selectedOption}
+                        onChange={onSelectHandler}
+                    />
+        )
+    }, [classes, t, selectedOption, onSelectHandler]);
+
     const renderRows = useCallback(() => {
         if (isEmpty(orderList)) {
             return null;
         }
-
-        return filter(orderList, inputFilter, ['customer']).map((order) => {
+        return filterStatus().map((order) => {
             return (
                 <OrderListItem
                     key={order.orderId}
@@ -67,16 +94,20 @@ export const OrdersPage = ({history}) => {
                 />
             );
         })
-    }, [orderList, navigationToOrderDetails, minWidth350, classes, inputFilter]);
+    }, [orderList, navigationToOrderDetails, filterStatus,  minWidth350, classes]);
 
     return (
         <Container className={classes.root}>
-            <FilterInput
-                className={classes.search}
-                value={inputFilter}
-                label={t('FILTER')}
-                onChange={onFilterChangedHandler}
-            />
+            <Grid className={classes.searchBox}>
+                <InputFilter
+                    className={classes.search}
+                    value={inputFilter}
+                    label={t('FILTER')}
+                    onChange={onFilterChangedHandler}
+                />
+                {renderSelect()}
+            </Grid>
+
             <List>
                 <ListItem disableGutters divider>
                     <Grid container>

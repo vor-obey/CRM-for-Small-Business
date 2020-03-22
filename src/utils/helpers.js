@@ -26,17 +26,22 @@ export const addParamsToUrl = (urlPath, params = {}) => {
 };
 
 
-export const filter = (data, params, nestedObjectsKeys) => {
+export const filter = (data, params, nestedObjectsKeys, additionalKey) => {
     const keys = data[0] ? Object.keys(data[0]) : [];
     return data.filter((item) => {
+
+        if (typeof item[additionalKey] === 'number') {
+            return item[additionalKey].toString() === params;
+        }
+
         return keys.some(key => {
             const property = item[key];
 
-            if (property === null){
+            if (property === null) {
                 return false;
             }
 
-            if (!Array.isArray(property) && typeof property === "object" && nestedObjectsKeys.includes(key)) {
+            if (!Array.isArray(property) && typeof property === "object" && nestedObjectsKeys && nestedObjectsKeys.includes(key)) {
                 for (let propertyKey in property) {
                     if (property.hasOwnProperty(propertyKey) && property[propertyKey].toString().toLowerCase().indexOf(params.toLowerCase().toString()) !== -1) {
                         return true;
