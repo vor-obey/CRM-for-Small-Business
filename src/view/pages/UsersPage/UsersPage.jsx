@@ -99,13 +99,13 @@ export const UsersPage = ({history}) => {
     return (
         <Container className={classes.root}>
             <Grid className={classes.searchBox}>
+                {roles ? renderSelect() : null}
                 <FilterInput
                     className={classes.search}
                     value={inputFilter}
                     label={t('FILTER')}
                     onChange={onChangeHandler}
                 />
-                {roles ? renderSelect() : null}
             </Grid>
             <List className={classes.container}>
                 <ListItem divider>
