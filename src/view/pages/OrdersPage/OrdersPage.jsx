@@ -46,7 +46,7 @@ export const OrdersPage = ({history}) => {
         history.push(`/orders/${orderId}`);
     }, [history]);
 
-    const onChangeHandler = useCallback((event) => {
+    const onFilterChangedHandler = useCallback((event) => {
         const {value} = event.target;
         setInputFilter(value)
     }, []);
@@ -69,14 +69,13 @@ export const OrdersPage = ({history}) => {
         })
     }, [orderList, navigationToOrderDetails, minWidth350, classes, inputFilter]);
 
-
     return (
         <Container className={classes.root}>
             <FilterInput
                 className={classes.search}
                 value={inputFilter}
                 label={t('FILTER')}
-                onChange={onChangeHandler}
+                onChange={onFilterChangedHandler}
             />
             <List>
                 <ListItem disableGutters divider>
