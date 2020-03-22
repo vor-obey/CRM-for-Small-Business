@@ -58,7 +58,7 @@ export const UserDetails = (props) => {
                         {t('ROLE')}
                     </Typography>
                     <Typography className={classes.userTypography} variant="body2">
-                        {t(ROLES[userDetails.role.name])}
+                        {t(ROLES[userDetails.role.name.toUpperCase()])}
                     </Typography>
                 </Grid>
             </Grid>

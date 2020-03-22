@@ -21,8 +21,6 @@ export const SystemRU = {
     USERS: 'Пользователи',
     ORDERS: 'Заказы',
     NEW_ORDERS: 'Новые заказы',
-    IN_PROGRESS: 'В обработке',
-    READY_TO_SHIPPING: 'Готовы к отправке',
     CHAT: 'Чат',
     STATISTIC: 'Статистика',
     LOGOUT_TEXT: 'Вы можете выйти, просто нажав',
