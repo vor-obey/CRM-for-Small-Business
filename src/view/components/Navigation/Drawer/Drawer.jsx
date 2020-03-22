@@ -56,7 +56,7 @@ function Drawer(props) {
                           to="/create-order"
                           selected={isActive('/#')}>
                     <ListItemIcon><PlusIcon /></ListItemIcon>
-                    <ListItemText>{t('CREATEORDER')}</ListItemText>
+                    <ListItemText>{t('CREATE_ORDER')}</ListItemText>
                 </ListItem>
                 <Divider variant="inset" component="li" />
                 <ListItem button

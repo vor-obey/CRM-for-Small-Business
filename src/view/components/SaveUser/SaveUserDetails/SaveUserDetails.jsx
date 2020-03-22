@@ -6,6 +6,7 @@ import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
 import NumberFormat from "react-number-format";
 import {useTranslation} from "react-i18next";
+import {ROLES} from "../../../../constants/statuses";
 
 export const SaveUserDetails = ({
                                     roles,
@@ -14,15 +15,14 @@ export const SaveUserDetails = ({
                                     classes,
                                     renderRoles = true,
                                 }) => {
+    const {t} = useTranslation();
     const renderRoleOptions = useCallback(() => {
         return roles.map((role) => {
             return (
-                <option key={role.roleId} value={role.roleId}>{role.name}</option>
+                <option key={role.roleId} value={role.roleId}>{t(ROLES[role.name.toUpperCase()])}</option>
             )
         });
-    }, [roles]);
-
-    const { t } = useTranslation('');
+    }, [roles, t]);
 
     const renderRoleSelect = useCallback(() => {
         if (!renderRoles) {
@@ -67,7 +67,7 @@ export const SaveUserDetails = ({
         <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
                 <TextField
-                    label={t('FIRSTNAME')}
+                    label={t('FIRST_NAME')}
                     name="firstName"
                     variant="outlined"
                     type="text"
@@ -79,7 +79,7 @@ export const SaveUserDetails = ({
             </Grid>
             <Grid item xs={12} sm={6}>
                 <TextField
-                    label={t('LASTNAME')}
+                    label={t('LAST_NAME')}
                     name="lastName"
                     variant="outlined"
                     type="text"
@@ -91,7 +91,7 @@ export const SaveUserDetails = ({
             </Grid>
             <Grid item xs={12}>
                 <TextField
-                    label={t('MIDDLENAME')}
+                    label={t('MIDDLE_NAME')}
                     name="middleName"
                     value={(userDetails && userDetails.middleName) || ''}
                     onChange={onChangedInput}

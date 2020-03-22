@@ -87,7 +87,7 @@ export const CustomerDetailsPage = ({history}) => {
                     <Grid container item xs={12}
                           justify='center'>
                         <Typography variant="h5" className={classes.title} align="center" gutterBottom>
-                            {t('CUSTOMERDETAILS')}
+                            {t('CUSTOMER_DETAILS')}
                         </Typography>
                     </Grid>
                     <Grid container item xs={12}>
@@ -117,13 +117,13 @@ export const CustomerDetailsPage = ({history}) => {
                 </Grid>
             </Paper>
             <CustomDialog
-                title={t('DELETECUSTOMER')}
+                title={t('DELETE_CUSTOMER')}
                 isShow={isShow}
                 onClose={handleOpenDialog}
                 closeText={t('DISAGREE')}
                 actionText={t('AGREE')}
                 onAction={handleClickDeleteCustomer}
-            >{t('DELETECUSTOMERTEXXT')}</CustomDialog>
+            >{t('DELETE_CUSTOMER_TEXT')}</CustomDialog>
         </Container>
     );
 };

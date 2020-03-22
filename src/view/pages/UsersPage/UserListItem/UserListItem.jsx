@@ -1,5 +1,7 @@
 import React from 'react';
 import {Grid, Hidden, ListItem, Typography} from "@material-ui/core";
+import {ROLES} from "../../../../constants/statuses";
+import {useTranslation} from "react-i18next";
 
 export const UserListItem = (props) =>{
 
@@ -8,6 +10,7 @@ export const UserListItem = (props) =>{
         classes,
         navigateToUserDetails
     } = props;
+    const {t} = useTranslation();
 
     return (
         <ListItem className={classes.userListItem} divider onClick={() => navigateToUserDetails(user.userId)}>
@@ -38,7 +41,7 @@ export const UserListItem = (props) =>{
                 </Hidden>
                 <Grid item xs={4} md={2}>
                     <Typography className={classes.userItem} variant={'body2'}>
-                        {user.role.name}
+                       {t(ROLES[user.role.name.toUpperCase()])}
                     </Typography>
                 </Grid>
             </Grid>

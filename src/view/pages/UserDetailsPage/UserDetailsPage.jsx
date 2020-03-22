@@ -82,7 +82,7 @@ export const UserDetailsPage = ({history}) => {
                 <Grid container item xs={12} className={classes.userGrid}>
                     <Grid item xs={12}>
                         <Typography variant="h5" className={classes.title}>
-                            {t('USERDETAILS')}
+                            {t('USER_DETAILS')}
                         </Typography>
                     </Grid>
                     <Grid container item xs={12}>
@@ -109,8 +109,8 @@ export const UserDetailsPage = ({history}) => {
                 </Grid>
             </Paper>
             <CustomDialog
-                title={t('DELETEUSER')}
-                children={t('DELETEUSERTEXT')}
+                title={t('DELETE_USER')}
+                children={t('DELETE_USER_TEXT')}
                 isShow={isShow}
                 onClose={handleOpenDialog}
                 closeText={t('DISAGREE')}
