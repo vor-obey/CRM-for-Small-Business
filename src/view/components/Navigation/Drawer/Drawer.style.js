@@ -7,5 +7,5 @@ export const drawerStyle = (theme =>  ({
     },
     burger: {
         color: '#ffffff',
-    }
+    },
 }));

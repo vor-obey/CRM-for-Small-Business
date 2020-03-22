@@ -93,6 +93,7 @@ function Drawer(props) {
                 />
             </Button>
             <SwipeableDrawer
+                className={classes.menuTab}
                 open={state.left}
                 onClose={toggleDrawer('left', false)}
                 onOpen={toggleDrawer('left', true)}
