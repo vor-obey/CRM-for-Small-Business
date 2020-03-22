@@ -126,7 +126,7 @@ export const CustomerForm = ({
                     onToggle={toggleCustomerAutocomplete}
                     onClose={toggleCustomerAutocomplete}
                     renderOption={renderCustomerOptions}
-                    inputLabel={t('SELECTCUSTOMER')}
+                    inputLabel={t('SELECT_CUSTOMER')}
                     getOptionLabel={getCustomerOptionLabel}
                     value={customer}
                 />
@@ -141,7 +141,7 @@ export const CustomerForm = ({
                         onClose={toggleManagerAutocomplete}
                         onSelectHandler={onManagerSelectHandler}
                         renderOption={renderManagerOptions}
-                        inputLabel={t('SELECTMANAGER')}
+                        inputLabel={t('SELECT_MANAGER')}
                         getOptionLabel={getManagerOptionLabel}
                         value={manager}
                     />

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useCallback, useState} from 'react'
 
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import {
@@ -14,16 +14,31 @@ import {Link} from "react-router-dom";
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import EditIcon from '@material-ui/icons/Edit';
 import {useTranslation} from "react-i18next";
+import {CustomDialog} from "../CustomDialog/CustomDialog";
 
 const useStyles = makeStyles(profileStyles);
 
 export const Profile = (props) => {
     const {currentUser} = props;
     const classes = useStyles();
+    const {t} = useTranslation('');
+
     const [userDrawer, setUserDrawer] = React.useState({
         right: false,
     });
-    const { t } = useTranslation('');
+    const [isShow, setIsShow] = useState(false);
+
+    const handleOpenDialog = useCallback(() => {
+        setIsShow(prevState => !prevState);
+    }, []);
+
+    const logOutHandler = () => {
+        let token = localStorage.getItem("acc");
+
+        if (token) {
+            return localStorage.removeItem("acc");
+        }
+    };
 
     const toggleDrawer = (side, open) => event => {
         if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
@@ -60,13 +75,10 @@ export const Profile = (props) => {
                               to={`/users/${currentUser.userId}/edit`}
                               selected={isActive('/')}>
                         <ListItemIcon><EditIcon/></ListItemIcon>
-                        <ListItemText>{t('EDITPROFILE')}</ListItemText>
+                        <ListItemText>{t('EDIT_PROFILE')}</ListItemText>
                     </ListItem>
                     <Divider variant="fullWidth" component="li"/>
-                    <ListItem button
-                              component={Link}
-                              to="/logout"
-                              selected={isActive('/logout')}>
+                    <ListItem button onClick={handleOpenDialog}>
                         <ListItemIcon><ExitToAppIcon/></ListItemIcon>
                         <ListItemText>{t('LOGOUT')}</ListItemText>
                     </ListItem>
@@ -91,6 +103,16 @@ export const Profile = (props) => {
             >
                 {displayUser('right')}
             </SwipeableDrawer>
+            <CustomDialog
+                title={t('LOGOUT')}
+                children={t('LOGOUT_TEXT')}
+                isShow={isShow}
+                onClose={handleOpenDialog}
+                closeText={t('NO')}
+                actionText={t('YES')}
+                exit={'/'}
+                onAction={logOutHandler}
+            />
         </div>
     );
 };

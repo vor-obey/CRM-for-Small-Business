@@ -6,10 +6,12 @@ import {setIsLoading, setSnackBarStatus} from "../../../data/store/auxiliary/aux
 import {COMMON_ERROR_MESSAGE} from "../../../constants/statuses";
 import {useTranslation} from "react-i18next";
 
+
 export const CreateUser = ({history}) => {
     const dispatch = useDispatch();
     const [roles, setRoles] = useState([]);
     const { t } = useTranslation('');
+
 
     useEffect(() => {
         const fetchRoles = async () => {
@@ -44,7 +46,7 @@ export const CreateUser = ({history}) => {
     return (
         <SaveUserForm
             onSubmit={onSubmitHandler}
-            title={t('CREATEUSER')}
+            title={t('CREATE_USER')}
             buttonText={t('CREATE')}
             roles={roles}
             isEdit={false}

@@ -34,9 +34,9 @@ export const ForgotPassword = () => {
       setIsForm(false);
 
       if (response.success) {
-         setMessageText(t('CHECKEMAIL'));
+         setMessageText(t('CHECK_EMAIL'));
       } else {
-         setMessageText(t('NOEMAIL'));
+         setMessageText(t('NO_FOUND_EMAIL'));
       }
    };
 
@@ -61,7 +61,7 @@ export const ForgotPassword = () => {
                variant="contained"
                onClick={onClickedHandler}
                className={classes.button}>
-               {t('TRYAGAIN')}
+               {t('TRY_AGAIN')}
             </Button>
          </Box>
       )
@@ -71,7 +71,7 @@ export const ForgotPassword = () => {
       return (
          <Box className={classes.root}>
             <Typography component="h1" variant="h5">
-               {t('ENTEREMAIL')}
+               {t('ENTER_EMAIL')}
             </Typography>
             <form className={classes.form} onSubmit={onSubmitHandler}>
                <TextField

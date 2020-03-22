@@ -9,7 +9,6 @@ import {PrivateRoute} from "../../../PrivateRoute";
 import {Login} from "../../pages/Login/Login";
 import {Home} from "../../pages/Home/Home";
 import {CreateUser} from "../../pages/CreateUser/CreateUser.jsx";
-import LogOut from "../../pages/LogOut/LogOut";
 import {UsersPage} from "../../pages/UsersPage/UsersPage";
 import {CustomersPage} from "../../pages/CustomersPage/CustomersPage";
 import {UserDetailsPage} from "../../pages/UserDetailsPage/UserDetailsPage";
@@ -48,7 +47,6 @@ export const Routing = () => {
          <PrivateRoute exact path="/dashboard" component={Home}/>
          <PrivateRoute exact path="/create-user" component={CreateUser}/>
          <PrivateRoute exact path="/create-customer" component={CreateCustomer}/>
-         <PrivateRoute exact path='/logout' component={LogOut}/>
          <PrivateRoute exact path='/customers' component={CustomersPage}/>
          <PrivateRoute exact path='/customers/:id' component={CustomerDetailsPage}/>
          <PrivateRoute exact path='/customers/:id/edit' component={EditCustomer}/>

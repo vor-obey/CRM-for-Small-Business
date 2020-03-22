@@ -1,6 +1,7 @@
 import React from 'react';
 import {Grid, Typography} from "@material-ui/core";
 import {useTranslation} from "react-i18next";
+import {ROLES} from "../../../../constants/statuses";
 
 export const UserDetails = (props) => {
     const { t } = useTranslation('');
@@ -12,7 +13,7 @@ export const UserDetails = (props) => {
             <Grid item container direction={'column'} xs={12} sm={6}>
                 <Grid className={classes.userItem}>
                     <Typography variant="body1">
-                        {t('FIRSTNAME')}
+                        {t('FIRST_NAME')}
                     </Typography>
                     <Typography className={classes.userTypography} variant="body2">
                         {userDetails.firstName}
@@ -20,7 +21,7 @@ export const UserDetails = (props) => {
                 </Grid>
                 <Grid className={classes.userItem}>
                     <Typography variant="body1">
-                        {t('LASTNAME')}
+                        {t('LAST_NAME')}
                     </Typography>
                     <Typography className={classes.userTypography} variant="body2">
                         {userDetails.lastName}
@@ -28,7 +29,7 @@ export const UserDetails = (props) => {
                 </Grid>
                 <Grid className={classes.userItem}>
                     <Typography variant="body1">
-                        {t('MIDDLENAME')}
+                        {t('MIDDLE_NAME')}
                     </Typography>
                     <Typography className={classes.userTypography} variant="body2">
                         {userDetails.middleName}
@@ -57,7 +58,7 @@ export const UserDetails = (props) => {
                         {t('ROLE')}
                     </Typography>
                     <Typography className={classes.userTypography} variant="body2">
-                        {userDetails.role.name}
+                        {t(ROLES[userDetails.role.name])}
                     </Typography>
                 </Grid>
             </Grid>
