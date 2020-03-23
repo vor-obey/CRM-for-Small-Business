@@ -1,5 +1,5 @@
 export const COMMON_ERROR_MESSAGE = 'Something went wrong!';
-export const COMMON_ERROR_MESSAGE_VALIDATE = 'Password doesn`t match';
+export const PASSWORD_DOESNT_MATCH = 'Password doesn`t match';
 export const EOrderStatus = {
     0: 'NEW',
     1: 'IN_PROGRESS',

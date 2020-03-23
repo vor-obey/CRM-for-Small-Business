@@ -4,7 +4,7 @@ import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import {saveUserStyle} from './SaveUser.style';
 import {SaveUserCredentials} from "./SaveUserCredentials/SaveUserCredentials";
 import {SaveUserDetails} from "./SaveUserDetails/SaveUserDetails";
-import {COMMON_ERROR_MESSAGE_VALIDATE} from "../../../constants/statuses";
+import {PASSWORD_DOESNT_MATCH} from "../../../constants/statuses";
 import {useDispatch} from "react-redux";
 import {setSnackBarStatus} from "../../../data/store/auxiliary/auxiliaryActions";
 
@@ -33,6 +33,7 @@ export const SaveUserForm = ({
         password: '',
         confirmPassword: '',
     });
+    console.log(userCredentials);
     const [showPassword, setShowPassword] = useState(false);
 
     useEffect(() => {
@@ -66,7 +67,7 @@ export const SaveUserForm = ({
     const onSubmitForm = useCallback((event) => {
         event.preventDefault();
         if (userCredentials.password !== userCredentials.confirmPassword) {
-            dispatch(setSnackBarStatus({isOpen: true, errorMessage: COMMON_ERROR_MESSAGE_VALIDATE, success: false}));
+            dispatch(setSnackBarStatus({isOpen: true, message: PASSWORD_DOESNT_MATCH, success: false}));
         } else {
             const {confirmPassword, ...userCreds} = userCredentials;
             let input = {...userDetailsInputs, ...userCreds};

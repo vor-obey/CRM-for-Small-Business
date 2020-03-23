@@ -11,11 +11,12 @@ import {SaveUserDetails} from "../../components/SaveUser/SaveUserDetails/SaveUse
 import {SaveUserCredentials} from "../../components/SaveUser/SaveUserCredentials/SaveUserCredentials";
 import Grid from "@material-ui/core/Grid";
 import {useTranslation} from "react-i18next";
+import {PASSWORD_DOESNT_MATCH} from '../../../constants/statuses';
 
 const useStyles = makeStyles(saveOrganizationStyle);
 
 export const CreateOrganization = ({history}) => {
-    const { t } = useTranslation('');
+    const {t} = useTranslation('');
     const dispatch = useDispatch();
     const classes = useStyles();
     const [organization, setOrganization] = useState({
@@ -35,20 +36,23 @@ export const CreateOrganization = ({history}) => {
     const onSubmitHandler = useCallback(async (event) => {
         event.preventDefault();
         const {confirmPassword, ...org} = organization;
-
-        try {
-            dispatch(setIsLoading(true));
-            const response = await OrganizationService.create(org);
-            if (response.success) {
+        if (organization.password !== confirmPassword) {
+            dispatch(setSnackBarStatus({isOpen: true, message: PASSWORD_DOESNT_MATCH, success: false}))
+        } else {
+            try {
+                dispatch(setIsLoading(true));
+                const response = await OrganizationService.create(org);
+                if (response.success) {
+                    dispatch(setIsLoading(false));
+                    history.push('/');
+                } else {
+                    dispatch(setIsLoading(false));
+                    dispatch(setSnackBarStatus({isOpen: true, message: response.message, success: false}));
+                }
+            } catch (e) {
                 dispatch(setIsLoading(false));
-                history.push('/');
-            } else {
-                dispatch(setIsLoading(false));
-                dispatch(setSnackBarStatus({isOpen: true, message: response.message, success: false}));
+                dispatch(setSnackBarStatus({isOpen: true, message: e.message, success: false}));
             }
-        } catch (e) {
-            dispatch(setIsLoading(false));
-            dispatch(setSnackBarStatus({isOpen: true, message: e.message, success: false}));
         }
     }, [dispatch, organization, history]);
 
