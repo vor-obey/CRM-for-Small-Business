@@ -55,7 +55,6 @@ export const usersPageStyle = (theme =>  ({
     },
     selector: {
         width: '200px',
-        paddingTop: '2px',
         [theme.breakpoints.down('xs')]: {
             width: 220
         }
