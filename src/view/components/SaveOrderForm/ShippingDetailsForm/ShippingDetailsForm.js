@@ -50,7 +50,7 @@ export const ShippingDetailsForm = ({
         <>
             <Grid item xl={12} xs={12} className={classes.gridShipping}>
                 <Typography variant='h6' className={classes.shippingText}>
-                    {t('SHIPPINGDETAILS')}
+                    {t('SHIPPING_DETAILS')}
                 </Typography>
                 <Divider/>
             </Grid>
@@ -62,7 +62,7 @@ export const ShippingDetailsForm = ({
                     fullWidth
                 >
                     <InputLabel id="demo-simple-select-outlined-label">
-                        {t('SHIPPINGMETHOD')}
+                        {t('SHIPPING_METHOD')}
                     </InputLabel>
                     <Select
                         native

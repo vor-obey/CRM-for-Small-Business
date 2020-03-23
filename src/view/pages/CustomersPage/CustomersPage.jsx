@@ -19,7 +19,7 @@ import {CustomerListItem} from "./CustomerListItem/CustomerListItem";
 import {setIsLoading, setSnackBarStatus} from "../../../data/store/auxiliary/auxiliaryActions";
 import {COMMON_ERROR_MESSAGE} from "../../../constants/statuses";
 import {USER_URLS} from "../../../constants/urls";
-import {FilterInput} from "../../components/Filter/FilterInput/FilterInput";
+import {InputFilter} from "../../components/Filter/InputFilter";
 import {filter} from "../../../utils/helpers";
 import {useTranslation} from "react-i18next";
 
@@ -51,10 +51,10 @@ export const CustomersPage = ({history}) => {
         history.push(`${USER_URLS.CUSTOMERS}/${customerId}`)
     }, [history]);
 
-   const onChangeHandler = (event) => {
+   const onFilterChangedHandler = useCallback((event) => {
       const {value} = event.target;
       setInputFilter(value)
-   };
+   }, []);
 
    const renderRows = useCallback(() => {
       if (!customerList || !customerList.length) {
@@ -77,11 +77,11 @@ export const CustomersPage = ({history}) => {
             <Typography variant="h5" className={classes.title}>
                 {t('CUSTOMERS')}
             </Typography>
-            <FilterInput
+            <InputFilter
                 className={classes.search}
                 value={inputFilter}
                 label={t('FILTER')}
-                onChange={onChangeHandler}
+                onChange={onFilterChangedHandler}
             />
             <List className={classes.container}>
                 <ListItem divider>

@@ -5,6 +5,7 @@ export const UsersUA = {
     EMAIL: 'E-mail',
     NUMBER: 'Контактний номер',
     ROLE: 'Роль',
+    SORT_BY_ROLE: 'Сортувати за роллю',
     PASSWORD: 'Пароль',
     RPASSWORD: 'Повторіть пароль',
     CREATEUSER: "Створити користувача",
