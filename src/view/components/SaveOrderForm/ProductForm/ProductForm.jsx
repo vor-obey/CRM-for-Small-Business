@@ -13,7 +13,7 @@ export const ProductForm = ({
         <>
             <Grid item xl={12} xs={12}>
                 <Typography className={classes.heading} variant='h6'>
-                    {t('PRODUCT_DETAILS')}
+                    {t('PRODUCTDETAILS')}
                 </Typography>
                 <Divider/>
             </Grid>

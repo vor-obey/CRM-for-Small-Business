@@ -47,7 +47,7 @@ export const OrderDetails = ({
                     {renderShippingAddress()}
                     <Grid item xs={12}>
                         <TextField
-                            label={t('SHIPPING_METHOD')}
+                            label={t('SHIPPINGMETHOD')}
                             margin="normal"
                             name="shippingMethod"
                             type="text"

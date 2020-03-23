@@ -20,7 +20,7 @@ export const SystemEN = {
     CUSTOMERS: 'Customers',
     USERS: 'Users',
     ORDERS: 'Orders',
-    NEW_ORDERS: 'NEW ORDERS',
+    NEW_ORDERS: 'New orders',
     CHAT: 'Chat',
     STATISTIC: 'Statistic',
     LOGOUT_TEXT: 'You could logout, just click',

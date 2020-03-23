@@ -1,31 +1,42 @@
 import React from 'react';
-import { Redirect } from "react-router-dom";
-import {Button} from "@material-ui/core";
+import {Button, Container, Grid, makeStyles} from "@material-ui/core";
 import {useTranslation} from "react-i18next";
+import {logOutStyle} from "./LogOut.Style";
 
-export default function LogOut(){
-    const { t } = useTranslation('');
+const useStyles = makeStyles(logOutStyle);
 
-    let token = localStorage.getItem("acc");
+export default function LogOut() {
+    const classes = useStyles();
+    const {t} = useTranslation('');
 
-    if(token == null){
-        return <Redirect to='/'/>
-    }
+    const onClickHandler = () => {
+        let token = localStorage.getItem("acc");
 
-    function onClick(){
-        localStorage.removeItem("acc")
-    }
+        if (token) {
+            return localStorage.removeItem("acc");
+        }
+    };
 
-        return (
-            <div>
-                {t('LOGOUT_TEXT')} <br />
-                <Button
-                type="submit"
-                href='/'
-                onClick={onClick()}
-                variant="contained"
-                color="secondary"
-                >{t('LOGOUT_BUTTON')}</Button>
-            </div>
-        );
+    return (
+        <Container component="main">
+            <Grid className={classes.root}>
+                <Grid className={classes.container}>
+                    <Grid className={classes.textBar}>
+                        {t('LOGOUT_TEXT')}
+                    </Grid>
+                    <Grid className={classes.buttonBar}>
+                        <Button
+                            className={classes.button}
+                            href='/'
+                            onClick={onClickHandler}
+                            color="primary"
+                            variant="outlined"
+                        >
+                            {t('LOGOUT_BUTTON')}
+                        </Button>
+                    </Grid>
+                </Grid>
+            </Grid>
+        </Container>
+    );
 }

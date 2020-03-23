@@ -1,7 +1,7 @@
 export const OrgEN ={
-    CREATE_ORGANIZATION_NAME: 'Create Organization',
-    ORGANIZATION_NAME: 'Organization name',
-    NOVAPOSHTA_API_KEY: 'Nova Poshta API Key',
+    CREATEORG: 'Create Organization',
+    ORGNAME: 'Organization name',
+    NPAPI: 'Nova Poshta API Key',
     CODE: 'Code',
-    CREATE_ADMIN: 'Create user',
+    CREATEADMIN: 'Create user',
 };

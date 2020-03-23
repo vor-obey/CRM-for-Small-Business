@@ -90,12 +90,12 @@ export const Login = (props) => {
                         color="primary"
                         className={classes.submit}
                     >
-                        {t('LOGIN_BUTTON')}
+                        {t('LOGINBUTTON')}
                     </Button>
                 </form>
                 <Button
                     onClick={handleClick}>
-                    {t('FORGOT_PASSWORD')}
+                    {t('FORGOTPASS')}
                 </Button>
             </div>
         </Container>

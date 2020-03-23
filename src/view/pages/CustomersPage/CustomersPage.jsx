@@ -124,7 +124,7 @@ export const CustomersPage = ({history}) => {
                     to='/create-customer'
                 >
                     <PersonAddIcon className={classes.addCustomer}/>
-                    {t('CREATE_CUSTOMER')}
+                    {t('CREATECUSTOMER')}
                 </Button>
             </Grid>
         </Container>

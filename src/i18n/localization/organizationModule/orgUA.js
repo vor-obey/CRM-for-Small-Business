@@ -1,7 +1,7 @@
 export const OrgUA ={
-    CREATE_ORGANIZATION_NAME: 'Cтворити організацію',
-    ORGANIZATION_NAME: 'Назва організації',
-    NOVAPOSHTA_API_KEY: 'НоваПошта API Key',
+    CREATEORG: 'Cтворити організацію',
+    ORGNAME: 'Назва організації',
+    NPAPI: 'НоваПошта API Key',
     CODE: 'Код',
-    CREATE_ADMIN: 'Створити користувача',
+    CREATEADMIN: 'Створити користувача',
 };

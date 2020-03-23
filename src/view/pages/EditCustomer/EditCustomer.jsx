@@ -72,7 +72,7 @@ export const EditCustomer = ({history}) => {
         <SaveCustomerForm
             onSubmit={onSubmitHandler}
             renderSource={renderSources}
-            titleText={t('EDIT_CUSTOMER')}
+            titleText={t('EDITCUSTOMER')}
             submitText={t('EDIT')}
             details={customerDetails}
             onChange={onChangeHandler}

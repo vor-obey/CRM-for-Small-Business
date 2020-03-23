@@ -60,7 +60,7 @@ export const Profile = (props) => {
                               to={`/users/${currentUser.userId}/edit`}
                               selected={isActive('/')}>
                         <ListItemIcon><EditIcon/></ListItemIcon>
-                        <ListItemText>{t('EDIT_PROFILE')}</ListItemText>
+                        <ListItemText>{t('EDITPROFILE')}</ListItemText>
                     </ListItem>
                     <Divider variant="fullWidth" component="li"/>
                     <ListItem button
