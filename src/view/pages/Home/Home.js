@@ -93,7 +93,7 @@ export const Home = ({history}) => {
                         <CardActionArea onClick={() => navigateToOrdersPage(2)} className={classes.cardAction}>
                             <CardContent>
                                 <Typography variant='h5' className={classes.typography}>
-                                    {t('READY_TO_SHIPPING').toUpperCase()}
+                                    {t('READY_FOR_SHIPPING').toUpperCase()}
                                 </Typography>
                                 <Typography variant='h4'>
                                     {renderOrdersCountByStatus(2)}

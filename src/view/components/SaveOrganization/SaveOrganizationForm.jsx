@@ -13,7 +13,7 @@ export const SaveOrganizationForm = ({
         <Grid container spacing={2}>
             <Grid item xs={12} sm={12}>
                 <TextField
-                    label={t('ORGNAME')}
+                    label={t('ORGANIZATION_NAME')}
                     name="organizationName"
                     variant="outlined"
                     type="text"
@@ -25,7 +25,7 @@ export const SaveOrganizationForm = ({
             </Grid>
             <Grid item xs={12} sm={12}>
                 <TextField
-                    label={t('NPAPI')}
+                    label={t('NP_API')}
                     name="apiKeyNP"
                     variant="outlined"
                     type="text"
