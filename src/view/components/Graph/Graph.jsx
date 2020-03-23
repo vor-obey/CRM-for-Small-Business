@@ -11,12 +11,12 @@ export const Graph = () => {
       datasets: [
          {
             label: t('ORDERS'),
-            backgroundColor: 'rgba(0, 0, 255)',
+            backgroundColor: 'rgba(0, 0, 255, 0.6)',
             data: [4, 5, 1, 10, 32, 2, 12]
          },
          {
             label: t('NEW_ORDERS'),
-            backgroundColor: 'rgba(0, 0,  255, 0.3)',
+            backgroundColor: 'rgba(0, 0,  255, 0.4)',
             data: [14, 15, 21, 0, 12, 4, 2]
          },
       ]

@@ -13,6 +13,7 @@ import {COMMON_ERROR_MESSAGE} from "../../../constants/statuses";
 import isEmpty from 'lodash/isEmpty';
 import {useTranslation} from "react-i18next";
 import {filter} from "../../../utils/helpers";
+import {useLocation} from "react-router-dom";
 import {InputFilter} from "../../components/Filter/InputFilter";
 import {SelectFilter} from "../../components/Filter/SelectFilter";
 
@@ -22,7 +23,7 @@ export const OrdersPage = ({history}) => {
     const classes = useStyles();
     const dispatch = useDispatch();
     const {t} = useTranslation('');
-
+    const location = useLocation();
     const minWidth350 = useMediaQuery('(min-width:350px)');
 
     const [orderList, setOrderList] = useState([]);
@@ -43,6 +44,13 @@ export const OrdersPage = ({history}) => {
         };
         fetchOrders();
     }, [dispatch]);
+
+    useEffect(() => {
+        if (location.state) {
+            const status = location.state.status.toString();
+            setSelectedOption(status)
+        }
+    }, [location]);
 
     const navigationToOrderDetails = useCallback((orderId) => {
         history.push(`/orders/${orderId}`);
@@ -111,13 +119,13 @@ export const OrdersPage = ({history}) => {
             <List>
                 <ListItem disableGutters divider>
                     <Grid container>
-                        <Grid item xs={5}>
+                        <Grid item xl={5} lg={5} md={5} sm={5} xs={4}>
                             <Typography>{t('DESCRIPTION')}</Typography>
                         </Grid>
-                        <Grid item xs={5}>
+                        <Grid item xl={5} lg={5} md={5} sm={5} xs={5}>
                             <Typography>{t('CUSTOMER')}</Typography>
                         </Grid>
-                        <Grid item xs={2} className={classes.textStatus}>
+                        <Grid item xl={2} ld={2} md={2} sm={2} xs={2} className={classes.textStatus}>
                             <Typography>{t('STATUS')}</Typography>
                         </Grid>
                     </Grid>

@@ -1,7 +1,7 @@
 export const OrgRU ={
-    CREATEORG: 'Создать организацию',
-    ORGNAME: 'Название организации',
-    NPAPI: 'НоваяПочта API Key',
+    CREATE_ORGANIZATION: 'Создать организацию',
+    ORGANIZATION_NAME: 'Название организации',
+    NP_API: 'НоваяПочта API Key',
     CODE: 'Код',
-    CREATEADMIN: 'Создать пользователя',
+    CREATE_ADMIN: 'Создать пользователя',
 };

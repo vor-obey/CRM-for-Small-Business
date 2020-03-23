@@ -45,6 +45,7 @@ export const usersPageStyle = (theme =>  ({
         display: 'flex',
         flexWrap: 'wrap',
         justifyContent: 'flex-end',
+        alignItems: 'center',
         [theme.breakpoints.down('xs')]: {
             justifyContent: 'center',
         }
@@ -55,5 +56,8 @@ export const usersPageStyle = (theme =>  ({
     selector: {
         width: '200px',
         paddingTop: '2px',
+        [theme.breakpoints.down('xs')]: {
+            width: 220
+        }
     },
 }));

@@ -112,12 +112,12 @@ export const UsersPage = ({history}) => {
                     <Grid container className={classes.userListContainer}>
                         <Grid item xs={4} md={2}>
                             <Typography className={classes.userItemTitle}>
-                                {t('FIRSTNAME')}
+                                {t('FIRST_NAME')}
                             </Typography>
                         </Grid>
                         <Grid item xs={4} md={2}>
                             <Typography className={classes.userItemTitle}>
-                                {t('LASTNAME')}
+                                {t('LAST_NAME')}
                             </Typography>
                         </Grid>
                         <Hidden smDown>
