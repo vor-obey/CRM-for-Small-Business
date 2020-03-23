@@ -161,7 +161,7 @@ export const CreateOrderPage = ({history}) => {
             isCustom={isCustom}
             address={address}
             onChangedAddressInput={onChangedAddressInput}
-            buttonText={t('CREATE_ORDER')}
+            buttonText={t('CREATEORDER')}
         />
     )
 };

@@ -86,7 +86,7 @@ export const CreateCustomer = ({
         <SaveCustomerForm
             details={customerDetails}
             renderSource={renderSources}
-            titleText={t('CREATE_CUSTOMER')}
+            titleText={t('CREATECUSTOMER')}
             onSubmit={onSubmitHandler}
             submitText={t('CREATE')}
             onChange={onChangeHandler}

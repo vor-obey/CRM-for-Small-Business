@@ -18,14 +18,15 @@ export const orderRU = {
     SHIPPING: 'Доставляется',
     IN_PROGRESS: 'В обработке',
     COMPLETED: 'Завершен',
-    READY_FOR_SHIPPING: 'Готов к оптравке',
+    READY_FOR_SHIPPING: 'Готов к отправке',
     CURRENCY: 'Валюта',
-    SHIPPING_METHOD: 'Метод доставки',
+    SHIPPING_METHOD: 'Способ доставки',
     MANAGER: 'Менеджер',
     BACK: 'Назад',
     DELETE: 'Удалить',
     DELETE_ORDER: 'Удалить заказ',
     CONFIRM_DELETE: 'Вы уверены, что хотите удалить заказ?',
     ADDRESS: 'Адрес',
-    EDIT_ORDER: 'Редактировать заказ'
+    EDIT_ORDER: 'Редактировать заказ',
+    WAREHOUSE: 'Отделение почты'
 };

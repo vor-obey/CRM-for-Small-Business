@@ -52,7 +52,7 @@ export const EditUser = () => {
         <SaveUserForm
             currentUser={currentUser}
             onSubmit={onSubmitHandler}
-            title={t('EDIT_USER')}
+            title={t('EDITUSER')}
             buttonText={t('EDIT')}
             userDetails={userDetails}
             roles={roles}

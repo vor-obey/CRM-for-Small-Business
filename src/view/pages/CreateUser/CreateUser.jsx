@@ -46,7 +46,7 @@ export const CreateUser = ({history}) => {
     return (
         <SaveUserForm
             onSubmit={onSubmitHandler}
-            title={t('CREATE_USER')}
+            title={t('CREATEUSER')}
             buttonText={t('CREATE')}
             roles={roles}
             isEdit={false}

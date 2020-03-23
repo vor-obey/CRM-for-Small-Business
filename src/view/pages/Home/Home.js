@@ -65,7 +65,7 @@ export const Home = ({history}) => {
                         <CardActionArea onClick={() => navigateToOrdersPage(0)} className={classes.cardAction}>
                             <CardContent>
                                 <Typography variant='h5' className={classes.typography}>
-                                    {t('NEW_ORDERS')}
+                                    {t('NEW_ORDERS').toUpperCase()}
                                 </Typography>
                                 <Typography variant='h4'>
                                     {renderOrdersCountByStatus(0)}
@@ -79,7 +79,7 @@ export const Home = ({history}) => {
                         <CardActionArea onClick={() => navigateToOrdersPage(1)} className={classes.cardAction}>
                             <CardContent>
                                 <Typography variant='h5' className={classes.typography}>
-                                    {t('IN_PROGRESS')}
+                                    {t('IN_PROGRESS').toUpperCase()}
                                 </Typography>
                                 <Typography variant='h4'>
                                     {renderOrdersCountByStatus(1)}
@@ -93,7 +93,7 @@ export const Home = ({history}) => {
                         <CardActionArea onClick={() => navigateToOrdersPage(2)} className={classes.cardAction}>
                             <CardContent>
                                 <Typography variant='h5' className={classes.typography}>
-                                    {t('READY_TO_SHIPPING')}
+                                    {t('READY_TO_SHIPPING').toUpperCase()}
                                 </Typography>
                                 <Typography variant='h4'>
                                     {renderOrdersCountByStatus(2)}

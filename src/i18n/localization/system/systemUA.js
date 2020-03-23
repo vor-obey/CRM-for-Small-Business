@@ -21,8 +21,6 @@ export const SystemUA = {
     USERS: 'Користувачі',
     ORDERS: 'Замовлення',
     NEW_ORDERS: 'Нові замовлення',
-    IN_PROGRESS: 'В обробці',
-    READY_TO_SHIPPING: 'Готові до відправки',
     CHAT: 'Чат',
     STATISTIC: 'Статистика',
     LOGOUT_TEXT: 'Ви можете вийти з системи, просто натисніть',

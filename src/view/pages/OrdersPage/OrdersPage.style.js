@@ -1,32 +1,42 @@
 export const ordersPageStyles = ((theme) => ({
     root: {
-        marginTop: 80
+        marginTop: theme.spacing(10),
+        [theme.breakpoints.down('xs')]: {
+            marginTop: theme.spacing(3)
+        }
     },
     statusGrid: {
         display: 'flex',
         alignItems: 'center',
         textAlign: 'center',
+        overflowWrap: 'break-word'
     },
     customerGrid: {
+        display: 'flex',
+        alignItems: 'center',
         overflowWrap: 'break-word'
     },
     orderGrid: {
+        hyphens: 'auto',
         overflowWrap: 'break-word'
     },
     textStatus: {
         textAlign: 'center',
-        overflowWrap: 'break-word'
+        wordBreak: 'break-all'
     },
     searchBox: {
         display: 'flex',
         flexWrap: 'wrap',
-        alignItems: 'center',
         justifyContent: 'flex-end',
+        [theme.breakpoints.down('xs')]: {
+            justifyContent: 'center',
+        }
+    },
+    search: {
+        width: '300px',
     },
     selector: {
-        width: 205,
-        [theme.breakpoints.down('xs')]: {
-            width: 200
-        }
+        width: '200px',
+        paddingTop: '2px',
     },
 }));

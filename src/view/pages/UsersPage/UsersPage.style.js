@@ -46,9 +46,16 @@ export const usersPageStyle = (theme =>  ({
         flexWrap: 'wrap',
         justifyContent: 'flex-end',
         alignItems: 'center',
+        [theme.breakpoints.down('xs')]: {
+            justifyContent: 'center',
+        }
+    },
+    search: {
+        width: '300px',
     },
     selector: {
-        width: 205,
+        width: '200px',
+        paddingTop: '2px',
         [theme.breakpoints.down('xs')]: {
             width: 220
         }

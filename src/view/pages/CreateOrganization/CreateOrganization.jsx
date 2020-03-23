@@ -75,7 +75,7 @@ export const CreateOrganization = ({history}) => {
                     <BusinessIcon/>
                 </Avatar>
                 <Typography component="h1" variant="h5">
-                    {t('CREATE_ORGANIZATION_NAME')}
+                    {t('CREATEORG')}
                 </Typography>
                 <form className={classes.form} onSubmit={onSubmitHandler}>
                     <SaveOrganizationForm
@@ -83,7 +83,7 @@ export const CreateOrganization = ({history}) => {
                         onChangedInput={onChangeHandler}
                     />
                     <Typography className={classes.user} component="h1" variant="h6">
-                        {t('CREATE_ADMIN')}
+                        {t('CREATEADMIN')}
                     </Typography>
                     <SaveUserDetails
                         userDetails={organization}

@@ -19,7 +19,7 @@ export const SaveUserDetails = ({
     const renderRoleOptions = useCallback(() => {
         return roles.map((role) => {
             return (
-                <option key={role.roleId} value={role.roleId}>{t(ROLES[role.name])}</option>
+                <option key={role.roleId} value={role.roleId}>{t(ROLES[role.name.toUpperCase()])}</option>
             )
         });
     }, [roles, t]);

@@ -162,7 +162,7 @@ export const NovaPoshtaAddress = ({
                     onToggle={toggleCityAutocomplete}
                     onClose={toggleCityAutocomplete}
                     renderOption={renderCityOptions}
-                    inputLabel={t('SELECT_CITY')}
+                    inputLabel={t('SELECTCITY')}
                     getOptionLabel={getCityOptionLabel}
                     value={cityInput}
                 />
@@ -181,7 +181,7 @@ export const NovaPoshtaAddress = ({
                     onToggle={toggleWarehouseAutocomplete}
                     onClose={toggleWarehouseAutocomplete}
                     renderOption={renderWarehouseOptions}
-                    inputLabel={t('SELECT_WAREHOUSE')}
+                    inputLabel={t('SELECTWAREHOUSE')}
                     getOptionLabel={getWarehouseOptionLabel}
                     disabled={warehouseOptions.length === 0}
                     key={warehouseReset}
