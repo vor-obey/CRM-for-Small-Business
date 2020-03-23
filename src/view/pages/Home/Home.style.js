@@ -1,4 +1,8 @@
 export const HomeStyles = (theme => ({
+    '@font-face': {
+        fontFamily: 'Cuprum',
+        src: 'url(https://fonts.googleapis.com/css2?family=Cuprum&display=swap)'
+    },
     container: {
         display: 'flex',
         alignItems: 'center',
@@ -45,7 +49,8 @@ export const HomeStyles = (theme => ({
         justifyContent: 'center',
         color: '#fff',
         borderRadius: '40% 15% 40% 15%',
-        background: 'linear-gradient(0deg, rgba(63,81,181,1) 50%, rgba(34,171,199,1) 100%)',
+        fontFamily: 'Cuprum',
+        background: 'linear-gradient(45deg, rgba(63,81,181,1) 40%, rgba(34,171,199,1) 100%)',
 
         [theme.breakpoints.down('md')]: {
             width: 250,
@@ -53,7 +58,6 @@ export const HomeStyles = (theme => ({
             margin: theme.spacing(3),
         },
         [theme.breakpoints.down('sm')]: {
-            // width: '100%',
             margin: theme.spacing(3),
         },
         [theme.breakpoints.down('xs')]: {
@@ -64,17 +68,6 @@ export const HomeStyles = (theme => ({
     cardAction: {
         width: 300,
         height: 250,
-        // [theme.breakpoints.down('md')]: {
-        //    width: 250,
-        //    height: 200
-        // },
-        // [theme.breakpoints.down('sm')]: {
-        //    width: '95%',
-        //    height: 200,
-        // },
-        // [theme.breakpoints.down('xs')]: {
-        //    width: '95%',
-        // },
     },
     gridChat: {
         width: 300,
@@ -109,4 +102,6 @@ export const HomeStyles = (theme => ({
             width: '98%',
         }
     },
+
+
 }));
