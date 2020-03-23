@@ -46,7 +46,7 @@ export const usersPageStyle = (theme =>  ({
       flexWrap: 'wrap',
       alignItems: 'center',
       [theme.breakpoints.down('md')]: {
-         marginLeft: theme.spacing(1)
+         marginLeft: theme.spacing(2)
       }
    },
    search: {
