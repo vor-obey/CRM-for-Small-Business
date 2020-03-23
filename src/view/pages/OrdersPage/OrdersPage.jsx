@@ -1,49 +1,30 @@
 import React, {useEffect, useState, useCallback} from "react";
 import {Container, List, useMediaQuery} from "@material-ui/core";
-import {useDispatch} from "react-redux";
 import ListItem from "@material-ui/core/ListItem";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import {OrderListItem} from "./OrderListItem/OrderListItem";
 import {makeStyles} from "@material-ui/core/styles";
-import {OrderService} from "../../../services/index";
 import {ordersPageStyles} from "./OrdersPage.style";
-import {setIsLoading, setSnackBarStatus} from "../../../data/store/auxiliary/auxiliaryActions";
-import {COMMON_ERROR_MESSAGE} from "../../../constants/statuses";
 import isEmpty from 'lodash/isEmpty';
 import {useTranslation} from "react-i18next";
 import {filter} from "../../../utils/helpers";
 import {useLocation} from "react-router-dom";
 import {InputFilter} from "../../components/Filter/InputFilter";
 import {SelectFilter} from "../../components/Filter/SelectFilter";
+import {useOrders} from '../../../utils/customHooks';
 
 const useStyles = makeStyles(ordersPageStyles);
 
 export const OrdersPage = ({history}) => {
     const classes = useStyles();
-    const dispatch = useDispatch();
     const {t} = useTranslation('');
     const location = useLocation();
     const minWidth350 = useMediaQuery('(min-width:350px)');
 
-    const [orderList, setOrderList] = useState([]);
+    const orderList = useOrders();
     const [inputFilter, setInputFilter] = useState('');
     const [selectedOption, setSelectedOption] = useState('');
-
-    useEffect(() => {
-        const fetchOrders = async () => {
-            try {
-                dispatch(setIsLoading(true));
-                const response = await OrderService.list();
-                setOrderList(response);
-                dispatch(setIsLoading(false));
-            } catch (e) {
-                dispatch(setIsLoading(false));
-                dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE, success: false}))
-            }
-        };
-        fetchOrders();
-    }, [dispatch]);
 
     useEffect(() => {
         if (location.state) {

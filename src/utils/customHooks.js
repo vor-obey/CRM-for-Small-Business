@@ -1,10 +1,77 @@
 import {useEffect, useState} from 'react';
 import {setIsLoading, setSnackBarStatus} from '../data/store/auxiliary/auxiliaryActions';
-import {OrderService, ShippingMethodService} from '../services';
+import {OrderService, RoleService, ShippingMethodService} from '../services';
 import {COMMON_ERROR_MESSAGE} from '../constants/statuses';
 import {useDispatch} from 'react-redux';
 import CustomerService from '../services/CustomerService';
 import UserService from '../services/UserService';
+import SourcesService from '../services/SourcesService';
+
+export const useSources = () => {
+    const [sources, setSources] = useState([]);
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        const fetchSources = async () => {
+            try {
+                dispatch(setIsLoading(true));
+                const sources = await SourcesService.list();
+                setSources(sources);
+                dispatch(setIsLoading(false));
+            } catch (e) {
+                dispatch(setIsLoading(false));
+                dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE, success: false}))
+            }
+        };
+        fetchSources();
+    }, [dispatch]);
+
+    return sources;
+};
+
+export const useRoles = () => {
+    const [roles, setRoles] = useState([]);
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        const fetchRoles = async () => {
+            try {
+                dispatch(setIsLoading(true));
+                const roles = await RoleService.list();
+                setRoles(roles);
+                dispatch(setIsLoading(false));
+            } catch (e) {
+                dispatch(setIsLoading(false));
+                dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE, success: false}))
+            }
+        };
+        fetchRoles();
+    }, [dispatch]);
+
+    return roles;
+};
+
+export const useOrders = () => {
+    const [orders, setOrders] = useState([]);
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        const fetchOrders = async () => {
+            try {
+                dispatch(setIsLoading(true));
+                const response = await OrderService.list();
+                setOrders(response);
+                dispatch(setIsLoading(false));
+            } catch (e) {
+                dispatch(setIsLoading(false));
+                dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE, success: false}))
+            }
+        };
+        fetchOrders();
+    }, [dispatch]);
+
+    return orders;
+};
 
 export const useOrderDetailsById = (id) => {
     const [orderDetails, setOrderDetails] = useState({});
@@ -50,6 +117,29 @@ export const useCustomers = () => {
     return [customers, setCustomers];
 };
 
+export const useCustomerById = (id) => {
+    const [customer, setCustomer] = useState({});
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        const fetchCustomerById = async (id) => {
+            try {
+                dispatch(setIsLoading(true));
+                const response = await CustomerService.findOneById(id);
+                setCustomer(response);
+                dispatch(setIsLoading(false));
+            } catch (e) {
+                dispatch(setIsLoading(false));
+                dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE}));
+            }
+        };
+
+        fetchCustomerById(id);
+    }, [dispatch, id]);
+
+    return customer;
+};
+
 export const useManagers = () => {
     const [managers, setManagers] = useState([]);
     const dispatch = useDispatch();
@@ -70,6 +160,28 @@ export const useManagers = () => {
     }, [dispatch]);
 
     return [managers, setManagers];
+};
+
+export const useManagerById = (id) => {
+    const [manager, setManager] = useState({});
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        const fetchUserById = async () => {
+            try {
+                dispatch(setIsLoading(true));
+                const response = await UserService.findOneById(id);
+                setManager(response);
+                dispatch(setIsLoading(false));
+            } catch (e) {
+                dispatch(setIsLoading(false));
+                dispatch(setSnackBarStatus({isOpen: true, message: e.message, success: false}))
+            }
+        };
+        fetchUserById();
+    }, [id, dispatch]);
+
+    return manager;
 };
 
 export const useShippingMethods = () => {

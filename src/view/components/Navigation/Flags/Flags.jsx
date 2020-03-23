@@ -4,8 +4,7 @@ import {Select, MenuItem, Button} from "@material-ui/core";
 import {useTranslation} from "react-i18next";
 import i18next from 'i18next';
 
-export const Flags = (props) => {
-    const { classes } = props;
+export const Flags = ({classes}) => {
     const [open, setOpen] = useState(false);
     const {i18n} = useTranslation('');
 
@@ -13,18 +12,18 @@ export const Flags = (props) => {
         i18n.changeLanguage(lng);
     }, [i18n]);
 
-    const handleClose = () => {
+    const handleClose = useCallback(() => {
         setOpen(false);
-    };
+    }, []);
 
-    const handleOpen = () => {
+    const handleOpen = useCallback(() => {
         setOpen(true);
-    };
+    }, []);
     return (
         <Select
             className={classes.flags}
             value={i18next.language}
-            variant={'standard'}
+            variant='standard'
             open={open}
             displayEmpty={false}
             onClose={handleClose}
@@ -34,12 +33,12 @@ export const Flags = (props) => {
                     <Flag code='gb' height="16"/>
                 </Button>
             </MenuItem>
-            <MenuItem  value="ua">
+            <MenuItem value="ua">
                 <Button onClick={changeLanguage('ua')}>
                     <Flag code='ua' height="16"/>
                 </Button>
             </MenuItem>
-            <MenuItem  value="ru">
+            <MenuItem value="ru">
                 <Button onClick={changeLanguage('ru')}>
                     <Flag code='ru' height="16"/>
                 </Button>

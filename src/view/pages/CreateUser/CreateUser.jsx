@@ -1,32 +1,16 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback} from 'react';
 import {SaveUserForm} from '../../components/SaveUser/SaveUserForm';
-import {RoleService, UserService} from "../../../services";
+import {UserService} from "../../../services";
 import {useDispatch} from "react-redux";
 import {setIsLoading, setSnackBarStatus} from "../../../data/store/auxiliary/auxiliaryActions";
 import {COMMON_ERROR_MESSAGE} from "../../../constants/statuses";
 import {useTranslation} from "react-i18next";
-
+import {useRoles} from '../../../utils/customHooks';
 
 export const CreateUser = ({history}) => {
     const dispatch = useDispatch();
-    const [roles, setRoles] = useState([]);
+    const roles = useRoles();
     const { t } = useTranslation('');
-
-
-    useEffect(() => {
-        const fetchRoles = async () => {
-            try {
-                dispatch(setIsLoading(true));
-                const roles = await RoleService.list();
-                setRoles(roles);
-                dispatch(setIsLoading(false));
-            } catch (e) {
-                dispatch(setIsLoading(false));
-                dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE, success: false}))
-            }
-        };
-        fetchRoles();
-    }, [dispatch]);
 
     const onSubmitHandler = useCallback(async (userInput) => {
         const {confirmPassword, ...user} = userInput;
