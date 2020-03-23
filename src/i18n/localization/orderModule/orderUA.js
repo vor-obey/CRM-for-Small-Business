@@ -29,4 +29,11 @@ export const orderUA = {
     ADDRESS: 'Адреса',
     EDIT_ORDER: 'Редагувати замовлення',
     WAREHOUSE: 'Відділення пошти',
+    CREATE_INTERNET_DOCUMENT: 'Створити експресс накладну',
+    WEIGHT: 'Вага',
+    SEATS_AMOUNT: 'Кількість місць',
+    COST: 'Вартість',
+    RECIPIENT_PHONE: 'Телефон одержувача',
+    SENDER_PHONE: 'Телефон відправника',
+    RECIPIENT_FULL_NAME: 'ФIО одержувача'
 };

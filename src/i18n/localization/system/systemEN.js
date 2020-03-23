@@ -24,5 +24,7 @@ export const SystemEN = {
     CHAT: 'Chat',
     STATISTIC: 'Statistic',
     LOGOUT_TEXT: 'You could logout, just click',
-    LOGOUT_BUTTON: 'Log out'
+    LOGOUT_BUTTON: 'Log out',
+    SUBMIT: 'Submit',
+    PRINT: 'Print'
 };

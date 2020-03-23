@@ -112,6 +112,12 @@ export const CustomerForm = ({
                 open={isModalOpen}
                 classes={classes}
                 handleClose={toggleModal}
+                breakpoints={{
+                    xl: 3,
+                    lg: 3,
+                    md: 4,
+                    xs: 9
+                }}
             >
                 <CreateCustomer
                     updateCustomerList={updateCustomersList}

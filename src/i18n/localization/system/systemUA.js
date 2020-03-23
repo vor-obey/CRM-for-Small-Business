@@ -24,5 +24,7 @@ export const SystemUA = {
     CHAT: 'Чат',
     STATISTIC: 'Статистика',
     LOGOUT_TEXT: 'Ви можете вийти з системи, просто натисніть',
-    LOGOUT_BUTTON: 'Вийти'
+    LOGOUT_BUTTON: 'Вийти',
+    SUBMIT: 'Підтвердити',
+    PRINT: 'Роздрукувати'
 };

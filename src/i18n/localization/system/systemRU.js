@@ -24,5 +24,7 @@ export const SystemRU = {
     CHAT: 'Чат',
     STATISTIC: 'Статистика',
     LOGOUT_TEXT: 'Вы можете выйти, просто нажав',
-    LOGOUT_BUTTON: 'Выйти'
+    LOGOUT_BUTTON: 'Выйти',
+    SUBMIT: 'Подтвердить',
+    PRINT: 'Распечатать'
 };

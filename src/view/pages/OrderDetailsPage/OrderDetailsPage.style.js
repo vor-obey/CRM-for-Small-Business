@@ -38,4 +38,22 @@ export const orderDetailsStyles = ((theme) => ({
     button: {
         margin: '5px 5px 0 5px'
     },
+    modal: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        [theme.breakpoints.down('lg')]: {
+            margin: '0 15px 0 15px'
+        }
+    },
+    gridModal: {
+        display: 'flex',
+        backgroundColor: '#fff',
+        position: 'relative'
+    },
+    buttonClose: {
+        position: 'absolute',
+        marginTop: theme.spacing(1),
+        right: 0
+    },
 }));

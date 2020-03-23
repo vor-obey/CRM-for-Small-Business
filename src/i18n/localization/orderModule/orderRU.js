@@ -28,5 +28,12 @@ export const orderRU = {
     CONFIRM_DELETE: 'Вы уверены, что хотите удалить заказ?',
     ADDRESS: 'Адрес',
     EDIT_ORDER: 'Редактировать заказ',
-    WAREHOUSE: 'Отделение почты'
+    WAREHOUSE: 'Отделение почты',
+    CREATE_INTERNET_DOCUMENT: 'Создать экспресс накладную',
+    WEIGHT: 'Вес',
+    SEATS_AMOUNT: 'Количество мест',
+    COST: 'Стоимость',
+    RECIPIENT_PHONE: 'Телефон получателя',
+    SENDER_PHONE: 'Телефон отправителя',
+    RECIPIENT_FULL_NAME: 'ФИО получателя'
 };
