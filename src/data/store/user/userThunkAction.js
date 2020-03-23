@@ -27,7 +27,7 @@ export const getCurrentUser = () => async (dispatch) => {
     try {
         dispatch(setIsLoading(true));
         const response = await UserService.getCurrentUser();
-        if (!response.error && !isEmpty(response)) {
+        if (!isEmpty(response)) {
             dispatch(setCurrentUser(response));
             dispatch(setIsLoading(false));
         } else {

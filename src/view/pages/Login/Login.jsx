@@ -9,14 +9,14 @@ import {setSnackBarStatus} from '../../../data/store/auxiliary/auxiliaryActions'
 import {COMMON_ERROR_MESSAGE} from '../../../constants/statuses';
 import {useTranslation} from "react-i18next";
 
-
 const useStyles = makeStyles(loginStyles);
 
-export const Login = (props) => {
-    const {history} = props;
+export const Login = ({
+                          history
+                      }) => {
     const classes = useStyles();
     const dispatch = useDispatch();
-    const { t } = useTranslation('');
+    const {t} = useTranslation('');
 
     const [userLoginData, setUserLoginData] = useState({
         email: '',
@@ -45,9 +45,9 @@ export const Login = (props) => {
     }, [userLoginData, dispatch]);
 
 
-    const handleClick = () => {
+    const handleClick = useCallback(() => {
         history.push('/forgot-password');
-    };
+    }, [history]);
 
     return (
         <Container component="main" maxWidth="xs">
@@ -90,12 +90,12 @@ export const Login = (props) => {
                         color="primary"
                         className={classes.submit}
                     >
-                        {t('LOGINBUTTON')}
+                        {t('LOGIN_BUTTON')}
                     </Button>
                 </form>
                 <Button
                     onClick={handleClick}>
-                    {t('FORGOTPASS')}
+                    {t('FORGOT_PASSWORD')}
                 </Button>
             </div>
         </Container>

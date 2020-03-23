@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from "react";
+import React, {useCallback} from "react";
 
 import {
     Card,
@@ -14,34 +14,14 @@ import {
 import {HomeStyles} from "./Home.style";
 import {Graph} from '../../components/Graph/Graph'
 import {useTranslation} from "react-i18next";
-import {useDispatch} from "react-redux";
-import {setIsLoading, setSnackBarStatus} from "../../../data/store/auxiliary/auxiliaryActions";
-import {OrderService} from "../../../services";
-import {COMMON_ERROR_MESSAGE} from "../../../constants/statuses";
+import {useOrders} from '../../../utils/customHooks';
 
 const useStyles = makeStyles(HomeStyles);
 
 export const Home = ({history}) => {
-    const [orders, setOrders] = useState([]);
-
     const classes = useStyles();
-    const dispatch = useDispatch();
     const {t} = useTranslation('');
-
-    useEffect(() => {
-        const fetchOrders = async () => {
-            try {
-                dispatch(setIsLoading(true));
-                const response = await OrderService.list();
-                setOrders(response);
-                dispatch(setIsLoading(false));
-            } catch (e) {
-                dispatch(setIsLoading(false));
-                dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE, success: false}))
-            }
-        };
-        fetchOrders();
-    }, [dispatch]);
+    const orders = useOrders();
 
     const renderOrdersCountByStatus = useCallback((status) => {
         const filtered = orders.filter(order => order.status === status);

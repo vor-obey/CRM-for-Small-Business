@@ -1,4 +1,4 @@
-import React, {useState, useCallback, useEffect} from "react";
+import React, {useState, useCallback} from "react";
 
 import {
     Paper,
@@ -20,6 +20,7 @@ import {UserDetails} from './UserDetails/UserDetails';
 import {setIsLoading, setSnackBarStatus} from "../../../data/store/auxiliary/auxiliaryActions";
 import {COMMON_ERROR_MESSAGE} from "../../../constants/statuses";
 import {useTranslation} from "react-i18next";
+import {useManagerById} from '../../../utils/customHooks';
 
 const useStyles = makeStyles(userDetailsStyle);
 
@@ -29,28 +30,12 @@ export const UserDetailsPage = ({history}) => {
     const {id} = useParams();
     const classes = useStyles();
     const [isShow, setIsShow] = useState(false);
-    const [userDetails, setUserDetails] = useState({});
+    const userDetails = useManagerById(id);
     const { t } = useTranslation('');
-
 
     const handleOpenDialog = useCallback(() => {
         setIsShow(prevState => !prevState);
     }, []);
-
-    useEffect(() => {
-        const fetchUserById = async () => {
-            try {
-                dispatch(setIsLoading(true));
-                const response = await UserService.findOneById(id);
-                setUserDetails(response);
-                dispatch(setIsLoading(false));
-            } catch (e) {
-                dispatch(setIsLoading(false));
-                dispatch(setSnackBarStatus({isOpen: true, message: e.message, success: false}))
-            }
-        };
-        fetchUserById();
-    }, [id, history, dispatch]);
 
     const handleClickDeleteUser = useCallback(async () => {
         dispatch(setIsLoading(true));

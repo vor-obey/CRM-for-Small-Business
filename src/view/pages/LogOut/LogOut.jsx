@@ -1,7 +1,7 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import {Button, Container, Grid, makeStyles} from "@material-ui/core";
 import {useTranslation} from "react-i18next";
-import {logOutStyle} from "./LogOut.Style";
+import {logOutStyle} from "./LogOut.style";
 
 const useStyles = makeStyles(logOutStyle);
 
@@ -9,13 +9,13 @@ export default function LogOut() {
     const classes = useStyles();
     const {t} = useTranslation('');
 
-    const onClickHandler = () => {
+    const onClickHandler = useCallback(() => {
         let token = localStorage.getItem("acc");
 
         if (token) {
             return localStorage.removeItem("acc");
         }
-    };
+    }, []);
 
     return (
         <Container component="main">
