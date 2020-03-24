@@ -50,7 +50,7 @@ function Drawer(props) {
                     component={Link}
                     to="/dashboard"
                     selected={isActive('/')}>
-                    <ListItemIcon><HomeIcon/></ListItemIcon>
+                    <ListItemIcon className={classes.menuIcon}><HomeIcon/></ListItemIcon>
                     <ListItemText>{t('HOME')}</ListItemText>
                 </ListItem>
                 <Divider variant="inset" component="li"/>
@@ -60,7 +60,7 @@ function Drawer(props) {
                     component={Link}
                     to="/create-order"
                     selected={isActive('/#')}>
-                    <ListItemIcon><PlusIcon/></ListItemIcon>
+                    <ListItemIcon className={classes.menuIcon}><PlusIcon/></ListItemIcon>
                     <ListItemText>{t('CREATE_ORDER')}</ListItemText>
                 </ListItem>
                 <Divider variant="inset" component="li"/>
@@ -70,7 +70,7 @@ function Drawer(props) {
                     component={Link}
                     to="/customers"
                     selected={isActive('/customers')}>
-                    <ListItemIcon><AssignmentIndIcon/></ListItemIcon>
+                    <ListItemIcon className={classes.menuIcon}><AssignmentIndIcon/></ListItemIcon>
                     <ListItemText>{t('CUSTOMERS')}</ListItemText>
                 </ListItem>
                 <Divider variant="inset" component="li"/>
@@ -80,7 +80,7 @@ function Drawer(props) {
                     component={Link}
                     to="/users"
                     selected={isActive('/users')}>
-                    <ListItemIcon><PeopleIcon/></ListItemIcon>
+                    <ListItemIcon className={classes.menuIcon}><PeopleIcon/></ListItemIcon>
                     <ListItemText>{t('USERS')}</ListItemText>
                 </ListItem>
                 <ListItem
@@ -89,7 +89,7 @@ function Drawer(props) {
                     component={Link}
                     to="/orders"
                     selected={isActive('/orders')}>
-                    <ListItemIcon><InsertDriveFileIcon/></ListItemIcon>
+                    <ListItemIcon className={classes.menuIcon}><InsertDriveFileIcon/></ListItemIcon>
                     <ListItemText>{t('ORDERS')}</ListItemText>
                 </ListItem>
             </List>
