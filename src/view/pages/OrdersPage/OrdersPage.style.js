@@ -11,7 +11,7 @@ export const ordersPageStyles = ((theme) => ({
       textAlign: 'center',
       overflowWrap: 'break-word'
    },
-   customerGrid: {
+   gridList: {
       display: 'flex',
       alignItems: 'center',
       overflowWrap: 'break-word'
@@ -37,6 +37,18 @@ export const ordersPageStyles = ((theme) => ({
       width: '300px',
    },
    selector: {
-      width: '200px',
+      width: '203px',
    },
+   textList: {
+      display: 'none',
+      [theme.breakpoints.down('xs')]: {
+         display: 'block',
+         marginRight: theme.spacing(1)
+      }
+   },
+   gridOrderContainer: {
+      [theme.breakpoints.down('xs')]: {
+         display: 'none'
+      }
+   }
 }));
