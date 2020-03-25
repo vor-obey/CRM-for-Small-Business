@@ -27,17 +27,17 @@ export const ordersPageStyles = ((theme) => ({
    searchBox: {
       display: 'flex',
       flexWrap: 'wrap',
-      justifyContent: 'flex-end',
       alignItems: 'center',
-      [theme.breakpoints.down('xs')]: {
-         justifyContent: 'center',
-      }
    },
    search: {
       width: '300px',
    },
    selector: {
-      width: '203px',
+      width: '200px',
+      margin: '0 10px 0 10px',
+      [theme.breakpoints.down('xs')]: {
+      margin: '0 0 0 10px',
+      }
    },
    textList: {
       display: 'none',
