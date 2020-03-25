@@ -25,7 +25,7 @@ export const SystemRU = {
     READY_TO_SHIPPING: 'Готовы к отправке',
     CHAT: 'Чат',
     STATISTIC: 'Статистика',
-    LOGOUT_TEXT: 'Ви впевнені що хочете вийти?',
+    LOGOUT_TEXT: 'Вы уверены что хотите выйти?',
     LOGOUT_BUTTON: 'Выйти',
     WIDGET_ERROR: 'Извините, этот виджет недоступен. Мы занимаемся его разработкой.',
     NO: 'Нет',
