@@ -21,10 +21,15 @@ export const SystemUA = {
     USERS: 'Користувачі',
     ORDERS: 'Замовлення',
     NEW_ORDERS: 'Нові замовлення',
+    IN_PROGRESS: 'В обробці',
+    READY_TO_SHIPPING: 'Готові до відправки',
     CHAT: 'Чат',
     STATISTIC: 'Статистика',
-    LOGOUT_TEXT: 'Ви можете вийти з системи, просто натисніть',
-    LOGOUT_BUTTON: 'Вийти',
     SUBMIT: 'Підтвердити',
-    PRINT: 'Роздрукувати'
+    PRINT: 'Роздрукувати',
+    LOGOUT_TEXT: 'Ви впевнені що хочете вийти?',
+    LOGOUT_BUTTON: 'Вийти',
+    WIDGET_ERROR: 'Вибачте, цей віджет недоступний. Ми займаємося його розробкою.',
+    NO: 'Ні',
+    YES: 'Так'
 };

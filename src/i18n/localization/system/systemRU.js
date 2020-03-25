@@ -21,10 +21,15 @@ export const SystemRU = {
     USERS: 'Пользователи',
     ORDERS: 'Заказы',
     NEW_ORDERS: 'Новые заказы',
+    IN_PROGRESS: 'В обработке',
+    READY_TO_SHIPPING: 'Готовы к отправке',
     CHAT: 'Чат',
     STATISTIC: 'Статистика',
-    LOGOUT_TEXT: 'Вы можете выйти, просто нажав',
-    LOGOUT_BUTTON: 'Выйти',
     SUBMIT: 'Подтвердить',
-    PRINT: 'Распечатать'
+    PRINT: 'Распечатать',
+    LOGOUT_TEXT: 'Вы уверены что хотите выйти?',
+    LOGOUT_BUTTON: 'Выйти',
+    WIDGET_ERROR: 'Извините, этот виджет недоступен. Мы занимаемся его разработкой.',
+    NO: 'Нет',
+    YES: 'Да'
 };
