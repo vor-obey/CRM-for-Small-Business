@@ -1,8 +1,4 @@
 export const HomeStyles = (theme => ({
-    '@font-face': {
-        fontFamily: 'Cuprum',
-        src: 'url(https://fonts.googleapis.com/css2?family=Cuprum&display=swap)'
-    },
     container: {
         display: 'flex',
         alignItems: 'center',
@@ -10,7 +6,8 @@ export const HomeStyles = (theme => ({
         marginTop: theme.spacing(5)
     },
     root: {
-        width: 1024,
+        width: 800,
+        marginRight: theme.spacing(15),
         [theme.breakpoints.down('sm')]: {
             width: '100%',
             marginRight: 0,
@@ -25,19 +22,9 @@ export const HomeStyles = (theme => ({
             height: 1,
         },
     },
-    typography: {
+    typography : {
         [theme.breakpoints.down('xs')]: {
             fontSize: 18
-        },
-    },
-    cardsContainer: {
-        display: 'flex',
-        flexWrap: 'wrap',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        marginTop: theme.spacing(3),
-        [theme.breakpoints.down('sm')]: {
-            justifyContent: 'center',
         },
     },
     card: {
@@ -47,37 +34,45 @@ export const HomeStyles = (theme => ({
         textAlign: 'center',
         alignItems: 'center',
         justifyContent: 'center',
-        color: '#fff',
-        borderRadius: '40% 15% 40% 15%',
-        fontFamily: 'Cuprum',
-        background: 'linear-gradient(45deg, rgba(63,81,181,1) 40%, rgba(34,171,199,1) 100%)',
-
         [theme.breakpoints.down('md')]: {
             width: 250,
-            height: 200,
-            margin: theme.spacing(3),
+            height: 200
         },
         [theme.breakpoints.down('sm')]: {
-            margin: theme.spacing(3),
+            width: '95%',
+            height: 200,
+            marginTop: theme.spacing(3),
         },
         [theme.breakpoints.down('xs')]: {
-            width: '100%',
-            margin: theme.spacing(3, 0),
+            width: '95%',
+            marginTop: theme.spacing(1),
         },
     },
     cardAction: {
         width: 300,
         height: 250,
+        [theme.breakpoints.down('md')]: {
+            width: 250,
+            height: 200
+        },
+        [theme.breakpoints.down('sm')]: {
+            width: '95%',
+            height: 200,
+        },
+        [theme.breakpoints.down('xs')]: {
+            width: '95%',
+        },
     },
-    gridChat: {
+    chat: {
         width: 300,
         height: 395,
+        marginTop: theme.spacing(3),
         [theme.breakpoints.down('md')]: {
             width: 250,
             height: 370
         },
         [theme.breakpoints.down('sm')]: {
-            width: '100%',
+            width: '95%',
             height: 200
         },
         [theme.breakpoints.down('xs')]: {
@@ -86,14 +81,11 @@ export const HomeStyles = (theme => ({
             marginTop: theme.spacing(1),
         }
     },
-    chatText: {
-        color: '#848484',
-        textAlign: 'center',
-    },
-    gridGraph: {
-        width: 662,
+    graph: {
+        width: 640,
+        marginTop: theme.spacing(3),
         [theme.breakpoints.down('md')]: {
-            width: 640,
+            width: 590,
         },
         [theme.breakpoints.down('sm')]: {
             width: '100%',
@@ -102,6 +94,4 @@ export const HomeStyles = (theme => ({
             width: '98%',
         }
     },
-
-
 }));
