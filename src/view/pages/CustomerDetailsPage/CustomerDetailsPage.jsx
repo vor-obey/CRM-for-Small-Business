@@ -1,4 +1,4 @@
-import React, {useState, useCallback, useEffect} from "react";
+import React, {useState, useCallback} from "react";
 import {
     Paper,
     Typography,
@@ -19,32 +19,17 @@ import {CustomerDetails} from './CustomerDetails/CustomerDetails';
 import {setIsLoading, setSnackBarStatus} from "../../../data/store/auxiliary/auxiliaryActions";
 import {COMMON_ERROR_MESSAGE} from "../../../constants/statuses";
 import {useTranslation} from "react-i18next";
+import {useCustomerById} from '../../../utils/customHooks';
 
 const useStyles = makeStyles(customerDetailsStyle);
 
 export const CustomerDetailsPage = ({history}) => {
-    const [customerDetails, setCustomerDetails] = useState({});
+    const {id} = useParams();
+    const customerDetails = useCustomerById(id);
     const [isShow, setIsShow] = useState(false);
     const dispatch = useDispatch();
-    const {id} = useParams();
     const classes = useStyles();
     const { t } = useTranslation('');
-
-    useEffect(() => {
-        const fetchCustomerById = async (id) => {
-            try {
-                dispatch(setIsLoading(true));
-                const response = await CustomerService.findOneById(id);
-                setCustomerDetails(response);
-                dispatch(setIsLoading(false));
-            } catch (e) {
-                dispatch(setIsLoading(false));
-                dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE}));
-            }
-        };
-
-        fetchCustomerById(id);
-    }, [dispatch, id]);
 
     const handleOpenDialog = useCallback(() => {
         setIsShow(prevState => !prevState);

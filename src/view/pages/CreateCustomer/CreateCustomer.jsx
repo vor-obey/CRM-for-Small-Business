@@ -1,12 +1,12 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useState} from 'react';
 
 import {SaveCustomerForm} from "../../components/SaveCustomerForm/SaveCustomerForm";
 import {CustomerService} from "../../../services";
-import SourcesService from "../../../services/SourcesService";
 import {setIsLoading, setSnackBarStatus} from "../../../data/store/auxiliary/auxiliaryActions";
 import {COMMON_ERROR_MESSAGE} from "../../../constants/statuses";
 import {useDispatch} from "react-redux";
 import {useTranslation} from "react-i18next";
+import {useSources} from '../../../utils/customHooks';
 
 export const CreateCustomer = ({
                                    history,
@@ -20,24 +20,9 @@ export const CreateCustomer = ({
         details: '',
         sourceId: '',
     });
-    const [sources, setSources] = useState([]);
+    const sources = useSources();
     const dispatch = useDispatch();
     const { t } = useTranslation('');
-
-    useEffect(() => {
-        const fetchSources = async () => {
-            try {
-                dispatch(setIsLoading(true));
-                const sources = await SourcesService.list();
-                setSources(sources);
-                dispatch(setIsLoading(false));
-            } catch (e) {
-                dispatch(setIsLoading(false));
-                dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE, success: false}))
-            }
-        };
-        fetchSources();
-    }, [dispatch]);
 
     const onChangeHandler = useCallback((event) => {
         const {name, value} = event.target;

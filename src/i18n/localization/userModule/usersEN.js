@@ -15,5 +15,5 @@ export const UsersEN = {
     EDIT_USER: 'Edit User',
     ROLE_ADMIN: 'Admin',
     ROLE_MANAGER: 'Manager',
-    ROLE_MODERATOR: 'Moderator',
+    ROLE_MODERATOR: 'Moderator'
 };

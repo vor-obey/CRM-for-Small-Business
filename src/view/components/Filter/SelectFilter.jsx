@@ -3,41 +3,30 @@ import {FormControl, InputLabel, Select} from '@material-ui/core';
 import {ROLES, EOrderStatus} from "../../../constants/statuses";
 import {useTranslation} from "react-i18next";
 
-export const ListSelector = ({
+export const SelectFilter = ({
                                  classes,
                                  label,
-                                 roles,
+                                 roles = null,
                                  onChange,
-                                 statuses,
                                  value
                              }) => {
     const {t} = useTranslation();
 
-    const renderRoleOptions = useCallback(() => {
-        return roles.map((role) => {
-            return (
-                <option key={role.roleId} value={role.roleId}>{t(ROLES[role.name])}</option>
-            )
-        });
-    }, [roles, t]);
+    const renderOptions = useCallback(() => {
+        if (roles) {
+            return roles.map((role) => {
+                return (
+                    <option key={role.roleId} value={role.roleId}>{t(ROLES[role.name.toUpperCase()])}</option>
+                )
+            });
+        }
 
-    const renderStatusOptions = useCallback(() => {
-        const entries = Object.entries(EOrderStatus);
-        return entries.map(([key, value]) => {
+        return Object.entries(EOrderStatus).map(([key, value]) => {
             return (
                 <option key={key} value={key}>{t(value)}</option>
             )
         });
-    }, [t]);
-
-    const renderSelect = useCallback(() => {
-        if (roles) {
-            return renderRoleOptions();
-        }
-        if (statuses) {
-            return renderStatusOptions();
-        }
-    }, [roles, statuses, renderRoleOptions, renderStatusOptions]);
+    }, [roles, t]);
 
     return (
         <FormControl className={classes.selector}>
@@ -47,7 +36,7 @@ export const ListSelector = ({
                 onChange={onChange}
                 value={value}>
                 <option value=""/>
-                {renderSelect()}
+                {renderOptions()}
             </Select>
         </FormControl>
     )

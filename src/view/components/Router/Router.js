@@ -17,14 +17,12 @@ import {CustomerDetailsPage} from "../../pages/CustomerDetailsPage/CustomerDetai
 import {CreateCustomer} from "../../pages/CreateCustomer/CreateCustomer";
 import {EditCustomer} from "../../pages/EditCustomer/EditCustomer";
 import {getCurrentUser} from "../../../data/store/user/userThunkAction";
-import {NovaPoshtaAddress} from "../NovaPoshtaAddress/NovaPoshtaAddress";
 import {ForgotPassword} from "../../pages/ForgotPassword/ForgotPassword";
 import {OrdersPage} from "../../pages/OrdersPage/OrdersPage";
 import {OrderDetailsPage} from "../../pages/OrderDetailsPage/OrderDetailsPage";
 import {history} from "../../../utils/history";
 import {CreateOrderPage} from "../../pages/CreateOrderPage/CreateOrderPage";
 import {CreateOrganization} from "../../pages/CreateOrganization/CreateOrganization";
-import {CreateCode} from "../../pages/CreateCode/CreateCode";
 import {EditUser} from '../../pages/EditUser/EditUser';
 import {EditOrder} from '../../pages/EditOrder/EditOrder';
 
@@ -53,16 +51,12 @@ export const Routing = () => {
          <PrivateRoute exact path='/users' component={UsersPage}/>
          <PrivateRoute exact path='/users/:id/edit' component={EditUser}/>
          <PrivateRoute exact path='/users/:id' component={UserDetailsPage}/>
-         <PrivateRoute exact path='/create-shipping-details' component={NovaPoshtaAddress}/>
          <PrivateRoute exact path='/orders' component={OrdersPage}/>
          <PrivateRoute exact path='/create-order' component={CreateOrderPage}/>
          <PrivateRoute exact path='/orders/:id' component={OrderDetailsPage}/>
          <PrivateRoute exact path='/orders/:id/edit' component={EditOrder}/>
-         <PrivateRoute exact path='/create-code' component={CreateCode} />
          <Route exact path='/restore_password/:token' component={RestorePassword}/>
          <Route exact path='/forgot_password' component={ForgotPassword}/>
-         <Route exact path='/restore-password/:token' component={RestorePassword}/>
-         <Route exact path='/forgot-password' component={ForgotPassword}/>
          <Route exact path='/create-organization' component={CreateOrganization}/>
       </Router>
    )

@@ -25,6 +25,8 @@ export const SystemUA = {
     READY_TO_SHIPPING: 'Готові до відправки',
     CHAT: 'Чат',
     STATISTIC: 'Статистика',
+    SUBMIT: 'Підтвердити',
+    PRINT: 'Роздрукувати',
     LOGOUT_TEXT: 'Ви впевнені що хочете вийти?',
     LOGOUT_BUTTON: 'Вийти',
     WIDGET_ERROR: 'Вибачте, цей віджет недоступний. Ми займаємося його розробкою.',

@@ -1,83 +1,62 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import {Link} from "react-router-dom";
 import {Button, Container, List, ListItem, Grid, Typography, Hidden, makeStyles} from '@material-ui/core';
 import {usersPageStyle} from "./UsersPage.style";
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
-import {RoleService, UserService} from "../../../services";
-import {useDispatch} from "react-redux";
 import {UserListItem} from "./UserListItem/UserListItem";
-import {setIsLoading, setSnackBarStatus} from "../../../data/store/auxiliary/auxiliaryActions";
-import {COMMON_ERROR_MESSAGE} from "../../../constants/statuses";
-import {FilterInput} from "../../components/Filter/FilterInput/FilterInput";
+import {InputFilter} from "../../components/Filter/InputFilter";
 import {filter} from "../../../utils/helpers";
 import {USER_URLS} from '../../../constants/urls';
 import {useTranslation} from 'react-i18next';
-import {ListSelector} from "../../components/ListSelector/ListSelector";
-
+import {SelectFilter} from "../../components/Filter/SelectFilter";
+import {useManagers, useRoles} from '../../../utils/customHooks';
 
 const useStyles = makeStyles(usersPageStyle);
 
 export const UsersPage = ({history}) => {
-    const dispatch = useDispatch();
     const classes = useStyles();
     const {t} = useTranslation('');
 
-    const [userList, setUserList] = useState([]);
-    const [roles, setRoles] = useState([]);
+    const [userList] = useManagers();
+    const roles = useRoles();
     const [inputFilter, setInputFilter] = useState('');
-    const [select, setSelect] = useState('');
-
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                dispatch(setIsLoading(true));
-                const [response, roles] = await Promise.all([UserService.list(), RoleService.list()]);
-                setUserList(response);
-                setRoles(roles);
-                dispatch(setIsLoading(false));
-            } catch (e) {
-                dispatch(setIsLoading(false));
-                dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE, success: false}))
-            }
-        };
-        fetchData();
-    }, [dispatch]);
+    const [selectedOption, setSelectedOption] = useState('');
 
     const navigateToUserDetails = useCallback((userId) => {
         history.push(`${USER_URLS.USERS}/${userId}`)
     }, [history]);
 
-    const onChangeHandler = useCallback((event) => {
+    const onFilterChangedHandler = useCallback((event) => {
         const {value} = event.target;
         setInputFilter(value)
     }, []);
 
-    const onChangeSelect = useCallback((event) => {
+    const onSelectHandler = useCallback((event) => {
         const {value} = event.target;
-        setSelect(value);
+        setSelectedOption(value);
     }, []);
 
     const filterUsers = useCallback(() => {
         let filteredUsers = filter(userList, inputFilter);
 
-        if (!select) {
+        if (!selectedOption) {
             return filteredUsers;
         }
 
-        return filter(filteredUsers, select, ['role']);
-    }, [inputFilter, select, userList]);
+        return filter(filteredUsers, selectedOption, ['role']);
+    }, [inputFilter, selectedOption, userList]);
 
     const renderSelect = useCallback(() => {
         return (
-            <ListSelector
+            <SelectFilter
                 classes={classes}
                 label={t('SORT_BY_ROLE')}
                 roles={roles}
-                value={select}
-                onChange={onChangeSelect}
+                value={selectedOption}
+                onChange={onSelectHandler}
             />
         )
-    }, [roles, classes, t, select, onChangeSelect]);
+    }, [roles, classes, t, selectedOption, onSelectHandler]);
 
     const renderRows = useCallback(() => {
         if (!userList || !userList.length) {
@@ -99,13 +78,13 @@ export const UsersPage = ({history}) => {
     return (
         <Container className={classes.root}>
             <Grid className={classes.searchBox}>
-                {roles ? renderSelect() : null}
-                <FilterInput
+                <InputFilter
                     className={classes.search}
                     value={inputFilter}
                     label={t('FILTER')}
-                    onChange={onChangeHandler}
+                    onChange={onFilterChangedHandler}
                 />
+                {roles ? renderSelect() : null}
             </Grid>
             <List className={classes.container}>
                 <ListItem divider>

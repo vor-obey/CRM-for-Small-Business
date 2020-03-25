@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useCallback, useState} from 'react';
 
 import {ForgotPasswordStyles} from "./ForgotPassword.style";
 import Container from '@material-ui/core/Container';
@@ -16,17 +16,17 @@ export const ForgotPassword = () => {
    const { t } = useTranslation('');
    const [email, setEmail] = useState('');
    const [messageText, setMessageText] = useState('hello');
-   const [buttonText, setButtonText] = useState('Send');
+   const [buttonText, setButtonText] = useState(t('SEND'));
    const [isForm, setIsForm] = useState(true);
 
    const classes = useStyles();
 
-   const onInputChangedHandler = (event) => {
+   const onInputChangedHandler = useCallback((event) => {
       const {value} = event.target;
       setEmail(value);
-   };
+   }, []);
 
-   const onSubmitHandler = async (event) => {
+   const onSubmitHandler = useCallback(async (event) => {
       event.preventDefault();
       setButtonText(t('SENDING'));
       const response = await UserService.sendPasswordResetEmail(email);
@@ -38,18 +38,13 @@ export const ForgotPassword = () => {
       } else {
          setMessageText(t('NO_FOUND_EMAIL'));
       }
-   };
+   }, [email, t]);
 
-   const onClickedHandler = () => {
+   const onClickedHandler = useCallback(() => {
       setIsForm(prevState => !prevState);
-   };
+   }, []);
 
-   const disableButton = () => {
-      return !email;
-
-   };
-
-   const displayStatus = () => {
+   const displayStatus = useCallback(() => {
       return (
          <Box className={classes.display}>
             <Typography component="h1" variant="h5">
@@ -65,9 +60,9 @@ export const ForgotPassword = () => {
             </Button>
          </Box>
       )
-   };
+   }, [classes, messageText, onClickedHandler, t]);
 
-   const displayForm = () => {
+   const displayForm = useCallback(() => {
       return (
          <Box className={classes.root}>
             <Typography component="h1" variant="h5">
@@ -94,14 +89,14 @@ export const ForgotPassword = () => {
                   variant="contained"
                   color="primary"
                   className={classes.submit}
-                  disabled={disableButton()}
+                  disabled={!email}
                >
                   {buttonText}
                </Button>
             </form>
          </Box>
       )
-   };
+   }, [buttonText, classes, email, onInputChangedHandler, onSubmitHandler, t]);
 
    return (
       <Container component="main" maxWidth="xs">

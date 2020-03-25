@@ -25,7 +25,7 @@ export const SaveOrganizationForm = ({
             </Grid>
             <Grid item xs={12} sm={12}>
                 <TextField
-                    label={t('NOVAPOSHTA_API_KEY')}
+                    label={t('NP_API')}
                     name="apiKeyNP"
                     variant="outlined"
                     type="text"

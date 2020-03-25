@@ -1,8 +1,5 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import {Link} from "react-router-dom";
-import {useDispatch} from "react-redux";
-
-import {CustomerService} from "../../../services";
 import {
     Button,
     Grid,
@@ -16,45 +13,28 @@ import {
 import {customersPageStyle} from "./CustomersPage.style";
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import {CustomerListItem} from "./CustomerListItem/CustomerListItem";
-import {setIsLoading, setSnackBarStatus} from "../../../data/store/auxiliary/auxiliaryActions";
-import {COMMON_ERROR_MESSAGE} from "../../../constants/statuses";
 import {USER_URLS} from "../../../constants/urls";
-import {FilterInput} from "../../components/Filter/FilterInput/FilterInput";
+import {InputFilter} from "../../components/Filter/InputFilter";
 import {filter} from "../../../utils/helpers";
 import {useTranslation} from "react-i18next";
+import {useCustomers} from '../../../utils/customHooks';
 
 const useStyles = makeStyles(customersPageStyle);
 
 export const CustomersPage = ({history}) => {
-    const [customerList, setCustomerList] = useState([]);
-    const dispatch = useDispatch();
+    const [customerList] = useCustomers();
     const classes = useStyles();
     const [inputFilter, setInputFilter] = useState('');
     const { t } = useTranslation('');
-
-    useEffect(() => {
-        const fetchCustomers = async () => {
-            try {
-                dispatch(setIsLoading(true));
-                const response = await CustomerService.list();
-                setCustomerList(response);
-                dispatch(setIsLoading(false));
-            } catch (e) {
-                dispatch(setIsLoading(false));
-                dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE, success: false}));
-            }
-        };
-        fetchCustomers();
-    }, [dispatch]);
 
     const navigateToCustomerDetails = useCallback((customerId) => {
         history.push(`${USER_URLS.CUSTOMERS}/${customerId}`)
     }, [history]);
 
-   const onChangeHandler = (event) => {
+   const onFilterChangedHandler = useCallback((event) => {
       const {value} = event.target;
       setInputFilter(value)
-   };
+   }, []);
 
    const renderRows = useCallback(() => {
       if (!customerList || !customerList.length) {
@@ -77,11 +57,11 @@ export const CustomersPage = ({history}) => {
             <Typography variant="h5" className={classes.title}>
                 {t('CUSTOMERS')}
             </Typography>
-            <FilterInput
+            <InputFilter
                 className={classes.search}
                 value={inputFilter}
                 label={t('FILTER')}
-                onChange={onChangeHandler}
+                onChange={onFilterChangedHandler}
             />
             <List className={classes.container}>
                 <ListItem divider>

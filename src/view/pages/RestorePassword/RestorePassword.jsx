@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useCallback, useState} from "react";
 import {RestorePasswordStyle} from './RestorePassword.style'
 import {useParams} from 'react-router-dom';
 
@@ -8,7 +8,7 @@ import {UserService} from "../../../services";
 
 const useStyles = makeStyles(RestorePasswordStyle);
 
-export const RestorePassword = (props) => {
+export const RestorePassword = ({history}) => {
    const classes = useStyles();
    const [password, setPassword] = useState('');
    const [confirmationPassword, setConfirmationPassword] = useState('');
@@ -16,40 +16,40 @@ export const RestorePassword = (props) => {
    const [buttonText, setButtonText] = useState('Send');
    const {token} = useParams();
 
-   const onPasswordInputChangedHandler = event => {
+   const onPasswordInputChangedHandler = useCallback((event) => {
       setErrorMessage('');
       const {value} = event.target;
       setPassword(value);
-   };
+   }, []);
 
-   const onConfirmationPasswordInputChangedHandler = event => {
+   const onConfirmationPasswordInputChangedHandler = useCallback((event) => {
       setErrorMessage('');
       const {value} = event.target;
       setConfirmationPassword(value);
-   };
+   }, []);
 
 
-   const onSubmitHandler = async (e) => {
+   const onSubmitHandler = useCallback(async (e) => {
       e.preventDefault();
       setButtonText('Sending...');
       const response = await UserService.sendNewPassword({token, password});
          setButtonText('Send');
          if (response.success) {
-            props.history.push('/')
+            history.push('/')
          } else {
             setErrorMessage('Error');
             setPassword('');
             setConfirmationPassword('');
          }
-   };
+   }, [history, password, token]);
 
-   const disableButton = () => {
+   const disableButton = useCallback(() => {
       if (password !== confirmationPassword) {
          return true;
       }
       return !password || !confirmationPassword;
 
-   };
+   }, [confirmationPassword, password]);
 
    return (
       <Container component="main" maxWidth="xs">
