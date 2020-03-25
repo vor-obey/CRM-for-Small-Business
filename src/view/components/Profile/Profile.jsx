@@ -76,7 +76,7 @@ export const Profile = (props) => {
                         component={Link}
                         to={`/users/${currentUser.userId}/edit`}
                         selected={isActive('/')}>
-                        <ListItemIcon><EditIcon/></ListItemIcon>
+                        <ListItemIcon className={classes.menuIcon}><EditIcon/></ListItemIcon>
                         <ListItemText>{t('EDIT_PROFILE')}</ListItemText>
                     </ListItem>
                     <Divider variant="fullWidth" component="li"/>
@@ -84,7 +84,7 @@ export const Profile = (props) => {
                         className={classes.menuItem}
                         button
                         onClick={handleOpenDialog}>
-                        <ListItemIcon><ExitToAppIcon/></ListItemIcon>
+                        <ListItemIcon className={classes.menuIcon}><ExitToAppIcon/></ListItemIcon>
                         <ListItemText>{t('LOGOUT')}</ListItemText>
                     </ListItem>
                 </List>
