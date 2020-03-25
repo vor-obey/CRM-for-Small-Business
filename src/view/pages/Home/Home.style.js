@@ -14,17 +14,17 @@ export const HomeStyles = (theme => ({
       },
    },
    header: {
-      height: 20, 
+      height: 20,
       color: '#FFF',
       textAlign: 'center',
-      backgroundColor: '#3f51b5', 
+      backgroundColor: '#3f51b5',
       [theme.breakpoints.down('xs')]: {
          height: 1,
       },
    },
-   typography : {
+   typography: {
       [theme.breakpoints.down('xs')]: {
-         fontSize: 18 
+         fontSize: 18
       },
    },
    card: {
@@ -40,7 +40,7 @@ export const HomeStyles = (theme => ({
       },
       [theme.breakpoints.down('sm')]: {
          width: '95%',
-         height: 200, 
+         height: 200,
          marginTop: theme.spacing(3),
       },
       [theme.breakpoints.down('xs')]: {
@@ -51,6 +51,8 @@ export const HomeStyles = (theme => ({
    cardAction: {
       width: 300,
       height: 250,
+      display: 'flex',
+      alignItems: 'center',
       [theme.breakpoints.down('md')]: {
          width: 250,
          height: 200
@@ -69,11 +71,11 @@ export const HomeStyles = (theme => ({
       marginTop: theme.spacing(3),
       [theme.breakpoints.down('md')]: {
          width: 250,
-         height: 370 
+         height: 370
       },
       [theme.breakpoints.down('sm')]: {
          width: '95%',
-         height: 200 
+         height: 200
       },
       [theme.breakpoints.down('xs')]: {
          width: '96%',
