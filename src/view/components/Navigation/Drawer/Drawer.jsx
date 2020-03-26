@@ -50,7 +50,7 @@ function Drawer(props) {
                     component={Link}
                     to="/dashboard"
                     selected={isActive('/')}>
-                    <ListItemIcon className={classes.menuIcon}><HomeIcon/></ListItemIcon>
+                    <ListItemIcon><HomeIcon className={classes.menuIcon} /></ListItemIcon>
                     <ListItemText>{t('HOME')}</ListItemText>
                 </ListItem>
                 <Divider variant="inset" component="li"/>
