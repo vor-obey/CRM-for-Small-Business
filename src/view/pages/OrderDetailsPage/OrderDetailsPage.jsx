@@ -173,14 +173,14 @@ export const OrderDetailsPage = ({history}) => {
                 {renderPrintButton()}
             </Grid>
             <CustomDialog
-                title={t('DELETEORDER')}
+                title={t('DELETE_ORDER')}
                 isShow={isDialogOpen}
                 onClose={toggleDialog}
                 closeText={t('DISAGREE')}
                 actionText={t('AGREE')}
                 onAction={deleteOrder}
             >
-                {t('SUREDELETE')}
+                {t('CONFIRM_DELETE')}
             </CustomDialog>
             <CustomModal
                 classes={classes}

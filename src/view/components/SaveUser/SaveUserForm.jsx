@@ -7,6 +7,7 @@ import {SaveUserDetails} from "./SaveUserDetails/SaveUserDetails";
 import {PASSWORD_DOESNT_MATCH} from "../../../constants/statuses";
 import {useDispatch} from "react-redux";
 import {setSnackBarStatus} from "../../../data/store/auxiliary/auxiliaryActions";
+import {useTranslation} from "react-i18next";
 
 const useStyles = makeStyles(saveUserStyle);
 
@@ -21,6 +22,7 @@ export const SaveUserForm = ({
                              }) => {
     const classes = useStyles();
     const dispatch = useDispatch();
+    const {t} = useTranslation('');
     const [userDetailsInputs, setUserDetailsInputs] = useState({
         firstName: '',
         lastName: '',
@@ -33,7 +35,8 @@ export const SaveUserForm = ({
         password: '',
         confirmPassword: '',
     });
-    console.log(userCredentials);
+
+
     const [showPassword, setShowPassword] = useState(false);
 
     useEffect(() => {
@@ -68,7 +71,10 @@ export const SaveUserForm = ({
         event.preventDefault();
         if (userCredentials.password !== userCredentials.confirmPassword) {
             dispatch(setSnackBarStatus({isOpen: true, message: PASSWORD_DOESNT_MATCH, success: false}));
-        } else {
+        }else if (userDetailsInputs.contactNumber.length < 10 || userDetailsInputs.contactNumber.length > 12) {
+            dispatch(setSnackBarStatus({isOpen: true, message: t('INVALID_NUMBER'), success: false}));
+        }
+        else {
             const {confirmPassword, ...userCreds} = userCredentials;
             let input = {...userDetailsInputs, ...userCreds};
 
@@ -77,7 +83,7 @@ export const SaveUserForm = ({
             }
             onSubmit(input);
         }
-    }, [isEdit, onSubmit, userCredentials, userDetailsInputs, currentUser, userDetails, dispatch]);
+    }, [t, isEdit, onSubmit, userCredentials, userDetailsInputs, currentUser, userDetails, dispatch]);
 
     const renderCredentials = useCallback(() => {
         if (isEdit && (currentUser && userDetails && currentUser.userId !== userDetails.userId)) {
