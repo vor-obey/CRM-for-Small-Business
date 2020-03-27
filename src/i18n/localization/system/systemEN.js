@@ -35,4 +35,5 @@ export const SystemEN = {
     WIDGET_ERROR: 'Sorry, this widget isn\'t available. We are engaged in its development.',
     NO: 'No',
     YES: 'YES',
+    DISPLAY_ERROR: 'Sorry, this widget is currently unavailable. We are working on its implementation.',
 };

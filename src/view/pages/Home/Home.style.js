@@ -17,7 +17,7 @@ export const HomeStyles = (theme => ({
         height: 20,
         color: '#FFF',
         textAlign: 'center',
-        backgroundColor: '#3f51b5',
+        background: 'linear-gradient(180deg, rgba(63,81,181,1) 45%, rgba(34,171,199,1) 100%)',
         [theme.breakpoints.down('xs')]: {
             height: 1,
         },
