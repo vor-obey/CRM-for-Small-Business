@@ -94,4 +94,9 @@ export const HomeStyles = (theme => ({
             width: '98%',
         }
     },
+    displayError: {
+        [theme.breakpoints.down('xs')]: {
+            fontSize: 13
+        }
+    }
 }));
