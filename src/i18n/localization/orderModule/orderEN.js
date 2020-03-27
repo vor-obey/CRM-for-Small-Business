@@ -29,4 +29,11 @@ export const orderEN = {
     ADDRESS: 'Address',
     EDIT_ORDER: 'Edit Order',
     WAREHOUSE: 'Warehouse',
+    CREATE_INTERNET_DOCUMENT: 'Create Internet Document',
+    WEIGHT: 'Weight',
+    SEATS_AMOUNT: 'Seats Amount',
+    COST: 'Cost',
+    RECIPIENT_PHONE: 'Recipient Phone',
+    SENDER_PHONE: 'Sender Phone',
+    RECIPIENT_FULL_NAME: 'Recipient Full Name'
 };

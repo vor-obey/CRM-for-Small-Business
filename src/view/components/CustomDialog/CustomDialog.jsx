@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, {useMemo} from 'react';
 import {
     Dialog,
     DialogTitle,
@@ -30,11 +30,12 @@ export function CustomDialog({
                                  isShow,
                                  title,
                                  children,
+                                 exit,
                                  closeText = "Disagree",
                                  actionText = "Agree",
                                  onClose,
                                  onAction,
-                             }){
+                             }) {
     const classes = useStyles();
     const renderActionButton = useMemo(() => {
         if (typeof onAction === "undefined") {
@@ -42,11 +43,11 @@ export function CustomDialog({
         }
 
         return (
-            <Button onClick={onAction} color="primary">
+            <Button onClick={onAction} href={exit} color="primary">
                 {actionText}
             </Button>
         );
-    }, [onAction, actionText]);
+    }, [onAction, actionText, exit]);
 
     return (
         <Dialog

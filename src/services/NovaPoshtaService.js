@@ -21,6 +21,22 @@ class NovaPoshtaService extends CRUDService {
             return e;
         }
     }
+
+    async createInternetDocument(body) {
+        try {
+            return await this.APIService.apiPost('/np/document', {body})
+        } catch (e) {
+            return e;
+        }
+    }
+
+    async getInternetDocumentToPrint(number) {
+        try {
+            return await this.APIService.apiGet(`/np/document?number=${number}`)
+        } catch (e) {
+            return e;
+        }
+    }
 }
 
 export default new NovaPoshtaService();

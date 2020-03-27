@@ -31,10 +31,10 @@ export const Header = () => {
         <div className={classes.root}>
             <AppBar position="static">
                 <Toolbar className={classes.toolbar}>
-                    <Drawer/>
+                    {currentUser ? <Drawer/> : <div></div>}
                     <div className={classes.user}>
                         <Flags classes={classes}/>
-                        <Profile currentUser={currentUser}/>
+                        {currentUser ? <Profile currentUser={currentUser}/> : <div></div> }
                     </div>
                 </Toolbar>
             </AppBar>

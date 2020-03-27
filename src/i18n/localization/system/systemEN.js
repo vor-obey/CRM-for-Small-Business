@@ -21,8 +21,16 @@ export const SystemEN = {
     USERS: 'Users',
     ORDERS: 'Orders',
     NEW_ORDERS: 'New orders',
+    IN_PROGRESS: 'In progress',
+    READY_TO_SHIPPING: 'Ready to shipping',
     CHAT: 'Chat',
     STATISTIC: 'Statistic',
-    LOGOUT_TEXT: 'You could logout, just click',
-    LOGOUT_BUTTON: 'Log out'
+    SUBMIT: 'Submit',
+    PRINT: 'Print',
+    LOGOUT_TEXT: 'Are you sure you want log out?',
+    LOGOUT_BUTTON: 'Log out',
+    WIDGET_ERROR: 'Sorry, this widget isn\'t available. We are engaged in its development.',
+    NO: 'No',
+    YES: 'YES',
+    DISPLAY_ERROR: 'Sorry, this widget is currently unavailable. We are working on its implementation.',
 };
