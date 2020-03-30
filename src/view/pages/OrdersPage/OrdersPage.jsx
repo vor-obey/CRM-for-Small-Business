@@ -20,7 +20,7 @@ export const OrdersPage = ({history}) => {
     const classes = useStyles();
     const {t} = useTranslation('');
     const location = useLocation();
-    const minWidth350 = useMediaQuery('(min-width:350px)');
+    const minWidth600 = useMediaQuery('(min-width:600px)');
 
     const orderList = useOrders();
     const [inputFilter, setInputFilter] = useState('');
@@ -78,12 +78,12 @@ export const OrdersPage = ({history}) => {
                     key={order.orderId}
                     order={order}
                     classes={classes}
-                    minWidth350={minWidth350}
+                    minWidth600={minWidth600}
                     navigationToOrderDetails={navigationToOrderDetails}
                 />
             );
         })
-    }, [orderList, navigationToOrderDetails, filterStatus,  minWidth350, classes]);
+    }, [orderList, navigationToOrderDetails, filterStatus,  minWidth600, classes]);
 
     return (
         <Container className={classes.root}>
@@ -99,14 +99,14 @@ export const OrdersPage = ({history}) => {
 
             <List>
                 <ListItem disableGutters divider>
-                    <Grid container>
-                        <Grid item xl={5} lg={5} md={5} sm={5} xs={4}>
+                    <Grid container className={classes.gridOrderContainer}>
+                        <Grid item xl={5} lg={5} md={5} sm={4} >
                             <Typography>{t('DESCRIPTION')}</Typography>
                         </Grid>
-                        <Grid item xl={5} lg={5} md={5} sm={5} xs={5}>
+                        <Grid item xl={5} lg={5} md={5} sm={5} >
                             <Typography>{t('CUSTOMER')}</Typography>
                         </Grid>
-                        <Grid item xl={2} ld={2} md={2} sm={2} xs={2} className={classes.textStatus}>
+                        <Grid item xl={2} ld={2} md={2} sm={3} >
                             <Typography>{t('STATUS')}</Typography>
                         </Grid>
                     </Grid>

@@ -11,7 +11,7 @@ export const ordersPageStyles = ((theme) => ({
       textAlign: 'center',
       overflowWrap: 'break-word'
    },
-   customerGrid: {
+   gridList: {
       display: 'flex',
       alignItems: 'center',
       overflowWrap: 'break-word'
@@ -27,16 +27,28 @@ export const ordersPageStyles = ((theme) => ({
    searchBox: {
       display: 'flex',
       flexWrap: 'wrap',
-      justifyContent: 'flex-end',
       alignItems: 'center',
-      [theme.breakpoints.down('xs')]: {
-         justifyContent: 'center',
-      }
    },
    search: {
       width: '300px',
    },
    selector: {
       width: '200px',
+      margin: '0 10px 0 10px',
+      [theme.breakpoints.down('xs')]: {
+      margin: '0 0 0 10px',
+      }
    },
+   textList: {
+      display: 'none',
+      [theme.breakpoints.down('xs')]: {
+         display: 'block',
+         marginRight: theme.spacing(1)
+      }
+   },
+   gridOrderContainer: {
+      [theme.breakpoints.down('xs')]: {
+         display: 'none'
+      }
+   }
 }));
