@@ -77,7 +77,7 @@ export const UsersPage = ({history}) => {
 
     return (
         <Container className={classes.root}>
-            <Grid className={classes.searchBox}>
+            <Grid  className={classes.searchBox}>
                 <InputFilter
                     className={classes.search}
                     value={inputFilter}
