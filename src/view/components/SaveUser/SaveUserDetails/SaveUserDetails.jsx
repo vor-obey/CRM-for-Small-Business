@@ -107,7 +107,6 @@ export const SaveUserDetails = ({
                     name="contactNumber"
                     type="tel"
                     variant="outlined"
-                    format="+38 (###) ###-##-##"
                     mask="_"
                     value={(userDetails && userDetails.contactNumber) || ''}
                     onChange={onChangedInput}

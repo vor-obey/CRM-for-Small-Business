@@ -8,6 +8,7 @@ import {OrderService} from '../../../services/index';
 import {SaveOrderForm} from '../../components/SaveOrderForm/SaveOrderForm';
 import {useCustomers, useManagers, useShippingMethods} from '../../../utils/customHooks';
 import {useTranslation} from 'react-i18next';
+import {COMMON_ERROR_MESSAGE} from "../../../constants/statuses";
 
 const useStyles = makeStyles(createOrderPageStyles);
 
@@ -101,9 +102,11 @@ export const CreateOrderPage = ({history}) => {
         e.preventDefault();
         if (isEmpty(productDetails) || isEmpty(manager)
             || isEmpty(customer) || isEmpty(city) || isEmpty(warehouse)
-        ) {
-            dispatch(setSnackBarStatus({isOpen: true, message: 'Fill all the fields', success: false}));
-        } else {
+        ){
+            dispatch(setSnackBarStatus({isOpen: true, message: t('FILL_ALL_THE_FIElDS'), success: false}));
+        } else if(productDetails.description.length > 150) {
+            dispatch(setSnackBarStatus({isOpen: true, message: t('TOO_LONG_DESCRIPTION'), success: false}));
+        }else {
             try {
                 dispatch(setIsLoading(true));
                 const response = await OrderService.create({
@@ -121,14 +124,15 @@ export const CreateOrderPage = ({history}) => {
                     history.push('/orders');
                 } else {
                     dispatch(setIsLoading(false));
-                    dispatch(setSnackBarStatus({isOpen: true, message: 'Error', success: false}));
+                    dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE, success: false}));
                 }
             } catch {
                 dispatch(setIsLoading(false));
-                dispatch(setSnackBarStatus({isOpen: true, message: 'Error', success: false}));
+                dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE, success: false}));
             }
         }
     }, [
+        t,
         city,
         customer,
         manager,

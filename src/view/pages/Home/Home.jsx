@@ -89,7 +89,7 @@ export const Home = ({history}) => {
                             className={classes.header}
                         />
                         <CardContent>
-                            <Typography color={'textSecondary'}>{t('DISPLAY_ERROR')}</Typography>
+                            <Typography variant='h6' className={classes.displayError} color={'textSecondary'}>{t('DISPLAY_ERROR')}</Typography>
                         </CardContent>
                     </Card>
                 </Grid>

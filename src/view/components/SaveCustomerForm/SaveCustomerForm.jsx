@@ -81,7 +81,6 @@ export const SaveCustomerForm = (props) => {
                                     name="contactNumber"
                                     type="tel"
                                     variant="outlined"
-                                    format="+38 (###) ###-##-##"
                                     mask="_"
                                     value={(details && details.contactNumber) || ''}
                                     onChange={onChange}
