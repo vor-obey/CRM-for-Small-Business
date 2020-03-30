@@ -89,7 +89,7 @@ export const OrdersPage = ({history}) => {
         <Container className={classes.root}>
             <Grid className={classes.searchBox}>
                 <InputFilter
-                    className={classes.search}
+                    classes={classes}
                     value={inputFilter}
                     label={t('FILTER')}
                     onChange={onFilterChangedHandler}

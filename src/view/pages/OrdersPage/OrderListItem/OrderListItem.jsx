@@ -22,19 +22,19 @@ export const OrderListItem = ({
          <Grid container>
             <Grid item xl={5} lg={5} md={5} sm={4} xs={12} className={classes.gridList}>
                <Typography className={classes.textList}>
-                  {t('DESCRIPTION')}
+                  {t('DESCRIPTION')}:
                </Typography>
                <ListItemText primary={order.description} secondary={minWidth600 && order.currency}/>
             </Grid>
             <Grid item xl={5} lg={5} md={5} sm={5} xs={12} className={classes.gridList}>
                <Typography className={classes.textList}>
-                  {t('CUSTOMER')}
+                  {t('CUSTOMER')}:
                </Typography>
                <ListItemText primary={order.customer.name} secondary={minWidth600 && order.customer.contactEmail}/>
             </Grid>
             <Grid item xl={2} lg={2} md={2} sm={3} xs={12} className={classes.gridList}>
                <Typography className={classes.textList}>
-                  {t('STATUS')}
+                  {t('STATUS')}:
                </Typography>
                <ListItemText>
                   {t(EOrderStatus[order.status])}

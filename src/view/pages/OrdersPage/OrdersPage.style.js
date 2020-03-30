@@ -29,9 +29,6 @@ export const ordersPageStyles = ((theme) => ({
       flexWrap: 'wrap',
       alignItems: 'center',
    },
-   search: {
-      width: '300px',
-   },
    selector: {
       width: '200px',
       margin: '0 10px 0 10px',
@@ -50,5 +47,16 @@ export const ordersPageStyles = ((theme) => ({
       [theme.breakpoints.down('xs')]: {
          display: 'none'
       }
-   }
+   },
+   filter: {
+      display: 'flex',
+      justifyContent: 'flex-end',
+   },
+   form: {
+      width: 200,
+      display: 'flex',
+      [theme.breakpoints.down('xs')]: {
+         width: 75,
+      }
+   },
 }));

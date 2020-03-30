@@ -1,8 +1,9 @@
 export const usersPageStyle = (theme =>  ({
    root: {
-      flexGrow: 1,
       marginTop: theme.spacing(10),
-      padding: theme.spacing(0),
+       [theme.breakpoints.down('xs')]: {
+         marginTop: theme.spacing(3)
+       }
    },
    container: {
       display: 'flex',
@@ -15,39 +16,8 @@ export const usersPageStyle = (theme =>  ({
    addUser: {
       margin: theme.spacing(0, 1, 0, 0)
    },
-   userListItem: {
-      wordWrap: 'break-word',
-      '&:nth-child(odd)': {
-         backgroundColor: '#efefef',
-      },
-      '&:hover': {
-         backgroundColor: '#cecece',
-         transitionDuration: '0.3s',
-         transitionTimingFunction: 'linear',
-      },
-      cursor: 'pointer'
-   },
-   userListContainer: {
-      justifyContent: 'space-between',
-      alignItems: 'center',
-   },
-   userItem: {
-      paddingRight: '4px',
-      display: 'block',
-      textAlign: 'left',
-   },
-   userItemTitle: {
-      paddingRight: '4px',
-      textAlign: 'left',
-      variant: 'body1',
-   },
    searchBox: {
       display: 'flex',
-      flexWrap: 'wrap',
-      alignItems: 'center',
-      [theme.breakpoints.down('md')]: {
-         marginLeft: theme.spacing(2)
-      }
    },
    search: {
       width: '300px',
@@ -59,4 +29,40 @@ export const usersPageStyle = (theme =>  ({
          margin: '0 0 0 10px',
       }
    },
+   filter: {
+      display: 'flex',
+      justifyContent: 'flex-end',
+   },
+   form: {
+      width: 200,
+      display: 'flex',
+      [theme.breakpoints.down('xs')]: {
+         width: 75,
+      }
+   },
+   textList: {
+      display: 'none',
+      [theme.breakpoints.down('xs')]: {
+         display: 'block',
+         marginRight: theme.spacing(1)
+      }
+   },
+   gridUserContainer: {
+      [theme.breakpoints.down('xs')]: {
+         display: 'none'
+      }
+   },
+   gridList: {
+      display: 'flex',
+      alignItems: 'center',
+      overflowWrap: 'break-word'
+   },
+   gridNumber: {
+      display: 'flex',
+      alignItems: 'center',
+      overflowWrap: 'break-word',
+      [theme.breakpoints.down('xs')]: {
+         display: 'none'
+      }
+   }
 }));
