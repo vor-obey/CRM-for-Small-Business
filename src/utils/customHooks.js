@@ -97,15 +97,18 @@ export const useOrderDetailsById = (id) => {
 
 export const useCustomers = () => {
     const [customers, setCustomers] = useState([]);
+    const [loading, setLoading] = useState(false);
     const dispatch = useDispatch();
 
     useEffect(() => {
         const fetchCustomers = async () => {
             try {
+                setLoading(true);
                 dispatch(setIsLoading(true));
                 const customers = await CustomerService.list();
                 setCustomers(customers);
                 dispatch(setIsLoading(false));
+                setLoading(false);
             } catch (e) {
                 dispatch(setIsLoading(false));
                 dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE, success: false}));
@@ -114,7 +117,7 @@ export const useCustomers = () => {
         fetchCustomers();
     }, [dispatch]);
 
-    return [customers, setCustomers];
+    return [customers, setCustomers, loading];
 };
 
 export const useCustomerById = (id) => {

@@ -25,6 +25,7 @@ export const CreateOrderPage = ({history}) => {
     const [managers] = useManagers();
     const [manager, setManager] = useState({});
     const [customers, setCustomers] = useCustomers();
+    const loading = useCustomers();
     const [customer, setCustomer] = useState({});
     const [createdCustomer, setCreatedCustomer] = useState({});
     const city = useSelector(state => state.autocompleteReducer.city);
@@ -33,6 +34,7 @@ export const CreateOrderPage = ({history}) => {
     const [isCustom, setIsCustom] = useState(false);
     const [address, setAddress] = useState('');
     const {t} = useTranslation();
+
 
     useEffect(() => {
         if (!isEmpty(createdCustomer)) {
@@ -152,6 +154,7 @@ export const CreateOrderPage = ({history}) => {
             customers={customers}
             manager={manager}
             managers={managers}
+            isLoading={loading[2]}
             onChangedProductInput={onChangedProductInput}
             onManagerSelectHandler={onManagerSelectHandler}
             onCustomerSelectHandler={onCustomerSelectHandler}
