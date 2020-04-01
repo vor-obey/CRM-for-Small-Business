@@ -1,6 +1,9 @@
 export const internetDocumentStyles = (theme => ({
     root: {
-        padding: theme.spacing(5)
+        padding: theme.spacing(5),
+        [theme.breakpoints.down('xs')]: {
+            padding: 0
+        }
     },
     cityAutocomplete: {
         marginTop: theme.spacing(1),
@@ -8,7 +11,9 @@ export const internetDocumentStyles = (theme => ({
         paddingRight: theme.spacing(2),
         [theme.breakpoints.down('xs')]:
             {
-                paddingRight: 0
+                paddingRight: 0,
+                marginTop: 0,
+                marginBottom: 0
             }
         ,
     },
@@ -18,7 +23,8 @@ export const internetDocumentStyles = (theme => ({
         paddingLeft: theme.spacing(2),
         [theme.breakpoints.down('xs')]:
             {
-                paddingLeft: 0
+                paddingLeft: 0,
+                marginTop: 0
             },
     },
 }));
