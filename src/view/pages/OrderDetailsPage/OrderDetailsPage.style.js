@@ -59,7 +59,8 @@ export const orderDetailsStyles = ((theme) => ({
    },
    children: {
       [theme.breakpoints.down('xs')]: {
-         marginTop: theme.spacing(4)
+         marginTop: theme.spacing(4),
+         marginLeft: theme.spacing(1)
       }
    },
    buttonClose: {
