@@ -34,6 +34,10 @@ export const ShippingDetailsForm = ({
                     warehouse: classes.warehouseAutocomplete
                 }}
                 address={address}
+                label={{
+                  city: t('SELECT_CITY'),
+                  warehouse: t('SELECT_WAREHOUSE')
+                }}
             />
     };
 

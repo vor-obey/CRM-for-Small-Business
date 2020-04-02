@@ -9,9 +9,10 @@ import isEmpty from 'lodash/isEmpty';
 import {useTranslation} from "react-i18next";
 
 export const NovaPoshtaAddress = ({
+                                      label,
+                                      address,
                                       classes,
                                       breakPoints,
-                                      address
                                   }) => {
     const dispatch = useDispatch();
     const [isCityOpen, setIsCityOpen] = useState(false);
@@ -162,7 +163,7 @@ export const NovaPoshtaAddress = ({
                     onToggle={toggleCityAutocomplete}
                     onClose={toggleCityAutocomplete}
                     renderOption={renderCityOptions}
-                    inputLabel={t('SELECT_CITY')}
+                    inputLabel={label.city}
                     getOptionLabel={getCityOptionLabel}
                     value={cityInput}
                 />
@@ -181,7 +182,7 @@ export const NovaPoshtaAddress = ({
                     onToggle={toggleWarehouseAutocomplete}
                     onClose={toggleWarehouseAutocomplete}
                     renderOption={renderWarehouseOptions}
-                    inputLabel={t('SELECT_WAREHOUSE')}
+                    inputLabel={label.warehouse}
                     getOptionLabel={getWarehouseOptionLabel}
                     disabled={warehouseOptions.length === 0}
                     key={warehouseReset}
