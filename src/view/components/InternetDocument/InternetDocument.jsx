@@ -213,8 +213,8 @@ export const InternetDocument = ({orderDetails}) => {
                      warehouse: classes.warehouseAutocomplete
                   }}
                   label={{
-                     city: t('SELECT_SENDER_CITY'),
-                     warehouse: t('SELECT_SENDER_WAREHOUSE')
+                     city: t('SENDER_CITY'),
+                     warehouse: t('SENDER_WAREHOUSE')
                   }}
                />
             </Grid>

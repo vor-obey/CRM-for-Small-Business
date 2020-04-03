@@ -1,6 +1,3 @@
-import Typography from "@material-ui/core/Typography";
-import React from "react";
-
 export const orderEN = {
    PRODUCT_DETAILS: 'Product Details',
    PRODUCT: 'Product',
@@ -34,8 +31,8 @@ export const orderEN = {
    WAREHOUSE: 'Warehouse',
    CREATE_INTERNET_DOCUMENT: 'Create Internet Document',
    SELECT_SENDER_ADDRESS: 'Select sender address',
-   SELECT_SENDER_CITY: 'Select sender city',
-   SELECT_SENDER_WAREHOUSE: 'Select sender warehouse',
+   SENDER_CITY: 'Sender city',
+   SENDER_WAREHOUSE: 'Sender warehouse',
    WEIGHT: 'Weight',
    SEATS_AMOUNT: 'Seats Amount',
    COST: 'Cost',
