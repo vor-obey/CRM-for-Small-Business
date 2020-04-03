@@ -25,6 +25,7 @@ import {CreateOrderPage} from "../../pages/CreateOrderPage/CreateOrderPage";
 import {CreateOrganization} from "../../pages/CreateOrganization/CreateOrganization";
 import {EditUser} from '../../pages/EditUser/EditUser';
 import {EditOrder} from '../../pages/EditOrder/EditOrder';
+import {Chat} from '../Chat/Chat';
 
 export const Routing = () => {
    const dispatch = useDispatch();
@@ -58,6 +59,7 @@ export const Routing = () => {
          <Route exact path='/restore_password/:token' component={RestorePassword}/>
          <Route exact path='/forgot_password' component={ForgotPassword}/>
          <Route exact path='/create-organization' component={CreateOrganization}/>
+         <Route exact path='/chat' component={Chat}/>
       </Router>
    )
 };

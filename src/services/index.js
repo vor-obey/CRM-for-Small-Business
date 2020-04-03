@@ -6,6 +6,7 @@ import RoleService from "./RoleService";
 import OrganizationService from './OrganizationService';
 import CodeService from "./CodeService";
 import ShippingMethodService from "./ShippingMethodService";
+import InstagramService from './InstagramService';
 
 export {
     StorageService,
@@ -16,4 +17,5 @@ export {
     OrganizationService,
     CodeService,
     ShippingMethodService,
+    InstagramService
 }
