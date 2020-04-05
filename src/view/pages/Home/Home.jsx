@@ -86,7 +86,7 @@ export const Home = ({history}) => {
                     <Card className={classes.chat}>
                         <CardHeader
                             title={t('CHAT')}
-                            className={classes.header}
+                            className={classes.headerChat}
                         />
                         <CardContent>
                             <Typography variant='h6' className={classes.displayError} color={'textSecondary'}>{t('DISPLAY_ERROR')}</Typography>
@@ -97,7 +97,7 @@ export const Home = ({history}) => {
                     <Card className={classes.graph}>
                         <CardHeader
                             title={t('STATISTIC')}
-                            className={classes.header}
+                            className={classes.headerGraph}
                         />
                         <CardContent>
                             <Graph/>

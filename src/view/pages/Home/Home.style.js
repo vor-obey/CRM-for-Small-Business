@@ -13,11 +13,20 @@ export const HomeStyles = (theme => ({
             marginRight: 0,
         },
     },
-    header: {
+    headerChat: {
         height: 20,
         color: '#FFF',
         textAlign: 'center',
-        background: 'linear-gradient(180deg, rgba(63,81,181,1) 45%, rgba(34,171,199,1) 100%)',
+        background: 'linear-gradient(100deg, rgb(63,81,181,1) 10%, rgb(4,171,199,1) 90%)',
+        [theme.breakpoints.down('xs')]: {
+            height: 1,
+        },
+    },
+    headerGraph: {
+        height: 20,
+        color: '#FFF',
+        textAlign: 'center',
+        background: 'linear-gradient(141deg,  rgb(4,171,199,1) 5%, rgb(63,81,181,1) 75%)',
         [theme.breakpoints.down('xs')]: {
             height: 1,
         },
