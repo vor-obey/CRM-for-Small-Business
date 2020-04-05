@@ -1,21 +1,17 @@
 import React from 'react';
 import {
    TextField,
-   makeStyles
 } from '@material-ui/core';
-import {filterStyle} from "./Filter.style";
-
-const useStyles = makeStyles(filterStyle);
 
 export const InputFilter = ({
    label,
    onChange,
    value,
+   classes,
 }) => {
-   const classes = useStyles();
 
    return (
-      <div className={classes.root}>
+      <div className={classes.filter}>
          <TextField
             className={classes.form}
             value={value}

@@ -1,48 +1,43 @@
 import React from 'react';
-import {Grid, Hidden, ListItem, Typography} from "@material-ui/core";
+import {Grid, ListItem, Typography} from "@material-ui/core";
 import {ROLES} from "../../../../constants/statuses";
 import {useTranslation} from "react-i18next";
+import ListItemText from "@material-ui/core/ListItemText";
 
 export const UserListItem = (props) =>{
 
     const {
         user,
         classes,
+        minWidth,
         navigateToUserDetails
     } = props;
     const {t} = useTranslation();
 
     return (
-        <ListItem className={classes.userListItem} divider onClick={() => navigateToUserDetails(user.userId)}>
-            <Grid container className={classes.userListContainer}>
-                <Grid item xs={4} md={2}>
-                    <Typography className={classes.userItem} variant={'body2'}>
-                        {user.firstName}
+        <ListItem key={user.userId} disableGutters divider button
+                  onClick={() => navigateToUserDetails(user.userId)}>
+            <Grid container>
+                <Grid item xl={3} lg={3} md={3} sm={3} xs={12} className={classes.gridList}>
+                    <Typography className={classes.textList}>
+                        {t('FIRST_NAME')}:
                     </Typography>
+                    <ListItemText primary={user.firstName} secondary={minWidth && user.email}/>
                 </Grid>
-                <Grid item xs={4} md={2}>
-                    <Typography className={classes.userItem} variant={'body2'}>
-                        {user.lastName}
+                <Grid item xl={3} lg={3} md={3} sm={3} xs={12} className={classes.gridList}>
+                    <Typography className={classes.textList}>
+                        {t('LAST_NAME')}:
                     </Typography>
+                    <ListItemText primary={user.lastName}/>
                 </Grid>
-                <Hidden smDown>
-                    <Grid item xs={3} md={2}>
-                        <Typography className={classes.userItem} variant={'body2'}>
-                            {user.email}
-                        </Typography>
-                    </Grid>
-                </Hidden>
-                <Hidden smDown>
-                    <Grid item xs={3} md={2}>
-                        <Typography className={classes.userItem} variant={'body2'}>
-                            {user.contactNumber}
-                        </Typography>
-                    </Grid>
-                </Hidden>
-                <Grid item xs={4} md={2}>
-                    <Typography className={classes.userItem} variant={'body2'}>
-                       {t(ROLES[user.role.name.toUpperCase()])}
+                <Grid item xl={4} lg={4} md={4} sm={4} xs={12} className={classes.gridNumber}>
+                    <ListItemText primary={user.contactNumber}/>
+                </Grid>
+                <Grid item xl={2} lg={2} md={2} sm={2} xs={12} className={classes.gridList}>
+                    <Typography className={classes.textList}>
+                        {t('ROLE')}:
                     </Typography>
+                    <ListItemText primary={t(ROLES[user.role.name.toUpperCase()])} />
                 </Grid>
             </Grid>
         </ListItem>
