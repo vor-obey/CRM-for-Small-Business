@@ -31,6 +31,8 @@ export const SaveOrderForm = ({
                                   onCustomerSelectHandler,
                                   onManagerSelectHandler,
                                   isCustom,
+                                  customerLoading,
+                                  managerLoading,
                                   shippingMethod,
                                   shippingMethods,
                                   address,
@@ -67,6 +69,8 @@ export const SaveOrderForm = ({
                                     classes={classes}
                                     customers={customers}
                                     managers={managers}
+                                    customerLoading={customerLoading}
+                                    managerLoading={managerLoading}
                                     manager={manager}
                                     customer={customer}
                                     onCustomerSelectHandler={onCustomerSelectHandler}

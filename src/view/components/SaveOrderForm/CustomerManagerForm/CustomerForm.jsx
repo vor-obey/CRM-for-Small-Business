@@ -18,13 +18,15 @@ export const CustomerForm = ({
                                  classes,
                                  setCreatedCustomer,
                                  customers,
+                                 customerLoading,
+                                 managerLoading,
                                  managers,
                                  manager,
                                  customer,
                                  onManagerSelectHandler,
                                  onCustomerSelectHandler
                              }) => {
-    const { t } = useTranslation('');
+    const {t} = useTranslation('');
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isCustomerAutocompleteOpen, setIsCustomerAutocompleteOpen] = useState(false);
     const [isManagerAutocompleteOpen, setIsManagerAutocompleteOpen] = useState(false);
@@ -80,7 +82,7 @@ export const CustomerForm = ({
                     </Typography>
                 </Grid>
             </Grid>
-        )
+        );
     }, []);
 
     const getManagerOptionLabel = useCallback(manager => {
@@ -127,7 +129,7 @@ export const CustomerForm = ({
                 <CustomAutocomplete
                     isOpen={isCustomerAutocompleteOpen}
                     options={customers}
-                    isLoading={!customers.length}
+                    isLoading={customerLoading}
                     onSelectHandler={onCustomerSelectHandler}
                     onToggle={toggleCustomerAutocomplete}
                     onClose={toggleCustomerAutocomplete}
@@ -142,7 +144,7 @@ export const CustomerForm = ({
                     <CustomAutocomplete
                         isOpen={isManagerAutocompleteOpen}
                         options={managers}
-                        isLoading={!managers.length}
+                        isLoading={managerLoading}
                         onToggle={toggleManagerAutocomplete}
                         onClose={toggleManagerAutocomplete}
                         onSelectHandler={onManagerSelectHandler}
