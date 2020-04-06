@@ -55,8 +55,8 @@ export const Routing = () => {
          <PrivateRoute exact path='/create-order' component={CreateOrderPage}/>
          <PrivateRoute exact path='/orders/:id' component={OrderDetailsPage}/>
          <PrivateRoute exact path='/orders/:id/edit' component={EditOrder}/>
-         <Route exact path='/restore_password/:token' component={RestorePassword}/>
-         <Route exact path='/forgot_password' component={ForgotPassword}/>
+         <Route exact path='/restore-password/:token' component={RestorePassword}/>
+         <Route exact path='/forgot-password' component={ForgotPassword}/>
          <Route exact path='/create-organization' component={CreateOrganization}/>
       </Router>
    )
