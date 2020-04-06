@@ -1,10 +1,10 @@
 import React, {useCallback, useState} from "react";
 
 import {
-   Divider,
-   Button,
-   Grid,
-   Typography,
+    Divider,
+    Button,
+    Grid,
+    Typography,
 } from "@material-ui/core";
 
 import {CustomAutocomplete} from "../../Autocomplete/Autocomplete";
@@ -15,145 +15,146 @@ import isEmpty from 'lodash/isEmpty';
 import {useTranslation} from "react-i18next";
 
 export const CustomerForm = ({
-                                classes,
-                                setCreatedCustomer,
-                                customers,
-                                isLoading,
-                                managers,
-                                manager,
-                                customer,
-                                onManagerSelectHandler,
-                                onCustomerSelectHandler
+                                 classes,
+                                 setCreatedCustomer,
+                                 customers,
+                                 customerLoading,
+                                 managerLoading,
+                                 managers,
+                                 manager,
+                                 customer,
+                                 onManagerSelectHandler,
+                                 onCustomerSelectHandler
                              }) => {
-   const {t} = useTranslation('');
-   const [isModalOpen, setIsModalOpen] = useState(false);
-   const [isCustomerAutocompleteOpen, setIsCustomerAutocompleteOpen] = useState(false);
-   const [isManagerAutocompleteOpen, setIsManagerAutocompleteOpen] = useState(false);
+    const {t} = useTranslation('');
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isCustomerAutocompleteOpen, setIsCustomerAutocompleteOpen] = useState(false);
+    const [isManagerAutocompleteOpen, setIsManagerAutocompleteOpen] = useState(false);
 
-   const toggleCustomerAutocomplete = useCallback(() => {
-      setIsCustomerAutocompleteOpen(prevState => !prevState);
-   }, []);
+    const toggleCustomerAutocomplete = useCallback(() => {
+        setIsCustomerAutocompleteOpen(prevState => !prevState);
+    }, []);
 
-   const toggleManagerAutocomplete = useCallback(() => {
-      setIsManagerAutocompleteOpen(prevState => !prevState);
-   }, []);
+    const toggleManagerAutocomplete = useCallback(() => {
+        setIsManagerAutocompleteOpen(prevState => !prevState);
+    }, []);
 
-   const toggleModal = useCallback(() => {
-      setIsModalOpen(prevState => !prevState);
-   }, []);
+    const toggleModal = useCallback(() => {
+        setIsModalOpen(prevState => !prevState);
+    }, []);
 
-   const updateCustomersList = useCallback((customer) => {
-      setCreatedCustomer(customer);
-      toggleModal();
-   }, [setCreatedCustomer, toggleModal]);
+    const updateCustomersList = useCallback((customer) => {
+        setCreatedCustomer(customer);
+        toggleModal();
+    }, [setCreatedCustomer, toggleModal]);
 
-   const renderCustomerOptions = useCallback((customer) => {
-      return (
-         <Grid container alignItems='center'>
-            <Grid item xs>
+    const renderCustomerOptions = useCallback((customer) => {
+        return (
+            <Grid container alignItems='center'>
+                <Grid item xs>
                 <span key={customer.customerId}>
                    {customer.name}
                 </span>
-               <Typography variant='body2' color='textSecondary'>
-                  {customer.username}
-               </Typography>
+                    <Typography variant='body2' color='textSecondary'>
+                        {customer.username}
+                    </Typography>
+                </Grid>
             </Grid>
-         </Grid>
-      );
-   }, []);
+        );
+    }, []);
 
-   const getCustomerOptionLabel = useCallback(customer => {
-      if (isEmpty(customer)) {
-         return '';
-      }
-      return customer.name
-   }, []);
+    const getCustomerOptionLabel = useCallback(customer => {
+        if (isEmpty(customer)) {
+            return '';
+        }
+        return customer.name
+    }, []);
 
-   const renderManagerOptions = useCallback((manager) => {
-      return (
-         <Grid container alignItems='center'>
-            <Grid item xs>
+    const renderManagerOptions = useCallback((manager) => {
+        return (
+            <Grid container alignItems='center'>
+                <Grid item xs>
                 <span key={manager.userId}>
                    {manager.firstName} {manager.lastName}
                 </span>
-               <Typography variant='body2' color='textSecondary'>
-                  {manager.email}
-               </Typography>
+                    <Typography variant='body2' color='textSecondary'>
+                        {manager.email}
+                    </Typography>
+                </Grid>
             </Grid>
-         </Grid>
-      );
-   }, []);
+        );
+    }, []);
 
-   const getManagerOptionLabel = useCallback(manager => {
-      if (isEmpty(manager)) {
-         return ''
-      }
-      return `${manager.firstName} ${manager.lastName}`;
-   }, []);
+    const getManagerOptionLabel = useCallback(manager => {
+        if (isEmpty(manager)) {
+            return ''
+        }
+        return `${manager.firstName} ${manager.lastName}`;
+    }, []);
 
-   return (
-      <>
-         <Grid item xl={12} xs={12}>
-            <Typography className={classes.heading} variant='h6'>
-               {t('CUSTOMER')}
-            </Typography>
-            <Divider/>
-         </Grid>
-         <Grid item lg={1} sm={2} md={2} xs={2} className={classes.gridButton}>
-            <Button
-               margin='normal'
-               color='primary'
-               fullWidth
-               onClick={toggleModal}
+    return (
+        <>
+            <Grid item xl={12} xs={12}>
+                <Typography className={classes.heading} variant='h6'>
+                    {t('CUSTOMER')}
+                </Typography>
+                <Divider/>
+            </Grid>
+            <Grid item lg={1} sm={2} md={2} xs={2} className={classes.gridButton}>
+                <Button
+                    margin='normal'
+                    color='primary'
+                    fullWidth
+                    onClick={toggleModal}
+                >
+                    <PersonAddIcon/>
+                </Button>
+            </Grid>
+            <CustomModal
+                open={isModalOpen}
+                classes={classes}
+                handleClose={toggleModal}
+                breakpoints={{
+                    xl: 3,
+                    lg: 3,
+                    md: 4,
+                    xs: 9
+                }}
             >
-               <PersonAddIcon/>
-            </Button>
-         </Grid>
-         <CustomModal
-            open={isModalOpen}
-            classes={classes}
-            handleClose={toggleModal}
-            breakpoints={{
-               xl: 3,
-               lg: 3,
-               md: 4,
-               xs: 9
-            }}
-         >
-            <CreateCustomer
-               updateCustomerList={updateCustomersList}
-            />
-         </CustomModal>
-         <Grid item lg={11} sm={10} md={10} xs={10} className={classes.gridCustomers}>
-            <CustomAutocomplete
-               isOpen={isCustomerAutocompleteOpen}
-               options={customers}
-               isLoading={isLoading}
-               onSelectHandler={onCustomerSelectHandler}
-               onToggle={toggleCustomerAutocomplete}
-               onClose={toggleCustomerAutocomplete}
-               renderOption={renderCustomerOptions}
-               inputLabel={t('SELECT_CUSTOMER')}
-               getOptionLabel={getCustomerOptionLabel}
-               value={customer}
-            />
-         </Grid>
-         <Grid item lg={12} xs={12}>
-            <Grid item>
-               <CustomAutocomplete
-                  isOpen={isManagerAutocompleteOpen}
-                  options={managers}
-                  isLoading={isLoading}
-                  onToggle={toggleManagerAutocomplete}
-                  onClose={toggleManagerAutocomplete}
-                  onSelectHandler={onManagerSelectHandler}
-                  renderOption={renderManagerOptions}
-                  inputLabel={t('SELECT_MANAGER')}
-                  getOptionLabel={getManagerOptionLabel}
-                  value={manager}
-               />
+                <CreateCustomer
+                    updateCustomerList={updateCustomersList}
+                />
+            </CustomModal>
+            <Grid item lg={11} sm={10} md={10} xs={10} className={classes.gridCustomers}>
+                <CustomAutocomplete
+                    isOpen={isCustomerAutocompleteOpen}
+                    options={customers}
+                    isLoading={customerLoading}
+                    onSelectHandler={onCustomerSelectHandler}
+                    onToggle={toggleCustomerAutocomplete}
+                    onClose={toggleCustomerAutocomplete}
+                    renderOption={renderCustomerOptions}
+                    inputLabel={t('SELECT_CUSTOMER')}
+                    getOptionLabel={getCustomerOptionLabel}
+                    value={customer}
+                />
             </Grid>
-         </Grid>
-      </>
-   );
+            <Grid item lg={12} xs={12}>
+                <Grid item>
+                    <CustomAutocomplete
+                        isOpen={isManagerAutocompleteOpen}
+                        options={managers}
+                        isLoading={managerLoading}
+                        onToggle={toggleManagerAutocomplete}
+                        onClose={toggleManagerAutocomplete}
+                        onSelectHandler={onManagerSelectHandler}
+                        renderOption={renderManagerOptions}
+                        inputLabel={t('SELECT_MANAGER')}
+                        getOptionLabel={getManagerOptionLabel}
+                        value={manager}
+                    />
+                </Grid>
+            </Grid>
+        </>
+    );
 };

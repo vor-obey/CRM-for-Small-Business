@@ -110,6 +110,7 @@ export const useCustomers = () => {
                 dispatch(setIsLoading(false));
                 setLoading(false);
             } catch (e) {
+                setLoading(false);
                 dispatch(setIsLoading(false));
                 dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE, success: false}));
             }
@@ -145,16 +146,20 @@ export const useCustomerById = (id) => {
 
 export const useManagers = () => {
     const [managers, setManagers] = useState([]);
+    const [loading, setLoading] = useState(false);
     const dispatch = useDispatch();
 
     useEffect(() => {
         const fetchManagers = async () => {
             try {
+                setLoading(true);
                 dispatch(setIsLoading(true));
                 const managers = await UserService.list();
                 setManagers(managers);
                 dispatch(setIsLoading(false));
+                setLoading(false);
             } catch (e) {
+                setLoading(false);
                 dispatch(setIsLoading(false));
                 dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE, success: false}));
             }
@@ -162,7 +167,7 @@ export const useManagers = () => {
         fetchManagers();
     }, [dispatch]);
 
-    return [managers, setManagers];
+    return [managers, setManagers, loading];
 };
 
 export const useManagerById = (id) => {
