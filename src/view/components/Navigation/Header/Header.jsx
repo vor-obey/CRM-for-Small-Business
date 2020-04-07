@@ -12,6 +12,8 @@ import {AlertSnackbar} from "../../Snackbar/Snackbar";
 import {setSnackBarStatus} from "../../../../data/store/auxiliary/auxiliaryActions";
 import {headerStyle} from "./Header.style";
 import {Flags} from "../Flags/Flags";
+import ReactNotification from 'react-notifications-component'
+import {addNotification} from "../../ Notification/functionAddNotification";
 
 const useStyles = makeStyles(headerStyle);
 
@@ -21,6 +23,7 @@ export const Header = () => {
 
     const isLoading = useSelector(state => state.auxiliaryReducer.isLoading);
     const {isOpen, message, success} = useSelector(state => state.auxiliaryReducer.snackBarStatus);
+    const notification = useSelector(state => state.auxiliaryReducer.notificationStatus);
     const currentUser = useSelector(state => state.userReducer.currentUser);
 
     const onClosedHandler = useCallback(() => {
@@ -34,7 +37,7 @@ export const Header = () => {
                     {currentUser ? <Drawer/> : <div></div>}
                     <div className={classes.user}>
                         <Flags classes={classes}/>
-                        {currentUser ? <Profile currentUser={currentUser}/> : <div></div> }
+                        {currentUser ? <Profile currentUser={currentUser}/> : <div></div>}
                     </div>
                 </Toolbar>
             </AppBar>
@@ -45,6 +48,8 @@ export const Header = () => {
                 success={success}
                 onClose={onClosedHandler}
             />
+            <ReactNotification/>
+            {notification.notification.notification === undefined ? '' : addNotification(notification.notification.notification)}
         </div>
     );
 };

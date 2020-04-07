@@ -2,13 +2,14 @@ import React, {useState, useEffect, useCallback} from 'react';
 import {makeStyles} from '@material-ui/core';
 import {createOrderPageStyles} from './CreateOrderPage.style'
 import {useDispatch, useSelector} from "react-redux";
-import {setIsLoading, setSnackBarStatus} from "../../../data/store/auxiliary/auxiliaryActions";
+import {setIsLoading, setNotificationStatus, setSnackBarStatus} from "../../../data/store/auxiliary/auxiliaryActions";
 import isEmpty from 'lodash/isEmpty';
 import {OrderService} from '../../../services/index';
 import {SaveOrderForm} from '../../components/SaveOrderForm/SaveOrderForm';
 import {useCustomers, useManagers, useShippingMethods} from '../../../utils/customHooks';
 import {useTranslation} from 'react-i18next';
 import {COMMON_ERROR_MESSAGE} from "../../../constants/statuses";
+import 'react-notifications-component/dist/theme.css';
 
 const useStyles = makeStyles(createOrderPageStyles);
 
@@ -119,6 +120,7 @@ export const CreateOrderPage = ({history}) => {
                         shippingMethodId: shippingMethod.shippingMethodId
                     },
                 });
+                dispatch(setNotificationStatus({notification: 'New Order !'}));
                 if (response.success) {
                     dispatch(setIsLoading(false));
                     history.push('/orders');

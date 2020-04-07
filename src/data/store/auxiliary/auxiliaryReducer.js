@@ -1,4 +1,4 @@
-import {SET_SNACKBAR_STATUS, SET_IS_LOADING} from "./auxiliaryActionTypes";
+import {SET_SNACKBAR_STATUS, SET_IS_LOADING, SET_NOTIFICATION_STATUS} from "./auxiliaryActionTypes";
 
 const initialState = {
     isLoading: false,
@@ -6,6 +6,9 @@ const initialState = {
         isOpen: false,
         message: '',
         success: true,
+    },
+    notificationStatus: {
+        notification: ''
     }
 };
 
@@ -21,6 +24,12 @@ export const auxiliaryReducer = (state = initialState, action) => {
             return {
                 ...state,
                 snackBarStatus: action.snackBarStatus
+            }
+        }
+        case SET_NOTIFICATION_STATUS: {
+            return {
+                ...state,
+                notificationStatus: action.notificationStatus
             }
         }
         default: {
