@@ -15,6 +15,10 @@ import {HomeStyles} from "./Home.style";
 import {Graph} from '../../components/Graph/Graph'
 import {useTranslation} from "react-i18next";
 import {useOrders} from '../../../utils/customHooks';
+import Button from '@material-ui/core/Button';
+import {useDispatch} from 'react-redux';
+import MessageIcon from '@material-ui/icons/Message';
+import {displayNotification} from '../../../data/store/auxiliary/auxiliaryThunkActions';
 
 const useStyles = makeStyles(HomeStyles);
 
@@ -22,6 +26,7 @@ export const Home = ({history}) => {
     const classes = useStyles();
     const {t} = useTranslation('');
     const orders = useOrders();
+    const dispatch = useDispatch();
 
     const renderOrdersCountByStatus = useCallback((status) => {
         const filtered = orders.filter(order => order.status === status);
@@ -37,8 +42,22 @@ export const Home = ({history}) => {
         })
     }, [history]);
 
+    const onClick = () => {
+        history.push('/orders');
+    };
+
     return (
         <Container className={classes.container}>
+            <Button
+                onClick={() => dispatch(displayNotification({
+                    icon: <MessageIcon/>,
+                    text: 'Order #1 created',
+                    date: new Date(),
+                    onClick: onClick
+                }))}
+            >
+                Click
+            </Button>
             <Grid container className={classes.root}>
                 <Grid item xl={5} lg={5} md={5} sm={6} xs={6} className={classes.grid}>
                     <Card className={classes.card}>
@@ -89,7 +108,8 @@ export const Home = ({history}) => {
                             className={classes.headerChat}
                         />
                         <CardContent>
-                            <Typography variant='h6' className={classes.displayError} color={'textSecondary'}>{t('DISPLAY_ERROR')}</Typography>
+                            <Typography variant='h6' className={classes.displayError}
+                                        color={'textSecondary'}>{t('DISPLAY_ERROR')}</Typography>
                         </CardContent>
                     </Card>
                 </Grid>

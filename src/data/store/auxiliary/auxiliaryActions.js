@@ -1,4 +1,4 @@
-import {SET_SNACKBAR_STATUS, SET_IS_LOADING, SET_NOTIFICATION_STATUS} from "./auxiliaryActionTypes";
+import {SET_SNACKBAR_STATUS, SET_IS_LOADING, ADD_NOTIFICATION} from "./auxiliaryActionTypes";
 
 export const setIsLoading = (isLoading) => {
     return {
@@ -14,9 +14,9 @@ export const setSnackBarStatus = ({isOpen, message, success}) => {
     }
 };
 
-export const setNotificationStatus = (notification) => {
+export const addNotification = (notification) => {
     return {
-        type: SET_NOTIFICATION_STATUS,
-        notificationStatus: {notification}
+        type: ADD_NOTIFICATION,
+        notification
     }
 };

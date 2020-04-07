@@ -1,30 +1,30 @@
 import React from 'react';
-import MessageIcon from '@material-ui/icons/Message';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import moment from 'moment'
-import ReactNotification from 'react-notifications-component'
-
+import Avatar from '@material-ui/core/Avatar';
+import moment from 'moment';
 
 export const Notification = ({
                                  notification
                              }) => {
-
+    const {icon, text, date, onClick} = notification;
     return (
-        <div style={{
-            width: 340,
-            height: 70,
-            display: 'flex',
-            borderRadius: 5,
-        }}>
+        <div
+            style={{
+                width: 340,
+                height: 70,
+                display: 'flex',
+                borderRadius: 5,
+            }}
+            onClick={onClick}
+        >
             <ListItem>
                 <ListItemAvatar>
-                    <MessageIcon/>
+                    {typeof icon === 'string' ? <Avatar alt="Icon" src={icon}/> : icon}
                 </ListItemAvatar>
-                <ListItemText primary={notification} secondary={moment().format("MMM Do YY")}/>
+                <ListItemText primary={text} secondary={moment(date).format("MMM Do YYYY, HH:mm")}/>
             </ListItem>
-            <ReactNotification/>
         </div>
     );
 };
