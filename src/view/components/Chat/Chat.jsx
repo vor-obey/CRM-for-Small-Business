@@ -14,19 +14,17 @@ import isEmpty from 'lodash/isEmpty';
 export const Chat = () => {
     const currentUser = useSelector(state => state.userReducer.currentUser);
     const socket = socketIOClient('http://localhost:8080/', currentUser ? {query: `roomId=${currentUser.organization.organizationId}`} : null);
-
-    const [igClient, setIgClient] = useState({});
-    console.log(igClient);
+    const [profile, setProfile] = useState({});
     const [threads, setThreads] = useState([]);
-    console.log(threads);
+    console.log('[THREADS]', threads);
     const [isOpen, setIsOpen] = useState(false);
     const [selectedThread, setSelectedThread] = useState({});
     const [testMessage, setTestMessage] = useState('');
-    console.log(testMessage);
+    console.log('[MESSAGE]', testMessage);
 
     // initialize instagram client
     useEffect(() => {
-        if (currentUser) {
+        if (currentUser && socket.query) {
             console.log('initChat');
             socket.emit('initChat');
         }
@@ -34,9 +32,9 @@ export const Chat = () => {
     }, [currentUser]);
 
     useEffect(() => {
-        if (isEmpty(igClient)) {
-            socket.on('getIgClient', (data) => {
-                setIgClient(data);
+        if (isEmpty(profile)) {
+            socket.on('getIgProfile', (data) => {
+                setProfile(data);
             });
         }
 
@@ -45,13 +43,19 @@ export const Chat = () => {
         });
 
         socket.on('getThreads', (threads) => {
+            console.log('[SOCKET ON GETHREADS]');
             setThreads(threads);
         });
 
-        socket.on('message', (data) => {
-            setTestMessage(data);
-        });
-    }, [socket, igClient]);
+        if (profile.username) {
+            socket.on('message', (data) => {
+                console.log('[SOCKET ON MESSAGE]');
+                setTestMessage(data);
+                console.log('[profile username]', profile.username);
+                socket.emit('getThreads', profile.username)
+            });
+        }
+    }, [socket, profile]);
 
     const openDialog = useCallback((threadId) => {
         setSelectedThread(threads.find((thread) => thread.thread_id === threadId));
@@ -106,8 +110,8 @@ export const Chat = () => {
     }, [threads, openDialog]);
     //
     const refreshThreads = useCallback(() => {
-        socket.emit('getThreads');
-    }, [socket]);
+        socket.emit('getThreads', profile.username);
+    }, [socket, profile]);
 
     const goBack = useCallback(() => {
         setIsOpen(false);
@@ -120,7 +124,7 @@ export const Chat = () => {
             <List style={{width: '100%'}}>
                 {isOpen ?
                     <ChatDialog
-                        loggedInUser={{id: igClient.pk, profilePicUrl: igClient.profile_pic_url}}
+                        loggedInUser={{id: profile.pk, profilePicUrl: profile.profile_pic_url}}
                         thread={selectedThread}
                         goBack={goBack}
                     />

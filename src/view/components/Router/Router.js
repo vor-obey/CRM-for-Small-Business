@@ -16,7 +16,7 @@ import RestorePassword from "../../pages/RestorePassword/RestorePassword";
 import {CustomerDetailsPage} from "../../pages/CustomerDetailsPage/CustomerDetailsPage";
 import {CreateCustomer} from "../../pages/CreateCustomer/CreateCustomer";
 import {EditCustomer} from "../../pages/EditCustomer/EditCustomer";
-import {getCurrentUser} from "../../../data/store/user/userThunkAction";
+import {getCurrentUser} from "../../../data/store/user/userActions";
 import {ForgotPassword} from "../../pages/ForgotPassword/ForgotPassword";
 import {OrdersPage} from "../../pages/OrdersPage/OrdersPage";
 import {OrderDetailsPage} from "../../pages/OrderDetailsPage/OrderDetailsPage";
@@ -28,38 +28,37 @@ import {EditOrder} from '../../pages/EditOrder/EditOrder';
 import {Chat} from '../Chat/Chat';
 
 export const Routing = () => {
-   const dispatch = useDispatch();
+    const dispatch = useDispatch();
 
-   useEffect(() => {
-      const token = StorageService.getJWTToken();
+    useEffect(() => {
+        const token = StorageService.getJWTToken();
 
-      if (token) {
-         dispatch(getCurrentUser());
-      }
-   }, [dispatch]);
+        if (token) {
+            dispatch(getCurrentUser());
+        }
+    }, [dispatch]);
 
-
-   return (
-      <Router history={history}>
-         <Header/>
-         <AuthRoute exact path="/" component={Login}/>
-         <PrivateRoute exact path="/dashboard" component={Home}/>
-         <PrivateRoute exact path="/create-user" component={CreateUser}/>
-         <PrivateRoute exact path="/create-customer" component={CreateCustomer}/>
-         <PrivateRoute exact path='/customers' component={CustomersPage}/>
-         <PrivateRoute exact path='/customers/:id' component={CustomerDetailsPage}/>
-         <PrivateRoute exact path='/customers/:id/edit' component={EditCustomer}/>
-         <PrivateRoute exact path='/users' component={UsersPage}/>
-         <PrivateRoute exact path='/users/:id/edit' component={EditUser}/>
-         <PrivateRoute exact path='/users/:id' component={UserDetailsPage}/>
-         <PrivateRoute exact path='/orders' component={OrdersPage}/>
-         <PrivateRoute exact path='/create-order' component={CreateOrderPage}/>
-         <PrivateRoute exact path='/orders/:id' component={OrderDetailsPage}/>
-         <PrivateRoute exact path='/orders/:id/edit' component={EditOrder}/>
-         <Route exact path='/restore_password/:token' component={RestorePassword}/>
-         <Route exact path='/forgot_password' component={ForgotPassword}/>
-         <Route exact path='/create-organization' component={CreateOrganization}/>
-         <Route exact path='/chat' component={Chat}/>
-      </Router>
-   )
+    return (
+        <Router history={history}>
+            <Header/>
+            <AuthRoute exact path="/" component={Login}/>
+            <PrivateRoute exact path="/dashboard" component={Home}/>
+            <PrivateRoute exact path="/create-user" component={CreateUser}/>
+            <PrivateRoute exact path="/create-customer" component={CreateCustomer}/>
+            <PrivateRoute exact path='/customers' component={CustomersPage}/>
+            <PrivateRoute exact path='/customers/:id' component={CustomerDetailsPage}/>
+            <PrivateRoute exact path='/customers/:id/edit' component={EditCustomer}/>
+            <PrivateRoute exact path='/users' component={UsersPage}/>
+            <PrivateRoute exact path='/users/:id/edit' component={EditUser}/>
+            <PrivateRoute exact path='/users/:id' component={UserDetailsPage}/>
+            <PrivateRoute exact path='/orders' component={OrdersPage}/>
+            <PrivateRoute exact path='/create-order' component={CreateOrderPage}/>
+            <PrivateRoute exact path='/orders/:id' component={OrderDetailsPage}/>
+            <PrivateRoute exact path='/orders/:id/edit' component={EditOrder}/>
+            <PrivateRoute exact path='/chat' component={Chat}/>
+            <Route exact path='/restore_password/:token' component={RestorePassword}/>
+            <Route exact path='/forgot_password' component={ForgotPassword}/>
+            <Route exact path='/create-organization' component={CreateOrganization}/>
+        </Router>
+    )
 };

@@ -92,6 +92,15 @@ function Drawer(props) {
                     <ListItemIcon className={classes.menuIcon}><InsertDriveFileIcon/></ListItemIcon>
                     <ListItemText>{t('ORDERS')}</ListItemText>
                 </ListItem>
+                <ListItem
+                    className={classes.menuItem}
+                    button
+                    component={Link}
+                    to="/chat"
+                    selected={isActive('/chat')}>
+                    <ListItemIcon className={classes.menuIcon}><InsertDriveFileIcon/></ListItemIcon>
+                    <ListItemText>{t('CHAT')}</ListItemText>
+                </ListItem>
             </List>
         </div>
     );
