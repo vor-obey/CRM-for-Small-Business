@@ -6,7 +6,7 @@ import {addNotification} from './auxiliaryActions';
 export const displayNotification = (notification) => (dispatch) => {
     store.addNotification({
         content: <Notification notification={notification}/>,
-        container: 'top-right',
+        container: 'bottom-right',
         animationIn: ["animated", "fadeIn"],
         animationOut: ["animated", "fadeOut"],
         dismiss: {

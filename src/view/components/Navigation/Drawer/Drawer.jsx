@@ -17,6 +17,7 @@ import InsertDriveFileIcon from '@material-ui/icons/InsertDriveFile';
 import PlusIcon from '@material-ui/icons/PlusOne';
 import MenuIcon from '@material-ui/icons/Menu';
 import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
+import MessageIcon from "@material-ui/icons/Message";
 import {drawerStyle} from "./Drawer.style";
 import {useTranslation} from "react-i18next";
 
@@ -91,6 +92,15 @@ function Drawer(props) {
                     selected={isActive('/orders')}>
                     <ListItemIcon className={classes.menuIcon}><InsertDriveFileIcon/></ListItemIcon>
                     <ListItemText>{t('ORDERS')}</ListItemText>
+                </ListItem>
+                <ListItem
+                   className={classes.menuItem}
+                   button
+                   component={Link}
+                   to="/notifications"
+                   selected={isActive('/notifications')}>
+                    <ListItemIcon className={classes.menuIcon}><MessageIcon/></ListItemIcon>
+                    <ListItemText>{t('NOTIFICATION')}</ListItemText>
                 </ListItem>
             </List>
         </div>
