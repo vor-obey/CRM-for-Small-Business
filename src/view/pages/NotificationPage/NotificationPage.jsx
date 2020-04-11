@@ -1,11 +1,11 @@
 import React, {useCallback} from 'react';
-import {makeStyles, Button, List, Container, ListItem, Grid, Typography} from "@material-ui/core";
-import {NotificationPageStyle} from "./NotificationPage.style";
-import {useDispatch, useSelector} from "react-redux";
-import {displayNotification} from "../../../data/store/auxiliary/auxiliaryThunkActions";
-import MessageIcon from "@material-ui/icons/Message";
-import {NotificationList} from "./NotificationList/NotificationList";
 import {useTranslation} from "react-i18next";
+import {useDispatch, useSelector} from "react-redux";
+import MessageIcon from "@material-ui/icons/Message";
+import {NotificationPageStyle} from "./NotificationPage.style";
+import {NotificationList} from "./NotificationList/NotificationList";
+import {displayNotification} from "../../../data/store/auxiliary/auxiliaryThunkActions";
+import {makeStyles, Button, List, Container, ListItem, Grid, Typography} from "@material-ui/core";
 
 const useStyles = makeStyles(NotificationPageStyle);
 

@@ -1,8 +1,6 @@
 import React from 'react';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
 import moment from "moment";
-import {Grid, ListItemAvatar, Avatar} from "@material-ui/core";
+import {Grid, ListItemAvatar, Avatar, ListItem, ListItemText} from "@material-ui/core";
 
 export const NotificationList = ({
                                      index,

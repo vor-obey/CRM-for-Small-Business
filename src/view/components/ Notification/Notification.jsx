@@ -1,7 +1,7 @@
 import React from 'react';
-import {makeStyles, ListItemAvatar, ListItemText, Avatar, ListItem} from "@material-ui/core";
 import moment from 'moment';
 import {NotificationStyle} from "./Notification.style";
+import {makeStyles, ListItemAvatar, ListItemText, Avatar, ListItem} from "@material-ui/core";
 
 const useStyles = makeStyles(NotificationStyle);
 
