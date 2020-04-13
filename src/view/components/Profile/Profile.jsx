@@ -15,6 +15,7 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import EditIcon from '@material-ui/icons/Edit';
 import {useTranslation} from "react-i18next";
 import {CustomDialog} from "../CustomDialog/CustomDialog";
+import BusinessIcon from "@material-ui/icons/Business";
 
 const useStyles = makeStyles(profileStyles);
 
@@ -49,6 +50,27 @@ export const Profile = (props) => {
 
     const isActive = (e) => window.location.pathname === e ? true : null;
 
+    const renderButtonOrg = useCallback(() => {
+        if (currentUser.role.name === 'Admin') { // 🤞
+            return (
+                <div>
+                    <Divider variant="fullWidth" component="li"/>
+                    <ListItem
+                        className={classes.menuItem}
+                        button
+                        to={`/organizations/${currentUser.organization.organizationId}`}
+                        component={Link}
+                        selected={isActive('/')}>
+                        <ListItemIcon className={classes.menuIcon}><BusinessIcon/></ListItemIcon>
+                        <ListItemText>Organization Details</ListItemText>
+                    </ListItem>
+                </div>
+            )
+        }
+        return null;
+
+    }, [currentUser, classes]);
+
     const displayUser = side => {
 
         if (!currentUser) {
@@ -69,6 +91,7 @@ export const Profile = (props) => {
                     <ListItem>
                         <ListItemText>{currentUser.organization.name}</ListItemText>
                     </ListItem>
+                    {renderButtonOrg()}
                     <Divider variant="fullWidth" component="li"/>
                     <ListItem
                         className={classes.menuItem}

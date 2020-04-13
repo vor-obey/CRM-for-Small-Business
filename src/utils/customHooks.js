@@ -1,6 +1,6 @@
 import {useEffect, useState} from 'react';
 import {setIsLoading, setSnackBarStatus} from '../data/store/auxiliary/auxiliaryActions';
-import {OrderService, RoleService, ShippingMethodService} from '../services';
+import {OrderService, OrganizationService, RoleService, ShippingMethodService} from '../services';
 import {COMMON_ERROR_MESSAGE} from '../constants/statuses';
 import {useDispatch} from 'react-redux';
 import CustomerService from '../services/CustomerService';
@@ -212,4 +212,26 @@ export const useShippingMethods = () => {
     }, [dispatch]);
 
     return [methods, setMethods];
+};
+
+export const useOrganizationDetailsById = (id) => {
+    const [organizationDetails, setOrganizationDetails] = useState({});
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        const fetchOrganizationById = async (id) => {
+            try {
+                dispatch(setIsLoading(true));
+                const response = await OrganizationService.findOneById(id);
+                setOrganizationDetails(response);
+                dispatch(setIsLoading(false));
+            } catch (e) {
+                dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE, success: false}));
+                dispatch(setIsLoading(false))
+            }
+        };
+        fetchOrganizationById(id);
+    }, [id, dispatch]);
+
+    return organizationDetails;
 };
