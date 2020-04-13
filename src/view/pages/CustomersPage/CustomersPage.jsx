@@ -7,8 +7,7 @@ import {
    ListItem,
    Typography,
    Container,
-   Hidden,
-   makeStyles
+   makeStyles, useMediaQuery
 } from '@material-ui/core';
 import {customersPageStyle} from "./CustomersPage.style";
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
@@ -26,6 +25,7 @@ export const CustomersPage = ({history}) => {
    const classes = useStyles();
    const [inputFilter, setInputFilter] = useState('');
    const { t } = useTranslation('');
+   const minWidth600 = useMediaQuery('(min-width:600px)');
 
    const navigateToCustomerDetails = useCallback((customerId) => {
       history.push(`${USER_URLS.CUSTOMERS}/${customerId}`)
@@ -43,56 +43,39 @@ export const CustomersPage = ({history}) => {
       return filter(customerList, inputFilter).map((customer) => {
          return (
             <CustomerListItem
+               t={t}
                key={customer.customerId}
                customer={customer}
                classes={classes}
+               minWidth={minWidth600}
                navigateToCustomerDetails={navigateToCustomerDetails}
             />
          )
       })
-   }, [customerList, classes, navigateToCustomerDetails, inputFilter]);
+   }, [customerList, classes, navigateToCustomerDetails, inputFilter, minWidth600, t]);
 
    return (
       <Container className={classes.root}>
-         <Typography variant="h5" className={classes.title}>
-            {t('CUSTOMERS')}
-         </Typography>
-
          <Grid className={classes.searchBox}>
             <InputFilter
-               className={classes.search}
+               classes={classes}
                value={inputFilter}
                label={t('FILTER')}
                onChange={onFilterChangedHandler}
             />
          </Grid>
-         <List className={classes.container}>
-            <ListItem divider>
-               <Grid container className={classes.customerListContainer}>
-                  <Grid item xs={5} md={2}>
-                     <Typography className={classes.customerItemTitle}>
-                        {t('USERNAME')}
-                     </Typography>
+         <List>
+            <ListItem disableGutters divider>
+               <Grid container className={classes.gridCustomerContainer}>
+                  <Grid item xl={5} lg={5} md={5} sm={5} >
+                     <Typography>{t('USERNAME')}</Typography>
                   </Grid>
-                  <Grid item xs={5} md={2}>
-                     <Typography className={classes.customerItemTitle}>
-                        {t('NAME')}
-                     </Typography>
+                  <Grid item xl={5} lg={5} md={5} sm={4} >
+                     <Typography>{t('NAME')}</Typography>
                   </Grid>
-                  <Hidden smDown>
-                     <Grid item xs={3} md={2}>
-                        <Typography className={classes.customerItemTitle}>
-                           {t('NUMBER')}
-                        </Typography>
-                     </Grid>
-                  </Hidden>
-                  <Hidden smDown>
-                     <Grid item xs={3} md={2}>
-                        <Typography className={classes.customerItemTitle}>
-                           {t('EMAIL')}
-                        </Typography>
-                     </Grid>
-                  </Hidden>
+                  <Grid item xl={2} ld={2} md={2} sm={3} >
+                     <Typography>{t('NUMBER')}</Typography>
+                  </Grid>
                </Grid>
             </ListItem>
             {renderRows()}

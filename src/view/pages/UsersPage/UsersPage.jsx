@@ -1,6 +1,15 @@
 import React, {useCallback, useState} from 'react';
 import {Link} from "react-router-dom";
-import {Button, Container, List, ListItem, Grid, Typography, Hidden, makeStyles} from '@material-ui/core';
+import {
+    Button,
+    Container,
+    List,
+    ListItem,
+    Grid,
+    Typography,
+    makeStyles,
+    useMediaQuery
+} from '@material-ui/core';
 import {usersPageStyle} from "./UsersPage.style";
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import {UserListItem} from "./UserListItem/UserListItem";
@@ -18,6 +27,7 @@ export const UsersPage = ({history}) => {
     const {t} = useTranslation('');
 
     const [userList] = useManagers();
+    const minWidth600 = useMediaQuery('(min-width:600px)');
     const roles = useRoles();
     const [inputFilter, setInputFilter] = useState('');
     const [selectedOption, setSelectedOption] = useState('');
@@ -66,6 +76,7 @@ export const UsersPage = ({history}) => {
         return filterUsers().map((user) => {
             return (
                 <UserListItem
+                    minWidth={minWidth600}
                     key={user.userId}
                     user={user}
                     classes={classes}
@@ -73,50 +84,33 @@ export const UsersPage = ({history}) => {
                 />
             );
         })
-    }, [userList, classes, navigateToUserDetails, filterUsers]);
+    }, [userList, classes, navigateToUserDetails, filterUsers, minWidth600]);
 
     return (
         <Container className={classes.root}>
             <Grid  className={classes.searchBox}>
                 <InputFilter
-                    className={classes.search}
+                    classes={classes}
                     value={inputFilter}
                     label={t('FILTER')}
                     onChange={onFilterChangedHandler}
                 />
                 {roles ? renderSelect() : null}
             </Grid>
-            <List className={classes.container}>
-                <ListItem divider>
-                    <Grid container className={classes.userListContainer}>
-                        <Grid item xs={4} md={2}>
-                            <Typography className={classes.userItemTitle}>
-                                {t('FIRST_NAME')}
-                            </Typography>
+            <List>
+                <ListItem disableGutters divider>
+                    <Grid container className={classes.gridUserContainer}>
+                        <Grid item xl={3} lg={3} md={3} sm={3} >
+                            <Typography>{t('FIRST_NAME')}</Typography>
                         </Grid>
-                        <Grid item xs={4} md={2}>
-                            <Typography className={classes.userItemTitle}>
-                                {t('LAST_NAME')}
-                            </Typography>
+                        <Grid item xl={3} lg={3} md={3} sm={3} >
+                            <Typography>{t('LAST_NAME')}</Typography>
                         </Grid>
-                        <Hidden smDown>
-                            <Grid item xs={3} md={2}>
-                                <Typography className={classes.userItemTitle}>
-                                    {t('EMAIL')}
-                                </Typography>
-                            </Grid>
-                        </Hidden>
-                        <Hidden smDown>
-                            <Grid item xs={3} md={2}>
-                                <Typography className={classes.userItemTitle}>
-                                    {t('NUMBER')}
-                                </Typography>
-                            </Grid>
-                        </Hidden>
-                        <Grid item xs={4} md={2}>
-                            <Typography className={classes.userItemTitle}>
-                                {t('ROLE')}
-                            </Typography>
+                        <Grid item xl={4} ld={4} md={4} sm={4} >
+                            <Typography>{t('NUMBER')}</Typography>
+                        </Grid>
+                        <Grid item xl={2} ld={2} md={2} sm={2} >
+                            <Typography>{t('ROLE')}</Typography>
                         </Grid>
                     </Grid>
                 </ListItem>

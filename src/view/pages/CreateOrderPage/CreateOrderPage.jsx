@@ -22,9 +22,9 @@ export const CreateOrderPage = ({history}) => {
     });
     const [shippingMethods] = useShippingMethods();
     const [shippingMethod, setShippingMethod] = useState({});
-    const [managers] = useManagers();
+    const [managers, , managerLoading] = useManagers();
     const [manager, setManager] = useState({});
-    const [customers, setCustomers] = useCustomers();
+    const [customers, setCustomers, customerLoading] = useCustomers();
     const [customer, setCustomer] = useState({});
     const [createdCustomer, setCreatedCustomer] = useState({});
     const city = useSelector(state => state.autocompleteReducer.city);
@@ -102,11 +102,11 @@ export const CreateOrderPage = ({history}) => {
         e.preventDefault();
         if (isEmpty(productDetails) || isEmpty(manager)
             || isEmpty(customer) || isEmpty(city) || isEmpty(warehouse)
-        ){
+        ) {
             dispatch(setSnackBarStatus({isOpen: true, message: t('FILL_ALL_THE_FIElDS'), success: false}));
-        } else if(productDetails.description.length > 150) {
+        } else if (productDetails.description.length > 150) {
             dispatch(setSnackBarStatus({isOpen: true, message: t('TOO_LONG_DESCRIPTION'), success: false}));
-        }else {
+        } else {
             try {
                 dispatch(setIsLoading(true));
                 const response = await OrderService.create({
@@ -152,6 +152,8 @@ export const CreateOrderPage = ({history}) => {
             customers={customers}
             manager={manager}
             managers={managers}
+            customerLoading={customerLoading}
+            managerLoading={managerLoading}
             onChangedProductInput={onChangedProductInput}
             onManagerSelectHandler={onManagerSelectHandler}
             onCustomerSelectHandler={onCustomerSelectHandler}

@@ -8,7 +8,7 @@ export const SelectFilter = ({
                                  label,
                                  roles = null,
                                  onChange,
-                                 value
+                                 value,
                              }) => {
     const {t} = useTranslation();
 
