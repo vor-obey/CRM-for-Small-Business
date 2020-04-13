@@ -5,7 +5,8 @@ import {useTranslation} from "react-i18next";
 
 export const SaveOrganizationForm = ({
                                          onChangedInput,
-                                         organization
+                                         organization,
+                                         classes
                                      }) => {
     const { t } = useTranslation('');
 
@@ -35,7 +36,7 @@ export const SaveOrganizationForm = ({
                     fullWidth
                 />
             </Grid>
-            <Grid item xs={12} sm={12}>
+            <Grid item xs={12} sm={12} className={organization.organizationName ? classes.code: null}>
                 <TextField
                     label={t('CODE')}
                     name="codeValue"

@@ -10,109 +10,94 @@ import {EditOrganizationStyle} from "./EditOrganization.style";
 import {useOrganizationDetailsById} from "../../../utils/customHooks";
 import {setIsLoading, setSnackBarStatus} from "../../../data/store/auxiliary/auxiliaryActions";
 import {makeStyles, Avatar, Container, Button, CssBaseline, TextField, Typography} from "@material-ui/core";
+import {SaveOrganizationForm} from "../../components/SaveOrganization/SaveOrganizationForm";
 
 const useStyles = makeStyles(EditOrganizationStyle);
 
 export const EditOrganization = ({
-                                     history
+                                    history
                                  }) => {
-    const {id} = useParams();
-    const {t} = useTranslation();
-    const classes = useStyles();
-    const dispatch = useDispatch();
-    const organizationDetails = useOrganizationDetailsById(id);
+   const {id} = useParams();
+   const {t} = useTranslation();
+   const classes = useStyles();
+   const dispatch = useDispatch();
+   const organizationDetails = useOrganizationDetailsById(id);
 
-    const [organization, setOrganization] = useState({
-        organizationName: '',
-        apiKeyNP: '',
-    });
+   const [organization, setOrganization] = useState({
+      organizationName: '',
+      apiKeyNP: '',
+   });
 
-    useEffect(() => {
-        if (!organizationDetails) {
-            return null;
-        }
-        setOrganization({
-            organizationName: organizationDetails.name,
-            apiKeyNP: organizationDetails.apiKeyNP
-        });
-    }, [organizationDetails]);
+   useEffect(() => {
+      if (!organizationDetails) {
+         return null;
+      }
+      setOrganization({
+         organizationName: organizationDetails.name,
+         apiKeyNP: organizationDetails.apiKeyNP
+      });
+   }, [organizationDetails]);
 
-    const onSubmitHandler = useCallback(async (event) => {
-        event.preventDefault();
-        try {
-            dispatch(setIsLoading(true));
-            const response = await OrganizationService.update(organization);
-            if (response.success) {
-                history.push('/')
-            } else {
-                dispatch(setIsLoading(false));
-                dispatch(setSnackBarStatus({isOpen: true, message: response.message, success: false}));
-            }
-        } catch (e) {
+   const onSubmitHandler = useCallback(async (event) => {
+      event.preventDefault();
+      try {
+         dispatch(setIsLoading(true));
+         const response = await OrganizationService.update(organization);
+         if (response.success) {
+            history.push('/')
+         } else {
             dispatch(setIsLoading(false));
-            dispatch(setSnackBarStatus({isOpen: true, message: e.message, success: false}));
-        }
-    }, [organization, history, dispatch]);
+            dispatch(setSnackBarStatus({isOpen: true, message: response.message, success: false}));
+         }
+      } catch (e) {
+         dispatch(setIsLoading(false));
+         dispatch(setSnackBarStatus({isOpen: true, message: e.message, success: false}));
+      }
+   }, [organization, history, dispatch]);
 
-    const onChangeHandler = useCallback((event) => {
-        const {name, value} = event.target;
-        setOrganization(prevState => {
-            return {
-                ...prevState,
-                [name]: value
-            }
-        })
-    }, []);
+   const onChangeHandler = useCallback((event) => {
+      const {name, value} = event.target;
+      setOrganization(prevState => {
+         return {
+            ...prevState,
+            [name]: value
+         }
+      })
+   }, []);
 
-    return (
-        <Container component="main" maxWidth="xs">
-            <CssBaseline/>
-            <div className={classes.paper}>
-                <Avatar className={classes.avatar}>
-                    <BusinessIcon/>
-                </Avatar>
-                <Typography component="h1" variant="h5" className={classes.text}>
-                    {t('EDIT_ORGANIZATION')}
-                </Typography>
-                <form className={classes.form} onSubmit={onSubmitHandler}>
-                    <Grid container spacing={2}>
-                        <Grid item xs={12} sm={12}>
-                            <TextField
-                                label={t('ORGANIZATION_NAME')}
-                                name='organizationName'
-                                variant='outlined'
-                                type='text'
-                                required
-                                fullWidth
-                                onChange={onChangeHandler}
-                                value={organization.organizationName || ''}
-                            />
-                        </Grid>
-                        <Grid item xs={12} sm={12}>
-                            <TextField
-                                label={t('NP_API')}
-                                name='apiKeyNP'
-                                variant='outlined'
-                                type='text'
-                                required
-                                fullWidth
-                                onChange={onChangeHandler}
-                                value={organization.apiKeyNP || ''}
-                            />
-                        </Grid>
-                    </Grid>
-                    <Grid item xs={12} sm={12}>
-                        <Button
-                            className={classes.submit}
-                            type="submit"
-                            variant="contained"
-                            color="primary"
-                            fullWidth
-                        >
-                            {t('EDIT')}</Button>
-                    </Grid>
-                </form>
-            </div>
-        </Container>
-    );
+   return (
+
+      <Container component="main" maxWidth="xs">
+         <CssBaseline/>
+         <div className={classes.paper}>
+            <Avatar className={classes.avatar}>
+               <BusinessIcon/>
+            </Avatar>
+            <Typography component="h1" variant="h5" className={classes.text}>
+               {t('EDIT_ORGANIZATION')}
+            </Typography>
+            <form className={classes.form} onSubmit={onSubmitHandler}>
+               <Grid container spacing={2}>
+                  <Grid item xs={12} sm={12}>
+                     <SaveOrganizationForm
+                        onChangedInput={onChangeHandler}
+                        organization={organization}
+                        classes={classes}
+                     />
+                  </Grid>
+               </Grid>
+               <Grid item xs={12} sm={12}>
+                  <Button
+                     className={classes.submit}
+                     type="submit"
+                     variant="contained"
+                     color="primary"
+                     fullWidth
+                  >
+                     {t('EDIT')}</Button>
+               </Grid>
+            </form>
+         </div>
+      </Container>
+   );
 };

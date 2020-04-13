@@ -18,5 +18,8 @@ export const EditOrganizationStyle = (theme => ({
     },
     text: {
         textAlign: 'center'
+    },
+    code: {
+        display: 'none'
     }
 }));
