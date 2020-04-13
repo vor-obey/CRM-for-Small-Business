@@ -13,8 +13,8 @@ export const NotificationList = ({
             <div className={classes.root}>
                 <ListItem>
                     <ListItemAvatar>
-                        {typeof notifications.icon === 'string' ?
-                            <Avatar alt="Icon" src={notifications.icon}/> : notifications.icon}
+                       {typeof notifications.icon === 'string' ?
+                          <Avatar alt="Icon" src={notifications.icon}/> : <Avatar>{notifications.icon}</Avatar>}
                     </ListItemAvatar>
                     <ListItemText primary={notifications.text}
                                   secondary={moment(notifications.date).format("MMM Do YYYY, HH:mm")}
