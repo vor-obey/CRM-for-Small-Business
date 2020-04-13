@@ -6,27 +6,19 @@ export const HomeStyles = (theme => ({
         marginTop: theme.spacing(5)
     },
     root: {
-        width: 800,
-        marginRight: theme.spacing(15),
         [theme.breakpoints.down('sm')]: {
             width: '100%',
             marginRight: 0,
         },
     },
-    headerChat: {
-        height: 20,
-        color: '#FFF',
-        textAlign: 'center',
-        background: 'linear-gradient(100deg, rgb(63,81,181,1) 10%, rgb(4,171,199,1) 90%)',
-        [theme.breakpoints.down('xs')]: {
-            height: 1,
-        },
+    grid: {
+      margin: '0px 15px'
     },
-    headerGraph: {
+    header: {
         height: 20,
         color: '#FFF',
         textAlign: 'center',
-        background: 'linear-gradient(141deg,  rgb(4,171,199,1) 5%, rgb(63,81,181,1) 75%)',
+        background: 'linear-gradient(180deg, rgba(63,81,181,1) 45%, rgba(34,171,199,1) 100%)',
         [theme.breakpoints.down('xs')]: {
             height: 1,
         },
@@ -37,7 +29,7 @@ export const HomeStyles = (theme => ({
         },
     },
     card: {
-        width: 300,
+        width: '100%',
         height: 250,
         display: 'flex',
         textAlign: 'center',
@@ -58,7 +50,6 @@ export const HomeStyles = (theme => ({
         },
     },
     cardAction: {
-        width: 300,
         height: 250,
         [theme.breakpoints.down('md')]: {
             width: 250,
@@ -72,9 +63,7 @@ export const HomeStyles = (theme => ({
             width: '95%',
         },
     },
-    chat: {
-        width: 300,
-        height: 395,
+    chatCard: {
         marginTop: theme.spacing(3),
         [theme.breakpoints.down('md')]: {
             width: 250,

@@ -15,5 +15,6 @@ export const UsersRU = {
     EDIT_USER: 'Редактировать пользователя',
     ROLE_ADMIN: 'Админ',
     ROLE_MANAGER: 'Менеджер',
-    ROLE_MODERATOR: 'Модератор'
+    ROLE_MODERATOR: 'Модератор',
+    NO_INSTAGRAM_CREDENTIALS: "Интегрируйте ваш Инстаграм аккаунт для доступа к чату. Это можно сделать в настройках организации.",
 };
