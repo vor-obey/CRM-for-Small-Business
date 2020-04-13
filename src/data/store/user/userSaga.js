@@ -14,6 +14,7 @@ import {
 } from './userActions';
 import socketIOClient from 'socket.io-client';
 import {eventChannel} from 'redux-saga';
+import {BASE_URL} from '../../../constants/urls';
 
 export function* login(action) {
     try {
@@ -65,14 +66,14 @@ export function createEventChannel(socket) {
 }
 
 export function sendMessage(action) {
-    const socket = socketIOClient('http://localhost:8080/', {query: `roomId=${action.organizationId}`});
+    const socket = socketIOClient(`${BASE_URL}/`, {query: `roomId=${action.organizationId}`});
     socket.emit('sendMessage', action.payload);
 }
 
 export function* initializeConnection(action) {
     yield put(setIsConnected(true));
     const {socket, timeout} = yield race({
-        socket: socketIOClient('http://localhost:8080/', {query: `roomId=${action.organizationId}`}),
+        socket: socketIOClient(`${BASE_URL}/`, {query: `roomId=${action.organizationId}`}),
         timeout: delay(2000),
     });
     if (timeout) {
