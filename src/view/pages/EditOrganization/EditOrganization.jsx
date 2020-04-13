@@ -9,7 +9,7 @@ import BusinessIcon from "@material-ui/icons/Business";
 import {EditOrganizationStyle} from "./EditOrganization.style";
 import {useOrganizationDetailsById} from "../../../utils/customHooks";
 import {setIsLoading, setSnackBarStatus} from "../../../data/store/auxiliary/auxiliaryActions";
-import {makeStyles, Avatar, Container, Button, CssBaseline, TextField, Typography} from "@material-ui/core";
+import {makeStyles, Avatar, Container, Button, CssBaseline, Typography} from "@material-ui/core";
 import {SaveOrganizationForm} from "../../components/SaveOrganization/SaveOrganizationForm";
 
 const useStyles = makeStyles(EditOrganizationStyle);
