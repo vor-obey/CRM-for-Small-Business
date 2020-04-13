@@ -8,13 +8,16 @@ import {
     makeStyles,
     Typography,
     CardActionArea,
-    CardContent,
+    CardContent, Hidden,
 } from "@material-ui/core";
 
 import {HomeStyles} from "./Home.style";
 import {Graph} from '../../components/Graph/Graph'
 import {useTranslation} from "react-i18next";
 import {useOrders} from '../../../utils/customHooks';
+import {Chat} from '../../components/Chat/Chat';
+import {useDispatch} from 'react-redux';
+import {openChatWidget} from '../../../data/store/user/userActions';
 
 const useStyles = makeStyles(HomeStyles);
 
@@ -22,6 +25,7 @@ export const Home = ({history}) => {
     const classes = useStyles();
     const {t} = useTranslation('');
     const orders = useOrders();
+    const dispatch = useDispatch();
 
     const renderOrdersCountByStatus = useCallback((status) => {
         const filtered = orders.filter(order => order.status === status);
@@ -40,7 +44,8 @@ export const Home = ({history}) => {
     return (
         <Container className={classes.container}>
             <Grid container className={classes.root}>
-                <Grid item xl={5} lg={5} md={5} sm={6} xs={6} className={classes.grid}>
+                <Grid item xl={1} lg={1} implementation='css' component={Hidden}/>
+                <Grid item xl={3} lg={3} md={5} sm={6} xs={6} className={classes.grid}>
                     <Card className={classes.card}>
                         <CardActionArea onClick={() => navigateToOrdersPage(0)} className={classes.cardAction}>
                             <CardContent>
@@ -54,7 +59,7 @@ export const Home = ({history}) => {
                         </CardActionArea>
                     </Card>
                 </Grid>
-                <Grid item xl={5} lg={5} md={5} sm={6} xs={6} className={classes.grid}>
+                <Grid item xl={3} lg={3} md={5} sm={6} xs={6} className={classes.grid}>
                     <Card className={classes.card}>
                         <CardActionArea onClick={() => navigateToOrdersPage(1)} className={classes.cardAction}>
                             <CardContent>
@@ -68,7 +73,7 @@ export const Home = ({history}) => {
                         </CardActionArea>
                     </Card>
                 </Grid>
-                <Grid item xl={2} lg={2} md={2} sm={6} xs={6} className={classes.grid}>
+                <Grid item xl={3} lg={3} md={2} sm={6} xs={6} className={classes.grid}>
                     <Card className={classes.card}>
                         <CardActionArea onClick={() => navigateToOrdersPage(2)} className={classes.cardAction}>
                             <CardContent>
@@ -82,18 +87,36 @@ export const Home = ({history}) => {
                         </CardActionArea>
                     </Card>
                 </Grid>
-                <Grid item lg={5} md={5} sm={6} xs={6} className={classes.gridChat}>
-                    <Card className={classes.chat}>
+                <Grid item xl={1} lg={1} implementation='css' component={Hidden}/>
+                <Grid item xl={1} lg={1} implementation='css' component={Hidden}/>
+                <Grid item xl={3} lg={3} md={5} sm={6} xs={6} className={classes.grid} style={{height: '100%'}}>
+                    <Card className={classes.chatCard}>
                         <CardHeader
                             title={t('CHAT')}
                             className={classes.header}
+                            style={{
+                                cursor: 'pointer'
+                            }}
+                            onClick={() => dispatch(openChatWidget())}
                         />
-                        <CardContent>
-                            <Typography variant='h6' className={classes.displayError} color={'textSecondary'}>{t('DISPLAY_ERROR')}</Typography>
+                        <CardContent style={{
+                            padding: 0,
+                            minHeight: 344,
+                            display: 'flex',
+                            justifyContent: 'center',
+                        }}>
+                            <Chat
+                                style={{
+                                    padding: 0,
+                                    maxHeight: 343,
+                                    overflow: 'auto',
+                                    height: '100%'
+                                }}
+                            />
                         </CardContent>
                     </Card>
                 </Grid>
-                <Grid item lg={7} md={7} sm={12} xs={12} className={classes.gridGraph}>
+                <Grid item lg={7} md={7} sm={12} xs={12} className={classes.grid}>
                     <Card className={classes.graph}>
                         <CardHeader
                             title={t('STATISTIC')}

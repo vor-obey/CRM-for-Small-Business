@@ -25,7 +25,7 @@ import {CreateOrderPage} from "../../pages/CreateOrderPage/CreateOrderPage";
 import {CreateOrganization} from "../../pages/CreateOrganization/CreateOrganization";
 import {EditUser} from '../../pages/EditUser/EditUser';
 import {EditOrder} from '../../pages/EditOrder/EditOrder';
-import {Chat} from '../Chat/Chat';
+import {DraggableChat} from '../DraggableChat/DraggableChat';
 
 export const Routing = () => {
     const dispatch = useDispatch();
@@ -41,6 +41,7 @@ export const Routing = () => {
     return (
         <Router history={history}>
             <Header/>
+            <DraggableChat/>
             <AuthRoute exact path="/" component={Login}/>
             <PrivateRoute exact path="/dashboard" component={Home}/>
             <PrivateRoute exact path="/create-user" component={CreateUser}/>
@@ -55,7 +56,6 @@ export const Routing = () => {
             <PrivateRoute exact path='/create-order' component={CreateOrderPage}/>
             <PrivateRoute exact path='/orders/:id' component={OrderDetailsPage}/>
             <PrivateRoute exact path='/orders/:id/edit' component={EditOrder}/>
-            <PrivateRoute exact path='/chat' component={Chat}/>
             <Route exact path='/restore_password/:token' component={RestorePassword}/>
             <Route exact path='/forgot_password' component={ForgotPassword}/>
             <Route exact path='/create-organization' component={CreateOrganization}/>

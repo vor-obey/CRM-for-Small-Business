@@ -1,66 +1,36 @@
-import React, {useCallback, useEffect, useState} from 'react';
-import {Container, Divider, ListItem} from '@material-ui/core';
-import List from '@material-ui/core/List';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import Avatar from '@material-ui/core/Avatar';
-import ListItemText from '@material-ui/core/ListItemText';
-import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
-import {ChatDialog} from './ChatDialog/ChatDialog';
-import {ChatThreads} from './ChatThreads/ChatThreads';
-import socketIOClient from 'socket.io-client';
+import React, {useCallback, useState} from 'react';
+import {CircularProgress, Container} from '@material-ui/core';
 import {useSelector} from 'react-redux';
-import isEmpty from 'lodash/isEmpty';
+import Typography from '@material-ui/core/Typography';
+import {useTranslation} from 'react-i18next';
+import List from '@material-ui/core/List';
+import {ChatThreads} from './ChatThreads/ChatThreads';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+import ListItemText from '@material-ui/core/ListItemText';
+import Divider from '@material-ui/core/Divider';
+import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
+import Avatar from '@material-ui/core/Avatar';
+import {ChatDialog} from './ChatDialog/ChatDialog';
 
-export const Chat = () => {
-    const currentUser = useSelector(state => state.userReducer.currentUser);
-    const socket = socketIOClient('http://localhost:8080/', currentUser ? {query: `roomId=${currentUser.organization.organizationId}`} : null);
-    const [profile, setProfile] = useState({});
-    const [threads, setThreads] = useState([]);
-    console.log('[THREADS]', threads);
-    const [isOpen, setIsOpen] = useState(false);
-    const [selectedThread, setSelectedThread] = useState({});
-    const [testMessage, setTestMessage] = useState('');
-    console.log('[MESSAGE]', testMessage);
+export const Chat = ({style}) => {
+    const profile = useSelector(state => state.userReducer.igProfile);
+    const threads = useSelector(state => state.userReducer.threads);
+    const isConnected = useSelector(state => state.userReducer.isConnected);
+    const isIntegrated = useSelector(state => state.userReducer.isIntegrated);
+    const [isDialogOpen, setIsDialogOpen] = useState(false);
+    const [selectedThreadId, setSelectedThreadId] = useState('');
+    const {t} = useTranslation('');
 
-    // initialize instagram client
-    useEffect(() => {
-        if (currentUser && socket.query) {
-            console.log('initChat');
-            socket.emit('initChat');
-        }
-        // eslint-disable-next-line
-    }, [currentUser]);
+    const openThread = useCallback((threadId) => {
+        setSelectedThreadId(threadId);
+        setIsDialogOpen(!isDialogOpen);
+    }, [isDialogOpen]);
 
-    useEffect(() => {
-        if (isEmpty(profile)) {
-            socket.on('getIgProfile', (data) => {
-                setProfile(data);
-            });
-        }
-
-        socket.on('error', (data) => {
-            console.log('ERROR', data);
-        });
-
-        socket.on('getThreads', (threads) => {
-            console.log('[SOCKET ON GETHREADS]');
-            setThreads(threads);
-        });
-
-        if (profile.username) {
-            socket.on('message', (data) => {
-                console.log('[SOCKET ON MESSAGE]');
-                setTestMessage(data);
-                console.log('[profile username]', profile.username);
-                socket.emit('getThreads', profile.username)
-            });
-        }
-    }, [socket, profile]);
-
-    const openDialog = useCallback((threadId) => {
-        setSelectedThread(threads.find((thread) => thread.thread_id === threadId));
-        setIsOpen(true);
-    }, [threads]);
+    const goBack = useCallback(() => {
+        setSelectedThreadId('');
+        setIsDialogOpen(!isDialogOpen);
+    }, [isDialogOpen]);
 
     const renderThreads = useCallback(() => {
         if (!threads.length) {
@@ -74,8 +44,10 @@ export const Chat = () => {
             if (users.length > 1) {
                 return (
                     <React.Fragment key={thread.thread_id}>
-                        <ListItem alignItems='flex-start' style={{cursor: 'pointer'}}
-                                  onClick={() => openDialog(thread.thread_id)}
+                        <ListItem
+                            alignItems='flex-start'
+                            style={{cursor: 'pointer'}}
+                            onClick={() => openThread(thread.thread_id)}
                         >
                             <ListItemAvatar>
                                 <PeopleAltIcon/>
@@ -92,8 +64,10 @@ export const Chat = () => {
 
             return (
                 <React.Fragment key={thread.thread_id}>
-                    <ListItem alignItems='flex-start' style={{cursor: 'pointer'}}
-                              onClick={() => openDialog(thread.thread_id)}
+                    <ListItem
+                        alignItems='flex-start'
+                        style={{cursor: 'pointer'}}
+                        onClick={() => openThread(thread.thread_id)}
                     >
                         <ListItemAvatar>
                             <Avatar alt={thread_title} src={profile_pic_url}/>
@@ -107,30 +81,40 @@ export const Chat = () => {
                 </React.Fragment>
             )
         });
-    }, [threads, openDialog]);
-    //
-    const refreshThreads = useCallback(() => {
-        socket.emit('getThreads', profile.username);
-    }, [socket, profile]);
+    }, [threads, openThread]);
 
-    const goBack = useCallback(() => {
-        setIsOpen(false);
-        setSelectedThread({});
-    }, []);
+    if (!isConnected) {
+        return (
+            <CircularProgress/>
+        );
+    }
+
+    if (isConnected && !isIntegrated) {
+        return (
+            <Typography
+                variant='h6'
+                color='textSecondary'
+                style={{
+                    textAlign: 'center',
+                    padding: 5
+                }}
+            >
+                {t('NO_INSTAGRAM_CREDENTIALS')}
+            </Typography>
+        );
+    }
 
     return (
-        <Container maxWidth='md'
-                   style={{marginTop: 30, border: '1px solid rgba(0, 0, 0, 0.12)', borderRadius: 5, padding: 5}}>
-            <List style={{width: '100%'}}>
-                {isOpen ?
+        <Container style={style}>
+            <List style={{width: '100%', padding: 0}}>
+                {isDialogOpen ?
                     <ChatDialog
-                        loggedInUser={{id: profile.pk, profilePicUrl: profile.profile_pic_url}}
-                        thread={selectedThread}
+                        profile={profile}
+                        thread={threads.find(item => item.thread_id === selectedThreadId)}
                         goBack={goBack}
                     />
                     :
                     <ChatThreads
-                        refreshThreads={refreshThreads}
                         renderThreads={renderThreads}
                     />
                 }

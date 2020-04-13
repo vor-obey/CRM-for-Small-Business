@@ -9,11 +9,14 @@ import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 import {TextField} from '@material-ui/core';
 import KeyboardReturnIcon from '@material-ui/icons/KeyboardReturn';
 import IconButton from '@material-ui/core/IconButton';
+import {useDispatch} from 'react-redux';
+import {sendMessage} from '../../../../data/store/user/userActions';
 
-export const ChatDialog = ({thread, goBack, loggedInUser}) => {
-    const [message, setMessage] = useState('');
+export const ChatDialog = ({profile, thread, goBack}) => {
     const {users, thread_title, items} = thread;
     const {profile_pic_url} = users[0];
+    const dispatch = useDispatch();
+    const [text, setText] = useState('');
 
     let avatar = <PeopleAltIcon/>;
 
@@ -28,23 +31,56 @@ export const ChatDialog = ({thread, goBack, loggedInUser}) => {
 
         const messages = items.sort((a, b) => a.timestamp - b.timestamp);
         return messages.map((item) => {
-            if (item.user_id === loggedInUser.id) {
-                return (
-                    <ListItem key={item.item_id} style={{justifyContent: 'flex-end'}}>
+            let content;
+            switch (item.item_type) {
+                case 'text': {
+                    content = (
                         <ListItemText
-                            primary={item.item_type === 'text' ? item.text : 'Some content'}
+                            primary={item.text}
                             style={{
                                 border: '1px solid rgba(0, 0, 0, 0.12)',
                                 borderRadius: 5,
                                 padding: 10,
                                 marginRight: 5,
                                 marginLeft: 5,
-                                textAlign: 'right',
+                                textAlign: `${item.user_id === profile.pk ? 'right' : 'left'}`,
                                 flex: 'unset'
                             }}
                         />
+                    );
+                    break;
+                }
+                case 'media': {
+                    content = (
+                        <img src={item.media.image_versions2.candidates[0].url} alt="Media"
+                             style={{height: 150, width: 150}}/>
+                    );
+                    break;
+                }
+                default: {
+                    content = (
+                        <ListItemText
+                            primary='Unsupported content'
+                            style={{
+                                border: '1px solid rgba(0, 0, 0, 0.12)',
+                                borderRadius: 5,
+                                padding: 10,
+                                marginRight: 5,
+                                marginLeft: 5,
+                                textAlign: `${item.user_id === profile.pk ? 'right' : 'left'}`,
+                                flex: 'unset'
+                            }}
+                        />
+                    );
+                    break;
+                }
+            }
+            if (item.user_id === profile.pk) {
+                return (
+                    <ListItem key={item.item_id} style={{justifyContent: 'flex-end'}}>
+                        {content}
                         <ListItemAvatar>
-                            <Avatar alt={thread_title} src={loggedInUser.profilePicUrl}/>
+                            <Avatar alt={thread_title} src={profile.profile_pic_url}/>
                         </ListItemAvatar>
                     </ListItem>
                 );
@@ -54,32 +90,22 @@ export const ChatDialog = ({thread, goBack, loggedInUser}) => {
                     <ListItemAvatar>
                         {avatar}
                     </ListItemAvatar>
-                    <ListItemText
-                        primary={item.item_type === 'text' ? item.text : 'Some content'}
-                        style={{
-                            border: '1px solid rgba(0, 0, 0, 0.12)',
-                            borderRadius: 5,
-                            padding: 10,
-                            marginRight: 5,
-                            marginLeft: 5,
-                            textAlign: 'left',
-                            flex: 'unset'
-                        }}
-                    />
+                    {content}
                 </ListItem>
             )
         });
-    }, [avatar, loggedInUser, items, thread_title]);
+    }, [avatar, profile, items, thread_title]);
 
     const onChangedInput = useCallback((event) => {
         const {value} = event.target;
-        setMessage(value);
+        setText(value);
     }, []);
 
     const submit = useCallback((event) => {
         event.preventDefault();
-        console.log(message);
-    }, [message]);
+        dispatch(sendMessage({text, username: profile.username, threadId: thread.thread_id}));
+        setText('');
+    }, [text, profile.username, thread.thread_id, dispatch]);
 
     return (
         <>
@@ -102,10 +128,9 @@ export const ChatDialog = ({thread, goBack, loggedInUser}) => {
                     <TextField
                         fullWidth
                         label='Message'
-                        margin="normal"
                         name='message'
                         onChange={onChangedInput}
-                        value={message}
+                        value={text}
                     />
                     <IconButton type='submit'>
                         <KeyboardReturnIcon style={{cursor: 'pointer'}}/>

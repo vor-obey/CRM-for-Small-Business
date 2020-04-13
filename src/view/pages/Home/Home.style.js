@@ -6,12 +6,13 @@ export const HomeStyles = (theme => ({
         marginTop: theme.spacing(5)
     },
     root: {
-        width: 800,
-        marginRight: theme.spacing(15),
         [theme.breakpoints.down('sm')]: {
             width: '100%',
             marginRight: 0,
         },
+    },
+    grid: {
+      margin: '0px 15px'
     },
     header: {
         height: 20,
@@ -28,7 +29,7 @@ export const HomeStyles = (theme => ({
         },
     },
     card: {
-        width: 300,
+        width: '100%',
         height: 250,
         display: 'flex',
         textAlign: 'center',
@@ -49,7 +50,6 @@ export const HomeStyles = (theme => ({
         },
     },
     cardAction: {
-        width: 300,
         height: 250,
         [theme.breakpoints.down('md')]: {
             width: 250,
@@ -63,9 +63,7 @@ export const HomeStyles = (theme => ({
             width: '95%',
         },
     },
-    chat: {
-        width: 300,
-        height: 395,
+    chatCard: {
         marginTop: theme.spacing(3),
         [theme.breakpoints.down('md')]: {
             width: 250,
