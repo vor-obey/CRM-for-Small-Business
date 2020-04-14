@@ -4,6 +4,7 @@ export const LOGIN = 'LOGIN';
 export const INIT_CONNECT = 'INIT_CONNECT';
 export const SET_IS_CONNECTED = 'SET_IS_CONNECTED';
 export const SET_IS_INTEGRATED = 'SET_IS_INTEGRATED';
+export const SET_SOCKET_ERROR = 'SET_SOCKET_ERROR';
 export const SET_IG_PROFILE = 'SET_IG_PROFILE';
 export const ADD_MESSAGE = 'ADD_MESSAGE';
 export const SET_THREADS = 'SET_THREADS';

@@ -5,7 +5,8 @@ import {
     ADD_MESSAGE,
     SET_THREADS,
     SET_IS_INTEGRATED,
-    OPEN_CHAT_WIDGET, CLOSE_CHAT_WIDGET
+    OPEN_CHAT_WIDGET, CLOSE_CHAT_WIDGET,
+    SET_SOCKET_ERROR
 } from "./userActionTypes";
 
 const initialState = {
@@ -15,7 +16,8 @@ const initialState = {
     isIntegrated: false,
     isChatWidgetOpened: true,
     messages: [],
-    threads: []
+    threads: [],
+    error: null,
 };
 
 export const userReducer = (state = initialState, action) => {
@@ -36,6 +38,12 @@ export const userReducer = (state = initialState, action) => {
             return {
                 ...state,
                 isIntegrated: action.isIntegrated
+            }
+        }
+        case SET_SOCKET_ERROR: {
+            return {
+                ...state,
+                error: action.payload
             }
         }
         case SET_IG_PROFILE: {

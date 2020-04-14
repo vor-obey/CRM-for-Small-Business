@@ -9,7 +9,7 @@ import {
     setIgProfile,
     setThreads,
     setIsConnected,
-    setIsIntegrated
+    setIsIntegrated, setSocketError
 } from './userActions';
 import socketIOClient from 'socket.io-client';
 import {eventChannel} from 'redux-saga';
@@ -57,6 +57,7 @@ export function createEventChannel(socket) {
         socket.on('message', payload => emitter({event: 'message', payload}));
         socket.on('getThreads', payload => emitter({event: 'threads', payload}));
         socket.on('integrated', payload => emitter({event: 'integrated', payload}));
+        socket.on('error', payload => emitter({event: 'error', payload}));
         return () => {
             socket.close();
         }
@@ -95,6 +96,10 @@ export function* initializeConnection(action) {
             }
             case 'integrated': {
                 yield put(setIsIntegrated(payload));
+                break;
+            }
+            case 'error': {
+                yield put(setSocketError(payload));
                 break;
             }
             default: {
