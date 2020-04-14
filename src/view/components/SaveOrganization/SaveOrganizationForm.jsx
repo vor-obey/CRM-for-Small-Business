@@ -5,36 +5,17 @@ import {useTranslation} from "react-i18next";
 
 export const SaveOrganizationForm = ({
                                          onChangedInput,
-                                         organization
+                                         organization,
+                                         isEdit
                                      }) => {
-    const { t } = useTranslation('');
+    const {t} = useTranslation('');
 
-    return (
-        <Grid container spacing={2}>
-            <Grid item xs={12} sm={12}>
-                <TextField
-                    label={t('ORGANIZATION_NAME')}
-                    name="organizationName"
-                    variant="outlined"
-                    type="text"
-                    onChange={onChangedInput}
-                    value={organization.organizationName}
-                    required
-                    fullWidth
-                />
-            </Grid>
-            <Grid item xs={12} sm={12}>
-                <TextField
-                    label={t('NP_API')}
-                    name="apiKeyNP"
-                    variant="outlined"
-                    type="text"
-                    onChange={onChangedInput}
-                    value={organization.apiKeyNP}
-                    required
-                    fullWidth
-                />
-            </Grid>
+    const renderCodeInput = () => {
+        if (isEdit) {
+            return null;
+        }
+
+        return (
             <Grid item xs={12} sm={12}>
                 <TextField
                     label={t('CODE')}
@@ -46,6 +27,36 @@ export const SaveOrganizationForm = ({
                     fullWidth
                 />
             </Grid>
+        );
+    };
+
+    return (
+        <Grid container spacing={2}>
+            <Grid item xs={12} sm={12}>
+                <TextField
+                    label={t('ORGANIZATION_NAME')}
+                    name="name"
+                    variant="outlined"
+                    type="text"
+                    onChange={onChangedInput}
+                    value={organization.name || ''}
+                    required
+                    fullWidth
+                />
+            </Grid>
+            <Grid item xs={12} sm={12}>
+                <TextField
+                    label={t('NP_API')}
+                    name="apiKeyNP"
+                    variant="outlined"
+                    type="text"
+                    onChange={onChangedInput}
+                    value={organization.apiKeyNP || ''}
+                    required
+                    fullWidth
+                />
+            </Grid>
+            {renderCodeInput()}
         </Grid>
     )
 };

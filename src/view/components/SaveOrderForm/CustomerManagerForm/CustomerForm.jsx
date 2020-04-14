@@ -136,7 +136,7 @@ export const CustomerForm = ({
                     renderOption={renderCustomerOptions}
                     inputLabel={t('SELECT_CUSTOMER')}
                     getOptionLabel={getCustomerOptionLabel}
-                    value={customer}
+                    value={customer || ''}
                 />
             </Grid>
             <Grid item lg={12} xs={12}>
@@ -151,7 +151,7 @@ export const CustomerForm = ({
                         renderOption={renderManagerOptions}
                         inputLabel={t('SELECT_MANAGER')}
                         getOptionLabel={getManagerOptionLabel}
-                        value={manager}
+                        value={manager || ''}
                     />
                 </Grid>
             </Grid>

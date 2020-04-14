@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { Route, Redirect } from "react-router-dom";
+import React, {useEffect, useState} from "react";
+import {Route, Redirect} from "react-router-dom";
 import StorageService from './services/StorageService';
-import { useSelector } from "react-redux";
+import {useSelector} from "react-redux";
 
-export const PrivateRoute = ({ component: Component, ...rest }) => {
+export const PrivateRoute = ({component: Component, ...rest}) => {
     const [isAuthenticated, setAuthenticated] = useState(StorageService.getJWTToken());
     const currentUser = useSelector((state) => state.userReducer.currentUser);
 
@@ -17,16 +17,24 @@ export const PrivateRoute = ({ component: Component, ...rest }) => {
         }
     }, [currentUser]);
 
+    const renderComponent = (props) => {
+        const {match} = props;
+        const role = currentUser && currentUser.role.name;
+        if (!isAuthenticated) {
+            return <Redirect to='/'/>
+        }
+
+        if (role && (match.path === '/organizations/:id' || match.path === '/organizations/:id/edit')) {
+            return role === 'Owner' ? <Component {...props} /> : <Redirect to='/'/>
+        }
+
+        return <Component {...props} />;
+    };
+
     return (
         <Route
             {...rest}
-            render={props =>
-                isAuthenticated ? (
-                    <Component {...props} />
-                ) : (
-                    <Redirect to="/" />
-                )
-            }
+            render={props => renderComponent(props)}
         />
     );
 };

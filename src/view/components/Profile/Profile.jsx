@@ -15,14 +15,13 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import EditIcon from '@material-ui/icons/Edit';
 import {useTranslation} from "react-i18next";
 import {CustomDialog} from "../CustomDialog/CustomDialog";
+import BusinessIcon from "@material-ui/icons/Business";
 
 const useStyles = makeStyles(profileStyles);
 
-export const Profile = (props) => {
-    const {currentUser} = props;
+export const Profile = ({currentUser}) => {
     const classes = useStyles();
     const {t} = useTranslation('');
-
     const [userDrawer, setUserDrawer] = React.useState({
         right: false,
     });
@@ -32,25 +31,45 @@ export const Profile = (props) => {
         setIsShow(prevState => !prevState);
     }, []);
 
-    const logOutHandler = () => {
+    const logOutHandler = useCallback(() => {
         let token = localStorage.getItem("acc");
 
         if (token) {
             return localStorage.removeItem("acc");
         }
-    };
+    }, []);
 
-    const toggleDrawer = (side, open) => event => {
+    const toggleDrawer = useCallback((side, open) => event => {
         if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
             return;
         }
         setUserDrawer({...userDrawer, [side]: open});
-    };
+    }, [userDrawer]);
 
-    const isActive = (e) => window.location.pathname === e ? true : null;
+    const isActive = useCallback((e) => window.location.pathname === e ? true : null, []);
 
-    const displayUser = side => {
+    const renderNavLinkToOrgDetails = useCallback(() => {
+        if (currentUser.role.name !== 'Owner') {
+            return null;
+        }
+        return (
+            <>
+                <Divider variant="fullWidth" component="li"/>
+                <ListItem
+                    className={classes.menuItem}
+                    button
+                    to={`/organizations/${currentUser.organization.organizationId}`}
+                    component={Link}
+                    selected={isActive(`/organizations/${currentUser.organization.organizationId}`)}
+                >
+                    <ListItemIcon className={classes.menuIcon}><BusinessIcon/></ListItemIcon>
+                    <ListItemText>{t('ORGANIZATION_DETAILS')}</ListItemText>
+                </ListItem>
+            </>
+        );
+    }, [currentUser, classes, isActive, t]);
 
+    const displayUser = useCallback((side) => {
         if (!currentUser) {
             return null;
         }
@@ -69,6 +88,7 @@ export const Profile = (props) => {
                     <ListItem>
                         <ListItemText>{currentUser.organization.name}</ListItemText>
                     </ListItem>
+                    {renderNavLinkToOrgDetails()}
                     <Divider variant="fullWidth" component="li"/>
                     <ListItem
                         className={classes.menuItem}
@@ -90,10 +110,17 @@ export const Profile = (props) => {
                 </List>
             </div>
         )
-    };
+    }, [
+        classes,
+        currentUser,
+        handleOpenDialog,
+        isActive,
+        renderNavLinkToOrgDetails,
+        toggleDrawer,
+        t
+    ]);
 
     return (
-
         <div>
             <Button onClick={toggleDrawer('right', true)}>
                 <AccountCircleIcon

@@ -83,6 +83,7 @@ export const CreateOrganization = ({history}) => {
                 </Typography>
                 <form className={classes.form} onSubmit={onSubmitHandler}>
                     <SaveOrganizationForm
+                        classes={classes}
                         organization={organization}
                         onChangedInput={onChangeHandler}
                     />
