@@ -15,5 +15,6 @@ export const UsersUA = {
     EDIT_USER: 'Редагувати користувача',
     ROLE_ADMIN: 'Адмін',
     ROLE_MANAGER: 'Менеджер',
-    ROLE_MODERATOR: 'Модератор'
+    ROLE_MODERATOR: 'Модератор',
+    NO_INSTAGRAM_CREDENTIALS: "Інтегруйте ваш Інстаграм аккаунт для доступу до чату. Це можна зробити в налаштуваннях організації.",
 };
