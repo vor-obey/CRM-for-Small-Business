@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import {Router, Route} from 'react-router-dom';
 import StorageService from "../../../services/StorageService";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 
 import {Header} from "../Navigation/Header/Header";
 import {AuthRoute} from "../../../AuthRoute";
@@ -16,7 +16,7 @@ import RestorePassword from "../../pages/RestorePassword/RestorePassword";
 import {CustomerDetailsPage} from "../../pages/CustomerDetailsPage/CustomerDetailsPage";
 import {CreateCustomer} from "../../pages/CreateCustomer/CreateCustomer";
 import {EditCustomer} from "../../pages/EditCustomer/EditCustomer";
-import {getCurrentUser} from "../../../data/store/user/userActions";
+import {getCurrentUser, initConnect} from "../../../data/store/user/userActions";
 import {ForgotPassword} from "../../pages/ForgotPassword/ForgotPassword";
 import {OrdersPage} from "../../pages/OrdersPage/OrdersPage";
 import {OrderDetailsPage} from "../../pages/OrderDetailsPage/OrderDetailsPage";
@@ -31,6 +31,7 @@ import {EditOrganization} from "../../pages/EditOrganization/EditOrganization";
 
 export const Routing = () => {
     const dispatch = useDispatch();
+    const currentUser = useSelector(state => state.userReducer.currentUser);
 
     useEffect(() => {
         const token = StorageService.getJWTToken();
@@ -38,7 +39,14 @@ export const Routing = () => {
         if (token) {
             dispatch(getCurrentUser());
         }
+
     }, [dispatch]);
+
+    useEffect(() => {
+        if (currentUser) {
+            dispatch(initConnect(currentUser.organization.organizationId));
+        }
+    }, [currentUser, dispatch]);
 
     return (
         <Router history={history}>

@@ -10,7 +10,7 @@ import {SaveOrganizationForm} from "../../components/SaveOrganization/SaveOrgani
 import {setIsLoading, setSnackBarStatus} from '../../../data/store/auxiliary/auxiliaryActions';
 import {OrganizationService} from '../../../services/index';
 import {useDispatch} from 'react-redux';
-import {getCurrentUser} from '../../../data/store/user/userThunkAction';
+import {getCurrentUser} from '../../../data/store/user/userActions';
 
 const useStyles = makeStyles(EditOrganizationStyle);
 

@@ -5,7 +5,6 @@ import {COMMON_ERROR_MESSAGE} from '../../../constants/statuses';
 import isEmpty from 'lodash/isEmpty';
 import {
     addMessage,
-    initConnect,
     setCurrentUser,
     setIgProfile,
     setThreads,
@@ -41,7 +40,6 @@ export function* getCurrentUser() {
         if (!isEmpty(response)) {
             yield put(setCurrentUser(response));
             yield put(setIsLoading(false));
-            yield put(initConnect(response.organization.organizationId))
         } else {
             yield put(setIsLoading(false));
             yield put(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE, success: false}))
