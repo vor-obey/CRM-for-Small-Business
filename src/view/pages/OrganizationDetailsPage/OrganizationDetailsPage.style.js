@@ -30,7 +30,6 @@ export const OrganizationDetailsStyle = (theme => ({
         flexDirection: 'column',
         alignItems: 'flex-start',
         justifyContent: 'space-around',
-
     },
     title: {
         marginTop: theme.spacing(3),
@@ -48,7 +47,10 @@ export const OrganizationDetailsStyle = (theme => ({
         wordWrap: 'break-word',
     },
     organizationTypography: {
-        wordBreak: 'break-word'
+        wordBreak: 'break-word',
+        [theme.breakpoints.down('xs')]: {
+            marginTop: 3
+        },
     },
     organizationDetail: {
         display: 'grid',

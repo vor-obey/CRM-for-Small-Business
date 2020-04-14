@@ -14,16 +14,18 @@ const useStyles = makeStyles(OrganizationDetailsStyle);
 export const OrganizationDetailsPage = ({
                                             history
                                         }) => {
+
     const {id} = useParams();
     const classes = useStyles();
     const {t} = useTranslation('');
-    const organizationDetails = useOrganizationDetailsById(id);
+    const [organizationDetails] = useOrganizationDetailsById(id);
     const currentUser = useSelector(state => state.userReducer.currentUser);
 
     const renderOrganizationDetails = useCallback(() => {
         if (!organizationDetails) {
             return null;
         }
+
         return <OrganizationDetails
             t={t}
             classes={classes}

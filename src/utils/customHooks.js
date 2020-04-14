@@ -233,5 +233,5 @@ export const useOrganizationDetailsById = (id) => {
         fetchOrganizationById(id);
     }, [id, dispatch]);
 
-    return organizationDetails;
+    return [organizationDetails, setOrganizationDetails];
 };

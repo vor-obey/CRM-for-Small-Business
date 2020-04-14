@@ -7,7 +7,6 @@ export const OrganizationDetails = ({
                                         classes,
                                         organizationDetails
                                     }) => {
-
     return (
         <Grid className={classes.root}>
             <Grid item container direction={'column'} xs={12} sm={6}>
@@ -16,12 +15,22 @@ export const OrganizationDetails = ({
                         {t('ORGANIZATION_NAME')}
                     </Typography>
                     <Typography className={classes.organizationTypography} variant="body2">
-                        {organizationDetails.name}
+                        {organizationDetails && organizationDetails.name}
                     </Typography>
                 </Grid>
                 <Grid className={classes.organizationItem}>
                     <Typography variant="body1">
-                        {t('NAME')}
+                        {t('NP_API')}
+                    </Typography>
+                    <Typography className={classes.organizationTypography} variant="body2">
+                        {organizationDetails.apiKeyNP}
+                    </Typography>
+                </Grid>
+            </Grid>
+            <Grid item container direction={'column'} xs={12} sm={6}>
+                <Grid className={classes.organizationItem}>
+                    <Typography variant="body1">
+                        {t('OWNER_NAME')}
                     </Typography>
                     <Typography className={classes.organizationTypography} variant="body2">
                         {`${owner && owner.firstName} ${owner && owner.lastName}`}
@@ -35,22 +44,12 @@ export const OrganizationDetails = ({
                         {owner && owner.contactNumber}
                     </Typography>
                 </Grid>
-            </Grid>
-            <Grid item container direction={'column'} xs={12} sm={6}>
                 <Grid className={classes.organizationItem}>
                     <Typography variant="body1">
                         {t('EMAIL')}
                     </Typography>
                     <Typography className={classes.organizationTypography} variant="body2">
                         {owner && owner.email}
-                    </Typography>
-                </Grid>
-                <Grid className={classes.organizationItem}>
-                    <Typography variant="body1">
-                        {t('NP_API')}
-                    </Typography>
-                    <Typography className={classes.organizationTypography} variant="body2">
-                        {organizationDetails.apiKeyNP}
                     </Typography>
                 </Grid>
             </Grid>
