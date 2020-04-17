@@ -4,7 +4,7 @@ import {useDispatch} from "react-redux";
 import {Avatar, Button, CssBaseline, TextField, Typography, Container, makeStyles} from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import {loginStyles} from './Login.style.js';
-import {getCurrentUser, login} from "../../../data/store/user/userThunkAction";
+import {login} from "../../../data/store/user/userActions";
 import {setSnackBarStatus} from '../../../data/store/auxiliary/auxiliaryActions';
 import {COMMON_ERROR_MESSAGE} from '../../../constants/statuses';
 import {useTranslation} from "react-i18next";
@@ -36,9 +36,7 @@ export const Login = ({
     const onSubmitForm = useCallback(async (event) => {
         event.preventDefault();
         try {
-            const {email, password} = userLoginData;
-            await dispatch(login(email, password));
-            await dispatch(getCurrentUser());
+            await dispatch(login(userLoginData));
         } catch (e) {
             dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE, success: false}));
         }
