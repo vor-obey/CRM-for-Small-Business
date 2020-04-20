@@ -28,6 +28,10 @@ import {EditOrder} from '../../pages/EditOrder/EditOrder';
 import {DraggableChat} from '../DraggableChat/DraggableChat';
 import {OrganizationDetailsPage} from "../../pages/OrganizationDetailsPage/OrganizationDetailsPage";
 import {EditOrganization} from "../../pages/EditOrganization/EditOrganization";
+import {CreateAbstractProductPage} from '../../pages/CreateAbstractProductPage/CreateAbstractProductPage';
+import {CreateProduct} from '../CreateProduct/CreateProduct';
+import {AbstractProductsPage} from '../../pages/AbstractProductsPage/AbstractProductsPage';
+import {ProductsPage} from '../../pages/ProductsPage/ProductsPage';
 
 export const Routing = () => {
     const dispatch = useDispatch();
@@ -68,6 +72,10 @@ export const Routing = () => {
             <PrivateRoute exact path='/orders/:id/edit' component={EditOrder}/>
             <PrivateRoute exact path='/organizations/:id' component={OrganizationDetailsPage}/>
             <PrivateRoute exact path='/organizations/:id/edit' component={EditOrganization}/>
+            <PrivateRoute exact path='/abstract-products' component={AbstractProductsPage}/>
+            <PrivateRoute exact path='/create-abstract-product' component={CreateAbstractProductPage}/>
+            <PrivateRoute exact path='/products' component={ProductsPage}/>
+            <PrivateRoute exact path='/create-product' component={CreateProduct}/>
             <Route exact path='/restore-password/:token' component={RestorePassword}/>
             <Route exact path='/forgot-password' component={ForgotPassword}/>
             <Route exact path='/create-organization' component={CreateOrganization}/>

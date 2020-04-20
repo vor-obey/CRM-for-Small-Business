@@ -4,7 +4,7 @@ import {createOrderPageStyles} from './CreateOrderPage.style'
 import {useDispatch, useSelector} from "react-redux";
 import {setIsLoading, setSnackBarStatus} from "../../../data/store/auxiliary/auxiliaryActions";
 import isEmpty from 'lodash/isEmpty';
-import {OrderService} from '../../../services/index';
+import {OrderService, ProductService} from '../../../services/index';
 import {SaveOrderForm} from '../../components/SaveOrderForm/SaveOrderForm';
 import {useCustomers, useManagers, useShippingMethods} from '../../../utils/customHooks';
 import {useTranslation} from 'react-i18next';
@@ -16,9 +16,10 @@ export const CreateOrderPage = ({history}) => {
     const classes = useStyles();
     const dispatch = useDispatch();
     const [productDetails, setProductDetails] = useState({
-        description: '',
         currency: 'UAH',
-        status: 0
+        status: 0,
+        amount: 1,
+        price: 0
     });
     const [shippingMethods] = useShippingMethods();
     const [shippingMethod, setShippingMethod] = useState({});
@@ -33,6 +34,23 @@ export const CreateOrderPage = ({history}) => {
     const [isCustom, setIsCustom] = useState(false);
     const [address, setAddress] = useState('');
     const {t} = useTranslation();
+    const [products, setProducts] = useState([]);
+    const [selectedProduct, setSelectedProduct] = useState({});
+
+    useEffect(() => {
+        const fetchProducts = async () => {
+            try {
+                dispatch(setIsLoading(true));
+                const response = await ProductService.list();
+                setProducts(response);
+                dispatch(setIsLoading(false));
+            } catch (e) {
+                dispatch(setIsLoading(false));
+                dispatch(setSnackBarStatus({isOpen: true, message: e.message, success: false}));
+            }
+        };
+        fetchProducts();
+    }, [dispatch]);
 
     useEffect(() => {
         if (!isEmpty(createdCustomer)) {
@@ -55,6 +73,11 @@ export const CreateOrderPage = ({history}) => {
             setShippingMethod(shippingMethods.find((item) => item.name === 'novaposta'));
         }
     }, [setShippingMethod, shippingMethods]);
+
+    const onProductSelect = useCallback((event) => {
+        const {value} = event.target;
+        setSelectedProduct(value);
+    }, []);
 
     const onChangedProductInput = useCallback((event) => {
         const {value, name} = event.target;
@@ -100,17 +123,19 @@ export const CreateOrderPage = ({history}) => {
 
     const onSubmitHandler = useCallback(async (e) => {
         e.preventDefault();
-        if (isEmpty(productDetails) || isEmpty(manager)
+        if (isEmpty(selectedProduct) || isEmpty(manager)
             || isEmpty(customer) || isEmpty(city) || isEmpty(warehouse)
         ) {
             dispatch(setSnackBarStatus({isOpen: true, message: t('FILL_ALL_THE_FIElDS'), success: false}));
-        } else if (productDetails.description.length > 150) {
-            dispatch(setSnackBarStatus({isOpen: true, message: t('TOO_LONG_DESCRIPTION'), success: false}));
         } else {
             try {
                 dispatch(setIsLoading(true));
                 const response = await OrderService.create({
-                    product: productDetails,
+                    productId: selectedProduct,
+                    currency: productDetails.currency,
+                    status: productDetails.status,
+                    price: productDetails.price,
+                    amount: productDetails.amount,
                     managerId: manager.userId,
                     customerId: customer.customerId,
                     shippingDetails: {
@@ -142,11 +167,15 @@ export const CreateOrderPage = ({history}) => {
         history,
         address,
         isCustom,
-        shippingMethod
+        shippingMethod,
+        selectedProduct
     ]);
 
     return (
         <SaveOrderForm
+            selectedProduct={selectedProduct}
+            onProductSelect={onProductSelect}
+            products={products}
             classes={classes}
             customer={customer}
             customers={customers}

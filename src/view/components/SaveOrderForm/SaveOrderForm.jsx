@@ -19,6 +19,9 @@ const autocompleteBreakpoints = {
 };
 
 export const SaveOrderForm = ({
+                                  selectedProduct,
+                                  onProductSelect,
+                                  products,
                                   classes,
                                   onSubmitHandler,
                                   onChangedProductInput,
@@ -57,6 +60,9 @@ export const SaveOrderForm = ({
                         <form onSubmit={onSubmitHandler}>
                             <Grid container item xl={12}>
                                 <ProductForm
+                                    selectedProduct={selectedProduct}
+                                    onProductSelect={onProductSelect}
+                                    products={products}
                                     classes={classes}
                                     currencies={currencies}
                                     onChangedInput={onChangedProductInput}

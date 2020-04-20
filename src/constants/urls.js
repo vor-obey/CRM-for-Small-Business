@@ -10,5 +10,9 @@ export const USER_URLS = {
     METHODS: `/shipping-methods`,
     ORGANIZATIONS: '/organizations',
     CODES: '/codes',
-    INSTAGRAM: '/Instagram'
+    INSTAGRAM: '/Instagram',
+    PRODUCT_TYPES: '/product-types',
+    ATTRIBUTES: '/attributes',
+    ABSTRACT_PRODUCTS: '/abstract-products',
+    PRODUCTS: '/products'
 };
