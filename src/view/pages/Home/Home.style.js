@@ -58,7 +58,7 @@ export const HomeStyles = (theme => ({
     },
     chatCard: {
         width: '100%',
-        marginTop: theme.spacing(3),
+        marginTop: 20,
         [theme.breakpoints.down('sm')]: {
             height: 250,
             width: '98%',
