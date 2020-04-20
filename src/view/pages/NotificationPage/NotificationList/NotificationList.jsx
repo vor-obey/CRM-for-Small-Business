@@ -10,11 +10,11 @@ export const NotificationList = ({
 
     const renderDesignMobile = () => {
         return (
-            <div className={classes.root}>
+            <div onClick={notifications.onClick()} className={classes.root}>
                 <ListItem>
                     <ListItemAvatar>
-                       {typeof notifications.icon === 'string' ?
-                          <Avatar alt="Icon" src={notifications.icon}/> : <Avatar>{notifications.icon}</Avatar>}
+                        {typeof notifications.icon === 'string' ?
+                            <Avatar alt="Icon" src={notifications.icon}/> : <Avatar>{notifications.icon}</Avatar>}
                     </ListItemAvatar>
                     <ListItemText primary={notifications.text}
                                   secondary={moment(notifications.date).format("MMM Do YYYY, HH:mm")}
@@ -26,23 +26,25 @@ export const NotificationList = ({
 
     const renderDesignDesktop = () => {
         return (
-            <Grid container className={classes.rootDesktop}>
-                <Grid item xl={1} lg={1} md={1} sm={1}>
-                    <ListItemAvatar>
-                        {typeof notifications.icon === 'string' ?
-                            <Avatar alt="Icon" src={notifications.icon}/> : <Avatar>{notifications.icon}</Avatar>}
-                    </ListItemAvatar>
+            <div onClick={notifications.onClick()}>
+                <Grid container className={classes.rootDesktop}>
+                    <Grid item xl={1} lg={1} md={1} sm={1}>
+                        <ListItemAvatar>
+                            {typeof notifications.icon === 'string' ?
+                                <Avatar alt="Icon" src={notifications.icon}/> : <Avatar>{notifications.icon}</Avatar>}
+                        </ListItemAvatar>
+                    </Grid>
+                    <Grid item xl={4} lg={4} md={4} sm={4}>
+                        <ListItemText primary={notifications.text} className={classes.text}/>
+                    </Grid>
+                    <Grid item xl={4} lg={4} md={4} sm={4}>
+                        <ListItemText primary={moment(notifications.date).format("MMM Do YYYY")}/>
+                    </Grid>
+                    <Grid item xl={3} lg={3} md={3} sm={3}>
+                        <ListItemText primary={moment(notifications.date).format("HH:mm")}/>
+                    </Grid>
                 </Grid>
-                <Grid item xl={4} lg={4} md={4} sm={4}>
-                    <ListItemText primary={notifications.text} className={classes.text}/>
-                </Grid>
-                <Grid item xl={4} lg={4} md={4} sm={4}>
-                    <ListItemText primary={moment(notifications.date).format("MMM Do YYYY")}/>
-                </Grid>
-                <Grid item xl={3} lg={3} md={3} sm={3}>
-                    <ListItemText primary={moment(notifications.date).format("HH:mm")}/>
-                </Grid>
-            </Grid>
+            </div>
         )
     };
 

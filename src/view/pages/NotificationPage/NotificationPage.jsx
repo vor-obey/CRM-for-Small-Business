@@ -1,11 +1,9 @@
 import React, {useCallback} from 'react';
 import {useTranslation} from "react-i18next";
-import {useDispatch, useSelector} from "react-redux";
-import MessageIcon from "@material-ui/icons/Message";
+import {useSelector} from "react-redux";
 import {NotificationPageStyle} from "./NotificationPage.style";
 import {NotificationList} from "./NotificationList/NotificationList";
-import {displayNotification} from "../../../data/store/auxiliary/auxiliaryThunkActions";
-import {makeStyles, Button, List, Container, ListItem, Grid, Typography} from "@material-ui/core";
+import {makeStyles, List, Container, ListItem, Grid, Typography} from "@material-ui/core";
 
 const useStyles = makeStyles(NotificationPageStyle);
 
@@ -14,12 +12,7 @@ export const NotificationPage = ({
                                  }) => {
     const classes = useStyles();
     const {t} = useTranslation();
-    const dispatch = useDispatch();
     const notifications = useSelector(state => state.auxiliaryReducer.notificationsArr);
-
-    const onClick = () => {
-        history.push('/orders');
-    };
 
     const renderNotification = useCallback(() => {
         if (!notifications) {
@@ -34,36 +27,8 @@ export const NotificationPage = ({
         })
     }, [notifications, classes]);
 
-    const renderButton = () => {
-      return (
-          <div className={classes.divButton}>
-              <Button
-                  onClick={() => dispatch(displayNotification({
-                      icon: <MessageIcon style={{color: 'rgba(63,81,181,1)'}}/>,
-                      text: 'New Order !',
-                      date: new Date(),
-                      onClick: onClick
-                  }))}
-              >
-                  Show Notification New Order
-              </Button>
-              <Button
-                  onClick={() => dispatch(displayNotification({
-                      icon: 'https://b1.filmpro.ru/c/17488.700xp.jpg',
-                      text: 'New Message',
-                      date: new Date(),
-                      onClick: onClick
-                  }))}
-              >
-                  Show Notification Instagram
-              </Button>
-          </div>
-      );
-    };
-
     return (
         <Container>
-            {renderButton()}
             <List className={classes.listDescription}>
                 <ListItem disableGutters divider className={classes.listItem}>
                     <Grid container className={classes.gridDescription}>

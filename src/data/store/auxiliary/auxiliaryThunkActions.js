@@ -3,7 +3,7 @@ import {Notification} from '../../../view/components/ Notification/Notification'
 import React from 'react';
 import {addNotification} from './auxiliaryActions';
 
-export const displayNotification = (notification) => (dispatch) => {
+export const displayNotification = (notification) => {
     store.addNotification({
         content: <Notification notification={notification}/>,
         container: 'bottom-right',
@@ -13,5 +13,5 @@ export const displayNotification = (notification) => (dispatch) => {
             duration: 5000
         }
     });
-    dispatch(addNotification(notification));
+    return (addNotification(notification));
 };

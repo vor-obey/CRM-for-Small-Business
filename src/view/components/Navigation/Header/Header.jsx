@@ -12,6 +12,7 @@ import {AlertSnackbar} from "../../Snackbar/Snackbar";
 import {setSnackBarStatus} from "../../../../data/store/auxiliary/auxiliaryActions";
 import {headerStyle} from "./Header.style";
 import {Flags} from "../Flags/Flags";
+import {NotificationsFunc} from "../../../../utils/notifications";
 
 const useStyles = makeStyles(headerStyle);
 
@@ -45,6 +46,7 @@ export const Header = () => {
                 success={success}
                 onClose={onClosedHandler}
             />
+            {NotificationsFunc()}
         </div>
     );
 };
