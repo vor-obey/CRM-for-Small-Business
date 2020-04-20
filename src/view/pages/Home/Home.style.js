@@ -1,100 +1,88 @@
 export const HomeStyles = (theme => ({
     container: {
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
         marginTop: theme.spacing(5)
     },
-    root: {
+    grid: {
+        margin: '0px 10px',
         [theme.breakpoints.down('sm')]: {
-            width: '100%',
-            marginRight: 0,
+            margin: '0px 0px',
+        },
+        [theme.breakpoints.down('xs')]: {
+            margin: '20px 0px 0px 0px',
         },
     },
-    grid: {
-      margin: '0px 15px'
+    gridReady: {
+        margin: '0px 10px',
+        [theme.breakpoints.down('sm')]: {
+            margin: '20px 0px 0px 0px',
+        },
     },
     header: {
         height: 20,
         color: '#FFF',
         textAlign: 'center',
         background: 'linear-gradient(180deg, rgba(63,81,181,1) 45%, rgba(34,171,199,1) 100%)',
-        [theme.breakpoints.down('xs')]: {
-            height: 1,
-        },
     },
-    typography : {
+    typography: {
         [theme.breakpoints.down('xs')]: {
             fontSize: 18
         },
     },
     card: {
-        width: '100%',
         height: 250,
+        width: '100%',
         display: 'flex',
         textAlign: 'center',
         alignItems: 'center',
         justifyContent: 'center',
-        [theme.breakpoints.down('md')]: {
-            width: 250,
-            height: 200
-        },
         [theme.breakpoints.down('sm')]: {
-            width: '95%',
-            height: 200,
-            marginTop: theme.spacing(3),
+            width: '98%'
         },
         [theme.breakpoints.down('xs')]: {
-            width: '95%',
-            marginTop: theme.spacing(1),
-        },
+            width: '100%'
+        }
     },
     cardAction: {
         height: 250,
-        [theme.breakpoints.down('md')]: {
-            width: 250,
-            height: 200
-        },
+        width: '100%',
+        display: 'flex',
+        textAlign: 'center',
+        alignItems: 'center',
+        justifyContent: 'center',
         [theme.breakpoints.down('sm')]: {
-            width: '95%',
-            height: 200,
+            width: '98%'
         },
         [theme.breakpoints.down('xs')]: {
-            width: '95%',
-        },
+            width: '100%'
+        }
     },
     chatCard: {
-        marginTop: theme.spacing(3),
-        [theme.breakpoints.down('md')]: {
-            width: 250,
-            height: 370
-        },
+        width: '100%',
+        marginTop: 20,
         [theme.breakpoints.down('sm')]: {
-            width: '95%',
-            height: 200
+            height: 250,
+            width: '98%',
+            overflowY: 'auto',
         },
         [theme.breakpoints.down('xs')]: {
-            width: '96%',
-            height: 200,
-            marginTop: theme.spacing(1),
+            width: '100%',
+            marginTop: 0
         }
     },
     graph: {
-        width: 640,
+        width: '90%',
+        height: '94%',
         marginTop: theme.spacing(3),
-        [theme.breakpoints.down('md')]: {
-            width: 590,
-        },
         [theme.breakpoints.down('sm')]: {
-            width: '100%',
+            width: '100%'
         },
         [theme.breakpoints.down('xs')]: {
-            width: '98%',
+            marginTop: 0
         }
     },
     displayError: {
         [theme.breakpoints.down('xs')]: {
             fontSize: 13
         }
-    }
+    },
 }));
