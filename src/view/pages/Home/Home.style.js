@@ -85,4 +85,7 @@ export const HomeStyles = (theme => ({
             fontSize: 13
         }
     },
+    number: {
+        fontWeight: 370
+    }
 }));
