@@ -1,5 +1,5 @@
 import React from 'react';
-import {Grid, Typography} from "@material-ui/core";
+import {Grid, Typography, Link} from "@material-ui/core";
 import {useTranslation} from "react-i18next";
 import {ROLES} from "../../../../constants/statuses";
 
@@ -42,7 +42,7 @@ export const UserDetails = (props) => {
                         {t('EMAIL')}
                     </Typography>
                     <Typography className={classes.userTypography} variant="body2">
-                        {userDetails.email}
+                        <Link href={`mail:${userDetails.email}`}>{userDetails.email}</Link>
                     </Typography>
                 </Grid>
                 <Grid className={classes.userItem} >
@@ -50,7 +50,7 @@ export const UserDetails = (props) => {
                         {t('NUMBER')}
                     </Typography>
                     <Typography className={classes.userTypography} variant="body2">
-                        {userDetails.contactNumber}
+                        <Link href={`tel:${userDetails.contactNumber}`}>{userDetails.contactNumber}</Link>
                     </Typography>
                 </Grid>
                 <Grid className={classes.userItem}>
