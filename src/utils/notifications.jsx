@@ -15,21 +15,16 @@ export const NotificationsFunc = () => {
     const message = addMessage[addMessage.length - 1];
     const users = threads.filter(item => item.thread_id === (message && message.message.thread_id));
     const user = users[users.length - 1];
-    const status = true;
 
     const navigationClick = useCallback(() => {
         history.push({
             pathname: '/chat',
-            state: {
-                id: addMessage.length > 1 ? user.thread_id : null,
-                status: status
-            }
         })
-    }, [history, user, status]);
+    }, [history]);
 
     useEffect(() => {
         if (location.pathname === '/dashboard' || location.pathname === '/chat') {
-        } else if (message !== undefined && message.message.user_id !== profile.pk) {
+        } else if (message && message.message.text !== undefined && message.message.user_id !== profile.pk) {
             dispatch(displayNotification({
                 icon: user && user.inviter.profile_pic_url,
                 text: message && message.message.text,
@@ -37,5 +32,5 @@ export const NotificationsFunc = () => {
                 onClick: navigationClick
             }));
         }
-    }, [dispatch, message]);
+    }, [dispatch, message, user, profile, location, navigationClick]);
 };

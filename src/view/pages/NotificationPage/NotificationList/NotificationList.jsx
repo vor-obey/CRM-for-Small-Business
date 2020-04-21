@@ -10,7 +10,7 @@ export const NotificationList = ({
 
     const renderDesignMobile = () => {
         return (
-            <div onClick={notifications.onClick()} className={classes.root}>
+            <div onClick={() => notifications.onClick()} className={classes.root}>
                 <ListItem>
                     <ListItemAvatar>
                         {typeof notifications.icon === 'string' ?
@@ -26,7 +26,7 @@ export const NotificationList = ({
 
     const renderDesignDesktop = () => {
         return (
-            <div onClick={notifications.onClick()}>
+            <div onClick={() => notifications.onClick()}>
                 <Grid container className={classes.rootDesktop}>
                     <Grid item xl={1} lg={1} md={1} sm={1}>
                         <ListItemAvatar>
