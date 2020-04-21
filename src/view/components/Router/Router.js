@@ -32,6 +32,7 @@ import {CreateAbstractProductPage} from '../../pages/CreateAbstractProductPage/C
 import {CreateProduct} from '../CreateProduct/CreateProduct';
 import {AbstractProductsPage} from '../../pages/AbstractProductsPage/AbstractProductsPage';
 import {ProductsPage} from '../../pages/ProductsPage/ProductsPage';
+import {LastLocationProvider} from 'react-router-last-location';
 
 export const Routing = () => {
     const dispatch = useDispatch();
@@ -56,29 +57,31 @@ export const Routing = () => {
         <Router history={history}>
             <Header/>
             <DraggableChat/>
-            <AuthRoute exact path="/" component={Login}/>
-            <PrivateRoute exact path="/dashboard" component={Home}/>
-            <PrivateRoute exact path="/create-user" component={CreateUser}/>
-            <PrivateRoute exact path="/create-customer" component={CreateCustomer}/>
-            <PrivateRoute exact path='/customers' component={CustomersPage}/>
-            <PrivateRoute exact path='/customers/:id' component={CustomerDetailsPage}/>
-            <PrivateRoute exact path='/customers/:id/edit' component={EditCustomer}/>
-            <PrivateRoute exact path='/users' component={UsersPage}/>
-            <PrivateRoute exact path='/users/:id/edit' component={EditUser}/>
-            <PrivateRoute exact path='/users/:id' component={UserDetailsPage}/>
-            <PrivateRoute exact path='/orders' component={OrdersPage}/>
-            <PrivateRoute exact path='/create-order' component={CreateOrderPage}/>
-            <PrivateRoute exact path='/orders/:id' component={OrderDetailsPage}/>
-            <PrivateRoute exact path='/orders/:id/edit' component={EditOrder}/>
-            <PrivateRoute exact path='/organizations/:id' component={OrganizationDetailsPage}/>
-            <PrivateRoute exact path='/organizations/:id/edit' component={EditOrganization}/>
-            <PrivateRoute exact path='/abstract-products' component={AbstractProductsPage}/>
-            <PrivateRoute exact path='/create-abstract-product' component={CreateAbstractProductPage}/>
-            <PrivateRoute exact path='/products' component={ProductsPage}/>
-            <PrivateRoute exact path='/create-product' component={CreateProduct}/>
-            <Route exact path='/restore-password/:token' component={RestorePassword}/>
-            <Route exact path='/forgot-password' component={ForgotPassword}/>
-            <Route exact path='/create-organization' component={CreateOrganization}/>
+            <LastLocationProvider>
+                <AuthRoute exact path="/" component={Login}/>
+                <PrivateRoute exact path="/dashboard" component={Home}/>
+                <PrivateRoute exact path="/create-user" component={CreateUser}/>
+                <PrivateRoute exact path="/create-customer" component={CreateCustomer}/>
+                <PrivateRoute exact path='/customers' component={CustomersPage}/>
+                <PrivateRoute exact path='/customers/:id' component={CustomerDetailsPage}/>
+                <PrivateRoute exact path='/customers/:id/edit' component={EditCustomer}/>
+                <PrivateRoute exact path='/users' component={UsersPage}/>
+                <PrivateRoute exact path='/users/:id/edit' component={EditUser}/>
+                <PrivateRoute exact path='/users/:id' component={UserDetailsPage}/>
+                <PrivateRoute exact path='/orders' component={OrdersPage}/>
+                <PrivateRoute exact path='/create-order' component={CreateOrderPage}/>
+                <PrivateRoute exact path='/orders/:id' component={OrderDetailsPage}/>
+                <PrivateRoute exact path='/orders/:id/edit' component={EditOrder}/>
+                <PrivateRoute exact path='/organizations/:id' component={OrganizationDetailsPage}/>
+                <PrivateRoute exact path='/organizations/:id/edit' component={EditOrganization}/>
+                <PrivateRoute exact path='/abstract-products' component={AbstractProductsPage}/>
+                <PrivateRoute exact path='/create-abstract-product' component={CreateAbstractProductPage}/>
+                <PrivateRoute exact path='/products' component={ProductsPage}/>
+                <PrivateRoute exact path='/create-product' component={CreateProduct}/>
+                <Route exact path='/restore-password/:token' component={RestorePassword}/>
+                <Route exact path='/forgot-password' component={ForgotPassword}/>
+                <Route exact path='/create-organization' component={CreateOrganization}/>
+            </LastLocationProvider>
         </Router>
     )
 };

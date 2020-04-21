@@ -15,6 +15,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import Divider from '@material-ui/core/Divider';
 import Button from '@material-ui/core/Button';
+import {useLastLocation} from 'react-router-last-location';
 
 // const useStyles = makeStyles(createProductStyles);
 
@@ -31,6 +32,7 @@ export const CreateProduct = ({history}) => {
     const [attributes, setAttributes] = useState([]);
     const [selectedAttributeValues, setSelectedAttributeValues] = useState({});
     const [isExpanded, setIsExpanded] = useState(false);
+    const lastLocation = useLastLocation();
 
     const toggleAbstractProductAutocomplete = useCallback(() => {
         setIsAbstractProductAutocompleteOpen(prevState => !prevState);
@@ -170,7 +172,7 @@ export const CreateProduct = ({history}) => {
                         attributeValues: selectedAttributeValues,
                     });
                     dispatch(setIsLoading(false));
-                    history.push('/products');
+                    history.push(`${lastLocation ? lastLocation.pathname : '/products'}`);
                 } catch (e) {
                     dispatch(setIsLoading(false));
                     dispatch(setSnackBarStatus({isOpen: true, message: e.message, success: false}));
@@ -179,7 +181,15 @@ export const CreateProduct = ({history}) => {
                 dispatch(setSnackBarStatus({isOpen: true, message: 'Select all values', success: false}));
             }
         }
-    }, [selectedAbstractProduct.abstractProductId, productDetails, selectedAttributeValues, attributes.length, validateAttributeValues, dispatch, history]);
+    }, [
+        selectedAbstractProduct.abstractProductId,
+        productDetails,
+        selectedAttributeValues,
+        attributes.length,
+        validateAttributeValues,
+        dispatch,
+        history, lastLocation
+    ]);
 
     return (
         <Container component='main' maxWidth='md'>
@@ -218,7 +228,7 @@ export const CreateProduct = ({history}) => {
                     </Grid>
                     <Grid container item xl={12} lg={12} style={{marginTop: 10, marginBottom: 10}}>
                         <Grid item xl={1} lg={1}>
-                            <IconButton>
+                            <IconButton onClick={() => history.push('/create-abstract-product')}>
                                 <AddCircleIcon fontSize='large'/>
                             </IconButton>
                         </Grid>
@@ -228,7 +238,7 @@ export const CreateProduct = ({history}) => {
                                 options={abstractProducts}
                                 onClose={toggleAbstractProductAutocomplete}
                                 onToggle={toggleAbstractProductAutocomplete}
-                                inputLabel='Select product type'
+                                inputLabel='Select abstract product'
                                 renderOption={renderAbstractProductOptions}
                                 getOptionLabel={getAbstractProductOptionLabel}
                                 onSelectHandler={onAbstractProductSelectHandler}

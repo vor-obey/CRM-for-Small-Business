@@ -21,12 +21,14 @@ import {useDispatch} from 'react-redux';
 import {setIsLoading, setSnackBarStatus} from '../../../data/store/auxiliary/auxiliaryActions';
 import RemoveIcon from '@material-ui/icons/Remove';
 import EditIcon from '@material-ui/icons/Edit';
+import {useLastLocation} from 'react-router-last-location';
 
 const useStyles = makeStyles(createAbstractProductPageStyles);
 
 export const CreateAbstractProductPage = ({history}) => {
     const classes = useStyles();
     const dispatch = useDispatch();
+    const lastLocation = useLastLocation();
     const [isProductTypeAutocompleteOpen, setIsProductTypeAutocompleteOpen] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [productTypes, setProductTypes] = useState([]);
@@ -148,13 +150,13 @@ export const CreateAbstractProductPage = ({history}) => {
                 description: abstractProduct.description,
             });
             dispatch(setIsLoading(false));
-            history.push('/abstract-products');
+            history.push(`${lastLocation ? lastLocation.pathname : '/abstract-products'}`);
         } catch (e) {
             dispatch(setIsLoading(false));
             dispatch(setSnackBarStatus({isOpen: true, message: e.message, success: false}));
 
         }
-    }, [productType.productTypeId, abstractProduct, dispatch, history]);
+    }, [productType.productTypeId, abstractProduct, dispatch, history, lastLocation]);
 
     const renderModalContent = useCallback(() => {
         if (modalType === 'product_type') {
