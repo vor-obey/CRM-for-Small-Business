@@ -33,6 +33,7 @@ import {CreateProduct} from '../CreateProduct/CreateProduct';
 import {AbstractProductsPage} from '../../pages/AbstractProductsPage/AbstractProductsPage';
 import {ProductsPage} from '../../pages/ProductsPage/ProductsPage';
 import {LastLocationProvider} from 'react-router-last-location';
+import {AbstractProductDetailsPage} from '../../pages/AbstractProductDetailsPage/AbstractProductDetailsPage';
 
 export const Routing = () => {
     const dispatch = useDispatch();
@@ -74,8 +75,9 @@ export const Routing = () => {
                 <PrivateRoute exact path='/orders/:id/edit' component={EditOrder}/>
                 <PrivateRoute exact path='/organizations/:id' component={OrganizationDetailsPage}/>
                 <PrivateRoute exact path='/organizations/:id/edit' component={EditOrganization}/>
-                <PrivateRoute exact path='/abstract-products' component={AbstractProductsPage}/>
                 <PrivateRoute exact path='/create-abstract-product' component={CreateAbstractProductPage}/>
+                <PrivateRoute exact path='/abstract-products' component={AbstractProductsPage}/>
+                <PrivateRoute exact path='/abstract-products/:id' component={AbstractProductDetailsPage}/>
                 <PrivateRoute exact path='/products' component={ProductsPage}/>
                 <PrivateRoute exact path='/create-product' component={CreateProduct}/>
                 <Route exact path='/restore-password/:token' component={RestorePassword}/>

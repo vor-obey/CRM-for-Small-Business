@@ -37,7 +37,10 @@ export const AbstractProductsPage = ({history}) => {
             const {abstractProductId, name, price, description} = product;
             return (
                 <React.Fragment key={abstractProductId}>
-                    <ListItem>
+                    <ListItem
+                        onClick={() => history.push(`/abstract-products/${abstractProductId}`)}
+                        style={{cursor: 'pointer'}}
+                    >
                         <ListItemText
                             primary={name}
                             secondary={`${description}, ${price}`}
@@ -47,7 +50,7 @@ export const AbstractProductsPage = ({history}) => {
                 </React.Fragment>
             );
         });
-    }, [abstractProducts]);
+    }, [abstractProducts, history]);
 
     return (
         <Container maxWidth='lg' style={{marginTop: 50}}>
