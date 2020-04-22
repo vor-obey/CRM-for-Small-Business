@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {Card, CardContent, CardHeader, Container, ListItemIcon, ListItemText} from '@material-ui/core';
 import {useDispatch} from 'react-redux';
 import {setIsLoading, setSnackBarStatus} from '../../../data/store/auxiliary/auxiliaryActions';
@@ -32,7 +32,7 @@ export const AbstractProductDetailsPage = ({history}) => {
         fetchAbstractProductDetailsById(id);
     }, [dispatch, id]);
 
-    const renderAttributes = () => {
+    const renderAttributes = useCallback(() => {
         const {productType: {productTypeToAttributes = {}} = {}} = abstractProductDetails;
         if (isEmpty(productTypeToAttributes)) {
             return null;
@@ -70,9 +70,9 @@ export const AbstractProductDetailsPage = ({history}) => {
                 </Grid>
             );
         });
-    };
+    }, [abstractProductDetails]);
 
-    const renderProducts = () => {
+    const renderProducts = useCallback(() => {
         const {products = {}} = abstractProductDetails;
 
         if (isEmpty(products)) {
@@ -98,7 +98,7 @@ export const AbstractProductDetailsPage = ({history}) => {
                 </ListItem>
             );
         })
-    };
+    }, [abstractProductDetails, history]);
 
     return (
         <Container maxWidth='md' style={{marginTop: 30}}>

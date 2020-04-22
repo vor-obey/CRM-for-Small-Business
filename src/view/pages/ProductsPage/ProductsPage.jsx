@@ -37,7 +37,7 @@ export const ProductsPage = ({history}) => {
             const {productId, name, price} = product;
             return (
                 <React.Fragment key={productId}>
-                    <ListItem>
+                    <ListItem onClick={() => history.push(`/products/${productId}`)} style={{cursor: 'pointer'}}>
                         <ListItemText
                             primary={name}
                             secondary={`Price: ${price}`}
@@ -47,7 +47,7 @@ export const ProductsPage = ({history}) => {
                 </React.Fragment>
             );
         });
-    }, [products]);
+    }, [products, history]);
 
     return (
         <Container maxWidth='lg' style={{marginTop: 50}}>
