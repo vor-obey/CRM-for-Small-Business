@@ -11,11 +11,17 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import isEmpty from 'lodash/isEmpty';
 import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
+import {CustomDialog} from '../../components/CustomDialog/CustomDialog';
+import {COMMON_ERROR_MESSAGE} from '../../../constants/statuses';
+import {useTranslation} from 'react-i18next';
+import Button from '@material-ui/core/Button';
 
 export const AbstractProductDetailsPage = ({history}) => {
     const dispatch = useDispatch();
     const {id} = useParams();
     const [abstractProductDetails, setAbstractProductDetails] = useState({});
+    const [isDialogOpen, setIsDialogOpen] = useState(false);
+    const {t} = useTranslation('');
 
     useEffect(() => {
         const fetchAbstractProductDetailsById = async (id) => {
@@ -31,6 +37,28 @@ export const AbstractProductDetailsPage = ({history}) => {
         };
         fetchAbstractProductDetailsById(id);
     }, [dispatch, id]);
+
+    const toggleDialog = useCallback(() => {
+        setIsDialogOpen(prevState => !prevState);
+    }, []);
+
+    const deleteAbstractProduct = useCallback(async () => {
+        try {
+            dispatch(setIsLoading(true));
+            const response = await AbstractProductService.delete(id);
+            if (response.success) {
+                dispatch(setIsLoading(false));
+                history.push('/abstract-products');
+            } else {
+                toggleDialog();
+                dispatch(setIsLoading(false));
+                dispatch(setSnackBarStatus({isOpen: false, message: response.message, success: false}));
+            }
+        } catch (e) {
+            dispatch(setIsLoading(false));
+            dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE, success: false}));
+        }
+    }, [id, history, dispatch, toggleDialog]);
 
     const renderAttributes = useCallback(() => {
         const {productType: {productTypeToAttributes = {}} = {}} = abstractProductDetails;
@@ -169,8 +197,23 @@ export const AbstractProductDetailsPage = ({history}) => {
                             </List>
                         </Grid>
                     </Grid>
+                    <Grid container item xl={12} lg={12} style={{marginTop: 30}}>
+                        <Button onClick={toggleDialog}>
+                            Delete
+                        </Button>
+                    </Grid>
                 </Grid>
             </Paper>
+            <CustomDialog
+                title='Delete product'
+                isShow={isDialogOpen}
+                onClose={toggleDialog}
+                closeText={t('DISAGREE')}
+                actionText={t('AGREE')}
+                onAction={deleteAbstractProduct}
+            >
+                {t('CONFIRM_DELETE')}
+            </CustomDialog>
         </Container>
     );
 };

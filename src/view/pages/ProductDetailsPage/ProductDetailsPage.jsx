@@ -47,14 +47,15 @@ export const ProductDetailsPage = ({history}) => {
                 dispatch(setIsLoading(false));
                 history.push('/products');
             } else {
+                toggleDialog();
                 dispatch(setIsLoading(false));
-                dispatch(setSnackBarStatus({isOpen: false, message: response.message, success: false}));
+                dispatch(setSnackBarStatus({isOpen: true, message: response.message, success: false}));
             }
         } catch (e) {
             dispatch(setIsLoading(false));
             dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE, success: false}));
         }
-    }, [id, history, dispatch]);
+    }, [id, history, dispatch, toggleDialog]);
 
     const renderAttributes = useCallback(() => {
         const {productToAttributeValues} = productDetails;
