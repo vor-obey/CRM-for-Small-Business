@@ -8,11 +8,17 @@ import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import isEmpty from 'lodash/isEmpty';
+import Button from '@material-ui/core/Button';
+import {CustomDialog} from '../../components/CustomDialog/CustomDialog';
+import {useTranslation} from 'react-i18next';
+import {COMMON_ERROR_MESSAGE} from '../../../constants/statuses';
 
-export const ProductDetailsPage = () => {
+export const ProductDetailsPage = ({history}) => {
     const dispatch = useDispatch();
     const {id} = useParams();
     const [productDetails, setProductDetails] = useState({});
+    const [isDialogOpen, setIsDialogOpen] = useState(false);
+    const {t} = useTranslation('');
 
     useEffect(() => {
         const fetchProductDetailsById = async (id) => {
@@ -28,6 +34,27 @@ export const ProductDetailsPage = () => {
         };
         fetchProductDetailsById(id);
     }, [dispatch, id]);
+
+    const toggleDialog = useCallback(() => {
+        setIsDialogOpen(prevState => !prevState);
+    }, []);
+
+    const deleteProduct = useCallback(async () => {
+        try {
+            dispatch(setIsLoading(true));
+            const response = await ProductService.delete(id);
+            if (response.success) {
+                dispatch(setIsLoading(false));
+                history.push('/products');
+            } else {
+                dispatch(setIsLoading(false));
+                dispatch(setSnackBarStatus({isOpen: false, message: response.message, success: false}));
+            }
+        } catch (e) {
+            dispatch(setIsLoading(false));
+            dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE, success: false}));
+        }
+    }, [id, history, dispatch]);
 
     const renderAttributes = useCallback(() => {
         const {productToAttributeValues} = productDetails;
@@ -99,8 +126,23 @@ export const ProductDetailsPage = () => {
                             </Grid>
                         </Grid>
                     </Grid>
+                    <Grid container item xl={12} lg={12} style={{marginTop: 30}}>
+                        <Button onClick={toggleDialog}>
+                            Delete
+                        </Button>
+                    </Grid>
                 </Grid>
             </Paper>
+            <CustomDialog
+                title='Delete product'
+                isShow={isDialogOpen}
+                onClose={toggleDialog}
+                closeText={t('DISAGREE')}
+                actionText={t('AGREE')}
+                onAction={deleteProduct}
+            >
+                {t('CONFIRM_DELETE')}
+            </CustomDialog>
         </Container>
     );
 };
