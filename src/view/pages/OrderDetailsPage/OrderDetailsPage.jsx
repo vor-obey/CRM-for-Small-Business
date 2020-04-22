@@ -13,16 +13,16 @@ import isEmpty from 'lodash/isEmpty';
 import {Container} from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import {CustomDialog} from '../../components/CustomDialog/CustomDialog';
-import {useOrderDetailsById} from '../../../utils/customHooks';
 import {useTranslation} from "react-i18next";
 import {CustomModal} from '../../components/CustomModal/CustomModal';
 import {InternetDocument} from '../../components/InternetDocument/InternetDocument';
+import {useOrderDetailsById} from '../../../utils/hooks/orderHooks';
 
 const useStyles = makeStyles(orderDetailsStyles);
 
 export const OrderDetailsPage = ({history}) => {
     const {id} = useParams();
-    const orderDetails = useOrderDetailsById(id);
+    const [orderDetails] = useOrderDetailsById(id);
     const {shippingDetails: {address: {isCustom} = {}} = {}} = orderDetails;
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [isPrintModalOpen, setIsPrintModalOpen] = useState(false);

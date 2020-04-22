@@ -14,7 +14,7 @@ import {
 import {HomeStyles} from "./Home.style";
 import {Graph} from '../../components/Graph/Graph'
 import {useTranslation} from "react-i18next";
-import {useOrders} from '../../../utils/customHooks';
+import {useOrders} from '../../../utils/hooks/orderHooks';
 import {Chat} from '../../components/Chat/Chat';
 import {useDispatch} from 'react-redux';
 import {openChatWidget} from '../../../data/store/user/userActions';

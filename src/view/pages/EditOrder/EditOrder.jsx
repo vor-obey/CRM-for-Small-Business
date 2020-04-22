@@ -1,7 +1,6 @@
 import {SaveOrderForm} from '../../components/SaveOrderForm/SaveOrderForm';
 import React, {useCallback, useEffect, useState} from 'react';
 import {useParams} from 'react-router-dom';
-import {useCustomers, useManagers, useOrderDetailsById, useShippingMethods} from '../../../utils/customHooks';
 import {makeStyles} from '@material-ui/core/styles';
 import {editOrderStyles} from './EditOrder.style';
 import isEmpty from 'lodash/isEmpty';
@@ -9,6 +8,9 @@ import {useDispatch, useSelector} from 'react-redux';
 import {setIsLoading, setSnackBarStatus} from '../../../data/store/auxiliary/auxiliaryActions';
 import {OrderService} from '../../../services';
 import {useTranslation} from 'react-i18next';
+import {useOrderDetailsById, useShippingMethods} from '../../../utils/hooks/orderHooks';
+import {useManagers} from '../../../utils/hooks/userHooks';
+import {useCustomers} from '../../../utils/hooks/customerHooks';
 
 const useStyles = makeStyles(editOrderStyles);
 

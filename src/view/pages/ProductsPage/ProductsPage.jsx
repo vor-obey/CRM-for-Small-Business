@@ -1,32 +1,14 @@
-import React, {useCallback, useEffect, useState} from 'react';
-import {useDispatch} from 'react-redux';
-import {setIsLoading, setSnackBarStatus} from '../../../data/store/auxiliary/auxiliaryActions';
-import {ProductService} from '../../../services';
+import React, {useCallback} from 'react';
 import {Container, ListItemText} from '@material-ui/core';
 import List from '@material-ui/core/List';
 import isEmpty from 'lodash/isEmpty';
 import ListItem from '@material-ui/core/ListItem';
 import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
+import {useProducts} from '../../../utils/hooks/productHooks';
 
 export const ProductsPage = ({history}) => {
-    const dispatch = useDispatch();
-    const [products, setProducts] = useState([]);
-
-    useEffect(() => {
-        const fetchProducts = async () => {
-            try {
-                dispatch(setIsLoading(true));
-                const response = await ProductService.list();
-                setProducts(response);
-                dispatch(setIsLoading(false));
-            } catch (e) {
-                dispatch(setIsLoading(false));
-                dispatch(setSnackBarStatus({isOpen: true, message: e.message, success: false}));
-            }
-        };
-        fetchProducts();
-    }, [dispatch]);
+    const [products] = useProducts();
 
     const renderProducts = useCallback(() => {
         if (isEmpty(products)) {

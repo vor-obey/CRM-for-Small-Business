@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import {useDispatch} from 'react-redux';
 import {Link, useParams} from "react-router-dom";
 import {setIsLoading, setSnackBarStatus} from '../../../data/store/auxiliary/auxiliaryActions';
@@ -12,32 +12,16 @@ import Button from '@material-ui/core/Button';
 import {CustomDialog} from '../../components/CustomDialog/CustomDialog';
 import {useTranslation} from 'react-i18next';
 import {COMMON_ERROR_MESSAGE} from '../../../constants/statuses';
+import {useProductDetailsById} from '../../../utils/hooks/productHooks';
 
 export const ProductDetailsPage = ({history}) => {
     const dispatch = useDispatch();
     const {id} = useParams();
-    const [productDetails, setProductDetails] = useState({});
+    const [productDetails] = useProductDetailsById(id);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const {t} = useTranslation('');
 
-    useEffect(() => {
-        const fetchProductDetailsById = async (id) => {
-            try {
-                dispatch(setIsLoading(true));
-                const response = await ProductService.findOneById(id);
-                setProductDetails(response);
-                dispatch(setIsLoading(false));
-            } catch (e) {
-                dispatch(setIsLoading(false));
-                dispatch(setSnackBarStatus({isOpen: true, message: e.message, success: false}));
-            }
-        };
-        fetchProductDetailsById(id);
-    }, [dispatch, id]);
-
-    const toggleDialog = useCallback(() => {
-        setIsDialogOpen(prevState => !prevState);
-    }, []);
+    const toggleDialog = useCallback(() => setIsDialogOpen(prevState => !prevState), []);
 
     const deleteProduct = useCallback(async () => {
         try {

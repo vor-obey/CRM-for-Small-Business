@@ -6,7 +6,7 @@ import {setIsLoading, setSnackBarStatus} from "../../../data/store/auxiliary/aux
 import {COMMON_ERROR_MESSAGE} from "../../../constants/statuses";
 import {useDispatch} from "react-redux";
 import {useTranslation} from "react-i18next";
-import {useSources} from '../../../utils/customHooks';
+import {useSources} from '../../../utils/hooks/customerHooks';
 
 export const CreateCustomer = ({
                                   history,
@@ -20,7 +20,7 @@ export const CreateCustomer = ({
       details: '',
       sourceId: '',
    });
-   const sources = useSources();
+   const [sources] = useSources();
    const dispatch = useDispatch();
    const {t} = useTranslation('');
 

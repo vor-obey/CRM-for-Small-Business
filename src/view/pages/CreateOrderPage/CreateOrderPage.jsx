@@ -4,11 +4,14 @@ import {createOrderPageStyles} from './CreateOrderPage.style'
 import {useDispatch, useSelector} from "react-redux";
 import {setIsLoading, setSnackBarStatus} from "../../../data/store/auxiliary/auxiliaryActions";
 import isEmpty from 'lodash/isEmpty';
-import {OrderService, ProductService} from '../../../services/index';
+import {OrderService} from '../../../services/index';
 import {SaveOrderForm} from '../../components/SaveOrderForm/SaveOrderForm';
-import {useCustomers, useManagers, useShippingMethods} from '../../../utils/customHooks';
 import {useTranslation} from 'react-i18next';
 import {COMMON_ERROR_MESSAGE} from "../../../constants/statuses";
+import {useShippingMethods} from '../../../utils/hooks/orderHooks';
+import {useManagers} from '../../../utils/hooks/userHooks';
+import {useCustomers} from '../../../utils/hooks/customerHooks';
+import {useProducts} from '../../../utils/hooks/productHooks';
 
 const useStyles = makeStyles(createOrderPageStyles);
 
@@ -34,23 +37,8 @@ export const CreateOrderPage = ({history}) => {
     const [isCustom, setIsCustom] = useState(false);
     const [address, setAddress] = useState('');
     const {t} = useTranslation();
-    const [products, setProducts] = useState([]);
+    const [products] = useProducts();
     const [selectedProduct, setSelectedProduct] = useState({});
-
-    useEffect(() => {
-        const fetchProducts = async () => {
-            try {
-                dispatch(setIsLoading(true));
-                const response = await ProductService.list();
-                setProducts(response);
-                dispatch(setIsLoading(false));
-            } catch (e) {
-                dispatch(setIsLoading(false));
-                dispatch(setSnackBarStatus({isOpen: true, message: e.message, success: false}));
-            }
-        };
-        fetchProducts();
-    }, [dispatch]);
 
     useEffect(() => {
         if (!isEmpty(createdCustomer)) {

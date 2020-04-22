@@ -10,7 +10,7 @@ import {CustomModal} from '../../components/CustomModal/CustomModal';
 import {CreateProductType} from '../CreateProductType/CreateProductType';
 import {makeStyles} from '@material-ui/core/styles';
 import {createAbstractProductPageStyles} from './CreateAbstractProductPage.style';
-import {AbstractProductService, AttributeService, ProductTypeService} from '../../../services';
+import {AbstractProductService} from '../../../services';
 import isEmpty from 'lodash/isEmpty';
 import Collapse from '@material-ui/core/Collapse';
 import Button from '@material-ui/core/Button';
@@ -20,8 +20,10 @@ import ListItem from '@material-ui/core/ListItem';
 import {useDispatch} from 'react-redux';
 import {setIsLoading, setSnackBarStatus} from '../../../data/store/auxiliary/auxiliaryActions';
 import RemoveIcon from '@material-ui/icons/Remove';
+import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import {useLastLocation} from 'react-router-last-location';
+import {useAttributesByProductTypeId, useProductTypes} from '../../../utils/hooks/productHooks';
 
 const useStyles = makeStyles(createAbstractProductPageStyles);
 
@@ -31,45 +33,22 @@ export const CreateAbstractProductPage = ({history}) => {
     const lastLocation = useLastLocation();
     const [isProductTypeAutocompleteOpen, setIsProductTypeAutocompleteOpen] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [productTypes, setProductTypes] = useState([]);
+    const [productTypes,, triggerProductTypesUpdate] = useProductTypes();
     const [productType, setProductType] = useState({});
-    const [updateProductTypesTrigger, setUpdateProductTypesTrigger] = useState(0);
     const [abstractProduct, setAbstractProduct] = useState({
         name: '',
         price: '',
         description: ''
     });
     const [modalType, setModalType] = useState('');
-    const [attributes, setAttributes] = useState([]);
+    const [attributes,, triggerAttributesUpdate] = useAttributesByProductTypeId(productType && productType.productTypeId);
     const [isExpanded, setIsExpanded] = useState(false);
 
     useEffect(() => {
-        const fetchProductTypes = async () => {
-            try {
-                dispatch(setIsLoading(true));
-                const response = await ProductTypeService.list();
-                setProductTypes(response);
-                dispatch(setIsLoading(false));
-            } catch (e) {
-                dispatch(setIsLoading(false));
-                dispatch(setSnackBarStatus({isOpen: true, message: e.message, success: false}));
-            }
-        };
-        fetchProductTypes();
-    }, [updateProductTypesTrigger, dispatch]);
-
-    const fetchAttributesByProductTypeId = useCallback(async (productTypeId) => {
-        try {
-            dispatch(setIsLoading(true));
-            const response = await AttributeService.findOneById(productTypeId);
-            setAttributes(response);
-            dispatch(setIsLoading(false));
+        if (attributes.length) {
             setIsExpanded(true);
-        } catch (e) {
-            dispatch(setIsLoading(false));
-            dispatch(setSnackBarStatus({isOpen: true, message: e.message, success: false}));
         }
-    }, [dispatch]);
+    }, [attributes]);
 
     const onAbstractProductChangedHandler = useCallback((event) => {
         const {name, value} = event.target;
@@ -81,13 +60,9 @@ export const CreateAbstractProductPage = ({history}) => {
         });
     }, []);
 
-    const toggleProductTypeAutocomplete = useCallback(() => {
-        setIsProductTypeAutocompleteOpen(prevState => !prevState);
-    }, []);
+    const toggleProductTypeAutocomplete = useCallback(() => setIsProductTypeAutocompleteOpen(prevState => !prevState), []);
 
-    const toggleModal = useCallback(() => {
-        setIsModalOpen(prevState => !prevState);
-    }, []);
+    const toggleModal = useCallback(() => setIsModalOpen(prevState => !prevState), []);
 
     const openProductTypeModal = useCallback(() => {
         setModalType('product_type');
@@ -120,25 +95,23 @@ export const CreateAbstractProductPage = ({history}) => {
     const onProductTypeSelectHandler = useCallback(async (item) => {
         if (!item) {
             setProductType({});
-            setAttributes([]);
             setIsExpanded(false);
         } else {
             setProductType(item);
-            await fetchAttributesByProductTypeId(item.productTypeId);
         }
-    }, [fetchAttributesByProductTypeId]);
+    }, []);
 
     const updateProductTypes = useCallback((newProductType) => {
-        setUpdateProductTypesTrigger(prevState => ++prevState);
+        triggerProductTypesUpdate(prevState => ++prevState);
         setProductType(newProductType);
         toggleModal();
         setIsExpanded(true);
-    }, [toggleModal]);
+    }, [toggleModal, triggerProductTypesUpdate]);
 
     const updateAttributes = useCallback(() => {
-        fetchAttributesByProductTypeId(productType.productTypeId);
+        triggerAttributesUpdate(prevState => ++prevState);
         toggleModal();
-    }, [fetchAttributesByProductTypeId, toggleModal, productType.productTypeId]);
+    }, [toggleModal, triggerAttributesUpdate]);
 
     const createAbstractProduct = useCallback(async () => {
         try {
@@ -154,7 +127,6 @@ export const CreateAbstractProductPage = ({history}) => {
         } catch (e) {
             dispatch(setIsLoading(false));
             dispatch(setSnackBarStatus({isOpen: true, message: e.message, success: false}));
-
         }
     }, [productType.productTypeId, abstractProduct, dispatch, history, lastLocation]);
 
@@ -273,12 +245,7 @@ export const CreateAbstractProductPage = ({history}) => {
                         </Grid>
                     </Grid>
                     <Grid container item xl={12} lg={12} style={{marginTop: 10, marginBottom: 10}}>
-                        <Grid item xl={1} lg={1}>
-                            <IconButton onClick={openProductTypeModal}>
-                                <AddCircleIcon fontSize='large'/>
-                            </IconButton>
-                        </Grid>
-                        <Grid item xl={11} lg={11}>
+                        <Grid item xl={9} lg={9}>
                             <CustomAutocomplete
                                 isOpen={isProductTypeAutocompleteOpen}
                                 options={productTypes}
@@ -290,6 +257,21 @@ export const CreateAbstractProductPage = ({history}) => {
                                 onSelectHandler={onProductTypeSelectHandler}
                                 value={productType || ''}
                             />
+                        </Grid>
+                        <Grid item xl={1} lg={1} style={{textAlign: 'center'}}>
+                            <IconButton onClick={openProductTypeModal}>
+                                <AddCircleIcon fontSize='large'/>
+                            </IconButton>
+                        </Grid>
+                        <Grid item xl={1} lg={1} style={{textAlign: 'center'}}>
+                            <IconButton onClick={openProductTypeModal} disabled={isEmpty(productType)}>
+                                <EditIcon fontSize='large'/>
+                            </IconButton>
+                        </Grid>
+                        <Grid item xl={1} lg={1} style={{textAlign: 'center'}}>
+                            <IconButton onClick={openProductTypeModal} disabled={isEmpty(productType)}>
+                                <DeleteIcon fontSize='large'/>
+                            </IconButton>
                         </Grid>
                     </Grid>
                     <Collapse in={isExpanded} timeout='auto' unmountOnExit>

@@ -1,13 +1,12 @@
 import React, {useCallback} from 'react';
-
 import {useSelector} from "react-redux";
 import {useParams} from "react-router-dom";
 import {useTranslation} from "react-i18next";
 import EditIcon from "@material-ui/icons/Edit";
-import {useOrganizationDetailsById} from "../../../utils/customHooks";
 import {OrganizationDetailsStyle} from "./OrganizationDetailsPage.style";
 import {OrganizationDetails} from "./OrganizationDetails/OrganizationDetails";
 import {Container, Fab, Grid, makeStyles, Paper, Typography} from "@material-ui/core";
+import {useOrganizationDetailsById} from '../../../utils/hooks/organizationHooks';
 
 const useStyles = makeStyles(OrganizationDetailsStyle);
 

@@ -1,7 +1,5 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {Collapse, Container, ListItemText, Paper, Select, TextField} from '@material-ui/core';
-// import {makeStyles} from '@material-ui/core/styles';
-// import {createProductStyles} from './CreateProduct.style';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
@@ -9,62 +7,36 @@ import AddCircleIcon from '@material-ui/icons/AddCircle';
 import {CustomAutocomplete} from '../Autocomplete/Autocomplete';
 import {useDispatch} from 'react-redux';
 import {setIsLoading, setSnackBarStatus} from '../../../data/store/auxiliary/auxiliaryActions';
-import {AbstractProductService, AttributeService, ProductService} from '../../../services';
+import {ProductService} from '../../../services';
 import isEmpty from 'lodash/isEmpty';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import Divider from '@material-ui/core/Divider';
 import Button from '@material-ui/core/Button';
 import {useLastLocation} from 'react-router-last-location';
-
-// const useStyles = makeStyles(createProductStyles);
+import {useAbstractProducts, useAttributesByProductTypeId} from '../../../utils/hooks/productHooks';
 
 export const CreateProduct = ({history}) => {
-    // const classes = useStyles();
     const dispatch = useDispatch();
     const [productDetails, setProductDetails] = useState({
         name: '',
         price: '',
     });
-    const [abstractProducts, setAbstractProducts] = useState([]);
+    const [abstractProducts] = useAbstractProducts();
     const [selectedAbstractProduct, setSelectedAbstractProduct] = useState({});
     const [isAbstractProductAutocompleteOpen, setIsAbstractProductAutocompleteOpen] = useState(false);
-    const [attributes, setAttributes] = useState([]);
+    const [attributes] = useAttributesByProductTypeId(selectedAbstractProduct.productType && selectedAbstractProduct.productType.productTypeId);
     const [selectedAttributeValues, setSelectedAttributeValues] = useState({});
     const [isExpanded, setIsExpanded] = useState(false);
     const lastLocation = useLastLocation();
 
-    const toggleAbstractProductAutocomplete = useCallback(() => {
-        setIsAbstractProductAutocompleteOpen(prevState => !prevState);
-    }, []);
-
     useEffect(() => {
-        const fetchAbstractProducts = async () => {
-            try {
-                dispatch(setIsLoading(true));
-                const response = await AbstractProductService.list();
-                setAbstractProducts(response);
-                dispatch(setIsLoading(false));
-            } catch (e) {
-                dispatch(setIsLoading(false));
-                dispatch(setSnackBarStatus({isOpen: false, message: e.message, success: false}));
-            }
-        };
-        fetchAbstractProducts();
-    }, [dispatch]);
-
-    const fetchAttributesByProductTypeId = useCallback(async (productTypeId) => {
-        try {
-            dispatch(setIsLoading(true));
-            const response = await AttributeService.findOneById(productTypeId);
-            setAttributes(response);
-            dispatch(setIsLoading(false));
+        if (attributes.length) {
             setIsExpanded(true);
-        } catch (e) {
-            dispatch(setIsLoading(false));
-            dispatch(setSnackBarStatus({isOpen: true, message: e.message, success: false}));
         }
-    }, [dispatch]);
+    }, [attributes]);
+
+    const toggleAbstractProductAutocomplete = useCallback(() => setIsAbstractProductAutocompleteOpen(prevState => !prevState), []);
 
     const renderAbstractProductOptions = useCallback((item) => {
         const {abstractProductId, name, price, description} = item;
@@ -90,9 +62,8 @@ export const CreateProduct = ({history}) => {
             setIsExpanded(false);
         } else {
             setSelectedAbstractProduct(item);
-            fetchAttributesByProductTypeId(item.productType.productTypeId);
         }
-    }, [fetchAttributesByProductTypeId]);
+    }, []);
 
     const onAttributeValueSelectHandler = useCallback((event) => {
         const {name, value} = event.target;
