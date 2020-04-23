@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import {Card, CardContent, CardHeader, Container, ListItemText, TextField} from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
@@ -10,7 +10,7 @@ import {CustomModal} from '../../components/CustomModal/CustomModal';
 import {SaveProductType} from '../../components/SaveProductType/SaveProductType';
 import {makeStyles} from '@material-ui/core/styles';
 import {createAbstractProductPageStyles} from './CreateAbstractProductPage.style';
-import {AbstractProductService, ProductTypeService} from '../../../services';
+import {AbstractProductService, AttributeService, ProductTypeService} from '../../../services';
 import isEmpty from 'lodash/isEmpty';
 import Collapse from '@material-ui/core/Collapse';
 import Button from '@material-ui/core/Button';
@@ -47,13 +47,8 @@ export const CreateAbstractProductPage = ({history}) => {
     const [attributes, , triggerAttributesUpdate] = useAttributesByProductTypeId(productType && productType.productTypeId);
     const [isExpanded, setIsExpanded] = useState(false);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
+    const [dialogType, setDialogType] = useState('productType');
     const {t} = useTranslation('');
-
-    useEffect(() => {
-        if (attributes.length) {
-            setIsExpanded(true);
-        }
-    }, [attributes]);
 
     const onAbstractProductChangedHandler = useCallback((event) => {
         const {name, value} = event.target;
@@ -74,7 +69,10 @@ export const CreateAbstractProductPage = ({history}) => {
         toggleModal()
     }, [toggleModal]);
 
-    const toggleDialog = useCallback(() => setIsDialogOpen(prevState => !prevState), []);
+    const toggleDialog = useCallback((type) => {
+        setDialogType(type);
+        setIsDialogOpen(prevState => !prevState)
+    }, []);
 
     const renderProductTypeOptions = useCallback((item) => {
         const {productTypeId, name, description} = item;
@@ -100,6 +98,7 @@ export const CreateAbstractProductPage = ({history}) => {
             setIsExpanded(false);
         } else {
             setProductType(item);
+            setIsExpanded(true);
         }
     }, []);
 
@@ -148,9 +147,26 @@ export const CreateAbstractProductPage = ({history}) => {
             dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE, success: false}));
         } finally {
             dispatch(setIsLoading(false));
-            toggleDialog();
+            toggleDialog('');
         }
     }, [dispatch, toggleDialog, productType.productTypeId, triggerProductTypesUpdate]);
+
+    const deleteAttribute = useCallback(async () => {
+        try {
+            dispatch(setIsLoading(true));
+            const response = await AttributeService.delete(dialogType);
+            if (response.success) {
+                triggerAttributesUpdate(prevState => ++prevState);
+            } else {
+                dispatch(setSnackBarStatus({isOpen: true, message: response.message, success: false}));
+            }
+        } catch (e) {
+            dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE, success: false}));
+        } finally {
+            toggleDialog('');
+            dispatch(setIsLoading(false));
+        }
+    }, [dispatch, toggleDialog, dialogType, triggerAttributesUpdate]);
 
     const renderModalContent = useCallback(() => {
         switch (modalType) {
@@ -213,7 +229,7 @@ export const CreateAbstractProductPage = ({history}) => {
                                     <IconButton size='small'>
                                         <EditIcon/>
                                     </IconButton>
-                                    <IconButton size='small'>
+                                    <IconButton onClick={() => toggleDialog(attributeId)} size='small'>
                                         <RemoveIcon/>
                                     </IconButton>
                                 </>
@@ -239,7 +255,7 @@ export const CreateAbstractProductPage = ({history}) => {
                 </Grid>
             );
         });
-    }, [attributes]);
+    }, [attributes, toggleDialog]);
 
     return (
         <Container component='main' maxWidth='md'>
@@ -313,7 +329,7 @@ export const CreateAbstractProductPage = ({history}) => {
                             </IconButton>
                         </Grid>
                         <Grid item xl={1} lg={1} style={{textAlign: 'center'}}>
-                            <IconButton onClick={toggleDialog} disabled={isEmpty(productType)}>
+                            <IconButton onClick={() => toggleDialog('productType')} disabled={isEmpty(productType)}>
                                 <DeleteIcon fontSize='large'/>
                             </IconButton>
                         </Grid>
@@ -351,12 +367,12 @@ export const CreateAbstractProductPage = ({history}) => {
                 {renderModalContent()}
             </CustomModal>
             <CustomDialog
-                title='Delete product type'
+                title={dialogType === 'productType' ? 'Delete product type' : 'Delete attribute'}
                 isShow={isDialogOpen}
-                onClose={toggleDialog}
+                onClose={() => toggleDialog('')}
                 closeText={t('DISAGREE')}
                 actionText={t('AGREE')}
-                onAction={deleteProductType}
+                onAction={dialogType === 'productType' ? deleteProductType : deleteAttribute}
             >
                 {t('CONFIRM_DELETE')}
             </CustomDialog>
