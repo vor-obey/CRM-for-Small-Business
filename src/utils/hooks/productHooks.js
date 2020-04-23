@@ -26,6 +26,28 @@ export const useProductTypes = () => {
     return [productTypes, setProductTypes, triggerProductTypesUpdate];
 };
 
+export const useProductTypeById = (id) => {
+    const dispatch = useDispatch();
+    const [productType, setProductType] = useState({});
+
+    useEffect(() => {
+        const fetchProductType = async () => {
+            try {
+                dispatch(setIsLoading(true));
+                const response = await ProductTypeService.findOneById(id);
+                setProductType(response);
+                dispatch(setIsLoading(false));
+            } catch (e) {
+                dispatch(setIsLoading(false));
+                dispatch(setSnackBarStatus({isOpen: true, message: e.message, success: false}));
+            }
+        };
+        fetchProductType();
+    }, [dispatch, id]);
+
+    return [productType, setProductType];
+};
+
 export const useAbstractProductDetailsById = (id) => {
     const dispatch = useDispatch();
     const [abstractProductDetails, setAbstractProductDetails] = useState({});

@@ -111,6 +111,15 @@ function Drawer(props) {
                     <ListItemIcon className={classes.menuIcon}><InsertDriveFileIcon/></ListItemIcon>
                     <ListItemText>Products</ListItemText>
                 </ListItem>
+                <ListItem
+                    className={classes.menuItem}
+                    button
+                    component={Link}
+                    to="/product-types"
+                    selected={isActive('/product-types')}>
+                    <ListItemIcon className={classes.menuIcon}><InsertDriveFileIcon/></ListItemIcon>
+                    <ListItemText>Product Types</ListItemText>
+                </ListItem>
             </List>
         </div>
     );
