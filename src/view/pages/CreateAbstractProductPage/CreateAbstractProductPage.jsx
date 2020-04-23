@@ -10,7 +10,7 @@ import {CustomModal} from '../../components/CustomModal/CustomModal';
 import {SaveProductType} from '../../components/SaveProductType/SaveProductType';
 import {makeStyles} from '@material-ui/core/styles';
 import {createAbstractProductPageStyles} from './CreateAbstractProductPage.style';
-import {AbstractProductService} from '../../../services';
+import {AbstractProductService, ProductTypeService} from '../../../services';
 import isEmpty from 'lodash/isEmpty';
 import Collapse from '@material-ui/core/Collapse';
 import Button from '@material-ui/core/Button';
@@ -24,6 +24,9 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import {useLastLocation} from 'react-router-last-location';
 import {useAttributesByProductTypeId, useProductTypes} from '../../../utils/hooks/productHooks';
+import {CustomDialog} from '../../components/CustomDialog/CustomDialog';
+import {useTranslation} from 'react-i18next';
+import {COMMON_ERROR_MESSAGE} from '../../../constants/statuses';
 
 const useStyles = makeStyles(createAbstractProductPageStyles);
 
@@ -43,6 +46,8 @@ export const CreateAbstractProductPage = ({history}) => {
     const [modalType, setModalType] = useState('');
     const [attributes, , triggerAttributesUpdate] = useAttributesByProductTypeId(productType && productType.productTypeId);
     const [isExpanded, setIsExpanded] = useState(false);
+    const [isDialogOpen, setIsDialogOpen] = useState(false);
+    const {t} = useTranslation('');
 
     useEffect(() => {
         if (attributes.length) {
@@ -68,6 +73,8 @@ export const CreateAbstractProductPage = ({history}) => {
         setModalType(type);
         toggleModal()
     }, [toggleModal]);
+
+    const toggleDialog = useCallback(() => setIsDialogOpen(prevState => !prevState), []);
 
     const renderProductTypeOptions = useCallback((item) => {
         const {productTypeId, name, description} = item;
@@ -124,6 +131,26 @@ export const CreateAbstractProductPage = ({history}) => {
             dispatch(setSnackBarStatus({isOpen: true, message: e.message, success: false}));
         }
     }, [productType.productTypeId, abstractProduct, dispatch, history, lastLocation]);
+
+    const deleteProductType = useCallback(async () => {
+        try {
+            dispatch(setIsLoading(true));
+            const response = await ProductTypeService.delete(productType.productTypeId);
+            if (response.success) {
+                setIsExpanded(false);
+                setProductType({});
+                triggerProductTypesUpdate(prevState => ++prevState);
+            } else {
+                dispatch(setSnackBarStatus({isOpen: true, message: response.message, success: false}));
+            }
+        } catch (e) {
+            dispatch(setIsLoading(false));
+            dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE, success: false}));
+        } finally {
+            dispatch(setIsLoading(false));
+            toggleDialog();
+        }
+    }, [dispatch, toggleDialog, productType.productTypeId, triggerProductTypesUpdate]);
 
     const renderModalContent = useCallback(() => {
         switch (modalType) {
@@ -286,7 +313,7 @@ export const CreateAbstractProductPage = ({history}) => {
                             </IconButton>
                         </Grid>
                         <Grid item xl={1} lg={1} style={{textAlign: 'center'}}>
-                            <IconButton disabled={isEmpty(productType)}>
+                            <IconButton onClick={toggleDialog} disabled={isEmpty(productType)}>
                                 <DeleteIcon fontSize='large'/>
                             </IconButton>
                         </Grid>
@@ -323,6 +350,16 @@ export const CreateAbstractProductPage = ({history}) => {
             >
                 {renderModalContent()}
             </CustomModal>
+            <CustomDialog
+                title='Delete product type'
+                isShow={isDialogOpen}
+                onClose={toggleDialog}
+                closeText={t('DISAGREE')}
+                actionText={t('AGREE')}
+                onAction={deleteProductType}
+            >
+                {t('CONFIRM_DELETE')}
+            </CustomDialog>
         </Container>
     );
 };
