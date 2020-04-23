@@ -7,7 +7,7 @@ import IconButton from '@material-ui/core/IconButton';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import {CustomAutocomplete} from '../../components/Autocomplete/Autocomplete';
 import {CustomModal} from '../../components/CustomModal/CustomModal';
-import {CreateProductType} from '../CreateProductType/CreateProductType';
+import {SaveProductType} from '../../components/SaveProductType/SaveProductType';
 import {makeStyles} from '@material-ui/core/styles';
 import {createAbstractProductPageStyles} from './CreateAbstractProductPage.style';
 import {AbstractProductService} from '../../../services';
@@ -33,7 +33,7 @@ export const CreateAbstractProductPage = ({history}) => {
     const lastLocation = useLastLocation();
     const [isProductTypeAutocompleteOpen, setIsProductTypeAutocompleteOpen] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [productTypes,, triggerProductTypesUpdate] = useProductTypes();
+    const [productTypes, , triggerProductTypesUpdate] = useProductTypes();
     const [productType, setProductType] = useState({});
     const [abstractProduct, setAbstractProduct] = useState({
         name: '',
@@ -41,7 +41,7 @@ export const CreateAbstractProductPage = ({history}) => {
         description: ''
     });
     const [modalType, setModalType] = useState('');
-    const [attributes,, triggerAttributesUpdate] = useAttributesByProductTypeId(productType && productType.productTypeId);
+    const [attributes, , triggerAttributesUpdate] = useAttributesByProductTypeId(productType && productType.productTypeId);
     const [isExpanded, setIsExpanded] = useState(false);
 
     useEffect(() => {
@@ -64,14 +64,9 @@ export const CreateAbstractProductPage = ({history}) => {
 
     const toggleModal = useCallback(() => setIsModalOpen(prevState => !prevState), []);
 
-    const openProductTypeModal = useCallback(() => {
-        setModalType('product_type');
-        toggleModal();
-    }, [toggleModal]);
-
-    const openAttributeModal = useCallback(() => {
-        setModalType('attribute');
-        toggleModal();
+    const openModal = useCallback((type) => {
+        setModalType(type);
+        toggleModal()
     }, [toggleModal]);
 
     const renderProductTypeOptions = useCallback((item) => {
@@ -131,22 +126,44 @@ export const CreateAbstractProductPage = ({history}) => {
     }, [productType.productTypeId, abstractProduct, dispatch, history, lastLocation]);
 
     const renderModalContent = useCallback(() => {
-        if (modalType === 'product_type') {
-            return (
-                <CreateProductType
-                    updateProductTypes={updateProductTypes}
-                />
-            );
+        switch (modalType) {
+            case 'createProductType': {
+                return (
+                    <SaveProductType
+                        labels={{
+                            title: 'Create Product Type',
+                            button: 'Create'
+                        }}
+                        updateProductTypes={updateProductTypes}
+                    />
+                );
+            }
+            case 'editProductType': {
+                return (
+                    <SaveProductType
+                        labels={{
+                            title: 'Edit Product Type',
+                            button: 'Edit'
+                        }}
+                        isEdit={true}
+                        productType={productType}
+                        updateProductTypes={updateProductTypes}
+                    />
+                )
+            }
+            case 'addAttribute': {
+                return (
+                    <CreateAttribute
+                        productTypeId={productType.productTypeId}
+                        updateAttributes={updateAttributes}
+                    />
+                )
+            }
+            default: {
+                return null;
+            }
         }
-        if (modalType === 'attribute') {
-            return (
-                <CreateAttribute
-                    productTypeId={productType.productTypeId}
-                    updateAttributes={updateAttributes}
-                />
-            );
-        }
-    }, [modalType, updateProductTypes, productType.productTypeId, updateAttributes]);
+    }, [modalType, updateProductTypes, productType, updateAttributes]);
 
     const renderAttributes = useCallback(() => {
         if (isEmpty(attributes)) {
@@ -259,17 +276,17 @@ export const CreateAbstractProductPage = ({history}) => {
                             />
                         </Grid>
                         <Grid item xl={1} lg={1} style={{textAlign: 'center'}}>
-                            <IconButton onClick={openProductTypeModal}>
+                            <IconButton onClick={() => openModal('createProductType')}>
                                 <AddCircleIcon fontSize='large'/>
                             </IconButton>
                         </Grid>
                         <Grid item xl={1} lg={1} style={{textAlign: 'center'}}>
-                            <IconButton onClick={openProductTypeModal} disabled={isEmpty(productType)}>
+                            <IconButton onClick={() => openModal('editProductType')} disabled={isEmpty(productType)}>
                                 <EditIcon fontSize='large'/>
                             </IconButton>
                         </Grid>
                         <Grid item xl={1} lg={1} style={{textAlign: 'center'}}>
-                            <IconButton onClick={openProductTypeModal} disabled={isEmpty(productType)}>
+                            <IconButton disabled={isEmpty(productType)}>
                                 <DeleteIcon fontSize='large'/>
                             </IconButton>
                         </Grid>
@@ -279,7 +296,7 @@ export const CreateAbstractProductPage = ({history}) => {
                             <Grid item xl={12} lg={12} style={{textAlign: 'left', marginTop: 10, marginBottom: 10}}>
                                 <Button
                                     variant='outlined'
-                                    onClick={openAttributeModal}
+                                    onClick={() => openModal('addAttribute')}
                                 >
                                     Add Attribute
                                 </Button>

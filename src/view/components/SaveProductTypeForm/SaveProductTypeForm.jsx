@@ -5,7 +5,8 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 
 export const SaveProductTypeForm = ({
-                                        productType,
+                                        labels,
+                                        productTypeDetails,
                                         onChange,
                                         onSubmit
                                     }) => {
@@ -14,7 +15,7 @@ export const SaveProductTypeForm = ({
             <Grid container style={{padding: 15}}>
                 <Grid item xl={12} lg={12} style={{marginTop: 10, marginBottom: 10}}>
                     <Typography variant='h6' style={{textAlign: 'center'}}>
-                        Create Product Type
+                        {labels.title}
                     </Typography>
                 </Grid>
                 <Grid item xl={12} lg={12} style={{marginTop: 10, marginBottom: 10}}>
@@ -23,7 +24,7 @@ export const SaveProductTypeForm = ({
                         name="name"
                         variant="outlined"
                         type="name"
-                        value={productType.name}
+                        value={productTypeDetails.name}
                         onChange={onChange}
                         required
                         fullWidth
@@ -35,7 +36,7 @@ export const SaveProductTypeForm = ({
                         name="description"
                         variant="outlined"
                         type="description"
-                        value={productType.description}
+                        value={productTypeDetails.description}
                         onChange={onChange}
                         required
                         fullWidth
@@ -47,7 +48,7 @@ export const SaveProductTypeForm = ({
                         variant='outlined'
                         onClick={onSubmit}
                     >
-                        Create
+                        {labels.button}
                     </Button>
                 </Grid>
             </Grid>
