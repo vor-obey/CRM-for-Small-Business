@@ -5,5 +5,11 @@ export const NotificationStyle = (theme => ({
       display: 'flex',
       borderRadius: 5,
       backgroundColor: '#fff',
+   },
+   text: {
+      width: 280,
+      overflow: 'hidden',
+      whiteSpace: 'nowrap',
+      textOverflow: 'ellipsis',
    }
 }));

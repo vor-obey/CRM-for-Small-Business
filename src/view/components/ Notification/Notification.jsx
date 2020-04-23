@@ -20,7 +20,7 @@ export const Notification = ({
             <ListItemAvatar>
                {typeof icon === 'string' ? <Avatar alt="Icon" src={icon}/> : icon}
             </ListItemAvatar>
-            <ListItemText primary={text} secondary={moment(date).format("MMM Do YYYY, HH:mm")}/>
+            <ListItemText className={classes.text} primary={text} secondary={moment(date).format("MMM Do YYYY, HH:mm")}/>
          </ListItem>
       </div>
    );

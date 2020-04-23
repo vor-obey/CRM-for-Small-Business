@@ -28,9 +28,11 @@ export const NotificationsFunc = () => {
             dispatch(displayNotification({
                 icon: user && user.inviter.profile_pic_url,
                 text: message && message.message.text,
+                username: user && user.thread_title,
                 date: new Date(),
+                status: 'message',
                 onClick: navigationClick
             }));
         }
-    }, [dispatch, message, user, profile, location, navigationClick]);
+    }, [dispatch, message, profile, location, navigationClick]);
 };

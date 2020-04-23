@@ -1,61 +1,80 @@
 import React from 'react';
 import moment from "moment";
-import {Grid, ListItemAvatar, Avatar, ListItem, ListItemText} from "@material-ui/core";
+import {useTranslation} from "react-i18next";
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import {
+    Avatar,
+    ListItem,
+    Typography,
+    ExpansionPanel,
+    ListItemAvatar,
+    ExpansionPanelSummary,
+    ExpansionPanelDetails
+} from "@material-ui/core";
 
 export const NotificationList = ({
                                      index,
                                      classes,
                                      notifications
                                  }) => {
+    const {t} = useTranslation('');
 
-    const renderDesignMobile = () => {
+    const renderDesktop = () => {
         return (
-            <div onClick={() => notifications.onClick()} className={classes.root}>
-                <ListItem>
+            <div key={index} onClick={() => notifications.onClick()}>
+                <div className={classes.wrap}>
                     <ListItemAvatar>
                         {typeof notifications.icon === 'string' ?
-                            <Avatar alt="Icon" src={notifications.icon}/> : <Avatar>{notifications.icon}</Avatar>}
+                            <Avatar alt="Icon" src={notifications.icon}/> :
+                            <Avatar>{notifications.icon}</Avatar>}
                     </ListItemAvatar>
-                    <ListItemText primary={notifications.text}
-                                  secondary={moment(notifications.date).format("MMM Do YYYY, HH:mm")}
-                                  className={classes.text}/>
-                </ListItem>
+                    <Typography>
+                        <span className={classes.username}>{notifications.username}</span>
+                        <span>{t('SEND')}</span>
+                        <span className={classes.message}>{notifications.text}</span>
+                        <span className={classes.date}>{moment(notifications.date).format('HH:mm')}</span>
+                    </Typography>
+                </div>
             </div>
-        )
+        );
     };
 
-    const renderDesignDesktop = () => {
+    const renderMobile = () => {
         return (
-            <div onClick={() => notifications.onClick()}>
-                <Grid container className={classes.rootDesktop}>
-                    <Grid item xl={1} lg={1} md={1} sm={1}>
-                        <ListItemAvatar>
-                            {typeof notifications.icon === 'string' ?
-                                <Avatar alt="Icon" src={notifications.icon}/> : <Avatar>{notifications.icon}</Avatar>}
-                        </ListItemAvatar>
-                    </Grid>
-                    <Grid item xl={4} lg={4} md={4} sm={4}>
-                        <ListItemText primary={notifications.text} className={classes.text}/>
-                    </Grid>
-                    <Grid item xl={4} lg={4} md={4} sm={4}>
-                        <ListItemText primary={moment(notifications.date).format("MMM Do YYYY")}/>
-                    </Grid>
-                    <Grid item xl={3} lg={3} md={3} sm={3}>
-                        <ListItemText primary={moment(notifications.date).format("HH:mm")}/>
-                    </Grid>
-                </Grid>
+            <div className={classes.divMobile}>
+                <ExpansionPanel>
+                    <ExpansionPanelSummary expandIcon={<ExpandMoreIcon/>} className={classes.panel}>
+                        <div key={index} onClick={() => notifications.onClick()} className={classes.root}>
+                            <div className={classes.wrap}>
+                                <ListItemAvatar>
+                                    {typeof notifications.icon === 'string' ?
+                                        <Avatar alt="Icon" src={notifications.icon}/> :
+                                        <Avatar>{notifications.icon}</Avatar>}
+                                </ListItemAvatar>
+                                <Typography>
+                                    <span className={classes.username}>{notifications.username}</span>
+                                    <span className={classes.send}>{t('SEND')}</span>
+                                    <span className={classes.date}>{moment(notifications.date).format('HH:mm')}</span>
+                                </Typography>
+                            </div>
+                        </div>
+                    </ExpansionPanelSummary>
+                    <ExpansionPanelDetails>
+                        <Typography className={classes.messageMobile}>{notifications.text}</Typography>
+                    </ExpansionPanelDetails>
+                </ExpansionPanel>
             </div>
-        )
+        );
     };
 
     return (
         <div>
-            <ListItem key={index} disableGutters divider button className={classes.designMobile}>
-                {renderDesignMobile()}
+            <ListItem key={index} disableGutters divider button className={classes.desktop}>
+                {renderDesktop()}
             </ListItem>
-            <ListItem key={index} disableGutters divider button className={classes.designDesktop}>
-                {renderDesignDesktop()}
-            </ListItem>
+            <div key={index} className={classes.mobile}>
+                {renderMobile()}
+            </div>
         </div>
     );
 };

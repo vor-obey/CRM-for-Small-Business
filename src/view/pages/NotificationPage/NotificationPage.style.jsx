@@ -1,52 +1,60 @@
 export const NotificationPageStyle = (theme => ({
+    container: {
+      paddingLeft: '8px',
+      paddingRight: '8px'
+    },
+    wrap: {
+      display: 'flex',
+      alignItems: 'center',
+      margin: '5px'
+    },
+    panel: {
+      padding: 0,
+      marginLeft: '2px',
+      marginRight: '4px',
+    },
     root: {
-        height: 70,
         width: '100%',
         display: 'flex',
-        borderRadius: 5,
-        backgroundColor: '#fff',
     },
-    listItem: {
+    username: {
+        fontWeight: 'bold',
+    },
+    message: {
+        paddingLeft: 4,
+        wordBreak: 'break-all',
+        [theme.breakpoints.down('xs')]: {
+            width: 60,
+            overflow: 'hidden',
+            whiteSpace: 'nowrap',
+            display: 'inline-flex',
+            textOverflow: 'ellipsis',
+        }
+    },
+    send: {
+      wordBreak: 'break-word'
+    },
+    date: {
+        color: 'gray',
+        paddingLeft: 6
+    },
+    desktop: {
         [theme.breakpoints.down('xs')]: {
             display: 'none'
         }
     },
-    gridDescription: {
-        width: '95%',
-        display: 'flex',
-        justifyContent: 'center',
-    },
-    rootDesktop: {
+    divMobile: {
+        padding: 0,
         width: '100%',
-        display: 'flex',
-        justifyContent: 'center'
+        marginTop: theme.spacing(1)
     },
-    textList: {
-        display: 'none',
-        [theme.breakpoints.down('xs')]: {
-            display: 'block',
-            paddingRight: theme.spacing(1)
-        }
+    messageMobile: {
+        wordBreak: 'break-all',
     },
-    designDesktop: {
-        display: 'block',
-        [theme.breakpoints.down('xs')]: {
-            display: 'none'
-        }
-    },
-    designMobile: {
+    mobile: {
         display: 'none',
         [theme.breakpoints.down('xs')]: {
             display: 'block'
         }
-    },
-    divButton: {
-        display: 'flex',
-        justifyContent: 'center'
-    },
-    text: {
-        whiteSpace: 'nowrap',
-        overflow: 'hidden',
-        textOverflow: 'ellipsis'
     }
 }));

@@ -2,5 +2,7 @@ export const NotificationRU = {
    NAME: 'Имя',
    DATE: 'Дата',
    TIME: 'Время',
-   NOTIFICATION: 'Уведомления'
+   MESSAGE: 'Сообщение',
+   NOTIFICATION: 'Уведомления',
+   SEND: 'отправил(-а) вам сообщение:',
 };
