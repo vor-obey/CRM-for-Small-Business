@@ -1,20 +1,29 @@
 import React, {useCallback, useState} from 'react';
 import {useDispatch} from 'react-redux';
+import {
+    Paper,
+    Typography,
+    Container,
+    Grid,
+    makeStyles,
+    Fab,
+} from "@material-ui/core";
 import {Link, useParams} from "react-router-dom";
 import {setIsLoading, setSnackBarStatus} from '../../../data/store/auxiliary/auxiliaryActions';
 import {ProductService} from '../../../services';
-import {Container} from '@material-ui/core';
-import Paper from '@material-ui/core/Paper';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
 import isEmpty from 'lodash/isEmpty';
-import Button from '@material-ui/core/Button';
 import {CustomDialog} from '../../components/CustomDialog/CustomDialog';
 import {useTranslation} from 'react-i18next';
 import {COMMON_ERROR_MESSAGE} from '../../../constants/statuses';
 import {useProductDetailsById} from '../../../utils/hooks/productHooks';
+import {productDetailsPageStyles} from "./ProductDetailsPage.Style";
+import DeleteIcon from '@material-ui/icons/Delete';
+import EditIcon from "@material-ui/icons/Edit";
+
+const useStyles = makeStyles(productDetailsPageStyles);
 
 export const ProductDetailsPage = ({history}) => {
+    const classes = useStyles();
     const dispatch = useDispatch();
     const {id} = useParams();
     const [productDetails] = useProductDetailsById(id);
@@ -58,16 +67,16 @@ export const ProductDetailsPage = ({history}) => {
     }, [productDetails]);
 
     return (
-        <Container maxWidth='md' style={{marginTop: 30}}>
-            <Paper style={{padding: 15}}>
-                <Grid container item xl={12} lg={12}>
-                    <Grid item style={{marginTop: 15, marginBottom: 15, textAlign: 'center', width: '100%'}}>
+        <Container maxWidth='md' className={classes.root}>
+            <Paper className={classes.paper}>
+                <Grid container item xl={12} lg={12} className={classes.container}>
+                    <Grid item className={classes.containerTitle}>
                         <Typography variant='h6'>
                             Product Details
                         </Typography>
                     </Grid>
-                    <Grid container item xl={12} lg={12}>
-                        <Grid item xl={12} lg={12}>
+                    <Grid container item xs={12} sm={6} className={classes.containerProduct}>
+                        <Grid item xs={12} sm={12} className={classes.containerProductItem}>
                             <Typography variant='h6'>
                                 Name
                             </Typography>
@@ -75,7 +84,7 @@ export const ProductDetailsPage = ({history}) => {
                                 {productDetails.name}
                             </Typography>
                         </Grid>
-                        <Grid item xl={12} lg={12} style={{marginTop: 15}}>
+                        <Grid item xs={12} className={classes.containerProductItem}>
                             <Typography variant='h6'>
                                 Price
                             </Typography>
@@ -84,8 +93,8 @@ export const ProductDetailsPage = ({history}) => {
                             </Typography>
                         </Grid>
                     </Grid>
-                    <Grid container item xl={12} lg={12} style={{marginTop: 30}}>
-                        <Grid item xl={12} lg={12}>
+                    <Grid container item xs={12} sm={6}  className={classes.containerProduct}>
+                        <Grid item xs={12} sm={12} className={classes.containerProductItem}>
                             <Typography variant='h6'>
                                 Abstract Product
                             </Typography>
@@ -96,7 +105,7 @@ export const ProductDetailsPage = ({history}) => {
                                 </Typography>
                             </Link>
                         </Grid>
-                        <Grid item xl={12} lg={12} style={{marginTop: 15}}>
+                        <Grid item xl={12} lg={12} className={classes.containerProductItem}>
                             <Typography variant='h6'>
                                 Product Type
                             </Typography>
@@ -104,17 +113,31 @@ export const ProductDetailsPage = ({history}) => {
                                 {productDetails.abstractProduct && productDetails.abstractProduct.productType.name}
                             </Typography>
                         </Grid>
-                        <Grid item xl={12} lg={12} style={{marginTop: 15}}>
+                    </Grid>
+                    <Grid item xs={12} sm={12} className={classes.containerProduct}>
+                        <Grid item xl={12} lg={12} className={classes.containerProductItem}>
                             <Grid item xl={12} lg={12}>
                                 <Typography variant='h6'>Attributes</Typography>
                                 {renderAttributes()}
                             </Grid>
                         </Grid>
                     </Grid>
-                    <Grid container item xl={12} lg={12} style={{marginTop: 30}}>
-                        <Button onClick={toggleDialog}>
-                            Delete
-                        </Button>
+                    <Grid container item xl={12} lg={12} className={classes.buttonContainer}>
+                        <Fab
+                            className={classes.buttonFab}
+                            color="primary"
+                            aria-label="edit"
+                            size="small">
+                            <EditIcon/>
+                        </Fab>
+                        <Fab
+                            className={classes.buttonFab}
+                            onClick={toggleDialog}
+                            color="primary"
+                            aria-label="delete"
+                            size="small">
+                            <DeleteIcon/>
+                        </Fab>
                     </Grid>
                 </Grid>
             </Paper>
