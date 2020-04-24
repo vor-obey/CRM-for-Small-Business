@@ -1,17 +1,31 @@
 import React, {useCallback} from 'react';
 import {useParams} from 'react-router-dom';
 import {useProductTypeById} from '../../../utils/hooks/productHooks';
-import Container from '@material-ui/core/Container';
-import Paper from '@material-ui/core/Paper';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import List from '@material-ui/core/List';
+import {
+    ListItemText,
+    Container,
+    Paper,
+    Grid,
+    Typography,
+    List,
+    ListItemIcon,
+    ListItem,
+    Divider,
+    Fab,
+    makeStyles
+} from '@material-ui/core';
+import {productTypeDetailsPageStyles} from "./ProductTypeDetailsPage.style";
+import EditIcon from "@material-ui/icons/Edit";
+import DeleteIcon from "@material-ui/icons/Delete";
+import ArrowRightIcon from '@material-ui/icons/ArrowRight';
+
 import isEmpty from 'lodash/isEmpty';
-import ListItem from '@material-ui/core/ListItem';
-import Divider from '@material-ui/core/Divider';
-import {Card, CardContent, CardHeader, ListItemText} from '@material-ui/core';
+
+const useStyles = makeStyles(productTypeDetailsPageStyles);
 
 export const ProductTypeDetailsPage = () => {
+
+    const classes = useStyles();
     const {id} = useParams();
     const [productType] = useProductTypeById(id);
 
@@ -25,18 +39,29 @@ export const ProductTypeDetailsPage = () => {
         return abstractProducts.map((abstractProduct) => {
             const {abstractProductId, name, price, description} = abstractProduct;
             return (
-                <React.Fragment key={abstractProductId}>
-                    <ListItem>
-                        <ListItemText
-                            primary={name}
-                            secondary={`${description}, ${price}`}
-                        />
-                    </ListItem>
-                    <Divider/>
-                </React.Fragment>
+                <Grid container item xs={12} sm={6} className={classes.containerType}>
+                    <Grid item sm={12} xs={12} xl={12} lg={12} className={classes.containerTypeItem}>
+                        <Typography variant='h6'>
+                            Abstract products
+                        </Typography>
+                    </Grid>
+                    <Grid item sm={12} xs={12} xl={12} lg={12}>
+                        <List>
+                            <React.Fragment key={abstractProductId}>
+                                <ListItem className={classes.abstractProducts}>
+                                    <ListItemText
+                                        primary={name}
+                                        secondary={`${description}, ${price}`}
+                                    />
+                                </ListItem>
+                                <Divider/>
+                            </React.Fragment>
+                        </List>
+                    </Grid>
+                </Grid>
             );
         });
-    }, [productType]);
+    }, [productType, classes]);
 
     const renderAttributes = useCallback(() => {
         const {productTypeToAttributes = {}} = productType;
@@ -47,49 +72,54 @@ export const ProductTypeDetailsPage = () => {
         return productTypeToAttributes.map(({attribute}) => {
             const {attributeId, name, attributeValues} = attribute;
             return (
-                <Grid item xl={4} lg={4} key={attributeId}>
-                    <Card>
-                        <CardHeader
-                            title={
-                                <Typography variant='body1'>
-                                    {name}
-                                </Typography>
-                            }
-                            style={{
-                                padding: 5,
-                                border: '1px solid rgba(0, 0, 0, 0.12)'
-                            }}
-                        />
-                        <CardContent style={{maxHeight: 100, overflow: 'auto', padding: 0}}>
-                            <List>
-                                {attributeValues.map((attrValue) => (
-                                        <ListItem key={attrValue.attributeValueId}>
-                                            <ListItemText
-                                                primary={attrValue.value}
-                                            />
-                                        </ListItem>
-                                    )
-                                )}
-                            </List>
-                        </CardContent>
-                    </Card>
+                <Grid container item xs={12} sm={6} className={classes.containerType}>
+                    <Grid item sm={12} xs={12} xl={12} lg={12} className={classes.containerTypeItem}>
+                        <Typography variant='h6'>
+                            Attributes
+                        </Typography>
+                    </Grid>
+                    <React.Fragment key={attributeId}>
+                        <ListItem>
+                            <ListItemIcon>
+                                <ArrowRightIcon/>
+                            </ListItemIcon>
+                            <ListItemText
+                                className={classes.attributeValue}
+                                primary={name}
+                                secondary={
+                                    <React.Fragment>
+                                        {attributeValues.map((attrValue) => (
+                                                <Typography
+                                                    component="span"
+                                                    variant="body2"
+                                                    className={classes.attributeValueItem}
+                                                    key={attrValue.attributeValueId}>
+                                                    {attrValue.value}
+                                                </Typography>
+                                            )
+                                        )}
+                                    </React.Fragment>
+                                }/>
+                        </ListItem>
+                        <Divider/>
+                    </React.Fragment>
                 </Grid>
             );
         });
-    }, [productType]);
+    }, [productType, classes]);
 
     return (
-        <Container maxWidth='md' style={{marginTop: 30}}>
-            <Paper style={{padding: 15}}>
+        <Container maxWidth='md' className={classes.root}>
+            <Paper className={classes.container}>
                 <Grid container item xl={12} lg={12}>
-                    <Grid item style={{marginTop: 15, marginBottom: 15, textAlign: 'center', width: '100%'}}>
+                    <Grid item className={classes.containerTitle}>
                         <Typography variant='h6'>
                             Product Type Details
                         </Typography>
                     </Grid>
                 </Grid>
-                <Grid container item xl={12} lg={12}>
-                    <Grid item xl={12} lg={12}>
+                <Grid container item xs={12} sm={6} className={classes.containerType}>
+                    <Grid item sm={12} xs={12} xl={12} lg={12} className={classes.containerTypeItem}>
                         <Typography variant='h6'>
                             Name
                         </Typography>
@@ -97,7 +127,7 @@ export const ProductTypeDetailsPage = () => {
                             {productType.name}
                         </Typography>
                     </Grid>
-                    <Grid item xl={12} lg={12} style={{marginTop: 15}}>
+                    <Grid item sm={12} xs={12} xl={12} lg={12} className={classes.containerTypeItem}>
                         <Typography variant='h6'>
                             Description
                         </Typography>
@@ -106,25 +136,24 @@ export const ProductTypeDetailsPage = () => {
                         </Typography>
                     </Grid>
                 </Grid>
-                <Grid container item xl={12} lg={12} style={{marginTop: 30}}>
-                    <Grid item xl={12} lg={12}>
-                        <Typography variant='h6'>
-                            Abstract products
-                        </Typography>
-                    </Grid>
-                    <Grid item xl={12} lg={12}>
-                        <List>
-                            {renderAbstractProducts()}
-                        </List>
-                    </Grid>
-                </Grid>
-                <Grid container item xl={12} lg={12} style={{marginTop: 30}}>
-                    <Grid item xl={12} lg={12}>
-                        <Typography variant='h6'>
-                            Attributes
-                        </Typography>
-                    </Grid>
-                    {renderAttributes()}
+                {renderAbstractProducts()}
+                {renderAttributes()}
+
+                <Grid container item xs={12} className={classes.buttonContainer}>
+                    <Fab
+                        className={classes.buttonFab}
+                        color="primary"
+                        aria-label="edit"
+                        size="small">
+                        <EditIcon/>
+                    </Fab>
+                    <Fab
+                        className={classes.buttonFab}
+                        color="primary"
+                        aria-label="delete"
+                        size="small">
+                        <DeleteIcon/>
+                    </Fab>
                 </Grid>
             </Paper>
         </Container>
