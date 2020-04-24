@@ -1,23 +1,36 @@
 import React, {useCallback, useState} from 'react';
-import {Card, CardContent, CardHeader, Container, ListItemIcon, ListItemText} from '@material-ui/core';
+import {
+    Grid,
+    Divider,
+    Container,
+    ListItemIcon,
+    Typography,
+    Paper,
+    List,
+    ListItem,
+    ListItemText,
+    makeStyles,
+    Fab
+} from '@material-ui/core';
 import {useDispatch} from 'react-redux';
 import {setIsLoading, setSnackBarStatus} from '../../../data/store/auxiliary/auxiliaryActions';
 import {AbstractProductService} from '../../../services';
 import {useParams} from "react-router-dom";
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import Paper from '@material-ui/core/Paper';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
 import isEmpty from 'lodash/isEmpty';
 import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
 import {CustomDialog} from '../../components/CustomDialog/CustomDialog';
 import {COMMON_ERROR_MESSAGE} from '../../../constants/statuses';
 import {useTranslation} from 'react-i18next';
-import Button from '@material-ui/core/Button';
 import {useAbstractProductDetailsById} from '../../../utils/hooks/productHooks';
+import {abstractProductDetailsPageStyles} from "./AbstractProductDetailsPage.style";
+import EditIcon from "@material-ui/icons/Edit";
+import DeleteIcon from "@material-ui/icons/Delete";
+import ArrowRightIcon from '@material-ui/icons/ArrowRight';
+
+const useStyles = makeStyles(abstractProductDetailsPageStyles);
 
 export const AbstractProductDetailsPage = ({history}) => {
+    const classes = useStyles();
     const dispatch = useDispatch();
     const {id} = useParams();
     const [abstractProductDetails] = useAbstractProductDetailsById(id);
@@ -53,36 +66,35 @@ export const AbstractProductDetailsPage = ({history}) => {
         return productTypeToAttributes.map(({attribute}) => {
             const {attributeValues, attributeId, name} = attribute;
             return (
-                <Grid item xl={4} lg={4} key={attributeId}>
-                    <Card>
-                        <CardHeader
-                            title={
-                                <Typography variant='body1'>
-                                    {name}
-                                </Typography>
+                <React.Fragment key={attributeId}>
+                    <ListItem>
+                        <ListItemIcon>
+                            <ArrowRightIcon/>
+                        </ListItemIcon>
+                        <ListItemText
+                            className={classes.attributeValue}
+                            primary={name}
+                            secondary={
+                                <React.Fragment>
+                                    {attributeValues.map((attrValue) => (
+                                            <Typography
+                                                component="span"
+                                                variant="body2"
+                                                className={classes.attributeValueItem}
+                                                key={attrValue.attributeValueId}>
+                                                {attrValue.value}
+                                            </Typography>
+                                        )
+                                    )}
+                                </React.Fragment>
                             }
-                            style={{
-                                padding: 5,
-                                border: '1px solid rgba(0, 0, 0, 0.12)'
-                            }}
                         />
-                        <CardContent style={{maxHeight: 100, overflow: 'auto', padding: 0}}>
-                            <List>
-                                {attributeValues.map((attrValue) => (
-                                        <ListItem key={attrValue.attributeValueId}>
-                                            <ListItemText
-                                                primary={attrValue.value}
-                                            />
-                                        </ListItem>
-                                    )
-                                )}
-                            </List>
-                        </CardContent>
-                    </Card>
-                </Grid>
+                    </ListItem>
+                    <Divider/>
+                </React.Fragment>
             );
         });
-    }, [abstractProductDetails]);
+    }, [abstractProductDetails, classes]);
 
     const renderProducts = useCallback(() => {
         const {products = {}} = abstractProductDetails;
@@ -113,16 +125,16 @@ export const AbstractProductDetailsPage = ({history}) => {
     }, [abstractProductDetails, history]);
 
     return (
-        <Container maxWidth='md' style={{marginTop: 30}}>
-            <Paper style={{padding: 15}}>
-                <Grid container item xl={12} lg={12}>
-                    <Grid item style={{marginTop: 15, marginBottom: 15, textAlign: 'center', width: '100%'}}>
+        <Container maxWidth='md' className={classes.root}>
+            <Paper className={classes.paper}>
+                <Grid container item xl={12} lg={12} className={classes.container}>
+                    <Grid item className={classes.containerTitle}>
                         <Typography variant='h6'>
                             Abstract Product Details
                         </Typography>
                     </Grid>
-                    <Grid container item xl={12} lg={12}>
-                        <Grid item xl={12} lg={12} style={{flexDirection: 'column'}}>
+                    <Grid container item xs={12} sm={6} className={classes.containerProduct}>
+                        <Grid item xs={12} sm={12} className={classes.containerProductItem}>
                             <Typography variant='h6'>
                                 Name
                             </Typography>
@@ -130,7 +142,7 @@ export const AbstractProductDetailsPage = ({history}) => {
                                 {abstractProductDetails.name}
                             </Typography>
                         </Grid>
-                        <Grid item xl={12} lg={12} style={{flexDirection: 'column', margin: '15px 0 15px 0'}}>
+                        <Grid item xs={12} sm={12} className={classes.containerProductItem}>
                             <Typography variant='h6'>
                                 Description
                             </Typography>
@@ -138,7 +150,7 @@ export const AbstractProductDetailsPage = ({history}) => {
                                 {abstractProductDetails.description}
                             </Typography>
                         </Grid>
-                        <Grid item xl={12} lg={12} style={{flexDirection: 'column'}}>
+                        <Grid item xs={12} sm={12} className={classes.containerProductItem}>
                             <Typography variant='h6'>
                                 Price
                             </Typography>
@@ -147,8 +159,8 @@ export const AbstractProductDetailsPage = ({history}) => {
                             </Typography>
                         </Grid>
                     </Grid>
-                    <Grid container item xl={12} lg={12} style={{marginTop: 30}}>
-                        <Grid item xl={12} lg={12}>
+                    <Grid container item xs={12} sm={6} className={classes.containerProduct}>
+                        <Grid item xs={12} sm={12} className={classes.containerProductItem}>
                             <Typography variant='h6'>
                                 Product Type
                             </Typography>
@@ -156,7 +168,7 @@ export const AbstractProductDetailsPage = ({history}) => {
                                 {abstractProductDetails.productType && abstractProductDetails.productType.name}
                             </Typography>
                         </Grid>
-                        <Grid item xl={12} lg={12} style={{marginTop: 15}}>
+                        <Grid item xs={12} sm={12} className={classes.containerProductItem}>
                             <Typography variant='h6'>
                                 Product Type Description
                             </Typography>
@@ -164,15 +176,16 @@ export const AbstractProductDetailsPage = ({history}) => {
                                 {abstractProductDetails.productType && abstractProductDetails.productType.description}
                             </Typography>
                         </Grid>
-                        <Grid container item xl={12} lg={12} style={{marginTop: 15}}>
+
+                    </Grid>
+                    <Grid container item xs={12} className={classes.containerProduct}>
+                        <Grid item xs={12} sm={6} className={classes.containerProductItem}>
                             <Grid item xl={12} lg={12}>
                                 <Typography variant='h6'>Attributes</Typography>
                             </Grid>
                             {renderAttributes()}
                         </Grid>
-                    </Grid>
-                    <Grid container item xl={12} lg={12} style={{marginTop: 30}}>
-                        <Grid item xl={12} lg={12}>
+                        <Grid item sm={12} xs={12} xl={12} lg={12} className={classes.containerProductItem}>
                             <Typography variant='h6'>
                                 Products
                             </Typography>
@@ -181,10 +194,22 @@ export const AbstractProductDetailsPage = ({history}) => {
                             </List>
                         </Grid>
                     </Grid>
-                    <Grid container item xl={12} lg={12} style={{marginTop: 30}}>
-                        <Button onClick={toggleDialog}>
-                            Delete
-                        </Button>
+                    <Grid container item xs={12} className={classes.buttonContainer}>
+                        <Fab
+                            className={classes.buttonFab}
+                            color="primary"
+                            aria-label="edit"
+                            size="small">
+                            <EditIcon/>
+                        </Fab>
+                        <Fab
+                            className={classes.buttonFab}
+                            onClick={toggleDialog}
+                            color="primary"
+                            aria-label="delete"
+                            size="small">
+                            <DeleteIcon/>
+                        </Fab>
                     </Grid>
                 </Grid>
             </Paper>
