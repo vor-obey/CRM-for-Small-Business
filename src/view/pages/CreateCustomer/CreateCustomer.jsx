@@ -60,15 +60,12 @@ export const CreateCustomer = ({
    }, [t, history, dispatch, updateCustomerList]);
 
    const renderSources = useCallback(() => {
-      if (!sources || !sources.length) {
+      if (!sources && !sources) {
          return null;
       }
-
-      return sources.map(source => {
-         return (
-            <option key={source.sourceId} value={source.sourceId}>{source.name}</option>
-         );
-      })
+      return (
+         <option key={sources.sourceId} value={sources.sourceId}>{sources.name}</option>
+      );
    }, [sources]);
 
    return (
