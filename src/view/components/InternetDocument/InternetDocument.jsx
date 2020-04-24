@@ -124,10 +124,9 @@ export const InternetDocument = ({orderDetails}) => {
                      case 'Counterparty creation problem. RecipientName incorrect' :
                         dispatch(setSnackBarStatus({isOpen: true, message: t('NAME_INCORRECT'), success: false}));
                         break;
-                     default: {
-                        dispatch(setIsLoading(false));
-                     }
+                     default: {}
                   }
+                  dispatch(setIsLoading(false));
                });
             }
          } catch (e) {
