@@ -37,10 +37,15 @@ import {AbstractProductDetailsPage} from '../../pages/AbstractProductDetailsPage
 import {ProductDetailsPage} from '../../pages/ProductDetailsPage/ProductDetailsPage';
 import {ProductTypesPage} from '../../pages/ProductTypesPage/ProductTypesPage';
 import {ProductTypeDetailsPage} from '../../pages/ProductTypeDetailsPage/ProductTypeDetailsPage';
+import {EditAbstractProduct} from '../../pages/EditAbstractProduct/EditAbstractProduct';
+import {CustomModal} from '../CustomModal/CustomModal';
+import {CustomDialog} from '../CustomDialog/CustomDialog';
 
 export const Routing = () => {
     const dispatch = useDispatch();
     const currentUser = useSelector(state => state.userReducer.currentUser);
+    const modal = useSelector(state => state.auxiliaryReducer.modal);
+    const dialog = useSelector(state => state.auxiliaryReducer.dialog);
 
     useEffect(() => {
         const token = StorageService.getJWTToken();
@@ -62,6 +67,23 @@ export const Routing = () => {
             <Header/>
             <DraggableChat/>
             <LastLocationProvider>
+                <CustomModal
+                    open={modal.isOpen}
+                    classes={modal.classes}
+                    handleClose={modal.onCloseHandler}
+                >
+                    {modal.children}
+                </CustomModal>
+                <CustomDialog
+                    title={dialog.title}
+                    isShow={dialog.isShow}
+                    onClose={dialog.onCloseHandler}
+                    closeText={dialog.closeText}
+                    actionText={dialog.actionText}
+                    onAction={dialog.onActionHandler}
+                >
+                    {dialog.children}
+                </CustomDialog>
                 <AuthRoute exact path="/" component={Login}/>
                 <PrivateRoute exact path="/dashboard" component={Home}/>
                 <PrivateRoute exact path="/create-user" component={CreateUser}/>
@@ -81,6 +103,7 @@ export const Routing = () => {
                 <PrivateRoute exact path='/create-abstract-product' component={CreateAbstractProductPage}/>
                 <PrivateRoute exact path='/abstract-products' component={AbstractProductsPage}/>
                 <PrivateRoute exact path='/abstract-products/:id' component={AbstractProductDetailsPage}/>
+                <PrivateRoute exact path='/abstract-products/:id/edit' component={EditAbstractProduct}/>
                 <PrivateRoute exact path='/create-product' component={CreateProduct}/>
                 <PrivateRoute exact path='/products' component={ProductsPage}/>
                 <PrivateRoute exact path='/products/:id' component={ProductDetailsPage}/>
