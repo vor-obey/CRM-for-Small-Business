@@ -39,7 +39,7 @@ export const ProductTypeDetailsPage = () => {
         return abstractProducts.map((abstractProduct) => {
             const {abstractProductId, name, price, description} = abstractProduct;
             return (
-                <Grid container item xs={12} sm={6} className={classes.containerType}>
+                <Grid container item xs={12} sm={6} className={classes.containerType} key={abstractProductId}>
                     <Grid item sm={12} xs={12} xl={12} lg={12} className={classes.containerTypeItem}>
                         <Typography variant='h6'>
                             Abstract products
@@ -47,15 +47,13 @@ export const ProductTypeDetailsPage = () => {
                     </Grid>
                     <Grid item sm={12} xs={12} xl={12} lg={12}>
                         <List>
-                            <React.Fragment key={abstractProductId}>
-                                <ListItem className={classes.abstractProducts}>
-                                    <ListItemText
-                                        primary={name}
-                                        secondary={`${description}, ${price}`}
-                                    />
-                                </ListItem>
-                                <Divider/>
-                            </React.Fragment>
+                            <ListItem className={classes.abstractProducts}>
+                                <ListItemText
+                                    primary={name}
+                                    secondary={`${description}, ${price}`}
+                                />
+                            </ListItem>
+                            <Divider/>
                         </List>
                     </Grid>
                 </Grid>
@@ -72,38 +70,32 @@ export const ProductTypeDetailsPage = () => {
         return productTypeToAttributes.map(({attribute}) => {
             const {attributeId, name, attributeValues} = attribute;
             return (
-                <Grid container item xs={12} sm={6} className={classes.containerType}>
-                    <Grid item sm={12} xs={12} xl={12} lg={12} className={classes.containerTypeItem}>
-                        <Typography variant='h6'>
-                            Attributes
-                        </Typography>
-                    </Grid>
-                    <React.Fragment key={attributeId}>
-                        <ListItem>
-                            <ListItemIcon>
-                                <ArrowRightIcon/>
-                            </ListItemIcon>
-                            <ListItemText
-                                className={classes.attributeValue}
-                                primary={name}
-                                secondary={
-                                    <React.Fragment>
-                                        {attributeValues.map((attrValue) => (
-                                                <Typography
-                                                    component="span"
-                                                    variant="body2"
-                                                    className={classes.attributeValueItem}
-                                                    key={attrValue.attributeValueId}>
-                                                    {attrValue.value}
-                                                </Typography>
-                                            )
-                                        )}
-                                    </React.Fragment>
-                                }/>
-                        </ListItem>
-                        <Divider/>
-                    </React.Fragment>
-                </Grid>
+                <React.Fragment key={attributeId}>
+                    <ListItem>
+                        <ListItemIcon>
+                            <ArrowRightIcon/>
+                        </ListItemIcon>
+                        <ListItemText
+                            className={classes.attributeValue}
+                            primary={name}
+                            secondary={
+                                <React.Fragment>
+                                    {attributeValues.map((attrValue) => (
+                                            <Typography
+                                                component="span"
+                                                variant="body2"
+                                                className={classes.attributeValueItem}
+                                                key={attrValue.attributeValueId}
+                                            >
+                                                {attrValue.value}
+                                            </Typography>
+                                        )
+                                    )}
+                                </React.Fragment>
+                            }/>
+                    </ListItem>
+                    < Divider/>
+                </React.Fragment>
             );
         });
     }, [productType, classes]);
@@ -137,8 +129,14 @@ export const ProductTypeDetailsPage = () => {
                     </Grid>
                 </Grid>
                 {renderAbstractProducts()}
-                {renderAttributes()}
-
+                <Grid container item xs={12} sm={6} className={classes.containerType}>
+                    <Grid item sm={12} xs={12} xl={12} lg={12} className={classes.containerTypeItem}>
+                        <Typography variant='h6'>
+                            Attributes
+                        </Typography>
+                    </Grid>
+                    {renderAttributes()}
+                </Grid>
                 <Grid container item xs={12} className={classes.buttonContainer}>
                     <Fab
                         className={classes.buttonFab}
