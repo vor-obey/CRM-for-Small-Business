@@ -5,19 +5,19 @@ import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import {CustomAutocomplete} from '../Autocomplete/Autocomplete';
-import {useDispatch} from 'react-redux';
-import {setIsLoading, setSnackBarStatus} from '../../../data/store/auxiliary/auxiliaryActions';
-import {ProductService} from '../../../services';
-import isEmpty from 'lodash/isEmpty';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import Divider from '@material-ui/core/Divider';
 import Button from '@material-ui/core/Button';
-import {useLastLocation} from 'react-router-last-location';
+import isEmpty from 'lodash/isEmpty';
 import {useAbstractProducts, useAttributesByProductTypeId} from '../../../utils/hooks/productHooks';
 
-export const CreateProduct = ({history}) => {
-    const dispatch = useDispatch();
+export const SaveProduct = ({
+                                history,
+                                product,
+                                labels,
+                                onSave,
+                            }) => {
     const [productDetails, setProductDetails] = useState({
         name: '',
         price: '',
@@ -28,13 +28,37 @@ export const CreateProduct = ({history}) => {
     const [attributes] = useAttributesByProductTypeId(selectedAbstractProduct.productType && selectedAbstractProduct.productType.productTypeId);
     const [selectedAttributeValues, setSelectedAttributeValues] = useState({});
     const [isExpanded, setIsExpanded] = useState(false);
-    const lastLocation = useLastLocation();
+
+    const getAttributeValueIds = useCallback((items) => {
+        const ids = {};
+        for (const {attributeValue} of items) {
+            const {attribute: {attributeId}, attributeValueId} = attributeValue;
+            ids[attributeId] = attributeValueId;
+        }
+        return ids;
+    }, []);
 
     useEffect(() => {
-        if (attributes.length) {
+        if (!isEmpty(product)) {
+            setProductDetails({
+                name: product.name,
+                price: product.price
+            });
+            setSelectedAbstractProduct(product.abstractProduct);
+            setSelectedAttributeValues(getAttributeValueIds(product.productToAttributeValues));
             setIsExpanded(true);
         }
-    }, [attributes]);
+    }, [product, getAttributeValueIds]);
+
+    const onProductDetailsChangedHandler = useCallback((event) => {
+        const {name, value} = event.target;
+        setProductDetails(prevState => {
+            return {
+                ...prevState,
+                [name]: value
+            }
+        });
+    }, []);
 
     const toggleAbstractProductAutocomplete = useCallback(() => setIsAbstractProductAutocompleteOpen(prevState => !prevState), []);
 
@@ -62,7 +86,10 @@ export const CreateProduct = ({history}) => {
             setIsExpanded(false);
         } else {
             setSelectedAbstractProduct(item);
+            setIsExpanded(true);
         }
+        setSelectedAttributeValues({});
+
     }, []);
 
     const onAttributeValueSelectHandler = useCallback((event) => {
@@ -72,16 +99,6 @@ export const CreateProduct = ({history}) => {
                 ...prevState,
                 [name]: value,
             };
-        });
-    }, []);
-
-    const onProductDetailsChangedHandler = useCallback((event) => {
-        const {name, value} = event.target;
-        setProductDetails(prevState => {
-            return {
-                ...prevState,
-                [name]: value
-            }
         });
     }, []);
 
@@ -123,44 +140,14 @@ export const CreateProduct = ({history}) => {
         });
     }, [attributes, selectedAttributeValues, onAttributeValueSelectHandler]);
 
-    const validateAttributeValues = useCallback((arr) => {
-        return arr.find(item => item === '');
-    }, []);
-
-    const createProduct = useCallback(async () => {
-        const attributesLength = attributes.length;
-        const attributeValuesEntriesLength = Object.entries(selectedAttributeValues).length;
-        if (attributesLength !== attributeValuesEntriesLength) {
-            dispatch(setSnackBarStatus({isOpen: true, message: 'Select all values', success: false}));
-        } else {
-            if (validateAttributeValues(Object.values(selectedAttributeValues)) === undefined) {
-                try {
-                    dispatch(setIsLoading(true));
-                    await ProductService.create({
-                        abstractProductId: selectedAbstractProduct.abstractProductId,
-                        name: productDetails.name,
-                        price: productDetails.price,
-                        attributeValues: selectedAttributeValues,
-                    });
-                    dispatch(setIsLoading(false));
-                    history.push(`${lastLocation ? lastLocation.pathname : '/products'}`);
-                } catch (e) {
-                    dispatch(setIsLoading(false));
-                    dispatch(setSnackBarStatus({isOpen: true, message: e.message, success: false}));
-                }
-            } else {
-                dispatch(setSnackBarStatus({isOpen: true, message: 'Select all values', success: false}));
-            }
-        }
-    }, [
-        selectedAbstractProduct.abstractProductId,
-        productDetails,
-        selectedAttributeValues,
-        attributes.length,
-        validateAttributeValues,
-        dispatch,
-        history, lastLocation
-    ]);
+    const onSubmit = useCallback(() => {
+        onSave({
+            attributesLength: attributes.length,
+            productDetails,
+            selectedAbstractProduct,
+            selectedAttributeValues
+        });
+    }, [productDetails, selectedAttributeValues, selectedAbstractProduct, attributes.length, onSave]);
 
     return (
         <Container component='main' maxWidth='md'>
@@ -168,7 +155,7 @@ export const CreateProduct = ({history}) => {
                 <Paper style={{padding: 15, width: '100%'}}>
                     <Grid item xl={12} lg={12} style={{marginTop: 10, marginBottom: 10}}>
                         <Typography variant='h6' style={{textAlign: 'center'}}>
-                            Create Product
+                            {labels.title}
                         </Typography>
                     </Grid>
                     <Grid container item xl={12} lg={12} style={{marginTop: 10, marginBottom: 10}}>
@@ -233,9 +220,9 @@ export const CreateProduct = ({history}) => {
                             <Grid item xl={12} lg={12} style={{textAlign: 'center', marginTop: 10, marginBottom: 10}}>
                                 <Button
                                     variant='outlined'
-                                    onClick={createProduct}
+                                    onClick={onSubmit}
                                 >
-                                    Create
+                                    {labels.button}
                                 </Button>
                             </Grid>
                         </Grid>

@@ -29,7 +29,7 @@ import {DraggableChat} from '../DraggableChat/DraggableChat';
 import {OrganizationDetailsPage} from "../../pages/OrganizationDetailsPage/OrganizationDetailsPage";
 import {EditOrganization} from "../../pages/EditOrganization/EditOrganization";
 import {CreateAbstractProductPage} from '../../pages/CreateAbstractProductPage/CreateAbstractProductPage';
-import {CreateProduct} from '../CreateProduct/CreateProduct';
+import {CreateProduct} from '../../pages/CreateProduct/CreateProduct';
 import {AbstractProductsPage} from '../../pages/AbstractProductsPage/AbstractProductsPage';
 import {ProductsPage} from '../../pages/ProductsPage/ProductsPage';
 import {LastLocationProvider} from 'react-router-last-location';
@@ -40,6 +40,7 @@ import {ProductTypeDetailsPage} from '../../pages/ProductTypeDetailsPage/Product
 import {EditAbstractProduct} from '../../pages/EditAbstractProduct/EditAbstractProduct';
 import {CustomModal} from '../CustomModal/CustomModal';
 import {CustomDialog} from '../CustomDialog/CustomDialog';
+import {EditProduct} from '../../pages/EditProduct/EditProduct';
 
 export const Routing = () => {
     const dispatch = useDispatch();
@@ -107,6 +108,7 @@ export const Routing = () => {
                 <PrivateRoute exact path='/create-product' component={CreateProduct}/>
                 <PrivateRoute exact path='/products' component={ProductsPage}/>
                 <PrivateRoute exact path='/products/:id' component={ProductDetailsPage}/>
+                <PrivateRoute exact path='/products/:id/edit' component={EditProduct}/>
                 <PrivateRoute exact path='/product-types/' component={ProductTypesPage}/>
                 <PrivateRoute exact path='/product-types/:id' component={ProductTypeDetailsPage}/>
                 <Route exact path='/restore-password/:token' component={RestorePassword}/>
