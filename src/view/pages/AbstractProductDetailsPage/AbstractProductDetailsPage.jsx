@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback} from 'react';
 import {
     Grid,
     Divider,
@@ -13,12 +13,16 @@ import {
     Fab
 } from '@material-ui/core';
 import {useDispatch} from 'react-redux';
-import {setIsLoading, setSnackBarStatus} from '../../../data/store/auxiliary/auxiliaryActions';
+import {
+    closeDialog,
+    renderDialog,
+    setIsLoading,
+    setSnackBarStatus
+} from '../../../data/store/auxiliary/auxiliaryActions';
 import {AbstractProductService} from '../../../services';
 import {useParams} from "react-router-dom";
 import isEmpty from 'lodash/isEmpty';
 import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
-import {CustomDialog} from '../../components/CustomDialog/CustomDialog';
 import {COMMON_ERROR_MESSAGE} from '../../../constants/statuses';
 import {useTranslation} from 'react-i18next';
 import {useAbstractProductDetailsById} from '../../../utils/hooks/productHooks';
@@ -26,6 +30,7 @@ import {abstractProductDetailsPageStyles} from "./AbstractProductDetailsPage.sty
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
+import {useLastLocation} from 'react-router-last-location';
 
 const useStyles = makeStyles(abstractProductDetailsPageStyles);
 
@@ -34,10 +39,8 @@ export const AbstractProductDetailsPage = ({history}) => {
     const dispatch = useDispatch();
     const {id} = useParams();
     const [abstractProductDetails] = useAbstractProductDetailsById(id);
-    const [isDialogOpen, setIsDialogOpen] = useState(false);
     const {t} = useTranslation('');
-
-    const toggleDialog = useCallback(() => setIsDialogOpen(prevState => !prevState), []);
+    const lastLocation = useLastLocation();
 
     const deleteAbstractProduct = useCallback(async () => {
         try {
@@ -45,17 +48,17 @@ export const AbstractProductDetailsPage = ({history}) => {
             const response = await AbstractProductService.delete(id);
             if (response.success) {
                 dispatch(setIsLoading(false));
-                history.push('/abstract-products');
+                dispatch(closeDialog());
+                history.push(`${lastLocation ? lastLocation.pathname : '/abstract-products'}`);
             } else {
-                toggleDialog();
                 dispatch(setIsLoading(false));
-                dispatch(setSnackBarStatus({isOpen: false, message: response.message, success: false}));
+                dispatch(setSnackBarStatus({isOpen: true, message: response.message, success: false}));
             }
         } catch (e) {
             dispatch(setIsLoading(false));
             dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE, success: false}));
         }
-    }, [id, history, dispatch, toggleDialog]);
+    }, [id, history, dispatch, lastLocation]);
 
     const renderAttributes = useCallback(() => {
         const {productType: {productTypeToAttributes = {}} = {}} = abstractProductDetails;
@@ -123,6 +126,18 @@ export const AbstractProductDetailsPage = ({history}) => {
             );
         })
     }, [abstractProductDetails, history]);
+
+    const openAbstractProductDeleteDialog = useCallback(() => {
+        dispatch(renderDialog({
+            title: 'Delete abstract product',
+            isShow: true,
+            onCloseHandler: () => dispatch(closeDialog()),
+            closeText: t('DISAGREE'),
+            actionText: t('AGREE'),
+            onActionHandler: () => deleteAbstractProduct(),
+            children: 'Delete abstract product?'
+        }));
+    }, [dispatch, deleteAbstractProduct, t]);
 
     return (
         <Container maxWidth='md' className={classes.root}>
@@ -197,6 +212,7 @@ export const AbstractProductDetailsPage = ({history}) => {
                     <Grid container item xs={12} className={classes.buttonContainer}>
                         <Fab
                             className={classes.buttonFab}
+                            onClick={() => history.push(`/abstract-products/${id}/edit`)}
                             color="primary"
                             aria-label="edit"
                             size="small">
@@ -204,7 +220,7 @@ export const AbstractProductDetailsPage = ({history}) => {
                         </Fab>
                         <Fab
                             className={classes.buttonFab}
-                            onClick={toggleDialog}
+                            onClick={openAbstractProductDeleteDialog}
                             color="primary"
                             aria-label="delete"
                             size="small">
@@ -213,16 +229,6 @@ export const AbstractProductDetailsPage = ({history}) => {
                     </Grid>
                 </Grid>
             </Paper>
-            <CustomDialog
-                title='Delete product'
-                isShow={isDialogOpen}
-                onClose={toggleDialog}
-                closeText={t('DISAGREE')}
-                actionText={t('AGREE')}
-                onAction={deleteAbstractProduct}
-            >
-                {t('CONFIRM_DELETE')}
-            </CustomDialog>
         </Container>
     );
 };
