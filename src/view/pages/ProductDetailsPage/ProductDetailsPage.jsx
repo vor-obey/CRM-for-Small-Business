@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback} from 'react';
 import {useDispatch} from 'react-redux';
 import {
     Paper,
@@ -9,16 +9,21 @@ import {
     Fab,
 } from "@material-ui/core";
 import {Link, useParams} from "react-router-dom";
-import {setIsLoading, setSnackBarStatus} from '../../../data/store/auxiliary/auxiliaryActions';
+import {
+    closeDialog,
+    renderDialog,
+    setIsLoading,
+    setSnackBarStatus
+} from '../../../data/store/auxiliary/auxiliaryActions';
 import {ProductService} from '../../../services';
 import isEmpty from 'lodash/isEmpty';
-import {CustomDialog} from '../../components/CustomDialog/CustomDialog';
 import {useTranslation} from 'react-i18next';
 import {COMMON_ERROR_MESSAGE} from '../../../constants/statuses';
 import {useProductDetailsById} from '../../../utils/hooks/productHooks';
 import {productDetailsPageStyles} from "./ProductDetailsPage.Style";
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from "@material-ui/icons/Edit";
+import {useLastLocation} from 'react-router-last-location';
 
 const useStyles = makeStyles(productDetailsPageStyles);
 
@@ -27,10 +32,8 @@ export const ProductDetailsPage = ({history}) => {
     const dispatch = useDispatch();
     const {id} = useParams();
     const [productDetails] = useProductDetailsById(id);
-    const [isDialogOpen, setIsDialogOpen] = useState(false);
     const {t} = useTranslation('');
-
-    const toggleDialog = useCallback(() => setIsDialogOpen(prevState => !prevState), []);
+    const lastLocation = useLastLocation();
 
     const deleteProduct = useCallback(async () => {
         try {
@@ -38,9 +41,9 @@ export const ProductDetailsPage = ({history}) => {
             const response = await ProductService.delete(id);
             if (response.success) {
                 dispatch(setIsLoading(false));
-                history.push('/products');
+                dispatch(closeDialog());
+                history.push(`${lastLocation ? lastLocation.pathname : '/products'}`);
             } else {
-                toggleDialog();
                 dispatch(setIsLoading(false));
                 dispatch(setSnackBarStatus({isOpen: true, message: response.message, success: false}));
             }
@@ -48,7 +51,7 @@ export const ProductDetailsPage = ({history}) => {
             dispatch(setIsLoading(false));
             dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE, success: false}));
         }
-    }, [id, history, dispatch, toggleDialog]);
+    }, [id, history, dispatch, lastLocation]);
 
     const renderAttributes = useCallback(() => {
         const {productToAttributeValues} = productDetails;
@@ -65,6 +68,18 @@ export const ProductDetailsPage = ({history}) => {
             );
         });
     }, [productDetails]);
+
+    const openProductDeleteDialog = useCallback(() => {
+        dispatch(renderDialog({
+            title: 'Delete product',
+            isShow: true,
+            onCloseHandler: () => dispatch(closeDialog()),
+            closeText: t('DISAGREE'),
+            actionText: t('AGREE'),
+            onActionHandler: () => deleteProduct(),
+            children: 'Delete product?'
+        }));
+    }, [dispatch, deleteProduct, t]);
 
     return (
         <Container maxWidth='md' className={classes.root}>
@@ -125,6 +140,7 @@ export const ProductDetailsPage = ({history}) => {
                     <Grid container item xl={12} lg={12} className={classes.buttonContainer}>
                         <Fab
                             className={classes.buttonFab}
+                            onClick={() => history.push(`/products/${id}/edit`)}
                             color="primary"
                             aria-label="edit"
                             size="small">
@@ -132,7 +148,7 @@ export const ProductDetailsPage = ({history}) => {
                         </Fab>
                         <Fab
                             className={classes.buttonFab}
-                            onClick={toggleDialog}
+                            onClick={openProductDeleteDialog}
                             color="primary"
                             aria-label="delete"
                             size="small">
@@ -141,16 +157,6 @@ export const ProductDetailsPage = ({history}) => {
                     </Grid>
                 </Grid>
             </Paper>
-            <CustomDialog
-                title='Delete product'
-                isShow={isDialogOpen}
-                onClose={toggleDialog}
-                closeText={t('DISAGREE')}
-                actionText={t('AGREE')}
-                onAction={deleteProduct}
-            >
-                {t('CONFIRM_DELETE')}
-            </CustomDialog>
         </Container>
     );
 };
