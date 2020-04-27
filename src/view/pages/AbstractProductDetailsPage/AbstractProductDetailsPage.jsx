@@ -183,15 +183,6 @@ export const AbstractProductDetailsPage = ({history}) => {
                                 {abstractProductDetails.productType && abstractProductDetails.productType.name}
                             </Typography>
                         </Grid>
-                        <Grid item xs={12} sm={12} className={classes.containerProductItem}>
-                            <Typography variant='h6'>
-                                Product Type Description
-                            </Typography>
-                            <Typography variant='body1'>
-                                {abstractProductDetails.productType && abstractProductDetails.productType.description}
-                            </Typography>
-                        </Grid>
-
                     </Grid>
                     <Grid container item xs={12} className={classes.containerProduct}>
                         <Grid item xs={12} sm={6} className={classes.containerProductItem}>

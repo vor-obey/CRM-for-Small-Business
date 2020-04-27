@@ -119,14 +119,6 @@ export const ProductTypeDetailsPage = () => {
                             {productType.name}
                         </Typography>
                     </Grid>
-                    <Grid item sm={12} xs={12} xl={12} lg={12} className={classes.containerTypeItem}>
-                        <Typography variant='h6'>
-                            Description
-                        </Typography>
-                        <Typography variant='body1'>
-                            {productType.description}
-                        </Typography>
-                    </Grid>
                 </Grid>
                 {renderAbstractProducts()}
                 <Grid container item xs={12} sm={6} className={classes.containerType}>

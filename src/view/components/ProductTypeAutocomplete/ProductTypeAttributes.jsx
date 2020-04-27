@@ -6,7 +6,6 @@ import AddCircleIcon from '@material-ui/icons/AddCircle';
 import isEmpty from 'lodash/isEmpty';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
-import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Collapse from '@material-ui/core/Collapse';
 
@@ -26,16 +25,13 @@ export const ProductTypeAttributes = ({
     const toggleProductTypeAutocomplete = useCallback(() => setIsProductTypeAutocompleteOpen(prevState => !prevState), []);
 
     const renderProductTypeOptions = useCallback((item) => {
-        const {productTypeId, name, description} = item;
+        const {productTypeId, name} = item;
         return (
             <Grid container alignItems='center'>
                 <Grid item xs>
                 <span key={productTypeId}>
                    {name}
                 </span>
-                    <Typography variant='body2' color='textSecondary'>
-                        {description}
-                    </Typography>
                 </Grid>
             </Grid>
         );

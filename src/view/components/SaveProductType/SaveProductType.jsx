@@ -9,8 +9,7 @@ export const SaveProductType = ({
                                     isEdit
                                 }) => {
     const [productTypeDetails, setProductType] = useState({
-        name: (productType && productType.name) || '',
-        description: (productType && productType.description) || ''
+        name: (productType && productType.name) || ''
     });
 
     const onChangedInputHandler = useCallback((event) => {

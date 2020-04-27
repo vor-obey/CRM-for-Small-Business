@@ -30,18 +30,6 @@ export const SaveProductTypeForm = ({
                         fullWidth
                     />
                 </Grid>
-                <Grid item xl={12} lg={12} style={{marginTop: 10, marginBottom: 10}}>
-                    <TextField
-                        label='Product Type description'
-                        name="description"
-                        variant="outlined"
-                        type="description"
-                        value={productTypeDetails.description}
-                        onChange={onChange}
-                        required
-                        fullWidth
-                    />
-                </Grid>
                 <Grid item xl={12} lg={12} style={{marginTop: 10, marginBottom: 10, textAlign: 'center'}}>
                     <Button
                         color='primary'
