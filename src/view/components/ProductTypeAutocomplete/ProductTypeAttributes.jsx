@@ -56,21 +56,23 @@ export const ProductTypeAttributes = ({
                         value={selectedProductType || ''}
                     />
                 </Grid>
-                    <Grid item xs={1} sm={1} className={classes.containerProductItem}>
+                <Grid container item xs={12} sm={3} className={classes.containerProductType}>
+                    <Grid item xs={4} sm={3}>
                         <IconButton onClick={openCreateProductTypeModal}>
                             <AddCircleIcon fontSize='large'/>
                         </IconButton>
                     </Grid>
-                    <Grid item xs={1} sm={1} className={classes.containerProductItem}>
+                    <Grid item xs={4} sm={3}>
                         <IconButton onClick={openEditProductTypeModal} disabled={isEmpty(selectedProductType)}>
                             <EditIcon fontSize='large'/>
                         </IconButton>
                     </Grid>
-                    <Grid item xs={1} sm={1} className={classes.containerProductItem}>
+                    <Grid item xs={4} sm={3}>
                         <IconButton onClick={openDeleteProductTypeDialog} disabled={isEmpty(selectedProductType)}>
                             <DeleteIcon fontSize='large'/>
                         </IconButton>
                     </Grid>
+                </Grid>
             </Grid>
             <Collapse in={isExpanded} timeout='auto' unmountOnExit>
                 <Grid container item xl={12}>
