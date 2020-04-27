@@ -37,6 +37,26 @@ export const saveAbstractProductPageStyles = (theme => ({
         marginTop: '15px',
         justifyContent: 'space-between'
     },
+    containerAttribute: {
+        marginTop: '15px',
+        justifyContent: 'space-between',
+        flexWrap: 'wrap',
+    },
+    attributeCard: {
+        height: '100px',
+        overflow: 'auto',
+        padding: 0
+    },
+    containerAttributeItem: {
+        marginTop: '15px',
+        maxWidth: '48.666667%',
+        [theme.breakpoints.down('xs')]: {
+            maxWidth: '100%',
+        }
+    },
+    cardHeader: {
+        border: '1px solid rgba(0, 0, 0, 0.12)'
+    },
     containerType: {
         flexDirection: 'row',
         alignItems: 'flex-start',
