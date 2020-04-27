@@ -7,6 +7,7 @@ import {ProductTypeAttributes} from '../ProductTypeAutocomplete/ProductTypeAttri
 import Button from '@material-ui/core/Button';
 
 export const SaveAbstractProductForm = ({
+                                            classes,
                                             labels,
                                             abstractProductDetails,
                                             onAbstractProductChangedHandler,
@@ -23,16 +24,16 @@ export const SaveAbstractProductForm = ({
                                             t
                                         }) => {
     return (
-        <Container component='main' maxWidth='md'>
-            <Grid container style={{marginTop: 30}}>
-                <Paper style={{padding: 15, width: '100%'}}>
-                    <Grid item xl={12} lg={12} style={{marginTop: 10, marginBottom: 10}}>
-                        <Typography variant='h6' style={{textAlign: 'center'}}>
+        <Container component='main' maxWidth='md' className={classes.root}>
+            <Grid container>
+                <Paper className={classes.paper}>
+                    <Grid item xl={12} lg={12} className={classes.containerTitle}>
+                        <Typography variant='h6'>
                             {labels.title}
                         </Typography>
                     </Grid>
-                    <Grid container item xl={12} lg={12} style={{marginTop: 10, marginBottom: 10}}>
-                        <Grid item xl={10} lg={10} style={{paddingRight: 10}}>
+                    <Grid container item xs={12} sm={12} className={classes.containerProduct}>
+                        <Grid item xs={12} sm={9} className={classes.containerProductItem}>
                             <TextField
                                 label={t('NAME')}
                                 name="name"
@@ -44,7 +45,7 @@ export const SaveAbstractProductForm = ({
                                 fullWidth
                             />
                         </Grid>
-                        <Grid item xl={2} lg={2}>
+                        <Grid item xs={12} sm={2} className={classes.containerProductItem}>
                             <TextField
                                 label={t('PRICE')}
                                 name="price"
@@ -56,7 +57,7 @@ export const SaveAbstractProductForm = ({
                                 fullWidth
                             />
                         </Grid>
-                        <Grid item xl={12} lg={12} style={{marginTop: 10}}>
+                        <Grid item xs={12} sm={12} className={classes.containerProductItem}>
                             <TextField
                                 label={t('DESCRIPTION')}
                                 name="description"
@@ -71,6 +72,7 @@ export const SaveAbstractProductForm = ({
                     </Grid>
                     <ProductTypeAttributes
                         t={t}
+                        classes={classes}
                         productTypes={productTypes}
                         selectedProductType={selectedProductType}
                         onProductTypeSelectHandler={onProductTypeSelectHandler}
@@ -81,9 +83,10 @@ export const SaveAbstractProductForm = ({
                         openCreateAttributeModal={openCreateAttributeModal}
                         openDeleteProductTypeDialog={openDeleteProductTypeDialog}
                     />
-                    <Grid item xl={12} lg={12} style={{textAlign: 'center', marginTop: 10, marginBottom: 10}}>
+                    <Grid item xs={12} sm={12} className={classes.buttonContainer}>
                         <Button
                             variant='outlined'
+                            className={classes.button}
                             onClick={onSubmit}
                         >
                             {labels.button}

@@ -10,6 +10,7 @@ import Button from '@material-ui/core/Button';
 import Collapse from '@material-ui/core/Collapse';
 
 export const ProductTypeAttributes = ({
+                                          classes,
                                           productTypes,
                                           selectedProductType,
                                           onProductTypeSelectHandler,
@@ -42,8 +43,8 @@ export const ProductTypeAttributes = ({
 
     return (
         <>
-            <Grid container item xl={12} lg={12} style={{marginTop: 10, marginBottom: 10}}>
-                <Grid item xl={9} lg={9}>
+            <Grid container item xs={12} sm={12} className={classes.containerProduct}>
+                <Grid item xs={12} sm={9} className={classes.containerProductItem}>
                     <CustomAutocomplete
                         isOpen={isProductTypeAutocompleteOpen}
                         options={productTypes}
@@ -56,25 +57,27 @@ export const ProductTypeAttributes = ({
                         value={selectedProductType || ''}
                     />
                 </Grid>
-                <Grid item xl={1} lg={1} style={{textAlign: 'center'}}>
-                    <IconButton onClick={openCreateProductTypeModal}>
-                        <AddCircleIcon fontSize='large'/>
-                    </IconButton>
-                </Grid>
-                <Grid item xl={1} lg={1} style={{textAlign: 'center'}}>
-                    <IconButton onClick={openEditProductTypeModal} disabled={isEmpty(selectedProductType)}>
-                        <EditIcon fontSize='large'/>
-                    </IconButton>
-                </Grid>
-                <Grid item xl={1} lg={1} style={{textAlign: 'center'}}>
-                    <IconButton onClick={openDeleteProductTypeDialog} disabled={isEmpty(selectedProductType)}>
-                        <DeleteIcon fontSize='large'/>
-                    </IconButton>
+                <Grid container item xs={12} sm={3} className={classes.containerProductType}>
+                    <Grid item xs={4} sm={3}>
+                        <IconButton onClick={openCreateProductTypeModal}>
+                            <AddCircleIcon fontSize='large'/>
+                        </IconButton>
+                    </Grid>
+                    <Grid item xs={4} sm={3}>
+                        <IconButton onClick={openEditProductTypeModal} disabled={isEmpty(selectedProductType)}>
+                            <EditIcon fontSize='large'/>
+                        </IconButton>
+                    </Grid>
+                    <Grid item xs={4} sm={3}>
+                        <IconButton onClick={openDeleteProductTypeDialog} disabled={isEmpty(selectedProductType)}>
+                            <DeleteIcon fontSize='large'/>
+                        </IconButton>
+                    </Grid>
                 </Grid>
             </Grid>
             <Collapse in={isExpanded} timeout='auto' unmountOnExit>
                 <Grid container item xl={12}>
-                    <Grid item xl={12} lg={12} style={{textAlign: 'left', marginTop: 10, marginBottom: 10}}>
+                    <Grid item xs={12} sm={12} className={classes.containerProductItem}>
                         <Button
                             variant='outlined'
                             onClick={openCreateAttributeModal}
@@ -82,7 +85,7 @@ export const ProductTypeAttributes = ({
                             {t('ADD_ATTRIBUTE')}
                         </Button>
                     </Grid>
-                    <Grid container item xl={12} lg={12} spacing={2}>
+                    <Grid container item xs={12} sm={6} className={classes.containerProductItem}>
                         {renderAttributes()}
                     </Grid>
                 </Grid>

@@ -2,14 +2,17 @@ import React, {useCallback, useEffect, useState} from 'react';
 import {useAttributesByProductTypeId, useProductTypes} from '../../../utils/hooks/productHooks';
 import {SaveAbstractProductForm} from '../SaveAbstractProductForm/SaveAbstractProductForm';
 import isEmpty from 'lodash/isEmpty';
-import Grid from '@material-ui/core/Grid';
-import {Card, CardContent, CardHeader, ListItemText} from '@material-ui/core';
-import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
+import {
+    ListItemText,
+    Grid,
+    Typography,
+    IconButton,
+    List,
+    ListItem,
+    makeStyles
+} from '@material-ui/core';
 import EditIcon from '@material-ui/icons/Edit';
 import RemoveIcon from '@material-ui/icons/Remove';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
 import {SaveProductType} from '../SaveProductType/SaveProductType';
 import {CreateAttribute} from '../../pages/CreateAttribute/CreateAttribute';
 import {useDispatch} from 'react-redux';
@@ -23,6 +26,10 @@ import {
 import {ProductTypeService, AttributeService} from '../../../services';
 import {COMMON_ERROR_MESSAGE} from '../../../constants/statuses';
 import {useTranslation} from 'react-i18next';
+import {saveAbstractProductPageStyles} from "./SaveAbstractProduct.style";
+import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
+
+const useStyles = makeStyles(saveAbstractProductPageStyles);
 
 export const SaveAbstractProduct = ({
                                         abstractProduct,
@@ -30,6 +37,7 @@ export const SaveAbstractProduct = ({
                                         onSave,
                                     }) => {
 
+    const classes = useStyles();
     const dispatch = useDispatch();
     const [abstractProductDetails, setAbstractProductDetails] = useState({
         name: '',
@@ -112,46 +120,41 @@ export const SaveAbstractProduct = ({
         return attributes.map((attr) => {
             const {attributeId, name, attributeValues} = attr;
             return (
-                <Grid item xl={4} lg={4} key={attributeId}>
-                    <Card>
-                        <CardHeader
-                            title={
+                <Grid item xs={12} sm={12} className={classes.containerType} key={attributeId}>
+                    <List>
+                        <ListItem sm={12} xs={12} className={classes.containerTypeItem}>
+                            <ListItemText>
                                 <Typography variant='body1'>
                                     {name}
                                 </Typography>
-                            }
-                            action={
-                                <>
-                                    <IconButton size='small'>
-                                        <EditIcon/>
-                                    </IconButton>
-                                    <IconButton onClick={() => openDeleteAttributeDialog(attributeId)} size='small'>
-                                        <RemoveIcon/>
-                                    </IconButton>
-                                </>
-                            }
-                            style={{
-                                padding: 5,
-                                border: '1px solid rgba(0, 0, 0, 0.12)'
-                            }}
-                        />
-                        <CardContent style={{maxHeight: 100, overflow: 'auto', padding: 0}}>
-                            <List>
-                                {attributeValues.map((attrValue) => (
-                                        <ListItem key={attrValue.attributeValueId}>
-                                            <ListItemText
-                                                primary={attrValue.value}
-                                            />
-                                        </ListItem>
-                                    )
-                                )}
-                            </List>
-                        </CardContent>
-                    </Card>
+                            </ListItemText>
+                            <ListItemSecondaryAction>
+                                <IconButton size='small'>
+                                    <EditIcon/>
+                                </IconButton>
+                                <IconButton onClick={() => openDeleteAttributeDialog(attributeId)} size='small'>
+                                    <RemoveIcon/>
+                                </IconButton>
+                            </ListItemSecondaryAction>
+                        </ListItem>
+                        <ListItem className={classes.attributeValue}>
+                            {attributeValues.map((attrValue) => (
+                                    <Typography
+                                        component="span"
+                                        variant="body2"
+                                        key={attrValue.attributeValueId}
+                                        className={classes.attributeValueItem}
+                                    >
+                                        {attrValue.value}
+                                    </Typography>
+                                )
+                            )}
+                        </ListItem>
+                    </List>
                 </Grid>
             );
         });
-    }, [attributes, openDeleteAttributeDialog]);
+    }, [attributes, openDeleteAttributeDialog, classes]);
 
     const updateProductTypes = useCallback((newProductType) => {
         triggerProductTypesUpdate(prevState => ++prevState);
@@ -257,6 +260,7 @@ export const SaveAbstractProduct = ({
 
     return (
         <SaveAbstractProductForm
+            classes={classes}
             labels={labels}
             abstractProductDetails={abstractProductDetails}
             onAbstractProductChangedHandler={onAbstractProductChangedHandler}

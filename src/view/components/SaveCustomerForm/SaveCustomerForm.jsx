@@ -70,7 +70,6 @@ export const SaveCustomerForm = (props) => {
                                     type="email"
                                     value={(details && details.contactEmail) || ''}
                                     onChange={onChange}
-                                    required
                                     fullWidth
                                 />
                             </Grid>
@@ -84,7 +83,6 @@ export const SaveCustomerForm = (props) => {
                                     mask="_"
                                     value={(details && details.contactNumber) || ''}
                                     onChange={onChange}
-                                    required
                                     fullWidth
                                 />
                             </Grid>
@@ -95,7 +93,6 @@ export const SaveCustomerForm = (props) => {
                                     value={(details && details.details) || ''}
                                     onChange={onChange}
                                     variant="outlined"
-                                    required
                                     fullWidth
                                     rows="4"
                                     multiline
