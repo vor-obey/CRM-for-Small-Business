@@ -37,7 +37,7 @@ export const CreateCustomer = ({
    const onSubmitHandler = useCallback(async (event, customerDetails) => {
       event.stopPropagation();
       event.preventDefault();
-      if (customerDetails.contactNumber.length < 10 || customerDetails.contactNumber.length > 12) {
+      if (customerDetails.contactNumber && (customerDetails.contactNumber.length < 10 || customerDetails.contactNumber.length > 12)) {
          dispatch(setSnackBarStatus({isOpen: true, message: t('INVALID_NUMBER'), success: false}))
       } else {
          try {
