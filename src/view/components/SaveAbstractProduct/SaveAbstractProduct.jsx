@@ -3,6 +3,9 @@ import {useAttributesByProductTypeId, useProductTypes} from '../../../utils/hook
 import {SaveAbstractProductForm} from '../SaveAbstractProductForm/SaveAbstractProductForm';
 import isEmpty from 'lodash/isEmpty';
 import {
+    Card,
+    CardHeader,
+    CardContent,
     ListItemText,
     Grid,
     Typography,
@@ -28,7 +31,6 @@ import {COMMON_ERROR_MESSAGE} from '../../../constants/statuses';
 import {useTranslation} from 'react-i18next';
 import {EditAttribute} from '../EditAttribute/EditAttribute';
 import {saveAbstractProductPageStyles} from "./SaveAbstractProduct.style";
-import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 
 const useStyles = makeStyles(saveAbstractProductPageStyles);
 
@@ -140,37 +142,39 @@ export const SaveAbstractProduct = ({
         return attributes.map((attr) => {
             const {attributeId, name, attributeValues} = attr;
             return (
-                <Grid item xs={12} sm={12} className={classes.containerType} key={attributeId}>
-                    <List>
-                        <ListItem sm={12} xs={12} className={classes.containerTypeItem}>
-                            <ListItemText>
+                <Grid item xs={12} className={classes.containerAttributeItem} key={attributeId}>
+                    <Card>
+                        <CardHeader
+                            title={
                                 <Typography variant='body1'>
                                     {name}
                                 </Typography>
-                            </ListItemText>
-                            <ListItemSecondaryAction>
-                                <IconButton onClick={() => openEditAttributeModal(attr)} size='small'>
-                                    <EditIcon/>
-                                </IconButton>
-                                <IconButton onClick={() => openDeleteAttributeDialog(attributeId)} size='small'>
-                                    <RemoveIcon/>
-                                </IconButton>
-                            </ListItemSecondaryAction>
-                        </ListItem>
-                        <ListItem className={classes.attributeValue}>
-                            {attributeValues.map((attrValue) => (
-                                    <Typography
-                                        component="span"
-                                        variant="body2"
-                                        key={attrValue.attributeValueId}
-                                        className={classes.attributeValueItem}
-                                    >
-                                        {attrValue.value}
-                                    </Typography>
-                                )
-                            )}
-                        </ListItem>
-                    </List>
+                            }
+                            action={
+                                <>
+                                    <IconButton onClick={() => openEditAttributeModal(attr)} size='small'>
+                                        <EditIcon/>
+                                    </IconButton>
+                                    <IconButton onClick={() => openDeleteAttributeDialog(attributeId)} size='small'>
+                                        <RemoveIcon/>
+                                    </IconButton>
+                                </>
+                            }
+                            className={classes.cardHeader}
+                        />
+                        <CardContent className={classes.attributeCard}>
+                            <List>
+                                {attributeValues.map((attrValue) => (
+                                        <ListItem key={attrValue.attributeValueId}>
+                                            <ListItemText
+                                                primary={attrValue.value}
+                                            />
+                                        </ListItem>
+                                    )
+                                )}
+                            </List>
+                        </CardContent>
+                    </Card>
                 </Grid>
             );
         });
