@@ -1,4 +1,5 @@
 export const SystemEN = {
+    CANCEL: 'Cancel',
     LOGIN: 'Login',
     LOGIN_BUTTON: 'Log in',
     FORGOT_PASSWORD: 'Forgot your password?',

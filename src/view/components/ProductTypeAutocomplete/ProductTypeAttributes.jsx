@@ -19,7 +19,8 @@ export const ProductTypeAttributes = ({
                                           openCreateProductTypeModal,
                                           openEditProductTypeModal,
                                           openCreateAttributeModal,
-                                          openDeleteProductTypeDialog
+                                          openDeleteProductTypeDialog,
+                                          t
                                       }) => {
     const [isProductTypeAutocompleteOpen, setIsProductTypeAutocompleteOpen] = useState(false);
 
@@ -49,7 +50,7 @@ export const ProductTypeAttributes = ({
                         options={productTypes}
                         onClose={toggleProductTypeAutocomplete}
                         onToggle={toggleProductTypeAutocomplete}
-                        inputLabel='Select product type'
+                        inputLabel={t('SELECT_PRODUCT_TYPE')}
                         renderOption={renderProductTypeOptions}
                         getOptionLabel={getProductTypeOptionLabel}
                         onSelectHandler={onProductTypeSelectHandler}
@@ -81,7 +82,7 @@ export const ProductTypeAttributes = ({
                             variant='outlined'
                             onClick={openCreateAttributeModal}
                         >
-                            Add Attribute
+                            {t('ADD_ATTRIBUTE')}
                         </Button>
                     </Grid>
                     <Grid container item xs={12} sm={6} className={classes.containerProductItem}>

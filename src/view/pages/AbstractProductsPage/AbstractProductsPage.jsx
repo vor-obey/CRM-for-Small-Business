@@ -6,8 +6,10 @@ import ListItem from '@material-ui/core/ListItem';
 import Divider from '@material-ui/core/Divider';
 import Button from '@material-ui/core/Button';
 import {useAbstractProducts} from '../../../utils/hooks/productHooks';
+import {useTranslation} from "react-i18next";
 
 export const AbstractProductsPage = ({history}) => {
+    const {t} = useTranslation();
     const [abstractProducts] = useAbstractProducts();
 
     const renderAbstractProducts = useCallback(() => {
@@ -45,7 +47,7 @@ export const AbstractProductsPage = ({history}) => {
                         style={{marginTop: 20}}
                         onClick={() => history.push('/create-abstract-product')}
                     >
-                        Create
+                        {t('CREATE')}
                     </Button>
                 </ListItem>
             </List>

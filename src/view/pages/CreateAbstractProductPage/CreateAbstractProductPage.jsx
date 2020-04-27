@@ -4,8 +4,10 @@ import {SaveAbstractProduct} from '../../components/SaveAbstractProduct/SaveAbst
 import {setIsLoading, setSnackBarStatus} from '../../../data/store/auxiliary/auxiliaryActions';
 import AbstractProductService from '../../../services/AbstractProductService';
 import {useDispatch} from 'react-redux';
+import {useTranslation} from "react-i18next";
 
 export const CreateAbstractProductPage = ({history}) => {
+    const {t} = useTranslation();
     const dispatch = useDispatch();
     const lastLocation = useLastLocation();
 
@@ -30,8 +32,8 @@ export const CreateAbstractProductPage = ({history}) => {
     return (
         <SaveAbstractProduct
             labels={{
-                title: 'Create abstract product',
-                button: 'Create'
+                title: t('CREATE_CATEGORY_PRODUCT'),
+                button: t('CREATE')
             }}
             onSave={createAbstractProduct}
         />
