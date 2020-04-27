@@ -3,6 +3,7 @@ import {SaveProductTypeForm} from '../SaveProductTypeForm/SaveProductTypeForm';
 import {ProductTypeService} from '../../../services';
 
 export const SaveProductType = ({
+                                    t,
                                     labels,
                                     updateProductTypes,
                                     productType,
@@ -36,6 +37,7 @@ export const SaveProductType = ({
 
     return (
         <SaveProductTypeForm
+            t={t}
             labels={labels}
             productTypeDetails={productTypeDetails}
             onChange={onChangedInputHandler}

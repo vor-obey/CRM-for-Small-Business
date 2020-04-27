@@ -13,6 +13,7 @@ import RemoveIcon from '@material-ui/icons/Remove';
 import isEmpty from 'lodash/isEmpty';
 
 export const SaveAttributeForm = ({
+                                      t,
                                       name,
                                       onChange,
                                       onSubmit,
@@ -72,7 +73,7 @@ export const SaveAttributeForm = ({
                             <AddIcon/>
                         </IconButton>
                     </ListItemIcon>
-                    <ListItemText primary='Add value'/>
+                    <ListItemText primary={t('ADD_VALUE')}/>
                 </ListItem>
             );
         }
@@ -85,7 +86,7 @@ export const SaveAttributeForm = ({
                     </IconButton>
                 </ListItemIcon>
                 <TextField
-                    label='Add value'
+                    label={t('ADD_VALUE')}
                     name='value'
                     variant='standard'
                     type='text'
@@ -106,12 +107,12 @@ export const SaveAttributeForm = ({
         <Grid container style={{padding: 15}}>
             <Grid item xl={12} lg={12}>
                 <Typography variant='h6' style={{textAlign: 'center'}}>
-                    Create Attribute
+                    {t('CREATE_ATTRIBUTE')}
                 </Typography>
             </Grid>
             <Grid item xl={12} lg={12}>
                 <TextField
-                    label='Name'
+                    label={t('NAME')}
                     name="name"
                     variant="outlined"
                     type="text"
@@ -123,7 +124,7 @@ export const SaveAttributeForm = ({
             </Grid>
             <Grid item xl={12} lg={12} style={{marginTop: 15}}>
                 <Typography variant='body1'>
-                    Attribute Values
+                    {t('ATTRIBUTE_VALUES')}
                 </Typography>
                 <Divider/>
             </Grid>
@@ -150,13 +151,13 @@ export const SaveAttributeForm = ({
                 <Button
                     variant='outlined'
                 >
-                    Cancel
+                    {t('CANCEL')}
                 </Button>
                 <Button
                     onClick={onSubmit}
                     variant='outlined'
                 >
-                    Create
+                    {t('CREATE')}
                 </Button>
             </Grid>
         </Grid>
