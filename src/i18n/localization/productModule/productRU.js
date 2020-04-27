@@ -13,7 +13,7 @@ export const ProductRU = {
     PRODUCT_TYPE_NAME: 'Название Типа Продукта',
     CREATE_PRODUCT_TYPE: 'Создать Тип Продукта',
     SELECT_PRODUCT_TYPE: 'Выберите тип продукта',
-    SELECT_CATEGORISES_PRODUCT: 'Выберите категорию товара',
-    CREATE_CATEGORISES_PRODUCT: 'Создать Категорий Продукт',
-    DELETE_CATEGORIES_PRODUCT: 'Удалить Категорию Продукта?',
+    SELECT_CATEGORY_PRODUCT: 'Выберите категорию товара',
+    CREATE_CATEGORY_PRODUCT: 'Создать Категорий Продукт',
+    DELETE_CATEGORY_PRODUCT: 'Удалить Категорию Продукта?',
 };

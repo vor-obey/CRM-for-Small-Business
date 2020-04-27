@@ -247,7 +247,7 @@ export const SaveAbstractProduct = ({
             closeText: t('DISAGREE'),
             actionText: t('AGREE'),
             onActionHandler: () => deleteProductType(),
-            children: t('DELETE_CATEGORIES_PRODUCT')
+            children: t('DELETE_CATEGORY_PRODUCT')
         }));
     }, [dispatch, deleteProductType, t]);
 

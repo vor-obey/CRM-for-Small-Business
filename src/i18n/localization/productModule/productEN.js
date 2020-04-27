@@ -13,7 +13,7 @@ export const ProductEN = {
     CREATE_PRODUCT_TYPE: 'Create Product Type',
     SELECT_PRODUCT_TYPE: 'Select product type',
     DELETE_PRODUCT_TYPE: 'Delete Product Type',
-    SELECT_CATEGORISES_PRODUCT: 'Select Product Category',
-    CREATE_CATEGORISES_PRODUCT: 'Create Product Category',
-    DELETE_CATEGORIES_PRODUCT: 'Delete Product Category?',
+    SELECT_CATEGORY_PRODUCT: 'Select Product Category',
+    CREATE_CATEGORY_PRODUCT: 'Create Product Category',
+    DELETE_CATEGORY_PRODUCT: 'Delete Product Category?',
 };

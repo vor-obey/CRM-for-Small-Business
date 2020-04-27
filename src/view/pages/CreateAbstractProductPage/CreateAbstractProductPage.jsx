@@ -32,7 +32,7 @@ export const CreateAbstractProductPage = ({history}) => {
     return (
         <SaveAbstractProduct
             labels={{
-                title: t('CREATE_CATEGORISES_PRODUCT'),
+                title: t('CREATE_CATEGORY_PRODUCT'),
                 button: t('CREATE')
             }}
             onSave={createAbstractProduct}
