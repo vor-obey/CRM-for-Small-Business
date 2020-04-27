@@ -101,7 +101,7 @@ export const SaveAttributeForm = ({
                 </ListItemSecondaryAction>
             </ListItem>
         );
-    }, [isAdd, onValueChanged, value, cancelAdding, add]);
+    }, [isAdd, onValueChanged, value, cancelAdding, add, t]);
 
     return (
         <Grid container style={{padding: 15}}>

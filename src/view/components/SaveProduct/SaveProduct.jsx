@@ -5,6 +5,7 @@ import {CustomAutocomplete} from '../Autocomplete/Autocomplete';
 import isEmpty from 'lodash/isEmpty';
 import {useAbstractProducts, useAttributesByProductTypeId} from '../../../utils/hooks/productHooks';
 import {saveProductStyles} from "./SaveProduct.styles";
+import {useTranslation} from 'react-i18next';
 
 const useStyles = makeStyles(saveProductStyles);
 
@@ -13,8 +14,8 @@ export const SaveProduct = ({
                                 product,
                                 labels,
                                 onSave,
-                                t
                             }) => {
+    const {t} = useTranslation();
     const classes = useStyles();
     const [productDetails, setProductDetails] = useState({
         name: '',

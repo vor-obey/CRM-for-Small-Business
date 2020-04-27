@@ -55,7 +55,6 @@ export const CreateProduct = ({history}) => {
                 title: t('CREATE_PRODUCT')
             }}
             onSave={createProduct}
-            t={t}
         />
     );
 };
