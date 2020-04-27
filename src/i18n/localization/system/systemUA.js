@@ -41,7 +41,10 @@ export const SystemUA = {
     SEATS_INVALID: 'Кількість місць невірно',
     SENDER_NUMBER_INVALID: 'Номер відправника невірний',
     RECIPIENTS_NUMBER_INVALID: 'Номер отримувача недійсний',
+    COST_IS_HIGH: 'Вартість занадто велика',
+    WEIGHT_IS_HIGH: 'Вага занадто велика',
     WEIGHT_MAX: 'Максимально допустима вага: 30',
     PERSON_PROBLEM: 'Помилка створення контр-агента одержувача',
-    NAME_INCORRECT: 'Проблема створення контрагента. Неправильне ім`я одержувача'
+    RECIPIENT_NAME_INCORRECT: 'Проблема створення контрагента. Неправильне ім`я одержувача',
+    RECIPIENTS_CONTEPARTY_INVALID: 'Проблема створення одержувача контрагента'
 };

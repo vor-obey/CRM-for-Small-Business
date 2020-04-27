@@ -42,6 +42,9 @@ export const SystemRU = {
     SENDER_NUMBER_INVALID: 'Номер отправителя неверен',
     RECIPIENTS_NUMBER_INVALID: 'Номер получателя недействителен',
     WEIGHT_MAX: 'Максимально допустимый вес: 30',
+    COST_IS_HIGH: 'Стоимость слишком большая',
+    WEIGHT_IS_HIGH: 'Вес слишком большой',
     PERSON_PROBLEM: 'Ошибка создания контрагента получателя',
-    NAME_INCORRECT: 'Проблема создания контрагента. Неверное имя получателя'
+    RECIPIENTS_NAME_INCORRECT: 'Проблема создания контрагента. Неверное имя получателя',
+    RECIPIENTS_CONTEPARTY_INVALID: 'Проблема создания получателя контрагента'
 };

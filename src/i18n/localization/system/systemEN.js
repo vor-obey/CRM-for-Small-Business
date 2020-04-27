@@ -42,6 +42,8 @@ export const SystemEN = {
     SENDER_NUMBER_INVALID: 'Sender number is invalid',
     RECIPIENTS_NUMBER_INVALID: 'Recipients number is invalid',
     WEIGHT_MAX: 'Warehouse max allowed weight: 30',
-    PERSON_PROBLEM: 'Error creating recipient counter-agent',
-    NAME_INCORRECT: 'Counterparty creation problem. RecipientName incorrect '
+    COST_IS_HIGH: 'Cost is to high',
+    WEIGHT_IS_HIGH: 'Weight is to high',
+    RECIPIENT_NAME_INCORRECT: 'Counterparty creation problem. RecipientName incorrect',
+    RECIPIENTS_CONTEPARTY_INVALID: 'Recipient counterparty person creation problem.'
 };
