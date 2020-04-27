@@ -79,7 +79,7 @@ export const ProductTypeAttributes = ({
                             variant='outlined'
                             onClick={openCreateAttributeModal}
                         >
-                            Add Attribute
+                            {t('ADD_ATTRIBUTE')}
                         </Button>
                     </Grid>
                     <Grid container item xl={12} lg={12} spacing={2}>

@@ -1,8 +1,12 @@
 export const ProductRU = {
     PRICE: 'Цена',
     PRODUCTS: 'Товары',
+    ADD_VALUE: 'Добавить Значение',
     PRODUCT_TYPES: 'Типы Продукта',
+    ADD_ATTRIBUTE: 'Добавить Атрибут',
     CREATE_PRODUCT: 'Создать Продукт',
+    CREATE_ATTRIBUTE: 'Создайте Атрибут',
+    ATTRIBUTE_VALUES: 'Значения Атрибутов',
     PRODUCT_CATEGORIES: 'Категории Продукта',
     EDIT_PRODUCT_TYPE: 'Изменить тип продукта',
     DELETE_PRODUCT_TYPE: 'Удалить тип продукта',

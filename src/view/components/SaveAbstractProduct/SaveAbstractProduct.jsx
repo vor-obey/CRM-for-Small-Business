@@ -194,6 +194,7 @@ export const SaveAbstractProduct = ({
                     isEdit={true}
                     productType={selectedProductType}
                     updateProductTypes={updateProductTypes}
+                    t={t}
                 />
             ),
             onCloseHandler: () => dispatch(closeModal()),
