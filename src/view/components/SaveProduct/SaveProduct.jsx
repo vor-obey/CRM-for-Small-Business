@@ -50,6 +50,12 @@ export const SaveProduct = ({
         }
     }, [product, getAttributeValueIds]);
 
+    useEffect(() => {
+        if (!isEmpty(selectedAbstractProduct)) {
+            setProductDetails(prevState => ({...prevState, price: selectedAbstractProduct.price}));
+        }
+    }, [selectedAbstractProduct]);
+
     const onProductDetailsChangedHandler = useCallback((event) => {
         const {name, value} = event.target;
         setProductDetails(prevState => {
