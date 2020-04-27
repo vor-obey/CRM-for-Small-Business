@@ -29,6 +29,7 @@ export const SaveAbstractProduct = ({
                                         labels,
                                         onSave,
                                     }) => {
+
     const dispatch = useDispatch();
     const [abstractProductDetails, setAbstractProductDetails] = useState({
         name: '',
@@ -170,14 +171,15 @@ export const SaveAbstractProduct = ({
             classes: {},
             children: (<SaveProductType
                 labels={{
-                    title: 'Create Product Type',
-                    button: 'Create'
+                    title: t('CREATE_PRODUCT_TYPE'),
+                    button: t('CREATE')
                 }}
+                t={t}
                 updateProductTypes={updateProductTypes}
             />),
             onCloseHandler: () => dispatch(closeModal()),
         }))
-    }, [dispatch, updateProductTypes]);
+    }, [dispatch, updateProductTypes, t]);
 
     const openEditProductTypeModal = useCallback(() => {
         dispatch(renderModal({
@@ -186,8 +188,8 @@ export const SaveAbstractProduct = ({
             children: (
                 <SaveProductType
                     labels={{
-                        title: 'Edit Product Type',
-                        button: 'Edit'
+                        title: t('EDIT_PRODUCT_TYPE'),
+                        button: t('EDIT')
                     }}
                     isEdit={true}
                     productType={selectedProductType}
@@ -196,7 +198,7 @@ export const SaveAbstractProduct = ({
             ),
             onCloseHandler: () => dispatch(closeModal()),
         }))
-    }, [dispatch, selectedProductType, updateProductTypes]);
+    }, [t, dispatch, selectedProductType, updateProductTypes]);
 
     const openCreateAttributeModal = useCallback(() => {
         dispatch(renderModal({
@@ -204,13 +206,14 @@ export const SaveAbstractProduct = ({
             classes: {},
             children: (
                 <CreateAttribute
+                    t={t}
                     productTypeId={selectedProductType.productTypeId}
                     updateAttributes={updateAttributes}
                 />
             ),
             onCloseHandler: () => dispatch(closeModal()),
         }))
-    }, [dispatch, selectedProductType.productTypeId, updateAttributes]);
+    }, [t, dispatch, selectedProductType.productTypeId, updateAttributes]);
 
     const deleteProductType = useCallback(async () => {
         try {
@@ -234,13 +237,13 @@ export const SaveAbstractProduct = ({
 
     const openDeleteProductTypeDialog = useCallback(() => {
         dispatch(renderDialog({
-            title: 'Delete product type',
+            title: t('DELETE_PRODUCT_TYPE'),
             isShow: true,
             onCloseHandler: () => dispatch(closeDialog()),
             closeText: t('DISAGREE'),
             actionText: t('AGREE'),
             onActionHandler: () => deleteProductType(),
-            children: 'Delete abstract product?'
+            children: t('DELETE_CATEGORIES_PRODUCT')
         }));
     }, [dispatch, deleteProductType, t]);
 
@@ -266,6 +269,7 @@ export const SaveAbstractProduct = ({
             openCreateAttributeModal={openCreateAttributeModal}
             openDeleteProductTypeDialog={openDeleteProductTypeDialog}
             onSubmit={onSubmit}
+            t={t}
         />
     );
 };

@@ -17,6 +17,7 @@ export const SaveProduct = ({
                                 product,
                                 labels,
                                 onSave,
+                                t
                             }) => {
     const [productDetails, setProductDetails] = useState({
         name: '',
@@ -161,7 +162,7 @@ export const SaveProduct = ({
                     <Grid container item xl={12} lg={12} style={{marginTop: 10, marginBottom: 10}}>
                         <Grid item xl={10} lg={10} style={{paddingRight: 10}}>
                             <TextField
-                                label='Name'
+                                label={t('NAME')}
                                 name="name"
                                 variant="outlined"
                                 type="text"
@@ -173,7 +174,7 @@ export const SaveProduct = ({
                         </Grid>
                         <Grid item xl={2} lg={2}>
                             <TextField
-                                label='Price'
+                                label={t('PRICE')}
                                 name="price"
                                 variant="outlined"
                                 type="number"
@@ -196,7 +197,7 @@ export const SaveProduct = ({
                                 options={abstractProducts}
                                 onClose={toggleAbstractProductAutocomplete}
                                 onToggle={toggleAbstractProductAutocomplete}
-                                inputLabel='Select abstract product'
+                                inputLabel={t('SELECT_CATEGORISES_PRODUCT')}
                                 renderOption={renderAbstractProductOptions}
                                 getOptionLabel={getAbstractProductOptionLabel}
                                 onSelectHandler={onAbstractProductSelectHandler}

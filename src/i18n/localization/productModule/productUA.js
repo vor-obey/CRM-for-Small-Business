@@ -1,0 +1,15 @@
+export const ProductUA = {
+    PRICE: 'Цiна',
+    PRODUCTS: 'Товари',
+    PRODUCT_TYPES: 'Типи Продукту',
+    CREATE_PRODUCT: 'Створити Продукт',
+    PRODUCT_CATEGORIES: 'Категоріі Продукту',
+    PRODUCT_TYPE_NAME: 'Назва Типу Продукту',
+    SELECT_PRODUCT_TYPE: 'Виберіть тип продукту',
+    DELETE_PRODUCT_TYPE: 'Видалити тип продукту',
+    CREATE_PRODUCT_TYPE: 'Створити Тип Продукту',
+    EDIT_PRODUCT_TYPE: 'Редагування Типу Продукту',
+    SELECT_CATEGORISES_PRODUCT: 'Виберіть категорію товару',
+    CREATE_CATEGORISES_PRODUCT: 'Створення Категорії Продукту',
+    DELETE_CATEGORIES_PRODUCT: 'Видалити Категорію Продукту?',
+};

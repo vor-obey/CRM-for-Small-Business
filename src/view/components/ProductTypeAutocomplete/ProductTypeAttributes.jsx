@@ -18,7 +18,8 @@ export const ProductTypeAttributes = ({
                                           openCreateProductTypeModal,
                                           openEditProductTypeModal,
                                           openCreateAttributeModal,
-                                          openDeleteProductTypeDialog
+                                          openDeleteProductTypeDialog,
+                                          t
                                       }) => {
     const [isProductTypeAutocompleteOpen, setIsProductTypeAutocompleteOpen] = useState(false);
 
@@ -48,7 +49,7 @@ export const ProductTypeAttributes = ({
                         options={productTypes}
                         onClose={toggleProductTypeAutocomplete}
                         onToggle={toggleProductTypeAutocomplete}
-                        inputLabel='Select product type'
+                        inputLabel={t('SELECT_PRODUCT_TYPE')}
                         renderOption={renderProductTypeOptions}
                         getOptionLabel={getProductTypeOptionLabel}
                         onSelectHandler={onProductTypeSelectHandler}

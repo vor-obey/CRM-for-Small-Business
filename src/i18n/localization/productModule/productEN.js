@@ -1,0 +1,15 @@
+export const ProductEN = {
+    PRICE: 'Price',
+    PRODUCTS: 'Products',
+    PRODUCT_TYPES: 'Product Types',
+    CREATE_PRODUCT: 'Create Product',
+    EDIT_PRODUCT_TYPE: 'Edit Product Type',
+    PRODUCT_TYPE_NAME: 'Product Type Name',
+    PRODUCT_CATEGORIES: 'Product Categories',
+    CREATE_PRODUCT_TYPE: 'Create Product Type',
+    SELECT_PRODUCT_TYPE: 'Select product type',
+    DELETE_PRODUCT_TYPE: 'Delete Product Type',
+    SELECT_CATEGORISES_PRODUCT: 'Select categories product',
+    CREATE_CATEGORISES_PRODUCT: 'Create Categorises Product',
+    DELETE_CATEGORIES_PRODUCT: 'Delete Categorise Product ?',
+};

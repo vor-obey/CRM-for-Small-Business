@@ -1,0 +1,15 @@
+export const ProductRU = {
+    PRICE: 'Цена',
+    PRODUCTS: 'Товары',
+    PRODUCT_TYPES: 'Типы Продукта',
+    CREATE_PRODUCT: 'Создать Продукт',
+    PRODUCT_CATEGORIES: 'Категории Продукта',
+    EDIT_PRODUCT_TYPE: 'Изменить тип продукта',
+    DELETE_PRODUCT_TYPE: 'Удалить тип продукта',
+    PRODUCT_TYPE_NAME: 'Название Типа Продукта',
+    CREATE_PRODUCT_TYPE: 'Создать Тип Продукта',
+    SELECT_PRODUCT_TYPE: 'Выберите тип продукта',
+    SELECT_CATEGORISES_PRODUCT: 'Выберите категорию товара',
+    CREATE_CATEGORISES_PRODUCT: 'Создать Категорий Продукт',
+    DELETE_CATEGORIES_PRODUCT: 'Удалить Категорию Продукта?',
+};

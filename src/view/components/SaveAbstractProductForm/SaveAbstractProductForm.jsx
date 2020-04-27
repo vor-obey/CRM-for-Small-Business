@@ -20,6 +20,7 @@ export const SaveAbstractProductForm = ({
                                             openCreateAttributeModal,
                                             openDeleteProductTypeDialog,
                                             onSubmit,
+                                            t
                                         }) => {
     return (
         <Container component='main' maxWidth='md'>
@@ -33,7 +34,7 @@ export const SaveAbstractProductForm = ({
                     <Grid container item xl={12} lg={12} style={{marginTop: 10, marginBottom: 10}}>
                         <Grid item xl={10} lg={10} style={{paddingRight: 10}}>
                             <TextField
-                                label='Name'
+                                label={t('NAME')}
                                 name="name"
                                 variant="outlined"
                                 type="text"
@@ -45,7 +46,7 @@ export const SaveAbstractProductForm = ({
                         </Grid>
                         <Grid item xl={2} lg={2}>
                             <TextField
-                                label='Price'
+                                label={t('PRICE')}
                                 name="price"
                                 variant="outlined"
                                 type="number"
@@ -57,7 +58,7 @@ export const SaveAbstractProductForm = ({
                         </Grid>
                         <Grid item xl={12} lg={12} style={{marginTop: 10}}>
                             <TextField
-                                label='Description'
+                                label={t('DESCRIPTION')}
                                 name="description"
                                 variant="outlined"
                                 type="text"
@@ -69,6 +70,7 @@ export const SaveAbstractProductForm = ({
                         </Grid>
                     </Grid>
                     <ProductTypeAttributes
+                        t={t}
                         productTypes={productTypes}
                         selectedProductType={selectedProductType}
                         onProductTypeSelectHandler={onProductTypeSelectHandler}

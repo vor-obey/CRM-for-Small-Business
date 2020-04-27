@@ -5,6 +5,7 @@ import {useDispatch} from 'react-redux';
 import {setIsLoading, setSnackBarStatus} from '../../../data/store/auxiliary/auxiliaryActions';
 
 export const CreateAttribute = ({
+                                    t,
                                     productTypeId,
                                     updateAttributes,
                                 }) => {
@@ -44,6 +45,7 @@ export const CreateAttribute = ({
 
     return (
         <SaveAttributeForm
+            t={t}
             name={name}
             onChange={onChange}
             onSubmit={onSubmit}
