@@ -32,6 +32,11 @@ export const saveAbstractProductPageStyles = (theme => ({
     containerProductItem: {
         marginTop: '15px',
     },
+    containerProductType: {
+        textAlign: 'center',
+        marginTop: '15px',
+        justifyContent: 'space-between'
+    },
     containerType: {
         flexDirection: 'row',
         alignItems: 'flex-start',
