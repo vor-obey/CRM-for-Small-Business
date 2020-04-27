@@ -7,6 +7,7 @@ import {COMMON_ERROR_MESSAGE} from "../../../constants/statuses";
 import {useDispatch} from "react-redux";
 import {useTranslation} from "react-i18next";
 import {useSources} from '../../../utils/hooks/customerHooks';
+import isEmpty from 'lodash/isEmpty';
 
 export const CreateCustomer = ({
                                   history,
@@ -20,7 +21,7 @@ export const CreateCustomer = ({
       details: '',
       sourceId: '',
    });
-   const [sources] = useSources();
+   const sources = useSources();
    const dispatch = useDispatch();
    const {t} = useTranslation('');
 
@@ -60,7 +61,7 @@ export const CreateCustomer = ({
    }, [t, history, dispatch, updateCustomerList]);
 
    const renderSources = useCallback(() => {
-      if (!sources || !sources.length) {
+      if (isEmpty(sources)) {
          return null;
       }
 
