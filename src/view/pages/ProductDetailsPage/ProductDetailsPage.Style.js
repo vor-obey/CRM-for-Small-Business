@@ -31,6 +31,13 @@ export const productDetailsPageStyles = (theme => ({
         marginTop: '15px',
         wordWrap: 'break-word',
     },
+    productNavigation: {
+        cursor: 'pointer',
+        padding: '0px'
+    },
+    productNavigationIcon: {
+        minWidth: '35px'
+    },
     buttonContainer: {
         alignContent: 'center',
         justifyContent: 'center',
