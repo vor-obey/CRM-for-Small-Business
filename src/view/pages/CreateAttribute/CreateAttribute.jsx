@@ -3,6 +3,11 @@ import {SaveAttributeForm} from '../../components/SaveAttributeForm/SaveAttribut
 import {AttributeService} from '../../../services';
 import {useDispatch} from 'react-redux';
 import {setIsLoading, setSnackBarStatus} from '../../../data/store/auxiliary/auxiliaryActions';
+import isEmpty from 'lodash/isEmpty';
+import ListItem from '@material-ui/core/ListItem';
+import {ListItemSecondaryAction, ListItemText} from '@material-ui/core';
+import IconButton from '@material-ui/core/IconButton';
+import RemoveIcon from '@material-ui/icons/Remove';
 
 export const CreateAttribute = ({
                                     t,
@@ -43,15 +48,38 @@ export const CreateAttribute = ({
         });
     }, []);
 
+    const renderAttrValues = useCallback(() => {
+        if (isEmpty(valuesToSave)) {
+            return null;
+        }
+
+        return valuesToSave.map((attrValue, index) => {
+            return (
+                <ListItem key={index}>
+                    <ListItemText
+                        primary={attrValue}
+                    />
+                    <ListItemSecondaryAction>
+                        <IconButton onClick={() => removeAttributeValue(index)}>
+                            <RemoveIcon/>
+                        </IconButton>
+                    </ListItemSecondaryAction>
+                </ListItem>
+            );
+        });
+    }, [valuesToSave, removeAttributeValue]);
+
     return (
         <SaveAttributeForm
-            t={t}
             name={name}
             onChange={onChange}
             onSubmit={onSubmit}
             addAttributeValue={addAttributeValue}
-            removeAttributeValue={removeAttributeValue}
-            attrValues={valuesToSave}
+            renderAttrValues={renderAttrValues}
+            labels={{
+                title: t('CREATE_ATTRIBUTE'),
+                button: t('CREATE'),
+            }}
         />
     );
 };
