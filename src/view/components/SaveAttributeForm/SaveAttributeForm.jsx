@@ -10,19 +10,22 @@ import ListItem from '@material-ui/core/ListItem';
 import IconButton from '@material-ui/core/IconButton';
 import CheckIcon from '@material-ui/icons/Check';
 import RemoveIcon from '@material-ui/icons/Remove';
-import isEmpty from 'lodash/isEmpty';
+import {useTranslation} from 'react-i18next';
+import {closeModal} from '../../../data/store/auxiliary/auxiliaryActions';
+import {useDispatch} from 'react-redux';
 
 export const SaveAttributeForm = ({
-                                      t,
                                       name,
                                       onChange,
                                       onSubmit,
                                       addAttributeValue,
-                                      removeAttributeValue,
-                                      attrValues
+                                      renderAttrValues,
+                                      labels
                                   }) => {
     const [value, setValue] = useState('');
     const [isAdd, setIsAdd] = useState(false);
+    const {t} = useTranslation('');
+    const dispatch = useDispatch();
 
     const onValueChanged = useCallback((event) => {
         setValue(event.target.value);
@@ -42,27 +45,6 @@ export const SaveAttributeForm = ({
             addAttributeValue(value);
         }
     }, [addAttributeValue]);
-
-    const renderAttrValues = useCallback(() => {
-        if (isEmpty(attrValues)) {
-            return null;
-        }
-
-        return attrValues.map((attrValue, index) => {
-            return (
-                <ListItem key={index}>
-                    <ListItemText
-                        primary={attrValue}
-                    />
-                    <ListItemSecondaryAction>
-                        <IconButton onClick={() => removeAttributeValue(index)}>
-                            <RemoveIcon/>
-                        </IconButton>
-                    </ListItemSecondaryAction>
-                </ListItem>
-            );
-        });
-    }, [attrValues, removeAttributeValue]);
 
     const renderListItemForAddingValue = useCallback(() => {
         if (!isAdd) {
@@ -107,7 +89,7 @@ export const SaveAttributeForm = ({
         <Grid container style={{padding: 15}}>
             <Grid item xl={12} lg={12}>
                 <Typography variant='h6' style={{textAlign: 'center'}}>
-                    {t('CREATE_ATTRIBUTE')}
+                    {labels.title}
                 </Typography>
             </Grid>
             <Grid item xl={12} lg={12}>
@@ -150,6 +132,7 @@ export const SaveAttributeForm = ({
             <Grid item xl={12} lg={12} style={{textAlign: 'center'}}>
                 <Button
                     variant='outlined'
+                    onClick={() => dispatch(closeModal())}
                 >
                     {t('CANCEL')}
                 </Button>
@@ -157,7 +140,7 @@ export const SaveAttributeForm = ({
                     onClick={onSubmit}
                     variant='outlined'
                 >
-                    {t('CREATE')}
+                    {labels.button}
                 </Button>
             </Grid>
         </Grid>

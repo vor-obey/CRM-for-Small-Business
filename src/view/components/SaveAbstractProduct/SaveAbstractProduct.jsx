@@ -26,6 +26,7 @@ import {
 import {ProductTypeService, AttributeService} from '../../../services';
 import {COMMON_ERROR_MESSAGE} from '../../../constants/statuses';
 import {useTranslation} from 'react-i18next';
+import {EditAttribute} from '../EditAttribute/EditAttribute';
 import {saveAbstractProductPageStyles} from "./SaveAbstractProduct.style";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 
@@ -112,6 +113,25 @@ export const SaveAbstractProduct = ({
         }));
     }, [dispatch, t, triggerAttributesUpdate]);
 
+    const updateAttributes = useCallback(() => {
+        triggerAttributesUpdate(prevState => ++prevState);
+        dispatch(closeModal());
+    }, [triggerAttributesUpdate, dispatch]);
+
+    const openEditAttributeModal = useCallback((attribute) => {
+        dispatch(renderModal({
+            isOpen: true,
+            classes: {},
+            children: (
+                <EditAttribute
+                    attribute={attribute}
+                    updateAttributes={updateAttributes}
+                />
+            ),
+            onCloseHandler: () => dispatch(closeModal()),
+        }))
+    }, [dispatch, updateAttributes]);
+
     const renderAttributes = useCallback(() => {
         if (isEmpty(attributes)) {
             return null;
@@ -129,7 +149,7 @@ export const SaveAbstractProduct = ({
                                 </Typography>
                             </ListItemText>
                             <ListItemSecondaryAction>
-                                <IconButton size='small'>
+                                <IconButton onClick={() => openEditAttributeModal(attr)} size='small'>
                                     <EditIcon/>
                                 </IconButton>
                                 <IconButton onClick={() => openDeleteAttributeDialog(attributeId)} size='small'>
@@ -154,7 +174,7 @@ export const SaveAbstractProduct = ({
                 </Grid>
             );
         });
-    }, [attributes, openDeleteAttributeDialog, classes]);
+    }, [attributes, openDeleteAttributeDialog, openEditAttributeModal, classes]);
 
     const updateProductTypes = useCallback((newProductType) => {
         triggerProductTypesUpdate(prevState => ++prevState);
@@ -162,11 +182,6 @@ export const SaveAbstractProduct = ({
         setIsExpanded(true);
         dispatch(closeModal());
     }, [triggerProductTypesUpdate, dispatch]);
-
-    const updateAttributes = useCallback(() => {
-        triggerAttributesUpdate(prevState => ++prevState);
-        dispatch(closeModal());
-    }, [triggerAttributesUpdate, dispatch]);
 
     const openCreateProductTypeModal = useCallback(() => {
         dispatch(renderModal({
