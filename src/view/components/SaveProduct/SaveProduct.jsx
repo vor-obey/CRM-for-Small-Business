@@ -215,7 +215,7 @@ export const SaveProduct = ({
                                 <List style={{width: '100%'}}>
                                     <ListItem>
                                         <ListItemText
-                                            primary='Select values'
+                                            primary={t('SELECT_VALUE')}
                                         />
                                     </ListItem>
                                     <Divider/>
