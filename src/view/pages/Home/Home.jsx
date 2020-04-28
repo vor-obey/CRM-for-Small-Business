@@ -28,7 +28,6 @@ export const Home = ({history}) => {
     const dispatch = useDispatch();
 
     const renderOrdersCountByStatus = useCallback((status) => {
-         console.log(orders);
         const filtered = orders.filter(order => order.status === status);
         return <div>{filtered.length}</div>;
     }, [orders]);
