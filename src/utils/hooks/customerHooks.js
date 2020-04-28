@@ -32,7 +32,7 @@ export const useCustomers = () => {
 };
 
 export const useCustomerById = (id) => {
-    const [customer, setCustomer] = useState({});
+    const [customerDetails, setCustomerDetails] = useState({});
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -40,7 +40,7 @@ export const useCustomerById = (id) => {
             try {
                 dispatch(setIsLoading(true));
                 const response = await CustomerService.findOneById(id);
-                setCustomer(response);
+                setCustomerDetails(response);
                 dispatch(setIsLoading(false));
             } catch (e) {
                 dispatch(setIsLoading(false));
@@ -51,7 +51,7 @@ export const useCustomerById = (id) => {
         fetchCustomerById(id);
     }, [dispatch, id]);
 
-    return customer;
+    return [customerDetails]
 };
 
 export const useSources = () => {

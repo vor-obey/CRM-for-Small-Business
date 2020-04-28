@@ -12,6 +12,7 @@ export const CustomerDetails = (props) => {
             <List className={classes.containerList}>
                 <ListItem className={classes.container}>
                     <Grid
+                        container
                         item
                         direction={'column'}
                         justify='space-around'
@@ -45,6 +46,7 @@ export const CustomerDetails = (props) => {
                         }
                     </Grid>
                     <Grid
+                        container
                         item
                         justify={'space-around'}
                         direction={'column'}
