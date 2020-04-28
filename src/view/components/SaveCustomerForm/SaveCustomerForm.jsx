@@ -52,7 +52,7 @@ export const SaveCustomerForm = (props) => {
                             </Grid>
                             <Grid item xs={12} sm={6}>
                                 <TextField
-                                    label={t('NAME')}
+                                    label={t('FULL_NAME')}
                                     name="name"
                                     variant="outlined"
                                     type="text"

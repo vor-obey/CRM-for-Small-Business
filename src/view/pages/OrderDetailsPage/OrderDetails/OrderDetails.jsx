@@ -91,7 +91,7 @@ export const OrderDetails = ({
                     </Grid>
                     <Grid item xs={12}>
                         <TextField
-                            label={t('NAME')}
+                            label={t('FULL_NAME')}
                             margin="normal"
                             name="name"
                             type="text"
