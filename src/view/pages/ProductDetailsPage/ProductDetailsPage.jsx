@@ -79,14 +79,14 @@ export const ProductDetailsPage = ({history}) => {
             <Paper className={classes.paper}>
                 <Grid container item xl={12} lg={12} className={classes.container}>
                     <Grid item className={classes.containerTitle}>
-                        <Typography variant='h6'>
-                            {t('PRODUCT_DETAILS')}
+                        <Typography variant='h5'>
+                            {t('DETAILS_PRODUCT')}
                         </Typography>
                     </Grid>
                     <Grid container item xs={12} sm={6} className={classes.containerProduct}>
                         <Grid item xs={12} sm={12} className={classes.containerProductItem}>
                             <Typography variant='h6'>
-                                {t('NAME')}
+                                {t('PRODUCT_NAME')}
                             </Typography>
                             <Typography variant='body1'>
                                 {productDetails.name}

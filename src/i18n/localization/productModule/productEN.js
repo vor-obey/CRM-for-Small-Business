@@ -8,8 +8,10 @@ export const ProductEN = {
     EDIT_CATEGORY_PRODUCT: 'Edit product category',
     PRODUCT_CATEGORY: 'Product category',
     EDIT_PRODUCT: 'Edit product',
+    DETAILS_PRODUCT: 'Product Details',
     PRODUCT_TYPES: 'Product types',
     PRODUCT_TYPE: 'Product type',
+    PRODUCT_NAME: 'Name',
     CREATE_PRODUCT: 'Create product',
     ATTRIBUTE_VALUES: 'Attribute values',
     EDITING_ATTRIBUTE: 'Attribute editing',
@@ -18,12 +20,12 @@ export const ProductEN = {
     PRODUCT_CATEGORIES: 'Product categories',
     CREATE_PRODUCT_TYPE: 'Create product type',
     SELECT_PRODUCT_TYPE: 'Select product type',
-    DELETE_PRODUCT_TYPE: 'Delete product type',
     SELECT_CATEGORY_PRODUCT: 'Select product category',
     CREATE_CATEGORY_PRODUCT: 'Create product category',
     DELETE_CATEGORY_PRODUCT: 'Delete product category',
-    DELETE_TYPE_PRODUCT: 'Delete product type',
+    DELETE_TYPE_PRODUCT: 'Delete product type?',
     DELETE_PRODUCT: 'Delete product',
     SELECT_VALUE: 'Select value',
-    PRODUCT_TYPE_DETAILS: 'Product type details'
+    PRODUCT_TYPE_DETAILS: 'Product type details',
+    DELETE_ATTRIBUTE_PRODUCT: 'Delete attribute product?'
 };

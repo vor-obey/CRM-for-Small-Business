@@ -159,14 +159,14 @@ export const SaveProduct = ({
             <Grid container>
                 <Paper className={classes.paper}>
                     <Grid item xl={12} lg={12} className={classes.containerTitle}>
-                        <Typography variant='h6'>
+                        <Typography variant='h5'>
                             {labels.title}
                         </Typography>
                     </Grid>
                     <Grid container item xs={12} sm={12} className={classes.containerProduct}>
                         <Grid item xs={12} sm={9} className={classes.containerProductItem}>
                             <TextField
-                                label={t('NAME')}
+                                label={t('PRODUCT_NAME')}
                                 name="name"
                                 variant="outlined"
                                 type="text"

@@ -107,7 +107,7 @@ export const ProductTypeDetailsPage = () => {
             <Paper className={classes.container}>
                 <Grid container item xl={12} lg={12}>
                     <Grid item className={classes.containerTitle}>
-                        <Typography variant='h6'>
+                        <Typography variant='h5'>
                             {t('PRODUCT_TYPE_DETAILS')}
                         </Typography>
                     </Grid>
@@ -115,7 +115,7 @@ export const ProductTypeDetailsPage = () => {
                 <Grid container item xs={12} sm={6} className={classes.containerType}>
                     <Grid item sm={12} xs={12} xl={12} lg={12} className={classes.containerTypeItem}>
                         <Typography variant='h6'>
-                            {t('NAME')}
+                            {t('PRODUCT_NAME')}
                         </Typography>
                         <Typography variant='body1'>
                             {productType.name}

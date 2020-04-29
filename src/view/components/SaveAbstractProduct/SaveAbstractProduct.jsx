@@ -108,7 +108,7 @@ export const SaveAbstractProduct = ({
             closeText: t('DISAGREE'),
             actionText: t('AGREE'),
             onActionHandler: () => deleteAttribute(),
-            children: 'Delete abstract product?'
+            children: t('DELETE_ATTRIBUTE_PRODUCT')
         }));
     }, [dispatch, t, triggerAttributesUpdate]);
 
