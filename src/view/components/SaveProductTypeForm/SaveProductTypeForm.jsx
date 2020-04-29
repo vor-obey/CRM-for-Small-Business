@@ -5,6 +5,7 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 
 export const SaveProductTypeForm = ({
+                                        t,
                                         labels,
                                         productTypeDetails,
                                         onChange,
@@ -20,7 +21,7 @@ export const SaveProductTypeForm = ({
                 </Grid>
                 <Grid item xl={12} lg={12} style={{marginTop: 10, marginBottom: 10}}>
                     <TextField
-                        label='Product Type Name'
+                        label={t('PRODUCT_TYPE_NAME')}
                         name="name"
                         variant="outlined"
                         type="name"

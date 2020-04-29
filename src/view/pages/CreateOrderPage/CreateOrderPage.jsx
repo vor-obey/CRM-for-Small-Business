@@ -62,6 +62,13 @@ export const CreateOrderPage = ({history}) => {
         }
     }, [setShippingMethod, shippingMethods]);
 
+    useEffect(() => {
+        if (!isEmpty(selectedProduct)) {
+            const {price} = products.find(item => item.productId === selectedProduct);
+            setProductDetails(prevState => ({...prevState, price}));
+        }
+    }, [selectedProduct, products]);
+
     const onProductSelect = useCallback((event) => {
         const {value} = event.target;
         setSelectedProduct(value);

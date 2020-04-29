@@ -1,16 +1,13 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {Collapse, Container, ListItemText, Paper, Select, TextField} from '@material-ui/core';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
+import {Grid, Typography, IconButton, List, ListItem, Divider, Button, Collapse, Container, ListItemText, Paper, Select, TextField, makeStyles} from '@material-ui/core';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import {CustomAutocomplete} from '../Autocomplete/Autocomplete';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import Divider from '@material-ui/core/Divider';
-import Button from '@material-ui/core/Button';
 import isEmpty from 'lodash/isEmpty';
 import {useAbstractProducts, useAttributesByProductTypeId} from '../../../utils/hooks/productHooks';
+import {saveProductStyles} from "./SaveProduct.styles";
+import {useTranslation} from 'react-i18next';
+
+const useStyles = makeStyles(saveProductStyles);
 
 export const SaveProduct = ({
                                 history,
@@ -18,6 +15,8 @@ export const SaveProduct = ({
                                 labels,
                                 onSave,
                             }) => {
+    const {t} = useTranslation();
+    const classes = useStyles();
     const [productDetails, setProductDetails] = useState({
         name: '',
         price: '',
@@ -49,6 +48,12 @@ export const SaveProduct = ({
             setIsExpanded(true);
         }
     }, [product, getAttributeValueIds]);
+
+    useEffect(() => {
+        if (!isEmpty(selectedAbstractProduct)) {
+            setProductDetails(prevState => ({...prevState, price: selectedAbstractProduct.price}));
+        }
+    }, [selectedAbstractProduct]);
 
     const onProductDetailsChangedHandler = useCallback((event) => {
         const {name, value} = event.target;
@@ -111,12 +116,12 @@ export const SaveProduct = ({
             const {attributeId, name, attributeValues} = attribute;
             return (
                 <ListItem key={attributeId}>
-                    <Grid item xl={2} lg={2}>
+                    <Grid item xs={12} sm={3}>
                         <Typography variant='body1'>
                             {name}
                         </Typography>
                     </Grid>
-                    <Grid item xl={10} lg={10}>
+                    <Grid item xs={12} sm={12}>
                         <Select
                             native
                             name={attributeId}
@@ -150,18 +155,18 @@ export const SaveProduct = ({
     }, [productDetails, selectedAttributeValues, selectedAbstractProduct, attributes.length, onSave]);
 
     return (
-        <Container component='main' maxWidth='md'>
-            <Grid container style={{marginTop: 30}}>
-                <Paper style={{padding: 15, width: '100%'}}>
-                    <Grid item xl={12} lg={12} style={{marginTop: 10, marginBottom: 10}}>
-                        <Typography variant='h6' style={{textAlign: 'center'}}>
+        <Container component='main' maxWidth='md' className={classes.root}>
+            <Grid container>
+                <Paper className={classes.paper}>
+                    <Grid item xl={12} lg={12} className={classes.containerTitle}>
+                        <Typography variant='h6'>
                             {labels.title}
                         </Typography>
                     </Grid>
-                    <Grid container item xl={12} lg={12} style={{marginTop: 10, marginBottom: 10}}>
-                        <Grid item xl={10} lg={10} style={{paddingRight: 10}}>
+                    <Grid container item xs={12} sm={12} className={classes.containerProduct}>
+                        <Grid item xs={12} sm={9} className={classes.containerProductItem}>
                             <TextField
-                                label='Name'
+                                label={t('NAME')}
                                 name="name"
                                 variant="outlined"
                                 type="text"
@@ -171,9 +176,9 @@ export const SaveProduct = ({
                                 fullWidth
                             />
                         </Grid>
-                        <Grid item xl={2} lg={2}>
+                        <Grid item xs={12} sm={2} className={classes.containerProductItem}>
                             <TextField
-                                label='Price'
+                                label={t('PRICE')}
                                 name="price"
                                 variant="outlined"
                                 type="number"
@@ -184,19 +189,19 @@ export const SaveProduct = ({
                             />
                         </Grid>
                     </Grid>
-                    <Grid container item xl={12} lg={12} style={{marginTop: 10, marginBottom: 10}}>
-                        <Grid item xl={1} lg={1}>
+                    <Grid container item xs={12} sm={12} className={classes.containerProduct}>
+                        <Grid item xs={12} sm={2} className={classes.containerProductItem} style={{textAlign: 'center'}}>
                             <IconButton onClick={() => history.push('/create-abstract-product')}>
                                 <AddCircleIcon fontSize='large'/>
                             </IconButton>
                         </Grid>
-                        <Grid item xl={11} lg={11}>
+                        <Grid item xs={12} sm={10} className={classes.containerProductItem}>
                             <CustomAutocomplete
                                 isOpen={isAbstractProductAutocompleteOpen}
                                 options={abstractProducts}
                                 onClose={toggleAbstractProductAutocomplete}
                                 onToggle={toggleAbstractProductAutocomplete}
-                                inputLabel='Select abstract product'
+                                inputLabel={t('SELECT_CATEGORY_PRODUCT')}
                                 renderOption={renderAbstractProductOptions}
                                 getOptionLabel={getAbstractProductOptionLabel}
                                 onSelectHandler={onAbstractProductSelectHandler}
@@ -204,9 +209,9 @@ export const SaveProduct = ({
                             />
                         </Grid>
                     </Grid>
-                    <Collapse in={isExpanded} timeout='auto' unmountOnExit>
-                        <Grid container item xl={12}>
-                            <Grid container item xl={12} lg={12}>
+                    <Collapse in={isExpanded} timeout='auto' unmountOnExit xs={12} sm={12} className={classes.containerProduct}>
+                        <Grid container item xs={12} sm={12}>
+                            <Grid container item xs={12} sm={12}>
                                 <List style={{width: '100%'}}>
                                     <ListItem>
                                         <ListItemText
@@ -217,7 +222,7 @@ export const SaveProduct = ({
                                     {renderAttributes()}
                                 </List>
                             </Grid>
-                            <Grid item xl={12} lg={12} style={{textAlign: 'center', marginTop: 10, marginBottom: 10}}>
+                            <Grid item xs={12} sm={12} style={{textAlign: 'center', marginTop: 10, marginBottom: 10}}>
                                 <Button
                                     variant='outlined'
                                     onClick={onSubmit}

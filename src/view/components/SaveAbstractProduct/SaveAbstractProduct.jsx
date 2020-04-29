@@ -29,6 +29,7 @@ import {
 import {ProductTypeService, AttributeService} from '../../../services';
 import {COMMON_ERROR_MESSAGE} from '../../../constants/statuses';
 import {useTranslation} from 'react-i18next';
+import {EditAttribute} from '../EditAttribute/EditAttribute';
 import {saveAbstractProductPageStyles} from "./SaveAbstractProduct.style";
 
 const useStyles = makeStyles(saveAbstractProductPageStyles);
@@ -38,6 +39,7 @@ export const SaveAbstractProduct = ({
                                         labels,
                                         onSave,
                                     }) => {
+
     const classes = useStyles();
     const dispatch = useDispatch();
     const [abstractProductDetails, setAbstractProductDetails] = useState({
@@ -113,6 +115,25 @@ export const SaveAbstractProduct = ({
         }));
     }, [dispatch, t, triggerAttributesUpdate]);
 
+    const updateAttributes = useCallback(() => {
+        triggerAttributesUpdate(prevState => ++prevState);
+        dispatch(closeModal());
+    }, [triggerAttributesUpdate, dispatch]);
+
+    const openEditAttributeModal = useCallback((attribute) => {
+        dispatch(renderModal({
+            isOpen: true,
+            classes: {},
+            children: (
+                <EditAttribute
+                    attribute={attribute}
+                    updateAttributes={updateAttributes}
+                />
+            ),
+            onCloseHandler: () => dispatch(closeModal()),
+        }))
+    }, [dispatch, updateAttributes]);
+
     const renderAttributes = useCallback(() => {
         if (isEmpty(attributes)) {
             return null;
@@ -131,7 +152,7 @@ export const SaveAbstractProduct = ({
                             }
                             action={
                                 <>
-                                    <IconButton size='small'>
+                                    <IconButton onClick={() => openEditAttributeModal(attr)} size='small'>
                                         <EditIcon/>
                                     </IconButton>
                                     <IconButton onClick={() => openDeleteAttributeDialog(attributeId)} size='small'>
@@ -157,7 +178,7 @@ export const SaveAbstractProduct = ({
                 </Grid>
             );
         });
-    }, [attributes, openDeleteAttributeDialog, classes]);
+    }, [attributes, openDeleteAttributeDialog, openEditAttributeModal, classes]);
 
     const updateProductTypes = useCallback((newProductType) => {
         triggerProductTypesUpdate(prevState => ++prevState);
@@ -166,25 +187,21 @@ export const SaveAbstractProduct = ({
         dispatch(closeModal());
     }, [triggerProductTypesUpdate, dispatch]);
 
-    const updateAttributes = useCallback(() => {
-        triggerAttributesUpdate(prevState => ++prevState);
-        dispatch(closeModal());
-    }, [triggerAttributesUpdate, dispatch]);
-
     const openCreateProductTypeModal = useCallback(() => {
         dispatch(renderModal({
             isOpen: true,
             classes: {},
             children: (<SaveProductType
                 labels={{
-                    title: 'Create Product Type',
-                    button: 'Create'
+                    title: t('CREATE_PRODUCT_TYPE'),
+                    button: t('CREATE')
                 }}
+                t={t}
                 updateProductTypes={updateProductTypes}
             />),
             onCloseHandler: () => dispatch(closeModal()),
         }))
-    }, [dispatch, updateProductTypes]);
+    }, [dispatch, updateProductTypes, t]);
 
     const openEditProductTypeModal = useCallback(() => {
         dispatch(renderModal({
@@ -193,17 +210,18 @@ export const SaveAbstractProduct = ({
             children: (
                 <SaveProductType
                     labels={{
-                        title: 'Edit Product Type',
-                        button: 'Edit'
+                        title: t('EDIT_PRODUCT_TYPE'),
+                        button: t('EDIT')
                     }}
                     isEdit={true}
                     productType={selectedProductType}
                     updateProductTypes={updateProductTypes}
+                    t={t}
                 />
             ),
             onCloseHandler: () => dispatch(closeModal()),
         }))
-    }, [dispatch, selectedProductType, updateProductTypes]);
+    }, [t, dispatch, selectedProductType, updateProductTypes]);
 
     const openCreateAttributeModal = useCallback(() => {
         dispatch(renderModal({
@@ -211,13 +229,14 @@ export const SaveAbstractProduct = ({
             classes: {},
             children: (
                 <CreateAttribute
+                    t={t}
                     productTypeId={selectedProductType.productTypeId}
                     updateAttributes={updateAttributes}
                 />
             ),
             onCloseHandler: () => dispatch(closeModal()),
         }))
-    }, [dispatch, selectedProductType.productTypeId, updateAttributes]);
+    }, [t, dispatch, selectedProductType.productTypeId, updateAttributes]);
 
     const deleteProductType = useCallback(async () => {
         try {
@@ -241,13 +260,13 @@ export const SaveAbstractProduct = ({
 
     const openDeleteProductTypeDialog = useCallback(() => {
         dispatch(renderDialog({
-            title: 'Delete product type',
+            title: t('DELETE_PRODUCT_TYPE'),
             isShow: true,
             onCloseHandler: () => dispatch(closeDialog()),
             closeText: t('DISAGREE'),
             actionText: t('AGREE'),
             onActionHandler: () => deleteProductType(),
-            children: 'Delete abstract product?'
+            children: t('DELETE_CATEGORY_PRODUCT')
         }));
     }, [dispatch, deleteProductType, t]);
 
@@ -274,6 +293,7 @@ export const SaveAbstractProduct = ({
             openCreateAttributeModal={openCreateAttributeModal}
             openDeleteProductTypeDialog={openDeleteProductTypeDialog}
             onSubmit={onSubmit}
+            t={t}
         />
     );
 };

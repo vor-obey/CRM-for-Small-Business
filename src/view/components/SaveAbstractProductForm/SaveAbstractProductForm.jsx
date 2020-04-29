@@ -21,6 +21,7 @@ export const SaveAbstractProductForm = ({
                                             openCreateAttributeModal,
                                             openDeleteProductTypeDialog,
                                             onSubmit,
+                                            t
                                         }) => {
     return (
         <Container component='main' maxWidth='md' className={classes.root}>
@@ -34,7 +35,7 @@ export const SaveAbstractProductForm = ({
                     <Grid container item xs={12} sm={12} className={classes.containerProduct}>
                         <Grid item xs={12} sm={9} className={classes.containerProductItem}>
                             <TextField
-                                label='Name'
+                                label={t('NAME')}
                                 name="name"
                                 variant="outlined"
                                 type="text"
@@ -46,7 +47,7 @@ export const SaveAbstractProductForm = ({
                         </Grid>
                         <Grid item xs={12} sm={2} className={classes.containerProductItem}>
                             <TextField
-                                label='Price'
+                                label={t('PRICE')}
                                 name="price"
                                 variant="outlined"
                                 type="number"
@@ -58,7 +59,7 @@ export const SaveAbstractProductForm = ({
                         </Grid>
                         <Grid item xs={12} sm={12} className={classes.containerProductItem}>
                             <TextField
-                                label='Description'
+                                label={t('DESCRIPTION')}
                                 name="description"
                                 variant="outlined"
                                 type="text"
@@ -70,6 +71,7 @@ export const SaveAbstractProductForm = ({
                         </Grid>
                     </Grid>
                     <ProductTypeAttributes
+                        t={t}
                         classes={classes}
                         productTypes={productTypes}
                         selectedProductType={selectedProductType}

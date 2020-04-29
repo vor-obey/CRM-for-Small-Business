@@ -1,4 +1,4 @@
-export const productDetailsPageStyles = (theme => ({
+export const saveProductStyles = (theme => ({
     root: {
         marginTop: theme.spacing(10),
         [theme.breakpoints.down('xs')]: {
@@ -7,6 +7,7 @@ export const productDetailsPageStyles = (theme => ({
     },
     paper: {
         padding: '20px',
+        width: '100%'
     },
     container: {
         display: 'flex',
@@ -26,24 +27,31 @@ export const productDetailsPageStyles = (theme => ({
         flexDirection: 'row',
         alignItems: 'flex-start',
         alignContent: 'flex-start',
+        justifyContent: 'space-between'
     },
     containerProductItem: {
         marginTop: '15px',
         wordWrap: 'break-word',
     },
-    productNavigation: {
-        cursor: 'pointer',
-        padding: '0px'
+    attributeValue: {
+        display: 'flex',
+        flexDirection: 'column',
+        flexWrap: 'wrap',
+        width: '100%'
     },
-    productNavigationIcon: {
-        minWidth: '35px'
+    attributeValueTitle: {
+        display: 'block',
+    },
+    attributeValueItem: {
+        marginRight: theme.spacing(3),
+        display: 'inline-block',
     },
     buttonContainer: {
         alignContent: 'center',
         justifyContent: 'center',
     },
     buttonFab: {
-        margin: theme.spacing(3, 3, 0),
+        margin: theme.spacing(3),
         backgroundColor: theme.palette.primary.main,
     },
-}))
+}));

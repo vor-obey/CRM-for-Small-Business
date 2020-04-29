@@ -100,7 +100,7 @@ function Drawer(props) {
                     to="/abstract-products"
                     selected={isActive('/abstract-products')}>
                     <ListItemIcon className={classes.menuIcon}><InsertDriveFileIcon/></ListItemIcon>
-                    <ListItemText>Abstract products</ListItemText>
+                    <ListItemText>{t('PRODUCT_CATEGORIES')}</ListItemText>
                 </ListItem>
                 <ListItem
                     className={classes.menuItem}
@@ -109,7 +109,7 @@ function Drawer(props) {
                     to="/products"
                     selected={isActive('/products')}>
                     <ListItemIcon className={classes.menuIcon}><InsertDriveFileIcon/></ListItemIcon>
-                    <ListItemText>Products</ListItemText>
+                    <ListItemText>{t('PRODUCTS')}</ListItemText>
                 </ListItem>
                 <ListItem
                     className={classes.menuItem}
@@ -118,7 +118,7 @@ function Drawer(props) {
                     to="/product-types"
                     selected={isActive('/product-types')}>
                     <ListItemIcon className={classes.menuIcon}><InsertDriveFileIcon/></ListItemIcon>
-                    <ListItemText>Product Types</ListItemText>
+                    <ListItemText>{t('PRODUCT_TYPES')}</ListItemText>
                 </ListItem>
             </List>
         </div>

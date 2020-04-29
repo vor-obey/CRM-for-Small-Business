@@ -7,7 +7,7 @@ import {
     Fab,
     Grid,
 } from "@material-ui/core";
-import { customerDetailsStyle } from "../CustomerDetailsPage/CustomerDetailsPage.style.js";
+import {customerDetailsStyle} from "../CustomerDetailsPage/CustomerDetailsPage.style.js";
 import {useDispatch} from "react-redux";
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -78,7 +78,7 @@ export const CustomerDetailsPage = ({history}) => {
                     <Grid container item xs={12}>
                         {renderCustomerDetails()}
                     </Grid>
-                    <Grid  container item xs={12}
+                    <Grid container item xs={12}
                            alignContent='center'
                            justify='center'>
                         <Fab

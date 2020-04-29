@@ -1,4 +1,5 @@
 export const SystemRU = {
+    CANCEL: 'Отмена',
     LOGIN: 'Авторизоваться',
     LOGIN_BUTTON: 'Войти',
     FORGOT_PASSWORD: 'Забыли ваш пароль?',

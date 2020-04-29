@@ -4,8 +4,10 @@ import {setIsLoading, setSnackBarStatus} from '../../../data/store/auxiliary/aux
 import {useDispatch} from 'react-redux';
 import ProductService from '../../../services/ProductService';
 import {useLastLocation} from 'react-router-last-location';
+import {useTranslation} from "react-i18next";
 
 export const CreateProduct = ({history}) => {
+    const {t} = useTranslation();
     const dispatch = useDispatch();
     const lastLocation = useLastLocation();
 
@@ -47,9 +49,10 @@ export const CreateProduct = ({history}) => {
 
     return (
         <SaveProduct
+            history={history}
             labels={{
-                title: 'Create product',
-                button: 'Create'
+                button: t('CREATE'),
+                title: t('CREATE_PRODUCT')
             }}
             onSave={createProduct}
         />
