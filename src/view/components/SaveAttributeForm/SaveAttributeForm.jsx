@@ -1,5 +1,17 @@
 import React, {useCallback, useState} from 'react';
-import {Grid, List, ListItem, ListItemIcon, ListItemSecondaryAction, ListItemText, TextField, Button, Typography, Divider} from '@material-ui/core';
+import {
+    Grid,
+    List,
+    ListItem,
+    ListItemIcon,
+    ListItemSecondaryAction,
+    ListItemText,
+    TextField,
+    Button,
+    Typography,
+    Divider,
+    Container
+} from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import IconButton from '@material-ui/core/IconButton';
 import CheckIcon from '@material-ui/icons/Check';
@@ -82,13 +94,13 @@ export const SaveAttributeForm = ({
     }, [isAdd, onValueChanged, value, cancelAdding, add, t]);
 
     return (
-        <Grid container style={{padding: 15}}>
+        <Container maxWidth='sm' className={classes.root}>
             <Grid item xl={12} lg={12}>
-                <Typography variant='h6' style={{textAlign: 'center'}}>
+                <Typography variant='h6' className={classes.title}>
                     {labels.title}
                 </Typography>
             </Grid>
-            <Grid item xl={12} lg={12}>
+            <Grid item xs={12} sm={12} xl={12} lg={12}>
                 <TextField
                     label={t('NAME')}
                     name="name"
@@ -100,26 +112,18 @@ export const SaveAttributeForm = ({
                     fullWidth
                 />
             </Grid>
-            <Grid item xl={12} lg={12} style={{marginTop: 15}}>
+            <Grid item xl={12} lg={12} xs={12} sm={12} className={classes.attributeContainer}>
                 <Typography variant='body1'>
                     {t('ATTRIBUTE_VALUES')}
                 </Typography>
                 <Divider/>
             </Grid>
-            <Grid container item xl={12} lg={12}
-                  style={{
-                      marginTop: 10,
-                      marginBottom: 10,
-                      border: '1px solid rgba(0, 0, 0, 0.23)',
-                      borderRadius: 5,
-                  }}
-            >
-                <Grid container item xl={12} lg={12}>
-                    <List style={{
-                        width: '100%',
-                        maxHeight: 300,
-                        overflow: 'auto',
-                    }}>
+            <Grid container item xl={12} lg={12} xs={12} sm={12}
+                  className={classes.attributeValueContainer}>
+                <Grid container item xl={12} lg={12} xs={12} sm={12} >
+                    <List
+                        className={classes.attributeItem}
+                        >
                         {renderAttrValues()}
                         {renderListItemForAddingValue()}
                     </List>
@@ -142,6 +146,6 @@ export const SaveAttributeForm = ({
                     {labels.button}
                 </Button>
             </Grid>
-        </Grid>
+        </Container>
     );
 };
