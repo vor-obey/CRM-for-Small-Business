@@ -1,6 +1,9 @@
 import i18n from 'i18next';
 import {initReactI18next} from 'react-i18next';
 import LanguageDetector from "i18next-browser-languagedetector";
+import {internetDocumentEN} from "./localization/internetDocumentModule/internetDocumentEN";
+import {internetDocumentRU} from "./localization/internetDocumentModule/internetDocumenRU";
+import {internetDocumentUA} from "./localization/internetDocumentModule/internetDocumentUA";
 import {UsersEN} from "./localization/userModule/usersEN";
 import {UsersUA} from "./localization/userModule/usersUA";
 import {UsersRU} from "./localization/userModule/usersRU";
@@ -19,55 +22,58 @@ import {orderRU} from "./localization/orderModule/orderRU";
 
 
 i18n
-    .use(LanguageDetector)
-    .use(initReactI18next)
-    .init({
-        resources: {
-            en: {
-                translations: {
-                    ...UsersEN,
-                    ...SystemEN,
-                    ...CustomerEN,
-                    ...orderEN,
-                    ...OrgEN,
-                }
-            },
-            ua: {
-                translations: {
-                    ...UsersUA,
-                    ...SystemUA,
-                    ...CustomerUA,
-                    ...OrgUA,
-                    ...orderUA,
-                }
-            },
-            ru: {
-                translations: {
-                    ...UsersRU,
-                    ...SystemRU,
-                    ...CustomerRU,
-                    ...orderRU,
-                    ...OrgRU,
-                }
-            },
-        },
-        fallbackLng: "ua",
-        debug: false,
+   .use(LanguageDetector)
+   .use(initReactI18next)
+   .init({
+      resources: {
+         en: {
+            translations: {
+               ...UsersEN,
+               ...SystemEN,
+               ...CustomerEN,
+               ...orderEN,
+               ...OrgEN,
+               ...internetDocumentEN,
+            }
+         },
+         ua: {
+            translations: {
+               ...UsersUA,
+               ...SystemUA,
+               ...CustomerUA,
+               ...OrgUA,
+               ...orderUA,
+               ...internetDocumentUA,
+            }
+         },
+         ru: {
+            translations: {
+               ...UsersRU,
+               ...SystemRU,
+               ...CustomerRU,
+               ...orderRU,
+               ...OrgRU,
+               ...internetDocumentRU
+            }
+         },
+      },
+      fallbackLng: "ua",
+      debug: false,
 
-        // have a common namespace used around the full app
-        ns: ["translations"],
-        defaultNS: "translations",
+      // have a common namespace used around the full app
+      ns: ["translations"],
+      defaultNS: "translations",
 
-        keySeparator: false, // we use content as keys
+      keySeparator: false, // we use content as keys
 
-        interpolation: {
-            // escapeValue: false, // not needed for react!!
-            formatSeparator: ","
-        },
+      interpolation: {
+         // escapeValue: false, // not needed for react!!
+         formatSeparator: ","
+      },
 
-        react: {
-            wait: true
-        }
-    });
+      react: {
+         wait: true
+      }
+   });
 
 export default i18n;

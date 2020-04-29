@@ -36,15 +36,4 @@ export const SystemRU = {
     NO: 'Нет',
     YES: 'Да',
     DISPLAY_ERROR: 'Извините, но в данный момент данный виджет недоступен. Мы работаем над его реализацией.',
-    WEIGHT_INVALID: 'Вес неверен',
-    COST_INVALID: 'Стоимость недействительна',
-    SEATS_INVALID: 'Количество мест неверно',
-    SENDER_NUMBER_INVALID: 'Номер отправителя неверен',
-    RECIPIENTS_NUMBER_INVALID: 'Номер получателя недействителен',
-    WEIGHT_MAX: 'Максимально допустимый вес: 30',
-    COST_IS_HIGH: 'Стоимость слишком большая',
-    WEIGHT_IS_HIGH: 'Вес слишком большой',
-    PERSON_PROBLEM: 'Ошибка создания контрагента получателя',
-    RECIPIENTS_NAME_INCORRECT: 'Проблема создания контрагента. Неверное имя получателя',
-    RECIPIENTS_CONTEPARTY_INVALID: 'Проблема создания получателя контрагента'
 };

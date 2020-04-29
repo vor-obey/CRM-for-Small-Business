@@ -36,15 +36,4 @@ export const SystemUA = {
     NO: 'Ні',
     YES: 'Так',
     DISPLAY_ERROR: 'Вибачте, але в даний момент даний віджет недоступний. Ми працюємо над його реалізацією.',
-    WEIGHT_INVALID: 'Вага невірна',
-    COST_INVALID: 'Вартість не дійсна',
-    SEATS_INVALID: 'Кількість місць невірно',
-    SENDER_NUMBER_INVALID: 'Номер відправника невірний',
-    RECIPIENTS_NUMBER_INVALID: 'Номер отримувача недійсний',
-    COST_IS_HIGH: 'Вартість занадто велика',
-    WEIGHT_IS_HIGH: 'Вага занадто велика',
-    WEIGHT_MAX: 'Максимально допустима вага: 30',
-    PERSON_PROBLEM: 'Помилка створення контр-агента одержувача',
-    RECIPIENT_NAME_INCORRECT: 'Проблема створення контрагента. Неправильне ім`я одержувача',
-    RECIPIENTS_CONTEPARTY_INVALID: 'Проблема створення одержувача контрагента'
 };

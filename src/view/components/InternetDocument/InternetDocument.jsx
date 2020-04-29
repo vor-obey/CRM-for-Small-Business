@@ -8,7 +8,6 @@ import NovaPoshtaService from '../../../services/NovaPoshtaService';
 import {NovaPoshtaAddress} from '../NovaPoshtaAddress/NovaPoshtaAddress';
 import {Container, makeStyles, Grid, Button, Typography, TextField} from '@material-ui/core';
 import {setIsLoading, setSnackBarStatus} from '../../../data/store/auxiliary/auxiliaryActions';
-import {errors} from "../../../constants/errors";
 
 const useStyles = makeStyles(internetDocumentStyles);
 
@@ -95,14 +94,15 @@ export const InternetDocument = ({orderDetails}) => {
                     const {url} = await NovaPoshtaService.getInternetDocumentToPrint(internetDocument);
                     window.open(url);
                 } else {
-                    // eslint-disable-next-line array-callback-return
-                    response.errorCodes.map(code => {
-                        dispatch(setSnackBarStatus({isOpen: true, message: t(errors[code]), success: false}));
+                    const err = response.errors.map((error, i) => {
+                        return `${t(response.errorCodes[i])}`
                     });
+                    dispatch(setSnackBarStatus({isOpen: true, message: err, success: false}));
                     dispatch(setIsLoading(false));
                 }
             } catch (e) {
                 dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE, success: false}));
+                dispatch(setIsLoading(false));
             }
         }
     }, [t, dispatch, orderDetails, city, parcelDetails, warehouse, recipient, senderPhone]);

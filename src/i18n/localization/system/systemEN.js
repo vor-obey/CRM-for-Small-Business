@@ -36,14 +36,5 @@ export const SystemEN = {
     NO: 'No',
     YES: 'YES',
     DISPLAY_ERROR: 'Sorry, this widget is currently unavailable. We are working on its implementation.',
-    WEIGHT_INVALID: 'Weight is invalid',
-    COST_INVALID: 'Cost is invalid',
-    SEATS_INVALID: 'Seats Amount is invalid',
-    SENDER_NUMBER_INVALID: 'Sender number is invalid',
-    RECIPIENTS_NUMBER_INVALID: 'Recipients number is invalid',
-    WEIGHT_MAX: 'Warehouse max allowed weight: 30',
-    COST_IS_HIGH: 'Cost is to high',
-    WEIGHT_IS_HIGH: 'Weight is to high',
-    RECIPIENT_NAME_INCORRECT: 'Counterparty creation problem. RecipientName incorrect',
-    RECIPIENTS_CONTEPARTY_INVALID: 'Recipient counterparty person creation problem.'
+
 };
