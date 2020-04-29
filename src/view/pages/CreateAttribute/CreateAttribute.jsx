@@ -4,20 +4,22 @@ import {AttributeService} from '../../../services';
 import {useDispatch} from 'react-redux';
 import {setIsLoading, setSnackBarStatus} from '../../../data/store/auxiliary/auxiliaryActions';
 import isEmpty from 'lodash/isEmpty';
-import ListItem from '@material-ui/core/ListItem';
-import {ListItemSecondaryAction, ListItemText} from '@material-ui/core';
+import {ListItemSecondaryAction, ListItemText, ListItem, makeStyles} from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
 import RemoveIcon from '@material-ui/icons/Remove';
+import {createAttributeStyles} from "./CreateAttribute.style";
+
+const useStyles = makeStyles(createAttributeStyles);
 
 export const CreateAttribute = ({
                                     t,
                                     productTypeId,
                                     updateAttributes,
                                 }) => {
+    const classes = useStyles();
     const dispatch = useDispatch();
     const [name, setName] = useState('');
     const [valuesToSave, setValuesToSave] = useState([]);
-
     const onChange = useCallback((event) => {
         setName(event.target.value);
     }, []);
@@ -76,6 +78,8 @@ export const CreateAttribute = ({
             onSubmit={onSubmit}
             addAttributeValue={addAttributeValue}
             renderAttrValues={renderAttrValues}
+            valuesToSave={valuesToSave}
+            classes={classes}
             labels={{
                 title: t('CREATE_ATTRIBUTE'),
                 button: t('CREATE'),

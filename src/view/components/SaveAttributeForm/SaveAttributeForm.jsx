@@ -1,12 +1,6 @@
 import React, {useCallback, useState} from 'react';
-import Grid from '@material-ui/core/Grid';
-import {ListItemIcon, ListItemSecondaryAction, ListItemText, TextField} from '@material-ui/core';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
-import Divider from '@material-ui/core/Divider';
+import {Grid, List, ListItem, ListItemIcon, ListItemSecondaryAction, ListItemText, TextField, Button, Typography, Divider} from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
 import IconButton from '@material-ui/core/IconButton';
 import CheckIcon from '@material-ui/icons/Check';
 import RemoveIcon from '@material-ui/icons/Remove';
@@ -20,6 +14,8 @@ export const SaveAttributeForm = ({
                                       onSubmit,
                                       addAttributeValue,
                                       renderAttrValues,
+                                      valuesToSave,
+                                      classes,
                                       labels
                                   }) => {
     const [value, setValue] = useState('');
@@ -129,16 +125,19 @@ export const SaveAttributeForm = ({
                     </List>
                 </Grid>
             </Grid>
-            <Grid item xl={12} lg={12} style={{textAlign: 'center'}}>
+            <Grid item xl={12} lg={12} className={classes.buttonContainer}>
                 <Button
+                    className={classes.button}
                     variant='outlined'
                     onClick={() => dispatch(closeModal())}
                 >
                     {t('CANCEL')}
                 </Button>
                 <Button
+                    className={classes.button}
                     onClick={onSubmit}
                     variant='outlined'
+                    disabled={(!valuesToSave.length || !name.length)}
                 >
                     {labels.button}
                 </Button>
