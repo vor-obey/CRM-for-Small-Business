@@ -103,7 +103,6 @@ export const SaveAbstractProduct = ({
         };
 
         dispatch(renderDialog({
-            title: 'Delete attribute',
             isShow: true,
             onCloseHandler: () => dispatch(closeDialog()),
             closeText: t('DISAGREE'),

@@ -129,14 +129,14 @@ export const AbstractProductDetailsPage = ({history}) => {
 
     const openAbstractProductDeleteDialog = useCallback(() => {
         dispatch(renderDialog({
-            title: t('DELETE_CATEGORY_PRODUCT'),
             isShow: true,
             onCloseHandler: () => dispatch(closeDialog()),
             closeText: t('DISAGREE'),
             actionText: t('AGREE'),
+            children: `${t('DELETE_CATEGORY_PRODUCT') } "${abstractProductDetails.name}"?`,
             onActionHandler: () => deleteAbstractProduct(),
         }));
-    }, [dispatch, deleteAbstractProduct, t]);
+    }, [dispatch, abstractProductDetails, deleteAbstractProduct, t]);
 
     return (
         <Container maxWidth='md' className={classes.root}>
