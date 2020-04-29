@@ -255,13 +255,12 @@ export const SaveAbstractProduct = ({
 
     const openDeleteProductTypeDialog = useCallback(() => {
         dispatch(renderDialog({
-            title: t('DELETE_PRODUCT_TYPE'),
             isShow: true,
             onCloseHandler: () => dispatch(closeDialog()),
             closeText: t('DISAGREE'),
             actionText: t('AGREE'),
             onActionHandler: () => deleteProductType(),
-            children: t('DELETE_CATEGORY_PRODUCT')
+            children: t('DELETE_TYPE_PRODUCT')
         }));
     }, [dispatch, deleteProductType, t]);
 

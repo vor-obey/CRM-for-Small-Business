@@ -77,7 +77,7 @@ export const CreateAttribute = ({
             addAttributeValue={addAttributeValue}
             renderAttrValues={renderAttrValues}
             labels={{
-                title: t('CREATE_ATTRIBUTE'),
+                title: t('EDITING_ATTRIBUTE'),
                 button: t('CREATE'),
             }}
         />

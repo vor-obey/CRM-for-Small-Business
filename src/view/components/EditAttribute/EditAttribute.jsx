@@ -213,7 +213,7 @@ export const EditAttribute = ({
             renderAttrValues={renderAttributeValues}
             addAttributeValue={addAttributeValue}
             labels={{
-                title: t('EDIT_ATTRIBUTE'),
+                title: t('EDITING_ATTRIBUTE'),
                 button: t('EDIT')
             }}
         />

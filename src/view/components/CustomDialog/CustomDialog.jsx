@@ -1,9 +1,7 @@
 import React, {useMemo} from 'react';
 import {
     Dialog,
-    DialogTitle,
     DialogContent,
-    DialogContentText,
     DialogActions,
     Button,
     Slide
@@ -29,7 +27,6 @@ const useStyles = makeStyles((() => ({
 
 export function CustomDialog({
                                  isShow,
-                                 title,
                                  children,
                                  exit,
                                  closeText = "Disagree",
