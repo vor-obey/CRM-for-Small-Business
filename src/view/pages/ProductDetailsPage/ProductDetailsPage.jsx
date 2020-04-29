@@ -1,14 +1,7 @@
 import React, {useCallback} from 'react';
 import {useDispatch} from 'react-redux';
-import {
-    Paper,
-    Typography,
-    Container,
-    Grid,
-    makeStyles,
-    Fab,
-} from "@material-ui/core";
-import {Link, useParams} from "react-router-dom";
+import {Paper, Typography, Container, Grid, makeStyles, Fab, ListItem, ListItemText, ListItemIcon} from "@material-ui/core";
+import {useParams} from "react-router-dom";
 import {
     closeDialog,
     renderDialog,
@@ -23,6 +16,7 @@ import {useProductDetailsById} from '../../../utils/hooks/productHooks';
 import {productDetailsPageStyles} from "./ProductDetailsPage.Style";
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from "@material-ui/icons/Edit";
+import AssignmentOutlinedIcon from '@material-ui/icons/AssignmentOutlined';
 import {useLastLocation} from 'react-router-last-location';
 
 const useStyles = makeStyles(productDetailsPageStyles);
@@ -107,17 +101,21 @@ export const ProductDetailsPage = ({history}) => {
                             </Typography>
                         </Grid>
                     </Grid>
-                    <Grid container item xs={12} sm={6}  className={classes.containerProduct}>
+                    <Grid container item xs={12} sm={6} className={classes.containerProduct}>
                         <Grid item xs={12} sm={12} className={classes.containerProductItem}>
                             <Typography variant='h6'>
                                 {t('PRODUCT_CATEGORY')}
                             </Typography>
-                            <Link
-                                to={`/abstract-products/${productDetails.abstractProduct && productDetails.abstractProduct.abstractProductId}`}>
-                                <Typography variant='body1'>
-                                    {productDetails.abstractProduct && productDetails.abstractProduct.name}
-                                </Typography>
-                            </Link>
+                            <ListItem
+                                onClick={() => history.push(`/abstract-products/${productDetails.abstractProduct && productDetails.abstractProduct.abstractProductId}`)}
+                                className={classes.productNavigation}>
+                                <ListItemIcon
+                                className={classes.productNavigationIcon}
+                                ><AssignmentOutlinedIcon/></ListItemIcon>
+                                <ListItemText
+                                    primary={productDetails.abstractProduct && productDetails.abstractProduct.name}
+                                />
+                            </ListItem>
                         </Grid>
                         <Grid item xl={12} lg={12} className={classes.containerProductItem}>
                             <Typography variant='h6'>

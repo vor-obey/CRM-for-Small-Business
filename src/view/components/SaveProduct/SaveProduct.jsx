@@ -209,7 +209,7 @@ export const SaveProduct = ({
                             />
                         </Grid>
                     </Grid>
-                    <Collapse in={isExpanded} timeout='auto' unmountOnExit container item xs={12} sm={12} className={classes.containerProduct}>
+                    <Collapse in={isExpanded} timeout='auto' unmountOnExit xs={12} sm={12} className={classes.containerProduct}>
                         <Grid container item xs={12} sm={12}>
                             <Grid container item xs={12} sm={12}>
                                 <List style={{width: '100%'}}>
