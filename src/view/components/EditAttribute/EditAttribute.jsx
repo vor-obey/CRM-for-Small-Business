@@ -8,15 +8,16 @@ import RemoveIcon from '@material-ui/icons/Remove';
 import AddIcon from '@material-ui/icons/Add';
 import EditIcon from '@material-ui/icons/Edit';
 import {useDispatch} from 'react-redux';
-import {setIsLoading, setSnackBarStatus} from '../../../data/store/auxiliary/auxiliaryActions';
+import {closeModal, setSnackBarStatus} from '../../../data/store/auxiliary/auxiliaryActions';
 import CheckIcon from '@material-ui/icons/Check';
 import CancelIcon from '@material-ui/icons/Cancel';
 import {useTranslation} from 'react-i18next';
-import {AttributeService} from '../../../services';
+import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
 
 export const EditAttribute = ({
                                   attribute,
-                                  updateAttributes
+                                  onSubmit
                               }) => {
     const [name, setName] = useState(attribute.name);
     const [attrValues, setAttrValues] = useState(attribute.attributeValues);
@@ -32,7 +33,7 @@ export const EditAttribute = ({
             const map = attribute.attributeValues.map((item) => {
                 return {
                     ...item,
-                    action: 'add',
+                    action: item.action ? item.action : 'add',
                 };
             });
             setAttrValues(map);
@@ -60,37 +61,6 @@ export const EditAttribute = ({
     const onAttributeNameChange = useCallback((event) => {
         setName(event.target.value);
     }, []);
-
-    const onSubmit = useCallback(async () => {
-        const attributeValues = [];
-        for (const attrValue of attrValues) {
-            const {attributeValueId, action} = attrValue;
-            if (attributeValueId) {
-                attributeValues.push(attrValue);
-            }
-            if (!attributeValueId && action === 'add') {
-                attributeValues.push(attrValue);
-            }
-        }
-        try {
-            dispatch(setIsLoading(true));
-            const response = await AttributeService.update({
-                attributeId: attribute.attributeId,
-                name,
-                attributeValues,
-            });
-            if (response.success) {
-                updateAttributes();
-                dispatch(setIsLoading(false));
-            } else {
-                dispatch(setIsLoading(false));
-                dispatch(setSnackBarStatus({isOpen: true, message: response.message, success: false}));
-            }
-        } catch (e) {
-            dispatch(setIsLoading(false));
-            dispatch(setSnackBarStatus({isOpen: true, message: e.message, success: false}));
-        }
-    }, [attrValues, attribute.attributeId, name, dispatch, updateAttributes]);
 
     const removeAttributeValue = useCallback((value) => {
         const newAttrValues = [...attrValues];
@@ -206,16 +176,28 @@ export const EditAttribute = ({
     }, [attrValues, edit, saveAttributeValue, renderActions]);
 
     return (
-        <SaveAttributeForm
-            name={name}
-            onChange={onAttributeNameChange}
-            onSubmit={onSubmit}
-            renderAttrValues={renderAttributeValues}
-            addAttributeValue={addAttributeValue}
-            labels={{
-                title: t('EDITING_ATTRIBUTE'),
-                button: t('EDIT')
-            }}
-        />
+        <>
+            <SaveAttributeForm
+                name={name}
+                onChange={onAttributeNameChange}
+                renderAttrValues={renderAttributeValues}
+                addAttributeValue={addAttributeValue}
+                title={t('EDIT_ATTRIBUTE')}
+            />
+            <Grid item xl={12} lg={12} style={{textAlign: 'center'}}>
+                <Button
+                    variant='outlined'
+                    onClick={() => dispatch(closeModal())}
+                >
+                    {t('CANCEL')}
+                </Button>
+                <Button
+                    onClick={() => onSubmit({name, attrValues})}
+                    variant='outlined'
+                >
+                    {t('EDIT')}
+                </Button>
+            </Grid>
+        </>
     );
 };

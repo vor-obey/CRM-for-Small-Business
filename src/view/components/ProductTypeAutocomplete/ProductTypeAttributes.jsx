@@ -85,7 +85,7 @@ export const ProductTypeAttributes = ({
                             {t('ADD_ATTRIBUTE')}
                         </Button>
                     </Grid>
-                    <Grid container item xs={12} sm={6} className={classes.containerProductItem}>
+                    <Grid container item xs={12} sm={12} className={classes.containerAttribute}>
                         {renderAttributes()}
                     </Grid>
                 </Grid>

@@ -1,18 +1,23 @@
 import React, {useEffect, useState, useCallback} from "react";
-import {Container, List, useMediaQuery} from "@material-ui/core";
-import ListItem from "@material-ui/core/ListItem";
-import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
 import {OrderListItem} from "./OrderListItem/OrderListItem";
-import {makeStyles} from "@material-ui/core/styles";
 import {ordersPageStyles} from "./OrdersPage.style";
 import isEmpty from 'lodash/isEmpty';
 import {useTranslation} from "react-i18next";
 import {filter} from "../../../utils/helpers";
-import {useLocation} from "react-router-dom";
+import {Link, useLocation} from "react-router-dom";
 import {InputFilter} from "../../components/Filter/InputFilter";
 import {SelectFilter} from "../../components/Filter/SelectFilter";
 import {useOrders} from '../../../utils/hooks/orderHooks';
+import {
+    Button,
+    ListItem,
+    Typography,
+    makeStyles,
+    Grid,
+    Container,
+    List,
+    useMediaQuery,
+} from "@material-ui/core";
 
 const useStyles = makeStyles(ordersPageStyles);
 
@@ -47,7 +52,7 @@ export const OrdersPage = ({history}) => {
         setSelectedOption(value);
     }, []);
 
-    const filterStatus= useCallback(() => {
+    const filterStatus = useCallback(() => {
         let filteredStatus = filter(orderList, inputFilter, ['customer']);
 
         if (!selectedOption) {
@@ -60,11 +65,11 @@ export const OrdersPage = ({history}) => {
     const renderSelect = useCallback(() => {
         return (
             <SelectFilter
-                        classes={classes}
-                        label={t('SORT_BY_STATUS')}
-                        value={selectedOption}
-                        onChange={onSelectHandler}
-                    />
+                classes={classes}
+                label={t('SORT_BY_STATUS')}
+                value={selectedOption}
+                onChange={onSelectHandler}
+            />
         )
     }, [classes, t, selectedOption, onSelectHandler]);
 
@@ -83,7 +88,25 @@ export const OrdersPage = ({history}) => {
                 />
             );
         })
-    }, [orderList, navigationToOrderDetails, filterStatus,  minWidth600, classes]);
+    }, [orderList, navigationToOrderDetails, filterStatus, minWidth600, classes]);
+
+    if (isEmpty(orderList)) {
+        return (
+            <Grid container justify='center' style={{display: 'grid', paddingTop: 24}}>
+                <Typography variant='h5' style={{paddingBottom: 18}}>{t('NO_NEW_ORDERS')}</Typography>
+                <Button
+                    type='submit'
+                    variant="outlined"
+                    color="primary"
+                    className={classes.button}
+                    component={Link}
+                    to='/create-order'
+                >
+                    {t('CREATE')}
+                </Button>
+            </Grid>
+        )
+    }
 
     return (
         <Container className={classes.root}>
@@ -100,19 +123,20 @@ export const OrdersPage = ({history}) => {
             <List>
                 <ListItem disableGutters divider>
                     <Grid container className={classes.gridOrderContainer}>
-                        <Grid item xl={5} lg={5} md={5} sm={4} >
+                        <Grid item xl={5} lg={5} md={5} sm={4}>
                             <Typography>{t('DESCRIPTION')}</Typography>
                         </Grid>
-                        <Grid item xl={5} lg={5} md={5} sm={5} >
+                        <Grid item xl={5} lg={5} md={5} sm={5}>
                             <Typography>{t('CUSTOMER')}</Typography>
                         </Grid>
-                        <Grid item xl={2} ld={2} md={2} sm={3} >
+                        <Grid item xl={2} ld={2} md={2} sm={3}>
                             <Typography>{t('STATUS')}</Typography>
                         </Grid>
                     </Grid>
                 </ListItem>
                 {renderRows()}
             </List>
+
         </Container>
     );
 };

@@ -11,7 +11,6 @@ import {SaveUserDetails} from "../../components/SaveUser/SaveUserDetails/SaveUse
 import {SaveUserCredentials} from "../../components/SaveUser/SaveUserCredentials/SaveUserCredentials";
 import Grid from "@material-ui/core/Grid";
 import {useTranslation} from "react-i18next";
-import {PASSWORD_DOESNT_MATCH} from '../../../constants/statuses';
 
 const useStyles = makeStyles(saveOrganizationStyle);
 
@@ -37,7 +36,13 @@ export const CreateOrganization = ({history}) => {
         event.preventDefault();
         const {confirmPassword, ...org} = organization;
         if (organization.password !== confirmPassword) {
-            dispatch(setSnackBarStatus({isOpen: true, message: PASSWORD_DOESNT_MATCH, success: false}))
+            dispatch(setSnackBarStatus({isOpen: true, message: t('PASSWORD_DOESNT_MATCH'), success: false}))
+        } else if (organization.organizationName.length < 3) {
+            dispatch(setSnackBarStatus({isOpen: true, message: t('ERROR_NAME_LENGHT'), success: false}))
+        } else if (organization.apiKeyNP.length < 32 || organization.apiKeyNP.length > 32) {
+            dispatch(setSnackBarStatus({isOpen: true, message: t('ERROR_API_LENGHT'), success: false}))
+        } else if (organization.contactNumber.length < 10 || organization.contactNumber.length > 12) {
+            dispatch(setSnackBarStatus({isOpen: true, message: t('INVALID_NUMBER'), success: false}))
         } else {
             try {
                 dispatch(setIsLoading(true));
@@ -54,7 +59,7 @@ export const CreateOrganization = ({history}) => {
                 dispatch(setSnackBarStatus({isOpen: true, message: e.message, success: false}));
             }
         }
-    }, [dispatch, organization, history]);
+    }, [t, dispatch, organization, history]);
 
 
     const onChangeHandler = useCallback((event) => {

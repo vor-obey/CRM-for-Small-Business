@@ -3,6 +3,9 @@ import {useAttributesByProductTypeId, useProductTypes} from '../../../utils/hook
 import {SaveAbstractProductForm} from '../SaveAbstractProductForm/SaveAbstractProductForm';
 import isEmpty from 'lodash/isEmpty';
 import {
+    Card,
+    CardHeader,
+    CardContent,
     ListItemText,
     Grid,
     Typography,
@@ -28,7 +31,6 @@ import {COMMON_ERROR_MESSAGE} from '../../../constants/statuses';
 import {useTranslation} from 'react-i18next';
 import {EditAttribute} from '../EditAttribute/EditAttribute';
 import {saveAbstractProductPageStyles} from "./SaveAbstractProduct.style";
-import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 
 const useStyles = makeStyles(saveAbstractProductPageStyles);
 
@@ -118,13 +120,44 @@ export const SaveAbstractProduct = ({
     }, [triggerAttributesUpdate, dispatch]);
 
     const openEditAttributeModal = useCallback((attribute) => {
+        const editAttribute = async (data) => {
+            const {name, attrValues} = data;
+            const attributeValues = [];
+            for (const attrValue of attrValues) {
+                const {attributeValueId, action} = attrValue;
+                if (attributeValueId) {
+                    attributeValues.push(attrValue);
+                }
+                if (!attributeValueId && action === 'add') {
+                    attributeValues.push(attrValue);
+                }
+            }
+            try {
+                dispatch(setIsLoading(true));
+                const response = await AttributeService.update({
+                    attributeId: attribute.attributeId,
+                    name,
+                    attributeValues,
+                });
+                if (response.success) {
+                    updateAttributes();
+                    dispatch(setIsLoading(false));
+                } else {
+                    dispatch(setIsLoading(false));
+                    dispatch(setSnackBarStatus({isOpen: true, message: response.message, success: false}));
+                }
+            } catch (e) {
+                dispatch(setIsLoading(false));
+                dispatch(setSnackBarStatus({isOpen: true, message: e.message, success: false}));
+            }
+        };
         dispatch(renderModal({
             isOpen: true,
             classes: {},
             children: (
                 <EditAttribute
                     attribute={attribute}
-                    updateAttributes={updateAttributes}
+                    onSubmit={editAttribute}
                 />
             ),
             onCloseHandler: () => dispatch(closeModal()),
@@ -139,37 +172,39 @@ export const SaveAbstractProduct = ({
         return attributes.map((attr) => {
             const {attributeId, name, attributeValues} = attr;
             return (
-                <Grid item xs={12} sm={12} className={classes.containerType} key={attributeId}>
-                    <List>
-                        <ListItem sm={12} xs={12} className={classes.containerTypeItem}>
-                            <ListItemText>
+                <Grid item xs={12} className={classes.containerAttributeItem} key={attributeId}>
+                    <Card>
+                        <CardHeader
+                            title={
                                 <Typography variant='body1'>
                                     {name}
                                 </Typography>
-                            </ListItemText>
-                            <ListItemSecondaryAction>
-                                <IconButton onClick={() => openEditAttributeModal(attr)} size='small'>
-                                    <EditIcon/>
-                                </IconButton>
-                                <IconButton onClick={() => openDeleteAttributeDialog(attributeId)} size='small'>
-                                    <RemoveIcon/>
-                                </IconButton>
-                            </ListItemSecondaryAction>
-                        </ListItem>
-                        <ListItem className={classes.attributeValue}>
-                            {attributeValues.map((attrValue) => (
-                                    <Typography
-                                        component="span"
-                                        variant="body2"
-                                        key={attrValue.attributeValueId}
-                                        className={classes.attributeValueItem}
-                                    >
-                                        {attrValue.value}
-                                    </Typography>
-                                )
-                            )}
-                        </ListItem>
-                    </List>
+                            }
+                            action={
+                                <>
+                                    <IconButton onClick={() => openEditAttributeModal(attr)} size='small'>
+                                        <EditIcon/>
+                                    </IconButton>
+                                    <IconButton onClick={() => openDeleteAttributeDialog(attributeId)} size='small'>
+                                        <RemoveIcon/>
+                                    </IconButton>
+                                </>
+                            }
+                            className={classes.cardHeader}
+                        />
+                        <CardContent className={classes.attributeCard}>
+                            <List>
+                                {attributeValues.map((attrValue) => (
+                                    <ListItem key={attrValue.attributeValueId}>
+                                        <ListItemText
+                                            primary={attrValue.value}
+                                        />
+                                    </ListItem>
+                                    )
+                                )}
+                            </List>
+                        </CardContent>
+                    </Card>
                 </Grid>
             );
         });
@@ -218,20 +253,35 @@ export const SaveAbstractProduct = ({
         }))
     }, [t, dispatch, selectedProductType, updateProductTypes]);
 
+    const createAttribute = useCallback(async (data) => {
+        const {name, valuesToSave} = data;
+        try {
+            dispatch(setIsLoading(true));
+            await AttributeService.create({
+                productTypeId: selectedProductType.productTypeId,
+                name,
+                values: valuesToSave
+            });
+            updateAttributes();
+            dispatch(setIsLoading(false));
+        } catch (e) {
+            dispatch(setIsLoading(false));
+            dispatch(setSnackBarStatus({isOpen: true, message: e.message, success: false}));
+        }
+    }, [selectedProductType.productTypeId, dispatch, updateAttributes]);
+
     const openCreateAttributeModal = useCallback(() => {
         dispatch(renderModal({
             isOpen: true,
             classes: {},
             children: (
                 <CreateAttribute
-                    t={t}
-                    productTypeId={selectedProductType.productTypeId}
-                    updateAttributes={updateAttributes}
+                    onSubmit={createAttribute}
                 />
             ),
             onCloseHandler: () => dispatch(closeModal()),
         }))
-    }, [t, dispatch, selectedProductType.productTypeId, updateAttributes]);
+    }, [dispatch, createAttribute]);
 
     const deleteProductType = useCallback(async () => {
         try {
