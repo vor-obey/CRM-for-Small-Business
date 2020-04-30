@@ -94,10 +94,10 @@ export const InternetDocument = ({orderDetails, handleClose}) => {
                 });
                 if (response.success) {
                     dispatch(setIsLoading(false));
-                    handleClose();
                     const internetDocument = response.data[0].IntDocNumber;
                     const {url} = await NovaPoshtaService.getInternetDocumentToPrint(internetDocument);
                     window.open(url);
+                    handleClose();
                 } else {
                     const err = response.errors.map((error, i) => {
                         return `[${response.errorCodes[i]}: ${error}]`
