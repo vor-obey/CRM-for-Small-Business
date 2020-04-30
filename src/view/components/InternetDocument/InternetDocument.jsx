@@ -95,7 +95,7 @@ export const InternetDocument = ({orderDetails}) => {
                     window.open(url);
                 } else {
                     const err = response.errors.map((error, i) => {
-                        return `${t(response.errorCodes[i])}`
+                        return <span key={i} style={{display: 'block'}}>{t(response.errorCodes[i])}</span>
                     });
                     dispatch(setSnackBarStatus({isOpen: true, message: err, success: false}));
                     dispatch(setIsLoading(false));
