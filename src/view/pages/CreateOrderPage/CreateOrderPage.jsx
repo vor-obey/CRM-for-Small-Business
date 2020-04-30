@@ -2,28 +2,22 @@ import React, {useState, useEffect, useCallback} from 'react';
 import {makeStyles} from '@material-ui/core';
 import {createOrderPageStyles} from './CreateOrderPage.style'
 import {useDispatch, useSelector} from "react-redux";
-import {setIsLoading, setSnackBarStatus} from "../../../data/store/auxiliary/auxiliaryActions";
 import isEmpty from 'lodash/isEmpty';
-import {OrderService} from '../../../services/index';
 import {SaveOrderForm} from '../../components/SaveOrderForm/SaveOrderForm';
 import {useTranslation} from 'react-i18next';
-import {COMMON_ERROR_MESSAGE} from "../../../constants/statuses";
 import {useShippingMethods} from '../../../utils/hooks/orderHooks';
 import {useManagers} from '../../../utils/hooks/userHooks';
 import {useCustomers} from '../../../utils/hooks/customerHooks';
-import {useProducts} from '../../../utils/hooks/productHooks';
+import {setIsLoading, setSnackBarStatus} from '../../../data/store/auxiliary/auxiliaryActions';
+import OrderService from '../../../services/OrderService';
+import {COMMON_ERROR_MESSAGE} from '../../../constants/statuses';
 
 const useStyles = makeStyles(createOrderPageStyles);
 
 export const CreateOrderPage = ({history}) => {
     const classes = useStyles();
     const dispatch = useDispatch();
-    const [productDetails, setProductDetails] = useState({
-        currency: 'UAH',
-        status: 0,
-        amount: 1,
-        price: 0
-    });
+    const {t} = useTranslation();
     const [shippingMethods] = useShippingMethods();
     const [shippingMethod, setShippingMethod] = useState({});
     const [managers, , managerLoading] = useManagers();
@@ -36,9 +30,8 @@ export const CreateOrderPage = ({history}) => {
     const currentUser = useSelector(state => state.userReducer.currentUser);
     const [isCustom, setIsCustom] = useState(false);
     const [address, setAddress] = useState('');
-    const {t} = useTranslation();
-    const [products] = useProducts();
-    const [selectedProduct, setSelectedProduct] = useState({});
+    const [selectedProducts, setSelectedProducts] = useState([]);
+    const [status, setStatus] = useState(0);
 
     useEffect(() => {
         if (!isEmpty(createdCustomer)) {
@@ -62,28 +55,6 @@ export const CreateOrderPage = ({history}) => {
         }
     }, [setShippingMethod, shippingMethods]);
 
-    useEffect(() => {
-        if (!isEmpty(selectedProduct)) {
-            const {price} = products.find(item => item.productId === selectedProduct);
-            setProductDetails(prevState => ({...prevState, price}));
-        }
-    }, [selectedProduct, products]);
-
-    const onProductSelect = useCallback((event) => {
-        const {value} = event.target;
-        setSelectedProduct(value);
-    }, []);
-
-    const onChangedProductInput = useCallback((event) => {
-        const {value, name} = event.target;
-        setProductDetails(prevState => {
-            return {
-                ...prevState,
-                [name]: value
-            };
-        });
-    }, []);
-
     const onManagerSelectHandler = useCallback((manager) => {
         if (!manager) {
             setManager({});
@@ -100,7 +71,7 @@ export const CreateOrderPage = ({history}) => {
         }
     }, []);
 
-    const onShippingMethodSelectHandler = (event) => {
+    const onShippingMethodSelectHandler = useCallback((event) => {
         const {value} = event.target;
         const selectedShippingMethod = shippingMethods.find(method => method.shippingMethodId === value);
         if (selectedShippingMethod.name === 'custom') {
@@ -109,7 +80,7 @@ export const CreateOrderPage = ({history}) => {
             setIsCustom(false);
         }
         setShippingMethod(selectedShippingMethod);
-    };
+    }, [shippingMethods]);
 
     const onChangedAddressInput = useCallback((event) => {
         const {value} = event.target;
@@ -118,7 +89,7 @@ export const CreateOrderPage = ({history}) => {
 
     const onSubmitHandler = useCallback(async (e) => {
         e.preventDefault();
-        if (isEmpty(selectedProduct) || isEmpty(manager)
+        if (isEmpty(selectedProducts) || isEmpty(manager)
             || isEmpty(customer) || isEmpty(city) || isEmpty(warehouse)
         ) {
             dispatch(setSnackBarStatus({isOpen: true, message: t('FILL_ALL_THE_FIElDS'), success: false}));
@@ -126,11 +97,8 @@ export const CreateOrderPage = ({history}) => {
             try {
                 dispatch(setIsLoading(true));
                 const response = await OrderService.create({
-                    productId: selectedProduct,
-                    currency: productDetails.currency,
-                    status: productDetails.status,
-                    price: productDetails.price,
-                    amount: productDetails.amount,
+                    products: selectedProducts,
+                    status: status,
                     managerId: manager.userId,
                     customerId: customer.customerId,
                     shippingDetails: {
@@ -156,21 +124,22 @@ export const CreateOrderPage = ({history}) => {
         city,
         customer,
         manager,
-        productDetails,
         warehouse,
         dispatch,
         history,
         address,
         isCustom,
         shippingMethod,
-        selectedProduct
+        selectedProducts,
+        status
     ]);
+
+    const onStatusSelectHandler = useCallback((value) => {
+        setStatus(value);
+    }, []);
 
     return (
         <SaveOrderForm
-            selectedProduct={selectedProduct}
-            onProductSelect={onProductSelect}
-            products={products}
             classes={classes}
             customer={customer}
             customers={customers}
@@ -178,20 +147,21 @@ export const CreateOrderPage = ({history}) => {
             managers={managers}
             customerLoading={customerLoading}
             managerLoading={managerLoading}
-            onChangedProductInput={onChangedProductInput}
             onManagerSelectHandler={onManagerSelectHandler}
             onCustomerSelectHandler={onCustomerSelectHandler}
             onSubmitHandler={onSubmitHandler}
             setCreatedCustomer={setCreatedCustomer}
-            productDetails={productDetails}
             shippingMethods={shippingMethods}
             shippingMethod={shippingMethod}
             onShippingMethodSelectHandler={onShippingMethodSelectHandler}
-            onStatusSelectHandler={onChangedProductInput}
+            onStatusSelectHandler={onStatusSelectHandler}
             isCustom={isCustom}
             address={address}
             onChangedAddressInput={onChangedAddressInput}
             buttonText={t('CREATE_ORDER')}
+            getProducts={setSelectedProducts}
+            status={status}
+            onSubmit={onSubmitHandler}
         />
     )
 };

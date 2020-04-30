@@ -1,14 +1,17 @@
 import React, {useCallback} from 'react';
 import {useProductTypes} from '../../../utils/hooks/productHooks';
-import {Container, ListItemText} from '@material-ui/core';
+import {Container, Grid, ListItemText} from '@material-ui/core';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import Button from '@material-ui/core/Button';
 import isEmpty from 'lodash/isEmpty';
 import Divider from '@material-ui/core/Divider';
 import Typography from '@material-ui/core/Typography';
+import {Link} from "react-router-dom";
+import {useTranslation} from "react-i18next";
 
 export const ProductTypesPage = ({history}) => {
+    const {t} = useTranslation();
     const [productTypes] = useProductTypes();
 
     const renderProductTypes = useCallback(() => {
@@ -32,6 +35,23 @@ export const ProductTypesPage = ({history}) => {
             );
         });
     }, [productTypes, history]);
+
+    if (isEmpty(productTypes)) {
+        return (
+            <Grid container justify='center' style={{display: 'grid', paddingTop: 24}}>
+                <Typography variant='h5' style={{paddingBottom: 18}}>{t('NO_NEW_TYPES')}</Typography>
+                <Button
+                    type='submit'
+                    variant="outlined"
+                    color="primary"
+                    component={Link}
+                    to='/create-product-type'
+                >
+                    {t('CREATE')}
+                </Button>
+            </Grid>
+        );
+    }
 
     return (
         <Container maxWidth='lg' style={{marginTop: 50}}>

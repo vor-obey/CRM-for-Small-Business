@@ -112,7 +112,6 @@ export const SaveProduct = ({
             setIsExpanded(true);
         }
         setSelectedAttributeValues({});
-
     }, []);
 
     const onAttributeValueSelectHandler = useCallback((event) => {
