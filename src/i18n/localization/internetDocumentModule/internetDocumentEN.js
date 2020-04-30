@@ -14,6 +14,5 @@ export const internetDocumentEN = {
     20000201162: 'Warehouse max allowed weight: 30.',
     20000201059: 'Recipient counterparty person creation problem.',
     20000201103: 'Counterparty creation problem. RecipientName incorrect.',
-
 };
 

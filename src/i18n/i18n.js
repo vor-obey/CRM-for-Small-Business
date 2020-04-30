@@ -2,7 +2,7 @@ import i18n from 'i18next';
 import {initReactI18next} from 'react-i18next';
 import LanguageDetector from "i18next-browser-languagedetector";
 import {internetDocumentEN} from "./localization/internetDocumentModule/internetDocumentEN";
-import {internetDocumentRU} from "./localization/internetDocumentModule/internetDocumenRU";
+import {internetDocumentRU} from "./localization/internetDocumentModule/internetDocumentRU";
 import {internetDocumentUA} from "./localization/internetDocumentModule/internetDocumentUA";
 import {ProductEN} from "./localization/productModule/productEN";
 import {ProductRU} from "./localization/productModule/productRU";

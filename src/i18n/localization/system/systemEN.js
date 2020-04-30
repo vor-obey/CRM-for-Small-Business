@@ -37,5 +37,4 @@ export const SystemEN = {
     NO: 'No',
     YES: 'YES',
     DISPLAY_ERROR: 'Sorry, this widget is currently unavailable. We are working on its implementation.',
-
 };
