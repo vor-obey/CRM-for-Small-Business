@@ -6,9 +6,12 @@ import {setIsLoading, setSnackBarStatus} from "../../../data/store/auxiliary/aux
 import isEmpty from 'lodash/isEmpty';
 import {OrderService} from '../../../services/index';
 import {SaveOrderForm} from '../../components/SaveOrderForm/SaveOrderForm';
-import {useCustomers, useManagers, useShippingMethods} from '../../../utils/customHooks';
 import {useTranslation} from 'react-i18next';
 import {COMMON_ERROR_MESSAGE} from "../../../constants/statuses";
+import {useShippingMethods} from '../../../utils/hooks/orderHooks';
+import {useManagers} from '../../../utils/hooks/userHooks';
+import {useCustomers} from '../../../utils/hooks/customerHooks';
+import {useProducts} from '../../../utils/hooks/productHooks';
 
 const useStyles = makeStyles(createOrderPageStyles);
 
@@ -16,9 +19,10 @@ export const CreateOrderPage = ({history}) => {
     const classes = useStyles();
     const dispatch = useDispatch();
     const [productDetails, setProductDetails] = useState({
-        description: '',
         currency: 'UAH',
-        status: 0
+        status: 0,
+        amount: 1,
+        price: 0
     });
     const [shippingMethods] = useShippingMethods();
     const [shippingMethod, setShippingMethod] = useState({});
@@ -33,6 +37,8 @@ export const CreateOrderPage = ({history}) => {
     const [isCustom, setIsCustom] = useState(false);
     const [address, setAddress] = useState('');
     const {t} = useTranslation();
+    const [products] = useProducts();
+    const [selectedProduct, setSelectedProduct] = useState({});
 
     useEffect(() => {
         if (!isEmpty(createdCustomer)) {
@@ -55,6 +61,18 @@ export const CreateOrderPage = ({history}) => {
             setShippingMethod(shippingMethods.find((item) => item.name === 'novaposta'));
         }
     }, [setShippingMethod, shippingMethods]);
+
+    useEffect(() => {
+        if (!isEmpty(selectedProduct)) {
+            const {price} = products.find(item => item.productId === selectedProduct);
+            setProductDetails(prevState => ({...prevState, price}));
+        }
+    }, [selectedProduct, products]);
+
+    const onProductSelect = useCallback((event) => {
+        const {value} = event.target;
+        setSelectedProduct(value);
+    }, []);
 
     const onChangedProductInput = useCallback((event) => {
         const {value, name} = event.target;
@@ -100,17 +118,19 @@ export const CreateOrderPage = ({history}) => {
 
     const onSubmitHandler = useCallback(async (e) => {
         e.preventDefault();
-        if (isEmpty(productDetails) || isEmpty(manager)
+        if (isEmpty(selectedProduct) || isEmpty(manager)
             || isEmpty(customer) || isEmpty(city) || isEmpty(warehouse)
         ) {
             dispatch(setSnackBarStatus({isOpen: true, message: t('FILL_ALL_THE_FIElDS'), success: false}));
-        } else if (productDetails.description.length > 150) {
-            dispatch(setSnackBarStatus({isOpen: true, message: t('TOO_LONG_DESCRIPTION'), success: false}));
         } else {
             try {
                 dispatch(setIsLoading(true));
                 const response = await OrderService.create({
-                    product: productDetails,
+                    productId: selectedProduct,
+                    currency: productDetails.currency,
+                    status: productDetails.status,
+                    price: productDetails.price,
+                    amount: productDetails.amount,
                     managerId: manager.userId,
                     customerId: customer.customerId,
                     shippingDetails: {
@@ -142,11 +162,15 @@ export const CreateOrderPage = ({history}) => {
         history,
         address,
         isCustom,
-        shippingMethod
+        shippingMethod,
+        selectedProduct
     ]);
 
     return (
         <SaveOrderForm
+            selectedProduct={selectedProduct}
+            onProductSelect={onProductSelect}
+            products={products}
             classes={classes}
             customer={customer}
             customers={customers}

@@ -24,7 +24,7 @@ export const OrderListItem = ({
                <Typography className={classes.textList}>
                   {t('DESCRIPTION')}:
                </Typography>
-               <ListItemText primary={order.description} secondary={minWidth600 && order.currency}/>
+               <ListItemText primary={order && order.orderToProducts[0].product.name} secondary={minWidth600 && order.currency}/>
             </Grid>
             <Grid item xl={5} lg={5} md={5} sm={5} xs={12} className={classes.gridList}>
                <Typography className={classes.textList}>

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Grid, List, ListItem, Typography} from "@material-ui/core";
+import {Grid, Link, List, ListItem, Typography} from "@material-ui/core";
 import {useTranslation} from "react-i18next";
 
 export const CustomerDetails = (props) => {
@@ -12,6 +12,7 @@ export const CustomerDetails = (props) => {
             <List className={classes.containerList}>
                 <ListItem className={classes.container}>
                     <Grid
+                        container
                         item
                         direction={'column'}
                         justify='space-around'
@@ -45,6 +46,7 @@ export const CustomerDetails = (props) => {
                         }
                     </Grid>
                     <Grid
+                        container
                         item
                         justify={'space-around'}
                         direction={'column'}
@@ -54,7 +56,7 @@ export const CustomerDetails = (props) => {
                                 {t('EMAIL')}
                             </Typography>
                             <Typography variant="body1">
-                                {customerDetails.contactEmail}
+                                <Link href={`mail:${customerDetails.contactEmail}`}>{customerDetails.contactEmail}</Link>
                             </Typography>
                         </Grid>
                         <Grid item xs={12} md={12} className={classes.customerItem}>
@@ -62,7 +64,7 @@ export const CustomerDetails = (props) => {
                                 {t('NUMBER')}
                             </Typography>
                             <Typography variant="body1">
-                                {customerDetails.contactNumber}
+                                <Link href={`tel:${customerDetails.contactNumber}`}>{customerDetails.contactNumber}</Link>
                             </Typography>
                         </Grid>
                         <Grid item xs={12} md={12} className={classes.customerItem}>

@@ -5,22 +5,35 @@ import CloseIcon from '@material-ui/icons/Close';
 
 export const CustomModal = ({
                                open,
-                               classes,
+                               classes = {},
                                children,
                                handleClose,
                             }) => {
 
    return (
          <Modal
-            className={classes.modal}
             aria-labelledby="transition-modal-title"
             aria-describedby="transition-modal-description"
             open={open}
             onClose={handleClose}
             closeAfterTransition
+            style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                overflow: 'auto',
+                height: '100%',
+            }}
          >
-            <Grid item className={classes.gridModal}>
-               <Button onClick={handleClose} className={classes.buttonClose}>
+            <Grid item style={{
+                display: 'flex',
+                backgroundColor: '#fff',
+                justifyContent: 'flex-end'
+            }}>
+               <Button onClick={handleClose} style={{
+                   position: 'absolute',
+                   marginTop: 8
+               }}>
                   <CloseIcon/>
                </Button>
                <Grid className={classes.children}>
