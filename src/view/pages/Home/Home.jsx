@@ -24,7 +24,7 @@ const useStyles = makeStyles(HomeStyles);
 export const Home = ({history}) => {
     const classes = useStyles();
     const {t} = useTranslation('');
-    const orders = useOrders();
+    const [orders] = useOrders();
     const dispatch = useDispatch();
 
     const renderOrdersCountByStatus = useCallback((status) => {

@@ -1,17 +1,13 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import Grid from '@material-ui/core/Grid';
-import {Container, TextField} from '@material-ui/core';
-import {makeStyles} from '@material-ui/core/styles';
-import {internetDocumentStyles} from './InternetDocument.style';
-import Typography from '@material-ui/core/Typography';
-import {NovaPoshtaAddress} from '../NovaPoshtaAddress/NovaPoshtaAddress';
-import {useDispatch, useSelector} from 'react-redux';
-import Button from '@material-ui/core/Button';
-import NovaPoshtaService from '../../../services/NovaPoshtaService';
-import {setIsLoading, setSnackBarStatus} from '../../../data/store/auxiliary/auxiliaryActions';
-import {COMMON_ERROR_MESSAGE} from '../../../constants/statuses';
 import isEmpty from 'lodash/isEmpty';
 import {useTranslation} from 'react-i18next';
+import {useDispatch, useSelector} from 'react-redux';
+import {internetDocumentStyles} from './InternetDocument.style';
+import {COMMON_ERROR_MESSAGE} from '../../../constants/statuses';
+import NovaPoshtaService from '../../../services/NovaPoshtaService';
+import {NovaPoshtaAddress} from '../NovaPoshtaAddress/NovaPoshtaAddress';
+import {Container, makeStyles, Grid, Button, Typography, TextField} from '@material-ui/core';
+import {setIsLoading, setSnackBarStatus} from '../../../data/store/auxiliary/auxiliaryActions';
 
 const useStyles = makeStyles(internetDocumentStyles);
 
@@ -22,7 +18,7 @@ const autocompleteBreakpoints = {
     xs: 12,
 };
 
-export const InternetDocument = ({orderDetails}) => {
+export const InternetDocument = ({orderDetails, handleClose}) => {
     const classes = useStyles();
     const dispatch = useDispatch();
     const [parcelDetails, setParcelDetails] = useState({
@@ -97,19 +93,20 @@ export const InternetDocument = ({orderDetails}) => {
                     const internetDocument = response.data[0].IntDocNumber;
                     const {url} = await NovaPoshtaService.getInternetDocumentToPrint(internetDocument);
                     window.open(url);
+                    handleClose();
                 } else {
                     const err = response.errors.map((error, i) => {
-                        return `[${response.errorCodes[i]}: ${error}]`
+                        return <span key={i} style={{display: 'block'}}>{t(response.errorCodes[i])}</span>
                     });
+                    dispatch(setSnackBarStatus({isOpen: true, message: err, success: false}));
                     dispatch(setIsLoading(false));
-                    dispatch(setSnackBarStatus({isOpen: true, message: err.join(' '), success: false}));
                 }
             } catch (e) {
-                dispatch(setIsLoading(false));
                 dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE, success: false}));
+                dispatch(setIsLoading(false));
             }
         }
-    }, [dispatch, orderDetails, city, parcelDetails, warehouse, recipient, senderPhone]);
+    }, [t, dispatch, orderDetails, city, parcelDetails, warehouse, recipient, senderPhone]);
 
     return (
         <Container>
