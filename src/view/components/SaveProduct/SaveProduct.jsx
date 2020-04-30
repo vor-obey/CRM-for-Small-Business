@@ -1,5 +1,20 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {Grid, Typography, IconButton, List, ListItem, Divider, Button, Collapse, Container, ListItemText, Paper, Select, TextField, makeStyles} from '@material-ui/core';
+import {
+    Grid,
+    Typography,
+    IconButton,
+    List,
+    ListItem,
+    Divider,
+    Button,
+    Collapse,
+    Container,
+    ListItemText,
+    Paper,
+    Select,
+    TextField,
+    makeStyles
+} from '@material-ui/core';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import {CustomAutocomplete} from '../Autocomplete/Autocomplete';
 import isEmpty from 'lodash/isEmpty';
@@ -51,7 +66,10 @@ export const SaveProduct = ({
 
     useEffect(() => {
         if (!isEmpty(selectedAbstractProduct)) {
-            setProductDetails(prevState => ({...prevState, price: selectedAbstractProduct.price}));
+            setProductDetails(prevState => ({
+                ...prevState,
+                price: prevState.price ? prevState.price: selectedAbstractProduct.price
+            }));
         }
     }, [selectedAbstractProduct]);
 
@@ -190,7 +208,8 @@ export const SaveProduct = ({
                         </Grid>
                     </Grid>
                     <Grid container item xs={12} sm={12} className={classes.containerProduct}>
-                        <Grid item xs={12} sm={2} className={classes.containerProductItem} style={{textAlign: 'center'}}>
+                        <Grid item xs={12} sm={2} className={classes.containerProductItem}
+                              style={{textAlign: 'center'}}>
                             <IconButton onClick={() => history.push('/create-abstract-product')}>
                                 <AddCircleIcon fontSize='large'/>
                             </IconButton>
@@ -209,7 +228,8 @@ export const SaveProduct = ({
                             />
                         </Grid>
                     </Grid>
-                    <Collapse in={isExpanded} timeout='auto' unmountOnExit xs={12} sm={12} className={classes.containerProduct}>
+                    <Collapse in={isExpanded} timeout='auto' unmountOnExit xs={12} sm={12}
+                              className={classes.containerProduct}>
                         <Grid container item xs={12} sm={12}>
                             <Grid container item xs={12} sm={12}>
                                 <List style={{width: '100%'}}>
