@@ -106,7 +106,7 @@ export const InternetDocument = ({orderDetails, handleClose}) => {
                 dispatch(setIsLoading(false));
             }
         }
-    }, [t, dispatch, orderDetails, city, parcelDetails, warehouse, recipient, senderPhone]);
+    }, [t, dispatch, orderDetails, city, parcelDetails, warehouse, recipient, senderPhone, handleClose]);
 
     return (
         <Container>
