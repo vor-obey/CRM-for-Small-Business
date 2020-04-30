@@ -18,7 +18,7 @@ const autocompleteBreakpoints = {
     xs: 12,
 };
 
-export const InternetDocument = ({orderDetails}) => {
+export const InternetDocument = ({orderDetails, handleClose}) => {
     const classes = useStyles();
     const dispatch = useDispatch();
     const [parcelDetails, setParcelDetails] = useState({
@@ -93,6 +93,7 @@ export const InternetDocument = ({orderDetails}) => {
                     const internetDocument = response.data[0].IntDocNumber;
                     const {url} = await NovaPoshtaService.getInternetDocumentToPrint(internetDocument);
                     window.open(url);
+                    handleClose();
                 } else {
                     const err = response.errors.map((error, i) => {
                         return <span key={i} style={{display: 'block'}}>{t(response.errorCodes[i])}</span>
