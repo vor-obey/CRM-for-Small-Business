@@ -165,11 +165,11 @@ export const SaveAbstractProduct = ({
                         <CardContent className={classes.attributeCard}>
                             <List>
                                 {attributeValues.map((attrValue) => (
-                                    <ListItem key={attrValue.attributeValueId}>
-                                        <ListItemText
-                                            primary={attrValue.value}
-                                        />
-                                    </ListItem>
+                                        <ListItem key={attrValue.attributeValueId}>
+                                            <ListItemText
+                                                primary={attrValue.value}
+                                            />
+                                        </ListItem>
                                     )
                                 )}
                             </List>
