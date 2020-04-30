@@ -121,13 +121,44 @@ export const SaveAbstractProduct = ({
     }, [triggerAttributesUpdate, dispatch]);
 
     const openEditAttributeModal = useCallback((attribute) => {
+        const editAttribute = async (data) => {
+            const {name, attrValues} = data;
+            const attributeValues = [];
+            for (const attrValue of attrValues) {
+                const {attributeValueId, action} = attrValue;
+                if (attributeValueId) {
+                    attributeValues.push(attrValue);
+                }
+                if (!attributeValueId && action === 'add') {
+                    attributeValues.push(attrValue);
+                }
+            }
+            try {
+                dispatch(setIsLoading(true));
+                const response = await AttributeService.update({
+                    attributeId: attribute.attributeId,
+                    name,
+                    attributeValues,
+                });
+                if (response.success) {
+                    updateAttributes();
+                    dispatch(setIsLoading(false));
+                } else {
+                    dispatch(setIsLoading(false));
+                    dispatch(setSnackBarStatus({isOpen: true, message: response.message, success: false}));
+                }
+            } catch (e) {
+                dispatch(setIsLoading(false));
+                dispatch(setSnackBarStatus({isOpen: true, message: e.message, success: false}));
+            }
+        };
         dispatch(renderModal({
             isOpen: true,
             classes: {},
             children: (
                 <EditAttribute
                     attribute={attribute}
-                    updateAttributes={updateAttributes}
+                    onSubmit={editAttribute}
                 />
             ),
             onCloseHandler: () => dispatch(closeModal()),
@@ -223,20 +254,35 @@ export const SaveAbstractProduct = ({
         }))
     }, [t, dispatch, selectedProductType, updateProductTypes]);
 
+    const createAttribute = useCallback(async (data) => {
+        const {name, valuesToSave} = data;
+        try {
+            dispatch(setIsLoading(true));
+            await AttributeService.create({
+                productTypeId: selectedProductType.productTypeId,
+                name,
+                values: valuesToSave
+            });
+            updateAttributes();
+            dispatch(setIsLoading(false));
+        } catch (e) {
+            dispatch(setIsLoading(false));
+            dispatch(setSnackBarStatus({isOpen: true, message: e.message, success: false}));
+        }
+    }, [selectedProductType.productTypeId, dispatch, updateAttributes]);
+
     const openCreateAttributeModal = useCallback(() => {
         dispatch(renderModal({
             isOpen: true,
             classes: {},
             children: (
                 <CreateAttribute
-                    t={t}
-                    productTypeId={selectedProductType.productTypeId}
-                    updateAttributes={updateAttributes}
+                    onSubmit={createAttribute}
                 />
             ),
             onCloseHandler: () => dispatch(closeModal()),
         }))
-    }, [t, dispatch, selectedProductType.productTypeId, updateAttributes]);
+    }, [dispatch, createAttribute]);
 
     const deleteProductType = useCallback(async () => {
         try {

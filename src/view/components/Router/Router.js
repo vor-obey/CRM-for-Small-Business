@@ -41,6 +41,8 @@ import {EditAbstractProduct} from '../../pages/EditAbstractProduct/EditAbstractP
 import {CustomModal} from '../CustomModal/CustomModal';
 import {CustomDialog} from '../CustomDialog/CustomDialog';
 import {EditProduct} from '../../pages/EditProduct/EditProduct';
+import {CreateProductTypeWithAttributes} from '../../pages/CreateProductTypeWithAttributes/CreateProductTypeWithAttributes';
+import {EditProductTypeWithAttributes} from '../../pages/EditProductTypeWithAttributes/EditProductTypeWithAttributes';
 
 export const Routing = () => {
     const dispatch = useDispatch();
@@ -109,8 +111,10 @@ export const Routing = () => {
                 <PrivateRoute exact path='/products' component={ProductsPage}/>
                 <PrivateRoute exact path='/products/:id' component={ProductDetailsPage}/>
                 <PrivateRoute exact path='/products/:id/edit' component={EditProduct}/>
+                <PrivateRoute exact path='/create-product-type' component={CreateProductTypeWithAttributes}/>
                 <PrivateRoute exact path='/product-types/' component={ProductTypesPage}/>
                 <PrivateRoute exact path='/product-types/:id' component={ProductTypeDetailsPage}/>
+                <PrivateRoute exact path='/product-types/:id/edit' component={EditProductTypeWithAttributes}/>
                 <Route exact path='/restore-password/:token' component={RestorePassword}/>
                 <Route exact path='/forgot-password' component={ForgotPassword}/>
                 <Route exact path='/create-organization' component={CreateOrganization}/>
