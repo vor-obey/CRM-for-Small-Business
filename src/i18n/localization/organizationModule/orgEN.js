@@ -7,5 +7,7 @@ export const OrgEN ={
     CODE: 'Code',
     CREATE_ADMIN: 'Create user',
     EDIT: 'Edit',
-    EDIT_ORGANIZATION: 'Edit Organization'
+    EDIT_ORGANIZATION: 'Edit Organization',
+    ERROR_NAME_LENGHT: 'Organization name too short',
+    ERROR_API_LENGHT: 'Api Key entered incorrectly',
 };
