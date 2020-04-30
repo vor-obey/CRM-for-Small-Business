@@ -25,43 +25,6 @@ import {orderRU} from "./localization/orderModule/orderRU";
 
 
 i18n
-   .use(LanguageDetector)
-   .use(initReactI18next)
-   .init({
-      resources: {
-         en: {
-            translations: {
-               ...UsersEN,
-               ...SystemEN,
-               ...CustomerEN,
-               ...orderEN,
-               ...OrgEN,
-               ...internetDocumentEN,
-            }
-         },
-         ua: {
-            translations: {
-               ...UsersUA,
-               ...SystemUA,
-               ...CustomerUA,
-               ...OrgUA,
-               ...orderUA,
-               ...internetDocumentUA,
-            }
-         },
-         ru: {
-            translations: {
-               ...UsersRU,
-               ...SystemRU,
-               ...CustomerRU,
-               ...orderRU,
-               ...OrgRU,
-               ...internetDocumentRU
-            }
-         },
-      },
-      fallbackLng: "ua",
-      debug: false,
     .use(LanguageDetector)
     .use(initReactI18next)
     .init({
@@ -73,7 +36,8 @@ i18n
                     ...CustomerEN,
                     ...orderEN,
                     ...OrgEN,
-                    ...ProductEN
+                    ...ProductEN,
+                    ...internetDocumentEN,
                 }
             },
             ua: {
@@ -83,7 +47,8 @@ i18n
                     ...CustomerUA,
                     ...OrgUA,
                     ...orderUA,
-                    ...ProductUA
+                    ...ProductUA,
+                    ...internetDocumentUA,
                 }
             },
             ru: {
@@ -93,27 +58,28 @@ i18n
                     ...CustomerRU,
                     ...orderRU,
                     ...OrgRU,
-                    ...ProductRU
+                    ...ProductRU,
+                    ...internetDocumentRU
                 }
             },
         },
         fallbackLng: "ua",
         debug: false,
 
-      // have a common namespace used around the full app
-      ns: ["translations"],
-      defaultNS: "translations",
+        // have a common namespace used around the full app
+        ns: ["translations"],
+        defaultNS: "translations",
 
-      keySeparator: false, // we use content as keys
+        keySeparator: false, // we use content as keys
 
-      interpolation: {
-         // escapeValue: false, // not needed for react!!
-         formatSeparator: ","
-      },
+        interpolation: {
+            // escapeValue: false, // not needed for react!!
+            formatSeparator: ","
+        },
 
-      react: {
-         wait: true
-      }
-   });
+        react: {
+            wait: true
+        }
+    });
 
 export default i18n;
