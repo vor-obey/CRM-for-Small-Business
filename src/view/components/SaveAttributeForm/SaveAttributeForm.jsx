@@ -1,7 +1,6 @@
 import React, {useCallback, useState} from 'react';
 import Grid from '@material-ui/core/Grid';
 import {ListItemIcon, ListItemSecondaryAction, ListItemText, TextField} from '@material-ui/core';
-import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import AddIcon from '@material-ui/icons/Add';
@@ -11,16 +10,15 @@ import IconButton from '@material-ui/core/IconButton';
 import CheckIcon from '@material-ui/icons/Check';
 import RemoveIcon from '@material-ui/icons/Remove';
 import {useTranslation} from 'react-i18next';
-import {closeModal} from '../../../data/store/auxiliary/auxiliaryActions';
 import {useDispatch} from 'react-redux';
+import {setSnackBarStatus} from '../../../data/store/auxiliary/auxiliaryActions';
 
 export const SaveAttributeForm = ({
                                       name,
                                       onChange,
-                                      onSubmit,
                                       addAttributeValue,
                                       renderAttrValues,
-                                      labels
+                                      title
                                   }) => {
     const [value, setValue] = useState('');
     const [isAdd, setIsAdd] = useState(false);
@@ -37,14 +35,14 @@ export const SaveAttributeForm = ({
     }, []);
 
     const add = useCallback((value) => {
-        if (!value.length) {
-            console.log('error');
+        if (!value.trim().length) {
+            dispatch(setSnackBarStatus({isOpen: true, message: 'Empty value is not allowed', success: false}));
         } else {
             setIsAdd(false);
             setValue('');
             addAttributeValue(value);
         }
-    }, [addAttributeValue]);
+    }, [addAttributeValue, dispatch]);
 
     const renderListItemForAddingValue = useCallback(() => {
         if (!isAdd) {
@@ -89,7 +87,7 @@ export const SaveAttributeForm = ({
         <Grid container style={{padding: 15}}>
             <Grid item xl={12} lg={12}>
                 <Typography variant='h6' style={{textAlign: 'center'}}>
-                    {labels.title}
+                    {title}
                 </Typography>
             </Grid>
             <Grid item xl={12} lg={12}>
@@ -128,20 +126,6 @@ export const SaveAttributeForm = ({
                         {renderListItemForAddingValue()}
                     </List>
                 </Grid>
-            </Grid>
-            <Grid item xl={12} lg={12} style={{textAlign: 'center'}}>
-                <Button
-                    variant='outlined'
-                    onClick={() => dispatch(closeModal())}
-                >
-                    {t('CANCEL')}
-                </Button>
-                <Button
-                    onClick={onSubmit}
-                    variant='outlined'
-                >
-                    {labels.button}
-                </Button>
             </Grid>
         </Grid>
     );
