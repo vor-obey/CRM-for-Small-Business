@@ -1,22 +1,26 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {Container, Paper} from '@material-ui/core';
-import Grid from '@material-ui/core/Grid';
-import Button from '@material-ui/core/Button';
+import {
+    Grid,
+    Container,
+    Paper,
+    Button,
+    Card,
+    CardHeader,
+    CardContent,
+    List,
+    ListItem,
+    ListItemText,
+    Typography,
+    IconButton,
+    makeStyles
+} from '@material-ui/core';
 import {useProductTypeById} from '../../../utils/hooks/productHooks';
 import {useParams} from "react-router-dom";
 import {useDispatch} from 'react-redux';
 import isEmpty from 'lodash/isEmpty';
 import cloneDeep from 'lodash/cloneDeep';
-import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
-import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
 import EditIcon from '@material-ui/icons/Edit';
 import RemoveIcon from '@material-ui/icons/Remove';
-import CardContent from '@material-ui/core/CardContent';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
 import {
     closeDialog,
     closeModal,
@@ -31,8 +35,12 @@ import {v4 as uuidv4} from 'uuid'
 import {AttributeService, ProductTypeService} from '../../../services';
 import {COMMON_ERROR_MESSAGE} from '../../../constants/statuses';
 import {useLastLocation} from 'react-router-last-location';
+import {editProductTypeWithAttributesStyles} from "./EditProductTypeWithAttributes.style";
+
+const useStyles = makeStyles(editProductTypeWithAttributesStyles);
 
 export const EditProductTypeWithAttributes = ({history}) => {
+    const classes = useStyles();
     const {id} = useParams();
     const dispatch = useDispatch();
     const [name, setName] = useState('');
@@ -166,30 +174,30 @@ export const EditProductTypeWithAttributes = ({history}) => {
         return attributes.map((attr) => {
             const {attributeId, id, name, attributeValues} = attr;
             return (
-                <Grid item xl={4} lg={4} key={attributeId ? attributeId : id}>
-                    <Card>
+                <Grid
+                    item xs={12} sm={5}
+                    key={attributeId ? attributeId : id}
+                >
+                    <Card className={classes.containerAttributeItem}>
                         <CardHeader
+                            className={classes.containerAttributeHeader}
                             title={
                                 <Typography variant='body1'>
                                     {name}
                                 </Typography>
                             }
                             action={
-                                <>
+                                <Grid className={classes.containerAttributeIcon}>
                                     <IconButton onClick={() => openEditAttributeModal(attr)} size='small'>
                                         <EditIcon/>
                                     </IconButton>
                                     <IconButton onClick={() => openDeleteAttributeDialog(attr)} size='small'>
                                         <RemoveIcon/>
                                     </IconButton>
-                                </>
+                                </Grid>
                             }
-                            style={{
-                                padding: 5,
-                                border: '1px solid rgba(0, 0, 0, 0.12)'
-                            }}
                         />
-                        <CardContent style={{maxHeight: 100, overflow: 'auto', padding: 0}}>
+                        <CardContent className={classes.containerAttributeContent}>
                             <List>
                                 {attributeValues.map((attributeValue, index) => (
                                         <ListItem key={index} disabled={attributeValue.action === 'remove'}>
@@ -205,7 +213,7 @@ export const EditProductTypeWithAttributes = ({history}) => {
                 </Grid>
             );
         });
-    }, [attributes, openEditAttributeModal, openDeleteAttributeDialog]);
+    }, [classes, attributes, openEditAttributeModal, openDeleteAttributeDialog]);
 
     const editProductType = useCallback(async () => {
         const newAttributes = cloneDeep(attributes);
@@ -249,10 +257,11 @@ export const EditProductTypeWithAttributes = ({history}) => {
     }, [id, name, attributes, dispatch, history, lastLocation]);
 
     return (
-        <Container maxWidth='md' style={{marginTop: 30}}>
-            <Paper style={{padding: 15}}>
+        <Container maxWidth='md' className={classes.root}>
+            <Paper className={classes.container}>
                 <Grid container>
                     <SaveProductTypeWithAttributes
+                        classes={classes}
                         productTypeName={name}
                         onChange={onChange}
                         openCreateAttributeModal={openCreateAttributeModal}
@@ -260,8 +269,9 @@ export const EditProductTypeWithAttributes = ({history}) => {
                         title='Edit product type'
                     />
                 </Grid>
-                <Grid item xl={12} lg={12} style={{textAlign: 'center'}}>
+                <Grid item xs={12} sm={12} className={classes.buttonContainer}>
                     <Button
+                        className={classes.buttonFab}
                         variant='outlined'
                         onClick={editProductType}
                         disabled={isEmpty(attributes) || isEmpty(name.trim())}

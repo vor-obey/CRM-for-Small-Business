@@ -31,6 +31,11 @@ export const abstractProductDetailsPageStyles = (theme => ({
         marginTop: '15px',
         wordWrap: 'break-word',
     },
+    containerProductList: {
+        display: 'flex',
+        flexDirection: 'row',
+        flexWrap: 'wrap'
+    },
     attributeValue: {
         display: 'flex',
         flexDirection: 'column',

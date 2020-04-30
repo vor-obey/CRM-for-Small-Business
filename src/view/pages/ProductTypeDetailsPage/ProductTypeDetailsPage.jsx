@@ -30,6 +30,7 @@ import {ProductTypeService} from '../../../services';
 import {COMMON_ERROR_MESSAGE} from '../../../constants/statuses';
 import {useLastLocation} from 'react-router-last-location';
 import {useDispatch} from 'react-redux';
+import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
 
 const useStyles = makeStyles(productTypeDetailsPageStyles);
 
@@ -50,27 +51,24 @@ export const ProductTypeDetailsPage = ({history}) => {
         return abstractProducts.map((abstractProduct) => {
             const {abstractProductId, name, price, description} = abstractProduct;
             return (
-                <Grid container item xs={12} sm={6} className={classes.containerType} key={abstractProductId}>
-                    <Grid item sm={12} xs={12} xl={12} lg={12} className={classes.containerTypeItem}>
-                        <Typography variant='h6'>
-                            Abstract products
-                        </Typography>
+                <React.Fragment key={abstractProductId}>
+                    <Grid container item xs={12} sm={6}>
+                        <ListItem
+                            onClick={() => history.push(`/abstract-products/${abstractProduct.abstractProductId && abstractProduct.abstractProductId}`)}
+                            style={{cursor: 'pointer'}}
+                        >
+                            <ListItemIcon><ShoppingBasketIcon/></ListItemIcon>
+                            <ListItemText
+                                primary={name}
+                                secondary={`${description}, ${price}`}
+                            />
+                        </ListItem>
+                        <Divider/>
                     </Grid>
-                    <Grid item sm={12} xs={12} xl={12} lg={12}>
-                        <List>
-                            <ListItem className={classes.abstractProducts}>
-                                <ListItemText
-                                    primary={name}
-                                    secondary={`${description}, ${price}`}
-                                />
-                            </ListItem>
-                            <Divider/>
-                        </List>
-                    </Grid>
-                </Grid>
+                </React.Fragment>
             );
         });
-    }, [productType, classes]);
+    }, [productType, history]);
 
     const renderAttributes = useCallback(() => {
         const {productTypeToAttributes = {}} = productType;
@@ -82,30 +80,32 @@ export const ProductTypeDetailsPage = ({history}) => {
             const {attributeId, name, attributeValues} = attribute;
             return (
                 <React.Fragment key={attributeId}>
-                    <ListItem>
-                        <ListItemIcon>
-                            <ArrowRightIcon/>
-                        </ListItemIcon>
-                        <ListItemText
-                            className={classes.attributeValue}
-                            primary={name}
-                            secondary={
-                                <React.Fragment>
-                                    {attributeValues.map((attrValue) => (
-                                            <Typography
-                                                component="span"
-                                                variant="body2"
-                                                className={classes.attributeValueItem}
-                                                key={attrValue.attributeValueId}
-                                            >
-                                                {attrValue.value}
-                                            </Typography>
-                                        )
-                                    )}
-                                </React.Fragment>
-                            }/>
-                    </ListItem>
-                    < Divider/>
+                    <Grid container item xs={12} sm={6}>
+                        <ListItem>
+                            <ListItemIcon>
+                                <ArrowRightIcon/>
+                            </ListItemIcon>
+                            <ListItemText
+                                className={classes.attributeValue}
+                                primary={name}
+                                secondary={
+                                    <React.Fragment>
+                                        {attributeValues.map((attrValue) => (
+                                                <Typography
+                                                    component="span"
+                                                    variant="body2"
+                                                    className={classes.attributeValueItem}
+                                                    key={attrValue.attributeValueId}
+                                                >
+                                                    {attrValue.value}
+                                                </Typography>
+                                            )
+                                        )}
+                                    </React.Fragment>
+                                }/>
+                        </ListItem>
+                        < Divider/>
+                    </Grid>
                 </React.Fragment>
             );
         });
@@ -150,44 +150,58 @@ export const ProductTypeDetailsPage = ({history}) => {
                         </Typography>
                     </Grid>
                 </Grid>
-                <Grid container item xs={12} sm={6} className={classes.containerType}>
-                    <Grid item sm={12} xs={12} xl={12} lg={12} className={classes.containerTypeItem}>
-                        <Typography variant='h6'>
-                            Name
-                        </Typography>
-                        <Typography variant='body1'>
-                            {productType.name}
-                        </Typography>
+                <Grid container item xs={12} sm={12}>
+                    <Grid container item xs={12} sm={12} className={classes.containerType}>
+                        <Grid item sm={12} xs={12} xl={12} lg={12} className={classes.containerTypeItem}>
+                            <Typography variant='h6'>
+                                Name: {productType.name}
+                            </Typography>
+                        </Grid>
                     </Grid>
-                </Grid>
-                {renderAbstractProducts()}
-                <Grid container item xs={12} sm={6} className={classes.containerType}>
-                    <Grid item sm={12} xs={12} xl={12} lg={12} className={classes.containerTypeItem}>
-                        <Typography variant='h6'>
-                            Attributes
-                        </Typography>
+                    <Grid container item xs={12} sm={12} className={classes.containerType}>
+                        <Grid item sm={12} xs={12} className={classes.containerTypeItem}>
+                            <Typography variant='h6'>
+                                Abstract products
+                            </Typography>
+                        </Grid>
+                        <Grid item sm={12} xs={12}>
+                            <List className={classes.containerAbstractAttribute}>
+                                {renderAbstractProducts()}
+                            </List>
+                        </Grid>
                     </Grid>
-                    {renderAttributes()}
-                </Grid>
-                <Grid container item xs={12} className={classes.buttonContainer}>
-                    <Fab
-                        className={classes.buttonFab}
-                        color="primary"
-                        aria-label="edit"
-                        size="small"
-                        onClick={() => history.push(`/product-types/${id}/edit`)}
-                    >
-                        <EditIcon/>
-                    </Fab>
-                    <Fab
-                        className={classes.buttonFab}
-                        color="primary"
-                        aria-label="delete"
-                        size="small"
-                        onClick={() => openDeleteProductTypeDialog()}
-                    >
-                        <DeleteIcon/>
-                    </Fab>
+                    <Grid container item xs={12} sm={12} className={classes.containerType}>
+                        <Grid item sm={12} xs={12} className={classes.containerTypeItem}>
+                            <Typography variant='h6'>
+                                Attributes
+                            </Typography>
+                        </Grid>
+                        <Grid item sm={12} xs={12}>
+                            <List className={classes.containerAbstractAttribute}>
+                                {renderAttributes()}
+                            </List>
+                        </Grid>
+                    </Grid>
+                    <Grid container item xs={12} className={classes.buttonContainer}>
+                        <Fab
+                            className={classes.buttonFab}
+                            color="primary"
+                            aria-label="edit"
+                            size="small"
+                            onClick={() => history.push(`/product-types/${id}/edit`)}
+                        >
+                            <EditIcon/>
+                        </Fab>
+                        <Fab
+                            className={classes.buttonFab}
+                            color="primary"
+                            aria-label="delete"
+                            size="small"
+                            onClick={() => openDeleteProductTypeDialog()}
+                        >
+                            <DeleteIcon/>
+                        </Fab>
+                    </Grid>
                 </Grid>
             </Paper>
         </Container>
