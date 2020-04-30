@@ -19,7 +19,7 @@ export const SaveUserDetails = ({
 
     const renderRoleOptions = useCallback(() => {
         return roles.map((role) => {
-            if (role.roleId === '0661cdda-a369-4324-a3f9-12b06b91af7b') {
+            if (role.name === 'Super Admin') {
                 return null;
             }
             return (
