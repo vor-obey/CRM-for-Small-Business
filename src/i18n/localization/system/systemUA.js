@@ -1,4 +1,5 @@
 export const SystemUA = {
+    CANCEL: 'Скасувати',
     LOGIN: 'Вхід',
     LOGIN_BUTTON: 'Увійти',
     FORGOT_PASSWORD: 'Забули свій пароль?',

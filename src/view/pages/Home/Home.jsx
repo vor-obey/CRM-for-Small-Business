@@ -14,7 +14,7 @@ import {
 import {HomeStyles} from "./Home.style";
 import {Graph} from '../../components/Graph/Graph'
 import {useTranslation} from "react-i18next";
-import {useOrders} from '../../../utils/customHooks';
+import {useOrders} from '../../../utils/hooks/orderHooks';
 import {Chat} from '../../components/Chat/Chat';
 import {useDispatch} from 'react-redux';
 import {openChatWidget} from '../../../data/store/user/userActions';
@@ -49,10 +49,10 @@ export const Home = ({history}) => {
                <Card className={classes.card}>
                   <CardActionArea onClick={() => navigateToOrdersPage(0)} className={classes.cardAction}>
                      <CardContent>
-                        <Typography variant='h5' className={classes.typography}>
+                        <Typography variant='h6' className={classes.typography}>
                            {t('NEW_ORDERS').toUpperCase()}
                         </Typography>
-                        <Typography variant='h3'>
+                        <Typography variant='h1' className={classes.number}>
                            {renderOrdersCountByStatus(0)}
                         </Typography>
                      </CardContent>
@@ -63,10 +63,10 @@ export const Home = ({history}) => {
                <Card className={classes.card}>
                   <CardActionArea onClick={() => navigateToOrdersPage(1)} className={classes.cardAction}>
                      <CardContent>
-                        <Typography variant='h5' className={classes.typography}>
+                        <Typography variant='h6' className={classes.typography}>
                            {t('IN_PROGRESS').toUpperCase()}
                         </Typography>
-                        <Typography variant='h3'>
+                        <Typography variant='h1' className={classes.number}>
                            {renderOrdersCountByStatus(1)}
                         </Typography>
                      </CardContent>
@@ -77,10 +77,10 @@ export const Home = ({history}) => {
                <Card className={classes.card}>
                   <CardActionArea onClick={() => navigateToOrdersPage(2)} className={classes.cardAction}>
                      <CardContent>
-                        <Typography variant='h5' className={classes.typography}>
+                        <Typography variant='h6' className={classes.typography}>
                            {t('READY_FOR_SHIPPING').toUpperCase()}
                         </Typography>
-                        <Typography variant='h3'>
+                        <Typography variant='h1' className={classes.number}>
                            {renderOrdersCountByStatus(2)}
                         </Typography>
                      </CardContent>

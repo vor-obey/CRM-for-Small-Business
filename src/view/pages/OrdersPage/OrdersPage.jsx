@@ -12,7 +12,7 @@ import {filter} from "../../../utils/helpers";
 import {useLocation} from "react-router-dom";
 import {InputFilter} from "../../components/Filter/InputFilter";
 import {SelectFilter} from "../../components/Filter/SelectFilter";
-import {useOrders} from '../../../utils/customHooks';
+import {useOrders} from '../../../utils/hooks/orderHooks';
 
 const useStyles = makeStyles(ordersPageStyles);
 
@@ -22,7 +22,7 @@ export const OrdersPage = ({history}) => {
     const location = useLocation();
     const minWidth600 = useMediaQuery('(min-width:600px)');
 
-    const orderList = useOrders();
+    const [orderList] = useOrders();
     const [inputFilter, setInputFilter] = useState('');
     const [selectedOption, setSelectedOption] = useState('');
 

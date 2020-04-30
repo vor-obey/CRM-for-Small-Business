@@ -1,6 +1,12 @@
 import i18n from 'i18next';
 import {initReactI18next} from 'react-i18next';
 import LanguageDetector from "i18next-browser-languagedetector";
+import {internetDocumentEN} from "./localization/internetDocumentModule/internetDocumentEN";
+import {internetDocumentRU} from "./localization/internetDocumentModule/internetDocumentRU";
+import {internetDocumentUA} from "./localization/internetDocumentModule/internetDocumentUA";
+import {ProductEN} from "./localization/productModule/productEN";
+import {ProductRU} from "./localization/productModule/productRU";
+import {ProductUA} from "./localization/productModule/productUA";
 import {UsersEN} from "./localization/userModule/usersEN";
 import {UsersUA} from "./localization/userModule/usersUA";
 import {UsersRU} from "./localization/userModule/usersRU";
@@ -30,6 +36,8 @@ i18n
                     ...CustomerEN,
                     ...orderEN,
                     ...OrgEN,
+                    ...ProductEN,
+                    ...internetDocumentEN,
                 }
             },
             ua: {
@@ -39,6 +47,8 @@ i18n
                     ...CustomerUA,
                     ...OrgUA,
                     ...orderUA,
+                    ...ProductUA,
+                    ...internetDocumentUA,
                 }
             },
             ru: {
@@ -48,6 +58,8 @@ i18n
                     ...CustomerRU,
                     ...orderRU,
                     ...OrgRU,
+                    ...ProductRU,
+                    ...internetDocumentRU
                 }
             },
         },
