@@ -20,14 +20,25 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 
 import isEmpty from 'lodash/isEmpty';
+import {
+    closeDialog,
+    renderDialog,
+    setIsLoading,
+    setSnackBarStatus
+} from '../../../data/store/auxiliary/auxiliaryActions';
+import {ProductTypeService} from '../../../services';
+import {COMMON_ERROR_MESSAGE} from '../../../constants/statuses';
+import {useLastLocation} from 'react-router-last-location';
+import {useDispatch} from 'react-redux';
 
 const useStyles = makeStyles(productTypeDetailsPageStyles);
 
-export const ProductTypeDetailsPage = () => {
-
+export const ProductTypeDetailsPage = ({history}) => {
     const classes = useStyles();
     const {id} = useParams();
     const [productType] = useProductTypeById(id);
+    const lastLocation = useLastLocation();
+    const dispatch = useDispatch();
 
     const renderAbstractProducts = useCallback(() => {
         const {abstractProducts = {}} = productType;
@@ -100,6 +111,35 @@ export const ProductTypeDetailsPage = () => {
         });
     }, [productType, classes]);
 
+    const deleteProductType = useCallback(async () => {
+        try {
+            dispatch(setIsLoading(true));
+            const response = await ProductTypeService.delete(id);
+            if (response.success) {
+                history.push(`${lastLocation ? lastLocation.pathname : '/product-types'}`);
+            } else {
+                dispatch(setSnackBarStatus({isOpen: true, message: response.message, success: false}));
+            }
+        } catch (e) {
+            dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE, success: false}));
+        } finally {
+            dispatch(setIsLoading(false));
+            dispatch(closeDialog());
+        }
+    }, [dispatch, history, id, lastLocation]);
+
+    const openDeleteProductTypeDialog = useCallback(() => {
+        dispatch(renderDialog({
+            title: 'delete product type',
+            isShow: true,
+            onCloseHandler: () => dispatch(closeDialog()),
+            closeText: 'DISAGREE',
+            actionText: 'AGREE',
+            onActionHandler: () => deleteProductType(),
+            children: 'delete product type'
+        }));
+    }, [dispatch, deleteProductType]);
+
     return (
         <Container maxWidth='md' className={classes.root}>
             <Paper className={classes.container}>
@@ -134,14 +174,18 @@ export const ProductTypeDetailsPage = () => {
                         className={classes.buttonFab}
                         color="primary"
                         aria-label="edit"
-                        size="small">
+                        size="small"
+                        onClick={() => history.push(`/product-types/${id}/edit`)}
+                    >
                         <EditIcon/>
                     </Fab>
                     <Fab
                         className={classes.buttonFab}
                         color="primary"
                         aria-label="delete"
-                        size="small">
+                        size="small"
+                        onClick={() => openDeleteProductTypeDialog()}
+                    >
                         <DeleteIcon/>
                     </Fab>
                 </Grid>
