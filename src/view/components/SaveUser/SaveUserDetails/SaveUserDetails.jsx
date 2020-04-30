@@ -16,8 +16,13 @@ export const SaveUserDetails = ({
                                     renderRoles = true,
                                 }) => {
     const {t} = useTranslation();
+
     const renderRoleOptions = useCallback(() => {
+        console.log(roles);
         return roles.map((role) => {
+            if (role.roleId === '0661cdda-a369-4324-a3f9-12b06b91af7b') {
+                return null;
+            }
             return (
                 <option key={role.roleId} value={role.roleId}>{t(ROLES[role.name.toUpperCase()])}</option>
             )
