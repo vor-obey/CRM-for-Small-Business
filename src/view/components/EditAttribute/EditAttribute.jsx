@@ -182,7 +182,7 @@ export const EditAttribute = ({
                 onChange={onAttributeNameChange}
                 renderAttrValues={renderAttributeValues}
                 addAttributeValue={addAttributeValue}
-                title={t('EDIT_ATTRIBUTE')}
+                title={t('EDITING_ATTRIBUTE')}
             />
             <Grid item xl={12} lg={12} style={{textAlign: 'center'}}>
                 <Button
