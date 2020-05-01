@@ -1,8 +1,6 @@
 import React from 'react';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
+import {Button, TextField, Typography, Grid} from "@material-ui/core";
+import {useTranslation} from "react-i18next";
 
 export const SaveProductTypeWithAttributes = ({
                                                   productTypeName,
@@ -11,6 +9,8 @@ export const SaveProductTypeWithAttributes = ({
                                                   renderAttributes,
                                                   title
                                               }) => {
+    const {t} = useTranslation();
+
     return (
         <>
             <Grid container item xl={12} lg={12}>
@@ -21,7 +21,7 @@ export const SaveProductTypeWithAttributes = ({
                 </Grid>
                 <Grid item xl={12} lg={12} style={{marginTop: 15}}>
                     <TextField
-                        label='Product type name'
+                        label={t('PRODUCT_TYPE_NAME')}
                         name="name"
                         variant="outlined"
                         type="text"
@@ -35,7 +35,7 @@ export const SaveProductTypeWithAttributes = ({
             <Grid container item xl={12} lg={12} style={{marginTop: 30}}>
                 <Grid item xl={12} lg={12} style={{textAlign: 'center'}}>
                     <Typography variant='h6'>
-                        Attributes
+                        {t('ATTRIBUTES')}
                     </Typography>
                 </Grid>
                 <Grid item xl={12} lg={12}>
@@ -43,7 +43,7 @@ export const SaveProductTypeWithAttributes = ({
                         variant='outlined'
                         onClick={openCreateAttributeModal}
                     >
-                        Add attribute
+                        {t('ADD_ATTRIBUTE')}
                     </Button>
                 </Grid>
                 <Grid container item xl={12} lg={12}>

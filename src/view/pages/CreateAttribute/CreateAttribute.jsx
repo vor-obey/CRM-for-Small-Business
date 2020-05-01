@@ -67,7 +67,7 @@ export const CreateAttribute = ({
                 onChange={onChange}
                 addAttributeValue={addAttributeValue}
                 renderAttrValues={renderAttrValues}
-                title={t('CREATE_ATTRIBUTE')}
+                title={t('EDITING_ATTRIBUTE')}
             />
             <Grid item xl={12} lg={12} style={{textAlign: 'center'}}>
                 <Button

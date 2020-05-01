@@ -9,7 +9,6 @@ import Divider from '@material-ui/core/Divider';
 import Typography from '@material-ui/core/Typography';
 import {useTranslation} from "react-i18next";
 import {Link} from "react-router-dom";
-import {useTranslation} from "react-i18next";
 
 export const ProductTypesPage = ({history}) => {
     const {t} = useTranslation();

@@ -4,28 +4,33 @@ import {closeModal, renderModal, setIsLoading, setSnackBarStatus} from '../../..
 import {CreateAttribute} from '../CreateAttribute/CreateAttribute';
 import {useDispatch} from 'react-redux';
 import isEmpty from 'lodash/isEmpty';
-import Grid from '@material-ui/core/Grid';
-import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
-import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
-import CardContent from '@material-ui/core/CardContent';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
 import RemoveIcon from '@material-ui/icons/Remove';
 import EditIcon from "@material-ui/icons/Edit";
-import {Container, Paper} from '@material-ui/core';
-import Button from '@material-ui/core/Button';
 import {EditAttribute} from '../../components/EditAttribute/EditAttribute';
 import {ProductTypeService} from '../../../services';
 import {useLastLocation} from 'react-router-last-location';
+import {useTranslation} from "react-i18next";
+import {
+    Container,
+    Button,
+    Paper,
+    List,
+    ListItem,
+    CardHeader,
+    IconButton,
+    CardContent,
+    Typography,
+    Card,
+    Grid,
+    ListItemText
+} from '@material-ui/core';
 
 export const CreateProductTypeWithAttributes = ({history}) => {
     const dispatch = useDispatch();
     const [name, setName] = useState('');
     const [attributes, setAttributes] = useState([]);
     const lastLocation = useLastLocation();
+    const {t} = useTranslation();
 
     const onChange = useCallback((event) => {
         setName(event.target.value);
@@ -155,7 +160,7 @@ export const CreateProductTypeWithAttributes = ({history}) => {
                         onChange={onChange}
                         openCreateAttributeModal={openCreateAttributeModal}
                         renderAttributes={renderAttributes}
-                        title='Create product type'
+                        title={t('CREATE_PRODUCT_TYPE')}
                     />
                 </Grid>
                 <Grid item xl={12} lg={12} style={{textAlign: 'center'}}>
@@ -164,7 +169,7 @@ export const CreateProductTypeWithAttributes = ({history}) => {
                         onClick={createProductType}
                         disabled={isEmpty(attributes)}
                     >
-                        Create
+                        {t('CREATE')}
                     </Button>
                 </Grid>
             </Paper>
