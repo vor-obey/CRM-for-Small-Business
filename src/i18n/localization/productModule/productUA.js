@@ -13,7 +13,7 @@ export const ProductUA = {
     PRODUCT_CATEGORY: 'Категорія продуктів',
     SELECT_PRODUCT: 'Оберіть продукт',
     TOTAL_PRICE: 'Кінцева ціна',
-    TOTAL: 'Всього',
+    TOTAL: 'Разом',
     PRODUCT_TYPE: 'Тип продукту',
     ADD_ATTRIBUTE: 'Додати атрибут',
     DETAILS_PRODUCT: 'Деталі товару',
