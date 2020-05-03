@@ -143,7 +143,7 @@ export const ProductForm = ({getProducts}) => {
                                 </IconButton>
                                 <TextField
                                     value={amount}
-                                    label='Amount'
+                                    label={t('AMOUNT')}
                                     name='amount'
                                     type='text'
                                     variant='outlined'
@@ -158,7 +158,7 @@ export const ProductForm = ({getProducts}) => {
                                     display: 'flex',
                                     flexDirection: 'column'
                                 }}>
-                                    <span style={{fontWeight: 'bold'}}>Summary:</span> {totalPrice} {currency}
+                                    <span style={{fontWeight: 'bold'}}>{t('SUBTOTAL')}:</span> {totalPrice} {currency}
                                 </Typography>
                             </Grid>
                         </Grid>
@@ -166,7 +166,7 @@ export const ProductForm = ({getProducts}) => {
                 </ListItem>
             );
         })
-    }, [selectedProducts, onAmountChange, decrement, increment, removeProduct]);
+    }, [t, selectedProducts, onAmountChange, decrement, increment, removeProduct]);
 
     return (
         <>
@@ -192,7 +192,7 @@ export const ProductForm = ({getProducts}) => {
                     <ListItem>
                         <Grid container item xl={12} lg={12} style={{textAlign: 'right'}}>
                             <Typography variant='body1'>
-                                <span style={{fontWeight: 'bold'}}>Total:</span> {calculateTotalPoints()}
+                                <span style={{fontWeight: 'bold'}}>{t('TOTAL')}:</span> {calculateTotalPoints()}
                             </Typography>
                         </Grid>
                     </ListItem>

@@ -13,6 +13,8 @@ export const ProductEN = {
     EDIT_PRODUCT: 'Edit product',
     SELECT_PRODUCT: 'Select Product',
     TOTAL_PRICE: 'Total price',
+    SUBTOTAL: 'Subtotal',
+    TOTAL: 'Total',
     DETAILS_PRODUCT: 'Product Details',
     PRODUCT_TYPES: 'Product types',
     PRODUCT_TYPE: 'Product type',
