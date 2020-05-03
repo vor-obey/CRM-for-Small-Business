@@ -1,6 +1,9 @@
 export const ProductUA = {
     PRICE: 'Цiна',
     PRODUCTS: 'Товари',
+    PRODUCT: 'Товар(и)',
+    ADD: 'Додати',
+    ADD_PRODUCT: 'Додати товар',
     ADD_VALUE: 'Додати значення',
     ATTRIBUTES: 'Атрибути',
     PRODUCT_CATEGORY_DETAILS: 'Деталі категорії продукту',
@@ -8,6 +11,8 @@ export const ProductUA = {
     EDIT_CATEGORY_PRODUCT: 'Редагувати категорію продукту',
     EDIT_PRODUCT: 'Редагувати товар',
     PRODUCT_CATEGORY: 'Категорія продуктів',
+    SELECT_PRODUCT: 'Оберіть продукт',
+    TOTAL_PRICE: 'Кінцева ціна',
     PRODUCT_TYPE: 'Тип продукту',
     ADD_ATTRIBUTE: 'Додати атрибут',
     DETAILS_PRODUCT: 'Деталі товару',

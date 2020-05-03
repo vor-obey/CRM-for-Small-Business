@@ -6,6 +6,7 @@ import Button from '@material-ui/core/Button';
 import isEmpty from 'lodash/isEmpty';
 import {useDispatch} from 'react-redux';
 import {closeModal} from '../../../data/store/auxiliary/auxiliaryActions';
+import {useTranslation} from "react-i18next";
 
 export const AddOrderProduct = ({
                                     products,
@@ -20,6 +21,7 @@ export const AddOrderProduct = ({
         amount: 1,
     });
     const [totalPrice, setTotalPrice] = useState(0);
+    const {t} = useTranslation();
 
     useEffect(() => {
         setTotalPrice(details.price * details.amount);
@@ -86,7 +88,7 @@ export const AddOrderProduct = ({
                     options={products}
                     onClose={toggleAutocomplete}
                     onToggle={toggleAutocomplete}
-                    inputLabel='Select product'
+                    inputLabel={t('SELECT_PRODUCT')}
                     renderOption={renderProductOptions}
                     getOptionLabel={getProductOptionLabel}
                     onSelectHandler={onProductSelectHandler}
@@ -103,14 +105,14 @@ export const AddOrderProduct = ({
                     variant='outlined'
                     onClick={() => dispatch(closeModal())}
                 >
-                    Cancel
+                    {t('CANCEL')}
                 </Button>
                 <Button
                     variant='outlined'
                     onClick={() => submit({...selectedProduct, ...details, totalPrice})}
                     disabled={isEmpty(selectedProduct)}
                 >
-                    Add
+                    {t('ADD')}
                 </Button>
             </Grid>
         </Container>

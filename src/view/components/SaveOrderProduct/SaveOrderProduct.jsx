@@ -9,6 +9,7 @@ import Typography from '@material-ui/core/Typography';
 import {useHistory} from 'react-router-dom';
 import {useDispatch} from 'react-redux';
 import {closeModal} from '../../../data/store/auxiliary/auxiliaryActions';
+import {useTranslation} from "react-i18next";
 
 const currencies = ['UAH', 'USD', 'EUR'];
 
@@ -35,6 +36,7 @@ export const SaveOrderProduct = ({
         dispatch(closeModal());
         history.push('/create-product');
     }, [dispatch, history]);
+    const {t} = useTranslation();
 
     return (
         <>
@@ -59,7 +61,7 @@ export const SaveOrderProduct = ({
             <Grid item xl={4}>
                 <TextField
                     value={details.price}
-                    label='Price'
+                    label={t('PRICE')}
                     name='price'
                     type='text'
                     fullWidth
@@ -77,7 +79,7 @@ export const SaveOrderProduct = ({
                     }}
                     name='currency'
                     variant='outlined'
-                    label='Currency'
+                    label={t('CURRENCY')}
                     onChange={onChange}
                 >
                     {currencies.map(option => (
@@ -93,7 +95,7 @@ export const SaveOrderProduct = ({
                 </IconButton>
                 <TextField
                     value={details.amount}
-                    label='Amount'
+                    label={t('AMOUNT')}
                     name='amount'
                     type='number'
                     variant='outlined'
@@ -105,7 +107,7 @@ export const SaveOrderProduct = ({
             </Grid>
             <Grid>
                 <Typography variant='body1'>
-                    Total price: {`${totalPrice} ${details.currency}`}
+                     {`${t('TOTAL_PRICE')} ${totalPrice} ${details.currency}`}
                 </Typography>
             </Grid>
         </>

@@ -14,11 +14,13 @@ import CloseIcon from "@material-ui/icons/Close";
 import IconButton from '@material-ui/core/IconButton';
 import RemoveIcon from '@material-ui/icons/Remove';
 import AddIcon from '@material-ui/icons/Add';
+import {useTranslation} from "react-i18next";
 
 export const ProductForm = ({getProducts}) => {
     const dispatch = useDispatch();
     const [products, setProducts] = useProducts();
     const [selectedProducts, setSelectedProducts] = useState([]);
+    const {t} = useTranslation();
 
     useEffect(() => {
         getProducts(selectedProducts);
@@ -170,7 +172,7 @@ export const ProductForm = ({getProducts}) => {
         <>
             <Grid item xl={12} lg={12}>
                 <Typography variant='h6'>
-                    Product(s)
+                    {t('PRODUCT')}
                 </Typography>
                 <Divider/>
             </Grid>
@@ -182,7 +184,7 @@ export const ProductForm = ({getProducts}) => {
                             variant='outlined'
                             onClick={() => openAddOrderProductModal()}
                         >
-                            Add product
+                            {t('ADD_PRODUCT')}
                         </Button>
                     </Grid>
                 </ListItem>

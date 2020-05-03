@@ -1,6 +1,9 @@
 export const ProductRU = {
+    ADD: 'Добавить',
     PRICE: 'Цена',
     PRODUCTS: 'Товары',
+    PRODUCT: 'Товар(ы)',
+    ADD_PRODUCT: 'Добавить товар',
     ADD_VALUE: 'Добавить значение',
     PRODUCT_TYPES: 'Типы продуктов',
     PRODUCT_TYPE: 'Тип продукта',
@@ -9,6 +12,8 @@ export const ProductRU = {
     EDIT_CATEGORY_PRODUCT: 'Изменить категорию продукта',
     EDIT_PRODUCT: 'Изменить товар',
     PRODUCT_CATEGORY: 'Категория продукта',
+    SELECT_PRODUCT: 'Выберите продукт',
+    TOTAL_PRICE: 'Итоговая цена',
     ADD_ATTRIBUTE: 'Добавить атрибут',
     CREATE_PRODUCT: 'Создать товар',
     PRODUCT_NAME: 'Название',

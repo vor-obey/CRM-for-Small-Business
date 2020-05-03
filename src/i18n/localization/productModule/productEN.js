@@ -1,6 +1,9 @@
 export const ProductEN = {
+    ADD: 'Add',
     PRICE: 'Price',
     PRODUCTS: 'Products',
+    PRODUCT: 'Product(s)',
+    ADD_PRODUCT: 'Add product',
     ADD_VALUE: 'Add value',
     ADD_ATTRIBUTE: 'Add attribute',
     ATTRIBUTES: 'Attributes',
@@ -8,6 +11,8 @@ export const ProductEN = {
     EDIT_CATEGORY_PRODUCT: 'Edit product category',
     PRODUCT_CATEGORY: 'Product category',
     EDIT_PRODUCT: 'Edit product',
+    SELECT_PRODUCT: 'Select Product',
+    TOTAL_PRICE: 'Total price',
     DETAILS_PRODUCT: 'Product Details',
     PRODUCT_TYPES: 'Product types',
     PRODUCT_TYPE: 'Product type',
