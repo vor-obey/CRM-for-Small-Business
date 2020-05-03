@@ -158,7 +158,7 @@ export const ProductForm = ({getProducts}) => {
                                     display: 'flex',
                                     flexDirection: 'column'
                                 }}>
-                                    <span style={{fontWeight: 'bold'}}>{t('SUBTOTAL')}:</span> {totalPrice} {currency}
+                                    <span style={{fontWeight: 'bold'}}>{t('PRICE')}:</span> {totalPrice} {currency}
                                 </Typography>
                             </Grid>
                         </Grid>

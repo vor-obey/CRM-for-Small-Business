@@ -14,7 +14,6 @@ export const ProductRU = {
     PRODUCT_CATEGORY: 'Категория продукта',
     SELECT_PRODUCT: 'Выберите продукт',
     TOTAL_PRICE: 'Итоговая цена',
-    SUBTOTAL: 'Промежуточный итог',
     TOTAL: 'Итого',
     ADD_ATTRIBUTE: 'Добавить атрибут',
     CREATE_PRODUCT: 'Создать товар',
