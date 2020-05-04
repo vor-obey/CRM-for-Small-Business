@@ -16,7 +16,18 @@ export const ordersPageStyles = ((theme) => ({
       alignItems: 'center',
       overflowWrap: 'break-word'
    },
-   orderGrid: {
+    noContent: {
+       display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        minHeight: 'calc(100vh - 64px)'
+    },
+    noContentInfo: {
+        flexDirection: 'column',
+        textAlign: 'center'
+    },
+    orderGrid: {
       hyphens: 'auto',
       overflowWrap: 'break-word'
    },

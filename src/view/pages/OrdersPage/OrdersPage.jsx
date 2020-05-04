@@ -92,18 +92,25 @@ export const OrdersPage = ({history}) => {
 
     if (isEmpty(orderList)) {
         return (
-            <Grid container justify='center' style={{display: 'grid', paddingTop: 24}}>
-                <Typography variant='h5' style={{paddingBottom: 18}}>{t('NO_NEW_ORDERS')}</Typography>
-                <Button
-                    type='submit'
-                    variant="outlined"
-                    color="primary"
-                    className={classes.button}
-                    component={Link}
-                    to='/create-order'
-                >
-                    {t('CREATE')}
-                </Button>
+            <Grid
+                container
+                item
+                spacing={0}
+                className={classes.noContent}
+            >
+                <Grid container item xs={8} sm={2} className={classes.noContentInfo}>
+                    <Typography variant='h5' style={{paddingBottom: 18}}>{t('NO_NEW_ORDERS')}</Typography>
+                    <Button
+                        type='submit'
+                        variant="outlined"
+                        color="primary"
+                        className={classes.button}
+                        component={Link}
+                        to='/create-order'
+                    >
+                        {t('CREATE')}
+                    </Button>
+                </Grid>
             </Grid>
         )
     }
