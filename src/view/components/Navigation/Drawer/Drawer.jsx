@@ -50,7 +50,7 @@ function Drawer(props) {
                     component={Link}
                     to="/dashboard"
                     selected={isActive('/')}>
-                    <ListItemIcon><HomeIcon className={classes.menuIcon} /></ListItemIcon>
+                    <ListItemIcon><HomeIcon className={classes.menuIcon}/></ListItemIcon>
                     <ListItemText>{t('HOME')}</ListItemText>
                 </ListItem>
                 <Divider variant="inset" component="li"/>
@@ -91,6 +91,34 @@ function Drawer(props) {
                     selected={isActive('/orders')}>
                     <ListItemIcon className={classes.menuIcon}><InsertDriveFileIcon/></ListItemIcon>
                     <ListItemText>{t('ORDERS')}</ListItemText>
+                </ListItem>
+                <Divider variant="inset" component="li"/>
+                <ListItem
+                    className={classes.menuItem}
+                    button
+                    component={Link}
+                    to="/abstract-products"
+                    selected={isActive('/abstract-products')}>
+                    <ListItemIcon className={classes.menuIcon}><InsertDriveFileIcon/></ListItemIcon>
+                    <ListItemText>{t('PRODUCT_CATEGORIES')}</ListItemText>
+                </ListItem>
+                <ListItem
+                    className={classes.menuItem}
+                    button
+                    component={Link}
+                    to="/products"
+                    selected={isActive('/products')}>
+                    <ListItemIcon className={classes.menuIcon}><InsertDriveFileIcon/></ListItemIcon>
+                    <ListItemText>{t('PRODUCTS')}</ListItemText>
+                </ListItem>
+                <ListItem
+                    className={classes.menuItem}
+                    button
+                    component={Link}
+                    to="/product-types"
+                    selected={isActive('/product-types')}>
+                    <ListItemIcon className={classes.menuIcon}><InsertDriveFileIcon/></ListItemIcon>
+                    <ListItemText>{t('PRODUCT_TYPES')}</ListItemText>
                 </ListItem>
             </List>
         </div>

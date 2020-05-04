@@ -5,11 +5,11 @@ import {useDispatch} from "react-redux";
 import {setIsLoading, setSnackBarStatus} from "../../../data/store/auxiliary/auxiliaryActions";
 import {COMMON_ERROR_MESSAGE} from "../../../constants/statuses";
 import {useTranslation} from "react-i18next";
-import {useRoles} from '../../../utils/customHooks';
+import {useRoles} from '../../../utils/hooks/userHooks';
 
 export const CreateUser = ({history}) => {
     const dispatch = useDispatch();
-    const roles = useRoles();
+    const [roles] = useRoles();
     const { t } = useTranslation('');
 
     const onSubmitHandler = useCallback(async (userInput) => {

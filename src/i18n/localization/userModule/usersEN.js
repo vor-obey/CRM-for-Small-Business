@@ -19,4 +19,5 @@ export const UsersEN = {
     ROLE_OWNER: 'Owner',
     ROLE_SUPER_ADMIN: 'Super Admin',
     NO_INSTAGRAM_CREDENTIALS: "Integrate your Instagram account to access the chat. It can be done in the organization's settings.",
+    PASSWORD_DOESNT_MATCH: 'Password doesn`t match',
 };

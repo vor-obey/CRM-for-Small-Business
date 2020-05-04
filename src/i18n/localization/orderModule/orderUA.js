@@ -1,6 +1,7 @@
 export const orderUA = {
     PRODUCT_DETAILS: 'Деталі продукту',
     PRODUCT: 'Продукт',
+    AMOUNT: 'Кількість',
     CUSTOMER: 'Замовник',
     SELECT_CUSTOMER: 'Оберіть замовника',
     SELECT_MANAGER: 'Оберіть менеджера',
@@ -12,6 +13,7 @@ export const orderUA = {
     DESCRIPTION: 'Опис',
     STATUS: 'Статус',
     ORDER: 'Замовлення',
+    ORDER_DETAILS: 'Деталі замовлення',
     SORT_BY_STATUS: 'Сортувати за статусом',
     NEW: 'Новий',
     CANCELLED: 'Скасован',

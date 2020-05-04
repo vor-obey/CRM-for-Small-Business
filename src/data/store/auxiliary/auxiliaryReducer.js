@@ -1,4 +1,11 @@
-import {SET_SNACKBAR_STATUS, SET_IS_LOADING} from "./auxiliaryActionTypes";
+import {
+    SET_SNACKBAR_STATUS,
+    SET_IS_LOADING,
+    RENDER_MODAL,
+    CLOSE_MODAL,
+    RENDER_DIALOG,
+    CLOSE_DIALOG
+} from "./auxiliaryActionTypes";
 
 const initialState = {
     isLoading: false,
@@ -6,6 +13,20 @@ const initialState = {
         isOpen: false,
         message: '',
         success: true,
+    },
+    modal: {
+        isOpen: false,
+        classes: {},
+        children: null,
+        onCloseHandler: null
+    },
+    dialog: {
+        isShow: false,
+        onCloseHandler: null,
+        closeText: '',
+        actionText: '',
+        onAction: null,
+        children: null,
     }
 };
 
@@ -21,6 +42,34 @@ export const auxiliaryReducer = (state = initialState, action) => {
             return {
                 ...state,
                 snackBarStatus: action.snackBarStatus
+            }
+        }
+        case RENDER_MODAL: {
+            return {
+                ...state,
+                modal: action.modal
+            }
+        }
+        case RENDER_DIALOG: {
+            return {
+                ...state,
+                dialog: action.dialog
+            }
+        }
+        case CLOSE_MODAL: {
+            return {
+                ...state,
+                modal: {
+                    ...initialState.modal
+                }
+            }
+        }
+        case CLOSE_DIALOG: {
+            return {
+                ...state,
+                dialog: {
+                    ...initialState.dialog
+                }
             }
         }
         default: {

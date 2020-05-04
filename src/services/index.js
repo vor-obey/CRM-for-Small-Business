@@ -7,6 +7,10 @@ import OrganizationService from './OrganizationService';
 import CodeService from "./CodeService";
 import ShippingMethodService from "./ShippingMethodService";
 import InstagramService from './InstagramService';
+import ProductTypeService from './ProductTypeService'
+import AttributeService from './AttributeService';
+import AbstractProductService from './AbstractProductService';
+import ProductService from './ProductService';
 
 export {
     StorageService,
@@ -17,5 +21,9 @@ export {
     OrganizationService,
     CodeService,
     ShippingMethodService,
-    InstagramService
+    InstagramService,
+    ProductTypeService,
+    AttributeService,
+    AbstractProductService,
+    ProductService,
 }

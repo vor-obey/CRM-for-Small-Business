@@ -12,6 +12,7 @@ export const CustomerDetails = (props) => {
             <List className={classes.containerList}>
                 <ListItem className={classes.container}>
                     <Grid
+                        container
                         item
                         direction={'column'}
                         justify='space-around'
@@ -26,7 +27,7 @@ export const CustomerDetails = (props) => {
                         </Grid>
                         <Grid item xs={12} md={12} className={classes.customerItem}>
                             <Typography variant="h6">
-                                {t('NAME')}
+                                {t('FULL_NAME')}
                             </Typography>
                             <Typography variant="body1">
                                 {customerDetails.name}
@@ -45,6 +46,7 @@ export const CustomerDetails = (props) => {
                         }
                     </Grid>
                     <Grid
+                        container
                         item
                         justify={'space-around'}
                         direction={'column'}

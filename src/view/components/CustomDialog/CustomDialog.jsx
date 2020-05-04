@@ -1,9 +1,7 @@
 import React, {useMemo} from 'react';
 import {
     Dialog,
-    DialogTitle,
     DialogContent,
-    DialogContentText,
     DialogActions,
     Button,
     Slide
@@ -19,6 +17,7 @@ const useStyles = makeStyles((() => ({
         textAlign: 'center'
     },
     text: {
+        fontSize: 20,
         textAlign: 'justify'
     },
     buttons: {
@@ -28,7 +27,6 @@ const useStyles = makeStyles((() => ({
 
 export function CustomDialog({
                                  isShow,
-                                 title,
                                  children,
                                  exit,
                                  closeText = "Disagree",
@@ -58,11 +56,8 @@ export function CustomDialog({
             aria-labelledby="alert-dialog-slide-title"
             aria-describedby="alert-dialog-slide-description"
         >
-            <DialogTitle id="alert-dialog-slide-title" className={classes.title}>{title}</DialogTitle>
             <DialogContent className={classes.text}>
-                <DialogContentText id="alert-dialog-slide-description">
-                    {children}
-                </DialogContentText>
+                {children}
             </DialogContent>
             <DialogActions className={classes.buttons}>
                 <Button onClick={onClose} color="primary">

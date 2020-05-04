@@ -1,5 +1,6 @@
 export const orderRU = {
     PRODUCT_DETAILS: 'Информация о продукте',
+    AMOUNT: 'Количество',
     PRODUCT: 'Продукт',
     CUSTOMER: 'Клиент',
     SELECT_CUSTOMER: 'Выбрать клиента',
@@ -13,6 +14,7 @@ export const orderRU = {
     STATUS: 'Статус',
     SORT_BY_STATUS: 'Сортировать по статусу',
     ORDER: 'Заказ',
+    ORDER_DETAILS: 'Детали заказа',
     NEW: 'Новый',
     CANCELLED: 'Отменен',
     SHIPPING: 'Доставляется',

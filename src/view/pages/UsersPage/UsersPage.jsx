@@ -18,7 +18,7 @@ import {filter} from "../../../utils/helpers";
 import {USER_URLS} from '../../../constants/urls';
 import {useTranslation} from 'react-i18next';
 import {SelectFilter} from "../../components/Filter/SelectFilter";
-import {useManagers, useRoles} from '../../../utils/customHooks';
+import {useManagers, useRoles} from '../../../utils/hooks/userHooks';
 
 const useStyles = makeStyles(usersPageStyle);
 
@@ -28,7 +28,7 @@ export const UsersPage = ({history}) => {
 
     const [userList] = useManagers();
     const minWidth600 = useMediaQuery('(min-width:600px)');
-    const roles = useRoles();
+    const [roles] = useRoles();
     const [inputFilter, setInputFilter] = useState('');
     const [selectedOption, setSelectedOption] = useState('');
 
