@@ -90,7 +90,7 @@ export const OrdersPage = ({history}) => {
         })
     }, [orderList, navigationToOrderDetails, filterStatus, minWidth600, classes]);
 
-    if (isEmpty(orderList) && !loading) {
+    if (isEmpty(orderList) || !loading) {
         return (
             <Grid container justify='center' style={{display: 'grid', paddingTop: 24}}>
                 <Typography variant='h5' style={{paddingBottom: 18}}>{t('NO_NEW_ORDERS')}</Typography>
