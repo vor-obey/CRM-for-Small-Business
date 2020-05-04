@@ -36,8 +36,6 @@ export const ProductTypesPage = ({history}) => {
         });
     }, [productTypes, history]);
 
-    console.log(productTypes);
-
     if (isEmpty(productTypes) || !loading) {
         return (
             <Grid container justify='center' style={{display: 'grid', paddingTop: 24}}>
