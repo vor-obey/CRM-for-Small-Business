@@ -22,7 +22,7 @@ import {isEmpty} from 'lodash';
 const useStyles = makeStyles(customersPageStyle);
 
 export const CustomersPage = ({history}) => {
-    const [customerList, loading] = useCustomers();
+    const [customerList,, loading] = useCustomers();
     const classes = useStyles();
     const [inputFilter, setInputFilter] = useState('');
     const {t} = useTranslation('');
