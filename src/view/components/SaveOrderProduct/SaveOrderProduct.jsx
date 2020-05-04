@@ -1,16 +1,26 @@
 import React, {useCallback} from 'react';
-import Grid from '@material-ui/core/Grid';
 import {CustomAutocomplete} from '../Autocomplete/Autocomplete';
-import {TextField} from '@material-ui/core';
-import IconButton from '@material-ui/core/IconButton';
+import {Grid, FormControl, IconButton, Typography, InputLabel, OutlinedInput, InputAdornment, Button, Select, MenuItem} from '@material-ui/core';
 import RemoveIcon from '@material-ui/icons/Remove';
 import AddIcon from '@material-ui/icons/Add';
-import Typography from '@material-ui/core/Typography';
 import {useHistory} from 'react-router-dom';
 import {useDispatch} from 'react-redux';
 import {closeModal} from '../../../data/store/auxiliary/auxiliaryActions';
 
-const currencies = ['UAH', 'USD', 'EUR'];
+const currencies = [
+    {
+        value: 'UAH',
+        label: '₴',
+    },
+    {
+        value: 'USD',
+        label: '$',
+    },
+    {
+        value: 'EUR',
+        label: '€',
+    },
+];
 
 export const SaveOrderProduct = ({
                                      isOpen,
@@ -26,7 +36,8 @@ export const SaveOrderProduct = ({
                                      onChange,
                                      increment,
                                      decrement,
-                                     totalPrice
+                                     totalPrice,
+                                     classes
                                  }) => {
     const history = useHistory();
     const dispatch = useDispatch();
@@ -37,77 +48,108 @@ export const SaveOrderProduct = ({
     }, [dispatch, history]);
 
     return (
-        <>
-            <Grid item xl={1} lg={1}>
-                <IconButton onClick={navigateToCreateProduct}>
-                    <AddIcon/>
-                </IconButton>
+        <Grid container item xs={12} sm={12} className={classes.container}>
+            <Grid container item xs={12} sm={12} className={classes.containerProduct}>
+                <Grid item xs={12} sm={7}>
+                    <CustomAutocomplete
+                        isOpen={isOpen}
+                        options={options}
+                        onClose={onClose}
+                        onToggle={onToggle}
+                        inputLabel={inputLabel}
+                        renderOption={renderOption}
+                        getOptionLabel={getOptionLabel}
+                        onSelectHandler={onSelectHandler}
+                        value={value}
+                    />
+                </Grid>
+                <Grid item xs={12} sm={2} className={classes.containerProduct}>
+                    <FormControl variant="outlined" fullWidth>
+                        <InputLabel>Amount</InputLabel>
+                        <OutlinedInput
+                            className={classes.amount}
+                            type='text'
+                            label='Amount'
+                            name='amount'
+                            value={details.amount}
+                            onChange={onChange}
+                            startAdornment={
+                                <InputAdornment position="start">
+                                    <IconButton
+                                        className={classes.amountButton}
+                                        fontSize="small"
+                                        onClick={decrement} disabled={details.amount === 1}>
+                                        <RemoveIcon/>
+                                    </IconButton>
+                                </InputAdornment>
+                            }
+                            endAdornment={
+                                <InputAdornment position="end">
+                                    <IconButton
+                                        className={classes.amountButton}
+                                        fontSize="small"
+                                        onClick={increment}>
+                                        <AddIcon/>
+                                    </IconButton>
+                                </InputAdornment>
+                            }
+                            labelWidth={70}
+                        />
+                    </FormControl>
+                </Grid>
+                <Grid item xs={12} sm={2} className={classes.containerProduct}>
+                    <FormControl variant="outlined" fullWidth>
+                        <InputLabel>Price</InputLabel>
+                        <OutlinedInput
+                            value={details.price}
+                            label='Price'
+                            name='price'
+                            type='text'
+                            variant='outlined'
+                            onChange={onChange}
+                            endAdornment={
+                                <InputAdornment position="end">
+                                    <Select
+                                        className={classes.currency}
+                                        value={details.currency}
+                                        name='currency'
+                                        onChange={onChange}
+                                    >
+                                        {currencies.map((option) => (
+                                            <MenuItem
+                                                key={option.value} value={option.value}>
+                                                {option.label}
+                                            </MenuItem>
+                                        ))}
+                                    </Select>
+                                </InputAdornment>
+                            }
+                            labelWidth={70}
+                        />
+                    </FormControl>
+                </Grid>
             </Grid>
-            <Grid item xl={11} lg={11}>
-                <CustomAutocomplete
-                    isOpen={isOpen}
-                    options={options}
-                    onClose={onClose}
-                    onToggle={onToggle}
-                    inputLabel={inputLabel}
-                    renderOption={renderOption}
-                    getOptionLabel={getOptionLabel}
-                    onSelectHandler={onSelectHandler}
-                    value={value}
-                />
+            <Grid container item xs={12} sm={12} className={classes.containerProductMeta}>
+                <Grid item xs={12} sm={6} className={classes.containerProductItem}>
+                    <Button
+                        variant="outlined" color="primary"
+                        onClick={navigateToCreateProduct}>
+                        <AddIcon/>
+                          Add new product
+                    </Button>
+                </Grid>
+                <Grid item xs={12} sm={6} className={classes.containerProductItem}>
+                    <Grid className={classes.containerProductItemTotal}>
+                        <Typography variant='subtitle1'>
+                            Total:
+                        </Typography>
+                        <Typography variant='h6'>
+                            {`${totalPrice} ${details.currency}`}
+                        </Typography>
+                    </Grid>
+                </Grid>
             </Grid>
-            <Grid item xl={4}>
-                <TextField
-                    value={details.price}
-                    label='Price'
-                    name='price'
-                    type='text'
-                    fullWidth
-                    variant='outlined'
-                    onChange={onChange}
-                />
-            </Grid>
-            <Grid item xl={4}>
-                <TextField
-                    select
-                    fullWidth
-                    value={details.currency}
-                    SelectProps={{
-                        native: true,
-                    }}
-                    name='currency'
-                    variant='outlined'
-                    label='Currency'
-                    onChange={onChange}
-                >
-                    {currencies.map(option => (
-                        <option key={option} value={option}>
-                            {option}
-                        </option>
-                    ))}
-                </TextField>
-            </Grid>
-            <Grid item xl={12} lg={12}>
-                <IconButton onClick={decrement} disabled={details.amount === 1}>
-                    <RemoveIcon/>
-                </IconButton>
-                <TextField
-                    value={details.amount}
-                    label='Amount'
-                    name='amount'
-                    type='number'
-                    variant='outlined'
-                    onChange={onChange}
-                />
-                <IconButton onClick={increment}>
-                    <AddIcon/>
-                </IconButton>
-            </Grid>
-            <Grid>
-                <Typography variant='body1'>
-                    Total price: {`${totalPrice} ${details.currency}`}
-                </Typography>
-            </Grid>
-        </>
+
+        </Grid>
     );
 };
