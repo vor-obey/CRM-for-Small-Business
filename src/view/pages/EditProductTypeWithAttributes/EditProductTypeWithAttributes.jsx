@@ -34,7 +34,6 @@ import {CreateAttribute} from '../CreateAttribute/CreateAttribute';
 import {v4 as uuidv4} from 'uuid'
 import {AttributeService, ProductTypeService} from '../../../services';
 import {COMMON_ERROR_MESSAGE} from '../../../constants/statuses';
-import {useLastLocation} from 'react-router-last-location';
 import {useTranslation} from 'react-i18next';
 import {editProductTypeWithAttributesStyles} from "./EditProductTypeWithAttributes.style";
 
@@ -47,7 +46,6 @@ export const EditProductTypeWithAttributes = ({history}) => {
     const [name, setName] = useState('');
     const [attributes, setAttributes] = useState([]);
     const [productTypeDetails] = useProductTypeById(id);
-    const lastLocation = useLastLocation();
     const {t} = useTranslation('');
 
     const mapAttributes = useCallback((items) => {
@@ -246,7 +244,7 @@ export const EditProductTypeWithAttributes = ({history}) => {
             });
             if (response.success) {
                 dispatch(setIsLoading(false));
-                history.push(`${lastLocation ? lastLocation.pathname : `/product-types/${id}`}`);
+                history.push(`/product-types/${id}`);
             } else {
                 dispatch(setIsLoading(false));
                 dispatch(setSnackBarStatus({isOpen: true, message: response.message, success: false}));
@@ -255,7 +253,7 @@ export const EditProductTypeWithAttributes = ({history}) => {
             dispatch(setIsLoading(false));
             dispatch(setSnackBarStatus({isOpen: true, message: e.message, success: false}));
         }
-    }, [id, name, attributes, dispatch, history, lastLocation]);
+    }, [id, name, attributes, dispatch, history]);
 
     return (
         <Container maxWidth='md' className={classes.root}>

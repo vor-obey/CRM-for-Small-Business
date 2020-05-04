@@ -4,13 +4,11 @@ import {useAbstractProductDetailsById} from '../../../utils/hooks/productHooks';
 import {SaveAbstractProduct} from '../../components/SaveAbstractProduct/SaveAbstractProduct';
 import {setIsLoading, setSnackBarStatus} from '../../../data/store/auxiliary/auxiliaryActions';
 import AbstractProductService from '../../../services/AbstractProductService';
-import {useLastLocation} from 'react-router-last-location';
 import {useDispatch} from 'react-redux';
 import {useTranslation} from "react-i18next";
 
 export const EditAbstractProduct = ({history}) => {
     const {id} = useParams();
-    const lastLocation = useLastLocation();
     const dispatch = useDispatch();
     const {t} = useTranslation();
     const [abstractProduct] = useAbstractProductDetailsById(id);
@@ -27,7 +25,7 @@ export const EditAbstractProduct = ({history}) => {
                 description: abstractProductDetails.description,
             });
             if (response.success) {
-                history.push(`${lastLocation ? lastLocation.pathname : '/abstract-products'}`);
+                history.push(`/abstract-products/${id}`);
             } else {
                 dispatch(setSnackBarStatus({isOpen: true, message: response.message, success: false}));
             }
@@ -36,7 +34,7 @@ export const EditAbstractProduct = ({history}) => {
         } finally {
             dispatch(setIsLoading(false));
         }
-    }, [dispatch, history, lastLocation, id]);
+    }, [dispatch, history, id]);
 
     return (
         <SaveAbstractProduct

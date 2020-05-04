@@ -5,7 +5,6 @@ import {useParams} from 'react-router-dom';
 import {setIsLoading, setSnackBarStatus} from '../../../data/store/auxiliary/auxiliaryActions';
 import ProductService from '../../../services/ProductService';
 import {useDispatch} from 'react-redux';
-import {useLastLocation} from 'react-router-last-location';
 import {useTranslation} from "react-i18next";
 
 export const EditProduct = ({history}) => {
@@ -13,7 +12,6 @@ export const EditProduct = ({history}) => {
     const {id} = useParams();
     const [productDetails] = useProductDetailsById(id);
     const dispatch = useDispatch();
-    const lastLocation = useLastLocation();
 
     const validateAttributeValues = useCallback((arr) => {
         return arr.find(item => item === '');
@@ -36,7 +34,7 @@ export const EditProduct = ({history}) => {
                         attributeValues: selectedAttributeValues,
                     });
                     dispatch(setIsLoading(false));
-                    history.push(`${lastLocation ? lastLocation.pathname : `/products/${id}`}`);
+                    history.push(`/products/${id}`);
                 } catch (e) {
                     dispatch(setIsLoading(false));
                     dispatch(setSnackBarStatus({isOpen: true, message: e.message, success: false}));
@@ -49,7 +47,6 @@ export const EditProduct = ({history}) => {
         dispatch,
         history,
         id,
-        lastLocation,
         validateAttributeValues
     ]);
 

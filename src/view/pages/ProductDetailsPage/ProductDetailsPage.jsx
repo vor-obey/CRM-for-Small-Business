@@ -11,13 +11,11 @@ import {
 import {ProductService} from '../../../services';
 import isEmpty from 'lodash/isEmpty';
 import {useTranslation} from 'react-i18next';
-import {COMMON_ERROR_MESSAGE} from '../../../constants/statuses';
 import {useProductDetailsById} from '../../../utils/hooks/productHooks';
 import {productDetailsPageStyles} from "./ProductDetailsPage.Style";
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from "@material-ui/icons/Edit";
 import AssignmentOutlinedIcon from '@material-ui/icons/AssignmentOutlined';
-import {useLastLocation} from 'react-router-last-location';
 
 const useStyles = makeStyles(productDetailsPageStyles);
 
@@ -27,7 +25,6 @@ export const ProductDetailsPage = ({history}) => {
     const {id} = useParams();
     const [productDetails] = useProductDetailsById(id);
     const {t} = useTranslation('');
-    const lastLocation = useLastLocation();
 
     const deleteProduct = useCallback(async () => {
         try {
@@ -36,16 +33,16 @@ export const ProductDetailsPage = ({history}) => {
             if (response.success) {
                 dispatch(setIsLoading(false));
                 dispatch(closeDialog());
-                history.push(`${lastLocation ? lastLocation.pathname : '/products'}`);
+                history.push('/products');
             } else {
                 dispatch(setIsLoading(false));
                 dispatch(setSnackBarStatus({isOpen: true, message: response.message, success: false}));
             }
         } catch (e) {
             dispatch(setIsLoading(false));
-            dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE, success: false}));
+            dispatch(setSnackBarStatus({isOpen: true, message: e.message, success: false}));
         }
-    }, [id, history, dispatch, lastLocation]);
+    }, [id, history, dispatch]);
 
     const renderAttributes = useCallback(() => {
         const {productToAttributeValues} = productDetails;

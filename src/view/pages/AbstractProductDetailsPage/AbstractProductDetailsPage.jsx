@@ -29,7 +29,6 @@ import {abstractProductDetailsPageStyles} from "./AbstractProductDetailsPage.sty
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
-import {useLastLocation} from 'react-router-last-location';
 
 const useStyles = makeStyles(abstractProductDetailsPageStyles);
 
@@ -39,7 +38,6 @@ export const AbstractProductDetailsPage = ({history}) => {
     const {id} = useParams();
     const [abstractProductDetails] = useAbstractProductDetailsById(id);
     const {t} = useTranslation('');
-    const lastLocation = useLastLocation();
 
     const deleteAbstractProduct = useCallback(async () => {
         try {
@@ -48,7 +46,7 @@ export const AbstractProductDetailsPage = ({history}) => {
             if (response.success) {
                 dispatch(setIsLoading(false));
                 dispatch(closeDialog());
-                history.push(`${lastLocation ? lastLocation.pathname : '/abstract-products'}`);
+                history.push('/abstract-products');
             } else {
                 dispatch(setIsLoading(false));
                 dispatch(setSnackBarStatus({isOpen: true, message: response.message, success: false}));
@@ -57,7 +55,7 @@ export const AbstractProductDetailsPage = ({history}) => {
             dispatch(setIsLoading(false));
             dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE, success: false}));
         }
-    }, [id, history, dispatch, lastLocation]);
+    }, [id, history, dispatch]);
 
     const renderAttributes = useCallback(() => {
         const {productType: {productTypeToAttributes = {}} = {}} = abstractProductDetails;

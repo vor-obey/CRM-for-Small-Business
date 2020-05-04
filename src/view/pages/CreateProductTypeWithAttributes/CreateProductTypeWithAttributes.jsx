@@ -29,7 +29,6 @@ import RemoveIcon from '@material-ui/icons/Remove';
 import EditIcon from "@material-ui/icons/Edit";
 import {EditAttribute} from '../../components/EditAttribute/EditAttribute';
 import {ProductTypeService} from '../../../services';
-import {useLastLocation} from 'react-router-last-location';
 import {editProductTypeWithAttributesStyles} from "../EditProductTypeWithAttributes/EditProductTypeWithAttributes.style";
 import {useTranslation} from "react-i18next";
 import cloneDeep from 'lodash/cloneDeep';
@@ -42,8 +41,6 @@ export const CreateProductTypeWithAttributes = ({history}) => {
     const dispatch = useDispatch();
     const [name, setName] = useState('');
     const [attributes, setAttributes] = useState([]);
-    console.log(attributes);
-    const lastLocation = useLastLocation();
     const {t} = useTranslation();
 
     const onChange = useCallback((event) => {
@@ -175,12 +172,12 @@ export const CreateProductTypeWithAttributes = ({history}) => {
                 attributes
             });
             dispatch(setIsLoading(false));
-            history.push(`${lastLocation ? lastLocation.pathname : '/product-types'}`);
+            history.push('/product-types');
         } catch (e) {
             dispatch(setIsLoading(false));
             dispatch(setSnackBarStatus({isOpen: true, message: e.message, success: false}));
         }
-    }, [attributes, name, dispatch, history, lastLocation]);
+    }, [attributes, name, dispatch, history]);
 
     return (
         <Container maxWidth='md' className={classes.root}>
