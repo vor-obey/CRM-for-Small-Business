@@ -18,8 +18,8 @@ import {productTypeDetailsPageStyles} from "./ProductTypeDetailsPage.style";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
-
 import isEmpty from 'lodash/isEmpty';
+import {useTranslation} from "react-i18next";
 import {
     closeDialog,
     renderDialog,
@@ -38,6 +38,7 @@ export const ProductTypeDetailsPage = ({history}) => {
     const classes = useStyles();
     const {id} = useParams();
     const [productType] = useProductTypeById(id);
+    const {t} = useTranslation();
     const lastLocation = useLastLocation();
     const dispatch = useDispatch();
 
@@ -145,8 +146,8 @@ export const ProductTypeDetailsPage = ({history}) => {
             <Paper className={classes.container}>
                 <Grid container item xl={12} lg={12}>
                     <Grid item className={classes.containerTitle}>
-                        <Typography variant='h6'>
-                            Product Type Details
+                        <Typography variant='h5'>
+                            {t('PRODUCT_TYPE_DETAILS')}
                         </Typography>
                     </Grid>
                 </Grid>
@@ -154,14 +155,14 @@ export const ProductTypeDetailsPage = ({history}) => {
                     <Grid container item xs={12} sm={12} className={classes.containerType}>
                         <Grid item sm={12} xs={12} xl={12} lg={12} className={classes.containerTypeItem}>
                             <Typography variant='h6'>
-                                Name: {productType.name}
+                                {t('PRODUCT_NAME')}: {productType.name}
                             </Typography>
                         </Grid>
                     </Grid>
                     <Grid container item xs={12} sm={12} className={classes.containerType}>
                         <Grid item sm={12} xs={12} className={classes.containerTypeItem}>
                             <Typography variant='h6'>
-                                Abstract products
+                                {t('PRODUCT_CATEGORY')}
                             </Typography>
                         </Grid>
                         <Grid item sm={12} xs={12}>
@@ -173,7 +174,7 @@ export const ProductTypeDetailsPage = ({history}) => {
                     <Grid container item xs={12} sm={12} className={classes.containerType}>
                         <Grid item sm={12} xs={12} className={classes.containerTypeItem}>
                             <Typography variant='h6'>
-                                Attributes
+                                {t('ATTRIBUTES')}
                             </Typography>
                         </Grid>
                         <Grid item sm={12} xs={12}>

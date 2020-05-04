@@ -1,5 +1,6 @@
 import React from 'react';
 import {Grid, Typography, TextField, Button} from '@material-ui/core';
+import {useTranslation} from "react-i18next";
 
 export const SaveProductTypeWithAttributes = ({
                                                   productTypeName,
@@ -9,6 +10,8 @@ export const SaveProductTypeWithAttributes = ({
                                                   title,
                                                   classes
                                               }) => {
+    const {t} = useTranslation();
+
     return (
         <React.Fragment>
             <Grid container item xs={12} sm={12}>
@@ -19,7 +22,7 @@ export const SaveProductTypeWithAttributes = ({
                 </Grid>
                 <Grid item xs={12} sm={12} className={classes.containerTypeItem}>
                     <TextField
-                        label='Product type name'
+                        label={t('PRODUCT_TYPE_NAME')}
                         name="name"
                         variant="outlined"
                         type="text"
@@ -33,15 +36,15 @@ export const SaveProductTypeWithAttributes = ({
             <Grid container item xs={12} sm={12} style={{marginTop: 30}}>
                 <Grid item xs={12} sm={12} className={classes.containerTitle}>
                     <Typography variant='h6'>
-                        Attributes
+                        {t('ATTRIBUTES')}
                     </Typography>
                 </Grid>
-                <Grid item xs={12} sm={12} >
+                <Grid item xs={12} sm={12}>
                     <Button
                         variant='outlined'
                         onClick={openCreateAttributeModal}
                     >
-                        Add attribute
+                        {t('ADD_ATTRIBUTE')}
                     </Button>
                 </Grid>
                 <Grid container item xs={12} sm={12} className={classes.containerAttribute}>

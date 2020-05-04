@@ -30,7 +30,7 @@ export const ordersPageStyles = ((theme) => ({
       alignItems: 'center',
    },
    selector: {
-      width: '200px',
+      width: '210px',
       margin: '0 10px 0 10px',
       [theme.breakpoints.down('xs')]: {
       margin: '0 0 0 10px',

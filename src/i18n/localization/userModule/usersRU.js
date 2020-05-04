@@ -19,4 +19,5 @@ export const UsersRU = {
     ROLE_OWNER: 'Владелец',
     ROLE_SUPER_ADMIN: 'Супер Админ',
     NO_INSTAGRAM_CREDENTIALS: "Интегрируйте ваш Инстаграм аккаунт для доступа к чату. Это можно сделать в настройках организации.",
+    PASSWORD_DOESNT_MATCH: 'Пароли не совпадают',
 };

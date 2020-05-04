@@ -72,7 +72,7 @@ export const ShippingDetailsForm = ({
                         native
                         name="shippingMethodId"
                         value={(shippingMethod && shippingMethod.shippingMethodId) || ''}
-                        labelWidth={120}
+                        labelWidth={140}
                         required
                         onChange={onShippingMethodSelectHandler}
                         inputProps={{

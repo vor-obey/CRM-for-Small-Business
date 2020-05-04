@@ -35,6 +35,7 @@ import {v4 as uuidv4} from 'uuid'
 import {AttributeService, ProductTypeService} from '../../../services';
 import {COMMON_ERROR_MESSAGE} from '../../../constants/statuses';
 import {useLastLocation} from 'react-router-last-location';
+import {useTranslation} from 'react-i18next';
 import {editProductTypeWithAttributesStyles} from "./EditProductTypeWithAttributes.style";
 
 const useStyles = makeStyles(editProductTypeWithAttributesStyles);
@@ -47,6 +48,7 @@ export const EditProductTypeWithAttributes = ({history}) => {
     const [attributes, setAttributes] = useState([]);
     const [productTypeDetails] = useProductTypeById(id);
     const lastLocation = useLastLocation();
+    const {t} = useTranslation('');
 
     const mapAttributes = useCallback((items) => {
         return items.map((item) => {
@@ -266,7 +268,7 @@ export const EditProductTypeWithAttributes = ({history}) => {
                         onChange={onChange}
                         openCreateAttributeModal={openCreateAttributeModal}
                         renderAttributes={renderAttributes}
-                        title='Edit product type'
+                        title={t('EDIT_PRODUCT_TYPE')}
                     />
                 </Grid>
                 <Grid item xs={12} sm={12} className={classes.buttonContainer}>
@@ -276,7 +278,7 @@ export const EditProductTypeWithAttributes = ({history}) => {
                         onClick={editProductType}
                         disabled={isEmpty(attributes) || isEmpty(name.trim())}
                     >
-                        Edit
+                        {t('EDIT')}
                     </Button>
                 </Grid>
             </Paper>

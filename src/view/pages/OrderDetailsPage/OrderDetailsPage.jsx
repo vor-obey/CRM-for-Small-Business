@@ -1,17 +1,13 @@
 import React, {useCallback, useState} from "react";
 import {OrderService} from "../../../services/index";
 import {Link, useParams} from 'react-router-dom';
-import {makeStyles} from "@material-ui/core/styles";
+import {Grid, TextField, Container, Button, makeStyles, Typography, Paper} from "@material-ui/core";
 import {orderDetailsStyles} from "./OrderDetailsPage.style";
 import {OrderDetails} from './OrderDetails/OrderDetails';
 import {useDispatch} from 'react-redux';
 import {setIsLoading, setSnackBarStatus} from '../../../data/store/auxiliary/auxiliaryActions';
 import {COMMON_ERROR_MESSAGE} from '../../../constants/statuses';
-import Grid from '@material-ui/core/Grid';
-import TextField from '@material-ui/core/TextField';
 import isEmpty from 'lodash/isEmpty';
-import {Container} from '@material-ui/core';
-import Button from '@material-ui/core/Button';
 import {CustomDialog} from '../../components/CustomDialog/CustomDialog';
 import {useTranslation} from "react-i18next";
 import {CustomModal} from '../../components/CustomModal/CustomModal';
@@ -44,34 +40,32 @@ export const OrderDetailsPage = ({history}) => {
 
         if (!isCustom) {
             return (
-                <Grid container xl={12}>
-                    <Grid item lg={12} xs={12}>
-                        <TextField
-                            label={t('CITY')}
-                            margin="normal"
-                            name="City"
-                            type="text"
-                            value={parsedAddress.city.Description}
-                            inputProps={{
-                                readOnly: true
-                            }}
-                            fullWidth
-                        />
+                <>
+                    <Grid item xs={12} sm={10} className={classes.containerFieldsItem}>
+                        <Typography
+                            variant='body2'
+                            color='textSecondary'>
+                            {t('CITY')}
+                        </Typography>
+                        <Typography
+                            variant='body1'
+                            className={classes.orderItem}>
+                            {parsedAddress.city.Description}
+                        </Typography>
                     </Grid>
-                    <Grid item lg={12} xs={12}>
-                        <TextField
-                            label={t('WAREHOUSE')}
-                            margin="normal"
-                            name="warehouse"
-                            type="text"
-                            value={parsedAddress.warehouse.Description}
-                            inputProps={{
-                                readOnly: true
-                            }}
-                            fullWidth
-                        />
+                    <Grid item xs={12} sm={10} className={classes.containerFieldsItem}>
+                        <Typography
+                            variant='body2'
+                            color='textSecondary'>
+                            {t('WAREHOUSE')}
+                        </Typography>
+                        <Typography
+                            variant='body1'
+                            className={classes.orderItem}>
+                            {parsedAddress.warehouse.Description}
+                        </Typography>
                     </Grid>
-                </Grid>
+                </>
             )
         }
         return (
@@ -91,7 +85,7 @@ export const OrderDetailsPage = ({history}) => {
                 </Grid>
             </Grid>
         )
-    }, [orderDetails, t]);
+    }, [classes, orderDetails, t]);
 
     const renderPrintButton = useCallback(() => {
         if (isEmpty(orderDetails) || isCustom) {
@@ -104,8 +98,7 @@ export const OrderDetailsPage = ({history}) => {
                 variant="outlined"
                 color="primary"
                 className={classes.button}
-                onClick={togglePrintModal}
-            >
+                onClick={togglePrintModal}>
                 {t('PRINT')}
             </Button>
         );
@@ -134,66 +127,69 @@ export const OrderDetailsPage = ({history}) => {
     }, []);
 
     return (
-        <Container className={classes.root}>
-            <OrderDetails
-                orderDetails={orderDetails}
-                classes={classes}
-                renderShippingAddress={renderShippingAddress}
-            />
-            <Grid container justify="center">
-                <Button
-                    type='submit'
-                    variant="outlined"
-                    color="primary"
-                    className={classes.button}
-                    component={Link}
-                    to='/orders'
-                >
-                    {t('BACK')}
-                </Button>
-                <Button
-                    type='submit'
-                    variant="outlined"
-                    color="primary"
-                    className={classes.button}
-                    onClick={toggleDialog}
-                >
-                    {t('DELETE')}
-                </Button>
-                <Button
-                    type='submit'
-                    variant="outlined"
-                    color="primary"
-                    className={classes.button}
-                    component={Link}
-                    to={`/orders/${id}/edit`}
-                >
-                    {t('EDIT')}
-                </Button>
-                {renderPrintButton()}
-            </Grid>
-            <CustomDialog
-                title={t('DELETE_ORDER')}
-                isShow={isDialogOpen}
-                onClose={toggleDialog}
-                closeText={t('DISAGREE')}
-                actionText={t('AGREE')}
-                onAction={deleteOrder}
-            >
-                {t('CONFIRM_DELETE')}
-            </CustomDialog>
-            <CustomModal
-                classes={classes}
-                open={isPrintModalOpen}
-                handleClose={togglePrintModal}
-                breakpoints={{
-                    xl: 12
-                }}
-            >
-                <InternetDocument
+        <Container maxWidth='md' className={classes.root}>
+            <Paper className={classes.paper}>
+                <OrderDetails
                     orderDetails={orderDetails}
+                    classes={classes}
+                    renderShippingAddress={renderShippingAddress}
                 />
-            </CustomModal>
+                <Grid container item xs={12} sm={12} className={classes.buttonContainer}>
+                    <Button
+                        type='submit'
+                        variant="outlined"
+                        color="primary"
+                        className={classes.button}
+                        component={Link}
+                        to='/orders'
+                    >
+                        {t('BACK')}
+                    </Button>
+                    <Button
+                        type='submit'
+                        variant="outlined"
+                        color="primary"
+                        className={classes.button}
+                        onClick={toggleDialog}
+                    >
+                        {t('DELETE')}
+                    </Button>
+                    <Button
+                        type='submit'
+                        variant="outlined"
+                        color="primary"
+                        className={classes.button}
+                        component={Link}
+                        to={`/orders/${id}/edit`}
+                    >
+                        {t('EDIT')}
+                    </Button>
+                    {renderPrintButton()}
+                </Grid>
+                <CustomDialog
+                    title={t('DELETE_ORDER')}
+                    isShow={isDialogOpen}
+                    onClose={toggleDialog}
+                    closeText={t('DISAGREE')}
+                    actionText={t('AGREE')}
+                    onAction={deleteOrder}
+                >
+                    {t('CONFIRM_DELETE')}
+                </CustomDialog>
+                <CustomModal
+                    classes={classes}
+                    open={isPrintModalOpen}
+                    handleClose={togglePrintModal}
+                    breakpoints={{
+                        xl: 12
+                    }}
+                >
+                    <InternetDocument
+                        orderDetails={orderDetails}
+                        handleClose={togglePrintModal}
+                    />
+                </CustomModal>
+            </Paper>
         </Container>
     );
 };

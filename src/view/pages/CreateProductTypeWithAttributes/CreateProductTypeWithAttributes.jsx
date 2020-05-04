@@ -11,6 +11,7 @@ import {EditAttribute} from '../../components/EditAttribute/EditAttribute';
 import {ProductTypeService} from '../../../services';
 import {useLastLocation} from 'react-router-last-location';
 import {editProductTypeWithAttributesStyles} from "../EditProductTypeWithAttributes/EditProductTypeWithAttributes.style";
+import {useTranslation} from "react-i18next";
 
 const useStyle = makeStyles(editProductTypeWithAttributesStyles);
 
@@ -20,6 +21,7 @@ export const CreateProductTypeWithAttributes = ({history}) => {
     const [name, setName] = useState('');
     const [attributes, setAttributes] = useState([]);
     const lastLocation = useLastLocation();
+    const {t} = useTranslation();
 
     const onChange = useCallback((event) => {
         setName(event.target.value);
@@ -148,7 +150,7 @@ export const CreateProductTypeWithAttributes = ({history}) => {
                         onChange={onChange}
                         openCreateAttributeModal={openCreateAttributeModal}
                         renderAttributes={renderAttributes}
-                        title='Create product type'
+                        title={t('CREATE_PRODUCT_TYPE')}
                         classes={classes}
                     />
                 </Grid>
@@ -159,7 +161,7 @@ export const CreateProductTypeWithAttributes = ({history}) => {
                         onClick={createProductType}
                         disabled={isEmpty(attributes)}
                     >
-                        Create
+                        {t('CREATE')}
                     </Button>
                 </Grid>
             </Paper>

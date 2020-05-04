@@ -1,4 +1,5 @@
 export const orderEN = {
+   AMOUNT: 'Amount',
    PRODUCT_DETAILS: 'Product Details',
    PRODUCT: 'Product',
    CUSTOMER: 'Customer',
@@ -11,6 +12,7 @@ export const orderEN = {
    CITY: 'City',
    DESCRIPTION: 'Description',
    ORDER: 'Order',
+   ORDER_DETAILS: 'Order details',
    STATUS: 'Status',
    SORT_BY_STATUS: 'Sort by status',
    NEW: 'New',

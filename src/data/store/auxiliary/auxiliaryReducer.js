@@ -21,7 +21,6 @@ const initialState = {
         onCloseHandler: null
     },
     dialog: {
-        title: '',
         isShow: false,
         onCloseHandler: null,
         closeText: '',

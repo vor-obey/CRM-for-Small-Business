@@ -67,7 +67,7 @@ export const CreateCustomer = ({
 
       return sources.map(source => {
          return (
-            <option key={source.sourceId} value={source.sourceId}>{source.name}</option>
+             <option key={source.sourceId} value={source.sourceId}>{source.name}</option>
          );
       })
    }, [sources]);
