@@ -1,16 +1,18 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {SaveOrderProduct} from '../SaveOrderProduct/SaveOrderProduct';
-import {Container, Typography} from '@material-ui/core';
-import Grid from '@material-ui/core/Grid';
-import Button from '@material-ui/core/Button';
+import {Grid, Container, Typography, Button, makeStyles} from '@material-ui/core';
 import isEmpty from 'lodash/isEmpty';
 import {useDispatch} from 'react-redux';
 import {closeModal} from '../../../data/store/auxiliary/auxiliaryActions';
+import {addOrderProductStyles} from "./AddOrderProduct.style";
+
+const useStyle = makeStyles(addOrderProductStyles);
 
 export const AddOrderProduct = ({
                                     products,
                                     submit
                                 }) => {
+    const classes = useStyle();
     const dispatch = useDispatch();
     const [selectedProduct, setSelectedProduct] = useState({});
     const [isOpen, setIsOpen] = useState(false);
@@ -96,16 +98,19 @@ export const AddOrderProduct = ({
                     increment={incrementAmount}
                     decrement={decrementAmount}
                     totalPrice={totalPrice}
+                    classes={classes}
                 />
             </Grid>
-            <Grid container item>
+            <Grid container item xs={12} sm={12} className={classes.buttonContainer}>
                 <Button
+                    className={classes.buttonFab}
                     variant='outlined'
                     onClick={() => dispatch(closeModal())}
                 >
                     Cancel
                 </Button>
                 <Button
+                    className={classes.buttonFab}
                     variant='outlined'
                     onClick={() => submit({...selectedProduct, ...details, totalPrice})}
                     disabled={isEmpty(selectedProduct)}
