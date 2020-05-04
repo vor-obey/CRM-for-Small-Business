@@ -158,15 +158,14 @@ export const EditProductTypeWithAttributes = ({history}) => {
             }
         };
         dispatch(renderDialog({
-            title: 'Delete attribute',
             isShow: true,
             onCloseHandler: () => dispatch(closeDialog()),
             closeText: 'disagree',
             actionText: 'agree',
             onActionHandler: () => deleteAttribute(attribute),
-            children: 'Delete abstract product?'
+            children: t('DELETE_ATTRIBUTE')
         }));
-    }, [dispatch, attributes]);
+    }, [dispatch, t, attributes]);
 
     const renderAttributes = useCallback(() => {
         if (isEmpty(attributes)) {

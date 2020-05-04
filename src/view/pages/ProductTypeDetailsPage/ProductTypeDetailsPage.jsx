@@ -131,15 +131,14 @@ export const ProductTypeDetailsPage = ({history}) => {
 
     const openDeleteProductTypeDialog = useCallback(() => {
         dispatch(renderDialog({
-            title: 'delete product type',
             isShow: true,
             onCloseHandler: () => dispatch(closeDialog()),
             closeText: 'DISAGREE',
             actionText: 'AGREE',
             onActionHandler: () => deleteProductType(),
-            children: 'delete product type'
+            children: `${t('DELETE_PRODUCT_TYPE')} "${productType.name}"?`
         }));
-    }, [dispatch, deleteProductType]);
+    }, [dispatch, deleteProductType, t, productType]);
 
     return (
         <Container maxWidth='md' className={classes.root}>
