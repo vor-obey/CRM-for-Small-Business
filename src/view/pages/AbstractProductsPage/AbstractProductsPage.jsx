@@ -11,7 +11,7 @@ import {Link} from "react-router-dom";
 
 export const AbstractProductsPage = ({history}) => {
     const {t} = useTranslation();
-    const [abstractProducts, loading] = useAbstractProducts();
+    const [abstractProducts,, loading] = useAbstractProducts();
 
     const renderAbstractProducts = useCallback(() => {
         if (isEmpty(abstractProducts)) {
@@ -37,7 +37,7 @@ export const AbstractProductsPage = ({history}) => {
         });
     }, [abstractProducts, history]);
 
-    if (isEmpty(abstractProducts) || !loading) {
+    if (isEmpty(abstractProducts) && !loading) {
         return (
             <Grid container justify='center' style={{display: 'grid', paddingTop: 24}}>
                 <Typography variant='h5' style={{paddingBottom: 18}}>{t('NO_NEW_CATEGORIES')}</Typography>

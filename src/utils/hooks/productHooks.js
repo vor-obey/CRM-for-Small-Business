@@ -27,7 +27,7 @@ export const useProductTypes = () => {
         fetchProductTypes();
     }, [dispatch, triggerCount]);
 
-    return [productTypes, loading, setProductTypes, triggerProductTypesUpdate];
+    return [productTypes, setProductTypes, triggerProductTypesUpdate, loading];
 };
 
 export const useProductTypeById = (id) => {
@@ -98,7 +98,7 @@ export const useAbstractProducts = () => {
         fetchAbstractProducts();
     }, [dispatch]);
 
-    return [abstractProducts, loading, setAbstractProducts];
+    return [abstractProducts, setAbstractProducts, loading];
 };
 
 export const useProductDetailsById = (id) => {
@@ -146,7 +146,7 @@ export const useProducts = () => {
         fetchProducts();
     }, [dispatch]);
 
-    return [products, loading,  setProducts];
+    return [products, setProducts, loading];
 };
 
 export const useAttributesByProductTypeId = (productTypeId) => {

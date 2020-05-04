@@ -55,9 +55,7 @@ export const CustomersPage = ({history}) => {
         })
     }, [customerList, classes, navigateToCustomerDetails, inputFilter, minWidth600, t]);
 
-    console.log(customerList);
-
-    if (isEmpty(customerList) || !loading) {
+    if (isEmpty(customerList) && !loading) {
         return (
             <Grid container justify='center' style={{display: 'grid', paddingTop: 24}}>
                 <Typography variant='h5' style={{paddingBottom: 18}}>{t('NO_NEW_CUSTOMERS')}</Typography>
