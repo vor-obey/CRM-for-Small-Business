@@ -12,6 +12,7 @@ import RemoveIcon from '@material-ui/icons/Remove';
 import {useTranslation} from 'react-i18next';
 import {useDispatch} from 'react-redux';
 import {setSnackBarStatus} from '../../../data/store/auxiliary/auxiliaryActions';
+import Container from '@material-ui/core/Container';
 
 export const SaveAttributeForm = ({
                                       name,

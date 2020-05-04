@@ -75,16 +75,18 @@ export const CreateAttribute = ({
                 title={t('CREATE_ATTRIBUTE')}
                 classes={classes}
             />
-            <Grid item xl={12} lg={12} style={{textAlign: 'center'}}>
+            <Grid item xl={12} lg={12} className={classes.buttonContainer}>
                 <Button
                     variant='outlined'
                     onClick={() => dispatch(closeModal())}
+                    className={classes.button}
                 >
                     {t('CANCEL')}
                 </Button>
                 <Button
                     onClick={() => onSubmit({name, valuesToSave})}
                     variant='outlined'
+                    className={classes.button}
                 >
                     {t('CREATE')}
                 </Button>
