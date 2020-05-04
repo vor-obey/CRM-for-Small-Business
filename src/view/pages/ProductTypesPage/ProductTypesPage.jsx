@@ -38,7 +38,7 @@ export const ProductTypesPage = ({history}) => {
 
     console.log(productTypes);
 
-    if (isEmpty(productTypes) && loading === false) {
+    if (isEmpty(productTypes) && !loading) {
         return (
             <Grid container justify='center' style={{display: 'grid', paddingTop: 24}}>
                 <Typography variant='h5' style={{paddingBottom: 18}}>{t('NO_NEW_TYPES')}</Typography>

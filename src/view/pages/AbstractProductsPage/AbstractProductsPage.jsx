@@ -37,7 +37,7 @@ export const AbstractProductsPage = ({history}) => {
         });
     }, [abstractProducts, history]);
 
-    if (isEmpty(abstractProducts) && loading === false) {
+    if (isEmpty(abstractProducts) && !loading) {
         return (
             <Grid container justify='center' style={{display: 'grid', paddingTop: 24}}>
                 <Typography variant='h5' style={{paddingBottom: 18}}>{t('NO_NEW_CATEGORIES')}</Typography>
