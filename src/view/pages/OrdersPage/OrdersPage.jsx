@@ -27,7 +27,7 @@ export const OrdersPage = ({history}) => {
     const location = useLocation();
     const minWidth600 = useMediaQuery('(min-width:600px)');
 
-    const [orderList] = useOrders();
+    const [orderList, loading] = useOrders();
     const [inputFilter, setInputFilter] = useState('');
     const [selectedOption, setSelectedOption] = useState('');
 
@@ -90,7 +90,7 @@ export const OrdersPage = ({history}) => {
         })
     }, [orderList, navigationToOrderDetails, filterStatus, minWidth600, classes]);
 
-    if (isEmpty(orderList)) {
+    if (isEmpty(orderList) && !loading) {
         return (
             <Grid container justify='center' style={{display: 'grid', paddingTop: 24}}>
                 <Typography variant='h5' style={{paddingBottom: 18}}>{t('NO_NEW_ORDERS')}</Typography>

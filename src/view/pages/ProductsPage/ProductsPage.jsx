@@ -11,7 +11,7 @@ import {Link} from "react-router-dom";
 
 export const ProductsPage = ({history}) => {
     const {t} = useTranslation();
-    const [products] = useProducts();
+    const [products, loading] = useProducts();
 
     const renderProducts = useCallback(() => {
         if (isEmpty(products)) {
@@ -34,7 +34,7 @@ export const ProductsPage = ({history}) => {
         });
     }, [products, history]);
 
-    if (isEmpty(products)) {
+    if (isEmpty(products) && loading === false) {
         return (
             <Grid container justify='center' style={{display: 'grid', paddingTop: 24}}>
                 <Typography variant='h5' style={{paddingBottom: 18}}>{t('NO_NEW_PRODUCTS')}</Typography>
