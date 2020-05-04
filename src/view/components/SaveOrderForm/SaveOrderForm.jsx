@@ -1,12 +1,9 @@
 import React, {useCallback} from 'react';
-import {Button, Container, Grid, Paper} from '@material-ui/core';
+import {Button, Container, Grid, Paper, FormControl, InputLabel, Select} from '@material-ui/core';
 import {ProductForm} from './ProductForm/ProductForm';
 import {CustomerForm} from './CustomerManagerForm/CustomerForm';
 import {ShippingDetailsForm} from './ShippingDetailsForm/ShippingDetailsForm';
 import {EOrderStatus} from '../../../constants/statuses';
-import FormControl from '@material-ui/core/FormControl';
-import InputLabel from '@material-ui/core/InputLabel';
-import Select from '@material-ui/core/Select';
 import {useTranslation} from 'react-i18next';
 
 const autocompleteBreakpoints = {

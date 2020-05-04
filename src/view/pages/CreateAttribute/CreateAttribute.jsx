@@ -10,10 +10,15 @@ import RemoveIcon from '@material-ui/icons/Remove';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import {useTranslation} from 'react-i18next';
+import {createAttributeStyles} from "./CreateAttribute.style";
+import {makeStyles} from '@material-ui/core'
+
+const useStyles = makeStyles(createAttributeStyles);
 
 export const CreateAttribute = ({
                                     onSubmit
                                 }) => {
+    const classes = useStyles();
     const dispatch = useDispatch();
     const [name, setName] = useState('');
     const [valuesToSave, setValuesToSave] = useState([]);
@@ -68,17 +73,20 @@ export const CreateAttribute = ({
                 addAttributeValue={addAttributeValue}
                 renderAttrValues={renderAttrValues}
                 title={t('EDITING_ATTRIBUTE')}
+                classes={classes}
             />
-            <Grid item xl={12} lg={12} style={{textAlign: 'center'}}>
+            <Grid item xl={12} lg={12} className={classes.buttonContainer}>
                 <Button
                     variant='outlined'
                     onClick={() => dispatch(closeModal())}
+                    className={classes.button}
                 >
                     {t('CANCEL')}
                 </Button>
                 <Button
                     onClick={() => onSubmit({name, valuesToSave})}
                     variant='outlined'
+                    className={classes.button}
                 >
                     {t('CREATE')}
                 </Button>

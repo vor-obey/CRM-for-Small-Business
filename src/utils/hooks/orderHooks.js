@@ -5,7 +5,7 @@ import {OrderService, ShippingMethodService} from '../../services';
 import {COMMON_ERROR_MESSAGE} from '../../constants/statuses';
 
 export const useOrders = () => {
-    const [orders, setOrders] = useState([]);
+    const [orderList, setOrdersList] = useState([]);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -13,7 +13,7 @@ export const useOrders = () => {
             try {
                 dispatch(setIsLoading(true));
                 const response = await OrderService.list();
-                setOrders(response);
+                setOrdersList(response);
                 dispatch(setIsLoading(false));
             } catch (e) {
                 dispatch(setIsLoading(false));
@@ -23,7 +23,7 @@ export const useOrders = () => {
         fetchOrders();
     }, [dispatch]);
 
-    return [orders, setOrders];
+    return [orderList, setOrdersList];
 };
 
 export const useOrderDetailsById = (id) => {

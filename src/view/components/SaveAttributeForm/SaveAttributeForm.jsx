@@ -12,13 +12,15 @@ import RemoveIcon from '@material-ui/icons/Remove';
 import {useTranslation} from 'react-i18next';
 import {useDispatch} from 'react-redux';
 import {setSnackBarStatus} from '../../../data/store/auxiliary/auxiliaryActions';
+import Container from '@material-ui/core/Container';
 
 export const SaveAttributeForm = ({
                                       name,
                                       onChange,
                                       addAttributeValue,
                                       renderAttrValues,
-                                      title
+                                      title,
+                                      classes,
                                   }) => {
     const [value, setValue] = useState('');
     const [isAdd, setIsAdd] = useState(false);
@@ -84,13 +86,13 @@ export const SaveAttributeForm = ({
     }, [isAdd, onValueChanged, value, cancelAdding, add, t]);
 
     return (
-        <Grid container style={{padding: 15}}>
+        <Container maxWidth='sm' className={classes.root}>
             <Grid item xl={12} lg={12}>
-                <Typography variant='h6' style={{textAlign: 'center'}}>
+                <Typography variant='h6' className={classes.title}>
                     {title}
                 </Typography>
             </Grid>
-            <Grid item xl={12} lg={12}>
+            <Grid item xs={12} sm={12} xl={12} lg={12}>
                 <TextField
                     label={t('PRODUCT_NAME')}
                     name="name"
@@ -102,31 +104,22 @@ export const SaveAttributeForm = ({
                     fullWidth
                 />
             </Grid>
-            <Grid item xl={12} lg={12} style={{marginTop: 15}}>
+            <Grid item xl={12} lg={12} xs={12} sm={12} className={classes.attributeContainer}>
                 <Typography variant='body1'>
                     {t('ATTRIBUTE_VALUES')}
                 </Typography>
                 <Divider/>
             </Grid>
-            <Grid container item xl={12} lg={12}
-                  style={{
-                      marginTop: 10,
-                      marginBottom: 10,
-                      border: '1px solid rgba(0, 0, 0, 0.23)',
-                      borderRadius: 5,
-                  }}
+            <Grid container item xl={12} lg={12}xs={12} sm={12}
+                  className={classes.attributeValueContainer}
             >
-                <Grid container item xl={12} lg={12}>
-                    <List style={{
-                        width: '100%',
-                        maxHeight: 300,
-                        overflow: 'auto',
-                    }}>
+                <Grid container item xl={12} lg={12} xs={12} sm={12}>
+                    <List className={classes.attributeItem}>
                         {renderAttrValues()}
                         {renderListItemForAddingValue()}
                     </List>
                 </Grid>
             </Grid>
-        </Grid>
+        </Container>
     );
 };

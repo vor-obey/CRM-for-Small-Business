@@ -14,6 +14,7 @@ export const orderRU = {
     STATUS: 'Статус',
     SORT_BY_STATUS: 'Сортировать по статусу',
     ORDER: 'Заказ',
+    ORDER_DETAILS: 'Детали заказа',
     NEW: 'Новый',
     CANCELLED: 'Отменен',
     SHIPPING: 'Доставляется',
