@@ -94,7 +94,7 @@ export const SaveAttributeForm = ({
             </Grid>
             <Grid item xs={12} sm={12} xl={12} lg={12}>
                 <TextField
-                    label={t('NAME')}
+                    label={t('PRODUCT_NAME')}
                     name="name"
                     variant="outlined"
                     type="text"

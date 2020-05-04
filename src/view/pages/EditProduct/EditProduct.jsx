@@ -6,8 +6,10 @@ import {setIsLoading, setSnackBarStatus} from '../../../data/store/auxiliary/aux
 import ProductService from '../../../services/ProductService';
 import {useDispatch} from 'react-redux';
 import {useLastLocation} from 'react-router-last-location';
+import {useTranslation} from "react-i18next";
 
 export const EditProduct = ({history}) => {
+    const {t} = useTranslation();
     const {id} = useParams();
     const [productDetails] = useProductDetailsById(id);
     const dispatch = useDispatch();
@@ -55,8 +57,8 @@ export const EditProduct = ({history}) => {
         <SaveProduct
             product={productDetails}
             labels={{
-                title: 'Edit Product',
-                button: 'Edit'
+                title: t('EDIT_PRODUCT'),
+                button: t('EDIT')
             }}
             onSave={editProduct}
         />

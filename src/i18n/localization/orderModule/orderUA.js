@@ -1,6 +1,7 @@
 export const orderUA = {
     PRODUCT_DETAILS: 'Деталі продукту',
     PRODUCT: 'Продукт',
+    AMOUNT: 'Кількість',
     CUSTOMER: 'Замовник',
     SELECT_CUSTOMER: 'Оберіть замовника',
     SELECT_MANAGER: 'Оберіть менеджера',

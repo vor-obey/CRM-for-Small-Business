@@ -7,8 +7,8 @@ import Button from '@material-ui/core/Button';
 import isEmpty from 'lodash/isEmpty';
 import Divider from '@material-ui/core/Divider';
 import Typography from '@material-ui/core/Typography';
-import {Link} from "react-router-dom";
 import {useTranslation} from "react-i18next";
+import {Link} from "react-router-dom";
 
 export const ProductTypesPage = ({history}) => {
     const {t} = useTranslation();
@@ -56,7 +56,7 @@ export const ProductTypesPage = ({history}) => {
     return (
         <Container maxWidth='lg' style={{marginTop: 50}}>
             <Typography variant='h6' style={{textAlign: 'center'}}>
-                Product Types
+                {t('PRODUCT_TYPES')}
             </Typography>
             <List>
                 {renderProductTypes()}
@@ -67,7 +67,7 @@ export const ProductTypesPage = ({history}) => {
                         style={{marginTop: 20}}
                         onClick={() => history.push('/create-product-type')}
                     >
-                        Create
+                        {t('CREATE')}
                     </Button>
                 </ListItem>
             </List>

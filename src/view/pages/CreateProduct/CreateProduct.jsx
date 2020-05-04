@@ -49,7 +49,6 @@ export const CreateProduct = ({history}) => {
 
     return (
         <SaveProduct
-            history={history}
             labels={{
                 button: t('CREATE'),
                 title: t('CREATE_PRODUCT')

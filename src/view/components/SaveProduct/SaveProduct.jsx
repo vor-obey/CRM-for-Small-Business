@@ -21,15 +21,16 @@ import isEmpty from 'lodash/isEmpty';
 import {useAbstractProducts, useAttributesByProductTypeId} from '../../../utils/hooks/productHooks';
 import {saveProductStyles} from "./SaveProduct.styles";
 import {useTranslation} from 'react-i18next';
+import {useHistory} from 'react-router-dom';
 
 const useStyles = makeStyles(saveProductStyles);
 
 export const SaveProduct = ({
-                                history,
                                 product,
                                 labels,
                                 onSave,
                             }) => {
+    const history = useHistory();
     const {t} = useTranslation();
     const classes = useStyles();
     const [productDetails, setProductDetails] = useState({
@@ -176,14 +177,14 @@ export const SaveProduct = ({
             <Grid container>
                 <Paper className={classes.paper}>
                     <Grid item xl={12} lg={12} className={classes.containerTitle}>
-                        <Typography variant='h6'>
+                        <Typography variant='h5'>
                             {labels.title}
                         </Typography>
                     </Grid>
                     <Grid container item xs={12} sm={12} className={classes.containerProduct}>
                         <Grid item xs={12} sm={9} className={classes.containerProductItem}>
                             <TextField
-                                label={t('NAME')}
+                                label={t('PRODUCT_NAME')}
                                 name="name"
                                 variant="outlined"
                                 type="text"
@@ -219,7 +220,7 @@ export const SaveProduct = ({
                                 options={abstractProducts}
                                 onClose={toggleAbstractProductAutocomplete}
                                 onToggle={toggleAbstractProductAutocomplete}
-                                inputLabel={t('SELECT_CATEGORY_PRODUCT')}
+                                inputLabel={t('SELECT_PRODUCT_CATEGORY')}
                                 renderOption={renderAbstractProductOptions}
                                 getOptionLabel={getAbstractProductOptionLabel}
                                 onSelectHandler={onAbstractProductSelectHandler}
@@ -234,7 +235,7 @@ export const SaveProduct = ({
                                 <List style={{width: '100%'}}>
                                     <ListItem>
                                         <ListItemText
-                                            primary='Select values'
+                                            primary={t('SELECT_VALUE')}
                                         />
                                     </ListItem>
                                     <Divider/>

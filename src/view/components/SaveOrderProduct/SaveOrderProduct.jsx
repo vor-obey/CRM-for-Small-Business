@@ -6,6 +6,7 @@ import AddIcon from '@material-ui/icons/Add';
 import {useHistory} from 'react-router-dom';
 import {useDispatch} from 'react-redux';
 import {closeModal} from '../../../data/store/auxiliary/auxiliaryActions';
+import {useTranslation} from "react-i18next";
 
 const currencies = [
     {
@@ -41,6 +42,7 @@ export const SaveOrderProduct = ({
                                  }) => {
     const history = useHistory();
     const dispatch = useDispatch();
+    const {t} = useTranslation();
 
     const navigateToCreateProduct = useCallback(() => {
         dispatch(closeModal());
@@ -65,11 +67,11 @@ export const SaveOrderProduct = ({
                 </Grid>
                 <Grid item xs={12} sm={2} className={classes.containerProduct}>
                     <FormControl variant="outlined" fullWidth>
-                        <InputLabel>Amount</InputLabel>
+                        <InputLabel>{t('AMOUNT')}</InputLabel>
                         <OutlinedInput
                             className={classes.amount}
                             type='text'
-                            label='Amount'
+                            label={t('AMOUNT')}
                             name='amount'
                             value={details.amount}
                             onChange={onChange}
@@ -99,10 +101,10 @@ export const SaveOrderProduct = ({
                 </Grid>
                 <Grid item xs={12} sm={2} className={classes.containerProduct}>
                     <FormControl variant="outlined" fullWidth>
-                        <InputLabel>Price</InputLabel>
+                        <InputLabel>{t('PRICE')}</InputLabel>
                         <OutlinedInput
                             value={details.price}
-                            label='Price'
+                            label={t('PRICE')}
                             name='price'
                             type='text'
                             variant='outlined'
@@ -135,13 +137,13 @@ export const SaveOrderProduct = ({
                         variant="outlined" color="primary"
                         onClick={navigateToCreateProduct}>
                         <AddIcon/>
-                          Add new product
+                          {t('CREATE_PRODUCT')}
                     </Button>
                 </Grid>
                 <Grid item xs={12} sm={6} className={classes.containerProductItem}>
                     <Grid className={classes.containerProductItemTotal}>
                         <Typography variant='subtitle1'>
-                            Total:
+                            {t('SUMMARY')}:
                         </Typography>
                         <Typography variant='h6'>
                             {`${totalPrice} ${details.currency}`}
@@ -149,7 +151,6 @@ export const SaveOrderProduct = ({
                     </Grid>
                 </Grid>
             </Grid>
-
         </Grid>
     );
 };

@@ -6,11 +6,13 @@ import {setIsLoading, setSnackBarStatus} from '../../../data/store/auxiliary/aux
 import AbstractProductService from '../../../services/AbstractProductService';
 import {useLastLocation} from 'react-router-last-location';
 import {useDispatch} from 'react-redux';
+import {useTranslation} from "react-i18next";
 
 export const EditAbstractProduct = ({history}) => {
     const {id} = useParams();
     const lastLocation = useLastLocation();
     const dispatch = useDispatch();
+    const {t} = useTranslation();
     const [abstractProduct] = useAbstractProductDetailsById(id);
 
     const editAbstractProduct = useCallback(async (data) => {
@@ -40,8 +42,8 @@ export const EditAbstractProduct = ({history}) => {
         <SaveAbstractProduct
             abstractProduct={abstractProduct}
             labels={{
-                title: 'Edit Abstract Product',
-                button: 'Edit'
+                title: t('EDIT_CATEGORY_PRODUCT'),
+                button: t('EDIT')
             }}
             onSave={editAbstractProduct}
         />

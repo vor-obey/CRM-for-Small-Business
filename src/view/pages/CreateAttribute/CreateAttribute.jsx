@@ -72,7 +72,7 @@ export const CreateAttribute = ({
                 onChange={onChange}
                 addAttributeValue={addAttributeValue}
                 renderAttrValues={renderAttrValues}
-                title={t('CREATE_ATTRIBUTE')}
+                title={t('ATTRIBUTE_CREATION')}
                 classes={classes}
             />
             <Grid item xl={12} lg={12} className={classes.buttonContainer}>

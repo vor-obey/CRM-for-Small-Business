@@ -105,13 +105,12 @@ export const SaveAbstractProduct = ({
         };
 
         dispatch(renderDialog({
-            title: 'Delete attribute',
             isShow: true,
             onCloseHandler: () => dispatch(closeDialog()),
             closeText: t('DISAGREE'),
             actionText: t('AGREE'),
             onActionHandler: () => deleteAttribute(),
-            children: 'Delete abstract product?'
+            children: t('DELETE_ATTRIBUTE')
         }));
     }, [dispatch, t, triggerAttributesUpdate]);
 
@@ -306,13 +305,12 @@ export const SaveAbstractProduct = ({
 
     const openDeleteProductTypeDialog = useCallback(() => {
         dispatch(renderDialog({
-            title: t('DELETE_PRODUCT_TYPE'),
             isShow: true,
             onCloseHandler: () => dispatch(closeDialog()),
             closeText: t('DISAGREE'),
             actionText: t('AGREE'),
             onActionHandler: () => deleteProductType(),
-            children: t('DELETE_CATEGORY_PRODUCT')
+            children: t('DELETE_TYPE_PRODUCT')
         }));
     }, [dispatch, deleteProductType, t]);
 

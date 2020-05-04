@@ -65,29 +65,28 @@ export const ProductDetailsPage = ({history}) => {
 
     const openProductDeleteDialog = useCallback(() => {
         dispatch(renderDialog({
-            title: 'Delete product',
             isShow: true,
             onCloseHandler: () => dispatch(closeDialog()),
             closeText: t('DISAGREE'),
+            children: `${t('DELETE_PRODUCT')} "${productDetails.name}"?`,
             actionText: t('AGREE'),
             onActionHandler: () => deleteProduct(),
-            children: 'Delete product?'
         }));
-    }, [dispatch, deleteProduct, t]);
+    }, [productDetails, dispatch, deleteProduct, t]);
 
     return (
         <Container maxWidth='md' className={classes.root}>
             <Paper className={classes.paper}>
                 <Grid container item xl={12} lg={12} className={classes.container}>
                     <Grid item className={classes.containerTitle}>
-                        <Typography variant='h6'>
-                            Product Details
+                        <Typography variant='h5'>
+                            {t('DETAILS_PRODUCT')}
                         </Typography>
                     </Grid>
                     <Grid container item xs={12} sm={6} className={classes.containerProduct}>
                         <Grid item xs={12} sm={12} className={classes.containerProductItem}>
                             <Typography variant='h6'>
-                                Name
+                                {t('PRODUCT_NAME')}
                             </Typography>
                             <Typography variant='body1'>
                                 {productDetails.name}
@@ -95,7 +94,7 @@ export const ProductDetailsPage = ({history}) => {
                         </Grid>
                         <Grid item xs={12} className={classes.containerProductItem}>
                             <Typography variant='h6'>
-                                Price
+                                {t('PRICE')}
                             </Typography>
                             <Typography variant='body1'>
                                 {productDetails.price}
@@ -105,7 +104,7 @@ export const ProductDetailsPage = ({history}) => {
                     <Grid container item xs={12} sm={6} className={classes.containerProduct}>
                         <Grid item xs={12} sm={12} className={classes.containerProductItem}>
                             <Typography variant='h6'>
-                                Abstract Product
+                                {t('PRODUCT_CATEGORY')}
                             </Typography>
                             <ListItem
                                 onClick={() => history.push(`/abstract-products/${productDetails.abstractProduct && productDetails.abstractProduct.abstractProductId}`)}
@@ -120,7 +119,7 @@ export const ProductDetailsPage = ({history}) => {
                         </Grid>
                         <Grid item xl={12} lg={12} className={classes.containerProductItem}>
                             <Typography variant='h6'>
-                                Product Type
+                                {t('PRODUCT_TYPE')}
                             </Typography>
                             <Typography variant='body1'>
                                 {productDetails.abstractProduct && productDetails.abstractProduct.productType.name}
@@ -130,7 +129,7 @@ export const ProductDetailsPage = ({history}) => {
                     <Grid item xs={12} sm={12} className={classes.containerProduct}>
                         <Grid item xl={12} lg={12} className={classes.containerProductItem}>
                             <Grid item xl={12} lg={12}>
-                                <Typography variant='h6'>Attributes</Typography>
+                                <Typography variant='h6'>{t('ATTRIBUTES')}</Typography>
                                 {renderAttributes()}
                             </Grid>
                         </Grid>

@@ -8,12 +8,14 @@ import isEmpty from 'lodash/isEmpty';
 import CloseIcon from "@material-ui/icons/Close";
 import RemoveIcon from '@material-ui/icons/Remove';
 import AddIcon from '@material-ui/icons/Add';
+import {useTranslation} from "react-i18next";
 
 export const ProductForm = ({getProducts, classes}) => {
 
     const dispatch = useDispatch();
     const [products, setProducts] = useProducts();
     const [selectedProducts, setSelectedProducts] = useState([]);
+    const {t} = useTranslation();
 
     useEffect(() => {
         getProducts(selectedProducts);
@@ -124,11 +126,11 @@ export const ProductForm = ({getProducts, classes}) => {
                         </Grid>
                         <Grid item xs={12} sm={2} className={classes.productContainerItem}>
                             <FormControl variant="outlined" fullWidth>
-                                <InputLabel>Amount</InputLabel>
+                                <InputLabel>{t('AMOUNT')}</InputLabel>
                                 <OutlinedInput
                                     className={classes.amount}
                                     type='text'
-                                    label='Amount'
+                                    label={t('AMOUNT')}
                                     name='amount'
                                     value={amount}
                                     onChange={(event) => onAmountChange(event.target.value, productId)}
@@ -155,12 +157,11 @@ export const ProductForm = ({getProducts, classes}) => {
                                     labelWidth={70}
                                 />
                             </FormControl>
-
                         </Grid>
                         <Grid item xs={12} sm={2} className={classes.productContainerItem}>
                             <Grid className={classes.productContainerTotal}>
                                 <Typography variant='subtitle1'>
-                                    Summary:
+                                    {t('SUMMARY')}:
                                 </Typography>
                                 <Typography variant='h6'>
                                     {totalPrice} {currency}
@@ -171,13 +172,13 @@ export const ProductForm = ({getProducts, classes}) => {
                 </ListItem>
             );
         })
-    }, [classes, selectedProducts, onAmountChange, decrement, increment, removeProduct]);
+    }, [t, classes, selectedProducts, onAmountChange, decrement, increment, removeProduct]);
 
     return (
         <>
             <Grid item xs={12} sm={12}>
                 <Typography variant='h6'>
-                    Product(s)
+                    {t('CART')}
                 </Typography>
                 <Divider/>
             </Grid>
@@ -187,14 +188,14 @@ export const ProductForm = ({getProducts, classes}) => {
                     <Grid item xs={12} sm={6}>
                         <Button variant='outlined'
                                 onClick={() => openAddOrderProductModal()}>
-                            Add product
+                            {t('ADD_PRODUCT')}
                         </Button>
                     </Grid>
                     <Grid item xs={12} sm={6} className={classes.productContainerTotal}>
                         {!isEmpty(selectedProducts) ? (
                             <>
                                 <Typography variant='subtitle1'>
-                                    Total:
+                                    {t('TOTAL')}:
                                 </Typography>
                                 <Typography variant='h6'>
                                     {calculateTotalPoints()}
