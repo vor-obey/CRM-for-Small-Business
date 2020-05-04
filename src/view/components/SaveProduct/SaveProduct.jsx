@@ -21,15 +21,16 @@ import isEmpty from 'lodash/isEmpty';
 import {useAbstractProducts, useAttributesByProductTypeId} from '../../../utils/hooks/productHooks';
 import {saveProductStyles} from "./SaveProduct.styles";
 import {useTranslation} from 'react-i18next';
+import {useHistory} from 'react-router-dom';
 
 const useStyles = makeStyles(saveProductStyles);
 
 export const SaveProduct = ({
-                                history,
                                 product,
                                 labels,
                                 onSave,
                             }) => {
+    const history = useHistory();
     const {t} = useTranslation();
     const classes = useStyles();
     const [productDetails, setProductDetails] = useState({
@@ -219,7 +220,7 @@ export const SaveProduct = ({
                                 options={abstractProducts}
                                 onClose={toggleAbstractProductAutocomplete}
                                 onToggle={toggleAbstractProductAutocomplete}
-                                inputLabel={t('SELECT_CATEGORY_PRODUCT')}
+                                inputLabel={t('SELECT_PRODUCT_CATEGORY')}
                                 renderOption={renderAbstractProductOptions}
                                 getOptionLabel={getAbstractProductOptionLabel}
                                 onSelectHandler={onAbstractProductSelectHandler}

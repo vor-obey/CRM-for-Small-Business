@@ -1,7 +1,9 @@
 export const ProductUA = {
     PRICE: 'Цiна',
     PRODUCTS: 'Товари',
-    PRODUCT: 'Товар(и)',
+    CART: 'Кошик',
+    AMOUNT: 'Кількість',
+    SUMMARY: 'Сума',
     ADD: 'Додати',
     ADD_PRODUCT: 'Додати товар',
     ADD_VALUE: 'Додати значення',
@@ -18,7 +20,8 @@ export const ProductUA = {
     ADD_ATTRIBUTE: 'Додати атрибут',
     DETAILS_PRODUCT: 'Деталі товару',
     CREATE_PRODUCT: 'Створити товар',
-    EDITING_ATTRIBUTE: 'Редагування атрибута',
+    ATTRIBUTE_EDITING: 'Редагування атрибута',
+    ATTRIBUTE_CREATION: 'Створення атрибута',
     ATTRIBUTE_VALUES: 'Значення атрибутів',
     PRODUCT_CATEGORIES: 'Категорії продуктів',
     PRODUCT_TYPE_NAME: 'Назва типу продукту',
@@ -27,12 +30,12 @@ export const ProductUA = {
     DELETE_PRODUCT_TYPE: 'Видалити тип продукту',
     CREATE_PRODUCT_TYPE: 'Створити тип продукту',
     EDIT_PRODUCT_TYPE: 'Редагувати тип продукту',
-    SELECT_CATEGORY_PRODUCT: 'Оберіть категорію продукту',
-    DELETE_CATEGORY_PRODUCT: 'Видалити категорію продукту',
-    CREATE_CATEGORY_PRODUCT: 'Створити категорію продукту',
+    SELECT_PRODUCT_CATEGORY: 'Оберіть категорію продукту',
+    DELETE_PRODUCT_CATEGORY: 'Видалити категорію продукту',
+    CREATE_PRODUCT_CATEGORY: 'Створити категорію продукту',
     DELETE_TYPE_PRODUCT: 'Видалити категорію продукту?',
     DELETE_PRODUCT: 'Видалити товар',
     SELECT_VALUE: 'Оберіть значення',
     PRODUCT_TYPE_DETAILS: 'Деталі типу продукту',
-    DELETE_ATTRIBUTE_PRODUCT: 'Видалити атрибут продукту?'
+    DELETE_ATTRIBUTE: 'Видалити атрибут?'
 };

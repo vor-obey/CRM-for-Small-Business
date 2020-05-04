@@ -44,15 +44,15 @@ export const OrderDetails = ({
                                     </Grid>
                                     <Grid item xs={6} sm={2} className={classes.productAmountPrice}>
                                         <Typography variant='body1'>
-                                            Amount: {amount}
+                                            {t('AMOUNT')}: {amount}
                                         </Typography>
                                         <Typography variant='body1'>
-                                            Price: {orderProductPrice} {currency}
+                                            {t('PRICE')}: {orderProductPrice} {currency}
                                         </Typography>
                                     </Grid>
                                     <Grid item xs={6} sm={2} className={classes.productSummary}>
                                         <Typography variant='body1'>
-                                            Summary:
+                                            {t('SUMMARY')}:
                                         </Typography>
                                         <Typography variant='body1'>
                                             {amount * orderProductPrice} {currency}
@@ -67,17 +67,16 @@ export const OrderDetails = ({
                 <ListItem className={classes.productTotalPrice}>
                     <Grid item xs={12} sm={12} className={classes.productSummary}>
                         <Typography variant='body1'>
-                            Total: {calculateTotalPoints()}
+                            {t('TOTAL')}: {calculateTotalPoints()}
                         </Typography>
                     </Grid>
                 </ListItem>
             </List>
         );
 
-    }, [classes, orderToProducts, currency, history, calculateTotalPoints]);
+    }, [t, classes, orderToProducts, currency, history, calculateTotalPoints]);
 
     return (
-
         <Grid container item xs={12} sm={12} className={classes.container}>
             <Grid item xl={12} sm={12} className={classes.containerTitle}>
                 <Typography variant='h5'>
@@ -87,10 +86,9 @@ export const OrderDetails = ({
 
             <Grid item xs={12} sm={12} className={classes.orderDescription}>
                 <Typography variant='h5'>
-                    {t('PRODUCTS')}
+                    {t('CART')}
                 </Typography>
                 {renderProducts()}
-
             </Grid>
             <Grid container item xs={12} sm={6} className={classes.containerItem}>
                 <Grid item xl={12} sm={12}>

@@ -67,11 +67,11 @@ export const SaveOrderProduct = ({
                 </Grid>
                 <Grid item xs={12} sm={2} className={classes.containerProduct}>
                     <FormControl variant="outlined" fullWidth>
-                        <InputLabel>Amount</InputLabel>
+                        <InputLabel>{t('AMOUNT')}</InputLabel>
                         <OutlinedInput
                             className={classes.amount}
                             type='text'
-                            label='Amount'
+                            label={t('AMOUNT')}
                             name='amount'
                             value={details.amount}
                             onChange={onChange}
@@ -101,10 +101,10 @@ export const SaveOrderProduct = ({
                 </Grid>
                 <Grid item xs={12} sm={2} className={classes.containerProduct}>
                     <FormControl variant="outlined" fullWidth>
-                        <InputLabel>Price</InputLabel>
+                        <InputLabel>{t('PRICE')}</InputLabel>
                         <OutlinedInput
                             value={details.price}
-                            label='Price'
+                            label={t('PRICE')}
                             name='price'
                             type='text'
                             variant='outlined'
@@ -137,13 +137,13 @@ export const SaveOrderProduct = ({
                         variant="outlined" color="primary"
                         onClick={navigateToCreateProduct}>
                         <AddIcon/>
-                          Add new product
+                          {t('CREATE_PRODUCT')}
                     </Button>
                 </Grid>
                 <Grid item xs={12} sm={6} className={classes.containerProductItem}>
                     <Grid className={classes.containerProductItemTotal}>
                         <Typography variant='subtitle1'>
-                            {t('TOTAL_PRICE')}:
+                            {t('SUMMARY')}:
                         </Typography>
                         <Typography variant='h6'>
                             {`${totalPrice} ${details.currency}`}
@@ -151,7 +151,6 @@ export const SaveOrderProduct = ({
                     </Grid>
                 </Grid>
             </Grid>
-
         </Grid>
     );
 };

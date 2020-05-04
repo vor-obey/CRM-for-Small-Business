@@ -49,7 +49,7 @@ export const AddOrderProduct = ({
         );
     }, []);
 
-    const getProductOptionLabel = useCallback(item => !isEmpty(item) ? item.name : '', [])
+    const getProductOptionLabel = useCallback(item => !isEmpty(item) ? item.name : '', []);
 
     const onProductSelectHandler = useCallback((item) => {
         if (!item) {

@@ -126,7 +126,7 @@ export const ProductForm = ({getProducts, classes}) => {
                         </Grid>
                         <Grid item xs={12} sm={2} className={classes.productContainerItem}>
                             <FormControl variant="outlined" fullWidth>
-                                <InputLabel>Amount</InputLabel>
+                                <InputLabel>{t('AMOUNT')}</InputLabel>
                                 <OutlinedInput
                                     className={classes.amount}
                                     type='text'
@@ -157,12 +157,11 @@ export const ProductForm = ({getProducts, classes}) => {
                                     labelWidth={70}
                                 />
                             </FormControl>
-
                         </Grid>
                         <Grid item xs={12} sm={2} className={classes.productContainerItem}>
                             <Grid className={classes.productContainerTotal}>
                                 <Typography variant='subtitle1'>
-                                    Summary:
+                                    {t('SUMMARY')}:
                                 </Typography>
                                 <Typography variant='h6'>
                                     {totalPrice} {currency}
@@ -179,7 +178,7 @@ export const ProductForm = ({getProducts, classes}) => {
         <>
             <Grid item xs={12} sm={12}>
                 <Typography variant='h6'>
-                    {t('PRODUCT')}
+                    {t('CART')}
                 </Typography>
                 <Divider/>
             </Grid>

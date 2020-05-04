@@ -14,6 +14,10 @@ import CancelIcon from '@material-ui/icons/Cancel';
 import {useTranslation} from 'react-i18next';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
+import {makeStyles} from '@material-ui/core/styles';
+import {editAttributeStyles} from './EditAttribute.style';
+
+const useStyles = makeStyles(editAttributeStyles);
 
 export const EditAttribute = ({
                                   attribute,
@@ -27,6 +31,7 @@ export const EditAttribute = ({
         newValue: '',
     });
     const {t} = useTranslation('');
+    const classes = useStyles();
 
     useEffect(() => {
         if (attribute.attributeValues) {
@@ -182,18 +187,21 @@ export const EditAttribute = ({
                 onChange={onAttributeNameChange}
                 renderAttrValues={renderAttributeValues}
                 addAttributeValue={addAttributeValue}
-                title={t('EDITING_ATTRIBUTE')}
+                title={t('ATTRIBUTE_EDITING')}
+                classes={classes}
             />
-            <Grid item xl={12} lg={12} style={{textAlign: 'center'}}>
+            <Grid item xl={12} lg={12} className={classes.buttonContainer}>
                 <Button
                     variant='outlined'
                     onClick={() => dispatch(closeModal())}
+                    className={classes.button}
                 >
                     {t('CANCEL')}
                 </Button>
                 <Button
                     onClick={() => onSubmit({name, attrValues})}
                     variant='outlined'
+                    className={classes.button}
                 >
                     {t('EDIT')}
                 </Button>
