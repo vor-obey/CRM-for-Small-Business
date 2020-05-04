@@ -13,7 +13,7 @@ export const CreateCustomer = ({
                                   history,
                                   updateCustomerList
                                }) => {
-   const [customerDetails,, setCustomerDetails] = useState({
+   const [customerDetails, setCustomerDetails] = useState({
       username: '',
       name: '',
       contactNumber: '',
