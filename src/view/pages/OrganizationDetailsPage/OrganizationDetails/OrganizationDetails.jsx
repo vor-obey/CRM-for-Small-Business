@@ -53,6 +53,24 @@ export const OrganizationDetails = ({
                     </Typography>
                 </Grid>
             </Grid>
+            {(!owner || !organizationDetails.integrations[0] ) ? (
+                <Grid item container direction={'column'} xs={12} sm={12}>
+                    <Typography variant="body1">
+                        You don't have integrated account. Please add you instagram credentials.
+                    </Typography>
+                </Grid>
+            ) : (
+                <Grid item container direction={'column'} xs={12} sm={12}>
+                    <Grid className={classes.organizationItem}>
+                        <Typography variant="body1">
+                            Instagram
+                        </Typography>
+                        <Typography className={classes.organizationTypography} variant="body2">
+                            {organizationDetails.integrations[0].username}
+                        </Typography>
+                    </Grid>
+                </Grid>
+            )}
         </Grid>
     );
 };

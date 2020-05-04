@@ -29,7 +29,7 @@ export const EditOrganization = ({history}) => {
             const response = await OrganizationService.update({
                 organizationId,
                 name,
-                apiKeyNP
+                apiKeyNP,
             });
             if (response.success) {
                 await dispatch(getCurrentUser());
