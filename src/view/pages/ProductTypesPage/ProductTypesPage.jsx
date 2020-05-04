@@ -12,7 +12,7 @@ import {Link} from "react-router-dom";
 
 export const ProductTypesPage = ({history}) => {
     const {t} = useTranslation();
-    const [productTypes] = useProductTypes();
+    const [productTypes, loading] = useProductTypes();
 
     const renderProductTypes = useCallback(() => {
         if (isEmpty(productTypes)) {
@@ -36,7 +36,7 @@ export const ProductTypesPage = ({history}) => {
         });
     }, [productTypes, history]);
 
-    if (isEmpty(productTypes)) {
+    if (isEmpty(productTypes) || !loading) {
         return (
             <Grid container justify='center' style={{display: 'grid', paddingTop: 24}}>
                 <Typography variant='h5' style={{paddingBottom: 18}}>{t('NO_NEW_TYPES')}</Typography>

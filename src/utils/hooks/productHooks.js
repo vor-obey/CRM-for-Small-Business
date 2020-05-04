@@ -6,16 +6,20 @@ import {useDispatch} from 'react-redux';
 export const useProductTypes = () => {
     const dispatch = useDispatch();
     const [triggerCount, triggerProductTypesUpdate] = useState(0);
+    const [loading, setLoading] = useState(false);
     const [productTypes, setProductTypes] = useState([]);
 
     useEffect(() => {
         const fetchProductTypes = async () => {
             try {
+                setLoading(true);
                 dispatch(setIsLoading(true));
                 const response = await ProductTypeService.list();
                 setProductTypes(response);
                 dispatch(setIsLoading(false));
+                setLoading(false);
             } catch (e) {
+                setLoading(false);
                 dispatch(setIsLoading(false));
                 dispatch(setSnackBarStatus({isOpen: true, message: e.message, success: false}));
             }
@@ -23,7 +27,7 @@ export const useProductTypes = () => {
         fetchProductTypes();
     }, [dispatch, triggerCount]);
 
-    return [productTypes, setProductTypes, triggerProductTypesUpdate];
+    return [productTypes, loading, setProductTypes, triggerProductTypesUpdate];
 };
 
 export const useProductTypeById = (id) => {
@@ -33,6 +37,7 @@ export const useProductTypeById = (id) => {
     useEffect(() => {
         const fetchProductType = async () => {
             try {
+                dispatch(setIsLoading(true));
                 dispatch(setIsLoading(true));
                 const response = await ProductTypeService.findOneById(id);
                 setProductType(response);
@@ -72,16 +77,20 @@ export const useAbstractProductDetailsById = (id) => {
 
 export const useAbstractProducts = () => {
     const dispatch = useDispatch();
+    const [loading, setLoading] = useState(false);
     const [abstractProducts, setAbstractProducts] = useState([]);
 
     useEffect(() => {
         const fetchAbstractProducts = async () => {
             try {
+                setLoading(true);
                 dispatch(setIsLoading(true));
                 const response = await AbstractProductService.list();
                 setAbstractProducts(response);
                 dispatch(setIsLoading(false));
+                setLoading(false);
             } catch (e) {
+                setLoading(false);
                 dispatch(setIsLoading(false));
                 dispatch(setSnackBarStatus({isOpen: false, message: e.message, success: false}));
             }
@@ -89,7 +98,7 @@ export const useAbstractProducts = () => {
         fetchAbstractProducts();
     }, [dispatch]);
 
-    return [abstractProducts, setAbstractProducts];
+    return [abstractProducts, loading, setAbstractProducts];
 };
 
 export const useProductDetailsById = (id) => {
@@ -116,16 +125,20 @@ export const useProductDetailsById = (id) => {
 
 export const useProducts = () => {
     const dispatch = useDispatch();
+    const [loading, setLoading] = useState(false);
     const [products, setProducts] = useState([]);
 
     useEffect(() => {
         const fetchProducts = async () => {
             try {
+                setLoading(true);
                 dispatch(setIsLoading(true));
                 const response = await ProductService.list();
                 setProducts(response);
                 dispatch(setIsLoading(false));
+                setLoading(false);
             } catch (e) {
+                setLoading(false);
                 dispatch(setIsLoading(false));
                 dispatch(setSnackBarStatus({isOpen: true, message: e.message, success: false}));
             }
@@ -133,7 +146,7 @@ export const useProducts = () => {
         fetchProducts();
     }, [dispatch]);
 
-    return [products, setProducts];
+    return [products, loading,  setProducts];
 };
 
 export const useAttributesByProductTypeId = (productTypeId) => {

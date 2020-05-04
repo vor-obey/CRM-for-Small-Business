@@ -28,7 +28,7 @@ export const useCustomers = () => {
         fetchCustomers();
     }, [dispatch]);
 
-    return [customers, setCustomers, loading];
+    return [customers, loading, setCustomers];
 };
 
 export const useCustomerById = (id) => {

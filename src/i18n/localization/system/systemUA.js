@@ -41,4 +41,5 @@ export const SystemUA = {
     NO_NEW_PRODUCTS: 'Наразі немає нових товарів',
     NO_NEW_CATEGORIES: 'Наразі немає нових категорій продуків',
     NO_NEW_TYPES: 'Наразі немає нових типів продукту',
+    NO_NEW_CUSTOMERS: 'Наразі немає клієнтів',
 };
