@@ -81,6 +81,6 @@ export const saveAbstractProductPageStyles = (theme => ({
         textAlign: 'center'
     },
     button: {
-        margin: theme.spacing(3),
+        margin: theme.spacing(2),
     },
 }));
