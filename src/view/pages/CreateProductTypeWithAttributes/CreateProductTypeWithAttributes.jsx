@@ -1,10 +1,30 @@
 import React, {useCallback, useState} from 'react';
 import {SaveProductTypeWithAttributes} from '../../components/SaveProductTypeWithAttributes/SaveProductTypeWithAttributes';
-import {closeModal, renderModal, setIsLoading, setSnackBarStatus} from '../../../data/store/auxiliary/auxiliaryActions';
+import {
+    closeDialog,
+    closeModal, renderDialog,
+    renderModal,
+    setIsLoading,
+    setSnackBarStatus
+} from '../../../data/store/auxiliary/auxiliaryActions';
 import {CreateAttribute} from '../CreateAttribute/CreateAttribute';
 import {useDispatch} from 'react-redux';
 import isEmpty from 'lodash/isEmpty';
-import {Grid, Container, Paper, Button, Card, CardHeader, CardContent, Typography, IconButton, List, ListItem, ListItemText, makeStyles } from '@material-ui/core';
+import {
+    Grid,
+    Container,
+    Paper,
+    Button,
+    Card,
+    CardHeader,
+    CardContent,
+    Typography,
+    IconButton,
+    List,
+    ListItem,
+    ListItemText,
+    makeStyles
+} from '@material-ui/core';
 import RemoveIcon from '@material-ui/icons/Remove';
 import EditIcon from "@material-ui/icons/Edit";
 import {EditAttribute} from '../../components/EditAttribute/EditAttribute';
@@ -12,6 +32,8 @@ import {ProductTypeService} from '../../../services';
 import {useLastLocation} from 'react-router-last-location';
 import {editProductTypeWithAttributesStyles} from "../EditProductTypeWithAttributes/EditProductTypeWithAttributes.style";
 import {useTranslation} from "react-i18next";
+import cloneDeep from 'lodash/cloneDeep';
+import {v4 as uuidv4} from 'uuid'
 
 const useStyle = makeStyles(editProductTypeWithAttributesStyles);
 
@@ -20,6 +42,7 @@ export const CreateProductTypeWithAttributes = ({history}) => {
     const dispatch = useDispatch();
     const [name, setName] = useState('');
     const [attributes, setAttributes] = useState([]);
+    console.log(attributes);
     const lastLocation = useLastLocation();
     const {t} = useTranslation();
 
@@ -30,7 +53,7 @@ export const CreateProductTypeWithAttributes = ({history}) => {
     const createAttribute = useCallback((attribute) => {
         dispatch(closeModal());
         setAttributes(prevState => [...prevState, {
-            id: new Date().getTime(),
+            id: uuidv4(),
             name: attribute.name,
             attributeValues: attribute.valuesToSave,
         }]);
@@ -78,6 +101,24 @@ export const CreateProductTypeWithAttributes = ({history}) => {
         }))
     }, [dispatch, attributes]);
 
+    const openDeleteAttributeDialog = useCallback((attribute) => {
+        const deleteAttribute = async (attribute) => {
+            const newArr = cloneDeep(attributes);
+            const selectedAttributeIndex = newArr.findIndex(item => item.id === attribute.id);
+            newArr.splice(selectedAttributeIndex, 1);
+            setAttributes(newArr);
+            dispatch(closeDialog());
+        };
+        dispatch(renderDialog({
+            isShow: true,
+            onCloseHandler: () => dispatch(closeDialog()),
+            closeText: 'disagree',
+            actionText: 'agree',
+            onActionHandler: () => deleteAttribute(attribute),
+            children: t('DELETE_ATTRIBUTE')
+        }));
+    }, [dispatch, t, attributes]);
+
     const renderAttributes = useCallback(() => {
         if (isEmpty(attributes)) {
             return null;
@@ -102,7 +143,7 @@ export const CreateProductTypeWithAttributes = ({history}) => {
                                     <IconButton onClick={() => openEditAttributeModal(attr)} size='small'>
                                         <EditIcon/>
                                     </IconButton>
-                                    <IconButton size='small'>
+                                    <IconButton onClick={() => openDeleteAttributeDialog(attr)} size='small'>
                                         <RemoveIcon/>
                                     </IconButton>
                                 </Grid>
@@ -124,7 +165,7 @@ export const CreateProductTypeWithAttributes = ({history}) => {
                 </Grid>
             );
         });
-    }, [classes, attributes, openEditAttributeModal]);
+    }, [classes, attributes, openEditAttributeModal, openDeleteAttributeDialog]);
 
     const createProductType = useCallback(async () => {
         try {
