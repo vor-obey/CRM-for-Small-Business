@@ -14,6 +14,47 @@ export const editOrderStyles = (theme => ({
             paddingTop: 5,
             textAlign: 'left'
         },
+        productList: {
+            marginTop: 10,
+            border: '1px solid rgba(0, 0, 0, 0.12)',
+            borderRadius: 5,
+            marginBottom: 5
+        },
+        removeProduct: {
+            textAlign: 'center'
+        },
+        productTitle: {
+            flexDirection: 'column',
+        },
+        productTitleName: {
+            color: '#1769aa',
+        },
+        productContainer: {
+            margin: theme.spacing(0, 0, 2),
+            justifyContent: 'space-between',
+            alignItems: 'center',
+        },
+        productContainerItem: {
+            marginTop: '20px',
+        },
+        productContainerMeta: {
+            marginTop: 10,
+            display: 'flex',
+            width: '100%',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+        },
+        productContainerTotal: {
+            textAlign: 'right',
+        },
+        amountButton: {
+            width: 0,
+        },
+        amount: {
+            '& input.MuiOutlinedInput-input': {
+                textAlign: 'center'
+            }
+        },
         inputPrice: {
             marginLeft: theme.spacing(3),
             [theme.breakpoints.down('xs')]: {

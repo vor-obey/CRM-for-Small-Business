@@ -149,7 +149,6 @@ export const CreateOrderPage = ({history}) => {
             managerLoading={managerLoading}
             onManagerSelectHandler={onManagerSelectHandler}
             onCustomerSelectHandler={onCustomerSelectHandler}
-            onSubmitHandler={onSubmitHandler}
             setCreatedCustomer={setCreatedCustomer}
             shippingMethods={shippingMethods}
             shippingMethod={shippingMethod}

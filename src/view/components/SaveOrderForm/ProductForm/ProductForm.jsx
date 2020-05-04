@@ -1,5 +1,16 @@
 import React, {useCallback, useEffect, useState} from "react";
-import {Grid, Button, Typography, Divider, ListItem, IconButton, InputLabel, OutlinedInput, InputAdornment, FormControl} from "@material-ui/core";
+import {
+    Grid,
+    Button,
+    Typography,
+    Divider,
+    ListItem,
+    IconButton,
+    InputLabel,
+    OutlinedInput,
+    InputAdornment,
+    FormControl
+} from "@material-ui/core";
 import {closeModal, renderModal} from '../../../../data/store/auxiliary/auxiliaryActions';
 import {useDispatch} from 'react-redux';
 import {AddOrderProduct} from '../../AddOrderProduct/AddOrderProduct';
@@ -10,16 +21,28 @@ import RemoveIcon from '@material-ui/icons/Remove';
 import AddIcon from '@material-ui/icons/Add';
 import {useTranslation} from "react-i18next";
 
-export const ProductForm = ({getProducts, classes}) => {
-
+export const ProductForm = ({
+                                getProducts,
+                                orderedProducts,
+                                classes,
+                                isEdit
+                            }) => {
     const dispatch = useDispatch();
     const [products, setProducts] = useProducts();
     const [selectedProducts, setSelectedProducts] = useState([]);
     const {t} = useTranslation();
 
     useEffect(() => {
-        getProducts(selectedProducts);
-    }, [selectedProducts, getProducts]);
+        if (orderedProducts) {
+            setSelectedProducts(orderedProducts);
+        }
+    }, [orderedProducts]);
+
+    useEffect(() => {
+        if (!isEdit) {
+            getProducts(selectedProducts);
+        }
+    }, [isEdit, selectedProducts, getProducts]);
 
     const addProduct = useCallback((product) => {
         setSelectedProducts(prevState => ([
@@ -63,8 +86,11 @@ export const ProductForm = ({getProducts, classes}) => {
             newArr[ind].amount = validateAmount(value) ? value : newArr[ind].amount;
             newArr[ind].totalPrice = price * parseInt(value);
             setSelectedProducts(newArr);
+            if (isEdit) {
+                getProducts(newArr);
+            }
         }
-    }, [selectedProducts, validateAmount]);
+    }, [selectedProducts, validateAmount, getProducts, isEdit]);
 
     const decrement = useCallback((productId) => {
         const newArr = [...selectedProducts];
@@ -73,7 +99,10 @@ export const ProductForm = ({getProducts, classes}) => {
         newArr[ind].amount = --newArr[ind].amount;
         newArr[ind].totalPrice = price * newArr[ind].amount;
         setSelectedProducts(newArr);
-    }, [selectedProducts]);
+        if (isEdit) {
+            getProducts(newArr);
+        }
+    }, [selectedProducts, getProducts, isEdit]);
 
     const increment = useCallback((productId) => {
         const newArr = [...selectedProducts];
@@ -82,7 +111,10 @@ export const ProductForm = ({getProducts, classes}) => {
         newArr[ind].amount = ++newArr[ind].amount;
         newArr[ind].totalPrice = price * newArr[ind].amount;
         setSelectedProducts(newArr);
-    }, [selectedProducts]);
+        if (isEdit) {
+            getProducts(newArr);
+        }
+    }, [selectedProducts, getProducts, isEdit]);
 
     const calculateTotalPoints = useCallback(() => {
         return `${selectedProducts.reduce((a, b) => a + b.totalPrice, 0)} ${selectedProducts[0].currency}`;
@@ -109,7 +141,7 @@ export const ProductForm = ({getProducts, classes}) => {
                     <Grid container item xs={12} sm={12} className={classes.productContainer}>
                         <Grid item xs={12} sm={1} className={classes.productContainerItem}>
                             <Grid className={classes.removeProduct}>
-                                <IconButton onClick={() => removeProduct(item)} size='medium'>
+                                <IconButton disabled={isEdit} onClick={() => removeProduct(item)} size='medium'>
                                     <CloseIcon/>
                                 </IconButton>
                             </Grid>
@@ -172,7 +204,7 @@ export const ProductForm = ({getProducts, classes}) => {
                 </ListItem>
             );
         })
-    }, [t, classes, selectedProducts, onAmountChange, decrement, increment, removeProduct]);
+    }, [t, classes, selectedProducts, onAmountChange, decrement, increment, removeProduct, isEdit]);
 
     return (
         <>
@@ -187,7 +219,9 @@ export const ProductForm = ({getProducts, classes}) => {
                 <Grid className={classes.productContainerMeta}>
                     <Grid item xs={12} sm={6}>
                         <Button variant='outlined'
-                                onClick={() => openAddOrderProductModal()}>
+                                onClick={() => openAddOrderProductModal()}
+                                disabled={isEdit}
+                        >
                             {t('ADD_PRODUCT')}
                         </Button>
                     </Grid>
