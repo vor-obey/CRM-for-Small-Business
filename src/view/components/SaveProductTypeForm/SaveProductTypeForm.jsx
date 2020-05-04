@@ -9,17 +9,18 @@ export const SaveProductTypeForm = ({
                                         labels,
                                         productTypeDetails,
                                         onChange,
-                                        onSubmit
+                                        onSubmit,
+                                        classes
                                     }) => {
     return (
         <Container component='main' maxWidth='sm'>
             <Grid container style={{padding: 15}}>
-                <Grid item xl={12} lg={12} style={{marginTop: 10, marginBottom: 10}}>
+                <Grid item xs={12} sm={12} style={{marginTop: 10, marginBottom: 10}}>
                     <Typography variant='h6' style={{textAlign: 'center'}}>
                         {labels.title}
                     </Typography>
                 </Grid>
-                <Grid item xl={12} lg={12} style={{marginTop: 10, marginBottom: 10}}>
+                <Grid item xs={12} sm={12} style={{marginTop: 10, marginBottom: 10}}>
                     <TextField
                         label={t('PRODUCT_TYPE_NAME')}
                         name="name"
@@ -31,8 +32,9 @@ export const SaveProductTypeForm = ({
                         fullWidth
                     />
                 </Grid>
-                <Grid item xl={12} lg={12} style={{marginTop: 10, marginBottom: 10, textAlign: 'center'}}>
+                <Grid item xs={12} sm={12} className={classes.buttonContainer}>
                     <Button
+                        className={classes.button}
                         color='primary'
                         variant='outlined'
                         onClick={onSubmit}

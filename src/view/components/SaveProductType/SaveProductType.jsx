@@ -7,7 +7,8 @@ export const SaveProductType = ({
                                     labels,
                                     updateProductTypes,
                                     productType,
-                                    isEdit
+                                    isEdit,
+                                    classes
                                 }) => {
     const [productTypeDetails, setProductType] = useState({
         name: (productType && productType.name) || ''
@@ -37,6 +38,7 @@ export const SaveProductType = ({
 
     return (
         <SaveProductTypeForm
+            classes={classes}
             t={t}
             labels={labels}
             productTypeDetails={productTypeDetails}
