@@ -133,7 +133,7 @@ export const AbstractProductDetailsPage = ({history}) => {
             onCloseHandler: () => dispatch(closeDialog()),
             closeText: t('DISAGREE'),
             actionText: t('AGREE'),
-            children: `${t('DELETE_CATEGORY_PRODUCT') } "${abstractProductDetails.name}"?`,
+            children: `${t('DELETE_PRODUCT_CATEGORY') } "${abstractProductDetails.name}"?`,
             onActionHandler: () => deleteAbstractProduct(),
         }));
     }, [dispatch, abstractProductDetails, deleteAbstractProduct, t]);
