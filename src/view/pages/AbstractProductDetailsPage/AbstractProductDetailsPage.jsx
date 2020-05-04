@@ -1,7 +1,6 @@
 import React, {useCallback} from 'react';
 import {
     Grid,
-    Divider,
     Container,
     ListItemIcon,
     Typography,
@@ -70,30 +69,31 @@ export const AbstractProductDetailsPage = ({history}) => {
             const {attributeValues, attributeId, name} = attribute;
             return (
                 <React.Fragment key={attributeId}>
-                    <ListItem>
-                        <ListItemIcon>
-                            <ArrowRightIcon/>
-                        </ListItemIcon>
-                        <ListItemText
-                            className={classes.attributeValue}
-                            primary={name}
-                            secondary={
-                                <React.Fragment>
-                                    {attributeValues.map((attrValue) => (
-                                            <Typography
-                                                component="span"
-                                                variant="body2"
-                                                className={classes.attributeValueItem}
-                                                key={attrValue.attributeValueId}>
-                                                {attrValue.value}
-                                            </Typography>
-                                        )
-                                    )}
-                                </React.Fragment>
-                            }
-                        />
-                    </ListItem>
-                    <Divider/>
+                    <Grid container item xs={12} sm={6}>
+                        <ListItem>
+                            <ListItemIcon>
+                                <ArrowRightIcon/>
+                            </ListItemIcon>
+                            <ListItemText
+                                className={classes.attributeValue}
+                                primary={name}
+                                secondary={
+                                    <React.Fragment>
+                                        {attributeValues.map((attrValue) => (
+                                                <Typography
+                                                    component="span"
+                                                    variant="body2"
+                                                    className={classes.attributeValueItem}
+                                                    key={attrValue.attributeValueId}>
+                                                    {attrValue.value}
+                                                </Typography>
+                                            )
+                                        )}
+                                    </React.Fragment>
+                                }
+                            />
+                        </ListItem>
+                    </Grid>
                 </React.Fragment>
             );
         });
@@ -109,20 +109,22 @@ export const AbstractProductDetailsPage = ({history}) => {
         return products.map((product) => {
             const {productId, name, price} = product;
             return (
-                <ListItem
-                    key={productId}
-                >
-                    <ListItemIcon
-                        onClick={() => history.push(`/products/${productId}`)}
-                        style={{cursor: 'pointer'}}
-                    >
-                        <ShoppingBasketIcon/>
-                    </ListItemIcon>
-                    <ListItemText
-                        primary={name}
-                        secondary={`Price: ${price}`}
-                    />
-                </ListItem>
+                <React.Fragment key={productId}>
+                    <Grid container item xs={12} sm={6}>
+                        <ListItem
+                            onClick={() => history.push(`/products/${productId}`)}
+                            style={{cursor: 'pointer'}}
+                        >
+                            <ListItemIcon>
+                                <ShoppingBasketIcon/>
+                            </ListItemIcon>
+                            <ListItemText
+                                primary={name}
+                                secondary={`Price: ${price}`}
+                            />
+                        </ListItem>
+                    </Grid>
+                </React.Fragment>
             );
         })
     }, [abstractProductDetails, history]);
@@ -147,8 +149,8 @@ export const AbstractProductDetailsPage = ({history}) => {
                             {t('PRODUCT_CATEGORY_DETAILS')}
                         </Typography>
                     </Grid>
-                    <Grid container item xs={12} sm={6} className={classes.containerProduct}>
-                        <Grid item xs={12} sm={12} className={classes.containerProductItem}>
+                    <Grid container item xs={12} sm={12} className={classes.containerProduct}>
+                        <Grid item xs={12} sm={6} className={classes.containerProductItem}>
                             <Typography variant='h6'>
                                 {t('PRODUCT_NAME')}
                             </Typography>
@@ -156,15 +158,7 @@ export const AbstractProductDetailsPage = ({history}) => {
                                 {abstractProductDetails.name}
                             </Typography>
                         </Grid>
-                        <Grid item xs={12} sm={12} className={classes.containerProductItem}>
-                            <Typography variant='h6'>
-                                {t('DESCRIPTION')}
-                            </Typography>
-                            <Typography variant='body1'>
-                                {abstractProductDetails.description}
-                            </Typography>
-                        </Grid>
-                        <Grid item xs={12} sm={12} className={classes.containerProductItem}>
+                        <Grid item xs={12} sm={6} className={classes.containerProductItem}>
                             <Typography variant='h6'>
                                 {t('PRICE')}
                             </Typography>
@@ -172,9 +166,15 @@ export const AbstractProductDetailsPage = ({history}) => {
                                 {abstractProductDetails.price}
                             </Typography>
                         </Grid>
-                    </Grid>
-                    <Grid container item xs={12} sm={6} className={classes.containerProduct}>
-                        <Grid item xs={12} sm={12} className={classes.containerProductItem}>
+                        <Grid item xs={12} sm={6} className={classes.containerProductItem}>
+                            <Typography variant='h6'>
+                                {t('DESCRIPTION')}
+                            </Typography>
+                            <Typography variant='body1'>
+                                {abstractProductDetails.description}
+                            </Typography>
+                        </Grid>
+                        <Grid item xs={12} sm={6} className={classes.containerProductItem}>
                             <Typography variant='h6'>
                                 {t('PRODUCT_TYPE')}
                             </Typography>
@@ -184,21 +184,31 @@ export const AbstractProductDetailsPage = ({history}) => {
                         </Grid>
                     </Grid>
                     <Grid container item xs={12} className={classes.containerProduct}>
-                        <Grid item xs={12} sm={6} className={classes.containerProductItem}>
+                        {!isEmpty(abstractProductDetails.products) ? (
+                            <Grid item xs={12} sm={12} className={classes.containerProductItem}>
+                                <Grid item sm={12} xs={12} className={classes.containerTypeItem}>
+                                    <Typography variant='h6'>
+                                        {t('PRODUCTS')}
+                                    </Typography>
+                                </Grid>
+                                <Grid item sm={12} xs={12}>
+                                    <List className={classes.containerProductList}>
+                                        {renderProducts()}
+                                    </List>
+                                </Grid>
+                            </Grid>
+                        ) : null}
+                        <Grid item xs={12} sm={12} className={classes.containerProductItem}>
                             <Grid item xl={12} lg={12}>
                                 <Typography variant='h6'>
                                     {t('ATTRIBUTES')}
                                 </Typography>
                             </Grid>
-                            {renderAttributes()}
-                        </Grid>
-                        <Grid item sm={12} xs={12} xl={12} lg={12} className={classes.containerProductItem}>
-                            <Typography variant='h6'>
-                                {t('PRODUCTS')}
-                            </Typography>
-                            <List>
-                                {renderProducts()}
-                            </List>
+                            <Grid item sm={12} xs={12}>
+                                <List className={classes.containerProductList}>
+                                    {renderAttributes()}
+                                </List>
+                            </Grid>
                         </Grid>
                     </Grid>
                     <Grid container item xs={12} className={classes.buttonContainer}>

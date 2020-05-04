@@ -4,28 +4,19 @@ import {closeModal, renderModal, setIsLoading, setSnackBarStatus} from '../../..
 import {CreateAttribute} from '../CreateAttribute/CreateAttribute';
 import {useDispatch} from 'react-redux';
 import isEmpty from 'lodash/isEmpty';
+import {Grid, Container, Paper, Button, Card, CardHeader, CardContent, Typography, IconButton, List, ListItem, ListItemText, makeStyles } from '@material-ui/core';
 import RemoveIcon from '@material-ui/icons/Remove';
 import EditIcon from "@material-ui/icons/Edit";
 import {EditAttribute} from '../../components/EditAttribute/EditAttribute';
 import {ProductTypeService} from '../../../services';
 import {useLastLocation} from 'react-router-last-location';
+import {editProductTypeWithAttributesStyles} from "../EditProductTypeWithAttributes/EditProductTypeWithAttributes.style";
 import {useTranslation} from "react-i18next";
-import {
-    Container,
-    Button,
-    Paper,
-    List,
-    ListItem,
-    CardHeader,
-    IconButton,
-    CardContent,
-    Typography,
-    Card,
-    Grid,
-    ListItemText
-} from '@material-ui/core';
+
+const useStyle = makeStyles(editProductTypeWithAttributesStyles);
 
 export const CreateProductTypeWithAttributes = ({history}) => {
+    const classes = useStyle();
     const dispatch = useDispatch();
     const [name, setName] = useState('');
     const [attributes, setAttributes] = useState([]);
@@ -95,30 +86,29 @@ export const CreateProductTypeWithAttributes = ({history}) => {
         return attributes.map((attr) => {
             const {id, name, attributeValues} = attr;
             return (
-                <Grid item xl={4} lg={4} key={id}>
-                    <Card>
+                <Grid
+                    item xs={12} sm={5}
+                    key={id}>
+                    <Card className={classes.containerAttributeItem}>
                         <CardHeader
+                            className={classes.containerAttributeHeader}
                             title={
                                 <Typography variant='body1'>
                                     {name}
                                 </Typography>
                             }
                             action={
-                                <>
+                                <Grid className={classes.containerAttributeIcon}>
                                     <IconButton onClick={() => openEditAttributeModal(attr)} size='small'>
                                         <EditIcon/>
                                     </IconButton>
                                     <IconButton size='small'>
                                         <RemoveIcon/>
                                     </IconButton>
-                                </>
+                                </Grid>
                             }
-                            style={{
-                                padding: 5,
-                                border: '1px solid rgba(0, 0, 0, 0.12)'
-                            }}
                         />
-                        <CardContent style={{maxHeight: 100, overflow: 'auto', padding: 0}}>
+                        <CardContent className={classes.containerAttributeContent}>
                             <List>
                                 {attributeValues.map((value, index) => (
                                         <ListItem key={index}>
@@ -134,7 +124,7 @@ export const CreateProductTypeWithAttributes = ({history}) => {
                 </Grid>
             );
         });
-    }, [attributes, openEditAttributeModal]);
+    }, [classes, attributes, openEditAttributeModal]);
 
     const createProductType = useCallback(async () => {
         try {
@@ -152,8 +142,8 @@ export const CreateProductTypeWithAttributes = ({history}) => {
     }, [attributes, name, dispatch, history, lastLocation]);
 
     return (
-        <Container maxWidth='md' style={{marginTop: 30}}>
-            <Paper style={{padding: 15}}>
+        <Container maxWidth='md' className={classes.root}>
+            <Paper className={classes.container}>
                 <Grid container>
                     <SaveProductTypeWithAttributes
                         productTypeName={name}
@@ -161,10 +151,12 @@ export const CreateProductTypeWithAttributes = ({history}) => {
                         openCreateAttributeModal={openCreateAttributeModal}
                         renderAttributes={renderAttributes}
                         title={t('CREATE_PRODUCT_TYPE')}
+                        classes={classes}
                     />
                 </Grid>
-                <Grid item xl={12} lg={12} style={{textAlign: 'center'}}>
+                <Grid item xs={12} sm={12} className={classes.buttonContainer}>
                     <Button
+                        className={classes.buttonFab}
                         variant='outlined'
                         onClick={createProductType}
                         disabled={isEmpty(attributes)}

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, TextField, Typography, Grid} from "@material-ui/core";
+import {Grid, Typography, TextField, Button} from '@material-ui/core';
 import {useTranslation} from "react-i18next";
 
 export const SaveProductTypeWithAttributes = ({
@@ -7,19 +7,20 @@ export const SaveProductTypeWithAttributes = ({
                                                   onChange,
                                                   openCreateAttributeModal,
                                                   renderAttributes,
-                                                  title
+                                                  title,
+                                                  classes
                                               }) => {
     const {t} = useTranslation();
 
     return (
-        <>
-            <Grid container item xl={12} lg={12}>
-                <Grid item xl={12} lg={12} style={{textAlign: 'center'}}>
+        <React.Fragment>
+            <Grid container item xs={12} sm={12}>
+                <Grid item xs={12} sm={12} className={classes.containerTitle}>
                     <Typography variant='h6'>
                         {title}
                     </Typography>
                 </Grid>
-                <Grid item xl={12} lg={12} style={{marginTop: 15}}>
+                <Grid item xs={12} sm={12} className={classes.containerTypeItem}>
                     <TextField
                         label={t('PRODUCT_TYPE_NAME')}
                         name="name"
@@ -32,13 +33,13 @@ export const SaveProductTypeWithAttributes = ({
                     />
                 </Grid>
             </Grid>
-            <Grid container item xl={12} lg={12} style={{marginTop: 30}}>
-                <Grid item xl={12} lg={12} style={{textAlign: 'center'}}>
+            <Grid container item xs={12} sm={12} style={{marginTop: 30}}>
+                <Grid item xs={12} sm={12} className={classes.containerTitle}>
                     <Typography variant='h6'>
                         {t('ATTRIBUTES')}
                     </Typography>
                 </Grid>
-                <Grid item xl={12} lg={12}>
+                <Grid item xs={12} sm={12}>
                     <Button
                         variant='outlined'
                         onClick={openCreateAttributeModal}
@@ -46,10 +47,10 @@ export const SaveProductTypeWithAttributes = ({
                         {t('ADD_ATTRIBUTE')}
                     </Button>
                 </Grid>
-                <Grid container item xl={12} lg={12}>
+                <Grid container item xs={12} sm={12} className={classes.containerAttribute}>
                     {renderAttributes()}
                 </Grid>
             </Grid>
-        </>
+        </React.Fragment>
     );
 };

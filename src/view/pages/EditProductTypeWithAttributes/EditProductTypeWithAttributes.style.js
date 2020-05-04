@@ -1,8 +1,10 @@
-export const productTypeDetailsPageStyles = (theme => ({
+export const editProductTypeWithAttributesStyles = (theme => ({
     root: {
         marginTop: theme.spacing(10),
+        marginBottom: theme.spacing(5),
         [theme.breakpoints.down('xs')]: {
-            marginTop: theme.spacing(3)
+            marginTop: theme.spacing(3),
+            marginBottom: theme.spacing(3)
         }
     },
     container: {
@@ -17,43 +19,36 @@ export const productTypeDetailsPageStyles = (theme => ({
         textAlign: 'center',
         width: '100%'
     },
-    containerType: {
-        flexDirection: 'row',
-        alignItems: 'flex-start',
-        alignContent: 'flex-start',
-    },
     containerTypeItem: {
         marginTop: '15px',
         wordWrap: 'break-word',
         justifyContent: 'space-between'
     },
-    containerTypeAttribute: {
-        marginTop: theme.spacing(5)
-    },
-    attributeValue: {
+    containerAttribute: {
+        marginTop: theme.spacing(2),
         display: 'flex',
-        flexDirection: 'column',
-        flexWrap: 'wrap',
-        width: '100%'
+        justifyContent: 'space-between'
     },
-    attributeValueTitle: {
-        display: 'block',
+    containerAttributeItem: {
+        marginTop: theme.spacing(3),
     },
-    attributeValueItem: {
-        marginRight: theme.spacing(3),
-        display: 'inline-block',
+    containerAttributeHeader: {
+        border: '1px solid rgba(0, 0, 0, 0.12)'
     },
-    containerAbstractAttribute: {
-        display: 'flex',
-        flexDirection: 'row',
-        flexWrap: 'wrap'
+    containerAttributeContent: {
+        maxHeight: 100,
+        overflow: 'auto',
+        padding: 0
+    },
+    containerAttributeIcon: {
+        padding: '5px 5px 0',
     },
     buttonContainer: {
+        display: 'flex',
         alignContent: 'center',
         justifyContent: 'center',
     },
     buttonFab: {
         margin: theme.spacing(3),
-        backgroundColor: theme.palette.primary.main,
     },
 }));
