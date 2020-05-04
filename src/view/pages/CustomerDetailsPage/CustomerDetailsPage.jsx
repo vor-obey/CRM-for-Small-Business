@@ -7,7 +7,7 @@ import {
     Fab,
     Grid,
 } from "@material-ui/core";
-import { customerDetailsStyle } from "../CustomerDetailsPage/CustomerDetailsPage.style.js";
+import {customerDetailsStyle} from "../CustomerDetailsPage/CustomerDetailsPage.style.js";
 import {useDispatch} from "react-redux";
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -19,13 +19,13 @@ import {CustomerDetails} from './CustomerDetails/CustomerDetails';
 import {setIsLoading, setSnackBarStatus} from "../../../data/store/auxiliary/auxiliaryActions";
 import {COMMON_ERROR_MESSAGE} from "../../../constants/statuses";
 import {useTranslation} from "react-i18next";
-import {useCustomerById} from '../../../utils/customHooks';
+import {useCustomerById} from '../../../utils/hooks/customerHooks';
 
 const useStyles = makeStyles(customerDetailsStyle);
 
 export const CustomerDetailsPage = ({history}) => {
     const {id} = useParams();
-    const customerDetails = useCustomerById(id);
+    const [customerDetails] = useCustomerById(id);
     const [isShow, setIsShow] = useState(false);
     const dispatch = useDispatch();
     const classes = useStyles();
@@ -78,7 +78,7 @@ export const CustomerDetailsPage = ({history}) => {
                     <Grid container item xs={12}>
                         {renderCustomerDetails()}
                     </Grid>
-                    <Grid  container item xs={12}
+                    <Grid container item xs={12}
                            alignContent='center'
                            justify='center'>
                         <Fab

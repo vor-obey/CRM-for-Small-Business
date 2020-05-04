@@ -52,7 +52,7 @@ export const SaveCustomerForm = (props) => {
                             </Grid>
                             <Grid item xs={12} sm={6}>
                                 <TextField
-                                    label={t('NAME')}
+                                    label={t('FULL_NAME')}
                                     name="name"
                                     variant="outlined"
                                     type="text"
@@ -70,7 +70,6 @@ export const SaveCustomerForm = (props) => {
                                     type="email"
                                     value={(details && details.contactEmail) || ''}
                                     onChange={onChange}
-                                    required
                                     fullWidth
                                 />
                             </Grid>
@@ -84,7 +83,6 @@ export const SaveCustomerForm = (props) => {
                                     mask="_"
                                     value={(details && details.contactNumber) || ''}
                                     onChange={onChange}
-                                    required
                                     fullWidth
                                 />
                             </Grid>
@@ -95,7 +93,6 @@ export const SaveCustomerForm = (props) => {
                                     value={(details && details.details) || ''}
                                     onChange={onChange}
                                     variant="outlined"
-                                    required
                                     fullWidth
                                     rows="4"
                                     multiline

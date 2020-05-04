@@ -16,7 +16,7 @@ import {USER_URLS} from "../../../constants/urls";
 import {InputFilter} from "../../components/Filter/InputFilter";
 import {filter} from "../../../utils/helpers";
 import {useTranslation} from "react-i18next";
-import {useCustomers} from '../../../utils/customHooks';
+import {useCustomers} from '../../../utils/hooks/customerHooks';
 
 const useStyles = makeStyles(customersPageStyle);
 

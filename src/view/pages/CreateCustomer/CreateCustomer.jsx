@@ -6,7 +6,8 @@ import {setIsLoading, setSnackBarStatus} from "../../../data/store/auxiliary/aux
 import {COMMON_ERROR_MESSAGE} from "../../../constants/statuses";
 import {useDispatch} from "react-redux";
 import {useTranslation} from "react-i18next";
-import {useSources} from '../../../utils/customHooks';
+import {useSources} from '../../../utils/hooks/customerHooks';
+import isEmpty from 'lodash/isEmpty';
 
 export const CreateCustomer = ({
                                   history,
@@ -37,7 +38,7 @@ export const CreateCustomer = ({
    const onSubmitHandler = useCallback(async (event, customerDetails) => {
       event.stopPropagation();
       event.preventDefault();
-      if (customerDetails.contactNumber.length < 10 || customerDetails.contactNumber.length > 12) {
+      if (customerDetails.contactNumber && (customerDetails.contactNumber.length < 10 || customerDetails.contactNumber.length > 12)) {
          dispatch(setSnackBarStatus({isOpen: true, message: t('INVALID_NUMBER'), success: false}))
       } else {
          try {
@@ -60,13 +61,13 @@ export const CreateCustomer = ({
    }, [t, history, dispatch, updateCustomerList]);
 
    const renderSources = useCallback(() => {
-      if (!sources || !sources.length) {
+      if (isEmpty(sources)) {
          return null;
       }
 
       return sources.map(source => {
          return (
-            <option key={source.sourceId} value={source.sourceId}>{source.name}</option>
+             <option key={source.sourceId} value={source.sourceId}>{source.name}</option>
          );
       })
    }, [sources]);

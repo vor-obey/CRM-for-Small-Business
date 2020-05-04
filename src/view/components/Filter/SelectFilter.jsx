@@ -15,6 +15,9 @@ export const SelectFilter = ({
     const renderOptions = useCallback(() => {
         if (roles) {
             return roles.map((role) => {
+                if (role.name === 'Super Admin') {
+                    return null
+                }
                 return (
                     <option key={role.roleId} value={role.roleId}>{t(ROLES[role.name.toUpperCase()])}</option>
                 )
