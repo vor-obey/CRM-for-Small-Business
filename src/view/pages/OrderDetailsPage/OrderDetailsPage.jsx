@@ -192,6 +192,7 @@ export const OrderDetailsPage = ({history}) => {
             >
                 <InternetDocument
                     orderDetails={orderDetails}
+                    handleClose={togglePrintModal}
                 />
             </CustomModal>
         </Container>

@@ -4,7 +4,6 @@ import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import {saveUserStyle} from './SaveUser.style';
 import {SaveUserCredentials} from "./SaveUserCredentials/SaveUserCredentials";
 import {SaveUserDetails} from "./SaveUserDetails/SaveUserDetails";
-import {PASSWORD_DOESNT_MATCH} from "../../../constants/statuses";
 import {useDispatch} from "react-redux";
 import {setSnackBarStatus} from "../../../data/store/auxiliary/auxiliaryActions";
 import {useTranslation} from "react-i18next";
@@ -70,7 +69,7 @@ export const SaveUserForm = ({
     const onSubmitForm = useCallback((event) => {
         event.preventDefault();
         if (userCredentials.password !== userCredentials.confirmPassword) {
-            dispatch(setSnackBarStatus({isOpen: true, message: PASSWORD_DOESNT_MATCH, success: false}));
+            dispatch(setSnackBarStatus({isOpen: true, message: t('PASSWORD_DOESNT_MATCH'), success: false}));
         }else if (userDetailsInputs.contactNumber.length < 10 || userDetailsInputs.contactNumber.length > 12) {
             dispatch(setSnackBarStatus({isOpen: true, message: t('INVALID_NUMBER'), success: false}));
         }

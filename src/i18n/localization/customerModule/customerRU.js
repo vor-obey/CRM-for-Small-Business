@@ -9,4 +9,5 @@ export const CustomerRU = {
     DELETE_CUSTOMER_TEXT: 'Вы уверены, что хотите удалить клиента без возможности восстановления?',
     DELETE_CUSTOMER: 'Удалить клиента',
     EDIT_CUSTOMER: 'Редактировать клиента',
+    FULL_NAME: 'Ф.И.О.'
 };

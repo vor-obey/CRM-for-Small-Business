@@ -3,13 +3,11 @@ import {Button, Container, Grid, Paper} from '@material-ui/core';
 import {ProductForm} from './ProductForm/ProductForm';
 import {CustomerForm} from './CustomerManagerForm/CustomerForm';
 import {ShippingDetailsForm} from './ShippingDetailsForm/ShippingDetailsForm';
+import {EOrderStatus} from '../../../constants/statuses';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
-import {EOrderStatus} from '../../../constants/statuses';
 import {useTranslation} from 'react-i18next';
-
-const currencies = ['UAH', 'USD', 'EUR'];
 
 const autocompleteBreakpoints = {
     xl: 6,
@@ -19,13 +17,8 @@ const autocompleteBreakpoints = {
 };
 
 export const SaveOrderForm = ({
-                                  selectedProduct,
-                                  onProductSelect,
-                                  products,
                                   classes,
                                   onSubmitHandler,
-                                  onChangedProductInput,
-                                  productDetails,
                                   setCreatedCustomer,
                                   customers,
                                   managers,
@@ -43,6 +36,9 @@ export const SaveOrderForm = ({
                                   onShippingMethodSelectHandler,
                                   onStatusSelectHandler,
                                   buttonText,
+                                  getProducts,
+                                  status,
+                                  onSubmit
                               }) => {
     const {t} = useTranslation();
     const renderStatuses = useCallback(() => {
@@ -60,13 +56,8 @@ export const SaveOrderForm = ({
                         <form onSubmit={onSubmitHandler}>
                             <Grid container item xl={12}>
                                 <ProductForm
-                                    selectedProduct={selectedProduct}
-                                    onProductSelect={onProductSelect}
-                                    products={products}
+                                    getProducts={getProducts}
                                     classes={classes}
-                                    currencies={currencies}
-                                    onChangedInput={onChangedProductInput}
-                                    productDetails={productDetails}
                                 />
                             </Grid>
                             <Grid container item xl={12}>
@@ -107,10 +98,10 @@ export const SaveOrderForm = ({
                                     <Select
                                         native
                                         name="status"
-                                        value={productDetails.status}
+                                        value={status}
                                         labelWidth={70}
                                         required
-                                        onChange={onStatusSelectHandler}
+                                        onChange={(event) => onStatusSelectHandler(event.target.value)}
                                         inputProps={{
                                             name: 'status',
                                         }}>
@@ -121,9 +112,9 @@ export const SaveOrderForm = ({
                             <Button
                                 fullWidth
                                 className={classes.submit}
-                                type='submit'
                                 variant='contained'
                                 color='primary'
+                                onClick={onSubmit}
                             >
                                 {buttonText}
                             </Button>

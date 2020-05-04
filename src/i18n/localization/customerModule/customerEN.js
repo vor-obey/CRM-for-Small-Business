@@ -9,4 +9,5 @@ export const CustomerEN = {
     DELETE_CUSTOMER_TEXT: 'Are you sure you want to delete the customer without the possibility of recovery?',
     DELETE_CUSTOMER: 'Delete customer',
     EDIT_CUSTOMER: 'Edit customer',
+    FULL_NAME: 'Full Name'
 };
