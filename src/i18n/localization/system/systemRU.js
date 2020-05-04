@@ -41,5 +41,5 @@ export const SystemRU = {
     NO_NEW_PRODUCTS: 'Пока нет новых товаров',
     NO_NEW_CATEGORIES: 'Пока нет новых категорий продуктов',
     NO_NEW_TYPES: 'Пока нет новых типов продуктов',
-    NO_NEW_CUSTOMERS: 'Пока нет новых типов клиентов ',
+    NO_NEW_CUSTOMERS: 'Пока нет новых клиентов ',
 };
