@@ -123,14 +123,17 @@ export const OrdersPage = ({history}) => {
             <List>
                 <ListItem disableGutters divider>
                     <Grid container className={classes.gridOrderContainer}>
-                        <Grid item xl={5} lg={5} md={5} sm={4}>
+                        <Grid item xl={4} lg={4} md={4} sm={3}>
                             <Typography>{t('DESCRIPTION')}</Typography>
                         </Grid>
-                        <Grid item xl={5} lg={5} md={5} sm={5}>
+                        <Grid item xl={3} lg={3} md={3} sm={4}>
                             <Typography>{t('CUSTOMER')}</Typography>
                         </Grid>
-                        <Grid item xl={2} ld={2} md={2} sm={3}>
+                        <Grid item xl={3} lg={3} md={3} sm={3}>
                             <Typography>{t('STATUS')}</Typography>
+                        </Grid>
+                        <Grid item xl={2} ld={2} md={2} sm={2}>
+                            <Typography>{t('TOTAL')}</Typography>
                         </Grid>
                     </Grid>
                 </ListItem>
