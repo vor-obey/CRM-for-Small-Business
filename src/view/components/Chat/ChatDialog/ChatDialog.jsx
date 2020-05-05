@@ -11,8 +11,9 @@ import KeyboardReturnIcon from '@material-ui/icons/KeyboardReturn';
 import IconButton from '@material-ui/core/IconButton';
 import {useDispatch} from 'react-redux';
 import {sendMessage} from '../../../../data/store/user/userActions';
+import moment from 'moment';
 
-export const ChatDialog = ({profile, thread, goBack}) => {
+export const ChatDialog = ({profile, thread, goBack, classes, minWidth}) => {
     const {users, thread_title, items} = thread;
     const {profile_pic_url} = users[0];
     const dispatch = useDispatch();
@@ -32,19 +33,21 @@ export const ChatDialog = ({profile, thread, goBack}) => {
         const messages = items.sort((a, b) => a.timestamp - b.timestamp);
         return messages.map((item) => {
             let content;
+
+            const date = Number(item.timestamp);
+
+            const timestampInSeconds = moment(date).unix();
+            const dateTime = moment(timestampInSeconds).format('dddd HH:mm');
+
             switch (item.item_type) {
                 case 'text': {
                     content = (
                         <ListItemText
                             primary={item.text}
+                            secondary={dateTime}
+                            className={classes.messageText}
                             style={{
-                                border: '1px solid rgba(0, 0, 0, 0.12)',
-                                borderRadius: 5,
-                                padding: 10,
-                                marginRight: 5,
-                                marginLeft: 5,
                                 textAlign: `${item.user_id === profile.pk ? 'right' : 'left'}`,
-                                flex: 'unset'
                             }}
                         />
                     );
@@ -53,7 +56,7 @@ export const ChatDialog = ({profile, thread, goBack}) => {
                 case 'media': {
                     content = (
                         <img src={item.media.image_versions2.candidates[0].url} alt="Media"
-                             style={{height: 150, width: 150}}/>
+                             className={classes.messageImg}/>
                     );
                     break;
                 }
@@ -61,14 +64,9 @@ export const ChatDialog = ({profile, thread, goBack}) => {
                     content = (
                         <ListItemText
                             primary='Unsupported content'
+                            className={classes.messageUnsupported}
                             style={{
-                                border: '1px solid rgba(0, 0, 0, 0.12)',
-                                borderRadius: 5,
-                                padding: 10,
-                                marginRight: 5,
-                                marginLeft: 5,
                                 textAlign: `${item.user_id === profile.pk ? 'right' : 'left'}`,
-                                flex: 'unset'
                             }}
                         />
                     );
@@ -77,7 +75,7 @@ export const ChatDialog = ({profile, thread, goBack}) => {
             }
             if (item.user_id === profile.pk) {
                 return (
-                    <ListItem key={item.item_id} style={{justifyContent: 'flex-end'}}>
+                    <ListItem key={item.item_id} className={classes.flexEnd}>
                         {content}
                         <ListItemAvatar>
                             <Avatar alt={thread_title} src={profile.profile_pic_url}/>
@@ -86,7 +84,7 @@ export const ChatDialog = ({profile, thread, goBack}) => {
                 );
             }
             return (
-                <ListItem key={item.item_id} style={{justifyContent: 'flex-start'}}>
+                <ListItem key={item.item_id} className={classes.flexStart}>
                     <ListItemAvatar>
                         {avatar}
                     </ListItemAvatar>
@@ -94,7 +92,7 @@ export const ChatDialog = ({profile, thread, goBack}) => {
                 </ListItem>
             )
         });
-    }, [avatar, profile, items, thread_title]);
+    }, [avatar, profile, items, thread_title, classes]);
 
     const onChangedInput = useCallback((event) => {
         const {value} = event.target;
@@ -109,34 +107,37 @@ export const ChatDialog = ({profile, thread, goBack}) => {
 
     return (
         <>
-            <ListItem>
-                <KeyboardBackspaceIcon
-                    style={{cursor: 'pointer'}}
-                    onClick={goBack}
-                />
-                <ListItemAvatar>
-                    {avatar}
-                </ListItemAvatar>
-                <ListItemText
-                    primary={thread_title}
-                />
-                <RefreshIcon style={{cursor: 'pointer'}}/>
-            </ListItem>
-            {renderItems()}
-            <ListItem>
-                <form onSubmit={submit} style={{width: '100%', display: 'flex'}}>
-                    <TextField
-                        fullWidth
-                        label='Message'
-                        name='message'
-                        onChange={onChangedInput}
-                        value={text}
+            <div className={minWidth ? classes.scroll : null}>
+                <ListItem>
+                    {!minWidth ?
+                        <KeyboardBackspaceIcon
+                            className={classes.backButton}
+                            onClick={goBack}
+                        /> : null}
+                    <ListItemAvatar>
+                        {avatar}
+                    </ListItemAvatar>
+                    <ListItemText
+                        primary={thread_title}
                     />
-                    <IconButton type='submit'>
-                        <KeyboardReturnIcon style={{cursor: 'pointer'}}/>
-                    </IconButton>
-                </form>
-            </ListItem>
+                    <RefreshIcon className={classes.cursor}/>
+                </ListItem>
+                {renderItems()}
+                <ListItem>
+                    <form onSubmit={submit} className={classes.form}>
+                        <TextField
+                            fullWidth
+                            label='Message'
+                            name='message'
+                            onChange={onChangedInput}
+                            value={text}
+                        />
+                        <IconButton type='submit'>
+                            <KeyboardReturnIcon className={classes.cursor}/>
+                        </IconButton>
+                    </form>
+                </ListItem>
+            </div>
         </>
     )
 };

@@ -4,14 +4,17 @@ import React from 'react';
 
 export const ChatThreads = ({
                                 refreshThreads,
-                                renderThreads
+                                renderThreads,
+                                classes
                             }) => {
     return (
         <>
-            <ListItem style={{justifyContent: 'flex-end'}}>
-                <RefreshIcon style={{cursor: 'pointer'}} onClick={() => refreshThreads()}/>
-            </ListItem>
-            {renderThreads()}
+            <div className={classes.scroll}>
+                <ListItem className={classes.flexEnd}>
+                    <RefreshIcon className={classes.cursor} onClick={() => refreshThreads()}/>
+                </ListItem>
+                {renderThreads()}
+            </div>
         </>
     );
 };

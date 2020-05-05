@@ -43,6 +43,7 @@ import {CustomDialog} from '../CustomDialog/CustomDialog';
 import {EditProduct} from '../../pages/EditProduct/EditProduct';
 import {CreateProductTypeWithAttributes} from '../../pages/CreateProductTypeWithAttributes/CreateProductTypeWithAttributes';
 import {EditProductTypeWithAttributes} from '../../pages/EditProductTypeWithAttributes/EditProductTypeWithAttributes';
+import {Chat} from "../Chat/Chat";
 
 export const Routing = () => {
     const dispatch = useDispatch();
@@ -104,6 +105,7 @@ export const Routing = () => {
             <PrivateRoute exact path='/orders/:id' component={OrderDetailsPage}/>
             <PrivateRoute exact path='/orders/:id/edit' component={EditOrder}/>
             <PrivateRoute exact path='/organizations/:id' component={OrganizationDetailsPage}/>
+            <PrivateRoute exact path='/chat' component={Chat}/>
             <PrivateRoute exact path='/organizations/:id/edit' component={EditOrganization}/>
             <PrivateRoute exact path='/create-abstract-product' component={CreateAbstractProductPage}/>
             <PrivateRoute exact path='/abstract-products' component={AbstractProductsPage}/>

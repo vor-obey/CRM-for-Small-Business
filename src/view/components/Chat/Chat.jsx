@@ -1,5 +1,5 @@
 import React, {useCallback, useState} from 'react';
-import {CircularProgress, Container} from '@material-ui/core';
+import {CircularProgress, Container, useMediaQuery} from '@material-ui/core';
 import {useSelector} from 'react-redux';
 import Typography from '@material-ui/core/Typography';
 import {useTranslation} from 'react-i18next';
@@ -12,8 +12,12 @@ import Divider from '@material-ui/core/Divider';
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 import Avatar from '@material-ui/core/Avatar';
 import {ChatDialog} from './ChatDialog/ChatDialog';
+import {makeStyles} from "@material-ui/core/styles";
+import {ChatStyles} from "./Chat.style";
 
-export const Chat = ({style}) => {
+const useStyles = makeStyles(ChatStyles);
+
+export const Chat = ({style, mobile}) => {
     const profile = useSelector(state => state.userReducer.igProfile);
     const threads = useSelector(state => state.userReducer.threads);
     const isConnected = useSelector(state => state.userReducer.isConnected);
@@ -21,11 +25,13 @@ export const Chat = ({style}) => {
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [selectedThreadId, setSelectedThreadId] = useState('');
     const {t} = useTranslation('');
+    const minWidth600 = useMediaQuery('(min-width:600px)');
+    const classes = useStyles();
 
     const openThread = useCallback((threadId) => {
         setSelectedThreadId(threadId);
-        setIsDialogOpen(!isDialogOpen);
-    }, [isDialogOpen]);
+        setIsDialogOpen(true);
+    }, []);
 
     const goBack = useCallback(() => {
         setSelectedThreadId('');
@@ -46,7 +52,7 @@ export const Chat = ({style}) => {
                     <React.Fragment key={thread.thread_id}>
                         <ListItem
                             alignItems='flex-start'
-                            style={{cursor: 'pointer'}}
+                            className={classes.cursor}
                             onClick={() => openThread(thread.thread_id)}
                         >
                             <ListItemAvatar>
@@ -66,7 +72,7 @@ export const Chat = ({style}) => {
                 <React.Fragment key={thread.thread_id}>
                     <ListItem
                         alignItems='flex-start'
-                        style={{cursor: 'pointer'}}
+                        className={classes.cursor}
                         onClick={() => openThread(thread.thread_id)}
                     >
                         <ListItemAvatar>
@@ -81,7 +87,7 @@ export const Chat = ({style}) => {
                 </React.Fragment>
             )
         });
-    }, [threads, openThread]);
+    }, [threads, openThread, classes]);
 
     if (!isConnected) {
         return (
@@ -94,29 +100,55 @@ export const Chat = ({style}) => {
             <Typography
                 variant='h6'
                 color='textSecondary'
-                style={{
-                    textAlign: 'center',
-                    padding: 5
-                }}
+                className={classes.typographyCredentials}
             >
                 {t('NO_INSTAGRAM_CREDENTIALS')}
             </Typography>
         );
     }
 
+    if (!minWidth600 || mobile === true) {
+        return (
+            <Container className={classes.mobileContainer}>
+                <List className={classes.mobileList}>
+                    {isDialogOpen ?
+                        <ChatDialog
+                            profile={profile}
+                            thread={threads.find(item => item.thread_id === selectedThreadId)}
+                            goBack={goBack}
+                            classes={classes}
+                        />
+                        :
+                        <ChatThreads
+                            classes={classes}
+                            renderThreads={renderThreads}
+                        />
+                    }
+                </List>
+            </Container>
+
+        );
+    }
+
     return (
-        <Container style={style}>
-            <List style={{width: '100%', padding: 0}}>
+        <Container className={classes.container}>
+            <List className={classes.listThreads}>
+                <ChatThreads
+                    classes={classes}
+                    renderThreads={renderThreads}
+                />
+            </List>
+            <List className={classes.listDialog}>
                 {isDialogOpen ?
                     <ChatDialog
+                        minWidth={minWidth600}
                         profile={profile}
                         thread={threads.find(item => item.thread_id === selectedThreadId)}
-                        goBack={goBack}
+                        classes={classes}
                     />
                     :
-                    <ChatThreads
-                        renderThreads={renderThreads}
-                    />
+                    <Typography variant='h6' className={classes.text}>Please select a chat to start
+                        messaging</Typography>
                 }
             </List>
         </Container>
