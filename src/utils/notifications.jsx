@@ -34,5 +34,5 @@ export const NotificationsFunc = () => {
                 onClick: navigationClick
             }));
         }
-    }, [dispatch, message, profile, location, navigationClick]);
+    }, [dispatch, message, profile, location, navigationClick, user]);
 };
