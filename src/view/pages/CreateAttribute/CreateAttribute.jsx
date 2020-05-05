@@ -3,15 +3,10 @@ import {SaveAttributeForm} from '../../components/SaveAttributeForm/SaveAttribut
 import {useDispatch} from 'react-redux';
 import {closeModal, setSnackBarStatus} from '../../../data/store/auxiliary/auxiliaryActions';
 import isEmpty from 'lodash/isEmpty';
-import ListItem from '@material-ui/core/ListItem';
-import {ListItemSecondaryAction, ListItemText} from '@material-ui/core';
-import IconButton from '@material-ui/core/IconButton';
 import RemoveIcon from '@material-ui/icons/Remove';
-import Button from '@material-ui/core/Button';
-import Grid from '@material-ui/core/Grid';
 import {useTranslation} from 'react-i18next';
 import {createAttributeStyles} from "./CreateAttribute.style";
-import {makeStyles} from '@material-ui/core'
+import {makeStyles, Grid, Button, IconButton, ListItem, ListItemText, ListItemSecondaryAction} from '@material-ui/core'
 
 const useStyles = makeStyles(createAttributeStyles);
 
@@ -86,6 +81,7 @@ export const CreateAttribute = ({
                 <Button
                     onClick={() => onSubmit({name, valuesToSave})}
                     variant='outlined'
+                    disabled={!name.length || !valuesToSave.length}
                     className={classes.button}
                 >
                     {t('CREATE')}
