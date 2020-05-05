@@ -7,6 +7,8 @@ import {OrganizationDetailsStyle} from "./OrganizationDetailsPage.style";
 import {OrganizationDetails} from "./OrganizationDetails/OrganizationDetails";
 import {Container, Fab, Grid, makeStyles, Paper, Typography} from "@material-ui/core";
 import {useOrganizationDetailsById} from '../../../utils/hooks/organizationHooks';
+import isEmpty from 'lodash/isEmpty';
+import {Integrations} from '../../components/Integrations/Integrations';
 
 const useStyles = makeStyles(OrganizationDetailsStyle);
 
@@ -17,11 +19,11 @@ export const OrganizationDetailsPage = ({
     const {id} = useParams();
     const classes = useStyles();
     const {t} = useTranslation('');
-    const [organizationDetails] = useOrganizationDetailsById(id);
+    const [organizationDetails,, triggerOrganizationDetailsUpdate] = useOrganizationDetailsById(id);
     const currentUser = useSelector(state => state.userReducer.currentUser);
 
     const renderOrganizationDetails = useCallback(() => {
-        if (!organizationDetails) {
+        if (isEmpty(organizationDetails)) {
             return null;
         }
 
@@ -49,6 +51,11 @@ export const OrganizationDetailsPage = ({
                     <Grid container item xs={12}>
                         {renderOrganizationDetails()}
                     </Grid>
+                    <Integrations
+                        classes={classes}
+                        organization={organizationDetails}
+                        triggerOrganizationDetailsUpdate={triggerOrganizationDetailsUpdate}
+                    />
                     <Grid container item xs={12} className={classes.buttonContainer}>
                         <Fab
                             onClick={handleClickEdit}

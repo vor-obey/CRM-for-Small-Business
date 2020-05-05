@@ -14,5 +14,6 @@ export const USER_URLS = {
     PRODUCT_TYPES: '/product-types',
     ATTRIBUTES: '/attributes',
     ABSTRACT_PRODUCTS: '/abstract-products',
-    PRODUCTS: '/products'
+    PRODUCTS: '/products',
+    INTEGRATION: '/integration'
 };
