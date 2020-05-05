@@ -43,4 +43,7 @@ export const SystemEN = {
     NO_NEW_CATEGORIES: 'There are no new products categories',
     NO_NEW_TYPES: 'There are no new products types',
     ERROR: 'Error',
+    ADD_INTEGRATION: 'Create integration',
+    EDIT_INTEGRATION: 'Edit integration',
+    DELETE_INTEGRATION: 'Delete integration',
 };

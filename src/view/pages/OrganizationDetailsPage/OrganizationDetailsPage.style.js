@@ -43,6 +43,9 @@ export const OrganizationDetailsStyle = (theme => ({
         margin: theme.spacing(3),
         backgroundColor: theme.palette.primary.main,
     },
+    button: {
+        margin: theme.spacing(3),
+    },
     organizationInfo: {
         wordWrap: 'break-word',
     },

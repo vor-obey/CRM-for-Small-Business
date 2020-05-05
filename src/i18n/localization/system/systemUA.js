@@ -43,4 +43,7 @@ export const SystemUA = {
     NO_NEW_CATEGORIES: 'Наразі немає нових категорій продуків',
     NO_NEW_TYPES: 'Наразі немає нових типів продукту',
     ERROR: 'Помилка',
+    ADD_INTEGRATION: 'Створіть інтеграцію',
+    EDIT_INTEGRATION: 'Редагувати інтеграцію',
+    DELETE_INTEGRATION: 'Видалити інтеграцію?',
 };

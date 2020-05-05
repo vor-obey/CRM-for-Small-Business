@@ -68,11 +68,16 @@ export const Integrations = ({
             children: (
                 <CreateIntegration
                     onSubmit={createIntegration}
+                    labels={{
+                        title: t('ADD_INTEGRATION'),
+                        actionButton: t('CREATE')
+                    }}
+                    classes={classes}
                 />
             ),
             onCloseHandler: () => dispatch(closeModal()),
         }))
-    }, [dispatch, createIntegration]);
+    }, [t, dispatch, createIntegration]);
 
     const openEditIntegrationModal = useCallback((integration) => {
         const editIntegration = async (creds) => {
@@ -103,11 +108,16 @@ export const Integrations = ({
                 <EditIntegration
                     integration={integration}
                     onSubmit={editIntegration}
+                    labels={{
+                        title: t('EDIT_INTEGRATION'),
+                        actionButton: t('EDIT')
+                    }}
+                    classes={classes}
                 />
             ),
             onCloseHandler: () => dispatch(closeModal()),
         }))
-    }, [dispatch, triggerOrganizationDetailsUpdate]);
+    }, [t, dispatch, triggerOrganizationDetailsUpdate]);
 
     const openDeleteIntegrationDialog = useCallback((integration) => {
         const deleteIntegrationById = async () => {
@@ -135,7 +145,7 @@ export const Integrations = ({
             closeText: t('DISAGREE'),
             actionText: t('AGREE'),
             onActionHandler: () => deleteIntegrationById(),
-            children: 'Delete integration?'
+            children: t('DELETE_INTEGRATION')
         }));
     }, [dispatch, t, triggerOrganizationDetailsUpdate, organization.organizationId]);
 
@@ -169,14 +179,14 @@ export const Integrations = ({
     }, [integrations, openEditIntegrationModal, openDeleteIntegrationDialog]);
 
     return (
-        <Grid container item xs={12}>
+        <Grid container item xs={12} sm={6}>
             <Grid className={classes.root}>
                 <Grid item xs={12} className={classes.organizationItem}>
-                    <Typography variant='h6' align='center'>
+                    <Typography variant='h6'>
                         Integrations
                     </Typography>
                 </Grid>
-                <Grid item sm={6} xs={12} className={classes.organizationItem}>
+                <Grid item sm={12} xs={12} className={classes.organizationItem}>
                     <List>
                         {renderIntegrations()}
                         <ListItem style={{justifyContent: 'center'}}>

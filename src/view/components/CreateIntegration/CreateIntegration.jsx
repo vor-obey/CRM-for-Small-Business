@@ -3,9 +3,12 @@ import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import {SaveIntegration} from '../SaveIntegration/SaveIntegration';
+import Typography from "@material-ui/core/Typography";
 
 export const CreateIntegration = ({
-                                      onSubmit
+                                      onSubmit,
+                                      labels,
+                                      classes
                                   }) => {
     const [creds, setCreds] = useState({
         username: '',
@@ -24,18 +27,22 @@ export const CreateIntegration = ({
     }, []);
 
     return (
-        <Container maxWidth='sm'>
-            <Grid container style={{marginTop: 40}}>
+        <Container maxWidth='xs'>
+            <Grid container style={{marginTop: 20}}>
+                <Typography variant="subtitle1" style={{marginBottom: 20}}>
+                    {labels.title}
+                </Typography>
                 <SaveIntegration
                     creds={creds}
                     onChangedHandler={onChangedHandler}
                 />
-                <Grid item xs={12} style={{margin: '15px 0 15px 0'}}>
+                <Grid container item xs={12} className={classes.buttonContainer}>
                     <Button
+                        className={classes.button}
                         variant='outlined'
                         onClick={() => onSubmit(creds)}
                     >
-                        Create
+                        {labels.actionButton}
                     </Button>
                 </Grid>
             </Grid>

@@ -43,4 +43,7 @@ export const SystemRU = {
     NO_NEW_CATEGORIES: 'Пока нет новых категорий продуктов',
     NO_NEW_TYPES: 'Пока нет новых типов продуктов',
     ERROR: 'Ошибка',
+    ADD_INTEGRATION: 'Создать интеграцию',
+    EDIT_INTEGRATION: 'Редактировать интеграцию',
+    DELETE_INTEGRATION: 'Удалить интеграцию?',
 };
