@@ -4,7 +4,8 @@ import {
     RENDER_MODAL,
     CLOSE_MODAL,
     RENDER_DIALOG,
-    CLOSE_DIALOG
+    CLOSE_DIALOG,
+    ADD_NOTIFICATION
 } from "./auxiliaryActionTypes";
 
 const initialState = {
@@ -27,7 +28,8 @@ const initialState = {
         actionText: '',
         onAction: null,
         children: null,
-    }
+    },
+    notificationsArr: []
 };
 
 export const auxiliaryReducer = (state = initialState, action) => {
@@ -70,6 +72,12 @@ export const auxiliaryReducer = (state = initialState, action) => {
                 dialog: {
                     ...initialState.dialog
                 }
+            }
+        }
+        case ADD_NOTIFICATION: {
+            return {
+                ...state,
+                notificationsArr: [...state.notificationsArr, action.notification]
             }
         }
         default: {

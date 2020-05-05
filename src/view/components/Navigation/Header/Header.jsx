@@ -12,6 +12,7 @@ import {AlertSnackbar} from "../../Snackbar/Snackbar";
 import {setSnackBarStatus} from "../../../../data/store/auxiliary/auxiliaryActions";
 import {headerStyle} from "./Header.style";
 import {Flags} from "../Flags/Flags";
+import {NotificationsFunc} from "../../../../utils/notifications";
 
 const useStyles = makeStyles(headerStyle);
 
@@ -34,7 +35,7 @@ export const Header = () => {
                     {currentUser ? <Drawer/> : <div/>}
                     <div className={classes.user}>
                         <Flags classes={classes}/>
-                        {currentUser ? <Profile currentUser={currentUser}/> : <div/> }
+                        {currentUser ? <Profile currentUser={currentUser}/> : <div/>}
                     </div>
                 </Toolbar>
             </AppBar>
@@ -45,6 +46,7 @@ export const Header = () => {
                 success={success}
                 onClose={onClosedHandler}
             />
+            {NotificationsFunc()}
         </div>
     );
 };
