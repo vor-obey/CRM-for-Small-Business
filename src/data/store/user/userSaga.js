@@ -69,6 +69,11 @@ export function sendMessage(action) {
     socket.emit('sendMessage', action.payload);
 }
 
+export function deleteIntegration(action) {
+    const socket = socketIOClient(`${BASE_URL}/`, {query: `roomId=${action.organizationId}`});
+    socket.emit('deleteIntegration');
+}
+
 export function* initializeConnection(action) {
     yield put(setIsConnected(true));
     const {socket, timeout} = yield race({
@@ -98,7 +103,7 @@ export function* initializeConnection(action) {
                 yield put(setIsIntegrated(payload));
                 break;
             }
-            case 'error': {
+            case 'igError': {
                 yield put(setSocketError(payload));
                 break;
             }

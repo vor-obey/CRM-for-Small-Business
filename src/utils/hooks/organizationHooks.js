@@ -6,6 +6,7 @@ import {COMMON_ERROR_MESSAGE} from '../../constants/statuses';
 
 export const useOrganizationDetailsById = (id) => {
     const [organizationDetails, setOrganizationDetails] = useState({});
+    const [triggerCount, triggerOrganizationDetailsUpdate] = useState(0);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -21,7 +22,7 @@ export const useOrganizationDetailsById = (id) => {
             }
         };
         fetchOrganizationById(id);
-    }, [id, dispatch]);
+    }, [id, dispatch, triggerCount]);
 
-    return [organizationDetails, setOrganizationDetails];
+    return [organizationDetails, setOrganizationDetails, triggerOrganizationDetailsUpdate];
 };

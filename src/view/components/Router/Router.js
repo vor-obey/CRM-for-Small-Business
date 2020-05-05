@@ -60,7 +60,10 @@ export const Routing = () => {
 
     useEffect(() => {
         if (currentUser) {
-            dispatch(initConnect(currentUser.organization.organizationId));
+            const igIntegration = currentUser.organization.integrations.find(item => item.type === 'instagram');
+            if (igIntegration) {
+                dispatch(initConnect(currentUser.organization.organizationId));
+            }
         }
     }, [currentUser, dispatch]);
 
