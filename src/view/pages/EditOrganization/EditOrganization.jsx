@@ -4,13 +4,13 @@ import {useParams} from "react-router-dom";
 import {useTranslation} from "react-i18next";
 import BusinessIcon from "@material-ui/icons/Business";
 import {EditOrganizationStyle} from "./EditOrganization.style";
-import {useOrganizationDetailsById} from "../../../utils/customHooks";
 import {makeStyles, Avatar, Container, Button, CssBaseline, Typography} from "@material-ui/core";
 import {SaveOrganizationForm} from "../../components/SaveOrganization/SaveOrganizationForm";
 import {setIsLoading, setSnackBarStatus} from '../../../data/store/auxiliary/auxiliaryActions';
 import {OrganizationService} from '../../../services/index';
 import {useDispatch} from 'react-redux';
 import {getCurrentUser} from '../../../data/store/user/userActions';
+import {useOrganizationDetailsById} from '../../../utils/hooks/organizationHooks';
 
 const useStyles = makeStyles(EditOrganizationStyle);
 
@@ -29,7 +29,7 @@ export const EditOrganization = ({history}) => {
             const response = await OrganizationService.update({
                 organizationId,
                 name,
-                apiKeyNP
+                apiKeyNP,
             });
             if (response.success) {
                 await dispatch(getCurrentUser());
@@ -55,7 +55,6 @@ export const EditOrganization = ({history}) => {
     }, [setOrganizationDetails]);
 
     return (
-
         <Container component="main" maxWidth="xs">
             <CssBaseline/>
             <div className={classes.paper}>

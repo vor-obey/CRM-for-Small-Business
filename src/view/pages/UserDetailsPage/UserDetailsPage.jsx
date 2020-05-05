@@ -20,7 +20,7 @@ import {UserDetails} from './UserDetails/UserDetails';
 import {setIsLoading, setSnackBarStatus} from "../../../data/store/auxiliary/auxiliaryActions";
 import {COMMON_ERROR_MESSAGE} from "../../../constants/statuses";
 import {useTranslation} from "react-i18next";
-import {useManagerById} from '../../../utils/customHooks';
+import {useManagerById} from '../../../utils/hooks/userHooks';
 
 const useStyles = makeStyles(userDetailsStyle);
 
@@ -30,7 +30,7 @@ export const UserDetailsPage = ({history}) => {
     const {id} = useParams();
     const classes = useStyles();
     const [isShow, setIsShow] = useState(false);
-    const userDetails = useManagerById(id);
+    const [userDetails] = useManagerById(id);
     const { t } = useTranslation('');
 
     const handleOpenDialog = useCallback(() => {

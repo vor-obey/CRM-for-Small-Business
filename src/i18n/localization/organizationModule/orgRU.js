@@ -7,5 +7,7 @@ export const OrgRU ={
     CODE: 'Код',
     CREATE_ADMIN: 'Создать пользователя',
     EDIT: 'Редактировать',
-    EDIT_ORGANIZATION: 'Редактировать Организацию'
+    EDIT_ORGANIZATION: 'Редактировать Организацию',
+    ERROR_NAME_LENGHT: 'Название организации слишком короткое',
+    ERROR_API_LENGHT: 'Api key указан некорректно',
 };

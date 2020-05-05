@@ -1,7 +1,9 @@
 export const SystemUA = {
+    CANCEL: 'Скасувати',
     LOGIN: 'Вхід',
     LOGIN_BUTTON: 'Увійти',
     FORGOT_PASSWORD: 'Забули свій пароль?',
+    RESTORE_PASSWORD: 'Відновлення паролю',
     FILL_ALL_THE_FIElDS: 'Всі поля повинні бути заповнені',
     TOO_LONG_DESCRIPTION: 'Занадто довгий опис',
     SEND: 'Відправити',
@@ -36,4 +38,9 @@ export const SystemUA = {
     NO: 'Ні',
     YES: 'Так',
     DISPLAY_ERROR: 'Вибачте, але в даний момент даний віджет недоступний. Ми працюємо над його реалізацією.',
+    NO_NEW_ORDERS: 'Наразі немає нових заказів',
+    NO_NEW_PRODUCTS: 'Наразі немає нових товарів',
+    NO_NEW_CATEGORIES: 'Наразі немає нових категорій продуків',
+    NO_NEW_TYPES: 'Наразі немає нових типів продукту',
+    ERROR: 'Помилка',
 };

@@ -14,6 +14,47 @@ export const createOrderPageStyles = (theme => ({
             paddingTop: 5,
             textAlign: 'left'
         },
+        productList: {
+            marginTop: 10,
+            border: '1px solid rgba(0, 0, 0, 0.12)',
+            borderRadius: 5,
+            marginBottom: 5
+        },
+        removeProduct: {
+            textAlign: 'center'
+        },
+        productTitle: {
+            flexDirection: 'column',
+        },
+        productTitleName: {
+            color: '#1769aa',
+        },
+        productContainer: {
+            margin: theme.spacing(0, 0, 2),
+            justifyContent: 'space-between',
+            alignItems: 'center',
+        },
+        productContainerItem: {
+            marginTop: '20px',
+        },
+        productContainerMeta: {
+            marginTop: 10,
+            display: 'flex',
+            width: '100%',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+        },
+        productContainerTotal: {
+            textAlign: 'right',
+        },
+        amountButton: {
+            width: 0,
+        },
+        amount: {
+            '& input.MuiOutlinedInput-input': {
+                textAlign: 'center'
+            }
+        },
         inputPrice: {
             marginLeft: theme.spacing(3),
             [theme.breakpoints.down('xs')]: {
@@ -24,20 +65,17 @@ export const createOrderPageStyles = (theme => ({
             marginTop: theme.spacing(1),
             marginBottom: theme.spacing(1),
             paddingRight: theme.spacing(2),
-            [theme.breakpoints.down('xs')]:
-                {
-                    paddingRight: 0
-                }
-            ,
+            [theme.breakpoints.down('xs')]: {
+                paddingRight: 0
+            },
         },
         warehouseAutocomplete: {
             marginTop: theme.spacing(1),
             marginBottom: theme.spacing(1),
             paddingLeft: theme.spacing(2),
-            [theme.breakpoints.down('xs')]:
-                {
-                    paddingLeft: 0
-                },
+            [theme.breakpoints.down('xs')]: {
+                paddingLeft: 0
+            },
         },
         rootGrid: {
             marginTop: theme.spacing(3)
@@ -52,19 +90,17 @@ export const createOrderPageStyles = (theme => ({
         gridCustomers: {
             marginTop: theme.spacing(2),
             marginBottom: theme.spacing(2),
-            [theme.breakpoints.down('xs')]:
-                {
-                    marginBottom: theme.spacing(1),
-                    paddingLeft: theme.spacing(4)
-                },
+            [theme.breakpoints.down('xs')]: {
+                marginBottom: theme.spacing(1),
+                paddingLeft: theme.spacing(4)
+            },
         },
         gridButton: {
             marginTop: theme.spacing(3),
             paddingRight: theme.spacing(3),
-            [theme.breakpoints.down('sm')]:
-                {
-                    paddingRight: 0,
-                }
+            [theme.breakpoints.down('sm')]: {
+                paddingRight: 0,
+            }
         },
         gridShipping: {
             marginTop: theme.spacing(1),
@@ -101,6 +137,6 @@ export const createOrderPageStyles = (theme => ({
         },
         fadeLoading: {
             alignItems: 'center'
-        },
+        }
     }
 ));

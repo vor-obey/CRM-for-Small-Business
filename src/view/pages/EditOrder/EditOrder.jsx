@@ -1,7 +1,6 @@
 import {SaveOrderForm} from '../../components/SaveOrderForm/SaveOrderForm';
 import React, {useCallback, useEffect, useState} from 'react';
 import {useParams} from 'react-router-dom';
-import {useCustomers, useManagers, useOrderDetailsById, useShippingMethods} from '../../../utils/customHooks';
 import {makeStyles} from '@material-ui/core/styles';
 import {editOrderStyles} from './EditOrder.style';
 import isEmpty from 'lodash/isEmpty';
@@ -9,6 +8,9 @@ import {useDispatch, useSelector} from 'react-redux';
 import {setIsLoading, setSnackBarStatus} from '../../../data/store/auxiliary/auxiliaryActions';
 import {OrderService} from '../../../services';
 import {useTranslation} from 'react-i18next';
+import {useOrderDetailsById, useShippingMethods} from '../../../utils/hooks/orderHooks';
+import {useManagers} from '../../../utils/hooks/userHooks';
+import {useCustomers} from '../../../utils/hooks/customerHooks';
 
 const useStyles = makeStyles(editOrderStyles);
 
@@ -16,8 +18,7 @@ export const EditOrder = ({history}) => {
     const classes = useStyles();
     const {id} = useParams();
     const dispatch = useDispatch();
-    const orderDetails = useOrderDetailsById(id);
-    const [productDetails, setProductDetails] = useState({});
+    const [orderDetails] = useOrderDetailsById(id);
     const [shippingMethods] = useShippingMethods();
     const [shippingMethod, setShippingMethod] = useState({});
     const [shippingMethodId, setShippingMethodId] = useState('');
@@ -31,18 +32,31 @@ export const EditOrder = ({history}) => {
     const city = useSelector(state => state.autocompleteReducer.city);
     const warehouse = useSelector(state => state.autocompleteReducer.warehouse);
     const {t} = useTranslation();
+    const [orderedProducts, setOrderedProducts] = useState([]);
+    const [status, setStatus] = useState(0);
+
+    const mapProducts = useCallback((orderToProducts, currency) => {
+        return orderToProducts.map((orderToProduct) => {
+            const {orderProductId, amount, orderProductPrice, product} = orderToProduct;
+            const {productId, name} = product;
+            return {
+                orderProductId,
+                productId,
+                amount,
+                price: orderProductPrice,
+                totalPrice: orderProductPrice * amount,
+                name,
+                currency
+            }
+        });
+    }, []);
 
     useEffect(() => {
         if (!isEmpty(orderDetails)) {
-            const {description, status, currency, shippingDetails: {address: {address}}} = orderDetails;
-            setProductDetails({
-                description,
-                status,
-                currency
-            });
-            setAddress(JSON.parse(address));
+            setAddress(JSON.parse(orderDetails.shippingDetails.address.address));
+            setOrderedProducts(mapProducts(orderDetails.orderToProducts, orderDetails.currency));
         }
-    }, [orderDetails]);
+    }, [orderDetails, mapProducts]);
 
     useEffect(() => {
         if (!isEmpty(createdCustomer)) {
@@ -89,16 +103,6 @@ export const EditOrder = ({history}) => {
         }
     }, [shippingMethod]);
 
-    const onChangedProductInput = useCallback((event) => {
-        const {value, name} = event.target;
-        setProductDetails(prevState => {
-            return {
-                ...prevState,
-                [name]: value
-            };
-        });
-    }, []);
-
     const onChangedAddressInput = useCallback((event) => {
         const {value} = event.target;
         setAddress(value);
@@ -127,16 +131,6 @@ export const EditOrder = ({history}) => {
         setShippingMethodId(value);
     }, [shippingMethods]);
 
-    const onStatusSelectHandler = useCallback((event) => {
-        const {value, name} = event.target;
-        setProductDetails(prevState => {
-            return {
-                ...prevState,
-                [name]: value
-            };
-        });
-    }, []);
-
     const onSubmitHandler = useCallback(async (e) => {
         e.preventDefault();
         const {shippingDetails, orderId} = orderDetails;
@@ -144,7 +138,7 @@ export const EditOrder = ({history}) => {
             dispatch(setIsLoading(true));
             const response = await OrderService.update({
                 orderId,
-                product: productDetails,
+                products: orderedProducts,
                 customerId: customer.customerId,
                 managerId: manager.userId,
                 shippingDetails: {
@@ -155,7 +149,8 @@ export const EditOrder = ({history}) => {
                         address: isCustom ? address : {city, warehouse},
                         isCustom
                     },
-                }
+                },
+                status
             });
             if (response.success) {
                 dispatch(setIsLoading(false));
@@ -172,22 +167,25 @@ export const EditOrder = ({history}) => {
         address,
         customer,
         manager,
-        productDetails,
         shippingMethodId,
         orderDetails,
         isCustom,
         city,
         warehouse,
         dispatch,
-        history
+        history,
+        orderedProducts,
+        status
     ]);
+
+    const onStatusSelectHandler = useCallback((value) => {
+        setStatus(value);
+    }, []);
 
     return (
         <SaveOrderForm
             classes={classes}
             onSubmitHandler={onSubmitHandler}
-            onChangedProductInput={onChangedProductInput}
-            productDetails={productDetails}
             setCreatedCustomer={setCreatedCustomer}
             customers={customers}
             managers={managers}
@@ -203,6 +201,11 @@ export const EditOrder = ({history}) => {
             onShippingMethodSelectHandler={onShippingMethodSelectHandler}
             onStatusSelectHandler={onStatusSelectHandler}
             buttonText={t('EDIT_ORDER')}
+            getProducts={setOrderedProducts}
+            status={status}
+            onSubmit={onSubmitHandler}
+            orderedProducts={orderedProducts}
+            isEdit={true}
         />
     );
 };

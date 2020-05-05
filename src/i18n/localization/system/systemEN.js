@@ -1,7 +1,9 @@
 export const SystemEN = {
+    CANCEL: 'Cancel',
     LOGIN: 'Login',
     LOGIN_BUTTON: 'Log in',
     FORGOT_PASSWORD: 'Forgot your password?',
+    RESTORE_PASSWORD: 'Restore your Password',
     FILL_ALL_THE_FIElDS: 'Fill all the fields',
     TOO_LONG_DESCRIPTION: 'Too long description',
     SEND: 'Send',
@@ -36,4 +38,9 @@ export const SystemEN = {
     NO: 'No',
     YES: 'YES',
     DISPLAY_ERROR: 'Sorry, this widget is currently unavailable. We are working on its implementation.',
+    NO_NEW_ORDERS: 'There are no new orders',
+    NO_NEW_PRODUCTS: 'There are no new products',
+    NO_NEW_CATEGORIES: 'There are no new products categories',
+    NO_NEW_TYPES: 'There are no new products types',
+    ERROR: 'Error',
 };
