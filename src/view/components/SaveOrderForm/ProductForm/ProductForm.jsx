@@ -20,6 +20,12 @@ import CloseIcon from "@material-ui/icons/Close";
 import RemoveIcon from '@material-ui/icons/Remove';
 import AddIcon from '@material-ui/icons/Add';
 import {useTranslation} from "react-i18next";
+import {
+    addProductToCart,
+    deleteProductFromCart,
+    editProductFromCart, setProductsToCart,
+} from "../../../../data/store/order/orderActions";
+import {useSelector} from "react-redux";
 
 export const ProductForm = ({
                                 getProducts,
@@ -28,36 +34,25 @@ export const ProductForm = ({
                                 isEdit
                             }) => {
     const dispatch = useDispatch();
-    const [products, setProducts] = useProducts();
-    const [selectedProducts, setSelectedProducts] = useState([]);
+    const [products] = useProducts();
+
+    const orderCart = useSelector(state => state.orderReducer.cart);
     const {t} = useTranslation();
 
     useEffect(() => {
-        if (orderedProducts) {
-            setSelectedProducts(orderedProducts);
-        }
-    }, [orderedProducts]);
+        dispatch(setProductsToCart(orderedProducts || []));
+    }, [dispatch, orderedProducts]);
 
     useEffect(() => {
         if (!isEdit) {
-            getProducts(selectedProducts);
+            getProducts(orderCart);
         }
-    }, [isEdit, selectedProducts, getProducts]);
+    }, [isEdit, orderCart, getProducts]);
 
     const addProduct = useCallback((product) => {
-        setSelectedProducts(prevState => ([
-            ...prevState,
-            {
-                ...product,
-                price: parseInt(product.price)
-            }
-        ]));
-        const newArr = [...products];
-        const ind = newArr.findIndex(item => item.productId === product.productId);
-        newArr.splice(ind, 1);
-        setProducts(newArr);
+        dispatch(addProductToCart(product));
         dispatch(closeModal());
-    }, [products, setProducts, dispatch]);
+    }, [dispatch]);
 
     const openAddOrderProductModal = useCallback(() => {
         dispatch(renderModal({
@@ -65,13 +60,15 @@ export const ProductForm = ({
             classes: {},
             children: (
                 <AddOrderProduct
-                    products={products}
+                    products={products.filter((product) => (
+                        !orderCart.find(({productId}) => productId === product.productId)
+                    ))}
                     submit={addProduct}
                 />
             ),
             onCloseHandler: () => dispatch(closeModal()),
         }))
-    }, [dispatch, products, addProduct]);
+    }, [dispatch, products, addProduct, orderCart]);
 
     const validateAmount = useCallback((value) => {
         const regexp = /^((?!(0))\d+$)/;
@@ -80,60 +77,42 @@ export const ProductForm = ({
 
     const onAmountChange = useCallback((value, productId) => {
         if (validateAmount(value)) {
-            const newArr = [...selectedProducts];
+            const newArr = [...orderCart];
             const ind = newArr.findIndex(item => item.productId === productId);
             const price = newArr[ind].price;
             newArr[ind].amount = validateAmount(value) ? value : newArr[ind].amount;
             newArr[ind].totalPrice = price * parseInt(value);
-            setSelectedProducts(newArr);
+            dispatch(addProductToCart(newArr));
             if (isEdit) {
                 getProducts(newArr);
             }
         }
-    }, [selectedProducts, validateAmount, getProducts, isEdit]);
+    }, [dispatch, orderCart, validateAmount, getProducts, isEdit]);
 
-    const decrement = useCallback((productId) => {
-        const newArr = [...selectedProducts];
-        const ind = newArr.findIndex(item => item.productId === productId);
-        const {price} = newArr[ind];
-        newArr[ind].amount = --newArr[ind].amount;
-        newArr[ind].totalPrice = price * newArr[ind].amount;
-        setSelectedProducts(newArr);
-        if (isEdit) {
-            getProducts(newArr);
-        }
-    }, [selectedProducts, getProducts, isEdit]);
+    const decrement = useCallback((product) => {
+        product.totalPrice = product.price * --product.amount;
+        dispatch(editProductFromCart(product));
+    }, [dispatch]);
 
-    const increment = useCallback((productId) => {
-        const newArr = [...selectedProducts];
-        const ind = newArr.findIndex(item => item.productId === productId);
-        const {price} = newArr[ind];
-        newArr[ind].amount = ++newArr[ind].amount;
-        newArr[ind].totalPrice = price * newArr[ind].amount;
-        setSelectedProducts(newArr);
-        if (isEdit) {
-            getProducts(newArr);
-        }
-    }, [selectedProducts, getProducts, isEdit]);
+    const increment = useCallback((product) => {
+        product.totalPrice = product.price * ++product.amount;
+        dispatch(editProductFromCart(product));
+    }, [dispatch]);
 
     const calculateTotalPoints = useCallback(() => {
-        return `${selectedProducts.reduce((a, b) => a + b.totalPrice, 0)} ${selectedProducts[0].currency}`;
-    }, [selectedProducts]);
+        return `${orderCart.reduce((a, b) => a + b.totalPrice, 0)} ${orderCart[0].currency}`;
+    }, [orderCart]);
 
     const removeProduct = useCallback((product) => {
-        const newArr = [...selectedProducts];
-        const ind = newArr.findIndex(item => item.productId === product.productId);
-        newArr.splice(ind, 1);
-        setSelectedProducts(newArr);
-        setProducts(prevState => ([...prevState, product]));
-    }, [selectedProducts, setProducts]);
+        dispatch(deleteProductFromCart(product));
+    }, [dispatch]);
 
     const renderSelectedProducts = useCallback(() => {
-        if (isEmpty(selectedProducts)) {
+        if (isEmpty(orderCart)) {
             return null;
         }
 
-        return selectedProducts.map((item) => {
+        return orderCart.map((item) => {
             const {productId, name, price, amount, totalPrice, currency} = item;
             return (
                 <ListItem key={productId}
@@ -171,7 +150,7 @@ export const ProductForm = ({
                                             <IconButton
                                                 className={classes.amountButton}
                                                 fontSize="small"
-                                                onClick={() => decrement(productId)} disabled={amount === 1}>
+                                                onClick={() => decrement(item)} disabled={amount === 1}>
                                                 <RemoveIcon/>
                                             </IconButton>
                                         </InputAdornment>
@@ -181,7 +160,7 @@ export const ProductForm = ({
                                             <IconButton
                                                 className={classes.amountButton}
                                                 fontSize="small"
-                                                onClick={() => increment(productId)}>
+                                                onClick={() => increment(item)}>
                                                 <AddIcon/>
                                             </IconButton>
                                         </InputAdornment>
@@ -204,7 +183,7 @@ export const ProductForm = ({
                 </ListItem>
             );
         })
-    }, [t, classes, selectedProducts, onAmountChange, decrement, increment, removeProduct, isEdit]);
+    }, [t, classes, orderCart, onAmountChange, decrement, increment, removeProduct, isEdit]);
 
     return (
         <>
@@ -226,7 +205,7 @@ export const ProductForm = ({
                         </Button>
                     </Grid>
                     <Grid item xs={12} sm={6} className={classes.productContainerTotal}>
-                        {!isEmpty(selectedProducts) ? (
+                        {!isEmpty(orderCart) ? (
                             <>
                                 <Typography variant='subtitle1'>
                                     {t('TOTAL')}:

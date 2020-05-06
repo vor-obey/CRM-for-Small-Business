@@ -11,6 +11,7 @@ import {useCustomers} from '../../../utils/hooks/customerHooks';
 import {setIsLoading, setSnackBarStatus} from '../../../data/store/auxiliary/auxiliaryActions';
 import OrderService from '../../../services/OrderService';
 import {COMMON_ERROR_MESSAGE} from '../../../constants/statuses';
+import {setProductsToCart} from "../../../data/store/order/orderActions";
 
 const useStyles = makeStyles(createOrderPageStyles);
 
@@ -110,6 +111,7 @@ export const CreateOrderPage = ({history}) => {
                 if (response.success) {
                     dispatch(setIsLoading(false));
                     history.push('/orders');
+                    dispatch(setProductsToCart([]));
                 } else {
                     dispatch(setIsLoading(false));
                     dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE, success: false}));
