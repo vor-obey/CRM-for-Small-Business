@@ -39,10 +39,6 @@ export const ProductForm = ({
     const orderCart = useSelector(state => state.orderReducer.cart);
     const {t} = useTranslation();
 
-    // useEffect(() => {
-    //     dispatch(setProductsToCart(orderCart));
-    // }, [dispatch, orderCart]);
-
     useEffect(() => {
         if (!isEdit) {
             getProducts(orderCart);
