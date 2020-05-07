@@ -39,9 +39,9 @@ export const ProductForm = ({
     const orderCart = useSelector(state => state.orderReducer.cart);
     const {t} = useTranslation();
 
-    useEffect(() => {
-        dispatch(setProductsToCart(orderedProducts || []));
-    }, [dispatch, orderedProducts]);
+    // useEffect(() => {
+    //     dispatch(setProductsToCart(orderCart));
+    // }, [dispatch, orderCart]);
 
     useEffect(() => {
         if (!isEdit) {
@@ -108,11 +108,11 @@ export const ProductForm = ({
     }, [dispatch]);
 
     const renderSelectedProducts = useCallback(() => {
-        if (isEmpty(orderCart)) {
+        if (isEmpty(orderedProducts) && isEmpty(orderCart)) {
             return null;
         }
 
-        return orderCart.map((item) => {
+        return (orderedProducts || orderCart).map((item) => {
             const {productId, name, price, amount, totalPrice, currency} = item;
             return (
                 <ListItem key={productId}
@@ -183,7 +183,7 @@ export const ProductForm = ({
                 </ListItem>
             );
         })
-    }, [t, classes, orderCart, onAmountChange, decrement, increment, removeProduct, isEdit]);
+    }, [t, classes, orderCart, onAmountChange, decrement, increment, removeProduct, isEdit, orderedProducts]);
 
     return (
         <>
