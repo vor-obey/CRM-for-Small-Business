@@ -200,7 +200,7 @@ export const EditOrder = ({history}) => {
             onChangedAddressInput={onChangedAddressInput}
             onShippingMethodSelectHandler={onShippingMethodSelectHandler}
             onStatusSelectHandler={onStatusSelectHandler}
-            buttonText={t('EDIT_ORDER')}
+            buttonText={t('SAVE_ORDER')}
             getProducts={setOrderedProducts}
             status={status}
             onSubmit={onSubmitHandler}

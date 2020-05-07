@@ -83,7 +83,7 @@ export const EditOrganization = ({history}) => {
                             color="primary"
                             fullWidth
                         >
-                            {t('EDIT')}</Button>
+                            {t('SAVE')}</Button>
                     </Grid>
                 </form>
             </div>

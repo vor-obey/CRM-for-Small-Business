@@ -29,7 +29,7 @@ export const orderRU = {
     DELETE_ORDER: 'Удалить заказ',
     CONFIRM_DELETE: 'Вы уверены, что хотите удалить заказ?',
     ADDRESS: 'Адрес',
-    EDIT_ORDER: 'Редактировать заказ',
+    SAVE_ORDER: 'Сохранить заказ',
     WAREHOUSE: 'Отделение почты',
     CREATE_INTERNET_DOCUMENT: 'Создать экспресс накладную',
     SELECT_SENDER_ADDRESS: 'Выберите адрес отправителя',

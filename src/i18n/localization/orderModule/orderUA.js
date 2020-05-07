@@ -29,7 +29,7 @@ export const orderUA = {
     DELETE_ORDER: 'Видалити замовлення',
     CONFIRM_DELETE: 'Ви впевнені, що хочете видалити замовлення?',
     ADDRESS: 'Адреса',
-    EDIT_ORDER: 'Редагувати замовлення',
+    SAVE_ORDER: 'Зберегти замовлення',
     WAREHOUSE: 'Відділення пошти',
     CREATE_INTERNET_DOCUMENT: 'Створити експресс накладну',
     SELECT_SENDER_ADDRESS: 'Оберіть адресу відправника',
