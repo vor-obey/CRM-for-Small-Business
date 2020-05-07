@@ -29,7 +29,7 @@ export const orderEN = {
    DELETE_ORDER: 'Delete order',
    CONFIRM_DELETE: 'Are you sure you want to delete the order?',
    ADDRESS: 'Address',
-   SAVE_ORDER: 'Save order',
+   EDIT_ORDER: 'Edit order',
    WAREHOUSE: 'Warehouse',
    CREATE_INTERNET_DOCUMENT: 'Create Internet Document',
    SELECT_SENDER_ADDRESS: 'Select sender address',
