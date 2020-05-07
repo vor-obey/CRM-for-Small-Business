@@ -31,7 +31,7 @@ export const SystemRU = {
     CHAT: 'Чат',
     STATISTIC: 'Статистика',
     SUBMIT: 'Подтвердить',
-    PRINT: 'Распечатать',
+    PRINT: 'Печать ТТН',
     LOGOUT_TEXT: 'Вы уверены что хотите выйти?',
     LOGOUT_BUTTON: 'Выйти',
     WIDGET_ERROR: 'Извините, этот виджет недоступен. Мы занимаемся его разработкой.',

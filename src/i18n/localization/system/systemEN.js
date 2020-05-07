@@ -31,7 +31,7 @@ export const SystemEN = {
     CHAT: 'Chat',
     STATISTIC: 'Statistic',
     SUBMIT: 'Submit',
-    PRINT: 'Print',
+    PRINT: 'TTN Printing',
     LOGOUT_TEXT: 'Are you sure you want log out?',
     LOGOUT_BUTTON: 'Log out',
     WIDGET_ERROR: 'Sorry, this widget isn\'t available. We are engaged in its development.',
