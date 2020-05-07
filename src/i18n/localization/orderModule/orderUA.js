@@ -40,7 +40,7 @@ export const orderUA = {
     COST: 'Вартість',
     RECIPIENT_PHONE: 'Телефон одержувача',
     SENDER_PHONE: 'Телефон відправника',
-    RECIPIENT_FULL_NAME: 'ФIО одержувача',
+    RECIPIENT_FULL_NAME: 'П.I.Б. одержувача',
     NOVAPOSTA: 'Відділення Нової Пошти',
-    CUSTOM: 'Адресна Доставка'
+    CUSTOM: 'Адресна доставка'
 };

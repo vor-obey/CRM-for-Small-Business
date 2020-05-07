@@ -17,8 +17,4 @@ export const ROLES = {
     'SUPER ADMIN': 'ROLE_SUPER_ADMIN',
 };
 
-export const METHODS = {
-  CUSTOM: "CUSTOM",
-  NOVAPOSTA: "NOVAPOSTA"
-};
 

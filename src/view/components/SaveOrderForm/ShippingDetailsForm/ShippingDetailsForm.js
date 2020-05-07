@@ -6,7 +6,6 @@ import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 import {useTranslation} from 'react-i18next';
-import {METHODS} from "../../../../constants/statuses";
 
 export const ShippingDetailsForm = ({
                                         classes,
@@ -47,7 +46,7 @@ export const ShippingDetailsForm = ({
             return null;
         }
         return shippingMethods.map((method) => {
-            return <option key={method.shippingMethodId} value={method.shippingMethodId}>{t(METHODS[method.name.toUpperCase()])}</option>
+            return <option key={method.shippingMethodId} value={method.shippingMethodId}>{t(method.name.toUpperCase())}</option>
         });
     }, [shippingMethods]);
 

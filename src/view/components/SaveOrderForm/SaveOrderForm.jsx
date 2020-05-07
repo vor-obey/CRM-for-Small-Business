@@ -57,7 +57,7 @@ export const SaveOrderForm = ({
                             </Typography>
                             <Divider/>
                         </Grid>
-                        <Grid item xl={12} xs={12} style={{margin: '16px 0 10px 0px'}}>
+                        <Grid item xl={12} xs={12} className={classes.gridStatus}>
                             <FormControl
                                 variant="outlined"
                                 required
