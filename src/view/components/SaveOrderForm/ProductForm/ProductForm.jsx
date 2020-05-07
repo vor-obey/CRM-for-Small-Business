@@ -46,9 +46,12 @@ export const ProductForm = ({
     }, [isEdit, orderCart, getProducts]);
 
     const addProduct = useCallback((product) => {
+        if (isEdit) {
+            orderedProducts.push(product);
+        }
         dispatch(addProductToCart(product));
         dispatch(closeModal());
-    }, [dispatch]);
+    }, [dispatch, orderedProducts, isEdit]);
 
     const openAddOrderProductModal = useCallback(() => {
         dispatch(renderModal({
@@ -96,15 +99,18 @@ export const ProductForm = ({
     }, [dispatch]);
 
     const calculateTotalPoints = useCallback(() => {
+        if (isEdit) {
+            return `${orderedProducts.reduce((a, b) => a + b.totalPrice, 0)} ${orderedProducts[0].currency}`;
+        }
         return `${orderCart.reduce((a, b) => a + b.totalPrice, 0)} ${orderCart[0].currency}`;
-    }, [orderCart]);
+    }, [orderCart, isEdit, orderedProducts]);
 
     const removeProduct = useCallback((product) => {
-        dispatch(deleteProductFromCart(product));
         if (isEdit) {
-            const ind = orderedProducts.findIndex(item => item.productId === product.productId);
-            orderedProducts.splice(ind, 1);
+            const index = orderedProducts.findIndex(item => item.productId === product.productId);
+            orderedProducts.splice(index, 1);
         }
+        dispatch(deleteProductFromCart(product));
     }, [dispatch, orderedProducts, isEdit]);
 
     const renderSelectedProducts = useCallback(() => {
