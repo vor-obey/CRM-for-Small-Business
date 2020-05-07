@@ -10,7 +10,6 @@ export const SaveProductTypeForm = ({
                                         productTypeDetails,
                                         onChange,
                                         onSubmit,
-                                        classes
                                     }) => {
     return (
         <Container component='main' maxWidth='sm'>
@@ -32,9 +31,9 @@ export const SaveProductTypeForm = ({
                         fullWidth
                     />
                 </Grid>
-                <Grid item xs={12} sm={12} className={classes.buttonContainer}>
+                <Grid item xs={12} sm={12} style={{alignContent: 'center', textAlign: 'center'}}>
                     <Button
-                        className={classes.button}
+                        style={{margin: 16}}
                         color='primary'
                         variant='outlined'
                         onClick={onSubmit}
