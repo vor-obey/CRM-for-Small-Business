@@ -39,8 +39,10 @@ export const CreateOrganization = ({history}) => {
             dispatch(setSnackBarStatus({isOpen: true, message: t('PASSWORD_DOESNT_MATCH'), success: false}))
         } else if (organization.organizationName.length < 3) {
             dispatch(setSnackBarStatus({isOpen: true, message: t('ERROR_NAME_LENGHT'), success: false}))
-        } else if (organization.apiKeyNP.length < 32 || organization.apiKeyNP.length > 32) {
-            dispatch(setSnackBarStatus({isOpen: true, message: t('ERROR_API_LENGHT'), success: false}))
+        } else if (organization.apiKeyNP.length > 0) {
+            if (organization.apiKeyNP.length < 32 || organization.apiKeyNP.length > 32) {
+                dispatch(setSnackBarStatus({isOpen: true, message: t('ERROR_API_LENGHT'), success: false}))
+            }
         } else if (organization.contactNumber.length < 10 || organization.contactNumber.length > 12) {
             dispatch(setSnackBarStatus({isOpen: true, message: t('INVALID_NUMBER'), success: false}))
         } else {
