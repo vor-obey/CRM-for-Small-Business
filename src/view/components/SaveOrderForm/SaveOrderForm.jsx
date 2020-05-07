@@ -1,5 +1,5 @@
 import React, {useCallback} from 'react';
-import {Button, Container, Grid, Paper, FormControl, InputLabel, Select} from '@material-ui/core';
+import {Button, Container, Grid, Paper, FormControl, InputLabel, Select, Typography, Divider} from '@material-ui/core';
 import {ProductForm} from './ProductForm/ProductForm';
 import {CustomerForm} from './CustomerManagerForm/CustomerForm';
 import {ShippingDetailsForm} from './ShippingDetailsForm/ShippingDetailsForm';
@@ -51,6 +51,35 @@ export const SaveOrderForm = ({
             <Grid container>
                 <Grid container item>
                     <Paper className={classes.paper}>
+                        <Grid item xs={12} sm={12}>
+                            <Typography variant='h6'>
+                                {t('STATUS')}
+                            </Typography>
+                            <Divider/>
+                        </Grid>
+                        <Grid item xl={12} xs={12} style={{margin: '16px 0 10px 0px'}}>
+                            <FormControl
+                                variant="outlined"
+                                required
+                                fullWidth
+                            >
+                                <InputLabel id="demo-simple-select-outlined-label">
+                                    {t('STATUS')}
+                                </InputLabel>
+                                <Select
+                                    native
+                                    name="status"
+                                    value={status}
+                                    labelWidth={70}
+                                    required
+                                    onChange={(event) => onStatusSelectHandler(event.target.value)}
+                                    inputProps={{
+                                        name: 'status',
+                                    }}>
+                                    {renderStatuses()}
+                                </Select>
+                            </FormControl>
+                        </Grid>
                         <Grid container item xl={12}>
                             <ProductForm
                                 getProducts={getProducts}
@@ -84,29 +113,6 @@ export const SaveOrderForm = ({
                                 onChangedAddressInput={onChangedAddressInput}
                                 onShippingMethodSelectHandler={onShippingMethodSelectHandler}
                             />
-                        </Grid>
-                        <Grid item xl={12} xs={12} style={{marginTop: 16}}>
-                            <FormControl
-                                variant="outlined"
-                                required
-                                fullWidth
-                            >
-                                <InputLabel id="demo-simple-select-outlined-label">
-                                    {t('STATUS')}
-                                </InputLabel>
-                                <Select
-                                    native
-                                    name="status"
-                                    value={status}
-                                    labelWidth={70}
-                                    required
-                                    onChange={(event) => onStatusSelectHandler(event.target.value)}
-                                    inputProps={{
-                                        name: 'status',
-                                    }}>
-                                    {renderStatuses()}
-                                </Select>
-                            </FormControl>
                         </Grid>
                         <Button
                             fullWidth
