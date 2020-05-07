@@ -23,7 +23,7 @@ import {useTranslation} from "react-i18next";
 import {
     addProductToCart,
     deleteProductFromCart,
-    editProductFromCart, setProductsToCart,
+    editProductFromCart,
 } from "../../../../data/store/order/orderActions";
 import {useSelector} from "react-redux";
 
