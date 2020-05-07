@@ -101,12 +101,18 @@ export const ProductForm = ({
 
     const removeProduct = useCallback((product) => {
         dispatch(deleteProductFromCart(product));
-    }, [dispatch]);
+        if (isEdit) {
+            const ind = orderedProducts.findIndex(item => item.productId === product.productId);
+            orderedProducts.splice(ind, 1);
+        }
+    }, [dispatch, orderedProducts, isEdit]);
 
     const renderSelectedProducts = useCallback(() => {
         if (isEmpty(orderedProducts) && isEmpty(orderCart)) {
             return null;
         }
+
+        console.log(orderedProducts);
 
         return (orderedProducts || orderCart).map((item) => {
             const {productId, name, price, amount, totalPrice, currency} = item;
@@ -116,7 +122,7 @@ export const ProductForm = ({
                     <Grid container item xs={12} sm={12} className={classes.productContainer}>
                         <Grid item xs={12} sm={1} className={classes.productContainerItem}>
                             <Grid className={classes.removeProduct}>
-                                <IconButton disabled={isEdit} onClick={() => removeProduct(item)} size='medium'>
+                                <IconButton onClick={() => removeProduct(item)} size='medium'>
                                     <CloseIcon/>
                                 </IconButton>
                             </Grid>
@@ -179,7 +185,7 @@ export const ProductForm = ({
                 </ListItem>
             );
         })
-    }, [t, classes, orderCart, onAmountChange, decrement, increment, removeProduct, isEdit, orderedProducts]);
+    }, [t, classes, orderCart, onAmountChange, decrement, increment, removeProduct, orderedProducts]);
 
     return (
         <>
@@ -195,7 +201,6 @@ export const ProductForm = ({
                     <Grid item xs={12} sm={6}>
                         <Button variant='outlined'
                                 onClick={() => openAddOrderProductModal()}
-                                disabled={isEdit}
                         >
                             {t('ADD_PRODUCT')}
                         </Button>
