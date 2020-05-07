@@ -1,3 +1,6 @@
+import Button from "@material-ui/core/Button";
+import React from "react";
+
 export const createAbstractProductPageStyles = (theme => ({
     modal: {
         display: 'flex',
@@ -19,4 +22,19 @@ export const createAbstractProductPageStyles = (theme => ({
         position: 'absolute',
         marginTop: theme.spacing(1)
     },
+    buttonContainer: {
+        alignContent: 'center',
+        textAlign: 'center'
+    },
+    button: {
+        margin: 16
+    },
+    inputName: {
+        marginTop: 10,
+        marginBottom: 10
+    },
+    label: {
+        marginTop: 10,
+        marginBottom: 10
+    }
 }));

@@ -240,6 +240,7 @@ export const SaveAbstractProduct = ({
             classes: {},
             children: (
                 <SaveProductType
+                    classes={classes}
                     labels={{
                         title: t('EDIT_PRODUCT_TYPE'),
                         button: t('EDIT')
