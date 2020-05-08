@@ -1,6 +1,6 @@
 export const CustomerRU = {
     CUSTOMERS: 'Клиенты',
-    USERNAME: 'Никнейм',
+    USERNAME: 'Имя аккаунта',
     NAME: 'Имя',
     CREATE_CUSTOMER: 'Создать клиента',
     CUSTOMER_DETAILS: 'Детали клиента',

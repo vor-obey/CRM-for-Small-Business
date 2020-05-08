@@ -15,7 +15,6 @@ import {HomeStyles} from "./Home.style";
 import {Graph} from '../../components/Graph/Graph'
 import {useTranslation} from "react-i18next";
 import {useOrders} from '../../../utils/hooks/orderHooks';
-import {Chat} from '../../components/Chat/Chat';
 import {useDispatch} from 'react-redux';
 import {openChatWidget} from '../../../data/store/user/userActions';
 
@@ -105,15 +104,6 @@ export const Home = ({history}) => {
                      display: 'flex',
                      justifyContent: 'center',
                   }}>
-                     <Chat
-                        style={{
-                           padding: 0,
-                           maxHeight: 343,
-                           overflow: 'auto',
-                           height: '100%'
-                        }}
-                        mobile={true}
-                     />
                   </CardContent>
                </Card>
             </Grid>

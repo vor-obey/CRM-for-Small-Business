@@ -6,16 +6,20 @@ import {COMMON_ERROR_MESSAGE} from '../../constants/statuses';
 
 export const useOrders = () => {
     const [orderList, setOrdersList] = useState([]);
+    const [loading, setLoading] = useState(false);
     const dispatch = useDispatch();
 
     useEffect(() => {
         const fetchOrders = async () => {
             try {
+                setLoading(true);
                 dispatch(setIsLoading(true));
                 const response = await OrderService.list();
                 setOrdersList(response);
                 dispatch(setIsLoading(false));
+                setLoading(false);
             } catch (e) {
+                setLoading(false);
                 dispatch(setIsLoading(false));
                 dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE, success: false}))
             }
@@ -23,7 +27,7 @@ export const useOrders = () => {
         fetchOrders();
     }, [dispatch]);
 
-    return [orderList, setOrdersList];
+    return [orderList, setOrdersList, loading];
 };
 
 export const useOrderDetailsById = (id) => {

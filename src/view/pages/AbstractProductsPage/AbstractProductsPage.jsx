@@ -11,7 +11,7 @@ import {Link} from "react-router-dom";
 
 export const AbstractProductsPage = ({history}) => {
     const {t} = useTranslation();
-    const [abstractProducts] = useAbstractProducts();
+    const [abstractProducts,, loading] = useAbstractProducts();
 
     const renderAbstractProducts = useCallback(() => {
         if (isEmpty(abstractProducts)) {
@@ -37,19 +37,25 @@ export const AbstractProductsPage = ({history}) => {
         });
     }, [abstractProducts, history]);
 
-    if (isEmpty(abstractProducts)) {
+    if (isEmpty(abstractProducts) && !loading) {
         return (
-            <Grid container justify='center' style={{display: 'grid', paddingTop: 24}}>
-                <Typography variant='h5' style={{paddingBottom: 18}}>{t('NO_NEW_CATEGORIES')}</Typography>
-                <Button
-                    type='submit'
-                    variant="outlined"
-                    color="primary"
-                    component={Link}
-                    to='/create-abstract-product'
-                >
-                    {t('CREATE')}
-                </Button>
+            <Grid container spacing={0}
+                  direction="column"
+                  alignItems="center"
+                  justify="center"
+                  style={{minHeight: 'calc(100vh - 64px)'}}>
+                <Grid container item xs={8} sm={2} style={{flexDirection: 'column', textAlign: 'center'}}>
+                    <Typography variant='h5' style={{paddingBottom: 18}}>{t('NO_NEW_CATEGORIES')}</Typography>
+                    <Button
+                        type='submit'
+                        variant="outlined"
+                        color="primary"
+                        component={Link}
+                        to='/create-abstract-product'
+                    >
+                        {t('CREATE')}
+                    </Button>
+                </Grid>
             </Grid>
         );
     }

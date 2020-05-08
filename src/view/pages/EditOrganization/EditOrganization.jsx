@@ -21,28 +21,46 @@ export const EditOrganization = ({history}) => {
     const [organizationDetails, setOrganizationDetails] = useOrganizationDetailsById(id);
     const dispatch = useDispatch();
 
+    const validateDetails = useCallback(({name, apiKeyNP}) => {
+        const errors = [];
+        if (name.length < 3) {
+            errors.push(<span key={1} style={{display: 'block'}}>{t('ERROR_NAME_LENGTH')}</span>)
+        }
+        if (apiKeyNP.length > 0 && apiKeyNP.length > 32) {
+            errors.push(<span key={2} style={{display: 'block'}}>{t('ERROR_API_LENGTH')}</span>)
+        }
+        if (!errors.length) {
+            return true;
+        }
+        dispatch(setSnackBarStatus({isOpen: true, message: errors, success: false}));
+        return false;
+    }, [dispatch, t]);
+
     const onSubmitHandler = useCallback(async (event) => {
         event.preventDefault();
-        try {
-            dispatch(setIsLoading(true));
-            const {organizationId, name, apiKeyNP} = organizationDetails;
-            const response = await OrganizationService.update({
-                organizationId,
-                name,
-                apiKeyNP,
-            });
-            if (response.success) {
-                await dispatch(getCurrentUser());
-                history.push(`/organizations/${organizationId}`);
-            } else {
+        const isValid = validateDetails(organizationDetails);
+        if (isValid) {
+            try {
+                dispatch(setIsLoading(true));
+                const {organizationId, name, apiKeyNP} = organizationDetails;
+                const response = await OrganizationService.update({
+                    organizationId,
+                    name,
+                    apiKeyNP,
+                });
+                if (response.success) {
+                    await dispatch(getCurrentUser());
+                    history.push(`/organizations/${organizationId}`);
+                } else {
+                    dispatch(setIsLoading(false));
+                    dispatch(setSnackBarStatus({isOpen: true, message: response.message, success: false}));
+                }
+            } catch (e) {
                 dispatch(setIsLoading(false));
-                dispatch(setSnackBarStatus({isOpen: true, message: response.message, success: false}));
+                dispatch(setSnackBarStatus({isOpen: true, message: e.message, success: false}));
             }
-        } catch (e) {
-            dispatch(setIsLoading(false));
-            dispatch(setSnackBarStatus({isOpen: true, message: e.message, success: false}));
         }
-    }, [organizationDetails, dispatch, history]);
+    }, [organizationDetails, dispatch, history, validateDetails]);
 
     const onChangeHandler = useCallback((event) => {
         const {name, value} = event.target;
@@ -83,7 +101,7 @@ export const EditOrganization = ({history}) => {
                             color="primary"
                             fullWidth
                         >
-                            {t('EDIT')}</Button>
+                            {t('SAVE')}</Button>
                     </Grid>
                 </form>
             </div>

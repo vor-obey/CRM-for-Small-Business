@@ -19,7 +19,7 @@ export const CreateOrganization = ({history}) => {
     const dispatch = useDispatch();
     const classes = useStyles();
     const [organization, setOrganization] = useState({
-        organizationName: '',
+        name: '',
         apiKeyNP: '',
         codeValue: '',
         firstName: '',
@@ -32,20 +32,40 @@ export const CreateOrganization = ({history}) => {
     });
     const [showPassword, setShowPassword] = useState(false);
 
+    const validateDetails = useCallback(({
+                                             password,
+                                             confirmPassword,
+                                             name,
+                                             apiKeyNP,
+                                             contactNumber
+                                         }) => {
+        const errors = [];
+        if (password !== confirmPassword) {
+            errors.push(<span key={1} style={{display: 'block'}}>{t('PASSWORD_DOESNT_MATCH')}</span>)
+        }
+        if (name.length < 3) {
+            errors.push(<span key={2} style={{display: 'block'}}>{t('ERROR_NAME_LENGTH')}</span>)
+        }
+        if (apiKeyNP.length > 0 && apiKeyNP.length > 32) {
+            errors.push(<span key={3} style={{display: 'block'}}>{t('ERROR_API_LENGTH')}</span>)
+        }
+        if (contactNumber.length < 10 || contactNumber.length > 12) {
+            errors.push(<span key={4} style={{display: 'block'}}>{t('INVALID_NUMBER')}</span>)
+        }
+        if (!errors.length) {
+            return true;
+        }
+        dispatch(setSnackBarStatus({isOpen: true, message: errors, success: false}));
+        return false;
+    }, [dispatch, t]);
+
     const onSubmitHandler = useCallback(async (event) => {
         event.preventDefault();
-        const {confirmPassword, ...org} = organization;
-        if (organization.password !== confirmPassword) {
-            dispatch(setSnackBarStatus({isOpen: true, message: t('PASSWORD_DOESNT_MATCH'), success: false}))
-        } else if (organization.organizationName.length < 3) {
-            dispatch(setSnackBarStatus({isOpen: true, message: t('ERROR_NAME_LENGHT'), success: false}))
-        } else if (organization.apiKeyNP.length < 32 || organization.apiKeyNP.length > 32) {
-            dispatch(setSnackBarStatus({isOpen: true, message: t('ERROR_API_LENGHT'), success: false}))
-        } else if (organization.contactNumber.length < 10 || organization.contactNumber.length > 12) {
-            dispatch(setSnackBarStatus({isOpen: true, message: t('INVALID_NUMBER'), success: false}))
-        } else {
+        const isValid = validateDetails(organization);
+        if (isValid) {
             try {
                 dispatch(setIsLoading(true));
+                const {confirmPassword, ...org} = organization;
                 const response = await OrganizationService.create(org);
                 if (response.success) {
                     dispatch(setIsLoading(false));
@@ -59,7 +79,7 @@ export const CreateOrganization = ({history}) => {
                 dispatch(setSnackBarStatus({isOpen: true, message: e.message, success: false}));
             }
         }
-    }, [t, dispatch, organization, history]);
+    }, [dispatch, organization, history, validateDetails]);
 
 
     const onChangeHandler = useCallback((event) => {
@@ -91,6 +111,7 @@ export const CreateOrganization = ({history}) => {
                         classes={classes}
                         organization={organization}
                         onChangedInput={onChangeHandler}
+                        isEdit={false}
                     />
                     <Typography className={classes.user} component="h1" variant="h6">
                         {t('CREATE_ADMIN')}

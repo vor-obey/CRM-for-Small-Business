@@ -29,7 +29,7 @@ export const orderEN = {
    DELETE_ORDER: 'Delete order',
    CONFIRM_DELETE: 'Are you sure you want to delete the order?',
    ADDRESS: 'Address',
-   EDIT_ORDER: 'Edit Order',
+   EDIT_ORDER: 'Edit order',
    WAREHOUSE: 'Warehouse',
    CREATE_INTERNET_DOCUMENT: 'Create Internet Document',
    SELECT_SENDER_ADDRESS: 'Select sender address',
@@ -40,5 +40,7 @@ export const orderEN = {
    COST: 'Cost',
    RECIPIENT_PHONE: 'Recipient Phone',
    SENDER_PHONE: 'Sender Phone',
-   RECIPIENT_FULL_NAME: 'Recipient Full Name'
+   RECIPIENT_FULL_NAME: 'Recipient Full Name',
+   NOVAPOSTA: 'Nova Poshta Warehouse',
+   CUSTOM: 'Targeted delivery'
 };
