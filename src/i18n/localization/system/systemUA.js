@@ -32,7 +32,7 @@ export const SystemUA = {
     CHAT: 'Чат',
     STATISTIC: 'Статистика',
     SUBMIT: 'Підтвердити',
-    PRINT: 'Роздрукувати',
+    PRINT: 'Друк ТТН',
     LOGOUT_TEXT: 'Ви впевнені що хочете вийти?',
     LOGOUT_BUTTON: 'Вийти',
     WIDGET_ERROR: 'Вибачте, цей віджет недоступний. Ми займаємося його розробкою.',
