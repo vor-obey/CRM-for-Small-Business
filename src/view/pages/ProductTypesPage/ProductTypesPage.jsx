@@ -12,7 +12,7 @@ import {Link} from "react-router-dom";
 
 export const ProductTypesPage = ({history}) => {
     const {t} = useTranslation();
-    const [productTypes] = useProductTypes();
+    const [productTypes,,, loading] = useProductTypes();
 
     const renderProductTypes = useCallback(() => {
         if (isEmpty(productTypes)) {
@@ -36,19 +36,25 @@ export const ProductTypesPage = ({history}) => {
         });
     }, [productTypes, history]);
 
-    if (isEmpty(productTypes)) {
+    if (isEmpty(productTypes) && !loading) {
         return (
-            <Grid container justify='center' style={{display: 'grid', paddingTop: 24}}>
-                <Typography variant='h5' style={{paddingBottom: 18}}>{t('NO_NEW_TYPES')}</Typography>
-                <Button
-                    type='submit'
-                    variant="outlined"
-                    color="primary"
-                    component={Link}
-                    to='/create-product-type'
-                >
-                    {t('CREATE')}
-                </Button>
+            <Grid container spacing={0}
+                  direction="column"
+                  alignItems="center"
+                  justify="center"
+                  style={{minHeight: 'calc(100vh - 64px)'}}>
+                <Grid container item xs={8} sm={2} style={{flexDirection: 'column', textAlign: 'center'}}>
+                    <Typography variant='h5' style={{paddingBottom: 18}}>{t('NO_NEW_TYPES')}</Typography>
+                    <Button
+                        type='submit'
+                        variant="outlined"
+                        color="primary"
+                        component={Link}
+                        to='/create-product-type'
+                    >
+                        {t('CREATE')}
+                    </Button>
+                </Grid>
             </Grid>
         );
     }

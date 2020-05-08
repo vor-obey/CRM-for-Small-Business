@@ -42,5 +42,6 @@ export const SystemEN = {
     NO_NEW_PRODUCTS: 'There are no new products',
     NO_NEW_CATEGORIES: 'There are no new products categories',
     NO_NEW_TYPES: 'There are no new products types',
+    NO_NEW_CUSTOMERS: 'There are no new customers',
     ERROR: 'Error',
 };
