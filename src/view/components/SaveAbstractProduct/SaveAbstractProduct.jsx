@@ -253,7 +253,7 @@ export const SaveAbstractProduct = ({
             ),
             onCloseHandler: () => dispatch(closeModal()),
         }))
-    }, [t, dispatch, selectedProductType, updateProductTypes]);
+    }, [t, dispatch, selectedProductType, updateProductTypes, classes]);
 
     const createAttribute = useCallback(async (data) => {
         const {name, valuesToSave} = data;
