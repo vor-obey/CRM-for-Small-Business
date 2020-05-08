@@ -13,14 +13,20 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 const useStyles = makeStyles((() => ({
+    container: {
+        padding: 20,
+    },
     title: {
         textAlign: 'center'
     },
     text: {
+        marginTop: 15,
+        padding: '30px 40px 0',
         fontSize: 20,
         textAlign: 'justify'
     },
     buttons: {
+        padding: '20px',
         justifyContent: 'space-between'
     }
 })));
