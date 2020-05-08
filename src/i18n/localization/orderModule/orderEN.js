@@ -40,5 +40,7 @@ export const orderEN = {
    COST: 'Cost',
    RECIPIENT_PHONE: 'Recipient Phone',
    SENDER_PHONE: 'Sender Phone',
-   RECIPIENT_FULL_NAME: 'Recipient Full Name'
+   RECIPIENT_FULL_NAME: 'Recipient Full Name',
+   NOVAPOSTA: 'Nova Poshta Warehouse',
+   CUSTOM: 'Targeted delivery'
 };
