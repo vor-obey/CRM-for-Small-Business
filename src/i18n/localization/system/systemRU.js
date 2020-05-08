@@ -15,6 +15,7 @@ export const SystemRU = {
     TRY_AGAIN: 'Попробуйте еще раз',
     AGREE: 'Да',
     DISAGREE: 'Нет',
+    SAVE: 'Сохранить',
     EDIT: 'Редактировать',
     CREATE: 'Создать',
     FILTER: 'Поиск',
@@ -31,7 +32,7 @@ export const SystemRU = {
     CHAT: 'Чат',
     STATISTIC: 'Статистика',
     SUBMIT: 'Подтвердить',
-    PRINT: 'Распечатать',
+    PRINT: 'Печать ТТН',
     LOGOUT_TEXT: 'Вы уверены что хотите выйти?',
     LOGOUT_BUTTON: 'Выйти',
     WIDGET_ERROR: 'Извините, этот виджет недоступен. Мы занимаемся его разработкой.',
@@ -42,5 +43,6 @@ export const SystemRU = {
     NO_NEW_PRODUCTS: 'Пока нет новых товаров',
     NO_NEW_CATEGORIES: 'Пока нет новых категорий продуктов',
     NO_NEW_TYPES: 'Пока нет новых типов продуктов',
+    NO_NEW_CUSTOMERS: 'Пока нет новых клиентов',
     ERROR: 'Ошибка',
 };

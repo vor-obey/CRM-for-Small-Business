@@ -40,5 +40,7 @@ export const orderRU = {
     COST: 'Стоимость',
     RECIPIENT_PHONE: 'Телефон получателя',
     SENDER_PHONE: 'Телефон отправителя',
-    RECIPIENT_FULL_NAME: 'ФИО получателя'
+    RECIPIENT_FULL_NAME: 'Ф.И.О. получателя',
+    NOVAPOSTA: 'Отделение Новой Почты',
+    CUSTOM: 'Адресная доставка'
 };

@@ -26,7 +26,8 @@ export const saveCustomerStyle = (theme =>  ({
         minWidth: '100%'
     },
     formControl: {
-        width: '100%'
+        width: '100%',
+        margin: theme.spacing(0, 0, 2)
     },
     submit: {
         margin: theme.spacing(3, 0, 2)

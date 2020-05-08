@@ -35,8 +35,8 @@ export const ShippingDetailsForm = ({
                 }}
                 address={address}
                 label={{
-                  city: t('SELECT_CITY'),
-                  warehouse: t('SELECT_WAREHOUSE')
+                    city: t('SELECT_CITY'),
+                    warehouse: t('SELECT_WAREHOUSE')
                 }}
             />
     };
@@ -46,9 +46,9 @@ export const ShippingDetailsForm = ({
             return null;
         }
         return shippingMethods.map((method) => {
-            return <option key={method.shippingMethodId} value={method.shippingMethodId}>{method.name}</option>
+            return <option key={method.shippingMethodId} value={method.shippingMethodId}>{t(method.name.toUpperCase())}</option>
         });
-    }, [shippingMethods]);
+    }, [shippingMethods, t]);
 
     return (
         <>
@@ -58,7 +58,6 @@ export const ShippingDetailsForm = ({
                 </Typography>
                 <Divider/>
             </Grid>
-            {renderAddress()}
             <Grid item xl={12} xs={12} style={{marginTop: 10}}>
                 <FormControl
                     variant="outlined"
@@ -82,6 +81,7 @@ export const ShippingDetailsForm = ({
                     </Select>
                 </FormControl>
             </Grid>
+            {renderAddress()}
         </>
     );
 };

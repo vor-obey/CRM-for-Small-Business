@@ -1,4 +1,5 @@
 export const COMMON_ERROR_MESSAGE = 'Something went wrong!';
+
 export const EOrderStatus = {
     0: 'NEW',
     1: 'IN_PROGRESS',
@@ -7,6 +8,7 @@ export const EOrderStatus = {
     4: 'COMPLETED',
     5: 'CANCELLED'
 };
+
 export const ROLES = {
     ADMIN: 'ROLE_ADMIN',
     MANAGER: 'ROLE_MANAGER',
@@ -14,4 +16,5 @@ export const ROLES = {
     OWNER: 'ROLE_OWNER',
     'SUPER ADMIN': 'ROLE_SUPER_ADMIN',
 };
+
 

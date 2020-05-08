@@ -53,7 +53,7 @@ export const EditUser = () => {
             currentUser={currentUser}
             onSubmit={onSubmitHandler}
             title={t('EDIT_USER')}
-            buttonText={t('EDIT')}
+            buttonText={t('SAVE')}
             userDetails={userDetails}
             roles={roles}
             isEdit={true}
