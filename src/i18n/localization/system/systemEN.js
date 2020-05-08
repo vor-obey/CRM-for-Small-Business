@@ -15,6 +15,7 @@ export const SystemEN = {
     TRY_AGAIN: 'Try again',
     AGREE: 'Agree',
     DISAGREE: 'Disagree',
+    SAVE: 'Save',
     EDIT: 'Edit',
     CREATE: 'Create',
     FILTER: 'Search',

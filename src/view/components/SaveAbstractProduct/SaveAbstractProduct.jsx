@@ -242,7 +242,7 @@ export const SaveAbstractProduct = ({
                 <SaveProductType
                     labels={{
                         title: t('EDIT_PRODUCT_TYPE'),
-                        button: t('EDIT')
+                        button: t('SAVE')
                     }}
                     isEdit={true}
                     productType={selectedProductType}

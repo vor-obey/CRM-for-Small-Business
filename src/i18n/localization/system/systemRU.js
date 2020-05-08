@@ -15,6 +15,7 @@ export const SystemRU = {
     TRY_AGAIN: 'Попробуйте еще раз',
     AGREE: 'Да',
     DISAGREE: 'Нет',
+    SAVE: 'Сохранить',
     EDIT: 'Редактировать',
     CREATE: 'Создать',
     FILTER: 'Поиск',
