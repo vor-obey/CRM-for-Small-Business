@@ -8,6 +8,6 @@ export const OrgEN ={
     CREATE_ADMIN: 'Create user',
     SAVE: 'Save',
     EDIT_ORGANIZATION: 'Edit Organization',
-    ERROR_NAME_LENGHT: 'Organization name too short',
-    ERROR_API_LENGHT: 'Api Key entered incorrectly',
+    ERROR_NAME_LENGTH: 'Organization name too short',
+    ERROR_API_LENGTH: 'NP API Key entered incorrectly',
 };

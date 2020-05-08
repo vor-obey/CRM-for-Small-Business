@@ -52,7 +52,6 @@ export const SaveOrganizationForm = ({
                     type="text"
                     onChange={onChangedInput}
                     value={organization.apiKeyNP || ''}
-                    required
                     fullWidth
                 />
             </Grid>
