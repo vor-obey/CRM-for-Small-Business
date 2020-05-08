@@ -39,7 +39,7 @@ export const SaveOrganizationForm = ({
                     variant="outlined"
                     type="text"
                     onChange={onChangedInput}
-                    value={organization.organizationName || ''}
+                    value={organization.name || ''}
                     required
                     fullWidth
                 />
@@ -52,7 +52,6 @@ export const SaveOrganizationForm = ({
                     type="text"
                     onChange={onChangedInput}
                     value={organization.apiKeyNP || ''}
-                    required
                     fullWidth
                 />
             </Grid>
