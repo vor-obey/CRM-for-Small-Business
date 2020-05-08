@@ -19,7 +19,7 @@ export const CreateOrganization = ({history}) => {
     const dispatch = useDispatch();
     const classes = useStyles();
     const [organization, setOrganization] = useState({
-        organizationName: '',
+        name: '',
         apiKeyNP: '',
         codeValue: '',
         firstName: '',
@@ -37,7 +37,7 @@ export const CreateOrganization = ({history}) => {
         const {confirmPassword, ...org} = organization;
         if (organization.password !== confirmPassword) {
             dispatch(setSnackBarStatus({isOpen: true, message: t('PASSWORD_DOESNT_MATCH'), success: false}))
-        } else if (organization.organizationName.length < 3) {
+        } else if (organization.name.length < 3) {
             dispatch(setSnackBarStatus({isOpen: true, message: t('ERROR_NAME_LENGHT'), success: false}))
         } else if (organization.apiKeyNP.length < 32 || organization.apiKeyNP.length > 32) {
             dispatch(setSnackBarStatus({isOpen: true, message: t('ERROR_API_LENGHT'), success: false}))
