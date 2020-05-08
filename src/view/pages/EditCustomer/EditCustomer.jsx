@@ -77,7 +77,7 @@ export const EditCustomer = ({history}) => {
          onSubmit={onSubmitHandler}
          renderSource={renderSources}
          titleText={t('EDIT_CUSTOMER')}
-         submitText={t('EDIT')}
+         submitText={t('SAVE')}
          details={customerDetails}
          onChange={onChangeHandler}
       />

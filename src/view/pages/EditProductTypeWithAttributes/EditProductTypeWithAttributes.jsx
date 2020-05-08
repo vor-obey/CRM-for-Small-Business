@@ -275,7 +275,7 @@ export const EditProductTypeWithAttributes = ({history}) => {
                         onClick={editProductType}
                         disabled={isEmpty(attributes) || isEmpty(name.trim())}
                     >
-                        {t('EDIT')}
+                        {t('SAVE')}
                     </Button>
                 </Grid>
             </Paper>

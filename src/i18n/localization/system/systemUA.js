@@ -15,6 +15,7 @@ export const SystemUA = {
     TRY_AGAIN: 'Спробуйте ще раз',
     AGREE: 'Так',
     DISAGREE: 'Ні',
+    SAVE: 'Зберегти',
     EDIT: 'Редагувати',
     CREATE: 'Створити',
     FILTER: 'Пошук',
