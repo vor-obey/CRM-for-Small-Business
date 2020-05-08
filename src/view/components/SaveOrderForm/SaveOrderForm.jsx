@@ -1,5 +1,5 @@
 import React, {useCallback} from 'react';
-import {Button, Container, Grid, Paper, FormControl, InputLabel, Select, Typography, Divider} from '@material-ui/core';
+import {Button, Container, Grid, Paper, FormControl, Select, Typography, Divider} from '@material-ui/core';
 import {ProductForm} from './ProductForm/ProductForm';
 import {CustomerForm} from './CustomerManagerForm/CustomerForm';
 import {ShippingDetailsForm} from './ShippingDetailsForm/ShippingDetailsForm';
@@ -61,7 +61,6 @@ export const SaveOrderForm = ({
                             <FormControl
                                 variant="outlined"
                                 required
-                                fullWidth
                             >
                                 <Select
                                     native

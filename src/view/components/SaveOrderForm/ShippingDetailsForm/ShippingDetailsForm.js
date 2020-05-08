@@ -48,7 +48,7 @@ export const ShippingDetailsForm = ({
         return shippingMethods.map((method) => {
             return <option key={method.shippingMethodId} value={method.shippingMethodId}>{t(method.name.toUpperCase())}</option>
         });
-    }, [shippingMethods]);
+    }, [shippingMethods, t]);
 
     return (
         <>
