@@ -29,7 +29,7 @@ export const EditOrganization = ({history}) => {
             const response = await OrganizationService.update({
                 organizationId,
                 name,
-                apiKeyNP
+                apiKeyNP,
             });
             if (response.success) {
                 await dispatch(getCurrentUser());
@@ -55,7 +55,6 @@ export const EditOrganization = ({history}) => {
     }, [setOrganizationDetails]);
 
     return (
-
         <Container component="main" maxWidth="xs">
             <CssBaseline/>
             <div className={classes.paper}>

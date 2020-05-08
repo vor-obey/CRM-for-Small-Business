@@ -1,4 +1,4 @@
-import {SET_SNACKBAR_STATUS, SET_IS_LOADING, RENDER_MODAL, CLOSE_MODAL, RENDER_DIALOG, CLOSE_DIALOG} from "./auxiliaryActionTypes";
+import {SET_SNACKBAR_STATUS, SET_IS_LOADING, RENDER_MODAL, CLOSE_MODAL, RENDER_DIALOG, CLOSE_DIALOG, ADD_NOTIFICATION} from "./auxiliaryActionTypes";
 
 export const setIsLoading = (isLoading) => {
     return {
@@ -37,5 +37,12 @@ export const closeModal = () => {
 export const closeDialog = () => {
     return {
         type: CLOSE_DIALOG,
+    }
+};
+
+export const addNotification = (notification) => {
+    return {
+        type: ADD_NOTIFICATION,
+        notification
     }
 };

@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useCallback} from "react";
 import {TextField} from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import {useTranslation} from "react-i18next";
@@ -10,7 +10,7 @@ export const SaveOrganizationForm = ({
                                      }) => {
     const {t} = useTranslation('');
 
-    const renderCodeInput = () => {
+    const renderCodeInput = useCallback(() => {
         if (isEdit) {
             return null;
         }
@@ -28,7 +28,7 @@ export const SaveOrganizationForm = ({
                 />
             </Grid>
         );
-    };
+    }, [isEdit, onChangedInput, organization.codeValue, t]);
 
     return (
         <Grid container spacing={2}>

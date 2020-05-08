@@ -25,6 +25,7 @@ import {CreateOrderPage} from "../../pages/CreateOrderPage/CreateOrderPage";
 import {CreateOrganization} from "../../pages/CreateOrganization/CreateOrganization";
 import {EditUser} from '../../pages/EditUser/EditUser';
 import {EditOrder} from '../../pages/EditOrder/EditOrder';
+import {NotificationPage} from "../../pages/NotificationPage/NotificationPage";
 import {DraggableChat} from '../DraggableChat/DraggableChat';
 import {OrganizationDetailsPage} from "../../pages/OrganizationDetailsPage/OrganizationDetailsPage";
 import {EditOrganization} from "../../pages/EditOrganization/EditOrganization";
@@ -60,7 +61,10 @@ export const Routing = () => {
 
     useEffect(() => {
         if (currentUser) {
-            dispatch(initConnect(currentUser.organization.organizationId));
+            const igIntegration = currentUser.organization.integrations.find(item => item.type === 'instagram');
+            if (igIntegration) {
+                dispatch(initConnect(currentUser.organization.organizationId));
+            }
         }
     }, [currentUser, dispatch]);
 
@@ -113,9 +117,10 @@ export const Routing = () => {
             <PrivateRoute exact path='/product-types/' component={ProductTypesPage}/>
             <PrivateRoute exact path='/product-types/:id' component={ProductTypeDetailsPage}/>
             <PrivateRoute exact path='/product-types/:id/edit' component={EditProductTypeWithAttributes}/>
+            <PrivateRoute exact path='/notifications' component={NotificationPage}/>
             <Route exact path='/restore-password/:token' component={RestorePassword}/>
             <Route exact path='/forgot-password' component={ForgotPassword}/>
             <Route exact path='/create-organization' component={CreateOrganization}/>
         </Router>
-    )
+    );
 };

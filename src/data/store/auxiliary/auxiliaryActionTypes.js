@@ -4,3 +4,4 @@ export const RENDER_MODAL = 'RENDER_MODAL';
 export const RENDER_DIALOG = 'RENDER_DIALOG';
 export const CLOSE_MODAL = 'CLOSE_MODAL';
 export const CLOSE_DIALOG = 'CLOSE_DIALOG';
+export const ADD_NOTIFICATION =  'ADD_NOTIFICATION';

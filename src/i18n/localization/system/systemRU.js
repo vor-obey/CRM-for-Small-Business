@@ -3,6 +3,7 @@ export const SystemRU = {
     LOGIN: 'Авторизоваться',
     LOGIN_BUTTON: 'Войти',
     FORGOT_PASSWORD: 'Забыли ваш пароль?',
+    RESTORE_PASSWORD: 'Восстановление пароля',
     FILL_ALL_THE_FIElDS: 'Все поля должны быть заполнены',
     TOO_LONG_DESCRIPTION: 'Слишком длинное описание',
     SEND: 'Отправить',
@@ -41,5 +42,6 @@ export const SystemRU = {
     NO_NEW_PRODUCTS: 'Пока нет новых товаров',
     NO_NEW_CATEGORIES: 'Пока нет новых категорий продуктов',
     NO_NEW_TYPES: 'Пока нет новых типов продуктов',
-    NO_NEW_CUSTOMERS: 'Пока нет новых клиентов ',
+    NO_NEW_CUSTOMERS: 'Пока нет новых клиентов',
+    ERROR: 'Ошибка',
 };

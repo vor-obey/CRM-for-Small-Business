@@ -3,6 +3,7 @@ export const SystemEN = {
     LOGIN: 'Login',
     LOGIN_BUTTON: 'Log in',
     FORGOT_PASSWORD: 'Forgot your password?',
+    RESTORE_PASSWORD: 'Restore your Password',
     FILL_ALL_THE_FIElDS: 'Fill all the fields',
     TOO_LONG_DESCRIPTION: 'Too long description',
     SEND: 'Send',
@@ -42,4 +43,5 @@ export const SystemEN = {
     NO_NEW_CATEGORIES: 'There are no new products categories',
     NO_NEW_TYPES: 'There are no new products types',
     NO_NEW_CUSTOMERS: 'There are no new customers',
+    ERROR: 'Error',
 };

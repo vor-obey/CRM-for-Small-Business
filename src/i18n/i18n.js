@@ -22,6 +22,9 @@ import {OrgEN} from "./localization/organizationModule/orgEN";
 import {orderEN} from "./localization/orderModule/orderEN";
 import {orderUA} from "./localization/orderModule/orderUA";
 import {orderRU} from "./localization/orderModule/orderRU";
+import {NotificationEN} from "./localization/NotificationModule/notificationEN";
+import {NotificationRU} from "./localization/NotificationModule/notificationRU";
+import {NotificationUA} from "./localization/NotificationModule/notificationUA";
 
 
 i18n
@@ -38,6 +41,7 @@ i18n
                     ...OrgEN,
                     ...ProductEN,
                     ...internetDocumentEN,
+                    ...NotificationEN
                 }
             },
             ua: {
@@ -49,6 +53,7 @@ i18n
                     ...orderUA,
                     ...ProductUA,
                     ...internetDocumentUA,
+                    ...NotificationUA,
                 }
             },
             ru: {
@@ -59,7 +64,8 @@ i18n
                     ...orderRU,
                     ...OrgRU,
                     ...ProductRU,
-                    ...internetDocumentRU
+                    ...internetDocumentRU,
+                    ...NotificationRU
                 }
             },
         },

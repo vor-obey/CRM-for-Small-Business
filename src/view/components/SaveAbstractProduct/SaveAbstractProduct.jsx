@@ -227,11 +227,12 @@ export const SaveAbstractProduct = ({
                     button: t('CREATE')
                 }}
                 t={t}
+                classes={classes}
                 updateProductTypes={updateProductTypes}
             />),
             onCloseHandler: () => dispatch(closeModal()),
         }))
-    }, [dispatch, updateProductTypes, t]);
+    }, [dispatch, updateProductTypes, t, classes]);
 
     const openEditProductTypeModal = useCallback(() => {
         dispatch(renderModal({
