@@ -83,4 +83,12 @@ export const saveAbstractProductPageStyles = (theme => ({
     button: {
         margin: theme.spacing(2),
     },
+    inputName: {
+        marginTop: 10,
+        marginBottom: 10
+    },
+    label: {
+        marginTop: 10,
+        marginBottom: 10
+    }
 }));
