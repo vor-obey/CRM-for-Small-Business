@@ -63,14 +63,10 @@ export const SaveOrderForm = ({
                                 required
                                 fullWidth
                             >
-                                <InputLabel id="demo-simple-select-outlined-label">
-                                    {t('STATUS')}
-                                </InputLabel>
                                 <Select
                                     native
                                     name="status"
                                     value={status}
-                                    labelWidth={70}
                                     required
                                     onChange={(event) => onStatusSelectHandler(event.target.value)}
                                     inputProps={{
