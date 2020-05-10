@@ -1,6 +1,6 @@
 import React from "react";
 import {Autocomplete} from "@material-ui/lab";
-import {CircularProgress, TextField} from "@material-ui/core";
+import {CircularProgress, TextField, Popper} from "@material-ui/core";
 
 export const CustomAutocomplete = ({
                                        isOpen,
@@ -16,6 +16,11 @@ export const CustomAutocomplete = ({
                                        onInputChangedHandler,
                                        value
                                    }) => {
+
+    const PopperMy = function (props) {
+        return (<Popper {...props} style={{marginBottom: -9}} placement='bottom-start' />)
+    }
+
     return (
         <Autocomplete
             open={isOpen}
@@ -27,6 +32,7 @@ export const CustomAutocomplete = ({
             disabled={disabled}
             onChange={(event, value) => onSelectHandler(value)}
             value={value}
+            PopperComponent={PopperMy}
             renderInput={params => (
                 <TextField
                     {...params}
