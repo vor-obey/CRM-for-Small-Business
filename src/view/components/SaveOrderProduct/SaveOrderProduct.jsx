@@ -1,11 +1,8 @@
-import React, {useCallback} from 'react';
+import React from 'react';
 import {CustomAutocomplete} from '../Autocomplete/Autocomplete';
-import {Grid, FormControl, IconButton, Typography, InputLabel, OutlinedInput, InputAdornment, Button, Select, MenuItem} from '@material-ui/core';
+import {Grid, FormControl, IconButton, InputLabel, OutlinedInput, InputAdornment, Select, MenuItem} from '@material-ui/core';
 import RemoveIcon from '@material-ui/icons/Remove';
 import AddIcon from '@material-ui/icons/Add';
-import {useHistory} from 'react-router-dom';
-import {useDispatch} from 'react-redux';
-import {closeModal} from '../../../data/store/auxiliary/auxiliaryActions';
 import {useTranslation} from "react-i18next";
 
 const currencies = [
@@ -40,18 +37,12 @@ export const SaveOrderProduct = ({
                                      totalPrice,
                                      classes
                                  }) => {
-    const history = useHistory();
-    const dispatch = useDispatch();
+
     const {t} = useTranslation();
 
-    const navigateToCreateProduct = useCallback(() => {
-        dispatch(closeModal());
-        history.push('/create-product');
-    }, [dispatch, history]);
-
     return (
-        <Grid container item xs={12} sm={12} className={classes.container}>
-            <Grid container item xs={12} sm={12} className={classes.containerProduct}>
+        <Grid container item xl={12} xs={12} sm={12} className={classes.container}>
+            <Grid container item xl={12} xs={12} sm={12} className={classes.containerProduct}>
                 <Grid item xs={12} sm={7}>
                     <CustomAutocomplete
                         isOpen={isOpen}
@@ -131,26 +122,7 @@ export const SaveOrderProduct = ({
                     </FormControl>
                 </Grid>
             </Grid>
-            <Grid container item xs={12} sm={12} className={classes.containerProductMeta}>
-                <Grid item xs={12} sm={6} className={classes.containerProductItem}>
-                    <Button
-                        variant="outlined" color="primary"
-                        onClick={navigateToCreateProduct}>
-                        <AddIcon/>
-                          {t('CREATE_PRODUCT')}
-                    </Button>
-                </Grid>
-                <Grid item xs={12} sm={6} className={classes.containerProductItem}>
-                    <Grid className={classes.containerProductItemTotal}>
-                        <Typography variant='subtitle1'>
-                            {t('SUMMARY')}:
-                        </Typography>
-                        <Typography variant='h6'>
-                            {`${totalPrice} ${details.currency}`}
-                        </Typography>
-                    </Grid>
-                </Grid>
-            </Grid>
+
         </Grid>
     );
 };

@@ -1,7 +1,6 @@
 import React, {useCallback, useEffect, useState} from "react";
 import {
     Grid,
-    Button,
     Typography,
     Divider,
     ListItem,
@@ -11,7 +10,7 @@ import {
     InputAdornment,
     FormControl
 } from "@material-ui/core";
-import {closeModal, renderModal} from '../../../../data/store/auxiliary/auxiliaryActions';
+import {closeModal} from '../../../../data/store/auxiliary/auxiliaryActions';
 import {useDispatch} from 'react-redux';
 import {AddOrderProduct} from '../../AddOrderProduct/AddOrderProduct';
 import {useProducts} from '../../../../utils/hooks/productHooks';
@@ -58,20 +57,6 @@ export const ProductForm = ({
         setProducts(newArr);
         dispatch(closeModal());
     }, [products, setProducts, dispatch]);
-
-    const openAddOrderProductModal = useCallback(() => {
-        dispatch(renderModal({
-            isOpen: true,
-            classes: {},
-            children: (
-                <AddOrderProduct
-                    products={products}
-                    submit={addProduct}
-                />
-            ),
-            onCloseHandler: () => dispatch(closeModal()),
-        }))
-    }, [dispatch, products, addProduct]);
 
     const validateAmount = useCallback((value) => {
         const regexp = /^((?!(0))\d+$)/;
@@ -215,28 +200,22 @@ export const ProductForm = ({
                 <Divider/>
             </Grid>
             <Grid container item xs={12} sm={12}>
+                <AddOrderProduct
+                    products={products}
+                    submit={addProduct}
+                />
                 {renderSelectedProducts()}
-                <Grid className={classes.productContainerMeta}>
-                    <Grid item xs={12} sm={6}>
-                        <Button variant='outlined'
-                                onClick={() => openAddOrderProductModal()}
-                                disabled={isEdit}
-                        >
-                            {t('ADD_PRODUCT')}
-                        </Button>
-                    </Grid>
-                    <Grid item xs={12} sm={6} className={classes.productContainerTotal}>
-                        {!isEmpty(selectedProducts) ? (
-                            <>
-                                <Typography variant='subtitle1'>
-                                    {t('TOTAL')}:
-                                </Typography>
-                                <Typography variant='h6'>
-                                    {calculateTotalPoints()}
-                                </Typography>
-                            </>
-                        ) : null}
-                    </Grid>
+                <Grid item xs={12} sm={6} className={classes.productContainerTotal}>
+                    {!isEmpty(selectedProducts) ? (
+                        <>
+                            <Typography variant='subtitle1'>
+                                {t('TOTAL')}:
+                            </Typography>
+                            <Typography variant='h6'>
+                                {calculateTotalPoints()}
+                            </Typography>
+                        </>
+                    ) : null}
                 </Grid>
             </Grid>
         </>

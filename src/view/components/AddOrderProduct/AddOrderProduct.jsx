@@ -2,10 +2,12 @@ import React, {useCallback, useEffect, useState} from 'react';
 import {SaveOrderProduct} from '../SaveOrderProduct/SaveOrderProduct';
 import {Grid, Container, Typography, Button, makeStyles} from '@material-ui/core';
 import isEmpty from 'lodash/isEmpty';
-import {useDispatch} from 'react-redux';
-import {closeModal} from '../../../data/store/auxiliary/auxiliaryActions';
 import {addOrderProductStyles} from "./AddOrderProduct.style";
 import {useTranslation} from "react-i18next";
+import AddIcon from "@material-ui/icons/Add";
+import {closeModal} from "../../../data/store/auxiliary/auxiliaryActions";
+import {useHistory} from "react-router-dom";
+import {useDispatch} from "react-redux";
 
 const useStyle = makeStyles(addOrderProductStyles);
 
@@ -14,7 +16,6 @@ export const AddOrderProduct = ({
                                     submit
                                 }) => {
     const classes = useStyle();
-    const dispatch = useDispatch();
     const [selectedProduct, setSelectedProduct] = useState({});
     const [isOpen, setIsOpen] = useState(false);
     const [details, setDetails] = useState({
@@ -24,6 +25,8 @@ export const AddOrderProduct = ({
     });
     const [totalPrice, setTotalPrice] = useState(0);
     const {t} = useTranslation();
+    const history = useHistory();
+    const dispatch = useDispatch();
 
     useEffect(() => {
         setTotalPrice(details.price * details.amount);
@@ -82,9 +85,14 @@ export const AddOrderProduct = ({
         setDetails(prevState => ({...prevState, amount: --prevState.amount}))
     }, []);
 
+    const navigateToCreateProduct = useCallback(() => {
+        dispatch(closeModal());
+        history.push('/create-product');
+    }, [dispatch, history]);
+
     return (
-        <Container maxWidth='md'>
-            <Grid container item xl={12} lg={12} style={{paddingTop: 15, paddingBottom: 15}}>
+        <Container style={{padding: 0, margin: 0}}>
+            <Grid container item xl={12} lg={12}>
                 <SaveOrderProduct
                     isOpen={isOpen}
                     options={products}
@@ -103,22 +111,32 @@ export const AddOrderProduct = ({
                     classes={classes}
                 />
             </Grid>
-            <Grid container item xs={12} sm={12} className={classes.buttonContainer}>
-                <Button
-                    className={classes.buttonFab}
-                    variant='outlined'
-                    onClick={() => dispatch(closeModal())}
-                >
-                    {t('CANCEL')}
-                </Button>
-                <Button
-                    className={classes.buttonFab}
-                    variant='outlined'
-                    onClick={() => submit({...selectedProduct, ...details, totalPrice})}
-                    disabled={isEmpty(selectedProduct)}
-                >
-                    {t('ADD')}
-                </Button>
+            <Grid container item xs={12} className={classes.buttonContainer}>
+                <Grid item xl={6} lg={6} md={6} sm={7} xs={7}>
+                    <Button
+                        className={classes.buttonFab}
+                        variant='outlined'
+                        onClick={() => submit({...selectedProduct, ...details, totalPrice}) || onProductSelectHandler()}
+                        disabled={isEmpty(selectedProduct)}
+                    >
+                        {t('ADD_PRODUCT')}
+                    </Button>
+                    <Button
+                        className={classes.buttonFub}
+                        variant="outlined" color="primary"
+                        onClick={navigateToCreateProduct}>
+                        <AddIcon/>
+                        {t('CREATE_PRODUCT')}
+                    </Button>
+                </Grid>
+                <Grid item xl={6} lg={6} md={6} sm={5} xs={3} className={classes.containerProductItemTotal}>
+                    <Typography variant='subtitle1'>
+                        {t('SUMMARY')}:
+                    </Typography>
+                    <Typography variant='h6'>
+                        {`${totalPrice} ${details.currency}`}
+                    </Typography>
+                </Grid>
             </Grid>
         </Container>
 

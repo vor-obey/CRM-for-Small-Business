@@ -1,6 +1,6 @@
 export const addOrderProductStyles = (theme => ({
     container: {
-        padding: theme.spacing(4, 2, 0, 2),
+        padding: theme.spacing(4, 0, 0, 0),
     },
     containerProduct: {
         flexDirection: 'row',
@@ -17,9 +17,7 @@ export const addOrderProductStyles = (theme => ({
     },
     containerProductItemTotal: {
         textAlign: 'right',
-    },
-    containerProductItem: {
-        marginTop: theme.spacing(4),
+        marginBottom: theme.spacing(1)
     },
     amountButton: {
         width: 0,
@@ -41,10 +39,15 @@ export const addOrderProductStyles = (theme => ({
         },
     },
     buttonContainer: {
-        alignContent: 'center',
-        justifyContent: 'center',
+        marginTop: theme.spacing(3)
     },
     buttonFab: {
-        margin: '0px 24px 24px',
+        marginRight: theme.spacing(1),
+
     },
+    '@media (max-width:669px)': {
+        buttonFab: {
+            marginBottom: 10
+        }
+    }
 }));
