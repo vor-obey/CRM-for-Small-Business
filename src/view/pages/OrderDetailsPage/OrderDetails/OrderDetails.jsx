@@ -1,5 +1,5 @@
 import React, {useCallback} from 'react';
-import {Typography, Grid, List, ListItem, Divider} from '@material-ui/core';
+import {Typography, Grid, List, ListItem, Divider, FormControl, Select} from '@material-ui/core';
 import {EOrderStatus} from '../../../../constants/statuses';
 import {useTranslation} from "react-i18next";
 import {useHistory} from 'react-router-dom';
@@ -8,7 +8,8 @@ import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
 export const OrderDetails = ({
                                  classes,
                                  orderDetails,
-                                 renderShippingAddress
+                                 renderShippingAddress,
+                                 onStatusSelectHandler,
                              }) => {
     const history = useHistory();
     const {t} = useTranslation('');
@@ -17,6 +18,13 @@ export const OrderDetails = ({
     const calculateTotalPoints = useCallback(() => {
         return `${orderToProducts.reduce((a, {orderProductPrice, amount}) => a + (orderProductPrice * amount), 0)} ${currency}`;
     }, [orderToProducts, currency]);
+
+    const renderStatuses = useCallback(() => {
+        const entries = Object.entries(EOrderStatus);
+        return entries.map(([key, value]) => {
+            return <option key={key} value={key}>{t(value)}</option>
+        });
+    }, [t]);
 
     const renderProducts = useCallback(() => {
         if (!orderToProducts) {
@@ -116,11 +124,22 @@ export const OrderDetails = ({
                             color='textSecondary'>
                             {t('STATUS')}
                         </Typography>
-                        <Typography
-                            variant='body1'
-                            className={classes.orderItem}>
-                            {t(EOrderStatus[status]) || ''}
-                        </Typography>
+                        <FormControl
+                            variant="outlined"
+                            required
+                        >
+                            <Select
+                                native
+                                name="status"
+                                value={t(EOrderStatus[status]) || status}
+                                required
+                                onChange={(event) => onStatusSelectHandler(event.target.value)}
+                                inputProps={{
+                                    name: 'status',
+                                }}>
+                                {renderStatuses()}
+                            </Select>
+                        </FormControl>
                     </Grid>
                 </Grid>
             </Grid>
