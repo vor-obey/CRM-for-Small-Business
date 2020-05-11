@@ -4,7 +4,6 @@ import StorageService from "../../../services/StorageService";
 import {useDispatch, useSelector} from "react-redux";
 
 import {Header} from "../Navigation/Header/Header";
-import {AuthRoute} from "../../../AuthRoute";
 import {PrivateRoute} from "../../../PrivateRoute";
 import {Login} from "../../pages/Login/Login";
 import {Home} from "../../pages/Home/Home";
@@ -16,7 +15,7 @@ import RestorePassword from "../../pages/RestorePassword/RestorePassword";
 import {CustomerDetailsPage} from "../../pages/CustomerDetailsPage/CustomerDetailsPage";
 import {CreateCustomer} from "../../pages/CreateCustomer/CreateCustomer";
 import {EditCustomer} from "../../pages/EditCustomer/EditCustomer";
-import {getCurrentUser, initConnect} from "../../../data/store/user/userActions";
+import {getCurrentUser} from "../../../data/store/user/userActions";
 import {ForgotPassword} from "../../pages/ForgotPassword/ForgotPassword";
 import {OrdersPage} from "../../pages/OrdersPage/OrdersPage";
 import {OrderDetailsPage} from "../../pages/OrderDetailsPage/OrderDetailsPage";
@@ -46,7 +45,6 @@ import {EditProductTypeWithAttributes} from '../../pages/EditProductTypeWithAttr
 
 export const Routing = () => {
     const dispatch = useDispatch();
-    const currentUser = useSelector(state => state.userReducer.currentUser);
     const modal = useSelector(state => state.auxiliaryReducer.modal);
     const dialog = useSelector(state => state.auxiliaryReducer.dialog);
 
@@ -58,15 +56,6 @@ export const Routing = () => {
         }
 
     }, [dispatch]);
-
-    useEffect(() => {
-        if (currentUser) {
-            const igIntegration = currentUser.organization.integrations.find(item => item.type === 'instagram');
-            if (igIntegration) {
-                dispatch(initConnect(currentUser.organization.organizationId));
-            }
-        }
-    }, [currentUser, dispatch]);
 
     return (
         <Router history={history}>
@@ -89,7 +78,7 @@ export const Routing = () => {
             >
                 {dialog.children}
             </CustomDialog>
-            <AuthRoute exact path="/" component={Login}/>
+            <PrivateRoute exact path="/" component={Login}/>
             <PrivateRoute exact path="/dashboard" component={Home}/>
             <PrivateRoute exact path="/create-user" component={CreateUser}/>
             <PrivateRoute exact path="/create-customer" component={CreateCustomer}/>

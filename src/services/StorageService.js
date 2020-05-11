@@ -1,8 +1,7 @@
-
 export default class StorageService {
     static KEYS = {
-        ACCESS_TOKEN : 'acc',
-        REFRESH_TOKEN : 'rfr'
+        ACCESS_TOKEN: 'acc',
+        REFRESH_TOKEN: 'rfr'
     };
 
     static getItem(key) {
@@ -11,6 +10,14 @@ export default class StorageService {
 
     static setItem(key, value) {
         return localStorage.setItem(key, value);
+    }
+
+    static removeItem(key) {
+        return localStorage.removeItem(key);
+    }
+
+    static removeJWTToken() {
+        this.removeItem(StorageService.KEYS.ACCESS_TOKEN);
     }
 
     static getJWTToken() {
