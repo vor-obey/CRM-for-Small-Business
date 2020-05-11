@@ -136,6 +136,9 @@ export const editOrderStyles = (theme => ({
         },
         fadeLoading: {
             alignItems: 'center'
+        },
+        gridStatus: {
+            margin: '16px 0 10px 0px'
         }
     }
 ));

@@ -15,6 +15,7 @@ export const SystemEN = {
     TRY_AGAIN: 'Try again',
     AGREE: 'Agree',
     DISAGREE: 'Disagree',
+    SAVE: 'Save',
     EDIT: 'Edit',
     CREATE: 'Create',
     FILTER: 'Search',
@@ -31,7 +32,7 @@ export const SystemEN = {
     CHAT: 'Chat',
     STATISTIC: 'Statistic',
     SUBMIT: 'Submit',
-    PRINT: 'Print',
+    PRINT: 'Print Waybill',
     LOGOUT_TEXT: 'Are you sure you want log out?',
     LOGOUT_BUTTON: 'Log out',
     WIDGET_ERROR: 'Sorry, this widget isn\'t available. We are engaged in its development.',
@@ -42,5 +43,6 @@ export const SystemEN = {
     NO_NEW_PRODUCTS: 'There are no new products',
     NO_NEW_CATEGORIES: 'There are no new products categories',
     NO_NEW_TYPES: 'There are no new products types',
+    NO_NEW_CUSTOMERS: 'There are no new customers',
     ERROR: 'Error',
 };

@@ -1,6 +1,6 @@
 export const CustomerUA = {
     CUSTOMERS: 'Клієнти',
-    USERNAME: 'Нікнейм',
+    USERNAME: 'Iм\'я аккаунта',
     NAME: 'Ім\'я',
     CREATE_CUSTOMER: 'Створити клієнта',
     CUSTOMER_DETAILS: 'Деталі клієнта',

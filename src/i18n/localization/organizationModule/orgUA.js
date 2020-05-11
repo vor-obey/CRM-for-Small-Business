@@ -6,8 +6,8 @@ export const OrgUA ={
     NP_API: 'Нова Пошта API Key',
     CODE: 'Код',
     CREATE_ADMIN: 'Створити користувача',
-    EDIT: 'Редагувати',
+    SAVE: 'Зберегти',
     EDIT_ORGANIZATION: 'Редагувати Організацію',
-    ERROR_NAME_LENGHT: 'Назва організації занадто коротка',
-    ERROR_API_LENGHT: 'Api key вказано неправильно',
+    ERROR_NAME_LENGTH: 'Назва організації занадто коротка',
+    ERROR_API_LENGTH: 'НП API Key вказано неправильно',
 };

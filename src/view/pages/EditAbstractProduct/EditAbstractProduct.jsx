@@ -41,7 +41,7 @@ export const EditAbstractProduct = ({history}) => {
             abstractProduct={abstractProduct}
             labels={{
                 title: t('EDIT_CATEGORY_PRODUCT'),
-                button: t('EDIT')
+                button: t('SAVE')
             }}
             onSave={editAbstractProduct}
         />

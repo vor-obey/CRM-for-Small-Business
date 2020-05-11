@@ -15,6 +15,7 @@ export const SystemUA = {
     TRY_AGAIN: 'Спробуйте ще раз',
     AGREE: 'Так',
     DISAGREE: 'Ні',
+    SAVE: 'Зберегти',
     EDIT: 'Редагувати',
     CREATE: 'Створити',
     FILTER: 'Пошук',
@@ -31,7 +32,7 @@ export const SystemUA = {
     CHAT: 'Чат',
     STATISTIC: 'Статистика',
     SUBMIT: 'Підтвердити',
-    PRINT: 'Роздрукувати',
+    PRINT: 'Друк ТТН',
     LOGOUT_TEXT: 'Ви впевнені що хочете вийти?',
     LOGOUT_BUTTON: 'Вийти',
     WIDGET_ERROR: 'Вибачте, цей віджет недоступний. Ми займаємося його розробкою.',
@@ -42,5 +43,6 @@ export const SystemUA = {
     NO_NEW_PRODUCTS: 'Наразі немає нових товарів',
     NO_NEW_CATEGORIES: 'Наразі немає нових категорій продуків',
     NO_NEW_TYPES: 'Наразі немає нових типів продукту',
+    NO_NEW_CUSTOMERS: 'Наразі немає клієнтів',
     ERROR: 'Помилка',
 };

@@ -35,7 +35,7 @@ export const SaveOrganizationForm = ({
             <Grid item xs={12} sm={12}>
                 <TextField
                     label={t('ORGANIZATION_NAME')}
-                    name="organizationName"
+                    name="name"
                     variant="outlined"
                     type="text"
                     onChange={onChangedInput}
@@ -52,7 +52,6 @@ export const SaveOrganizationForm = ({
                     type="text"
                     onChange={onChangedInput}
                     value={organization.apiKeyNP || ''}
-                    required
                     fullWidth
                 />
             </Grid>

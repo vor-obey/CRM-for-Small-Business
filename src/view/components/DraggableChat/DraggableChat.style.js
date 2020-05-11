@@ -1,6 +1,5 @@
 export const draggableChatStyles = (theme => ({
     card: {
-        width: '30%',
         position: 'absolute',
         right: 0,
         bottom: 0,
