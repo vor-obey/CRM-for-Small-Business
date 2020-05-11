@@ -17,33 +17,30 @@ export const PrivateRoute = ({component: Component, ...rest}) => {
         }
     }, [currentUser]);
 
-    const deleteToken = useCallback(() => {
-        let token = localStorage.getItem("acc");
-
-        if (token) {
-            return localStorage.removeItem("acc");
-        }
-    }, []);
-
-    const renderComponent = (props) => {
+    const renderComponent = useCallback((props) => {
         const {match} = props;
-        const role = currentUser && currentUser.role.name;
-        const organization = currentUser && currentUser.organization.enabled;
+        const role = currentUser.role && currentUser.role.name;
+        const enabled = currentUser.organization && currentUser.organization.enabled;
+
+        if (match.path === '/') {
+            return isAuthenticated ? <Redirect to='/dashboard'/> : <Component {...props} />;
+        }
 
         if (!isAuthenticated) {
-            return <Redirect to='/'/>
+            return <Redirect to='/'/>;
         }
 
-        if (!organization){
-            return deleteToken();
+        if (isAuthenticated && enabled === false) {
+            StorageService.removeJWTToken();
+            return <Redirect to='/'/>;
         }
 
         if (role && (match.path === '/organizations/:id' || match.path === '/organizations/:id/edit')) {
-            return role === 'Owner' ? <Component {...props} /> : <Redirect to='/'/>
+            return role === 'Owner' ? <Component {...props} /> : <Redirect to='/'/>;
         }
 
         return <Component {...props} />;
-    };
+    }, [currentUser, isAuthenticated]);
 
     return (
         <Route
