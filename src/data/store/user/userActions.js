@@ -7,7 +7,6 @@ import {
 export const getCurrentUser = () => ({type: GET_CURRENT_USER});
 export const login = (loginData) => ({type: LOGIN, loginData});
 export const setCurrentUser = (currentUser) => ({type: GET_CURRENT_USER_SUCCESS, currentUser});
-export const initConnect = (organizationId) => ({type: INIT_CONNECT, organizationId});
 export const deleteIntegration = (organizationId) => ({type: INIT_CONNECT, organizationId});
 export const setIsConnected = (isConnected) => ({type: SET_IS_CONNECTED, isConnected});
 export const setIsIntegrated = (isIntegrated) => ({type: SET_IS_INTEGRATED, isIntegrated});
