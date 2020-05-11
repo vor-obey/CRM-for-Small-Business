@@ -1,14 +1,18 @@
 import React from 'react';
 
-import {Button, Grid, Modal} from '@material-ui/core';
+import {Button, Grid, Modal, makeStyles} from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
+import {customModalStyle} from "./CustomModal.style";
+
+const useStyles = makeStyles(customModalStyle);
 
 export const CustomModal = ({
                                open,
-                               classes = {},
                                children,
                                handleClose,
                             }) => {
+
+    const classes = useStyles();
 
    return (
          <Modal
@@ -17,19 +21,9 @@ export const CustomModal = ({
             open={open}
             onClose={handleClose}
             closeAfterTransition
-            style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                overflow: 'auto',
-                height: '100%',
-            }}
+            className={classes.modal}
          >
-            <Grid item style={{
-                display: 'flex',
-                backgroundColor: '#fff',
-                justifyContent: 'flex-end'
-            }}>
+            <Grid item className={classes.container}>
                <Button onClick={handleClose} style={{
                    position: 'absolute',
                    marginTop: 8
