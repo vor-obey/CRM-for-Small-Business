@@ -131,7 +131,7 @@ export const OrderDetails = ({
                             <Select
                                 native
                                 name="status"
-                                value={t(EOrderStatus[status]) || status}
+                                value={status}
                                 required
                                 onChange={(event) => onStatusSelectHandler(event.target.value)}
                                 inputProps={{

@@ -22,6 +22,14 @@ export const OrderListItem = ({
         return `${order.orderToProducts.reduce((a, {orderProductPrice, amount}) => a + (orderProductPrice * amount), 0)} ${order.currency}`;
     }, [order]);
 
+    const displayProduct = useCallback(() => {
+        if (order.orderToProducts.length > 0) {
+            return order.orderToProducts[0].product.name;
+        } else {
+            return 'deleted product';
+        }
+    }, [order]);
+
     return (
         <ListItem key={order.orderId} disableGutters divider button
                   onClick={() => navigationToOrderDetails(order.orderId)}>
@@ -30,7 +38,7 @@ export const OrderListItem = ({
                     <Typography className={classes.textList}>
                         {t('DESCRIPTION')}:
                     </Typography>
-                    <ListItemText primary={order.orderToProducts[0].product.name}
+                    <ListItemText primary={displayProduct()}
                                   secondary={minWidth600 && order.currency}/>
                 </Grid>
                 <Grid item xl={3} lg={3} md={3} sm={4} xs={12} className={classes.grid}>

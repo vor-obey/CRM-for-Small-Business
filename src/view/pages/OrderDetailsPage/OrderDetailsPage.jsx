@@ -1,4 +1,4 @@
-import React, {isValidElement, useCallback, useState} from "react";
+import React, {useCallback, useState} from "react";
 import {OrderService} from "../../../services/index";
 import {Link, useParams} from 'react-router-dom';
 import {Grid, TextField, Container, Button, makeStyles, Typography, Paper} from "@material-ui/core";
@@ -6,7 +6,7 @@ import {orderDetailsStyles} from "./OrderDetailsPage.style";
 import {OrderDetails} from './OrderDetails/OrderDetails';
 import {useDispatch} from 'react-redux';
 import {setIsLoading, setSnackBarStatus} from '../../../data/store/auxiliary/auxiliaryActions';
-import {COMMON_ERROR_MESSAGE, EOrderStatus} from '../../../constants/statuses';
+import {COMMON_ERROR_MESSAGE} from '../../../constants/statuses';
 import isEmpty from 'lodash/isEmpty';
 import {CustomDialog} from '../../components/CustomDialog/CustomDialog';
 import {useTranslation} from "react-i18next";
@@ -18,27 +18,31 @@ const useStyles = makeStyles(orderDetailsStyles);
 
 export const OrderDetailsPage = ({history}) => {
     const {id} = useParams();
-    const [orderDetails] = useOrderDetailsById(id);
+    const [orderDetails, setOrderDetails] = useOrderDetailsById(id);
     const {shippingDetails: {address: {isCustom} = {}} = {}} = orderDetails;
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [isPrintModalOpen, setIsPrintModalOpen] = useState(false);
-    const [status, setStatus] = useState(0);
     const classes = useStyles();
     const dispatch = useDispatch();
     const {t} = useTranslation('');
 
-    const onStatusSelectHandler = useCallback(async(value) => {
-        setStatus(value);
+    const onStatusSelectHandler = useCallback(async (value) => {
         const {orderId} = orderDetails;
         try {
             dispatch(setIsLoading(true));
             const response = await OrderService.update({
                 orderId,
-                status,
+                status: value,
             });
             if (response.success) {
                 dispatch(setIsLoading(false));
-                history.push(`/orders/${orderId}`);
+                dispatch(setSnackBarStatus({isOpen: true, message: 'Updated', success: true}));
+                setOrderDetails(prevState => {
+                    return {
+                        ...prevState,
+                        status: parseInt(value)
+                    };
+                });
             } else {
                 dispatch(setIsLoading(false));
                 dispatch(setSnackBarStatus({isOpen: true, message: 'Error', success: false}));
@@ -47,7 +51,7 @@ export const OrderDetailsPage = ({history}) => {
             dispatch(setIsLoading(false));
             dispatch(setSnackBarStatus({isOpen: true, message: 'Error', success: false}));
         }
-    }, [dispatch, history, orderDetails, status]);
+    }, [dispatch, orderDetails, setOrderDetails]);
 
 
     const togglePrintModal = useCallback(() => {
