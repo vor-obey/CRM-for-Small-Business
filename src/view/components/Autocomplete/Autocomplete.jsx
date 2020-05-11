@@ -18,7 +18,7 @@ export const CustomAutocomplete = ({
                                    }) => {
 
     const PopperMy = function (props) {
-        return (<Popper {...props} style={{marginBottom: -9}} placement='bottom-start' />)
+        return (<Popper {...props} style={{marginBottom: 9}} placement='bottom-start' />)
     }
 
     return (
