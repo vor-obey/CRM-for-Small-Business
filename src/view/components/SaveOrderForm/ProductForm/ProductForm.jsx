@@ -205,7 +205,7 @@ export const ProductForm = ({
                     submit={addProduct}
                 />
                 {renderSelectedProducts()}
-                <Grid item xs={12} sm={6} className={classes.productContainerTotal}>
+                <Grid item xs={12} sm={12} className={classes.productContainerTotal}>
                     {!isEmpty(selectedProducts) ? (
                         <>
                             <Typography variant='subtitle1'>

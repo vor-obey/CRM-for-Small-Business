@@ -34,7 +34,6 @@ export const SaveOrderProduct = ({
                                      onChange,
                                      increment,
                                      decrement,
-                                     totalPrice,
                                      classes
                                  }) => {
 
@@ -56,8 +55,8 @@ export const SaveOrderProduct = ({
                         value={value}
                     />
                 </Grid>
-                <Grid item xs={12} sm={2} className={classes.containerProduct}>
-                    <FormControl variant="outlined" fullWidth>
+                <Grid item xs={6} sm={2} className={classes.containerProduct}>
+                    <FormControl variant="outlined" fullWidth >
                         <InputLabel>{t('AMOUNT')}</InputLabel>
                         <OutlinedInput
                             className={classes.amount}
@@ -90,7 +89,7 @@ export const SaveOrderProduct = ({
                         />
                     </FormControl>
                 </Grid>
-                <Grid item xs={12} sm={2} className={classes.containerProduct}>
+                <Grid item xs={6} sm={2} className={classes.containerProductPrice}>
                     <FormControl variant="outlined" fullWidth>
                         <InputLabel>{t('PRICE')}</InputLabel>
                         <OutlinedInput

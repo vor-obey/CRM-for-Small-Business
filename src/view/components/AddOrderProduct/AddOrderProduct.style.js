@@ -9,6 +9,16 @@ export const addOrderProductStyles = (theme => ({
         justifyContent: 'space-between',
         [theme.breakpoints.down('xs')]: {
             marginTop: theme.spacing(2),
+            paddingRight: 4,
+        },
+    },
+    containerProductPrice: {
+        flexDirection: 'row',
+        alignItems: 'flex-start',
+        alignContent: 'flex-start',
+        justifyContent: 'space-between',
+        [theme.breakpoints.down('xs')]: {
+            marginTop: theme.spacing(2),
         },
     },
     containerProductMeta: {
