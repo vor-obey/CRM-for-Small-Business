@@ -37,13 +37,9 @@ export const InternetDocument = ({orderDetails, handleClose}) => {
     const warehouse = useSelector(state => state.autocompleteReducer.warehouse);
     const {t} = useTranslation('');
 
-    const cost = orderDetails.orderToProducts.map(cost => {
-        return cost.orderProductPrice
-    });
-
-    const amount = orderDetails.orderToProducts.map(amount => {
-        return amount.amount
-    });
+    const calculateTotalPoints = useCallback(() => {
+        return `${orderDetails.orderToProducts.reduce((a, b) => a + b.orderProductPrice, 0)}`;
+    }, [orderDetails]);
 
     useEffect(() => {
         if (orderDetails) {
@@ -55,12 +51,12 @@ export const InternetDocument = ({orderDetails, handleClose}) => {
 
             setParcelDetails({
                 weight: '',
-                seatsAmount: orderDetails.orderToProducts.map(amount => amount.amount),
+                seatsAmount: '',
                 description: '',
-                cost: orderDetails.orderToProducts.map(cost => cost.orderProductPrice),
+                cost: calculateTotalPoints(),
             });
         }
-    }, [orderDetails]);
+    }, [orderDetails, calculateTotalPoints]);
 
     const onChangedParcelDetailsInput = useCallback((event) => {
         const {value, name} = event.target;
@@ -124,48 +120,39 @@ export const InternetDocument = ({orderDetails, handleClose}) => {
         }
     }, [t, dispatch, orderDetails, city, parcelDetails, warehouse, recipient, senderPhone, handleClose]);
 
-
     const handleClick = useCallback((status) => {
         switch (status) {
-            case 1: {
+            case 'fullName': {
                 setRecipient({
                     fullName: orderDetails.customer.name,
                     phone: recipient.phone
                 });
                 break;
             }
-            case 2: {
+            case 'recipientPhone': {
                 setRecipient({
                     fullName: recipient.fullName,
                     phone: orderDetails.customer.contactNumber
                 });
                 break;
             }
-            case 3: {
+            case 'senderPhone': {
                 setSenderPhone(orderDetails.manager.contactNumber);
                 break;
             }
-            case 4: {
+            case 'cost': {
                 setParcelDetails({
-                    weight: parcelDetails.weight,
-                    seatsAmount: amount,
-                    description: parcelDetails.description,
-                    cost: parcelDetails.cost,
+                    weight: '',
+                    seatsAmount: '',
+                    description: '',
+                    cost: calculateTotalPoints(),
                 });
                 break;
             }
-            case 5: {
-                setParcelDetails({
-                    weight: parcelDetails.weight,
-                    seatsAmount: parcelDetails.seatsAmount,
-                    description: parcelDetails.description,
-                    cost: cost,
-                });
-                break;
+            default: {
             }
-            default: {}
         }
-    }, [setRecipient, recipient, orderDetails, parcelDetails, cost, amount]);
+    }, [setRecipient, recipient, calculateTotalPoints, orderDetails]);
 
     return (
         <Container>
@@ -205,16 +192,9 @@ export const InternetDocument = ({orderDetails, handleClose}) => {
                             label={t('SEATS_AMOUNT')}
                             name="seatsAmount"
                             variant="outlined"
-                            type="text"
                             value={parcelDetails.seatsAmount}
+                            type="text"
                             onChange={onChangedParcelDetailsInput}
-                            InputProps={{
-                                endAdornment: (
-                                    <React.Fragment>
-                                        {parcelDetails.seatsAmount > amount || parcelDetails.seatsAmount < amount ? <Button onClick={() => handleClick(4)}><RestoreIcon color='primary'/></Button> : null}
-                                    </React.Fragment>
-                                )
-                            }}
                             required
                             fullWidth
                         />
@@ -230,7 +210,9 @@ export const InternetDocument = ({orderDetails, handleClose}) => {
                             InputProps={{
                                 endAdornment: (
                                     <React.Fragment>
-                                        {parcelDetails.cost > cost || parcelDetails.cost < cost? <Button onClick={() => handleClick(5)}><RestoreIcon color='primary'/></Button> : null}
+                                        {parcelDetails.cost !== calculateTotalPoints() ?
+                                            <Button onClick={() => handleClick('cost')}><RestoreIcon
+                                                color='primary'/></Button> : null}
                                     </React.Fragment>
                                 )
                             }}
@@ -249,7 +231,9 @@ export const InternetDocument = ({orderDetails, handleClose}) => {
                             InputProps={{
                                 endAdornment: (
                                     <React.Fragment>
-                                        {recipient.fullName !== orderDetails.customer.name ? <Button onClick={() => handleClick(1)}><RestoreIcon color='primary'/></Button> : null}
+                                        {recipient.fullName !== orderDetails.customer.name ?
+                                            <Button onClick={() => handleClick('fullName')}><RestoreIcon
+                                                color='primary'/></Button> : null}
                                     </React.Fragment>
                                 )
                             }}
@@ -268,7 +252,9 @@ export const InternetDocument = ({orderDetails, handleClose}) => {
                             InputProps={{
                                 endAdornment: (
                                     <React.Fragment>
-                                        {recipient.phone !== orderDetails.customer.contactNumber ? <Button onClick={() => handleClick(2)}><RestoreIcon color='primary'/></Button> : null}
+                                        {recipient.phone !== orderDetails.customer.contactNumber ?
+                                            <Button onClick={() => handleClick('recipientPhone')}><RestoreIcon
+                                                color='primary'/></Button> : null}
                                     </React.Fragment>
                                 )
                             }}
@@ -287,7 +273,9 @@ export const InternetDocument = ({orderDetails, handleClose}) => {
                             InputProps={{
                                 endAdornment: (
                                     <React.Fragment>
-                                        {senderPhone !== orderDetails.manager.contactNumber ? <Button onClick={() => handleClick(3)}><RestoreIcon color='primary'/></Button> : null}
+                                        {senderPhone !== orderDetails.manager.contactNumber ?
+                                            <Button onClick={() => handleClick('senderPhone')}><RestoreIcon
+                                                color='primary'/></Button> : null}
                                     </React.Fragment>
                                 )
                             }}
