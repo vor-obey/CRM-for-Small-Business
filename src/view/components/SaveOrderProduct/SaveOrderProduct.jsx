@@ -1,6 +1,15 @@
 import React from 'react';
 import {CustomAutocomplete} from '../Autocomplete/Autocomplete';
-import {Grid, FormControl, IconButton, InputLabel, OutlinedInput, InputAdornment, Select, MenuItem} from '@material-ui/core';
+import {
+    Grid,
+    FormControl,
+    IconButton,
+    InputLabel,
+    OutlinedInput,
+    InputAdornment,
+    Select,
+    MenuItem
+} from '@material-ui/core';
 import RemoveIcon from '@material-ui/icons/Remove';
 import AddIcon from '@material-ui/icons/Add';
 import {useTranslation} from "react-i18next";
@@ -42,7 +51,7 @@ export const SaveOrderProduct = ({
     return (
         <Grid container item xl={12} xs={12} sm={12} className={classes.container}>
             <Grid container item xl={12} xs={12} sm={12} className={classes.containerProduct}>
-                <Grid item xs={12} sm={7}>
+                <Grid item xl={6} lg={6} md={6} sm={12} xs={12}>
                     <CustomAutocomplete
                         isOpen={isOpen}
                         options={options}
@@ -55,8 +64,8 @@ export const SaveOrderProduct = ({
                         value={value}
                     />
                 </Grid>
-                <Grid item xs={6} sm={2} className={classes.containerProduct}>
-                    <FormControl variant="outlined" fullWidth >
+                <Grid item xl={2} lg={2} md={2} sm={6} xs={6} className={classes.containerProduct}>
+                    <FormControl variant="outlined" fullWidth>
                         <InputLabel>{t('AMOUNT')}</InputLabel>
                         <OutlinedInput
                             className={classes.amount}
@@ -89,7 +98,7 @@ export const SaveOrderProduct = ({
                         />
                     </FormControl>
                 </Grid>
-                <Grid item xs={6} sm={2} className={classes.containerProductPrice}>
+                <Grid item xl={2} lg={2} md={2} sm={6} xs={6} className={classes.containerProductPrice}>
                     <FormControl variant="outlined" fullWidth>
                         <InputLabel>{t('PRICE')}</InputLabel>
                         <OutlinedInput

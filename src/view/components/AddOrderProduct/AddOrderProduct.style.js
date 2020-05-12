@@ -2,12 +2,16 @@ export const addOrderProductStyles = (theme => ({
     container: {
         padding: theme.spacing(4, 0, 0, 0),
     },
+    containerRoot: {
+        margin: 0,
+        padding: 0
+    },
     containerProduct: {
         flexDirection: 'row',
         alignItems: 'flex-start',
         alignContent: 'flex-start',
         justifyContent: 'space-between',
-        [theme.breakpoints.down('xs')]: {
+        [theme.breakpoints.down('sm')]: {
             marginTop: theme.spacing(2),
             paddingRight: 4,
         },
@@ -17,7 +21,7 @@ export const addOrderProductStyles = (theme => ({
         alignItems: 'flex-start',
         alignContent: 'flex-start',
         justifyContent: 'space-between',
-        [theme.breakpoints.down('xs')]: {
+        [theme.breakpoints.down('sm')]: {
             marginTop: theme.spacing(2),
         },
     },
@@ -27,7 +31,10 @@ export const addOrderProductStyles = (theme => ({
     },
     containerProductItemTotal: {
         textAlign: 'right',
-        marginBottom: theme.spacing(1)
+        marginBottom: theme.spacing(1),
+        [theme.breakpoints.down('xs')]: {
+            marginTop: theme.spacing(1)
+        }
     },
     amountButton: {
         width: 0,
@@ -53,11 +60,8 @@ export const addOrderProductStyles = (theme => ({
     },
     buttonFab: {
         marginRight: theme.spacing(1),
-
-    },
-    '@media (max-width:669px)': {
-        buttonFab: {
-            marginBottom: 10
+        [theme.breakpoints.down('xs')]: {
+            marginBottom: theme.spacing(1)
         }
-    }
+    },
 }));

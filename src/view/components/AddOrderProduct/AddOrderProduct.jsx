@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {SaveOrderProduct} from '../SaveOrderProduct/SaveOrderProduct';
-import {Grid, Container, Typography, Button, makeStyles} from '@material-ui/core';
+import {Grid, Container, Typography, Button, makeStyles, useMediaQuery} from '@material-ui/core';
 import isEmpty from 'lodash/isEmpty';
 import {addOrderProductStyles} from "./AddOrderProduct.style";
 import {useTranslation} from "react-i18next";
@@ -27,6 +27,7 @@ export const AddOrderProduct = ({
     const {t} = useTranslation();
     const history = useHistory();
     const dispatch = useDispatch();
+    const minWidth600 = useMediaQuery('(min-width:600px)');
 
     useEffect(() => {
         setTotalPrice(details.price * details.amount);
@@ -91,7 +92,7 @@ export const AddOrderProduct = ({
     }, [dispatch, history]);
 
     return (
-        <Container style={{padding: 0, margin: 0}}>
+        <Container className={classes.containerRoot}>
             <Grid container item xl={12} lg={12}>
                 <SaveOrderProduct
                     isOpen={isOpen}
@@ -112,8 +113,9 @@ export const AddOrderProduct = ({
                 />
             </Grid>
             <Grid container item xs={12} className={classes.buttonContainer}>
-                <Grid item xl={6} lg={6} md={6} sm={7} xs={7}>
+                <Grid item xl={6} lg={6} md={6} sm={8} xs={12}>
                     <Button
+                        fullWidth={!minWidth600}
                         className={classes.buttonFab}
                         variant='outlined'
                         onClick={() => submit({...selectedProduct, ...details, totalPrice}) || onProductSelectHandler()}
@@ -123,13 +125,14 @@ export const AddOrderProduct = ({
                     </Button>
                     <Button
                         className={classes.buttonFub}
+                        fullWidth={!minWidth600}
                         variant="outlined" color="primary"
                         onClick={navigateToCreateProduct}>
                         <AddIcon/>
                         {t('CREATE_PRODUCT')}
                     </Button>
                 </Grid>
-                <Grid item xl={6} lg={6} md={6} sm={5} xs={3} className={classes.containerProductItemTotal}>
+                <Grid item xl={6} lg={6} md={6} sm={4} xs={12} className={classes.containerProductItemTotal}>
                     <Typography variant='subtitle1'>
                         {t('SUMMARY')}:
                     </Typography>

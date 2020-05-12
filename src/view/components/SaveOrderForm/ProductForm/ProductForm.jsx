@@ -124,14 +124,14 @@ export const ProductForm = ({
                 <ListItem key={productId}
                           className={classes.productList}>
                     <Grid container item xs={12} sm={12} className={classes.productContainer}>
-                        <Grid item xs={12} sm={1} className={classes.productContainerItem}>
+                        <Grid item xs={2} sm={1} className={classes.productContainerItem}>
                             <Grid className={classes.removeProduct}>
                                 <IconButton disabled={isEdit} onClick={() => removeProduct(item)} size='medium'>
                                     <CloseIcon/>
                                 </IconButton>
                             </Grid>
                         </Grid>
-                        <Grid container item xs={12} sm={6} className={classes.productContainerItem}>
+                        <Grid container item xs={9} sm={6} className={classes.productContainerItem}>
                             <Grid className={classes.productTitle}>
                                 <Typography variant='body1' className={classes.productTitleName}>
                                     {name}
@@ -141,7 +141,7 @@ export const ProductForm = ({
                                 </Typography>
                             </Grid>
                         </Grid>
-                        <Grid item xs={12} sm={2} className={classes.productContainerItem}>
+                        <Grid item xs={12} sm={3} className={classes.productContainerItem}>
                             <FormControl variant="outlined" fullWidth>
                                 <InputLabel>{t('AMOUNT')}</InputLabel>
                                 <OutlinedInput
