@@ -77,6 +77,9 @@ export const createOrderPageStyles = (theme => ({
                 paddingLeft: 0
             },
         },
+        popper: {
+            backgroundColor: '#000',
+        },
         rootGrid: {
             marginTop: theme.spacing(3)
         },
