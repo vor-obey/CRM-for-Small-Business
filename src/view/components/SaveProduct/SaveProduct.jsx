@@ -69,7 +69,7 @@ export const SaveProduct = ({
         if (!isEmpty(selectedAbstractProduct)) {
             setProductDetails(prevState => ({
                 ...prevState,
-                price: prevState.price ? prevState.price: selectedAbstractProduct.price
+                price: prevState.price ? prevState.price : selectedAbstractProduct.price
             }));
         }
     }, [selectedAbstractProduct]);
@@ -165,12 +165,35 @@ export const SaveProduct = ({
 
     const onSubmit = useCallback(() => {
         onSave({
-            attributesLength: attributes.length,
             productDetails,
             selectedAbstractProduct,
             selectedAttributeValues
         });
-    }, [productDetails, selectedAttributeValues, selectedAbstractProduct, attributes.length, onSave]);
+    }, [productDetails, selectedAttributeValues, selectedAbstractProduct, onSave]);
+
+    const validateAttributeValues = useCallback((arr) => {
+        return arr.find(item => item === '');
+    }, []);
+
+    const disableButton = useCallback(() => {
+        if (!attributes.length) {
+            return true;
+        }
+        if (!productDetails.name.trim().length || !productDetails.price.length) {
+            return true;
+        }
+        if (isEmpty(selectedAbstractProduct)) {
+            return true;
+        }
+        const attributeValuesEntriesLength = Object.entries(selectedAttributeValues).length;
+        if (attributes.length !== attributeValuesEntriesLength) {
+            return true;
+        }
+        if ((validateAttributeValues(Object.values(selectedAttributeValues)) !== undefined)) {
+            return true;
+        }
+        return false;
+    }, [attributes.length, productDetails, selectedAbstractProduct, selectedAttributeValues, validateAttributeValues]);
 
     return (
         <Container component='main' maxWidth='md' className={classes.root}>
@@ -246,6 +269,7 @@ export const SaveProduct = ({
                                 <Button
                                     variant='outlined'
                                     onClick={onSubmit}
+                                    disabled={disableButton()}
                                 >
                                     {labels.button}
                                 </Button>
