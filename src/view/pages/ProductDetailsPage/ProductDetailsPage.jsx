@@ -71,6 +71,8 @@ export const ProductDetailsPage = ({history}) => {
         }));
     }, [productDetails, dispatch, deleteProduct, t]);
 
+    console.log(productDetails);
+
     return (
         <Container maxWidth='md' className={classes.root}>
             <Paper className={classes.paper}>
@@ -144,6 +146,7 @@ export const ProductDetailsPage = ({history}) => {
                             className={classes.buttonFab}
                             onClick={openProductDeleteDialog}
                             color="primary"
+                            disabled={productDetails.name === undefined}
                             aria-label="delete"
                             size="small">
                             <DeleteIcon/>
