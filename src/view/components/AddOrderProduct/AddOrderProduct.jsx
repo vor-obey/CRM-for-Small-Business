@@ -5,9 +5,7 @@ import isEmpty from 'lodash/isEmpty';
 import {addOrderProductStyles} from "./AddOrderProduct.style";
 import {useTranslation} from "react-i18next";
 import AddIcon from "@material-ui/icons/Add";
-import {closeModal} from "../../../data/store/auxiliary/auxiliaryActions";
 import {useHistory} from "react-router-dom";
-import {useDispatch} from "react-redux";
 
 const useStyle = makeStyles(addOrderProductStyles);
 
@@ -26,7 +24,6 @@ export const AddOrderProduct = ({
     const [totalPrice, setTotalPrice] = useState(0);
     const {t} = useTranslation();
     const history = useHistory();
-    const dispatch = useDispatch();
     const minWidth600 = useMediaQuery('(min-width:600px)');
 
     useEffect(() => {
@@ -87,9 +84,13 @@ export const AddOrderProduct = ({
     }, []);
 
     const navigateToCreateProduct = useCallback(() => {
-        dispatch(closeModal());
         history.push('/create-product');
-    }, [dispatch, history]);
+    }, [history]);
+
+    const handleClick = useCallback(() => {
+        submit({...selectedProduct, ...details, totalPrice});
+        onProductSelectHandler()
+    }, [submit, details, onProductSelectHandler, selectedProduct, totalPrice]);
 
     return (
         <Container className={classes.containerRoot}>
@@ -118,7 +119,7 @@ export const AddOrderProduct = ({
                         fullWidth={!minWidth600}
                         className={classes.buttonFab}
                         variant='outlined'
-                        onClick={() => submit({...selectedProduct, ...details, totalPrice}) || onProductSelectHandler()}
+                        onClick={handleClick}
                         disabled={isEmpty(selectedProduct)}
                     >
                         {t('ADD_PRODUCT')}
