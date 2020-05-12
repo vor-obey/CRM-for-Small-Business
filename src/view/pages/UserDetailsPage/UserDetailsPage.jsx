@@ -18,7 +18,6 @@ import {UserService} from "../../../services";
 import {isEmpty} from 'lodash';
 import {UserDetails} from './UserDetails/UserDetails';
 import {setIsLoading, setSnackBarStatus} from "../../../data/store/auxiliary/auxiliaryActions";
-import {COMMON_ERROR_MESSAGE} from "../../../constants/statuses";
 import {useTranslation} from "react-i18next";
 import {useManagerById} from '../../../utils/hooks/userHooks';
 
@@ -31,21 +30,26 @@ export const UserDetailsPage = ({history}) => {
     const classes = useStyles();
     const [isShow, setIsShow] = useState(false);
     const [userDetails] = useManagerById(id);
-    const { t } = useTranslation('');
+    const {t} = useTranslation('');
 
     const handleOpenDialog = useCallback(() => {
         setIsShow(prevState => !prevState);
     }, []);
 
     const handleClickDeleteUser = useCallback(async () => {
-        dispatch(setIsLoading(true));
-        const response = await UserService.delete(id);
-        if (response.success) {
+        try {
+            dispatch(setIsLoading(true));
+            const response = await UserService.delete(id);
+            if (response.success) {
+                dispatch(setIsLoading(false));
+                history.push('/users');
+            } else {
+                dispatch(setIsLoading(false));
+                dispatch(setSnackBarStatus({isOpen: true, message: response.message, success: false}));
+            }
+        } catch (e) {
             dispatch(setIsLoading(false));
-            history.push('/users');
-        } else {
-            dispatch(setIsLoading(false));
-            dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE, success: false}))
+            dispatch(setSnackBarStatus({isOpen: true, message: e.message, success: false}));
         }
     }, [dispatch, id, history]);
 
