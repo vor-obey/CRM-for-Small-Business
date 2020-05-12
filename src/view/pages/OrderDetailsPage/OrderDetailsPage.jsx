@@ -36,7 +36,7 @@ export const OrderDetailsPage = ({history}) => {
             });
             if (response.success) {
                 dispatch(setIsLoading(false));
-                dispatch(setSnackBarStatus({isOpen: true, message: 'Updated', success: true}));
+                dispatch(setSnackBarStatus({isOpen: true, message: t('STATUS_UPDATED_SUCCESSFULLY'), success: true}));
                 setOrderDetails(prevState => {
                     return {
                         ...prevState,
@@ -45,13 +45,13 @@ export const OrderDetailsPage = ({history}) => {
                 });
             } else {
                 dispatch(setIsLoading(false));
-                dispatch(setSnackBarStatus({isOpen: true, message: 'Error', success: false}));
+                dispatch(setSnackBarStatus({isOpen: true, message: t('ERROR'), success: false}));
             }
         } catch {
             dispatch(setIsLoading(false));
-            dispatch(setSnackBarStatus({isOpen: true, message: 'Error', success: false}));
+            dispatch(setSnackBarStatus({isOpen: true, message: t('ERROR'), success: false}));
         }
-    }, [dispatch, orderDetails, setOrderDetails]);
+    }, [dispatch, orderDetails, setOrderDetails, t]);
 
 
     const togglePrintModal = useCallback(() => {

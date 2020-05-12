@@ -42,5 +42,6 @@ export const orderUA = {
     SENDER_PHONE: 'Телефон відправника',
     RECIPIENT_FULL_NAME: 'П.I.Б. одержувача',
     NOVAPOSTA: 'Відділення Нової Пошти',
-    CUSTOM: 'Адресна доставка'
+    CUSTOM: 'Адресна доставка',
+    STATUS_UPDATED_SUCCESSFULLY: 'Cтатус успішно оновлено'
 };

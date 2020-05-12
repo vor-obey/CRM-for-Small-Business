@@ -42,5 +42,6 @@ export const orderRU = {
     SENDER_PHONE: 'Телефон отправителя',
     RECIPIENT_FULL_NAME: 'Ф.И.О. получателя',
     NOVAPOSTA: 'Отделение Новой Почты',
-    CUSTOM: 'Адресная доставка'
+    CUSTOM: 'Адресная доставка',
+    STATUS_UPDATED_SUCCESSFULLY: 'Статус обновлен успешно',
 };

@@ -126,6 +126,7 @@ export const orderDetailsStyles = ((theme) => ({
     buttonContainer: {
         alignContent: 'center',
         justifyContent: 'center',
+        marginTop: '20px'
     },
     button: {
         margin: '10px',

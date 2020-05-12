@@ -4,6 +4,7 @@ import {EOrderStatus} from '../../../../constants/statuses';
 import {useTranslation} from "react-i18next";
 import {useHistory} from 'react-router-dom';
 import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
+import InputLabel from "@material-ui/core/InputLabel";
 
 export const OrderDetails = ({
                                  classes,
@@ -118,29 +119,7 @@ export const OrderDetails = ({
                             {(shippingMethod && shippingMethod.name) || ''}
                         </Typography>
                     </Grid>
-                    <Grid item xs={12} sm={12} className={classes.containerFieldsItem}>
-                        <Typography
-                            variant='body2'
-                            color='textSecondary'>
-                            {t('STATUS')}
-                        </Typography>
-                        <FormControl
-                            variant="outlined"
-                            required
-                        >
-                            <Select
-                                native
-                                name="status"
-                                value={status}
-                                required
-                                onChange={(event) => onStatusSelectHandler(event.target.value)}
-                                inputProps={{
-                                    name: 'status',
-                                }}>
-                                {renderStatuses()}
-                            </Select>
-                        </FormControl>
-                    </Grid>
+
                 </Grid>
             </Grid>
             {isCustom ? null : (
@@ -225,6 +204,33 @@ export const OrderDetails = ({
                             {(manager && `${manager.firstName} ${manager.middleName} ${manager.lastName}`) || ''}
                         </Typography>
                     </Grid>
+                </Grid>
+            </Grid>
+            <Grid container item xs={12} sm={6} className={classes.containerItem}>
+                <Grid item xl={12} sm={12}>
+                    <Typography variant='h5'>
+                        {t('STATUS')}
+                    </Typography>
+                </Grid>
+                <Grid item xs={12} sm={6} className={classes.containerFieldsItem}>
+                    <FormControl
+                        variant="outlined"
+                        fullWidth
+                    >
+                        <InputLabel htmlFor="my-input">{t('STATUS')}</InputLabel>
+                        <Select
+                            label={t('STATUS')}
+                            native
+                            name="status"
+                            value={status}
+                            labelWidth={150}
+                            onChange={(event) => onStatusSelectHandler(event.target.value)}
+                            inputProps={{
+                                name: 'status',
+                            }}>
+                            {renderStatuses()}
+                        </Select>
+                    </FormControl>
                 </Grid>
             </Grid>
         </Grid>
