@@ -5,7 +5,7 @@ import {
     CLOSE_MODAL,
     RENDER_DIALOG,
     CLOSE_DIALOG,
-    ADD_NOTIFICATION
+    ADD_NOTIFICATION, ADD_CUSTOMER_INFO
 } from "./auxiliaryActionTypes";
 
 const initialState = {
@@ -29,7 +29,15 @@ const initialState = {
         onAction: null,
         children: null,
     },
-    notificationsArr: []
+    notificationsArr: [],
+    info: {
+        username: '',
+        name: '',
+        contactNumber: '',
+        contactEmail: '',
+        details: '',
+        sourceId: '',
+    }
 };
 
 export const auxiliaryReducer = (state = initialState, action) => {
@@ -78,6 +86,15 @@ export const auxiliaryReducer = (state = initialState, action) => {
             return {
                 ...state,
                 notificationsArr: [...state.notificationsArr, action.notification]
+            }
+        }
+        case ADD_CUSTOMER_INFO: {
+            return {
+                ...state,
+                info: {
+                    ...state.info,
+                    ...action.detail
+                }
             }
         }
         default: {

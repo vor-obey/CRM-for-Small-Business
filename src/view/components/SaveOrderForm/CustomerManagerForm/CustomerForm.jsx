@@ -122,6 +122,7 @@ export const CustomerForm = ({
                 }}
             >
                 <CreateCustomer
+                    modal={true}
                     updateCustomerList={updateCustomersList}
                 />
             </CustomModal>

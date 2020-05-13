@@ -18,12 +18,13 @@ export const SaveCustomerForm = (props) => {
         submitText,
         details,
         onSubmit,
-        onChange
+        onChange,
+        info,
+        modal
     } = props;
 
     const classes = useStyles();
     const {t} = useTranslation('');
-
 
     return (
         <div>
@@ -43,13 +44,13 @@ export const SaveCustomerForm = (props) => {
                                 className={classes.formControl}
                                 required
                             >
-                                <InputLabel id="demo-simple-select-outlined-label">
+                                <InputLabel>
                                     {t('SOURCES')}
                                 </InputLabel>
                                 <Select
                                     native
                                     name="sourceId"
-                                    value={(details && details.sourceId) || ''}
+                                    value={modal === false ? (details && details.sourceId) || '' : info.sourceId || ''}
                                     onChange={onChange}
                                     labelWidth={70}
                                     required
@@ -68,7 +69,7 @@ export const SaveCustomerForm = (props) => {
                                     name="username"
                                     variant="outlined"
                                     type="text"
-                                    value={(details && details.username) || ''}
+                                    value={modal === false ? (details && details.username) || '' : info.username || ''}
                                     onChange={onChange}
                                     required
                                     fullWidth
@@ -80,7 +81,7 @@ export const SaveCustomerForm = (props) => {
                                     name="name"
                                     variant="outlined"
                                     type="text"
-                                    value={(details && details.name) || ''}
+                                    value={modal === false ? (details && details.name) || '' : info.name || ''}
                                     onChange={onChange}
                                     required
                                     fullWidth
@@ -92,7 +93,7 @@ export const SaveCustomerForm = (props) => {
                                     name="contactEmail"
                                     variant="outlined"
                                     type="email"
-                                    value={(details && details.contactEmail) || ''}
+                                    value={modal === false ? (details && details.contactEmail) || '' : info.contactEmail || ''}
                                     onChange={onChange}
                                     fullWidth
                                 />
@@ -105,7 +106,7 @@ export const SaveCustomerForm = (props) => {
                                     type="tel"
                                     variant="outlined"
                                     mask="_"
-                                    value={(details && details.contactNumber) || ''}
+                                    value={modal === false ? (details && details.contactNumber) || '' : info.contactNumber || ''}
                                     onChange={onChange}
                                     fullWidth
                                 />
@@ -114,7 +115,7 @@ export const SaveCustomerForm = (props) => {
                                 <TextField
                                     label={t('DETAILS')}
                                     name="details"
-                                    value={(details && details.details) || ''}
+                                    value={modal === false ? (details && details.details) || '' : info.details || ''}
                                     onChange={onChange}
                                     variant="outlined"
                                     fullWidth
@@ -122,7 +123,6 @@ export const SaveCustomerForm = (props) => {
                                     multiline
                                 />
                             </Grid>
-
                         </Grid>
                         <Button
                             className={classes.submit}

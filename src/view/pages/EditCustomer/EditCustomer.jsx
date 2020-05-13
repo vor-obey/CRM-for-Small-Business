@@ -80,6 +80,7 @@ export const EditCustomer = ({history}) => {
          submitText={t('SAVE')}
          details={customerDetails}
          onChange={onChangeHandler}
+         modal={false}
       />
    )
 };
