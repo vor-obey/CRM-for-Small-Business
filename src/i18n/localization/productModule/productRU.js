@@ -30,7 +30,7 @@ export const ProductRU = {
     PRODUCT_TYPE_NAME: 'Название типа продукта',
     CREATE_PRODUCT_TYPE: 'Создать тип продукта',
     SELECT_PRODUCT_TYPE: 'Выберите тип продукта',
-    SELECT_PRODUCT_CATEGORY: 'Выберите категорию продукта',
+    SELECT_PRODUCT_CATEGORY: 'Категория продукта',
     CREATE_PRODUCT_CATEGORY: 'Создать категорию продукта',
     DELETE_PRODUCT_CATEGORY: 'Удалить категорию продукта',
     DELETE_TYPE_PRODUCT: 'Удалить тип продукта?',
