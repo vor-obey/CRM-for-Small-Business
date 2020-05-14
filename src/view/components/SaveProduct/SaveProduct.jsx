@@ -179,7 +179,7 @@ export const SaveProduct = ({
         if (!attributes.length) {
             return true;
         }
-        if (!productDetails.name.trim().length || !productDetails.price.length) {
+        if (!productDetails.name.trim().length || !productDetails.price) {
             return true;
         }
         if (isEmpty(selectedAbstractProduct)) {

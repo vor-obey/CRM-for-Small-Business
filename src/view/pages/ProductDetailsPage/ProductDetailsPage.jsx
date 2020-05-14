@@ -71,8 +71,6 @@ export const ProductDetailsPage = ({history}) => {
         }));
     }, [productDetails, dispatch, deleteProduct, t]);
 
-    console.log(productDetails);
-
     return (
         <Container maxWidth='md' className={classes.root}>
             <Paper className={classes.paper}>
