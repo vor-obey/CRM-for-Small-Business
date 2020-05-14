@@ -17,8 +17,7 @@ export const CustomAutocomplete = ({
                                        onInputChangedHandler,
                                        value
                                    }) => {
-
-
+    // console.log('options', options);
     return (
         <Autocomplete
             classes={classes}
@@ -30,6 +29,7 @@ export const CustomAutocomplete = ({
             getOptionLabel={getOptionLabel}
             disabled={disabled}
             onChange={(event, value) => onSelectHandler(value)}
+            onInputChange={(event, value) => onInputChangedHandler(value)}
             value={value}
             renderInput={params => (
                 <TextField
@@ -37,7 +37,6 @@ export const CustomAutocomplete = ({
                     label={inputLabel}
                     fullWidth
                     variant="outlined"
-                    onChange={onInputChangedHandler}
                     InputProps={{
                         ...params.InputProps,
                         endAdornment: (

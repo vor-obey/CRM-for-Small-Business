@@ -1,5 +1,5 @@
 import React, {useState, useCallback, useEffect} from "react";
-import OrderService from "../../../services/NovaPoshtaService";
+import NovaPoshtaService from "../../../services/NovaPoshtaService";
 import {Grid, Typography, makeStyles} from "@material-ui/core";
 import {setCity, setWarehouse} from "../../../data/store/autocomplete/autocompleteActions";
 import {useDispatch} from "react-redux";
@@ -7,7 +7,7 @@ import {CustomAutocomplete} from '../Autocomplete/Autocomplete';
 import isEmpty from 'lodash/isEmpty';
 import {novaPoshtaAddressStyles} from "./NovaPoshtaAdress.style";
 
-const useStyle = makeStyles(novaPoshtaAddressStyles)
+const useStyle = makeStyles(novaPoshtaAddressStyles);
 
 export const NovaPoshtaAddress = ({
                                       label,
@@ -30,11 +30,11 @@ export const NovaPoshtaAddress = ({
     });
 
     const fetchCities = useCallback(async (inputValue) => {
-        return await OrderService.getNovaPoshtaCities(inputValue);
+        return await NovaPoshtaService.getNovaPoshtaCities(inputValue);
     }, []);
 
     const fetchWarehouses = useCallback(async (ref) => {
-        return await OrderService.getNovaPoshtaWarehouses(ref);
+        return await NovaPoshtaService.getNovaPoshtaWarehouses(ref);
     }, []);
 
     useEffect(() => {
@@ -86,7 +86,7 @@ export const NovaPoshtaAddress = ({
         } else {
             dispatch(setCity(item));
             setCityInput(item);
-            const response = await OrderService.getNovaPoshtaWarehouses(item.Ref);
+            const response = await NovaPoshtaService.getNovaPoshtaWarehouses(item.Ref);
             setWarehouseOptions(response.data);
         }
     }, [dispatch]);

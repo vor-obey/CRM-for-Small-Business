@@ -42,6 +42,7 @@ import {CustomDialog} from '../CustomDialog/CustomDialog';
 import {EditProduct} from '../../pages/EditProduct/EditProduct';
 import {CreateProductTypeWithAttributes} from '../../pages/CreateProductTypeWithAttributes/CreateProductTypeWithAttributes';
 import {EditProductTypeWithAttributes} from '../../pages/EditProductTypeWithAttributes/EditProductTypeWithAttributes';
+import {NovaPoshtaAdressReact} from '../NovaPoshtaAddress/NovaPoshtaAdressReact';
 
 export const Routing = () => {
     const dispatch = useDispatch();
@@ -110,6 +111,7 @@ export const Routing = () => {
             <Route exact path='/restore-password/:token' component={RestorePassword}/>
             <Route exact path='/forgot-password' component={ForgotPassword}/>
             <Route exact path='/create-organization' component={CreateOrganization}/>
+            <Route exact path='/test' component={NovaPoshtaAdressReact}/>
         </Router>
     );
 };
