@@ -36,7 +36,8 @@ export const SaveOrderForm = ({
                                   status,
                                   onSubmit,
                                   orderedProducts,
-                                  isEdit
+                                  isEdit,
+                                  history
                               }) => {
     const {t} = useTranslation();
     const renderStatuses = useCallback(() => {
@@ -57,6 +58,7 @@ export const SaveOrderForm = ({
                                 classes={classes}
                                 orderedProducts={orderedProducts}
                                 isEdit={isEdit}
+                                history={history}
                             />
                         </Grid>
                         <Grid container item xl={12}>

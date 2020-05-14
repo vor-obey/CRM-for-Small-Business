@@ -6,6 +6,7 @@ import {useDispatch} from 'react-redux';
 import {closeModal} from '../../../data/store/auxiliary/auxiliaryActions';
 import {addOrderProductStyles} from "./AddOrderProduct.style";
 import {useTranslation} from "react-i18next";
+import {useCart} from "../../../utils/hooks/cartHooks";
 
 const useStyle = makeStyles(addOrderProductStyles);
 
@@ -24,6 +25,7 @@ export const AddOrderProduct = ({
     });
     const [totalPrice, setTotalPrice] = useState(0);
     const {t} = useTranslation();
+    const cart = useCart();
 
     useEffect(() => {
         setTotalPrice(details.price * details.amount);
@@ -32,6 +34,7 @@ export const AddOrderProduct = ({
     const toggleAutocomplete = useCallback(() => {
         setIsOpen(prevState => !prevState);
     }, []);
+
 
     const renderProductOptions = useCallback((item) => {
         const {productId, name, price, description} = item;
@@ -60,14 +63,26 @@ export const AddOrderProduct = ({
                 amount: 1,
             });
         } else {
-            setSelectedProduct(item);
-            setDetails({
-                price: item.price,
-                currency: 'UAH',
-                amount: 1,
-            });
+            if (!isEmpty(cart.products)) {
+                const currency = cart.products.map((currency) => {
+                  return currency.currency
+                });
+                setSelectedProduct(item);
+                setDetails({
+                    price: item.price,
+                    currency: currency[0],
+                    amount: 1,
+                });
+            } else {
+                setSelectedProduct(item);
+                setDetails({
+                    price: item.price,
+                    currency: 'UAH',
+                    amount: 1,
+                });
+            }
         }
-    }, []);
+    }, [cart]);
 
     const onDetailsChangedHandler = useCallback((event) => {
         const {name, value} = event.target;

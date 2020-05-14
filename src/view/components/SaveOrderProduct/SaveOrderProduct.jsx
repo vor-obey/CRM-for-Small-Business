@@ -1,27 +1,25 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useState} from 'react';
 import {CustomAutocomplete} from '../Autocomplete/Autocomplete';
-import {Grid, FormControl, IconButton, Typography, InputLabel, OutlinedInput, InputAdornment, Button, Select, MenuItem} from '@material-ui/core';
+import {
+    Grid,
+    FormControl,
+    IconButton,
+    Typography,
+    InputLabel,
+    OutlinedInput,
+    InputAdornment,
+    Button,
+    Select,
+    MenuItem
+} from '@material-ui/core';
 import RemoveIcon from '@material-ui/icons/Remove';
 import AddIcon from '@material-ui/icons/Add';
 import {useHistory} from 'react-router-dom';
 import {useDispatch} from 'react-redux';
 import {closeModal} from '../../../data/store/auxiliary/auxiliaryActions';
 import {useTranslation} from "react-i18next";
-
-const currencies = [
-    {
-        value: 'UAH',
-        label: '₴',
-    },
-    {
-        value: 'USD',
-        label: '$',
-    },
-    {
-        value: 'EUR',
-        label: '€',
-    },
-];
+import {useCart} from "../../../utils/hooks/cartHooks";
+import isEmpty from 'lodash/isEmpty';
 
 export const SaveOrderProduct = ({
                                      isOpen,
@@ -42,7 +40,24 @@ export const SaveOrderProduct = ({
                                  }) => {
     const history = useHistory();
     const dispatch = useDispatch();
+    const cart = useCart();
     const {t} = useTranslation();
+
+    const currencies = [
+        {
+            value: 'UAH',
+            label: '₴',
+        },
+        {
+            value: 'USD',
+            label: '$',
+        },
+        {
+            value: 'EUR',
+            label: '€',
+        },
+    ];
+
 
     const navigateToCreateProduct = useCallback(() => {
         dispatch(closeModal());
@@ -112,6 +127,7 @@ export const SaveOrderProduct = ({
                             endAdornment={
                                 <InputAdornment position="end">
                                     <Select
+                                        disabled={!isEmpty(cart.products)}
                                         className={classes.currency}
                                         value={details.currency}
                                         name='currency'
@@ -137,7 +153,7 @@ export const SaveOrderProduct = ({
                         variant="outlined" color="primary"
                         onClick={navigateToCreateProduct}>
                         <AddIcon/>
-                          {t('CREATE_PRODUCT')}
+                        {t('CREATE_PRODUCT')}
                     </Button>
                 </Grid>
                 <Grid item xs={12} sm={6} className={classes.containerProductItem}>

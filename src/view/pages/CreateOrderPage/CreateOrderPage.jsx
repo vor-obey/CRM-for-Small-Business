@@ -142,6 +142,7 @@ export const CreateOrderPage = ({history}) => {
 
     return (
         <SaveOrderForm
+            history={history}
             classes={classes}
             customer={customer}
             customers={customers}

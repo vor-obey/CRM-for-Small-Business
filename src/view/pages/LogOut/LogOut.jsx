@@ -2,20 +2,24 @@ import React, {useCallback} from 'react';
 import {Button, Container, Grid, makeStyles} from "@material-ui/core";
 import {useTranslation} from "react-i18next";
 import {logOutStyle} from "./LogOut.style";
+import {useCart} from "../../../utils/hooks/cartHooks";
 
 const useStyles = makeStyles(logOutStyle);
 
 export default function LogOut() {
     const classes = useStyles();
+    const cart = useCart();
     const {t} = useTranslation('');
 
     const onClickHandler = useCallback(() => {
+        cart.setProducts([]);
         let token = localStorage.getItem("acc");
 
         if (token) {
             return localStorage.removeItem("acc");
         }
-    }, []);
+
+    }, [cart]);
 
     return (
         <Container component="main">

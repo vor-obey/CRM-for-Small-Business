@@ -1,21 +1,21 @@
 import {ADD_TO_CART, DELETE_FROM_CART, EDIT_FROM_CART, SET_TO_CART} from "./orderActionTypes";
 
-export const addProductToCart = (product) => ({
+export const addProductToCart = (cart) => ({
     type: ADD_TO_CART,
-    product,
+    cart,
 });
 
-export const deleteProductFromCart = (product) => ({
+export const deleteProductFromCart = (cart) => ({
     type: DELETE_FROM_CART,
-    product,
+    cart,
 });
 
-export const editProductFromCart = (product) => ({
+export const editProductFromCart = (cart) => ({
     type: EDIT_FROM_CART,
-    product,
+    cart,
 });
 
-export const setProductsToCart = (products) => ({
+export const setProductsToCart = (cart) => ({
     type: SET_TO_CART,
-    products: products,
+    cart,
 });

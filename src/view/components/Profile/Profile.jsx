@@ -16,12 +16,14 @@ import EditIcon from '@material-ui/icons/Edit';
 import {useTranslation} from "react-i18next";
 import {CustomDialog} from "../CustomDialog/CustomDialog";
 import BusinessIcon from "@material-ui/icons/Business";
+import {useCart} from "../../../utils/hooks/cartHooks";
 
 const useStyles = makeStyles(profileStyles);
 
 export const Profile = ({currentUser}) => {
     const classes = useStyles();
     const {t} = useTranslation('');
+    const cart = useCart();
     const [userDrawer, setUserDrawer] = React.useState({
         right: false,
     });
@@ -32,12 +34,13 @@ export const Profile = ({currentUser}) => {
     }, []);
 
     const logOutHandler = useCallback(() => {
+        cart.setProducts([]);
         let token = localStorage.getItem("acc");
 
         if (token) {
             return localStorage.removeItem("acc");
         }
-    }, []);
+    }, [cart]);
 
     const toggleDrawer = useCallback((side, open) => event => {
         if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
