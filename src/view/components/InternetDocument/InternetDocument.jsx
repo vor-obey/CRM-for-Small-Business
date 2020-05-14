@@ -180,7 +180,7 @@ export const InternetDocument = ({orderDetails, handleClose}) => {
                             label={t('WEIGHT')}
                             name="weight"
                             variant="outlined"
-                            type="text"
+                            type="number"
                             value={parcelDetails.weight}
                             onChange={onChangedParcelDetailsInput}
                             required
@@ -193,7 +193,7 @@ export const InternetDocument = ({orderDetails, handleClose}) => {
                             name="seatsAmount"
                             variant="outlined"
                             value={parcelDetails.seatsAmount}
-                            type="text"
+                            type="number"
                             onChange={onChangedParcelDetailsInput}
                             required
                             fullWidth
@@ -204,7 +204,7 @@ export const InternetDocument = ({orderDetails, handleClose}) => {
                             label={t('COST')}
                             name="cost"
                             variant="outlined"
-                            type="text"
+                            type="number"
                             value={parcelDetails.cost}
                             onChange={onChangedParcelDetailsInput}
                             InputProps={{
@@ -246,7 +246,7 @@ export const InternetDocument = ({orderDetails, handleClose}) => {
                             label={t('RECIPIENT_PHONE')}
                             name="phone"
                             variant="outlined"
-                            type="text"
+                            type="number"
                             value={recipient.phone}
                             onChange={onChangedRecipientDetailsInput}
                             InputProps={{
@@ -267,7 +267,7 @@ export const InternetDocument = ({orderDetails, handleClose}) => {
                             label={t('SENDER_PHONE')}
                             name="phone"
                             variant="outlined"
-                            type="text"
+                            type="number"
                             value={senderPhone}
                             onChange={onChangedSenderPhone}
                             InputProps={{
