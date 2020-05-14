@@ -111,12 +111,12 @@ export const InternetDocument = ({orderDetails, handleClose}) => {
     return (
         <Container>
             <Grid container item xl={12} className={classes.root}>
-                <Grid item xs={12} style={{textAlign: 'center', padding: '5px 0 5px 0'}}>
+                <Grid item xs={12} className={classes.title}>
                     <Typography variant='h6'>
                         {t('CREATE_INTERNET_DOCUMENT')}
                     </Typography>
                 </Grid>
-                <Grid container item xl={12} xs={12} spacing={2}>
+                <Grid container item sm={12} xs={12} spacing={2}>
                     <Grid item xl={12} xs={12}>
                         <TextField
                             label={t('DESCRIPTION')}
@@ -201,7 +201,7 @@ export const InternetDocument = ({orderDetails, handleClose}) => {
                             fullWidth
                         />
                     </Grid>
-                    <Grid item xs={12} style={{textAlign: 'center', padding: '5px 0 5px 0'}}>
+                    <Grid item xs={12} style={{textAlign: 'center', padding: '10px 0'}}>
                         <Typography variant='h6'>
                             {t('SELECT_SENDER_ADDRESS')}
                         </Typography>
@@ -218,7 +218,7 @@ export const InternetDocument = ({orderDetails, handleClose}) => {
                         }}
                     />
                 </Grid>
-                <Grid item xs={12} style={{textAlign: 'center'}}>
+                <Grid item xs={12} style={{textAlign: 'center', padding: '10px 0 0'}}>
                     <Button
                         type='submit'
                         variant="outlined"
