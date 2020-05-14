@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback} from 'react';
 
 import {SaveCustomerForm} from "../../components/SaveCustomerForm/SaveCustomerForm";
 import {CustomerService} from "../../../services";
@@ -11,36 +11,21 @@ import isEmpty from 'lodash/isEmpty';
 import {useSelector} from "react-redux";
 
 export const CreateCustomer = ({
-                                   modal,
                                    history,
                                    updateCustomerList
                                }) => {
 
     const info = useSelector(state => state.auxiliaryReducer.info);
-    const [customerDetails, setCustomerDetails] = useState({
-        username: '',
-        name: '',
-        contactNumber: '',
-        contactEmail: '',
-        details: '',
-        sourceId: '',
-    });
     const sources = useSources();
     const dispatch = useDispatch();
     const {t} = useTranslation('');
 
+    console.log('info', info);
+
     const onChangeHandler = useCallback((event) => {
         const {name, value} = event.target;
-        setCustomerDetails(prevState => {
-            return {
-                ...prevState,
-                [name]: value
-            }
-        });
-        if (modal === true) {
-            dispatch(addCustomer({[name]: value}));
-        }
-    }, [dispatch, modal]);
+        dispatch(addCustomer({[name]: value}));
+    }, [dispatch]);
 
     const onSubmitHandler = useCallback(async (event, customerDetails) => {
         event.stopPropagation();
@@ -82,15 +67,12 @@ export const CreateCustomer = ({
 
     return (
         <SaveCustomerForm
-            details={customerDetails}
-            setCustomerDetails={setCustomerDetails}
+            details={info}
             renderSource={renderSources}
             titleText={t('CREATE_CUSTOMER')}
             onSubmit={onSubmitHandler}
             submitText={t('CREATE')}
             onChange={onChangeHandler}
-            info={info}
-            modal={modal}
         />
     )
 };

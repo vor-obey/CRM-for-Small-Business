@@ -19,12 +19,12 @@ export const SaveCustomerForm = (props) => {
         details,
         onSubmit,
         onChange,
-        info,
-        modal
     } = props;
 
     const classes = useStyles();
     const {t} = useTranslation('');
+
+    console.log((details && details.sourceId) || '');
 
     return (
         <div>
@@ -50,14 +50,15 @@ export const SaveCustomerForm = (props) => {
                                 <Select
                                     native
                                     name="sourceId"
-                                    value={modal === false ? (details && details.sourceId) || '' : info.sourceId || ''}
+                                    value={(details && details.sourceId) || ''}
                                     onChange={onChange}
                                     labelWidth={70}
                                     required
                                     inputProps={{
                                         name: 'sourceId',
-                                    }}>
-                                    <option value=""></option>
+                                    }}
+                                >
+                                    <option value=''/>
                                     {renderSource()}
                                 </Select>
                             </FormControl>
@@ -69,7 +70,7 @@ export const SaveCustomerForm = (props) => {
                                     name="username"
                                     variant="outlined"
                                     type="text"
-                                    value={modal === false ? (details && details.username) || '' : info.username || ''}
+                                    value={(details && details.username) || ''}
                                     onChange={onChange}
                                     required
                                     fullWidth
@@ -81,7 +82,7 @@ export const SaveCustomerForm = (props) => {
                                     name="name"
                                     variant="outlined"
                                     type="text"
-                                    value={modal === false ? (details && details.name) || '' : info.name || ''}
+                                    value={(details && details.name) || ''}
                                     onChange={onChange}
                                     required
                                     fullWidth
@@ -93,7 +94,7 @@ export const SaveCustomerForm = (props) => {
                                     name="contactEmail"
                                     variant="outlined"
                                     type="email"
-                                    value={modal === false ? (details && details.contactEmail) || '' : info.contactEmail || ''}
+                                    value={(details && details.contactEmail) || ''}
                                     onChange={onChange}
                                     fullWidth
                                 />
@@ -105,8 +106,7 @@ export const SaveCustomerForm = (props) => {
                                     name="contactNumber"
                                     type="tel"
                                     variant="outlined"
-                                    mask="_"
-                                    value={modal === false ? (details && details.contactNumber) || '' : info.contactNumber || ''}
+                                    value={(details && details.contactNumber) || ''}
                                     onChange={onChange}
                                     fullWidth
                                 />
@@ -115,7 +115,7 @@ export const SaveCustomerForm = (props) => {
                                 <TextField
                                     label={t('DETAILS')}
                                     name="details"
-                                    value={modal === false ? (details && details.details) || '' : info.details || ''}
+                                    value={(details && details.details) || ''}
                                     onChange={onChange}
                                     variant="outlined"
                                     fullWidth
