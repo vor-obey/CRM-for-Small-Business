@@ -24,8 +24,6 @@ export const SaveCustomerForm = (props) => {
     const classes = useStyles();
     const {t} = useTranslation('');
 
-    console.log((details && details.sourceId) || '');
-
     return (
         <div>
             <Container component="main" maxWidth="xs">
@@ -39,20 +37,19 @@ export const SaveCustomerForm = (props) => {
                     </Typography>
                     <form className={classes.form} onSubmit={(event) => onSubmit(event, details)}>
                         <Grid item xs={12}>
+                            <Typography className={classes.typographySources}>
+                                {t('SOURCES')}
+                            </Typography>
                             <FormControl
                                 variant="outlined"
                                 className={classes.formControl}
                                 required
                             >
-                                <InputLabel>
-                                    {t('SOURCES')}
-                                </InputLabel>
                                 <Select
                                     native
                                     name="sourceId"
                                     value={(details && details.sourceId) || ''}
                                     onChange={onChange}
-                                    labelWidth={70}
                                     required
                                     inputProps={{
                                         name: 'sourceId',

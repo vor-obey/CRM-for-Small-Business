@@ -2,29 +2,28 @@ import React, {useCallback} from 'react';
 
 import {SaveCustomerForm} from "../../components/SaveCustomerForm/SaveCustomerForm";
 import {CustomerService} from "../../../services";
-import {addCustomer, setIsLoading, setSnackBarStatus} from "../../../data/store/auxiliary/auxiliaryActions";
+import {setIsLoading, setSnackBarStatus} from "../../../data/store/auxiliary/auxiliaryActions";
 import {COMMON_ERROR_MESSAGE} from "../../../constants/statuses";
 import {useDispatch} from "react-redux";
 import {useTranslation} from "react-i18next";
 import {useSources} from '../../../utils/hooks/customerHooks';
 import isEmpty from 'lodash/isEmpty';
 import {useSelector} from "react-redux";
+import {addCustomerDetails} from "../../../data/store/customer/customerActions";
 
 export const CreateCustomer = ({
                                    history,
                                    updateCustomerList
                                }) => {
 
-    const info = useSelector(state => state.auxiliaryReducer.info);
+    const details = useSelector(state => state.customerReducer.details);
     const sources = useSources();
     const dispatch = useDispatch();
     const {t} = useTranslation('');
 
-    console.log('info', info);
-
     const onChangeHandler = useCallback((event) => {
         const {name, value} = event.target;
-        dispatch(addCustomer({[name]: value}));
+        dispatch(addCustomerDetails({[name]: value}));
     }, [dispatch]);
 
     const onSubmitHandler = useCallback(async (event, customerDetails) => {
@@ -40,7 +39,7 @@ export const CreateCustomer = ({
                     if (typeof updateCustomerList === 'function') {
                         updateCustomerList(response);
                         dispatch(setIsLoading(false));
-                        dispatch(addCustomer({}));
+                        dispatch(addCustomerDetails({}));
                     } else {
                         history.push('/customers');
                         dispatch(setIsLoading(false));
@@ -67,7 +66,7 @@ export const CreateCustomer = ({
 
     return (
         <SaveCustomerForm
-            details={info}
+            details={details}
             renderSource={renderSources}
             titleText={t('CREATE_CUSTOMER')}
             onSubmit={onSubmitHandler}

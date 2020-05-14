@@ -6,7 +6,6 @@ import {
     RENDER_DIALOG,
     CLOSE_DIALOG,
     ADD_NOTIFICATION,
-    ADD_CUSTOMER_INFO
 } from "./auxiliaryActionTypes";
 
 export const setIsLoading = (isLoading) => {
@@ -56,7 +55,4 @@ export const addNotification = (notification) => {
     }
 };
 
-export const addCustomer = (detail) => ({
-    type: ADD_CUSTOMER_INFO,
-    detail
-});
+
