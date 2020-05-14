@@ -118,6 +118,16 @@ export const orderDetailsStyles = ((theme) => ({
             marginLeft: theme.spacing(1)
         }
     },
+    selectStatusDisabled: {
+        backgroundColor: '#fff'
+    },
+    selectStatusFilled: {
+        backgroundColor: '#fff',
+        textAlign: 'center',
+    },
+    editButton: {
+        color: 'rgba(0, 0, 0, 0.54)'
+    },
     buttonClose: {
         position: 'absolute',
         marginTop: theme.spacing(1),

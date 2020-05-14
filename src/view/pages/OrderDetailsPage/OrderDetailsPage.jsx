@@ -22,11 +22,12 @@ export const OrderDetailsPage = ({history}) => {
     const {shippingDetails: {address: {isCustom} = {}} = {}} = orderDetails;
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [isPrintModalOpen, setIsPrintModalOpen] = useState(false);
+
     const classes = useStyles();
     const dispatch = useDispatch();
     const {t} = useTranslation('');
 
-    const onStatusSelectHandler = useCallback(async (value) => {
+    const submitStatusHandler = useCallback(async (value) => {
         const {orderId} = orderDetails;
         try {
             dispatch(setIsLoading(true));
@@ -52,7 +53,6 @@ export const OrderDetailsPage = ({history}) => {
             dispatch(setSnackBarStatus({isOpen: true, message: t('ERROR'), success: false}));
         }
     }, [dispatch, orderDetails, setOrderDetails, t]);
-
 
     const togglePrintModal = useCallback(() => {
         setIsPrintModalOpen(prevState => !prevState);
@@ -161,7 +161,7 @@ export const OrderDetailsPage = ({history}) => {
                     orderDetails={orderDetails}
                     classes={classes}
                     renderShippingAddress={renderShippingAddress}
-                    onStatusSelectHandler={onStatusSelectHandler}
+                    submit={submitStatusHandler}
                 />
                 <Grid container item xs={12} sm={12} className={classes.buttonContainer}>
                     <Button
