@@ -7,6 +7,7 @@ import {COMMON_ERROR_MESSAGE} from '../../../constants/statuses';
 import NovaPoshtaService from '../../../services/NovaPoshtaService';
 import {NovaPoshtaAddress} from '../NovaPoshtaAddress/NovaPoshtaAddress';
 import {Container, makeStyles, Grid, Button, Typography, TextField} from '@material-ui/core';
+import RestoreIcon from '@material-ui/icons/Restore';
 import {setIsLoading, setSnackBarStatus} from '../../../data/store/auxiliary/auxiliaryActions';
 
 const useStyles = makeStyles(internetDocumentStyles);
@@ -36,6 +37,10 @@ export const InternetDocument = ({orderDetails, handleClose}) => {
     const warehouse = useSelector(state => state.autocompleteReducer.warehouse);
     const {t} = useTranslation('');
 
+    const calculateTotalPoints = useCallback(() => {
+        return `${orderDetails.orderToProducts.reduce((a, b) => a + b.orderProductPrice, 0)}`;
+    }, [orderDetails]);
+
     useEffect(() => {
         if (orderDetails) {
             setRecipient({
@@ -43,8 +48,15 @@ export const InternetDocument = ({orderDetails, handleClose}) => {
                 phone: orderDetails.customer.contactNumber
             });
             setSenderPhone(orderDetails.manager.contactNumber);
+
+            setParcelDetails({
+                weight: '',
+                seatsAmount: '',
+                description: '',
+                cost: calculateTotalPoints(),
+            });
         }
-    }, [orderDetails]);
+    }, [orderDetails, calculateTotalPoints]);
 
     const onChangedParcelDetailsInput = useCallback((event) => {
         const {value, name} = event.target;
@@ -108,6 +120,40 @@ export const InternetDocument = ({orderDetails, handleClose}) => {
         }
     }, [t, dispatch, orderDetails, city, parcelDetails, warehouse, recipient, senderPhone, handleClose]);
 
+    const handleClick = useCallback((status) => {
+        switch (status) {
+            case 'fullName': {
+                setRecipient({
+                    fullName: orderDetails.customer.name,
+                    phone: recipient.phone
+                });
+                break;
+            }
+            case 'recipientPhone': {
+                setRecipient({
+                    fullName: recipient.fullName,
+                    phone: orderDetails.customer.contactNumber
+                });
+                break;
+            }
+            case 'senderPhone': {
+                setSenderPhone(orderDetails.manager.contactNumber);
+                break;
+            }
+            case 'cost': {
+                setParcelDetails({
+                    weight: '',
+                    seatsAmount: '',
+                    description: '',
+                    cost: calculateTotalPoints(),
+                });
+                break;
+            }
+            default: {
+            }
+        }
+    }, [setRecipient, recipient, calculateTotalPoints, orderDetails]);
+
     return (
         <Container>
             <Grid container item xl={12} className={classes.root}>
@@ -146,8 +192,8 @@ export const InternetDocument = ({orderDetails, handleClose}) => {
                             label={t('SEATS_AMOUNT')}
                             name="seatsAmount"
                             variant="outlined"
-                            type="text"
                             value={parcelDetails.seatsAmount}
+                            type="text"
                             onChange={onChangedParcelDetailsInput}
                             required
                             fullWidth
@@ -161,6 +207,15 @@ export const InternetDocument = ({orderDetails, handleClose}) => {
                             type="text"
                             value={parcelDetails.cost}
                             onChange={onChangedParcelDetailsInput}
+                            InputProps={{
+                                endAdornment: (
+                                    <React.Fragment>
+                                        {parcelDetails.cost !== calculateTotalPoints() ?
+                                            <Button onClick={() => handleClick('cost')}><RestoreIcon
+                                                color='primary'/></Button> : null}
+                                    </React.Fragment>
+                                )
+                            }}
                             required
                             fullWidth
                         />
@@ -173,6 +228,15 @@ export const InternetDocument = ({orderDetails, handleClose}) => {
                             type="text"
                             value={recipient.fullName}
                             onChange={onChangedRecipientDetailsInput}
+                            InputProps={{
+                                endAdornment: (
+                                    <React.Fragment>
+                                        {recipient.fullName !== orderDetails.customer.name ?
+                                            <Button onClick={() => handleClick('fullName')}><RestoreIcon
+                                                color='primary'/></Button> : null}
+                                    </React.Fragment>
+                                )
+                            }}
                             required
                             fullWidth
                         />
@@ -185,6 +249,15 @@ export const InternetDocument = ({orderDetails, handleClose}) => {
                             type="text"
                             value={recipient.phone}
                             onChange={onChangedRecipientDetailsInput}
+                            InputProps={{
+                                endAdornment: (
+                                    <React.Fragment>
+                                        {recipient.phone !== orderDetails.customer.contactNumber ?
+                                            <Button onClick={() => handleClick('recipientPhone')}><RestoreIcon
+                                                color='primary'/></Button> : null}
+                                    </React.Fragment>
+                                )
+                            }}
                             required
                             fullWidth
                         />
@@ -197,6 +270,15 @@ export const InternetDocument = ({orderDetails, handleClose}) => {
                             type="text"
                             value={senderPhone}
                             onChange={onChangedSenderPhone}
+                            InputProps={{
+                                endAdornment: (
+                                    <React.Fragment>
+                                        {senderPhone !== orderDetails.manager.contactNumber ?
+                                            <Button onClick={() => handleClick('senderPhone')}><RestoreIcon
+                                                color='primary'/></Button> : null}
+                                    </React.Fragment>
+                                )
+                            }}
                             required
                             fullWidth
                         />
