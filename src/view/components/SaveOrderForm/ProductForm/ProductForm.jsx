@@ -1,7 +1,6 @@
 import React, {useCallback, useEffect, useState} from "react";
 import {
     Grid,
-    Button,
     Typography,
     Divider,
     ListItem,
@@ -11,7 +10,7 @@ import {
     InputAdornment,
     FormControl
 } from "@material-ui/core";
-import {closeModal, renderModal} from '../../../../data/store/auxiliary/auxiliaryActions';
+import {closeModal} from '../../../../data/store/auxiliary/auxiliaryActions';
 import {useDispatch} from 'react-redux';
 import {AddOrderProduct} from '../../AddOrderProduct/AddOrderProduct';
 import {useProducts} from '../../../../utils/hooks/productHooks';
@@ -53,23 +52,6 @@ export const ProductForm = ({
         }
         dispatch(closeModal());
     }, [dispatch, orderedProducts, isEdit, cartUtils]);
-
-    const openAddOrderProductModal = useCallback(() => {
-        dispatch(renderModal({
-            isOpen: true,
-            classes: {},
-            children: (
-                <AddOrderProduct
-                    products={products.filter((product) => (
-                        !cart.products.find(({productId}) => productId === product.productId)
-                    ))}
-                    submit={addProduct}
-                />
-            ),
-            onCloseHandler: () => dispatch(closeModal()),
-        }));
-        forceUpdate()
-    }, [dispatch, forceUpdate, products, addProduct, cart.products]);
 
     const validateAmount = useCallback((value) => {
         const regexp = /^((?!(0))\d+$)/;
@@ -136,14 +118,14 @@ export const ProductForm = ({
                 <ListItem key={productId}
                           className={classes.productList}>
                     <Grid container item xs={12} sm={12} className={classes.productContainer}>
-                        <Grid item xs={12} sm={1} className={classes.productContainerItem}>
+                        <Grid item xs={2} sm={1} className={classes.productContainerItem}>
                             <Grid className={classes.removeProduct}>
                                 <IconButton disabled={isEdit} onClick={() => removeProduct(item)} size='medium'>
                                     <CloseIcon/>
                                 </IconButton>
                             </Grid>
                         </Grid>
-                        <Grid container item xs={12} sm={6} className={classes.productContainerItem}>
+                        <Grid container item xs={9} sm={6} className={classes.productContainerItem}>
                             <Grid className={classes.productTitle}>
                                 <Typography variant='body1' className={classes.productTitleName}
                                             onClick={() => history.push(`/products/${productId}`)}>
@@ -154,7 +136,7 @@ export const ProductForm = ({
                                 </Typography>
                             </Grid>
                         </Grid>
-                        <Grid item xs={12} sm={2} className={classes.productContainerItem}>
+                        <Grid item xs={12} sm={3} className={classes.productContainerItem}>
                             <FormControl variant="outlined" fullWidth>
                                 <InputLabel>{t('AMOUNT')}</InputLabel>
                                 <OutlinedInput
@@ -220,28 +202,22 @@ export const ProductForm = ({
                 <Divider/>
             </Grid>
             <Grid container item xs={12} sm={12}>
+                <AddOrderProduct
+                    products={products}
+                    submit={addProduct}
+                />
                 {renderSelectedProducts()}
-                <Grid className={classes.productContainerMeta}>
-                    <Grid item xs={12} sm={6}>
-                        <Button variant='outlined'
-                                disabled={isEdit}
-                                onClick={() => openAddOrderProductModal()}
-                        >
-                            {t('ADD_PRODUCT')}
-                        </Button>
-                    </Grid>
-                    <Grid item xs={12} sm={6} className={classes.productContainerTotal}>
-                        {!isEmpty(cart.products) ? (
-                            <>
-                                <Typography variant='subtitle1'>
-                                    {t('TOTAL')}:
-                                </Typography>
-                                <Typography variant='h6'>
-                                    {calculateTotalPoints()}
-                                </Typography>
-                            </>
-                        ) : null}
-                    </Grid>
+                <Grid item xs={12} sm={12} className={classes.productContainerTotal}>
+                    {!isEmpty(cart.products) ? (
+                        <>
+                            <Typography variant='subtitle1'>
+                                {t('TOTAL')}:
+                            </Typography>
+                            <Typography variant='h6'>
+                                {calculateTotalPoints()}
+                            </Typography>
+                        </>
+                    ) : null}
                 </Grid>
             </Grid>
         </>

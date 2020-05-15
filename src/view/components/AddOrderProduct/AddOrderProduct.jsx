@@ -1,11 +1,11 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {SaveOrderProduct} from '../SaveOrderProduct/SaveOrderProduct';
-import {Grid, Container, Typography, Button, makeStyles} from '@material-ui/core';
+import {Grid, Container, Typography, Button, makeStyles, useMediaQuery} from '@material-ui/core';
 import isEmpty from 'lodash/isEmpty';
-import {useDispatch} from 'react-redux';
-import {closeModal} from '../../../data/store/auxiliary/auxiliaryActions';
 import {addOrderProductStyles} from "./AddOrderProduct.style";
 import {useTranslation} from "react-i18next";
+import AddIcon from "@material-ui/icons/Add";
+import {useHistory} from "react-router-dom";
 import {useCart} from "../../../utils/hooks/cartHooks";
 
 const useStyle = makeStyles(addOrderProductStyles);
@@ -15,7 +15,6 @@ export const AddOrderProduct = ({
                                     submit
                                 }) => {
     const classes = useStyle();
-    const dispatch = useDispatch();
     const [selectedProduct, setSelectedProduct] = useState({});
     const [isOpen, setIsOpen] = useState(false);
     const [details, setDetails] = useState({
@@ -25,6 +24,8 @@ export const AddOrderProduct = ({
     });
     const [totalPrice, setTotalPrice] = useState(0);
     const {t} = useTranslation();
+    const history = useHistory();
+    const minWidth600 = useMediaQuery('(min-width:600px)');
     const cart = useCart();
 
     useEffect(() => {
@@ -34,7 +35,6 @@ export const AddOrderProduct = ({
     const toggleAutocomplete = useCallback(() => {
         setIsOpen(prevState => !prevState);
     }, []);
-
 
     const renderProductOptions = useCallback((item) => {
         const {productId, name, price, description} = item;
@@ -97,9 +97,18 @@ export const AddOrderProduct = ({
         setDetails(prevState => ({...prevState, amount: --prevState.amount}))
     }, []);
 
+    const navigateToCreateProduct = useCallback(() => {
+        history.push('/create-product');
+    }, [history]);
+
+    const handleClick = useCallback(() => {
+        submit({...selectedProduct, ...details, totalPrice});
+        onProductSelectHandler()
+    }, [submit, details, onProductSelectHandler, selectedProduct, totalPrice]);
+
     return (
-        <Container maxWidth='md'>
-            <Grid container item xl={12} lg={12} style={{paddingTop: 15, paddingBottom: 15}}>
+        <Container className={classes.containerRoot}>
+            <Grid container item xl={12} lg={12}>
                 <SaveOrderProduct
                     isOpen={isOpen}
                     options={products}
@@ -118,22 +127,34 @@ export const AddOrderProduct = ({
                     classes={classes}
                 />
             </Grid>
-            <Grid container item xs={12} sm={12} className={classes.buttonContainer}>
-                <Button
-                    className={classes.buttonFab}
-                    variant='outlined'
-                    onClick={() => dispatch(closeModal())}
-                >
-                    {t('CANCEL')}
-                </Button>
-                <Button
-                    className={classes.buttonFab}
-                    variant='outlined'
-                    onClick={() => submit({...selectedProduct, ...details, totalPrice})}
-                    disabled={isEmpty(selectedProduct)}
-                >
-                    {t('ADD')}
-                </Button>
+            <Grid container item xs={12} className={classes.buttonContainer}>
+                <Grid item xl={6} lg={6} md={6} sm={8} xs={12}>
+                    <Button
+                        fullWidth={!minWidth600}
+                        className={classes.buttonFab}
+                        variant='outlined'
+                        onClick={handleClick}
+                        disabled={isEmpty(selectedProduct)}
+                    >
+                        {t('ADD_PRODUCT')}
+                    </Button>
+                    <Button
+                        className={classes.buttonFub}
+                        fullWidth={!minWidth600}
+                        variant="outlined" color="primary"
+                        onClick={navigateToCreateProduct}>
+                        <AddIcon/>
+                        {t('CREATE_PRODUCT')}
+                    </Button>
+                </Grid>
+                <Grid item xl={6} lg={6} md={6} sm={4} xs={12} className={classes.containerProductItemTotal}>
+                    <Typography variant='subtitle1'>
+                        {t('SUMMARY')}:
+                    </Typography>
+                    <Typography variant='h6'>
+                        {`${totalPrice} ${details.currency}`}
+                    </Typography>
+                </Grid>
             </Grid>
         </Container>
 
