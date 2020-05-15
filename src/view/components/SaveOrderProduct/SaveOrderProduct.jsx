@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback} from 'react';
 import {CustomAutocomplete} from '../Autocomplete/Autocomplete';
 import {
     Grid,
@@ -57,7 +57,6 @@ export const SaveOrderProduct = ({
             label: '€',
         },
     ];
-
 
     const navigateToCreateProduct = useCallback(() => {
         dispatch(closeModal());

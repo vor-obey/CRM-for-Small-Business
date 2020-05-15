@@ -202,7 +202,7 @@ export const ProductForm = ({
                 </ListItem>
             );
         })
-    }, [t, history, classes, cart.products, onAmountChange, decrement, increment, removeProduct, orderedProducts]);
+    }, [t, history, classes, cart.products, onAmountChange, decrement, increment, removeProduct, orderedProducts, isEdit]);
 
     const handleResetCart = useCallback(() => {
         cart.setProducts([])
