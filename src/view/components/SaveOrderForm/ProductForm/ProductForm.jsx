@@ -111,6 +111,9 @@ export const ProductForm = ({
             return null;
         }
 
+
+        console.log(orderedProducts);
+
         return (orderedProducts || cart.products).map((item) => {
             const {productId, name, price, amount, totalPrice, currency} = item;
             return (
@@ -118,8 +121,8 @@ export const ProductForm = ({
                           className={classes.productList}>
                     <Grid container item xs={12} sm={12} className={classes.productContainer}>
                         <Grid item xs={2} sm={1} className={classes.productContainerItem}>
-                            <Grid className={classes.removeProduct}>
-                                <IconButton onClick={() => removeProduct(item)} size='medium'>
+                            <Grid  className={classes.removeProduct}>
+                                <IconButton disabled={isEmpty(orderedProducts) ? null : orderedProducts.length === 1} onClick={() => removeProduct(item)} size='medium'>
                                     <CloseIcon/>
                                 </IconButton>
                             </Grid>
