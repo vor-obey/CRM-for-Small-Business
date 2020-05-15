@@ -10,8 +10,6 @@ import {
     InputAdornment,
     FormControl
 } from "@material-ui/core";
-import {closeModal} from '../../../../data/store/auxiliary/auxiliaryActions';
-import {useDispatch} from 'react-redux';
 import {AddOrderProduct} from '../../AddOrderProduct/AddOrderProduct';
 import {useProducts} from '../../../../utils/hooks/productHooks';
 import isEmpty from 'lodash/isEmpty';
@@ -30,7 +28,6 @@ export const ProductForm = ({
                                 isEdit,
                                 history
                             }) => {
-    const dispatch = useDispatch();
     const [products] = useProducts();
     const [, updateState] = useState();
     const forceUpdate = useCallback(() => updateState({}), []);
@@ -51,8 +48,7 @@ export const ProductForm = ({
         } else {
             cartUtils.addProduct(product);
         }
-        dispatch(closeModal());
-    }, [dispatch, orderedProducts, isEdit, cartUtils]);
+    }, [orderedProducts, isEdit, cartUtils]);
 
     const validateAmount = useCallback((value) => {
         const regexp = /^((?!(0))\d+$)/;
