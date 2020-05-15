@@ -21,7 +21,6 @@ import CloseIcon from "@material-ui/icons/Close";
 import RemoveIcon from '@material-ui/icons/Remove';
 import AddIcon from '@material-ui/icons/Add';
 import {useTranslation} from "react-i18next";
-import MonetizationOnOutlinedIcon from '@material-ui/icons/MonetizationOnOutlined';
 
 export const ProductForm = ({
                                 getProducts,
@@ -161,8 +160,7 @@ export const ProductForm = ({
                                 <Grid item xs={12} sm={4} className={classes.productContainerItemPrice}>
                                     <Chip classes={{
                                         label: classes.productMetaPrice
-                                    }} className={classes.chip} size="medium" color="primary"
-                                          icon={<MonetizationOnOutlinedIcon/>} label={
+                                    }} className={classes.chip} size="medium" color="primary" label={
                                         <React.Fragment>
                                             <Typography variant='body1' style={{lineHeight: 1.2}}>
                                                 {price}
@@ -173,9 +171,9 @@ export const ProductForm = ({
                                         </React.Fragment>}/>
                                 </Grid>
                                 <Grid item xs={12} sm={6} className={classes.productMetaAmountAndTotal}>
-                                    <Grid item xs={12} sm={8} className={classes.productMetaAmount}>
-                                        <Grid item xs={6} sm={12}>
-                                            <FormControl variant="outlined" fullWidth>
+                                    <Grid item xs={12} sm={6} className={classes.productMetaAmount}>
+                                        <Grid item xs={6} sm={12} className={classes.productMetaAmountContainer}>
+                                            <FormControl variant="outlined" fullWidth className={classes.productMetaAmountForm}>
                                                 <InputLabel>{t('AMOUNT')}</InputLabel>
                                                 <OutlinedInput
                                                     className={classes.amount}

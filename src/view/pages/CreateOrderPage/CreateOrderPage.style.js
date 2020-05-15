@@ -114,6 +114,18 @@ export const createOrderPageStyles = (theme => ({
                 justifyContent: 'center'
             },
         },
+        productMetaAmountForm: {
+            width: '100%',
+            [theme.breakpoints.up('sm')]: {
+                width: '123px',
+            },
+        },
+        productMetaAmountContainer: {
+            [theme.breakpoints.up('sm')]: {
+                display: 'flex',
+                justifyContent: 'flex-end'
+            },
+        },
         productMetaSummary: {
             [theme.breakpoints.down('xs')]: {
                 width: '100%',
