@@ -144,6 +144,7 @@ export const ProductDetailsPage = ({history}) => {
                             className={classes.buttonFab}
                             onClick={openProductDeleteDialog}
                             color="primary"
+                            disabled={productDetails.name === undefined}
                             aria-label="delete"
                             size="small">
                             <DeleteIcon/>

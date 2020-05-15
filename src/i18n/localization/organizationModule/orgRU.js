@@ -6,8 +6,8 @@ export const OrgRU ={
     NP_API: 'Новая Почта API Key',
     CODE: 'Код',
     CREATE_ADMIN: 'Создать пользователя',
-    EDIT: 'Редактировать',
+    SAVE: 'Сохранить',
     EDIT_ORGANIZATION: 'Редактировать Организацию',
-    ERROR_NAME_LENGHT: 'Название организации слишком короткое',
-    ERROR_API_LENGHT: 'Api key указан некорректно',
+    ERROR_NAME_LENGTH: 'Название организации слишком короткое',
+    ERROR_API_LENGTH: 'NP API Key указан некорректно',
 };

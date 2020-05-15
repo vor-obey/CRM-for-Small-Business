@@ -27,4 +27,12 @@ export const internetDocumentStyles = (theme => ({
                 marginTop: 0
             },
     },
+    title: {
+        textAlign: 'center',
+        padding: '10px 0',
+        [theme.breakpoints.down('xs')]:
+            {
+                textAlign: 'left',
+            },
+    }
 }));

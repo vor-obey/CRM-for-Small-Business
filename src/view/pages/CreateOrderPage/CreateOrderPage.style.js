@@ -78,6 +78,9 @@ export const createOrderPageStyles = (theme => ({
                 paddingLeft: 0
             },
         },
+        popper: {
+            backgroundColor: '#000',
+        },
         rootGrid: {
             marginTop: theme.spacing(3)
         },
@@ -138,6 +141,9 @@ export const createOrderPageStyles = (theme => ({
         },
         fadeLoading: {
             alignItems: 'center'
+        },
+        gridStatus: {
+            margin: '16px 0 10px 0px'
         }
     }
 ));

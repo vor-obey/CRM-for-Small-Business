@@ -193,6 +193,7 @@ export const ProductTypeDetailsPage = ({history}) => {
                         <Fab
                             className={classes.buttonFab}
                             color="primary"
+                            disabled={productType.name === undefined}
                             aria-label="delete"
                             size="small"
                             onClick={() => openDeleteProductTypeDialog()}

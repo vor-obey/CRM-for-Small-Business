@@ -203,7 +203,7 @@ export const EditAttribute = ({
                     variant='outlined'
                     className={classes.button}
                 >
-                    {t('EDIT')}
+                    {t('SAVE')}
                 </Button>
             </Grid>
         </>

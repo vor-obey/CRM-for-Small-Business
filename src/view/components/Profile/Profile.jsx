@@ -17,6 +17,8 @@ import {useTranslation} from "react-i18next";
 import {CustomDialog} from "../CustomDialog/CustomDialog";
 import BusinessIcon from "@material-ui/icons/Business";
 import {useCart} from "../../../utils/hooks/cartHooks";
+import isEmpty from 'lodash/isEmpty';
+import {StorageService} from '../../../services';
 
 const useStyles = makeStyles(profileStyles);
 
@@ -35,11 +37,7 @@ export const Profile = ({currentUser}) => {
 
     const logOutHandler = useCallback(() => {
         cart.setProducts([]);
-        let token = localStorage.getItem("acc");
-
-        if (token) {
-            return localStorage.removeItem("acc");
-        }
+        StorageService.removeJWTToken();
     }, [cart]);
 
     const toggleDrawer = useCallback((side, open) => event => {
@@ -73,7 +71,7 @@ export const Profile = ({currentUser}) => {
     }, [currentUser, classes, isActive, t]);
 
     const displayUser = useCallback((side) => {
-        if (!currentUser) {
+        if (isEmpty(currentUser)) {
             return null;
         }
 

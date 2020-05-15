@@ -9,37 +9,23 @@ export const CreateProduct = ({history}) => {
     const {t} = useTranslation();
     const dispatch = useDispatch();
 
-    const validateAttributeValues = useCallback((arr) => {
-        return arr.find(item => item === '');
-    }, []);
-
     const createProduct = useCallback(async (data) => {
-        const {attributesLength, selectedAttributeValues, productDetails, selectedAbstractProduct} = data;
-        const attributeValuesEntriesLength = Object.entries(selectedAttributeValues).length;
-        if (attributesLength !== attributeValuesEntriesLength) {
-            dispatch(setSnackBarStatus({isOpen: true, message: 'Select all values', success: false}));
-        } else {
-            if (validateAttributeValues(Object.values(selectedAttributeValues)) === undefined) {
-                try {
-                    dispatch(setIsLoading(true));
-                    await ProductService.create({
-                        abstractProductId: selectedAbstractProduct.abstractProductId,
-                        name: productDetails.name,
-                        price: productDetails.price,
-                        attributeValues: selectedAttributeValues,
-                    });
-                    dispatch(setIsLoading(false));
-                    history.push('/products');
-                } catch (e) {
-                    dispatch(setIsLoading(false));
-                    dispatch(setSnackBarStatus({isOpen: true, message: e.message, success: false}));
-                }
-            } else {
-                dispatch(setSnackBarStatus({isOpen: true, message: 'Select all values', success: false}));
-            }
+        const {selectedAttributeValues, productDetails, selectedAbstractProduct} = data;
+        try {
+            dispatch(setIsLoading(true));
+            await ProductService.create({
+                abstractProductId: selectedAbstractProduct.abstractProductId,
+                name: productDetails.name,
+                price: productDetails.price,
+                attributeValues: selectedAttributeValues,
+            });
+            dispatch(setIsLoading(false));
+            history.push('/products');
+        } catch (e) {
+            dispatch(setIsLoading(false));
+            dispatch(setSnackBarStatus({isOpen: true, message: e.message, success: false}));
         }
     }, [
-        validateAttributeValues,
         dispatch,
         history,
     ]);
