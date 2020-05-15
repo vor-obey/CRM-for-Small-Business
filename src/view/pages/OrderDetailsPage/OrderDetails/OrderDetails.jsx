@@ -29,34 +29,40 @@ export const OrderDetails = ({
                     const {name, productId} = product;
                     return (
                         <React.Fragment key={orderProductId}>
-                            <ListItem>
+                            <ListItem className={classes.productContainerItem}>
                                 <Grid container className={classes.productList}>
                                     <Grid item xs={12} sm={1} className={classes.productIcon}>
                                         <ShoppingBasketIcon onClick={() => history.push(`/products/${productId}`)}/>
                                     </Grid>
-                                    <Grid item xs={12} sm={7} className={classes.productName}>
-                                        <Typography
-                                            variant='body1'
-                                            color='primary'
-                                            onClick={() => history.push(`/products/${productId}`)}>
-                                            {name}
-                                        </Typography>
+                                    <Grid item xs={12} sm={11} className={classes.productInfo}>
+                                        <Grid container item xs={12} sm={12} className={classes.productContainerItem}>
+                                        <Grid className={classes.productTitle}>
+                                            <Typography variant='body1'
+                                                        className={classes.productTitleName}>
+                                                {name}
+                                            </Typography>
+                                        </Grid>
                                     </Grid>
-                                    <Grid item xs={6} sm={2} className={classes.productAmountPrice}>
-                                        <Typography variant='body1'>
-                                            {t('AMOUNT')}: {amount}
-                                        </Typography>
-                                        <Typography variant='body1'>
-                                            {t('PRICE')}: {orderProductPrice} {currency}
-                                        </Typography>
-                                    </Grid>
-                                    <Grid item xs={6} sm={2} className={classes.productSummary}>
-                                        <Typography variant='body1'>
-                                            {t('SUMMARY')}:
-                                        </Typography>
-                                        <Typography variant='body1'>
-                                            {amount * orderProductPrice} {currency}
-                                        </Typography>
+                                        <Grid item xs={12} sm={12} className={classes.productMeta}>
+                                            <Grid item xs={12} sm={4}>
+                                                <Typography variant='body1'>
+                                                    {t('PRICE')}: {orderProductPrice} {currency}
+                                                </Typography>
+                                            </Grid>
+                                            <Grid item xs={12} sm={4} className={classes.productAmount}>
+                                                <Typography variant='body1'>
+                                                    {t('AMOUNT')}: {amount}
+                                                </Typography>
+                                            </Grid>
+                                            <Grid item xs={12} sm={4} className={classes.productSummary}>
+                                                <Typography variant='body1'>
+                                                    {t('SUMMARY')}: {amount * orderProductPrice} {currency}
+                                                </Typography>
+                                                <Typography variant='body1'>
+
+                                                </Typography>
+                                            </Grid>
+                                        </Grid>
                                     </Grid>
                                 </Grid>
                             </ListItem>

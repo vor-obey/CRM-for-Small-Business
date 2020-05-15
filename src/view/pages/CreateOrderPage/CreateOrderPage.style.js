@@ -18,24 +18,83 @@ export const createOrderPageStyles = (theme => ({
             marginTop: 10,
             border: '1px solid rgba(0, 0, 0, 0.12)',
             borderRadius: 5,
-            marginBottom: 5
+            marginBottom: 5,
+            [theme.breakpoints.up('sm')]: {
+                paddingLeft: 0,
+            },
+            [theme.breakpoints.down('xs')]: {
+                paddingLeft: 0,
+                paddingRight: 0
+            },
         },
         removeProduct: {
-            textAlign: 'center'
+            textAlign: 'center',
+            [theme.breakpoints.down('xs')]: {
+                position: 'absolute',
+                right: 0,
+                top: 0,
+            },
         },
         productTitle: {
             flexDirection: 'column',
+            [theme.breakpoints.down('xs')]: {
+                paddingLeft: 16,
+                paddingRight: 16,
+                paddingTop: 35,
+            },
         },
         productTitleName: {
             color: '#1769aa',
+            wordBreak: 'break-word'
         },
         productContainer: {
-            margin: theme.spacing(0, 0, 2),
-            justifyContent: 'space-between',
             alignItems: 'center',
         },
         productContainerItem: {
-            marginTop: '20px',
+            marginTop: '00px',
+        },
+        productInfo: {
+            display: 'flex',
+            flexDirection: 'column'
+        },
+        productMeta: {
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            [theme.breakpoints.down('xs')]: {
+                flexDirection: 'column',
+                alignItems: 'flex-start',
+            },
+        },
+        productContainerItemPrice: {
+            marginTop: '0px',
+            [theme.breakpoints.down('xs')]: {
+                padding: '20px 16px 16px'
+            },
+        },
+        productMetaAmountAndTotal: {
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'flex-end',
+            [theme.breakpoints.down('xs')]: {
+                width: '100%',
+                flexDirection: 'column',
+                alignItems: 'center',
+            },
+        },
+        chip: {
+            width: 'fit-content',
+            padding: ' 0 5px',
+        },
+        productMetaPrice: {
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'flex-end',
+            [theme.breakpoints.down('xs')]: {
+                padding: '0 16px'
+            },
         },
         productContainerMeta: {
             marginTop: 10,
@@ -44,8 +103,38 @@ export const createOrderPageStyles = (theme => ({
             justifyContent: 'space-between',
             alignItems: 'center',
         },
+        productMetaAmount: {
+            padding: '8px 0',
+
+            [theme.breakpoints.down('xs')]: {
+                width: '100%',
+                padding: '16px 0',
+                borderTop: '1px solid #ebebeb',
+                display: 'flex',
+                justifyContent: 'center'
+            },
+        },
+        productMetaSummary: {
+            [theme.breakpoints.down('xs')]: {
+                width: '100%',
+                padding: '16px 0 0',
+                borderTop: '1px solid #ebebeb',
+                display: 'flex',
+                justifyContent: 'center'
+            },
+        },
         productContainerTotal: {
             textAlign: 'right',
+        },
+        productContainerSummary: {
+            textAlign: 'right',
+            [theme.breakpoints.down('xs')]: {
+                textAlign: 'left',
+                justifyContent: 'space-between',
+                display: 'flex',
+                width: '100%',
+                padding: '0 16px 0'
+            },
         },
         amountButton: {
             width: 0,
