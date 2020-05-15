@@ -50,7 +50,7 @@ export const useCart = () => {
 
                 return {
                     ...originalProduct,
-                    totalPrice: cartProduct.amount * originalProduct.price,
+                    totalPrice: cartProduct.amount * (originalProduct && originalProduct.price),
                     currency: cartProduct.currency,
                     amount: cartProduct.amount,
                 };

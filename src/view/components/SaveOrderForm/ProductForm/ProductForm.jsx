@@ -200,7 +200,9 @@ export const ProductForm = ({
             </Grid>
             <Grid container item xs={12} sm={12}>
                 <AddOrderProduct
-                    products={products}
+                    products={products.filter((product) => (
+                        !cart.products.find(({productId}) => productId === product.productId)
+                    ))}
                     submit={addProduct}
                 />
                 {renderSelectedProducts()}
