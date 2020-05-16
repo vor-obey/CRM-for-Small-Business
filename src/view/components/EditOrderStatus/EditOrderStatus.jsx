@@ -1,12 +1,8 @@
 import React, {useCallback, useEffect, useState} from "react";
 import {
+    Grid,
     FormControl,
-    List,
-    ListItem,
     IconButton,
-    ListItemIcon,
-    ListItemSecondaryAction,
-    ListItemText,
     Select,
     InputLabel,
     Typography,
@@ -64,34 +60,40 @@ export function EditOrderStatus({
     const renderActionButton = useCallback(() => {
         if (isEditStatus) {
             return (
-                <ListItemSecondaryAction>
-                    <ListItemIcon>
-                        <IconButton onClick={editStatus}>
-                            <EditIcon className={classes.editButton} color={'secondary'}/>
-                        </IconButton>
-                    </ListItemIcon>
-                </ListItemSecondaryAction>
+                <IconButton onClick={editStatus}>
+                    <EditIcon className={classes.editButton} color={'secondary'}/>
+                </IconButton>
             )
         }
         return (
-            <ListItemSecondaryAction>
-                <ListItemIcon>
-                    <IconButton onClick={restoreStatus}>
-                        <RestoreIcon className={classes.editButton} color={'secondary'}/>
-                    </IconButton>
-                </ListItemIcon>
-            </ListItemSecondaryAction>
+            <IconButton onClick={restoreStatus}>
+                <RestoreIcon className={classes.editButton} color={'secondary'}/>
+            </IconButton>
         )
     }, [classes, editStatus, restoreStatus, isEditStatus]);
+
+    const renderAddButton = useCallback(() => {
+        if (isEditStatus) {
+            return null
+        }
+        return (
+            <Grid className={classes.actionADD}>
+                <IconButton onClick={saveStatus}>
+                    <CheckIcon className={classes.editButton} color={'secondary'}/>
+                </IconButton>
+            </Grid>
+        )
+    }, [classes, isEditStatus, saveStatus]);
 
     const renderField = useCallback(() => {
         if (isEditStatus) {
             return (
-                <Typography
-                    variant='body1'
-                    className={classes.orderItem}>
-                    {t(EOrderStatus[currentStatus])}
-                </Typography>
+                <Grid className={classes.currentStatus}>
+                    <Typography
+                        variant='body1'>
+                        {t(EOrderStatus[currentStatus])}
+                    </Typography>
+                </Grid>
             )
         }
         return (
@@ -117,20 +119,14 @@ export function EditOrderStatus({
     }, [classes, isEditStatus, onStatusSelectHandler, renderStatuses, currentStatus, newStatus, t]);
 
     return (
-        <List>
-            <ListItem>
-                {isEditStatus ? null : (
-                    <ListItemIcon>
-                        <IconButton onClick={saveStatus}>
-                            <CheckIcon className={classes.editButton} color={'secondary'}/>
-                        </IconButton>
-                    </ListItemIcon>
-                )}
-                <ListItemText
-                    primary={renderField()}>
-                </ListItemText>
+        <Grid item xs={12} sm={12} className={classes.orderItem}>
+            {renderAddButton()}
+            <Grid className={classes.statusForm}>
+                {renderField()}
+            </Grid>
+            <Grid className={classes.actionButtonPanel}>
                 {renderActionButton()}
-            </ListItem>
-        </List>
+            </Grid>
+        </Grid>
     )
 }

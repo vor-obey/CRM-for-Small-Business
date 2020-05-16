@@ -57,9 +57,6 @@ export const orderDetailsStyles = ((theme) => ({
         marginTop: 5,
         marginBottom: 5
     },
-    orderDescription: {
-        paddingRight: theme.spacing(1)
-    },
     containerItem: {
         marginTop: '30px',
         wordWrap: 'break-word',
