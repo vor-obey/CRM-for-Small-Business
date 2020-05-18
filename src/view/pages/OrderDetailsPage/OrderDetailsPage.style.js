@@ -57,9 +57,6 @@ export const orderDetailsStyles = ((theme) => ({
         marginTop: 5,
         marginBottom: 5
     },
-    orderDescription: {
-        paddingRight: theme.spacing(1)
-    },
     containerItem: {
         marginTop: '30px',
         wordWrap: 'break-word',
@@ -118,6 +115,16 @@ export const orderDetailsStyles = ((theme) => ({
             marginLeft: theme.spacing(1)
         }
     },
+    selectStatusDisabled: {
+        backgroundColor: '#fff'
+    },
+    selectStatusFilled: {
+        backgroundColor: '#fff',
+        textAlign: 'center',
+    },
+    editButton: {
+        color: 'rgba(0, 0, 0, 0.54)'
+    },
     buttonClose: {
         position: 'absolute',
         marginTop: theme.spacing(1),
@@ -126,6 +133,7 @@ export const orderDetailsStyles = ((theme) => ({
     buttonContainer: {
         alignContent: 'center',
         justifyContent: 'center',
+        marginTop: '20px'
     },
     button: {
         margin: '10px',
