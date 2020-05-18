@@ -166,7 +166,7 @@ export const InternetDocument = ({orderDetails, handleClose}) => {
     }, [setRecipient, recipient, calculateTotalPoints, orderDetails]);
 
     return (
-        <Container>
+        <Container className={classes.container}>
             <Grid container item xl={12} className={classes.root}>
                 <Grid item xs={12} className={classes.title}>
                     <Typography variant='h6'>
