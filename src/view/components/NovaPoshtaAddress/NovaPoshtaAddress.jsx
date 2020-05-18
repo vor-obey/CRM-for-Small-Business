@@ -194,6 +194,8 @@ export const NovaPoshtaAddress = ({
 
     const getCityOptionLabel = useCallback(city => city.Description, []);
 
+    const getWarehouseOptionLabel = useCallback(warehouse => warehouse.Description, []);
+
     const formatString = useCallback((string, type) => {
         const descriptionRegExp = /[^0-9АБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯЁЃЄІЇҐабвгдежзийклмнопрстуфхцчшщъыьэюяёѓєіїґ]/gi;
         const inputRegExp = /\s/g;
@@ -217,8 +219,6 @@ export const NovaPoshtaAddress = ({
             return formattedDescriptionUa.indexOf(formattedInputValue) !== -1 || formattedDescriptionRu.indexOf(formattedInputValue) !== -1;
         });
     }, [formatString]);
-
-    const getWarehouseOptionLabel = useCallback(warehouse => warehouse.Description, []);
 
     const renderCityOptions = useCallback((city) => {
         return (
@@ -299,15 +299,11 @@ export const NovaPoshtaAddress = ({
                   xs={breakPoints.xs}
                   className={classes.warehouse}
             >
-                {warehouseParams.isLoading ? (
-                    // todo сделать нормальный индикатор загрузки
-                    <div>loading</div>
-                ) : (
                     <CustomAutocomplete
                         isOpen={warehouseParams.isOpen}
                         options={warehouseParams.options}
-                        onInputChangedHandler={() => {
-                        }}
+                        onInputChangedHandler={() => {}}
+                        isLoading={warehouseParams.isLoading}
                         onToggle={toggleWarehouseAutocomplete}
                         onClose={toggleWarehouseAutocomplete}
                         renderOption={renderWarehouseOptions}
@@ -318,7 +314,6 @@ export const NovaPoshtaAddress = ({
                         disabled={!cityParams.value}
                         filterOptions={filterOptions}
                     />
-                )}
             </Grid>
         </>
     );
