@@ -8,7 +8,7 @@ import {
     Typography,
     makeStyles
 } from "@material-ui/core";
-import RestoreIcon from '@material-ui/icons/Restore';
+import CloseIcon from '@material-ui/icons/Close';
 import EditIcon from "@material-ui/icons/Edit";
 import CheckIcon from "@material-ui/icons/Check";
 import {EOrderStatus} from "../../../constants/statuses";
@@ -22,23 +22,23 @@ export function EditOrderStatus({
                                     submit
                                 }) {
     const [currentStatus, setCurrentStatus] = useState(status);
-    useEffect(() => {
-        setCurrentStatus(status);
-    }, [status]);
-
     const [newStatus, setNewStatus] = useState();
     const [isEditStatus, setIsEditStatus] = useState(true);
     const classes = useStyle();
     const {t} = useTranslation('');
 
+    useEffect(() => {
+        setCurrentStatus(status);
+    }, [status]);
+
     const editStatus = useCallback(() => {
         setIsEditStatus(prevState => !prevState);
-    }, [])
+    }, []);
 
     const restoreStatus = useCallback(() => {
         setIsEditStatus(prevState => !prevState);
         setNewStatus(undefined);
-    }, [])
+    }, []);
 
     const onStatusSelectHandler = useCallback((value) => {
         setNewStatus(value);
@@ -67,7 +67,7 @@ export function EditOrderStatus({
         }
         return (
             <IconButton onClick={restoreStatus}>
-                <RestoreIcon className={classes.editButton} color={'secondary'}/>
+                <CloseIcon className={classes.editButton} color={'secondary'}/>
             </IconButton>
         )
     }, [classes, editStatus, restoreStatus, isEditStatus]);
@@ -107,7 +107,7 @@ export function EditOrderStatus({
                     }}
                     native
                     name="status"
-                    value={newStatus || (currentStatus && currentStatus)}
+                    value={newStatus || currentStatus}
                     onChange={(event) => onStatusSelectHandler(event.target.value)}
                     inputProps={{
                         name: 'status',
