@@ -21,6 +21,7 @@ export function* login(action) {
         const response = yield UserService.login(action.loginData);
         if (response.accessToken) {
             StorageService.setJWTToken(response.accessToken);
+            StorageService.setChatConnection(false);
             yield put(setIsLoading(false));
             yield* getCurrentUser();
         } else {

@@ -1,8 +1,6 @@
-import React, {useCallback, useState} from 'react';
-import {CircularProgress, Container, useMediaQuery} from '@material-ui/core';
-import {useSelector} from 'react-redux';
+import React, {useCallback, useEffect, useState} from 'react';
+import {Container, useMediaQuery} from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
-import {useTranslation} from 'react-i18next';
 import List from '@material-ui/core/List';
 import {ChatThreads} from './ChatThreads/ChatThreads';
 import ListItem from '@material-ui/core/ListItem';
@@ -14,19 +12,33 @@ import Avatar from '@material-ui/core/Avatar';
 import {ChatDialog} from './ChatDialog/ChatDialog';
 import {makeStyles} from "@material-ui/core/styles";
 import {ChatStyles} from "./Chat.style";
+import {InstagramService, StorageService} from '../../../services';
+import {ChatEnter} from './ChatEnter/ChatEnter';
 
 const useStyles = makeStyles(ChatStyles);
 
-export const Chat = ({style, mobile}) => {
-    const profile = useSelector(state => state.userReducer.igProfile);
-    const threads = useSelector(state => state.userReducer.threads);
-    const isConnected = useSelector(state => state.userReducer.isConnected);
-    const isIntegrated = useSelector(state => state.userReducer.isIntegrated);
+export const Chat = ({mobile}) => {
+    const profile = {};
+    const [threads, setThreads] = useState([]);
+    const [isConnected, setIsConnected] = useState(JSON.parse(StorageService.getChatConnection()));
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [selectedThreadId, setSelectedThreadId] = useState('');
-    const {t} = useTranslation('');
     const minWidth600 = useMediaQuery('(min-width:600px)');
     const classes = useStyles();
+
+    useEffect(() => {
+        if (isConnected) {
+            const fetchThreads = async () => {
+                const response = await InstagramService.getThreads();
+                setThreads(response);
+            };
+            fetchThreads();
+        }
+    }, [isConnected]);
+
+    const setConnection = useCallback(() => {
+        setIsConnected(true);
+    }, []);
 
     const openThread = useCallback((threadId) => {
         setSelectedThreadId(threadId);
@@ -89,24 +101,6 @@ export const Chat = ({style, mobile}) => {
         });
     }, [threads, openThread, classes]);
 
-    if (!isConnected) {
-        return (
-            <CircularProgress/>
-        );
-    }
-
-    if (isConnected && !isIntegrated) {
-        return (
-            <Typography
-                variant='h6'
-                color='textSecondary'
-                className={classes.typographyCredentials}
-            >
-                {t('NO_INSTAGRAM_CREDENTIALS')}
-            </Typography>
-        );
-    }
-
     if (!minWidth600 || mobile === true) {
         return (
             <Container className={classes.mobileContainer}>
@@ -132,25 +126,33 @@ export const Chat = ({style, mobile}) => {
 
     return (
         <Container className={classes.container}>
-            <List className={classes.listThreads}>
-                <ChatThreads
-                    classes={classes}
-                    renderThreads={renderThreads}
+            {!isConnected ? (
+                <ChatEnter
+                    setConnection={setConnection}
                 />
-            </List>
-            <List className={classes.listDialog}>
-                {isDialogOpen ?
-                    <ChatDialog
-                        minWidth={minWidth600}
-                        profile={profile}
-                        thread={threads.find(item => item.thread_id === selectedThreadId)}
-                        classes={classes}
-                    />
-                    :
-                    <Typography variant='h6' className={classes.text}>Please select a chat to start
-                        messaging</Typography>
-                }
-            </List>
+            ) : (
+                <>
+                    <List className={classes.listThreads}>
+                        <ChatThreads
+                            classes={classes}
+                            renderThreads={renderThreads}
+                        />
+                    </List>
+                    <List className={classes.listDialog}>
+                        {isDialogOpen ?
+                            <ChatDialog
+                                minWidth={minWidth600}
+                                profile={profile}
+                                thread={threads.find(item => item.thread_id === selectedThreadId)}
+                                classes={classes}
+                            />
+                            :
+                            <Typography variant='h6' className={classes.text}>Please select a chat to start
+                                messaging</Typography>
+                        }
+                    </List>
+                </>
+            )}
         </Container>
     );
 };
