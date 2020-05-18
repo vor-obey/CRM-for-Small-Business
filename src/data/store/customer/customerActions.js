@@ -1,6 +1,6 @@
-import {ADD_CUSTOMER_DETAILS} from "./customerActionTypes";
+import {ADD_CUSTOMER_DETAIL} from "./customerActionTypes";
 
-export const addCustomerDetails = (detail) => ({
-    type: ADD_CUSTOMER_DETAILS,
+export const addCustomerDetail = (detail) => ({
+    type: ADD_CUSTOMER_DETAIL,
     detail
 });

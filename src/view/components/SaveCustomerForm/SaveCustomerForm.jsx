@@ -3,23 +3,19 @@ import {Avatar, Button, Container, CssBaseline, Grid, TextField, Typography, mak
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import {saveCustomerStyle} from "./SaveCustomerForm.style";
 import FormControl from "@material-ui/core/FormControl";
-import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
 import {useTranslation} from "react-i18next";
 
 const useStyles = makeStyles(saveCustomerStyle);
 
-export const SaveCustomerForm = (props) => {
-
-    const {
-        renderSource,
-        titleText,
-        submitText,
-        details,
-        onSubmit,
-        onChange,
-    } = props;
-
+export const SaveCustomerForm = ({
+                                     renderSource,
+                                     titleText,
+                                     submitText,
+                                     details,
+                                     onSubmit,
+                                     onChange,
+                                 }) => {
     const classes = useStyles();
     const {t} = useTranslation('');
 

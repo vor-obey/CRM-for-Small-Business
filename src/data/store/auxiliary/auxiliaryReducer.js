@@ -29,15 +29,7 @@ const initialState = {
         onAction: null,
         children: null,
     },
-    notificationsArr: [],
-    info: {
-        username: '',
-        name: '',
-        contactNumber: '',
-        contactEmail: '',
-        details: '',
-        sourceId: '',
-    }
+    notificationsArr: []
 };
 
 export const auxiliaryReducer = (state = initialState, action) => {

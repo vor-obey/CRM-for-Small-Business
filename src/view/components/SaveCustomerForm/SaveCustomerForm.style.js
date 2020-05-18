@@ -33,6 +33,6 @@ export const saveCustomerStyle = (theme =>  ({
         margin: theme.spacing(3, 0, 2)
     },
     typographySources: {
-        fontSize: 19,
+        fontSize: 16,
     }
 }));

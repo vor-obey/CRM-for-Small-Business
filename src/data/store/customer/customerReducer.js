@@ -1,4 +1,4 @@
-import {ADD_CUSTOMER_DETAILS} from "./customerActionTypes";
+import {ADD_CUSTOMER_DETAIL} from "./customerActionTypes";
 
 const initialState = {
     details: {
@@ -13,7 +13,7 @@ const initialState = {
 
 export const customerReducer = (state = initialState, action) => {
     switch (action.type) {
-        case ADD_CUSTOMER_DETAILS: {
+        case ADD_CUSTOMER_DETAIL: {
             return {
                 ...state,
                 details: {

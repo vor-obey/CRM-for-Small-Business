@@ -9,7 +9,7 @@ import {useTranslation} from "react-i18next";
 import {useSources} from '../../../utils/hooks/customerHooks';
 import isEmpty from 'lodash/isEmpty';
 import {useSelector} from "react-redux";
-import {addCustomerDetails} from "../../../data/store/customer/customerActions";
+import {addCustomerDetail} from "../../../data/store/customer/customerActions";
 
 export const CreateCustomer = ({
                                    history,
@@ -23,7 +23,7 @@ export const CreateCustomer = ({
 
     const onChangeHandler = useCallback((event) => {
         const {name, value} = event.target;
-        dispatch(addCustomerDetails({[name]: value}));
+        dispatch(addCustomerDetail({[name]: value}));
     }, [dispatch]);
 
     const onSubmitHandler = useCallback(async (event, customerDetails) => {
@@ -39,7 +39,7 @@ export const CreateCustomer = ({
                     if (typeof updateCustomerList === 'function') {
                         updateCustomerList(response);
                         dispatch(setIsLoading(false));
-                        dispatch(addCustomerDetails({}));
+                        dispatch(addCustomerDetail({}));
                     } else {
                         history.push('/customers');
                         dispatch(setIsLoading(false));
