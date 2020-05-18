@@ -223,6 +223,7 @@ export const AbstractProductDetailsPage = ({history}) => {
                             onClick={openAbstractProductDeleteDialog}
                             color="primary"
                             aria-label="delete"
+                            disabled={abstractProductDetails.name === undefined}
                             size="small">
                             <DeleteIcon/>
                         </Fab>

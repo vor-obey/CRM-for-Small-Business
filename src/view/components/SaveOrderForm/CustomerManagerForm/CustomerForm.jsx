@@ -75,7 +75,7 @@ export const CustomerForm = ({
             <Grid container alignItems='center'>
                 <Grid item xs>
                 <span key={manager.userId}>
-                   {manager.firstName} {manager.lastName}
+                   {manager.lastName} {manager.firstName} {manager.middleName}
                 </span>
                     <Typography variant='body2' color='textSecondary'>
                         {manager.email}
@@ -90,6 +90,36 @@ export const CustomerForm = ({
             return ''
         }
         return `${manager.firstName} ${manager.lastName}`;
+    }, []);
+
+    const filterCustomerOptions = useCallback((array, {inputValue}) => {
+        if (!array.length) {
+            return [];
+        }
+
+        const matchWhitespacesRegExp = /\s/g;
+        const formattedInputValue = inputValue.toLowerCase().replace(matchWhitespacesRegExp, '');
+
+        return array.filter((item) => {
+            return item.username.toLowerCase().replace(matchWhitespacesRegExp, '').indexOf(formattedInputValue) !== -1
+                || item.name.toLowerCase().replace(matchWhitespacesRegExp, '').indexOf(formattedInputValue) !== -1;
+        });
+    }, []);
+
+    const filterManagerOptions = useCallback((array, {inputValue}) => {
+        if (!array.length) {
+            return [];
+        }
+
+        const matchWhitespacesRegExp = /\s/g;
+        const formattedInputValue = inputValue.toLowerCase().replace(matchWhitespacesRegExp, '');
+
+        return array.filter((item) => {
+            return `${item.firstName} ${item.lastName} ${item.middleName}`
+                .toLowerCase()
+                .replace(matchWhitespacesRegExp, '')
+                .indexOf(formattedInputValue) !== -1;
+        });
     }, []);
 
     return (
@@ -137,6 +167,9 @@ export const CustomerForm = ({
                     inputLabel={t('SELECT_CUSTOMER')}
                     getOptionLabel={getCustomerOptionLabel}
                     value={customer || ''}
+                    onInputChangedHandler={() => {
+                    }}
+                    filterOptions={filterCustomerOptions}
                 />
             </Grid>
             <Grid item lg={12} xs={12}>
@@ -152,6 +185,9 @@ export const CustomerForm = ({
                         inputLabel={t('SELECT_MANAGER')}
                         getOptionLabel={getManagerOptionLabel}
                         value={manager || ''}
+                        onInputChangedHandler={() => {
+                        }}
+                        filterOptions={filterManagerOptions}
                     />
                 </Grid>
             </Grid>

@@ -30,7 +30,7 @@ export const ProductUA = {
     DELETE_PRODUCT_TYPE: 'Видалити тип продукту',
     CREATE_PRODUCT_TYPE: 'Створити тип продукту',
     EDIT_PRODUCT_TYPE: 'Редагувати тип продукту',
-    SELECT_PRODUCT_CATEGORY: 'Оберіть категорію продукту',
+    SELECT_PRODUCT_CATEGORY: 'Категорія продукту',
     DELETE_PRODUCT_CATEGORY: 'Видалити категорію продукту',
     CREATE_PRODUCT_CATEGORY: 'Створити категорію продукту',
     DELETE_TYPE_PRODUCT: 'Видалити категорію продукту?',

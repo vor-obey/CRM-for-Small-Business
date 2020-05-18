@@ -28,6 +28,7 @@ export const createOrderPageStyles = (theme => ({
         },
         productTitleName: {
             color: '#1769aa',
+            cursor: 'pointer'
         },
         productContainer: {
             margin: theme.spacing(0, 0, 2),
@@ -76,6 +77,9 @@ export const createOrderPageStyles = (theme => ({
             [theme.breakpoints.down('xs')]: {
                 paddingLeft: 0
             },
+        },
+        popper: {
+            backgroundColor: '#000',
         },
         rootGrid: {
             marginTop: theme.spacing(3)
