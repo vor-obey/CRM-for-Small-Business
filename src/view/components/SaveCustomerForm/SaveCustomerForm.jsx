@@ -17,12 +17,11 @@ export const SaveCustomerForm = (props) => {
         submitText,
         details,
         onSubmit,
-        onChange
+        onChange,
     } = props;
 
     const classes = useStyles();
     const {t} = useTranslation('');
-
 
     return (
         <div>
@@ -37,25 +36,25 @@ export const SaveCustomerForm = (props) => {
                     </Typography>
                     <form className={classes.form} onSubmit={(event) => onSubmit(event, details)}>
                         <Grid item xs={12}>
+                            <Typography className={classes.typographySources}>
+                                {t('SOURCES')}
+                            </Typography>
                             <FormControl
                                 variant="outlined"
                                 className={classes.formControl}
                                 required
                             >
-                                <InputLabel id="demo-simple-select-outlined-label">
-                                    {t('SOURCES')}
-                                </InputLabel>
                                 <Select
                                     native
                                     name="sourceId"
                                     value={(details && details.sourceId) || ''}
                                     onChange={onChange}
-                                    labelWidth={70}
                                     required
                                     inputProps={{
                                         name: 'sourceId',
-                                    }}>
-                                    <option value=""></option>
+                                    }}
+                                >
+                                    <option value=''/>
                                     {renderSource()}
                                 </Select>
                             </FormControl>
@@ -119,7 +118,6 @@ export const SaveCustomerForm = (props) => {
                                     multiline
                                 />
                             </Grid>
-
                         </Grid>
                         <Button
                             className={classes.submit}
