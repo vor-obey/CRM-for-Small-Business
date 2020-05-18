@@ -37,6 +37,7 @@ export const SaveOrderForm = ({
                                   onSubmit,
                                   orderedProducts,
                                   isEdit,
+                                  onNovaposhtaAddressSelectHandler,
                                   history
                               }) => {
     const {t} = useTranslation();
@@ -109,6 +110,7 @@ export const SaveOrderForm = ({
                                 address={address}
                                 onChangedAddressInput={onChangedAddressInput}
                                 onShippingMethodSelectHandler={onShippingMethodSelectHandler}
+                                onNovaposhtaAddressSelectHandler={onNovaposhtaAddressSelectHandler}
                             />
                         </Grid>
                         <Button

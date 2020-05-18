@@ -30,7 +30,8 @@ export const SaveOrderProduct = ({
                                      onChange,
                                      increment,
                                      decrement,
-                                     classes
+                                     classes,
+                                     filterOptions
                                  }) => {
     const cart = useCart();
     const {t} = useTranslation();
@@ -64,6 +65,8 @@ export const SaveOrderProduct = ({
                         getOptionLabel={getOptionLabel}
                         onSelectHandler={onSelectHandler}
                         value={value}
+                        onInputChangedHandler={() => {}}
+                        filterOptions={filterOptions}
                     />
                 </Grid>
                 <Grid item xl={2} lg={2} md={2} sm={6} xs={6} className={classes.containerProduct}>

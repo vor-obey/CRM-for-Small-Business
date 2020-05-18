@@ -65,7 +65,7 @@ export const AddOrderProduct = ({
         } else {
             if (!isEmpty(cart.products)) {
                 const currency = cart.products.map((currency) => {
-                  return currency.currency
+                    return currency.currency
                 });
                 setSelectedProduct(item);
                 setDetails({
@@ -106,6 +106,19 @@ export const AddOrderProduct = ({
         onProductSelectHandler()
     }, [submit, details, onProductSelectHandler, selectedProduct, totalPrice]);
 
+    const filterOptions = useCallback((array, {inputValue}) => {
+        if (!array.length) {
+            return [];
+        }
+
+        const matchWhitespacesRegExp = /\s/g;
+        const formattedInputValue = inputValue.toLowerCase().replace(matchWhitespacesRegExp, '');
+
+        return array.filter((item) => {
+            return item.name.toLowerCase().replace(matchWhitespacesRegExp, '').indexOf(formattedInputValue) !== -1;
+        });
+    }, []);
+
     return (
         <Container className={classes.containerRoot}>
             <Grid container item xl={12} lg={12}>
@@ -125,6 +138,7 @@ export const AddOrderProduct = ({
                     decrement={decrementAmount}
                     totalPrice={totalPrice}
                     classes={classes}
+                    filterOptions={filterOptions}
                 />
             </Grid>
             <Grid container item xs={12} className={classes.buttonContainer}>

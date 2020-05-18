@@ -29,15 +29,30 @@ export const orderDetailsStyles = ((theme) => ({
         alignItems: 'stretch',
         alignContent: 'center',
     },
+    productTitle: {
+        flexDirection: 'column',
+        [theme.breakpoints.down('xs')]: {
+            paddingLeft: 16,
+            paddingRight: 16,
+            paddingTop: 5,
+        },
+    },
+    productTitleName: {
+        color: '#1769aa',
+        wordBreak: 'break-word'
+    },
     productName: {
+        color: '#1769aa',
         cursor: 'pointer',
-        alignSelf: 'center',
+        alignSelf: 'left',
+        wordBreak: 'break-word',
+        marginRight: 20,
         [theme.breakpoints.down('xs')]: {
             margin: '15px 0'
         },
     },
-    productAmountPrice: {
-        alignSelf: 'flex-start'
+    productAmount: {
+        textAlign: 'center'
     },
     productIcon: {
         cursor: 'pointer',
@@ -49,16 +64,12 @@ export const orderDetailsStyles = ((theme) => ({
     },
     productSummary: {
         textAlign: 'right',
-        alignSelf: 'flex-start',
     },
     productContainer: {
         border: '1px solid rgba(0, 0, 0, 0.12)',
         borderRadius: 5,
         marginTop: 5,
         marginBottom: 5
-    },
-    orderDescription: {
-        paddingRight: theme.spacing(1)
     },
     containerItem: {
         marginTop: '30px',
@@ -87,11 +98,31 @@ export const orderDetailsStyles = ((theme) => ({
     wrapper: {
         paddingRight: theme.spacing(2)
     },
+    productContainerItem: {
+        paddingLeft: 0
+    },
     inputManager: {
         paddingRight: theme.spacing(2),
     },
     managerGrid: {
         marginTop: theme.spacing(2)
+    },
+    productInfo: {
+        display: 'flex',
+        flexDirection: 'column',
+        textAlign: 'left'
+    },
+    productMeta: {
+        padding: '10px 0 5px',
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        [theme.breakpoints.down('xs')]: {
+            flexDirection: 'column',
+            alignItems: 'flex-start',
+            padding: '10px 16px 0'
+        },
     },
     modal: {
         display: 'flex',
@@ -118,6 +149,16 @@ export const orderDetailsStyles = ((theme) => ({
             marginLeft: theme.spacing(1)
         }
     },
+    selectStatusDisabled: {
+        backgroundColor: '#fff'
+    },
+    selectStatusFilled: {
+        backgroundColor: '#fff',
+        textAlign: 'center',
+    },
+    editButton: {
+        color: 'rgba(0, 0, 0, 0.54)'
+    },
     buttonClose: {
         position: 'absolute',
         marginTop: theme.spacing(1),
@@ -126,6 +167,7 @@ export const orderDetailsStyles = ((theme) => ({
     buttonContainer: {
         alignContent: 'center',
         justifyContent: 'center',
+        marginTop: '20px'
     },
     button: {
         margin: '10px',

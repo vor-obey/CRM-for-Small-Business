@@ -8,7 +8,8 @@ import {
     InputLabel,
     OutlinedInput,
     InputAdornment,
-    FormControl
+    FormControl,
+    Chip
 } from "@material-ui/core";
 import {AddOrderProduct} from '../../AddOrderProduct/AddOrderProduct';
 import {useProducts} from '../../../../utils/hooks/productHooks';
@@ -111,9 +112,6 @@ export const ProductForm = ({
             return null;
         }
 
-
-        console.log(orderedProducts);
-
         return (orderedProducts || cart.products).map((item) => {
             const {productId, name, price, amount, totalPrice, currency} = item;
             return (
@@ -127,59 +125,82 @@ export const ProductForm = ({
                                 </IconButton>
                             </Grid>
                         </Grid>
-                        <Grid container item xs={9} sm={6} className={classes.productContainerItem}>
-                            <Grid className={classes.productTitle}>
-                                <Typography variant='body1' className={classes.productTitleName}
-                                            onClick={() => history.push(`/products/${productId}`)}>
-                                    {name}
-                                </Typography>
-                                <Typography variant='body1'>
-                                    {price} {currency}
-                                </Typography>
+                        <Grid item xs={12} sm={11} className={classes.productInfo}>
+                            <Grid container item xs={12} sm={12} className={classes.productContainerItem}>
+                                <Grid className={classes.productTitle}>
+                                    <Typography variant='body1'
+                                                className={classes.productTitleName}
+                                                onClick={() => history.push(`/products/${productId}`)}
+                                    >
+                                        {name}
+                                    </Typography>
+                                </Grid>
                             </Grid>
-                        </Grid>
-                        <Grid item xs={12} sm={3} className={classes.productContainerItem}>
-                            <FormControl variant="outlined" fullWidth>
-                                <InputLabel>{t('AMOUNT')}</InputLabel>
-                                <OutlinedInput
-                                    className={classes.amount}
-                                    type='text'
-                                    label={t('AMOUNT')}
-                                    name='amount'
-                                    value={amount}
-                                    onChange={(event) => onAmountChange(event.target.value, productId)}
-                                    startAdornment={
-                                        <InputAdornment position="start">
-                                            <IconButton
-                                                className={classes.amountButton}
-                                                fontSize="small"
-                                                onClick={() => decrement(item)} disabled={amount === 1}>
-                                                <RemoveIcon/>
-                                            </IconButton>
-                                        </InputAdornment>
-                                    }
-                                    endAdornment={
-                                        <InputAdornment position="end">
-                                            <IconButton
-                                                className={classes.amountButton}
-                                                fontSize="small"
-                                                onClick={() => increment(item)}>
-                                                <AddIcon/>
-                                            </IconButton>
-                                        </InputAdornment>
-                                    }
-                                    labelWidth={70}
-                                />
-                            </FormControl>
-                        </Grid>
-                        <Grid item xs={12} sm={2} className={classes.productContainerItem}>
-                            <Grid className={classes.productContainerTotal}>
-                                <Typography variant='subtitle1'>
-                                    {t('SUMMARY')}:
-                                </Typography>
-                                <Typography variant='h6'>
-                                    {totalPrice} {currency}
-                                </Typography>
+                            <Grid item xs={12} sm={12} className={classes.productMeta}>
+                                <Grid item xs={12} sm={4} className={classes.productContainerItemPrice}>
+                                    <Chip classes={{
+                                        label: classes.productMetaPrice
+                                    }} className={classes.chip} size="medium" color="primary" label={
+                                        <React.Fragment>
+                                            <Typography variant='body1' style={{lineHeight: 1.2}}>
+                                                {price}
+                                            </Typography>
+                                            <Typography variant='body2' style={{lineHeight: 1.3}}>
+                                                &nbsp; {currency}
+                                            </Typography>
+                                        </React.Fragment>}/>
+                                </Grid>
+                                <Grid item xs={12} sm={6} className={classes.productMetaAmountAndTotal}>
+                                    <Grid item xs={12} sm={6} className={classes.productMetaAmount}>
+                                        <Grid item xs={6} sm={12} className={classes.productMetaAmountContainer}>
+                                            <FormControl variant="outlined" fullWidth className={classes.productMetaAmountForm}>
+                                                <InputLabel>{t('AMOUNT')}</InputLabel>
+                                                <OutlinedInput
+                                                    className={classes.amount}
+                                                    type='text'
+                                                    label={t('AMOUNT')}
+                                                    name='amount'
+                                                    value={amount}
+                                                    onChange={(event) => onAmountChange(event.target.value, productId)}
+                                                    startAdornment={
+                                                        <InputAdornment position="start">
+                                                            <IconButton
+                                                                className={classes.amountButton}
+                                                                fontSize="small"
+                                                                onClick={() => decrement(productId)}
+                                                                disabled={amount === 1}>
+                                                                <RemoveIcon/>
+                                                            </IconButton>
+                                                        </InputAdornment>
+                                                    }
+                                                    endAdornment={
+                                                        <InputAdornment position="end">
+                                                            <IconButton
+                                                                className={classes.amountButton}
+                                                                fontSize="small"
+                                                                onClick={() => increment(productId)}>
+                                                                <AddIcon/>
+                                                            </IconButton>
+                                                        </InputAdornment>
+                                                    }
+                                                    labelWidth={70}
+                                                />
+                                            </FormControl>
+                                        </Grid>
+                                    </Grid>
+                                    <Grid item xs={12} sm={6} className={classes.productMetaAmountAndTotal}>
+                                        <Grid item xs={12} sm={12} className={classes.productMetaSummary}>
+                                            <Grid className={classes.productContainerSummary}>
+                                                <Typography variant='subtitle1'>
+                                                    {t('SUMMARY')}:
+                                                </Typography>
+                                                <Typography variant='body1'>
+                                                    {totalPrice} {currency}
+                                                </Typography>
+                                            </Grid>
+                                        </Grid>
+                                    </Grid>
+                                </Grid>
                             </Grid>
                         </Grid>
                     </Grid>
@@ -191,8 +212,6 @@ export const ProductForm = ({
     const handleResetCart = useCallback(() => {
         cart.setProducts([])
     }, [cart]);
-
-    console.log(isEdit);
 
     return (
         <>
