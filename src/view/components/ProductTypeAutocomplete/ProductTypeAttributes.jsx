@@ -41,6 +41,19 @@ export const ProductTypeAttributes = ({
 
     const getProductTypeOptionLabel = useCallback(item => !isEmpty(item) ? item.name : '', []);
 
+    const filterOptions = useCallback((array, {inputValue}) => {
+        if (!array.length) {
+            return [];
+        }
+
+        const matchWhitespacesRegExp = /\s/g;
+        const formattedInputValue = inputValue.toLowerCase().replace(matchWhitespacesRegExp, '');
+
+        return array.filter((item) => {
+            return item.name.toLowerCase().replace(matchWhitespacesRegExp, '').indexOf(formattedInputValue) !== -1;
+        });
+    }, []);
+
     return (
         <>
             <Grid container item xs={12} sm={12} className={classes.containerProduct}>
@@ -55,6 +68,8 @@ export const ProductTypeAttributes = ({
                         getOptionLabel={getProductTypeOptionLabel}
                         onSelectHandler={onProductTypeSelectHandler}
                         value={selectedProductType || ''}
+                        onInputChangedHandler={() => {}}
+                        filterOptions={filterOptions}
                     />
                 </Grid>
                 <Grid container item xs={12} sm={3} className={classes.containerProductType}>

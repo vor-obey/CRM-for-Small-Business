@@ -195,6 +195,20 @@ export const SaveProduct = ({
         return false;
     }, [attributes.length, productDetails, selectedAbstractProduct, selectedAttributeValues, validateAttributeValues]);
 
+    const filterOptions = useCallback((array, {inputValue}) => {
+        if (!array.length) {
+            return [];
+        }
+
+        const matchWhitespacesRegExp = /\s/g;
+        const formattedInputValue = inputValue.toLowerCase().replace(matchWhitespacesRegExp, '');
+
+        return array.filter((item) => {
+            return item.name.toLowerCase().replace(matchWhitespacesRegExp, '').indexOf(formattedInputValue) !== -1
+                || item.description.toLowerCase().replace(matchWhitespacesRegExp, '').indexOf(formattedInputValue) !== -1;
+        });
+    }, []);
+
     return (
         <Container component='main' maxWidth='md' className={classes.root}>
             <Grid container>
@@ -248,6 +262,8 @@ export const SaveProduct = ({
                                 getOptionLabel={getAbstractProductOptionLabel}
                                 onSelectHandler={onAbstractProductSelectHandler}
                                 value={selectedAbstractProduct}
+                                onInputChangedHandler={() => {}}
+                                filterOptions={filterOptions}
                             />
                         </Grid>
                     </Grid>
