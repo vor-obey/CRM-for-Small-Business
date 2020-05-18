@@ -46,10 +46,11 @@ export const ProductForm = ({
     const addProduct = useCallback((product) => {
         if (isEdit) {
             orderedProducts.push(product);
+            forceUpdate();
         } else {
             cartUtils.addProduct(product);
         }
-    }, [orderedProducts, isEdit, cartUtils]);
+    }, [orderedProducts, isEdit, cartUtils, forceUpdate]);
 
     const validateAmount = useCallback((value) => {
         const regexp = /^((?!(0))\d+$)/;
@@ -100,10 +101,11 @@ export const ProductForm = ({
         if (isEdit) {
             const index = orderedProducts.findIndex(item => item.productId === product.productId);
             orderedProducts.splice(index, 1);
+            forceUpdate();
         } else {
             cartUtils.deleteProduct(product);
         }
-    }, [orderedProducts, isEdit, cartUtils]);
+    }, [orderedProducts, isEdit, cartUtils, forceUpdate]);
 
     const renderSelectedProducts = useCallback(() => {
         if (isEmpty(orderedProducts) && isEmpty(cart.products)) {
@@ -116,9 +118,9 @@ export const ProductForm = ({
                 <ListItem key={productId}
                           className={classes.productList}>
                     <Grid container item xs={12} sm={12} className={classes.productContainer}>
-                        <Grid item xs={1} sm={1} className={classes.productContainerItem}>
-                            <Grid className={classes.removeProduct}>
-                                <IconButton disabled={isEdit} onClick={() => removeProduct(item)} size='medium'>
+                        <Grid item xs={2} sm={1} className={classes.productContainerItem}>
+                            <Grid  className={classes.removeProduct}>
+                                <IconButton disabled={isEmpty(orderedProducts) ? null : orderedProducts.length === 1} onClick={() => removeProduct(item)} size='medium'>
                                     <CloseIcon/>
                                 </IconButton>
                             </Grid>
@@ -165,7 +167,7 @@ export const ProductForm = ({
                                                             <IconButton
                                                                 className={classes.amountButton}
                                                                 fontSize="small"
-                                                                onClick={() => decrement(productId)}
+                                                                onClick={() => decrement(item)}
                                                                 disabled={amount === 1}>
                                                                 <RemoveIcon/>
                                                             </IconButton>
@@ -176,7 +178,7 @@ export const ProductForm = ({
                                                             <IconButton
                                                                 className={classes.amountButton}
                                                                 fontSize="small"
-                                                                onClick={() => increment(productId)}>
+                                                                onClick={() => increment(item)}>
                                                                 <AddIcon/>
                                                             </IconButton>
                                                         </InputAdornment>
@@ -205,7 +207,7 @@ export const ProductForm = ({
                 </ListItem>
             );
         })
-    }, [t, history, classes, cart.products, onAmountChange, decrement, increment, removeProduct, orderedProducts, isEdit]);
+    }, [t, history, classes, cart.products, onAmountChange, decrement, increment, removeProduct, orderedProducts]);
 
     const handleResetCart = useCallback(() => {
         cart.setProducts([])
@@ -225,7 +227,8 @@ export const ProductForm = ({
             <Grid container item xs={12} sm={12}>
                 <AddOrderProduct
                     products={products.filter((product) => (
-                        !cart.products.find(({productId}) => productId === product.productId)
+                        !isEdit ? !cart.products.find(({productId}) => productId === product.productId) :
+                            !orderedProducts.find(({productId}) => productId === product.productId)
                     ))}
                     submit={addProduct}
                 />
