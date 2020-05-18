@@ -167,7 +167,7 @@ export const ProductForm = ({
                                                             <IconButton
                                                                 className={classes.amountButton}
                                                                 fontSize="small"
-                                                                onClick={() => decrement(productId)}
+                                                                onClick={() => decrement(item)}
                                                                 disabled={amount === 1}>
                                                                 <RemoveIcon/>
                                                             </IconButton>
@@ -178,7 +178,7 @@ export const ProductForm = ({
                                                             <IconButton
                                                                 className={classes.amountButton}
                                                                 fontSize="small"
-                                                                onClick={() => increment(productId)}>
+                                                                onClick={() => increment(item)}>
                                                                 <AddIcon/>
                                                             </IconButton>
                                                         </InputAdornment>
