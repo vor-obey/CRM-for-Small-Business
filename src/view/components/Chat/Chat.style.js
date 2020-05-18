@@ -77,5 +77,14 @@ export const ChatStyles = (theme => ({
     },
     flexStart: {
         justifyContent: 'flex-start'
-    }
+    },
+    chatEnterContainer: {
+        marginTop: theme.spacing(8),
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+    },
+    paper: {
+        padding: 20,
+    },
 }));

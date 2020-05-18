@@ -1,13 +1,15 @@
 import React, {useCallback, useState} from 'react';
-import Grid from '@material-ui/core/Grid';
-import {TextField} from '@material-ui/core';
-import Button from '@material-ui/core/Button';
+import {Grid, TextField, Button, Typography, makeStyles} from '@material-ui/core';
 import {InstagramService, StorageService} from '../../../../services';
 import {useDispatch, useSelector} from 'react-redux';
 import {setIsLoading, setSnackBarStatus} from '../../../../data/store/auxiliary/auxiliaryActions';
-import Typography from '@material-ui/core/Typography';
+import {ChatStyles} from "../Chat.style";
+import Paper from "@material-ui/core/Paper";
+
+const useStyle = makeStyles(ChatStyles);
 
 export const ChatEnter = ({setConnection}) => {
+    const classes = useStyle();
     const dispatch = useDispatch();
     const currentUser = useSelector(state => state.userReducer.currentUser);
     const [isLogin, setIsLogin] = useState(false);
@@ -100,29 +102,41 @@ export const ChatEnter = ({setConnection}) => {
         if (isLogin) {
             return (
                 <>
-                    <Grid item xl={12}>
-                        <TextField
-                            label='Username'
-                            name='username'
-                            value={creds.username}
-                            onChange={onChange}
-                            autoComplete='off'
-                        />
-                    </Grid>
-                    <Grid item xl={12}>
-                        <TextField
-                            label='Password'
-                            name='password'
-                            value={creds.password}
-                            onChange={onChange}
-                            type='password'
-                            autoComplete='off'
-                        />
-                    </Grid>
-                    <Grid item xl={12}>
-                        <Button onClick={login}>
-                            Login
-                        </Button>
+                    <Grid container item xs={12} sm={12} className={classes.chatEnterContainer}>
+                        <Paper className={classes.paper}>
+                            <Grid item xl={12} style={{margin: '0 0 20px'}}>
+                                <TextField
+                                    variant='outlined'
+                                    size='small'
+                                    label='Username'
+                                    name='username'
+                                    value={creds.username}
+                                    onChange={onChange}
+                                    autoComplete='off'
+                                />
+                            </Grid>
+                            <Grid item xl={12} style={{margin: '0 0 20px'}}>
+                                <TextField
+                                    size='small'
+                                    variant='outlined'
+                                    label='Password'
+                                    name='password'
+                                    value={creds.password}
+                                    onChange={onChange}
+                                    type='password'
+                                    autoComplete='off'
+                                />
+                            </Grid>
+                            <Grid item xl={12}>
+                                <Button
+                                    variant='contained'
+                                    color='primary'
+                                    onClick={login}
+                                >
+                                    Login
+                                </Button>
+                            </Grid>
+                        </Paper>
                     </Grid>
                 </>
             );
@@ -130,31 +144,43 @@ export const ChatEnter = ({setConnection}) => {
         if (isCode) {
             return (
                 <>
-                    <Grid item xl={12}>
-                        <Typography>
-                            Check email bla-bla security code
-                        </Typography>
-                    </Grid>
-                    <Grid item xl={12}>
-                        <TextField
-                            label='Code'
-                            name='code'
-                            value={securityCode}
-                            onChange={(event) => setSecurityCode(event.target.value)}
-                            autoComplete='off'
-                        />
-                    </Grid>
-                    <Grid item xl={12}>
-                        <Button onClick={sendSecurityCode}>
-                            Send security code
-                        </Button>
+                    <Grid container item xs={12} sm={12} className={classes.chatEnterContainer}>
+                        <Paper className={classes.paper}>
+                            <Grid item xl={12} style={{margin: '0 0 20px'}}>
+                                <Grid item xl={12}>
+                                    <Typography>
+                                        Check email bla-bla security code
+                                    </Typography>
+                                </Grid>
+                                <Grid item xl={12}>
+                                    <TextField
+                                        label='Code'
+                                        name='code'
+                                        value={securityCode}
+                                        onChange={(event) => setSecurityCode(event.target.value)}
+                                        autoComplete='off'
+                                    />
+                                </Grid>
+                                <Grid item xl={12}>
+                                    <Button
+                                        variant='contained'
+                                        color='primary'
+                                        onClick={sendSecurityCode}>
+                                        Send security code
+                                    </Button>
+                                </Grid>
+                            </Grid>
+                        </Paper>
                     </Grid>
                 </>
             );
         }
         return (
-            <Grid item>
-                <Button onClick={validate}>
+            <Grid container item xs={12} sm={12} className={classes.chatEnterContainer}>
+                <Button
+                    variant='contained'
+                    color='primary'
+                    onClick={validate}>
                     Enter
                 </Button>
             </Grid>
