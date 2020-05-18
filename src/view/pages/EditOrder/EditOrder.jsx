@@ -4,7 +4,7 @@ import {useParams} from 'react-router-dom';
 import {makeStyles} from '@material-ui/core/styles';
 import {editOrderStyles} from './EditOrder.style';
 import isEmpty from 'lodash/isEmpty';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import {setIsLoading, setSnackBarStatus} from '../../../data/store/auxiliary/auxiliaryActions';
 import {OrderService} from '../../../services';
 import {useTranslation} from 'react-i18next';
@@ -29,8 +29,6 @@ export const EditOrder = ({history}) => {
     const [createdCustomer, setCreatedCustomer] = useState({});
     const [address, setAddress] = useState('');
     const [isCustom, setIsCustom] = useState(false);
-    const city = useSelector(state => state.autocompleteReducer.city);
-    const warehouse = useSelector(state => state.autocompleteReducer.warehouse);
     const {t} = useTranslation();
     const [orderedProducts, setOrderedProducts] = useState([]);
     const [status, setStatus] = useState(0);
@@ -104,9 +102,17 @@ export const EditOrder = ({history}) => {
         }
     }, [shippingMethod]);
 
-    const onChangedAddressInput = useCallback((event) => {
-        const {value} = event.target;
-        setAddress(value);
+    const onChangedAddressInput = useCallback((input) => {
+        const {city, warehouse, target} = input;
+        if (city !== undefined) {
+            setAddress(prevState => ({...prevState, city}));
+        }
+        if (warehouse !== undefined) {
+            setAddress(prevState => ({...prevState, warehouse}));
+        }
+        if (target !== undefined) {
+            setAddress(target.value);
+        }
     }, []);
 
     const onCustomerSelectHandler = useCallback((customer) => {
@@ -147,7 +153,7 @@ export const EditOrder = ({history}) => {
                     shippingMethodId,
                     address: {
                         addressId: shippingDetails.address.addressId,
-                        address: isCustom ? address : {city, warehouse},
+                        address: address,
                         isCustom
                     },
                 },
@@ -171,8 +177,6 @@ export const EditOrder = ({history}) => {
         shippingMethodId,
         orderDetails,
         isCustom,
-        city,
-        warehouse,
         dispatch,
         history,
         orderedProducts,
@@ -208,6 +212,7 @@ export const EditOrder = ({history}) => {
             onSubmit={onSubmitHandler}
             orderedProducts={orderedProducts}
             isEdit={true}
+            onNovaposhtaAddressSelectHandler={onChangedAddressInput}
         />
     );
 };
