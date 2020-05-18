@@ -1,115 +1,224 @@
-import React, {useState, useCallback, useEffect} from "react";
-import NovaPoshtaService from "../../../services/NovaPoshtaService";
-import {Grid, Typography, makeStyles} from "@material-ui/core";
-import {setCity, setWarehouse} from "../../../data/store/autocomplete/autocompleteActions";
-import {useDispatch} from "react-redux";
+import React, {useCallback, useEffect, useReducer, useState} from 'react';
+import Grid from '@material-ui/core/Grid';
 import {CustomAutocomplete} from '../Autocomplete/Autocomplete';
+import {NovaPoshtaService} from '../../../services';
+import {makeStyles, Typography} from '@material-ui/core';
+import {useDebounce} from '../../../utils/hooks/debounceHook';
+import {novaPoshtaAddressStyles} from './NovaPoshtaAdress.style';
 import isEmpty from 'lodash/isEmpty';
-import {novaPoshtaAddressStyles} from "./NovaPoshtaAdress.style";
+
+const initialState = {
+    cityParams: {
+        options: [],
+        isOpen: false,
+        isLoading: false,
+        value: null,
+    },
+    warehouseParams: {
+        options: [],
+        isOpen: false,
+        isLoading: false,
+        value: null,
+    }
+};
+
+function reducer(state, action) {
+    switch (action.type) {
+        case 'setCityLoading': {
+            return {
+                ...state,
+                cityParams: {
+                    ...state.cityParams,
+                    isLoading: action.isLoading,
+                }
+            };
+        }
+        case 'setWarehouseLoading': {
+            return {
+                ...state,
+                warehouseParams: {
+                    ...state.warehouseParams,
+                    isLoading: action.isLoading,
+                }
+            };
+        }
+        case 'setCityOptions': {
+            return {
+                ...state,
+                cityParams: {
+                    ...state.cityParams,
+                    options: action.options
+                }
+            }
+        }
+        case 'setWarehouseOptions': {
+            return {
+                ...state,
+                warehouseParams: {
+                    ...state.warehouseParams,
+                    options: action.options
+                }
+            }
+        }
+        case 'setCityValue': {
+            return {
+                ...state,
+                cityParams: {
+                    ...state.cityParams,
+                    value: action.city
+                }
+            }
+        }
+        case 'setWarehouseValue': {
+            return {
+                ...state,
+                warehouseParams: {
+                    ...state.warehouseParams,
+                    value: action.warehouse
+                }
+            }
+        }
+        case 'toggleCityAutocomplete': {
+            return {
+                ...state,
+                cityParams: {
+                    ...state.cityParams,
+                    isOpen: !state.cityParams.isOpen
+                }
+            }
+        }
+        case 'toggleWarehouseAutocomplete': {
+            return {
+                ...state,
+                warehouseParams: {
+                    ...state.warehouseParams,
+                    isOpen: !state.warehouseParams.isOpen
+                }
+            }
+        }
+        default: {
+            break;
+        }
+    }
+}
 
 const useStyle = makeStyles(novaPoshtaAddressStyles);
 
 export const NovaPoshtaAddress = ({
-                                      label,
-                                      address,
-                                      breakPoints,
-                                  }) => {
+                                           label,
+                                           address,
+                                           breakPoints,
+                                           onNovaposhtaAddressSelectHandler
+                                       }) => {
     const classes = useStyle();
-    const dispatch = useDispatch();
-    const [isCityOpen, setIsCityOpen] = useState(false);
-    const [isWarehouseOpen, setIsWarehouseOpen] = useState(false);
-    const [cityOptions, setCityOptions] = useState([]);
-    const [warehouseOptions, setWarehouseOptions] = useState([]);
-    const [isCityLoading, setIsCityLoading] = useState(false);
-    const [warehouseReset, setWarehouseReset] = useState(0);
-    const [cityInput, setCityInput] = useState({
-        Description: ''
-    });
-    const [warehouseInput, setWarehouseInput] = useState({
-        Description: ''
-    });
+    const [state, dispatch] = useReducer(reducer, initialState, undefined);
+    const [cityInput, setCityInput] = useState('');
+    const debouncedCityInput = useDebounce(cityInput, 500);
+    const {cityParams, warehouseParams} = state;
 
-    const fetchCities = useCallback(async (inputValue) => {
-        return await NovaPoshtaService.getNovaPoshtaCities(inputValue);
+    const fetchCities = useCallback(async (value) => {
+        try {
+            dispatch({type: 'setCityLoading', isLoading: true});
+            const results = await NovaPoshtaService.getNovaPoshtaCities(value);
+            dispatch({type: 'setCityLoading', isLoading: false});
+            dispatch({type: 'setCityOptions', options: results.data});
+        } catch (e) {
+            dispatch({type: 'setCityLoading', isLoading: false});
+        }
     }, []);
 
     const fetchWarehouses = useCallback(async (ref) => {
-        return await NovaPoshtaService.getNovaPoshtaWarehouses(ref);
+        try {
+            dispatch({type: 'setWarehouseLoading', isLoading: true});
+            const results = await NovaPoshtaService.getNovaPoshtaWarehouses(ref);
+            dispatch({type: 'setWarehouseLoading', isLoading: false});
+            dispatch({type: 'setWarehouseOptions', options: results.data});
+        } catch (e) {
+            dispatch({type: 'setWarehouseLoading', isLoading: false});
+        }
     }, []);
 
     useEffect(() => {
         const fetchData = async (address) => {
             const {city, warehouse} = address;
-            if (city && warehouse) {
-                const citiesResponse = await fetchCities(city.DescriptionRu);
-                setCityOptions(citiesResponse.data);
-                setCityInput(city);
-                dispatch(setCity(city));
-                const warehousesResponse = await fetchWarehouses(city.Ref);
-                setWarehouseOptions(warehousesResponse.data);
-                setWarehouseInput(warehouse);
-                dispatch(setWarehouse(warehouse));
+            try {
+                dispatch({type: 'setCityValue', city});
+                dispatch({type: 'setWarehouseValue', warehouse});
+                if (!warehouseParams.options.length) {
+                    await fetchWarehouses(city.Ref);
+                }
+            } catch (e) {
+                console.log(e);
             }
         };
-        if (!isEmpty(address)) {
+        if (address && !isEmpty(address.city) && !isEmpty(address.warehouse)) {
             fetchData(address);
         }
-    }, [address, fetchCities, fetchWarehouses, dispatch]);
+    }, [address, fetchCities, fetchWarehouses, warehouseParams.options.length]);
 
-    const onCityInputChangedHandler = useCallback(async event => {
-        const {value} = event.target;
-        if (value.length < 3) {
-            setIsCityLoading(false);
-            setCityOptions([]);
-            setWarehouseOptions([]);
-        } else {
-            setIsCityLoading(true);
-            const response = await fetchCities(value);
-            setCityOptions(response.data);
-            setIsCityLoading(false);
-        }
-    }, [fetchCities]);
+    useEffect(() => {
+        onNovaposhtaAddressSelectHandler({
+            city: cityParams.value,
+            warehouse: warehouseParams.value
+        });
+    }, [cityParams.value, warehouseParams.value, onNovaposhtaAddressSelectHandler]);
 
-    const onCitySelectHandler = useCallback(async item => {
-        if (!item) {
-            dispatch(setCity(null));
-            dispatch(setWarehouse({}));
-            setWarehouseOptions([]);
-            setCityOptions([]);
-            setCityInput({
-                Description: ''
-            });
-            setWarehouseInput({
-                Description: ''
-            });
-            setWarehouseReset(prevState => ++prevState);
+    useEffect(() => {
+        if (debouncedCityInput.length > 3) {
+            fetchCities(debouncedCityInput);
         } else {
-            dispatch(setCity(item));
-            setCityInput(item);
-            const response = await NovaPoshtaService.getNovaPoshtaWarehouses(item.Ref);
-            setWarehouseOptions(response.data);
+            dispatch({type: 'setCityOptions', options: []});
         }
-    }, [dispatch]);
+    }, [debouncedCityInput, fetchCities]);
 
-    const onWarehouseSelectHandler = useCallback(async (item) => {
-        if (!item) {
-            dispatch(setWarehouse(null));
-            setWarehouseInput({
-                Description: ''
-            });
+    useEffect(() => {
+        if (cityParams.value) {
+            fetchWarehouses(cityParams.value.Ref);
         } else {
-            dispatch(setWarehouse(item));
-            setWarehouseInput(item);
+            dispatch({type: 'setWarehouseValue', warehouse: null});
+            dispatch({type: 'setWarehouseOptions', options: []});
         }
-    }, [dispatch]);
+    }, [cityParams.value, fetchWarehouses]);
+
+    const onCityInputChangeHandler = useCallback(async (value) => {
+        setCityInput(value);
+    }, []);
 
     const toggleCityAutocomplete = useCallback(() => {
-        setIsCityOpen(prevState => !prevState);
+        dispatch({type: 'toggleCityAutocomplete'});
     }, []);
 
     const toggleWarehouseAutocomplete = useCallback(() => {
-        setIsWarehouseOpen(prevState => !prevState);
+        dispatch({type: 'toggleWarehouseAutocomplete'});
     }, []);
+
+    const getCityOptionLabel = useCallback(city => city.Description, []);
+
+    const formatString = useCallback((string, type) => {
+        const descriptionRegExp = /[^0-9АБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯЁЃЄІЇҐабвгдежзийклмнопрстуфхцчшщъыьэюяёѓєіїґ]/gi;
+        const inputRegExp = /\s/g;
+        if (type === 'description') {
+            return string.toLowerCase().replace(descriptionRegExp, '');
+        } else {
+            return string.toLowerCase().replace(inputRegExp, '');
+        }
+    }, []);
+
+    const filterOptions = useCallback((array, {inputValue}) => {
+        if (!array.length) {
+            return [];
+        }
+
+        const formattedInputValue = formatString(inputValue, 'input');
+
+        return array.filter((item) => {
+            const formattedDescriptionUa = formatString(item.Description, 'description');
+            const formattedDescriptionRu = formatString(item.DescriptionRu, 'description');
+            return formattedDescriptionUa.indexOf(formattedInputValue) !== -1 || formattedDescriptionRu.indexOf(formattedInputValue) !== -1;
+        });
+    }, [formatString]);
+
+    const getWarehouseOptionLabel = useCallback(warehouse => warehouse.Description, []);
 
     const renderCityOptions = useCallback((city) => {
         return (
@@ -130,7 +239,7 @@ export const NovaPoshtaAddress = ({
         return (
             <Grid container alignItems='center'>
                 <Grid item xs>
-                 <span key={warehouse.Ref}>
+                 <span>
                     {warehouse.Description}
                  </span>
                     <Typography variant='body2' color='textSecondary'>
@@ -141,59 +250,75 @@ export const NovaPoshtaAddress = ({
         );
     }, []);
 
-    const getCityOptionLabel = useCallback(city => city.Description, []);
+    const onCitySelectHandler = useCallback(async (city) => {
+        if (!city) {
+            dispatch({type: 'setCityValue', city: null});
+            dispatch({type: 'setCityOptions', options: []});
+        } else {
+            dispatch({type: 'setWarehouseValue', warehouse: null});
+            dispatch({type: 'setCityValue', city});
+        }
+    }, []);
 
-    const getWarehouseOptionLabel = useCallback(warehouse => warehouse.Description, []);
+    const onWarehouseSelectHandler = useCallback(async (warehouse) => {
+        if (!warehouse) {
+            dispatch({type: 'setWarehouseValue', warehouse: null});
+        } else {
+            dispatch({type: 'setWarehouseValue', warehouse});
+        }
+    }, []);
 
     return (
         <>
-            <Grid
-                item
-                xl={breakPoints.xl}
-                lg={breakPoints.lg}
-                sm={breakPoints.sm}
-                xs={breakPoints.xs}
-                className={classes.city}>
+            <Grid item
+                  xl={breakPoints.xl}
+                  lg={breakPoints.lg}
+                  sm={breakPoints.sm}
+                  xs={breakPoints.xs}
+                  className={classes.city}
+            >
                 <CustomAutocomplete
-                    classes={{
-                        popper: classes.popper
-                    }}
-                    isOpen={isCityOpen}
-                    options={cityOptions}
-                    isLoading={isCityLoading}
-                    onSelectHandler={onCitySelectHandler}
-                    onInputChangedHandler={onCityInputChangedHandler}
+                    isOpen={cityParams.isOpen}
+                    options={cityParams.options}
+                    isLoading={cityParams.isLoading}
+                    onInputChangedHandler={onCityInputChangeHandler}
                     onToggle={toggleCityAutocomplete}
                     onClose={toggleCityAutocomplete}
                     renderOption={renderCityOptions}
                     inputLabel={label.city}
                     getOptionLabel={getCityOptionLabel}
-                    value={cityInput}
+                    value={cityParams.value}
+                    onSelectHandler={onCitySelectHandler}
+                    filterOptions={filterOptions}
                 />
             </Grid>
-            <Grid
-                item
-                xl={breakPoints.xl}
-                lg={breakPoints.lg}
-                sm={breakPoints.sm}
-                xs={breakPoints.xs}
-                className={classes.warehouse}>
-                <CustomAutocomplete
-                    classes={{
-                        popper: classes.popper
-                    }}
-                    isOpen={isWarehouseOpen}
-                    options={warehouseOptions}
-                    onSelectHandler={onWarehouseSelectHandler}
-                    onToggle={toggleWarehouseAutocomplete}
-                    onClose={toggleWarehouseAutocomplete}
-                    renderOption={renderWarehouseOptions}
-                    inputLabel={label.warehouse}
-                    getOptionLabel={getWarehouseOptionLabel}
-                    disabled={warehouseOptions.length === 0}
-                    key={warehouseReset}
-                    value={warehouseInput}
-                />
+            <Grid item
+                  xl={breakPoints.xl}
+                  lg={breakPoints.lg}
+                  sm={breakPoints.sm}
+                  xs={breakPoints.xs}
+                  className={classes.warehouse}
+            >
+                {warehouseParams.isLoading ? (
+                    // todo сделать нормальный индикатор загрузки
+                    <div>loading</div>
+                ) : (
+                    <CustomAutocomplete
+                        isOpen={warehouseParams.isOpen}
+                        options={warehouseParams.options}
+                        onInputChangedHandler={() => {
+                        }}
+                        onToggle={toggleWarehouseAutocomplete}
+                        onClose={toggleWarehouseAutocomplete}
+                        renderOption={renderWarehouseOptions}
+                        inputLabel={label.warehouse}
+                        getOptionLabel={getWarehouseOptionLabel}
+                        value={warehouseParams.value}
+                        onSelectHandler={onWarehouseSelectHandler}
+                        disabled={!cityParams.value}
+                        filterOptions={filterOptions}
+                    />
+                )}
             </Grid>
         </>
     );

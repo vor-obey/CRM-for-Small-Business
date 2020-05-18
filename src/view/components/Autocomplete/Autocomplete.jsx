@@ -15,9 +15,9 @@ export const CustomAutocomplete = ({
                                        getOptionLabel,
                                        onSelectHandler,
                                        onInputChangedHandler,
-                                       value
+                                       value,
+                                       filterOptions,
                                    }) => {
-    // console.log('options', options);
     return (
         <Autocomplete
             classes={classes}
@@ -31,6 +31,7 @@ export const CustomAutocomplete = ({
             onChange={(event, value) => onSelectHandler(value)}
             onInputChange={(event, value) => onInputChangedHandler(value)}
             value={value}
+            filterOptions={(array, state) => filterOptions(array, state)}
             renderInput={params => (
                 <TextField
                     {...params}

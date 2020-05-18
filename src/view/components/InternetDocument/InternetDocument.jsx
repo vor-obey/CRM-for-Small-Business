@@ -1,13 +1,13 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import isEmpty from 'lodash/isEmpty';
 import {useTranslation} from 'react-i18next';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import {internetDocumentStyles} from './InternetDocument.style';
 import {COMMON_ERROR_MESSAGE} from '../../../constants/statuses';
 import NovaPoshtaService from '../../../services/NovaPoshtaService';
-import {NovaPoshtaAddress} from '../NovaPoshtaAddress/NovaPoshtaAddress';
 import {Container, makeStyles, Grid, Button, Typography, TextField} from '@material-ui/core';
 import {setIsLoading, setSnackBarStatus} from '../../../data/store/auxiliary/auxiliaryActions';
+import {NovaPoshtaAddress} from '../NovaPoshtaAddress/NovaPoshtaAddress';
 
 const useStyles = makeStyles(internetDocumentStyles);
 
@@ -32,9 +32,11 @@ export const InternetDocument = ({orderDetails, handleClose}) => {
         phone: ''
     });
     const [senderPhone, setSenderPhone] = useState('');
-    const city = useSelector(state => state.autocompleteReducer.city);
-    const warehouse = useSelector(state => state.autocompleteReducer.warehouse);
     const {t} = useTranslation('');
+    const [novaposhtaAddress, setNovaposhtaAddress] = useState({
+        city: null,
+        warehouse: null
+    });
 
     useEffect(() => {
         if (orderDetails) {
@@ -71,9 +73,8 @@ export const InternetDocument = ({orderDetails, handleClose}) => {
         setSenderPhone(value);
     }, []);
 
-
     const submit = useCallback(async () => {
-        if (isEmpty(city) || isEmpty(warehouse)) {
+        if (isEmpty(novaposhtaAddress.city) || isEmpty(novaposhtaAddress.warehouse)) {
             dispatch(setSnackBarStatus({isOpen: true, message: 'Fill all the fields', success: false}))
         } else {
             try {
@@ -82,8 +83,8 @@ export const InternetDocument = ({orderDetails, handleClose}) => {
                     orderId: orderDetails.orderId,
                     ...parcelDetails,
                     sender: {
-                        cityRef: city.Ref,
-                        warehouseRef: warehouse.Ref,
+                        cityRef: novaposhtaAddress.city.Ref,
+                        warehouseRef: novaposhtaAddress.warehouse.Ref,
                         phone: senderPhone
                     },
                     recipient
@@ -106,7 +107,17 @@ export const InternetDocument = ({orderDetails, handleClose}) => {
                 dispatch(setIsLoading(false));
             }
         }
-    }, [t, dispatch, orderDetails, city, parcelDetails, warehouse, recipient, senderPhone, handleClose]);
+    }, [t, dispatch, orderDetails, parcelDetails, recipient, senderPhone, handleClose, novaposhtaAddress]);
+
+    const onNovaposhtaAddressSelectHandler = useCallback((obj) => {
+        const {city, warehouse} = obj;
+        if (city !== undefined) {
+            setNovaposhtaAddress(prevState => ({...prevState, city}));
+        }
+        if (warehouse !== undefined) {
+            setNovaposhtaAddress(prevState => ({...prevState, warehouse}));
+        }
+    }, []);
 
     return (
         <Container>
@@ -208,14 +219,11 @@ export const InternetDocument = ({orderDetails, handleClose}) => {
                     </Grid>
                     <NovaPoshtaAddress
                         breakPoints={autocompleteBreakpoints}
-                        classes={{
-                            city: classes.cityAutocomplete,
-                            warehouse: classes.warehouseAutocomplete
-                        }}
                         label={{
                             city: t('SENDER_CITY'),
                             warehouse: t('SENDER_WAREHOUSE')
                         }}
+                        onNovaposhtaAddressSelectHandler={onNovaposhtaAddressSelectHandler}
                     />
                 </Grid>
                 <Grid item xs={12} style={{textAlign: 'center'}}>
