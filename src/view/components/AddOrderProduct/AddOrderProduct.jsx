@@ -7,7 +7,7 @@ import {
     Button,
     makeStyles,
     useMediaQuery,
-    FormControl,
+    FormControl, Divider,
     InputLabel, OutlinedInput
 } from '@material-ui/core';
 import isEmpty from 'lodash/isEmpty';
@@ -143,8 +143,13 @@ export const AddOrderProduct = ({
                         labelWidth={70}
                     />
                 </FormControl>
+                <Divider/>
             </Grid>
             <Grid container item xl={12} lg={12}>
+                <fieldset className={classes.fieldset}>
+                    <legend className={classes.legend}>
+                        {t('ADD_PRODUCT')}
+                    </legend>
                 <SaveOrderProduct
                     isOpen={isOpen}
                     options={products}
@@ -163,6 +168,7 @@ export const AddOrderProduct = ({
                     classes={classes}
                     filterOptions={filterOptions}
                 />
+                </fieldset>
             </Grid>
             <Grid container item xs={12} className={classes.buttonContainer}>
                 <Grid item xl={6} lg={6} md={6} sm={8} xs={12}>
