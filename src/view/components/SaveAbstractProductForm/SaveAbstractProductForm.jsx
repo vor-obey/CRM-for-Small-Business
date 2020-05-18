@@ -21,7 +21,8 @@ export const SaveAbstractProductForm = ({
                                             openCreateAttributeModal,
                                             openDeleteProductTypeDialog,
                                             onSubmit,
-                                            t
+                                            t,
+                                            disableButton
                                         }) => {
     return (
         <Container component='main' maxWidth='md' className={classes.root}>
@@ -88,6 +89,7 @@ export const SaveAbstractProductForm = ({
                             variant='outlined'
                             className={classes.button}
                             onClick={onSubmit}
+                            disabled={disableButton()}
                         >
                             {labels.button}
                         </Button>
