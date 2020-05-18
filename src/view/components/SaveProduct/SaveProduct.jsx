@@ -21,7 +21,6 @@ import isEmpty from 'lodash/isEmpty';
 import {useAbstractProducts, useAttributesByProductTypeId} from '../../../utils/hooks/productHooks';
 import {saveProductStyles} from "./SaveProduct.styles";
 import {useTranslation} from 'react-i18next';
-import {useHistory} from 'react-router-dom';
 
 const useStyles = makeStyles(saveProductStyles);
 
@@ -29,8 +28,8 @@ export const SaveProduct = ({
                                 product,
                                 labels,
                                 onSave,
+                                history
                             }) => {
-    const history = useHistory();
     const {t} = useTranslation();
     const classes = useStyles();
     const [productDetails, setProductDetails] = useState({
@@ -247,7 +246,17 @@ export const SaveProduct = ({
                     <Grid container item xs={12} sm={12} className={classes.containerProduct}>
                         <Grid item xs={12} sm={2} className={classes.containerProductItem}
                               style={{textAlign: 'center'}}>
-                            <IconButton onClick={() => history.push('/create-abstract-product')}>
+                            <IconButton onClick={() => {
+                                if (history.location.state !== undefined && history.location.state.createOrder) {
+                                    history.push('/create-abstract-product', {
+                                        createOrder: true
+                                    });
+                                } else {
+                                    history.push('/create-abstract-product', {
+                                        createProduct: true
+                                    });
+                                }
+                            }}>
                                 <AddCircleIcon fontSize='large'/>
                             </IconButton>
                         </Grid>
@@ -262,7 +271,8 @@ export const SaveProduct = ({
                                 getOptionLabel={getAbstractProductOptionLabel}
                                 onSelectHandler={onAbstractProductSelectHandler}
                                 value={selectedAbstractProduct}
-                                onInputChangedHandler={() => {}}
+                                onInputChangedHandler={() => {
+                                }}
                                 filterOptions={filterOptions}
                             />
                         </Grid>

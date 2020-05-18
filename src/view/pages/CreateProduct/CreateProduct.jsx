@@ -20,7 +20,7 @@ export const CreateProduct = ({history}) => {
                 attributeValues: selectedAttributeValues,
             });
             dispatch(setIsLoading(false));
-            history.push('/products');
+            history.push(history.location.state !== undefined && history.location.state.createOrder ? '/create-order' : '/products');
         } catch (e) {
             dispatch(setIsLoading(false));
             dispatch(setSnackBarStatus({isOpen: true, message: e.message, success: false}));
@@ -37,6 +37,7 @@ export const CreateProduct = ({history}) => {
                 title: t('CREATE_PRODUCT')
             }}
             onSave={createProduct}
+            history={history}
         />
     );
 };

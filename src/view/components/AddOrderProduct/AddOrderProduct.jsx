@@ -98,7 +98,9 @@ export const AddOrderProduct = ({
     }, []);
 
     const navigateToCreateProduct = useCallback(() => {
-        history.push('/create-product');
+        history.push('/create-product', {
+            createOrder: true
+        });
     }, [history]);
 
     const handleClick = useCallback(() => {
