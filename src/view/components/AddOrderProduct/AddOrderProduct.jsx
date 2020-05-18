@@ -1,6 +1,15 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {SaveOrderProduct} from '../SaveOrderProduct/SaveOrderProduct';
-import {Grid, Container, Typography, Button, makeStyles, useMediaQuery} from '@material-ui/core';
+import {
+    Grid,
+    Container,
+    Typography,
+    Button,
+    makeStyles,
+    useMediaQuery,
+    FormControl,
+    InputLabel, OutlinedInput
+} from '@material-ui/core';
 import isEmpty from 'lodash/isEmpty';
 import {addOrderProductStyles} from "./AddOrderProduct.style";
 import {useTranslation} from "react-i18next";
@@ -123,6 +132,18 @@ export const AddOrderProduct = ({
 
     return (
         <Container className={classes.containerRoot}>
+            <Grid container item xs={12} sm={12}>
+                <FormControl variant="outlined" fullWidth>
+                    <InputLabel>{t('DESCRIPTION')}</InputLabel>
+                    <OutlinedInput
+                        label={t('DESCRIPTION')}
+                        name='price'
+                        type='text'
+                        variant='outlined'
+                        labelWidth={70}
+                    />
+                </FormControl>
+            </Grid>
             <Grid container item xl={12} lg={12}>
                 <SaveOrderProduct
                     isOpen={isOpen}
