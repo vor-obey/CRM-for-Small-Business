@@ -127,7 +127,9 @@ export const ProductForm = ({
                             <Grid container item xs={12} sm={12} className={classes.productContainerItem}>
                                 <Grid className={classes.productTitle}>
                                     <Typography variant='body1'
-                                                className={classes.productTitleName}>
+                                                className={classes.productTitleName}
+                                                onClick={() => history.push(`/products/${productId}`)}
+                                    >
                                         {name}
                                     </Typography>
                                 </Grid>
