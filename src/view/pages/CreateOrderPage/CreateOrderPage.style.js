@@ -45,7 +45,8 @@ export const createOrderPageStyles = (theme => ({
         },
         productTitleName: {
             color: '#1769aa',
-            wordBreak: 'break-word'
+            wordBreak: 'break-word',
+            cursor: 'pointer'
         },
         productContainer: {
             alignItems: 'center',

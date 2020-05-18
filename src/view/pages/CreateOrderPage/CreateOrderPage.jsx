@@ -11,6 +11,7 @@ import {useCustomers} from '../../../utils/hooks/customerHooks';
 import {setIsLoading, setSnackBarStatus} from '../../../data/store/auxiliary/auxiliaryActions';
 import OrderService from '../../../services/OrderService';
 import {COMMON_ERROR_MESSAGE} from '../../../constants/statuses';
+import {setProductsToCart} from "../../../data/store/order/orderActions";
 
 const useStyles = makeStyles(createOrderPageStyles);
 
@@ -25,13 +26,15 @@ export const CreateOrderPage = ({history}) => {
     const [customers, setCustomers, customerLoading] = useCustomers();
     const [customer, setCustomer] = useState({});
     const [createdCustomer, setCreatedCustomer] = useState({});
-    const city = useSelector(state => state.autocompleteReducer.city);
-    const warehouse = useSelector(state => state.autocompleteReducer.warehouse);
     const currentUser = useSelector(state => state.userReducer.currentUser);
     const [isCustom, setIsCustom] = useState(false);
     const [address, setAddress] = useState('');
     const [selectedProducts, setSelectedProducts] = useState([]);
     const [status, setStatus] = useState(0);
+    const [novaposhtaAddress, setNovaposhtaAddress] = useState({
+        city: null,
+        warehouse: null
+    });
 
     useEffect(() => {
         if (!isEmpty(createdCustomer)) {
@@ -90,7 +93,7 @@ export const CreateOrderPage = ({history}) => {
     const onSubmitHandler = useCallback(async (e) => {
         e.preventDefault();
         if (isEmpty(selectedProducts) || isEmpty(manager)
-            || isEmpty(customer) || isEmpty(city) || isEmpty(warehouse)
+            || isEmpty(customer) || isEmpty(novaposhtaAddress.city) || isEmpty(novaposhtaAddress.warehouse)
         ) {
             dispatch(setSnackBarStatus({isOpen: true, message: t('FILL_ALL_THE_FIElDS'), success: false}));
         } else {
@@ -103,13 +106,14 @@ export const CreateOrderPage = ({history}) => {
                     customerId: customer.customerId,
                     shippingDetails: {
                         isCustom,
-                        address: isCustom ? address : {city, warehouse},
+                        address: isCustom ? address : novaposhtaAddress,
                         shippingMethodId: shippingMethod.shippingMethodId
                     },
                 });
                 if (response.success) {
                     dispatch(setIsLoading(false));
                     history.push('/orders');
+                    dispatch(setProductsToCart([]));
                 } else {
                     dispatch(setIsLoading(false));
                     dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE, success: false}));
@@ -121,25 +125,35 @@ export const CreateOrderPage = ({history}) => {
         }
     }, [
         t,
-        city,
         customer,
         manager,
-        warehouse,
         dispatch,
         history,
         address,
         isCustom,
         shippingMethod,
         selectedProducts,
-        status
+        status,
+        novaposhtaAddress
     ]);
 
     const onStatusSelectHandler = useCallback((value) => {
         setStatus(value);
     }, []);
 
+    const onNovaposhtaAddressSelectHandler = useCallback((obj) => {
+        const {city, warehouse} = obj;
+        if (city !== undefined) {
+            setNovaposhtaAddress(prevState => ({...prevState, city}));
+        }
+        if (warehouse !== undefined) {
+            setNovaposhtaAddress(prevState => ({...prevState, warehouse}));
+        }
+    }, []);
+
     return (
         <SaveOrderForm
+            history={history}
             classes={classes}
             customer={customer}
             customers={customers}
@@ -161,6 +175,7 @@ export const CreateOrderPage = ({history}) => {
             getProducts={setSelectedProducts}
             status={status}
             onSubmit={onSubmitHandler}
+            onNovaposhtaAddressSelectHandler={onNovaposhtaAddressSelectHandler}
         />
     )
 };

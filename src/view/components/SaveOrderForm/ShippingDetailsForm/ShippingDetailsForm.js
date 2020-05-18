@@ -10,13 +10,13 @@ import {useTranslation} from 'react-i18next';
 export const ShippingDetailsForm = ({
                                         classes,
                                         autocompleteBreakpoints,
-                                        onChangedInput,
                                         isCustom,
                                         shippingMethod,
                                         shippingMethods,
                                         address,
                                         onChangedAddressInput,
-                                        onShippingMethodSelectHandler
+                                        onShippingMethodSelectHandler,
+                                        onNovaposhtaAddressSelectHandler
                                     }) => {
     const {t} = useTranslation();
     const renderAddress = () => {
@@ -27,12 +27,8 @@ export const ShippingDetailsForm = ({
             />
             :
             <NovaPoshtaAddress
-                onChangeInput={onChangedInput}
+                onNovaposhtaAddressSelectHandler={onNovaposhtaAddressSelectHandler}
                 breakPoints={autocompleteBreakpoints}
-                classes={{
-                    city: classes.cityAutocomplete,
-                    warehouse: classes.warehouseAutocomplete
-                }}
                 address={address}
                 label={{
                     city: t('SELECT_CITY'),

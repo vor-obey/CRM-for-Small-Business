@@ -18,13 +18,41 @@ const useStyles = makeStyles(orderDetailsStyles);
 
 export const OrderDetailsPage = ({history}) => {
     const {id} = useParams();
-    const [orderDetails] = useOrderDetailsById(id);
+    const [orderDetails, setOrderDetails] = useOrderDetailsById(id);
     const {shippingDetails: {address: {isCustom} = {}} = {}} = orderDetails;
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [isPrintModalOpen, setIsPrintModalOpen] = useState(false);
+
     const classes = useStyles();
     const dispatch = useDispatch();
     const {t} = useTranslation('');
+
+    const submitStatusHandler = useCallback(async (value) => {
+        const {orderId} = orderDetails;
+        try {
+            dispatch(setIsLoading(true));
+            const response = await OrderService.update({
+                orderId,
+                status: value,
+            });
+            if (response.success) {
+                dispatch(setIsLoading(false));
+                dispatch(setSnackBarStatus({isOpen: true, message: t('STATUS_UPDATED_SUCCESSFULLY'), success: true}));
+                setOrderDetails(prevState => {
+                    return {
+                        ...prevState,
+                        status: parseInt(value)
+                    };
+                });
+            } else {
+                dispatch(setIsLoading(false));
+                dispatch(setSnackBarStatus({isOpen: true, message: t('ERROR'), success: false}));
+            }
+        } catch {
+            dispatch(setIsLoading(false));
+            dispatch(setSnackBarStatus({isOpen: true, message: t('ERROR'), success: false}));
+        }
+    }, [dispatch, orderDetails, setOrderDetails, t]);
 
     const togglePrintModal = useCallback(() => {
         setIsPrintModalOpen(prevState => !prevState);
@@ -133,6 +161,7 @@ export const OrderDetailsPage = ({history}) => {
                     orderDetails={orderDetails}
                     classes={classes}
                     renderShippingAddress={renderShippingAddress}
+                    submit={submitStatusHandler}
                 />
                 <Grid container item xs={12} sm={12} className={classes.buttonContainer}>
                     <Button
