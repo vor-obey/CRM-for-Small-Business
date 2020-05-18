@@ -47,6 +47,7 @@ export const Header = () => {
                 onClose={onClosedHandler}
             />
             {NotificationsFunc()}
+
         </div>
     );
 };

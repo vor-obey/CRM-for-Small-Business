@@ -1,27 +1,20 @@
-import React, {useCallback} from 'react';
+import React from 'react';
 import {CustomAutocomplete} from '../Autocomplete/Autocomplete';
-import {Grid, FormControl, IconButton, Typography, InputLabel, OutlinedInput, InputAdornment, Button, Select, MenuItem} from '@material-ui/core';
+import {
+    Grid,
+    FormControl,
+    IconButton,
+    InputLabel,
+    OutlinedInput,
+    InputAdornment,
+    Select,
+    MenuItem
+} from '@material-ui/core';
 import RemoveIcon from '@material-ui/icons/Remove';
 import AddIcon from '@material-ui/icons/Add';
-import {useHistory} from 'react-router-dom';
-import {useDispatch} from 'react-redux';
-import {closeModal} from '../../../data/store/auxiliary/auxiliaryActions';
 import {useTranslation} from "react-i18next";
-
-const currencies = [
-    {
-        value: 'UAH',
-        label: '₴',
-    },
-    {
-        value: 'USD',
-        label: '$',
-    },
-    {
-        value: 'EUR',
-        label: '€',
-    },
-];
+import {useCart} from "../../../utils/hooks/cartHooks";
+import isEmpty from 'lodash/isEmpty';
 
 export const SaveOrderProduct = ({
                                      isOpen,
@@ -37,22 +30,31 @@ export const SaveOrderProduct = ({
                                      onChange,
                                      increment,
                                      decrement,
-                                     totalPrice,
-                                     classes
+                                     classes,
+                                     filterOptions
                                  }) => {
-    const history = useHistory();
-    const dispatch = useDispatch();
+    const cart = useCart();
     const {t} = useTranslation();
 
-    const navigateToCreateProduct = useCallback(() => {
-        dispatch(closeModal());
-        history.push('/create-product');
-    }, [dispatch, history]);
+    const currencies = [
+        {
+            value: 'UAH',
+            label: '₴',
+        },
+        {
+            value: 'USD',
+            label: '$',
+        },
+        {
+            value: 'EUR',
+            label: '€',
+        },
+    ];
 
     return (
-        <Grid container item xs={12} sm={12} className={classes.container}>
-            <Grid container item xs={12} sm={12} className={classes.containerProduct}>
-                <Grid item xs={12} sm={7}>
+        <Grid container item xl={12} xs={12} sm={12} className={classes.container}>
+            <Grid container item xl={12} xs={12} sm={12} className={classes.containerProduct}>
+                <Grid item xl={6} lg={6} md={6} sm={12} xs={12}>
                     <CustomAutocomplete
                         isOpen={isOpen}
                         options={options}
@@ -63,9 +65,11 @@ export const SaveOrderProduct = ({
                         getOptionLabel={getOptionLabel}
                         onSelectHandler={onSelectHandler}
                         value={value}
+                        onInputChangedHandler={() => {}}
+                        filterOptions={filterOptions}
                     />
                 </Grid>
-                <Grid item xs={12} sm={2} className={classes.containerProduct}>
+                <Grid item xl={2} lg={2} md={2} sm={6} xs={6} className={classes.containerProduct}>
                     <FormControl variant="outlined" fullWidth>
                         <InputLabel>{t('AMOUNT')}</InputLabel>
                         <OutlinedInput
@@ -99,7 +103,7 @@ export const SaveOrderProduct = ({
                         />
                     </FormControl>
                 </Grid>
-                <Grid item xs={12} sm={2} className={classes.containerProduct}>
+                <Grid item xl={2} lg={2} md={2} sm={6} xs={6} className={classes.containerProductPrice}>
                     <FormControl variant="outlined" fullWidth>
                         <InputLabel>{t('PRICE')}</InputLabel>
                         <OutlinedInput
@@ -112,6 +116,7 @@ export const SaveOrderProduct = ({
                             endAdornment={
                                 <InputAdornment position="end">
                                     <Select
+                                        disabled={!isEmpty(cart.products)}
                                         className={classes.currency}
                                         value={details.currency}
                                         name='currency'
@@ -129,26 +134,6 @@ export const SaveOrderProduct = ({
                             labelWidth={70}
                         />
                     </FormControl>
-                </Grid>
-            </Grid>
-            <Grid container item xs={12} sm={12} className={classes.containerProductMeta}>
-                <Grid item xs={12} sm={6} className={classes.containerProductItem}>
-                    <Button
-                        variant="outlined" color="primary"
-                        onClick={navigateToCreateProduct}>
-                        <AddIcon/>
-                          {t('CREATE_PRODUCT')}
-                    </Button>
-                </Grid>
-                <Grid item xs={12} sm={6} className={classes.containerProductItem}>
-                    <Grid className={classes.containerProductItemTotal}>
-                        <Typography variant='subtitle1'>
-                            {t('SUMMARY')}:
-                        </Typography>
-                        <Typography variant='h6'>
-                            {`${totalPrice} ${details.currency}`}
-                        </Typography>
-                    </Grid>
                 </Grid>
             </Grid>
         </Grid>

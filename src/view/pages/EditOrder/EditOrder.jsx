@@ -189,6 +189,7 @@ export const EditOrder = ({history}) => {
 
     return (
         <SaveOrderForm
+            history={history}
             classes={classes}
             onSubmitHandler={onSubmitHandler}
             setCreatedCustomer={setCreatedCustomer}
