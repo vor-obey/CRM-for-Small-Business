@@ -11,6 +11,7 @@ import ProductTypeService from './ProductTypeService'
 import AttributeService from './AttributeService';
 import AbstractProductService from './AbstractProductService';
 import ProductService from './ProductService';
+import NovaPoshtaService from './NovaPoshtaService';
 
 export {
     StorageService,
@@ -26,4 +27,5 @@ export {
     AttributeService,
     AbstractProductService,
     ProductService,
+    NovaPoshtaService
 }
