@@ -16,6 +16,7 @@ export const novaPoshtaAddressStyles = (theme => ({
         },
     },
     popper: {
-        marginBottom: '10px'
+        marginBottom: '10px',
+        borderTop: '1px solid #ECECEC',
     },
 }));

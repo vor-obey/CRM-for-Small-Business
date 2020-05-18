@@ -53,6 +53,7 @@ export const EditOrder = ({history}) => {
         if (!isEmpty(orderDetails)) {
             setAddress(JSON.parse(orderDetails.shippingDetails.address.address));
             setOrderedProducts(mapProducts(orderDetails.orderToProducts, orderDetails.currency));
+            setStatus(orderDetails.status);
         }
     }, [orderDetails, mapProducts]);
 

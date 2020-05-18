@@ -1,7 +1,6 @@
 import React from 'react';
 import {Avatar, Button, Container, CssBaseline, Grid, TextField, Typography, makeStyles} from "@material-ui/core";
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
-import NumberFormat from "react-number-format";
 import {saveCustomerStyle} from "./SaveCustomerForm.style";
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
@@ -98,13 +97,11 @@ export const SaveCustomerForm = (props) => {
                                 />
                             </Grid>
                             <Grid item xs={12}>
-                                <NumberFormat
-                                    customInput={TextField}
+                                <TextField
                                     label={t('NUMBER')}
                                     name="contactNumber"
                                     type="tel"
                                     variant="outlined"
-                                    mask="_"
                                     value={(details && details.contactNumber) || ''}
                                     onChange={onChange}
                                     fullWidth
