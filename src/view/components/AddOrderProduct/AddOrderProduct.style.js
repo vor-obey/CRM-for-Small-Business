@@ -67,7 +67,8 @@ export const addOrderProductStyles = (theme => ({
     fieldset: {
         width: '100%',
         borderTop: '1px solid #ccc',
-        paddingLeft: '0px',
+        paddingLeft: 0,
+        paddingRight: 0,
         marginTop: '20px',
         borderBottom: 0,
         borderLeft: 0,
