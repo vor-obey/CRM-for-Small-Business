@@ -10,7 +10,7 @@ import {
 } from "./userActionTypes";
 
 const initialState = {
-    currentUser: null,
+    currentUser: {},
     igProfile: null,
     isConnected: false,
     isIntegrated: false,

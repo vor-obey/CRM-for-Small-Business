@@ -21,7 +21,6 @@ import isEmpty from 'lodash/isEmpty';
 import {useAbstractProducts, useAttributesByProductTypeId} from '../../../utils/hooks/productHooks';
 import {saveProductStyles} from "./SaveProduct.styles";
 import {useTranslation} from 'react-i18next';
-import {useHistory} from 'react-router-dom';
 
 const useStyles = makeStyles(saveProductStyles);
 
@@ -29,8 +28,8 @@ export const SaveProduct = ({
                                 product,
                                 labels,
                                 onSave,
+                                history
                             }) => {
-    const history = useHistory();
     const {t} = useTranslation();
     const classes = useStyles();
     const [productDetails, setProductDetails] = useState({
@@ -69,7 +68,7 @@ export const SaveProduct = ({
         if (!isEmpty(selectedAbstractProduct)) {
             setProductDetails(prevState => ({
                 ...prevState,
-                price: prevState.price ? prevState.price: selectedAbstractProduct.price
+                price: prevState.price ? prevState.price : selectedAbstractProduct.price
             }));
         }
     }, [selectedAbstractProduct]);
@@ -165,12 +164,49 @@ export const SaveProduct = ({
 
     const onSubmit = useCallback(() => {
         onSave({
-            attributesLength: attributes.length,
             productDetails,
             selectedAbstractProduct,
             selectedAttributeValues
         });
-    }, [productDetails, selectedAttributeValues, selectedAbstractProduct, attributes.length, onSave]);
+    }, [productDetails, selectedAttributeValues, selectedAbstractProduct, onSave]);
+
+    const validateAttributeValues = useCallback((arr) => {
+        return arr.find(item => item === '');
+    }, []);
+
+    const disableButton = useCallback(() => {
+        if (!attributes.length) {
+            return true;
+        }
+        if (!productDetails.name.trim().length || !productDetails.price) {
+            return true;
+        }
+        if (isEmpty(selectedAbstractProduct)) {
+            return true;
+        }
+        const attributeValuesEntriesLength = Object.entries(selectedAttributeValues).length;
+        if (attributes.length !== attributeValuesEntriesLength) {
+            return true;
+        }
+        if ((validateAttributeValues(Object.values(selectedAttributeValues)) !== undefined)) {
+            return true;
+        }
+        return false;
+    }, [attributes.length, productDetails, selectedAbstractProduct, selectedAttributeValues, validateAttributeValues]);
+
+    const filterOptions = useCallback((array, {inputValue}) => {
+        if (!array.length) {
+            return [];
+        }
+
+        const matchWhitespacesRegExp = /\s/g;
+        const formattedInputValue = inputValue.toLowerCase().replace(matchWhitespacesRegExp, '');
+
+        return array.filter((item) => {
+            return item.name.toLowerCase().replace(matchWhitespacesRegExp, '').indexOf(formattedInputValue) !== -1
+                || item.description.toLowerCase().replace(matchWhitespacesRegExp, '').indexOf(formattedInputValue) !== -1;
+        });
+    }, []);
 
     return (
         <Container component='main' maxWidth='md' className={classes.root}>
@@ -210,7 +246,17 @@ export const SaveProduct = ({
                     <Grid container item xs={12} sm={12} className={classes.containerProduct}>
                         <Grid item xs={12} sm={2} className={classes.containerProductItem}
                               style={{textAlign: 'center'}}>
-                            <IconButton onClick={() => history.push('/create-abstract-product')}>
+                            <IconButton onClick={() => {
+                                if (history.location.state !== undefined && history.location.state.createOrder) {
+                                    history.push('/create-abstract-product', {
+                                        createOrder: true
+                                    });
+                                } else {
+                                    history.push('/create-abstract-product', {
+                                        createProduct: true
+                                    });
+                                }
+                            }}>
                                 <AddCircleIcon fontSize='large'/>
                             </IconButton>
                         </Grid>
@@ -225,6 +271,9 @@ export const SaveProduct = ({
                                 getOptionLabel={getAbstractProductOptionLabel}
                                 onSelectHandler={onAbstractProductSelectHandler}
                                 value={selectedAbstractProduct}
+                                onInputChangedHandler={() => {
+                                }}
+                                filterOptions={filterOptions}
                             />
                         </Grid>
                     </Grid>
@@ -246,6 +295,7 @@ export const SaveProduct = ({
                                 <Button
                                     variant='outlined'
                                     onClick={onSubmit}
+                                    disabled={disableButton()}
                                 >
                                     {labels.button}
                                 </Button>

@@ -20,7 +20,15 @@ export const CreateAbstractProductPage = ({history}) => {
                 description: abstractProductDetails.description,
             });
             dispatch(setIsLoading(false));
-            history.push('/abstract-products');
+            if (history.location.state !== undefined && history.location.state.createOrder) {
+                history.push('/create-product', {
+                    createOrder: true
+                });
+            } else if (history.location.state !== undefined && history.location.state.createProduct) {
+                history.push('/create-product');
+            } else {
+                history.push('/abstract-products');
+            }
         } catch (e) {
             dispatch(setIsLoading(false));
             dispatch(setSnackBarStatus({isOpen: true, message: e.message, success: false}));

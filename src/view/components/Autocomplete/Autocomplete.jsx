@@ -3,6 +3,7 @@ import {Autocomplete} from "@material-ui/lab";
 import {CircularProgress, TextField} from "@material-ui/core";
 
 export const CustomAutocomplete = ({
+                                       classes,
                                        isOpen,
                                        options,
                                        onClose,
@@ -14,10 +15,12 @@ export const CustomAutocomplete = ({
                                        getOptionLabel,
                                        onSelectHandler,
                                        onInputChangedHandler,
-                                       value
+                                       value,
+                                       filterOptions,
                                    }) => {
     return (
         <Autocomplete
+            classes={classes}
             open={isOpen}
             onOpen={onToggle}
             onClose={onClose}
@@ -26,14 +29,15 @@ export const CustomAutocomplete = ({
             getOptionLabel={getOptionLabel}
             disabled={disabled}
             onChange={(event, value) => onSelectHandler(value)}
+            onInputChange={(event, value) => onInputChangedHandler(value)}
             value={value}
+            filterOptions={(array, state) => filterOptions(array, state)}
             renderInput={params => (
                 <TextField
                     {...params}
                     label={inputLabel}
                     fullWidth
                     variant="outlined"
-                    onChange={onInputChangedHandler}
                     InputProps={{
                         ...params.InputProps,
                         endAdornment: (

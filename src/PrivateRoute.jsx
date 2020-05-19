@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import {Route, Redirect} from "react-router-dom";
 import StorageService from './services/StorageService';
 import {useSelector} from "react-redux";
@@ -17,19 +17,30 @@ export const PrivateRoute = ({component: Component, ...rest}) => {
         }
     }, [currentUser]);
 
-    const renderComponent = (props) => {
+    const renderComponent = useCallback((props) => {
         const {match} = props;
-        const role = currentUser && currentUser.role.name;
+        const role = currentUser.role && currentUser.role.name;
+        const enabled = currentUser.organization && currentUser.organization.enabled;
+
+        if (match.path === '/') {
+            return isAuthenticated ? <Redirect to='/dashboard'/> : <Component {...props} />;
+        }
+
         if (!isAuthenticated) {
-            return <Redirect to='/'/>
+            return <Redirect to='/'/>;
+        }
+
+        if (isAuthenticated && enabled === false) {
+            StorageService.removeJWTToken();
+            return <Redirect to='/'/>;
         }
 
         if (role && (match.path === '/organizations/:id' || match.path === '/organizations/:id/edit')) {
-            return role === 'Owner' ? <Component {...props} /> : <Redirect to='/'/>
+            return role === 'Owner' ? <Component {...props} /> : <Redirect to='/'/>;
         }
 
         return <Component {...props} />;
-    };
+    }, [currentUser, isAuthenticated]);
 
     return (
         <Route

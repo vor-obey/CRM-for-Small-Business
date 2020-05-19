@@ -36,7 +36,9 @@ export const SaveOrderForm = ({
                                   status,
                                   onSubmit,
                                   orderedProducts,
-                                  isEdit
+                                  isEdit,
+                                  onNovaposhtaAddressSelectHandler,
+                                  history
                               }) => {
     const {t} = useTranslation();
     const renderStatuses = useCallback(() => {
@@ -81,6 +83,7 @@ export const SaveOrderForm = ({
                                 classes={classes}
                                 orderedProducts={orderedProducts}
                                 isEdit={isEdit}
+                                history={history}
                             />
                         </Grid>
                         <Grid container item xl={12}>
@@ -107,6 +110,7 @@ export const SaveOrderForm = ({
                                 address={address}
                                 onChangedAddressInput={onChangedAddressInput}
                                 onShippingMethodSelectHandler={onShippingMethodSelectHandler}
+                                onNovaposhtaAddressSelectHandler={onNovaposhtaAddressSelectHandler}
                             />
                         </Grid>
                         <Button

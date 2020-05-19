@@ -1,29 +1,23 @@
 import React from 'react';
 import {Avatar, Button, Container, CssBaseline, Grid, TextField, Typography, makeStyles} from "@material-ui/core";
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
-import NumberFormat from "react-number-format";
 import {saveCustomerStyle} from "./SaveCustomerForm.style";
 import FormControl from "@material-ui/core/FormControl";
-import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
 import {useTranslation} from "react-i18next";
 
 const useStyles = makeStyles(saveCustomerStyle);
 
-export const SaveCustomerForm = (props) => {
-
-    const {
-        renderSource,
-        titleText,
-        submitText,
-        details,
-        onSubmit,
-        onChange
-    } = props;
-
+export const SaveCustomerForm = ({
+                                     renderSource,
+                                     titleText,
+                                     submitText,
+                                     details,
+                                     onSubmit,
+                                     onChange,
+                                 }) => {
     const classes = useStyles();
     const {t} = useTranslation('');
-
 
     return (
         <div>
@@ -38,25 +32,25 @@ export const SaveCustomerForm = (props) => {
                     </Typography>
                     <form className={classes.form} onSubmit={(event) => onSubmit(event, details)}>
                         <Grid item xs={12}>
+                            <Typography className={classes.typographySources}>
+                                {t('SOURCES')}
+                            </Typography>
                             <FormControl
                                 variant="outlined"
                                 className={classes.formControl}
                                 required
                             >
-                                <InputLabel id="demo-simple-select-outlined-label">
-                                    {t('SOURCES')}
-                                </InputLabel>
                                 <Select
                                     native
                                     name="sourceId"
                                     value={(details && details.sourceId) || ''}
                                     onChange={onChange}
-                                    labelWidth={70}
                                     required
                                     inputProps={{
                                         name: 'sourceId',
-                                    }}>
-                                    <option value=""></option>
+                                    }}
+                                >
+                                    <option value=''/>
                                     {renderSource()}
                                 </Select>
                             </FormControl>
@@ -98,13 +92,11 @@ export const SaveCustomerForm = (props) => {
                                 />
                             </Grid>
                             <Grid item xs={12}>
-                                <NumberFormat
-                                    customInput={TextField}
+                                <TextField
                                     label={t('NUMBER')}
                                     name="contactNumber"
                                     type="tel"
                                     variant="outlined"
-                                    mask="_"
                                     value={(details && details.contactNumber) || ''}
                                     onChange={onChange}
                                     fullWidth
@@ -122,7 +114,6 @@ export const SaveCustomerForm = (props) => {
                                     multiline
                                 />
                             </Grid>
-
                         </Grid>
                         <Button
                             className={classes.submit}

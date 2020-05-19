@@ -13,6 +13,14 @@ export default class StorageService {
         return localStorage.setItem(key, value);
     }
 
+    static removeItem(key) {
+        return localStorage.removeItem(key);
+    }
+
+    static removeJWTToken() {
+        this.removeItem(StorageService.KEYS.ACCESS_TOKEN);
+    }
+
     static getJWTToken() {
         return this.getItem(StorageService.KEYS.ACCESS_TOKEN);
     }

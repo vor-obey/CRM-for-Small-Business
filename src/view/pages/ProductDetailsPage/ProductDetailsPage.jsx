@@ -16,6 +16,7 @@ import {productDetailsPageStyles} from "./ProductDetailsPage.Style";
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from "@material-ui/icons/Edit";
 import AssignmentOutlinedIcon from '@material-ui/icons/AssignmentOutlined';
+import {useCart} from "../../../utils/hooks/cartHooks";
 
 const useStyles = makeStyles(productDetailsPageStyles);
 
@@ -23,6 +24,7 @@ export const ProductDetailsPage = ({history}) => {
     const classes = useStyles();
     const dispatch = useDispatch();
     const {id} = useParams();
+    const cart = useCart();
     const [productDetails] = useProductDetailsById(id);
     const {t} = useTranslation('');
 
@@ -33,6 +35,9 @@ export const ProductDetailsPage = ({history}) => {
             if (response.success) {
                 dispatch(setIsLoading(false));
                 dispatch(closeDialog());
+                if (cart.products.map(id => id.productId === id)) {
+                    cart.setProducts([]);
+                }
                 history.push('/products');
             } else {
                 dispatch(setIsLoading(false));
@@ -42,7 +47,7 @@ export const ProductDetailsPage = ({history}) => {
             dispatch(setIsLoading(false));
             dispatch(setSnackBarStatus({isOpen: true, message: e.message, success: false}));
         }
-    }, [id, history, dispatch]);
+    }, [id, history, dispatch, cart]);
 
     const renderAttributes = useCallback(() => {
         const {productToAttributeValues} = productDetails;
@@ -144,6 +149,7 @@ export const ProductDetailsPage = ({history}) => {
                             className={classes.buttonFab}
                             onClick={openProductDeleteDialog}
                             color="primary"
+                            disabled={productDetails.name === undefined}
                             aria-label="delete"
                             size="small">
                             <DeleteIcon/>
