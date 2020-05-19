@@ -21,7 +21,9 @@ const useStyle = makeStyles(addOrderProductStyles);
 
 export const AddOrderProduct = ({
                                     products,
-                                    submit
+                                    submit,
+                                    orderDescription,
+                                    onOrderDescriptionChangeHandler
                                 }) => {
     const classes = useStyle();
     const [selectedProduct, setSelectedProduct] = useState({});
@@ -141,6 +143,8 @@ export const AddOrderProduct = ({
                         type='text'
                         variant='outlined'
                         labelWidth={70}
+                        value={orderDescription}
+                        onChange={onOrderDescriptionChangeHandler}
                     />
                 </FormControl>
                 <Divider/>
@@ -150,24 +154,24 @@ export const AddOrderProduct = ({
                     <legend className={classes.legend}>
                         {t('ADD_PRODUCT')}
                     </legend>
-                <SaveOrderProduct
-                    isOpen={isOpen}
-                    options={products}
-                    onClose={toggleAutocomplete}
-                    onToggle={toggleAutocomplete}
-                    inputLabel={t('SELECT_PRODUCT')}
-                    renderOption={renderProductOptions}
-                    getOptionLabel={getProductOptionLabel}
-                    onSelectHandler={onProductSelectHandler}
-                    value={selectedProduct}
-                    details={details}
-                    onChange={onDetailsChangedHandler}
-                    increment={incrementAmount}
-                    decrement={decrementAmount}
-                    totalPrice={totalPrice}
-                    classes={classes}
-                    filterOptions={filterOptions}
-                />
+                    <SaveOrderProduct
+                        isOpen={isOpen}
+                        options={products}
+                        onClose={toggleAutocomplete}
+                        onToggle={toggleAutocomplete}
+                        inputLabel={t('SELECT_PRODUCT')}
+                        renderOption={renderProductOptions}
+                        getOptionLabel={getProductOptionLabel}
+                        onSelectHandler={onProductSelectHandler}
+                        value={selectedProduct}
+                        details={details}
+                        onChange={onDetailsChangedHandler}
+                        increment={incrementAmount}
+                        decrement={decrementAmount}
+                        totalPrice={totalPrice}
+                        classes={classes}
+                        filterOptions={filterOptions}
+                    />
                 </fieldset>
             </Grid>
             <Grid container item xs={12} className={classes.buttonContainer}>
