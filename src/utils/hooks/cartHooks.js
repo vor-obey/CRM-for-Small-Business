@@ -6,13 +6,40 @@ import {
     editProductFromCart,
     setProductsToCart
 } from "../../data/store/order/orderActions";
+import isEqual from 'lodash/isEqual';
+import {useProducts} from './productHooks';
 
-export const useCart = () => {
+export const useCart = (items) => {
     const cartState = useSelector(state => state.orderReducer.cart);
     const dispatch = useDispatch();
     const [products, changeProducts] = useState([]);
+    const [originalProducts, setOriginalProducts] = useState([]);
 
     useEffect(() => {
+        if (items !== undefined && !originalProducts.length) {
+            setOriginalProducts([...items]);
+        }
+    }, [items, originalProducts.length]);
+
+    useEffect(() => {
+        if (originalProducts.length === 0) {
+            return;
+        }
+
+        console.log('original products', originalProducts);
+        console.log('products', products);
+        const isOriginalProductsChanged = () => {
+            return products.reduce((prev, curr) => {
+                return !!originalProducts.find((product) => {
+                    return product.productId === curr.productId
+                        && (
+                            product.price !== curr.price
+                            || product.name !== curr.name
+                        );
+                }) || prev
+            }, false)
+        };
+
         const isCartChanged = () => {
             return cartState.reduce((prev, curr) => {
                 return !!products.find((product) => (
@@ -22,23 +49,31 @@ export const useCart = () => {
             }, false) || cartState.length !== products.length;
         };
 
-        const shouldUpdate = isCartChanged();
+        console.log(isOriginalProductsChanged(), isCartChanged());
+
+        const shouldUpdate = isOriginalProductsChanged() || isCartChanged();
 
         if (shouldUpdate) {
 
             const newProducts = cartState.map((cartProduct) => {
-                 return {
-                    productId: cartProduct.productId,
-                    name: cartProduct.name,
+                const originalProduct = originalProducts.find(
+                    (product) => product.productId === cartProduct.productId
+                );
+
+                return {
+                    ...originalProduct,
                     price: cartProduct.price,
-                    totalPrice: cartProduct.amount * cartProduct.price ,
+                    totalPrice: cartProduct.amount * cartProduct.price,
                     currency: cartProduct.currency,
                     amount: cartProduct.amount,
                 };
             });
-            changeProducts(newProducts);
+            console.log(products, newProducts);
+            if (!isEqual(products, newProducts)) {
+                changeProducts(newProducts);
+            }
         }
-    }, [cartState, products]);
+    }, [cartState, products, originalProducts]);
 
 
     const setProducts = useCallback((products) => {

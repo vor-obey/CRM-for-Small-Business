@@ -33,7 +33,6 @@ export const SaveOrderProduct = ({
                                      classes,
                                      filterOptions
                                  }) => {
-    const cart = useCart();
     const {t} = useTranslation();
 
     const currencies = [
@@ -116,7 +115,6 @@ export const SaveOrderProduct = ({
                             endAdornment={
                                 <InputAdornment position="end">
                                     <Select
-                                        disabled={!isEmpty(cart.products)}
                                         className={classes.currency}
                                         value={details.currency}
                                         name='currency'

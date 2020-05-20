@@ -35,13 +35,13 @@ export const ProductForm = ({
 
     const cartUtils = useEditCart();
     const {t} = useTranslation();
-    const cart = useCart();
+    const cart = useCart(products);
 
     useEffect(() => {
         if (!isEdit) {
             getProducts(cart.products);
         }
-    }, [isEdit, cart.products, orderedProducts, getProducts]);
+    }, [isEdit, cart.products, getProducts]);
 
     const addProduct = useCallback((product) => {
         if (isEdit) {

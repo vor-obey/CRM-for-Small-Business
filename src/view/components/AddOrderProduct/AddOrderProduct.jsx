@@ -118,15 +118,14 @@ export const AddOrderProduct = ({
         const matchWhitespacesRegExp = /\s/g;
         const formattedInputValue = inputValue.toLowerCase().replace(matchWhitespacesRegExp, '');
         const filteredArr = array.filter((item) => {
-            if (!isEdit ? selectedProducts.find(({productId}) => productId === item.productId) : orderedProducts.find(({productId}) => productId === item.productId)) {
-                return null;
-            } else {
-                return item.name.toLowerCase().replace(matchWhitespacesRegExp, '').indexOf(formattedInputValue) !== -1;
-            }
+            return !isEdit ?
+                !!selectedProducts.find(({productId}) => productId === item.productId) === false
+                : !!orderedProducts.find(({productId}) => productId === item.productId) === false
         });
         return filteredArr.filter((item) => {
             return item.name.toLowerCase().replace(matchWhitespacesRegExp, '').indexOf(formattedInputValue) !== -1;
         })
+
     }, [selectedProducts, orderedProducts, isEdit]);
 
     return (
