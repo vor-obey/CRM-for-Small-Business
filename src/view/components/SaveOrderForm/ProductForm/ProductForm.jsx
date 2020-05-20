@@ -35,7 +35,7 @@ export const ProductForm = ({
 
     const cartUtils = useEditCart();
     const {t} = useTranslation();
-    const cart = useCart(products);
+    const cart = useCart();
 
     useEffect(() => {
         if (!isEdit) {
