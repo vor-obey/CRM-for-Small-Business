@@ -1,4 +1,3 @@
-import {useProducts} from './productHooks';
 import {useDispatch, useSelector} from "react-redux";
 import {useCallback, useEffect, useState} from "react";
 import {
@@ -10,27 +9,10 @@ import {
 
 export const useCart = () => {
     const cartState = useSelector(state => state.orderReducer.cart);
-    const [originalProducts] = useProducts();
     const dispatch = useDispatch();
     const [products, changeProducts] = useState([]);
 
     useEffect(() => {
-        if (originalProducts.length === 0) {
-            return;
-        }
-
-        const isOriginalProductsChanged = () => {
-            return products.reduce((prev, curr) => {
-                return !!originalProducts.find((product) => (
-                    product.productId === curr.productId
-                    && (
-                        product.price !== curr.price
-                        || product.name !== curr.name
-                    )
-                )) || prev
-            }, false)
-        };
-
         const isCartChanged = () => {
             return cartState.reduce((prev, curr) => {
                 return !!products.find((product) => (
@@ -40,24 +22,23 @@ export const useCart = () => {
             }, false) || cartState.length !== products.length;
         };
 
-        const shouldUpdate = isOriginalProductsChanged() || isCartChanged();
+        const shouldUpdate = isCartChanged();
 
         if (shouldUpdate) {
-            const newProducts = cartState.map((cartProduct) => {
-                const originalProduct = originalProducts.find(
-                    (product) => product.productId === cartProduct.productId
-                );
 
-                return {
-                    ...originalProduct,
-                    totalPrice: cartProduct.amount * (originalProduct && originalProduct.price),
+            const newProducts = cartState.map((cartProduct) => {
+                 return {
+                    productId: cartProduct.productId,
+                    name: cartProduct.name,
+                    price: cartProduct.price,
+                    totalPrice: cartProduct.amount * cartProduct.price ,
                     currency: cartProduct.currency,
                     amount: cartProduct.amount,
                 };
             });
             changeProducts(newProducts);
         }
-    }, [originalProducts, cartState, products]);
+    }, [cartState, products]);
 
 
     const setProducts = useCallback((products) => {

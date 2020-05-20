@@ -33,9 +33,9 @@ export const ProductForm = ({
     const [, updateState] = useState();
     const forceUpdate = useCallback(() => updateState({}), []);
 
-    const cart = useCart();
     const cartUtils = useEditCart();
     const {t} = useTranslation();
+    const cart = useCart(products);
 
     useEffect(() => {
         if (!isEdit) {
@@ -226,11 +226,11 @@ export const ProductForm = ({
             </Grid>
             <Grid container item xs={12} sm={12}>
                 <AddOrderProduct
-                    products={products.filter((product) => (
-                        !isEdit ? !cart.products.find(({productId}) => productId === product.productId) :
-                            !orderedProducts.find(({productId}) => productId === product.productId)
-                    ))}
+                    products={products}
+                    selectedProducts={cart.products}
                     submit={addProduct}
+                    isEdit={isEdit}
+                    orderedProducts={orderedProducts}
                 />
                 {renderSelectedProducts()}
                 <Grid item xs={12} sm={12} className={classes.productContainerTotal}>

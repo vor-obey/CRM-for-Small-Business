@@ -11,7 +11,10 @@ import {useCart} from "../../../utils/hooks/cartHooks";
 const useStyle = makeStyles(addOrderProductStyles);
 
 export const AddOrderProduct = ({
+                                    selectedProducts,
+                                    orderedProducts,
                                     products,
+                                    isEdit,
                                     submit
                                 }) => {
     const classes = useStyle();
@@ -112,14 +115,19 @@ export const AddOrderProduct = ({
         if (!array.length) {
             return [];
         }
-
         const matchWhitespacesRegExp = /\s/g;
         const formattedInputValue = inputValue.toLowerCase().replace(matchWhitespacesRegExp, '');
-
-        return array.filter((item) => {
-            return item.name.toLowerCase().replace(matchWhitespacesRegExp, '').indexOf(formattedInputValue) !== -1;
+        const filteredArr = array.filter((item) => {
+            if (!isEdit ? selectedProducts.find(({productId}) => productId === item.productId) : orderedProducts.find(({productId}) => productId === item.productId)) {
+                return null;
+            } else {
+                return item.name.toLowerCase().replace(matchWhitespacesRegExp, '').indexOf(formattedInputValue) !== -1;
+            }
         });
-    }, []);
+        return filteredArr.filter((item) => {
+            return item.name.toLowerCase().replace(matchWhitespacesRegExp, '').indexOf(formattedInputValue) !== -1;
+        })
+    }, [selectedProducts, orderedProducts, isEdit]);
 
     return (
         <Container className={classes.containerRoot}>
