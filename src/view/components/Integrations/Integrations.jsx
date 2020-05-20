@@ -17,7 +17,7 @@ import {Button} from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import {CreateIntegration} from '../CreateIntegration/CreateIntegration';
 import IntegrationService from '../../../services/IntegrationService';
-import {deleteIntegration, getCurrentUser} from '../../../data/store/user/userActions';
+import {getCurrentUser} from '../../../data/store/user/userActions';
 import InstagramIcon from '@material-ui/icons/Instagram';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
@@ -49,7 +49,6 @@ export const Integrations = ({
             if (response.success) {
                 dispatch(setIsLoading(false));
                 dispatch(closeModal());
-                dispatch(getCurrentUser());
                 triggerOrganizationDetailsUpdate();
             } else {
                 dispatch(setIsLoading(false));
@@ -77,7 +76,7 @@ export const Integrations = ({
             ),
             onCloseHandler: () => dispatch(closeModal()),
         }))
-    }, [t, dispatch, createIntegration]);
+    }, [t, dispatch, createIntegration, classes]);
 
     const openEditIntegrationModal = useCallback((integration) => {
         const editIntegration = async (creds) => {
@@ -117,7 +116,7 @@ export const Integrations = ({
             ),
             onCloseHandler: () => dispatch(closeModal()),
         }))
-    }, [t, dispatch, triggerOrganizationDetailsUpdate]);
+    }, [t, dispatch, triggerOrganizationDetailsUpdate, classes]);
 
     const openDeleteIntegrationDialog = useCallback((integration) => {
         const deleteIntegrationById = async () => {
@@ -125,7 +124,6 @@ export const Integrations = ({
                 dispatch(setIsLoading(true));
                 const response = await IntegrationService.delete(integration.integrationId);
                 if (response.success) {
-                    dispatch(deleteIntegration(organization.organizationId));
                     dispatch(getCurrentUser());
                     triggerOrganizationDetailsUpdate();
                 } else {
@@ -147,7 +145,7 @@ export const Integrations = ({
             onActionHandler: () => deleteIntegrationById(),
             children: t('DELETE_INTEGRATION')
         }));
-    }, [dispatch, t, triggerOrganizationDetailsUpdate, organization.organizationId]);
+    }, [dispatch, t, triggerOrganizationDetailsUpdate]);
 
     const renderIntegrations = useCallback(() => {
         if (!integrations.length) {

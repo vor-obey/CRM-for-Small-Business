@@ -1,4 +1,4 @@
-export const ChatStyles = (theme => ({
+export const chatWrapperStyles = (theme => ({
     container: {
         display: 'flex',
         padding: 0,

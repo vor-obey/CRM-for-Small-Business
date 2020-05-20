@@ -3,10 +3,10 @@ import {Grid, TextField, Button, Typography, makeStyles} from '@material-ui/core
 import {InstagramService, StorageService} from '../../../../services';
 import {useDispatch, useSelector} from 'react-redux';
 import {setIsLoading, setSnackBarStatus} from '../../../../data/store/auxiliary/auxiliaryActions';
-import {ChatStyles} from "../Chat.style";
+import {chatWrapperStyles} from "../ChatWrapper.style";
 import Paper from "@material-ui/core/Paper";
 
-const useStyle = makeStyles(ChatStyles);
+const useStyle = makeStyles(chatWrapperStyles);
 
 export const ChatEnter = ({setConnection}) => {
     const classes = useStyle();
@@ -27,7 +27,7 @@ export const ChatEnter = ({setConnection}) => {
             if (response.success) {
                 dispatch(setIsLoading(false));
                 StorageService.setChatConnection(true);
-                setConnection();
+                setConnection(true);
             } else {
                 dispatch(setIsLoading(false));
                 const role = currentUser.role.name;
@@ -54,7 +54,7 @@ export const ChatEnter = ({setConnection}) => {
             if (response.success) {
                 dispatch(setIsLoading(false));
                 StorageService.setChatConnection(true);
-                setConnection();
+                setConnection(true);
             } else {
                 if (response.message === 'POST /api/v1/accounts/login/ - 400 Bad Request; challenge_required') {
                     dispatch(setIsLoading(false));
@@ -77,7 +77,7 @@ export const ChatEnter = ({setConnection}) => {
             if (response.success) {
                 dispatch(setIsLoading(false));
                 StorageService.setChatConnection(true);
-                setConnection();
+                setConnection(true);
             } else {
                 dispatch(setIsLoading(false));
                 dispatch(setSnackBarStatus({isOpen: true, message: response.message, success: false}));

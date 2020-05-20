@@ -1,44 +1,81 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {Container, useMediaQuery} from '@material-ui/core';
-import Typography from '@material-ui/core/Typography';
 import List from '@material-ui/core/List';
-import {ChatThreads} from './ChatThreads/ChatThreads';
+import {ChatThreads} from '../ChatThreads/ChatThreads';
+import {ChatDialog} from '../ChatDialog/ChatDialog';
+import Typography from '@material-ui/core/Typography';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
-import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 import Avatar from '@material-ui/core/Avatar';
-import {ChatDialog} from './ChatDialog/ChatDialog';
-import {makeStyles} from "@material-ui/core/styles";
-import {ChatStyles} from "./Chat.style";
-import {InstagramService, StorageService} from '../../../services';
-import {ChatEnter} from './ChatEnter/ChatEnter';
+import {Container, useMediaQuery} from '@material-ui/core';
+import {InstagramService, StorageService} from '../../../../services';
+import {useDispatch, useSelector} from 'react-redux';
+import {initIgChatConnection, initSocketConnection} from '../../../../data/store/user/userActions';
 
-const useStyles = makeStyles(ChatStyles);
-
-export const Chat = ({mobile}) => {
-    const profile = {};
-    const [threads, setThreads] = useState([]);
-    const [isConnected, setIsConnected] = useState(JSON.parse(StorageService.getChatConnection()));
+export const Chat = ({
+                         classes,
+                         setConnection
+                     }) => {
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [selectedThreadId, setSelectedThreadId] = useState('');
+    const [threads, setThreads] = useState([]);
+    const profile = {};
     const minWidth600 = useMediaQuery('(min-width:600px)');
-    const classes = useStyles();
+    const [igExists, setIgExists] = useState(false);
+    const {socket, currentUser} = useSelector(state => state.userReducer);
+    const dispatch = useDispatch();
 
     useEffect(() => {
-        if (isConnected) {
-            const fetchThreads = async () => {
-                const response = await InstagramService.getThreads();
-                setThreads(response);
-            };
+        const validateAcc = async () => {
+            try {
+                const response = await InstagramService.validate();
+                if (response.success) {
+                    setIgExists(true);
+                } else {
+                    setIgExists(false);
+                    StorageService.setChatConnection(false);
+                    setConnection(false);
+                }
+            } catch (e) {
+                setIgExists(false);
+                StorageService.setChatConnection(false);
+                setConnection(false);
+            }
+        };
+        if (!igExists) {
+            validateAcc();
+        }
+    }, [igExists, setConnection]);
+
+    useEffect(() => {
+        if (igExists && !socket) {
+            const {organizationId} = currentUser.organization;
+            dispatch(initSocketConnection(organizationId))
+        }
+    }, [igExists, dispatch, currentUser.organization, socket]);
+
+    useEffect(() => {
+        if (socket !== null) {
+            dispatch(initIgChatConnection(socket));
+        }
+    }, [socket, dispatch]);
+
+    const fetchThreads = useCallback(async () => {
+        try {
+            const response = await InstagramService.getThreads();
+            setThreads(response);
+        } catch (e) {
+            console.log(e);
+        }
+    }, []);
+
+    useEffect(() => {
+        if (igExists) {
             fetchThreads();
         }
-    }, [isConnected]);
-
-    const setConnection = useCallback(() => {
-        setIsConnected(true);
-    }, []);
+    }, [igExists, fetchThreads]);
 
     const openThread = useCallback((threadId) => {
         setSelectedThreadId(threadId);
@@ -101,7 +138,7 @@ export const Chat = ({mobile}) => {
         });
     }, [threads, openThread, classes]);
 
-    if (!minWidth600 || mobile === true) {
+    if (!minWidth600) {
         return (
             <Container className={classes.mobileContainer}>
                 <List className={classes.mobileList}>
@@ -120,39 +157,30 @@ export const Chat = ({mobile}) => {
                     }
                 </List>
             </Container>
-
         );
     }
 
     return (
-        <Container className={classes.container}>
-            {!isConnected ? (
-                <ChatEnter
-                    setConnection={setConnection}
+        <>
+            <List className={classes.listThreads}>
+                <ChatThreads
+                    classes={classes}
+                    renderThreads={renderThreads}
                 />
-            ) : (
-                <>
-                    <List className={classes.listThreads}>
-                        <ChatThreads
-                            classes={classes}
-                            renderThreads={renderThreads}
-                        />
-                    </List>
-                    <List className={classes.listDialog}>
-                        {isDialogOpen ?
-                            <ChatDialog
-                                minWidth={minWidth600}
-                                profile={profile}
-                                thread={threads.find(item => item.thread_id === selectedThreadId)}
-                                classes={classes}
-                            />
-                            :
-                            <Typography variant='h6' className={classes.text}>Please select a chat to start
-                                messaging</Typography>
-                        }
-                    </List>
-                </>
-            )}
-        </Container>
+            </List>
+            <List className={classes.listDialog}>
+                {isDialogOpen ?
+                    <ChatDialog
+                        minWidth={minWidth600}
+                        profile={profile}
+                        thread={threads.find(item => item.thread_id === selectedThreadId)}
+                        classes={classes}
+                    />
+                    :
+                    <Typography variant='h6' className={classes.text}>Please select a chat to start
+                        messaging</Typography>
+                }
+            </List>
+        </>
     );
 };

@@ -1,44 +1,36 @@
 import {
     GET_CURRENT_USER_SUCCESS,
     SET_IG_PROFILE,
-    SET_IS_CONNECTED,
     ADD_MESSAGE,
     SET_THREADS,
-    SET_IS_INTEGRATED,
     OPEN_CHAT_WIDGET, CLOSE_CHAT_WIDGET,
-    SET_SOCKET_ERROR
+    SET_SOCKET_ERROR,
+    SET_SOCKET
 } from "./userActionTypes";
 
 const initialState = {
     currentUser: {},
     igProfile: null,
-    isConnected: false,
-    isIntegrated: false,
     isChatWidgetOpened: true,
     messages: [],
     threads: [],
     error: null,
+    socket: null,
 };
 
 export const userReducer = (state = initialState, action) => {
     switch (action.type) {
+        case SET_SOCKET: {
+            return {
+                ...state,
+                socket: action.socket
+            };
+        }
         case GET_CURRENT_USER_SUCCESS: {
             return {
                 ...state,
                 currentUser: action.currentUser
             };
-        }
-        case SET_IS_CONNECTED: {
-            return {
-                ...state,
-                isConnected: action.isConnected
-            }
-        }
-        case SET_IS_INTEGRATED: {
-            return {
-                ...state,
-                isIntegrated: action.isIntegrated
-            }
         }
         case SET_SOCKET_ERROR: {
             return {
