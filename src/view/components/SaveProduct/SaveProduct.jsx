@@ -53,9 +53,9 @@ export const SaveProduct = ({
     }, []);
 
     useEffect(() => {
-        console.log(history, abstractProducts);
         if (history.location.state !== undefined && history.location.state.abstractProductId && !isEmpty(abstractProducts)) {
             setSelectedAbstractProduct(abstractProducts.find(item => item.abstractProductId === history.location.state.abstractProductId));
+            setIsExpanded(true);
         }
     }, [history, abstractProducts]);
 
@@ -149,7 +149,7 @@ export const SaveProduct = ({
                         <Select
                             native
                             name={attributeId}
-                            value={selectedAttributeValues[attributeId] || ''}
+                            value={(selectedAttributeValues && selectedAttributeValues[attributeId]) || ''}
                             onChange={onAttributeValueSelectHandler}
                             inputProps={{
                                 name: attributeId

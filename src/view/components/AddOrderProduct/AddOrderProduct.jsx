@@ -29,6 +29,19 @@ export const AddOrderProduct = ({
     const cart = useCart();
 
     useEffect(() => {
+        if (history.location.state !== undefined && history.location.state.productDetails) {
+            const product = history.location.state.productDetails
+            setSelectedProduct(product);
+            setDetails(prevState => {
+                return {
+                    ...prevState,
+                    price: product.price
+                };
+            });
+        }
+    }, [history]);
+
+    useEffect(() => {
         setTotalPrice(details.price * details.amount);
     }, [details]);
 
