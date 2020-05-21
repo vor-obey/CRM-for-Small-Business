@@ -25,7 +25,10 @@ export const CreateAbstractProductPage = ({history}) => {
                     createOrder: true
                 });
             } else if (history.location.state !== undefined && history.location.state.createProduct) {
-                history.push('/create-product');
+                history.push({
+                    pathname: '/create-product',
+                    state: data
+                });
             } else {
                 history.push('/abstract-products');
             }
