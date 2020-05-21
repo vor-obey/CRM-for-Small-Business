@@ -21,7 +21,6 @@ import isEmpty from 'lodash/isEmpty';
 import {useAbstractProducts, useAttributesByProductTypeId} from '../../../utils/hooks/productHooks';
 import {saveProductStyles} from "./SaveProduct.styles";
 import {useTranslation} from 'react-i18next';
-import {useLocation} from "react-router-dom";
 
 const useStyles = makeStyles(saveProductStyles);
 
@@ -37,14 +36,13 @@ export const SaveProduct = ({
         name: '',
         price: '',
     });
-    const location = useLocation();
     const [abstractProducts] = useAbstractProducts();
     const [selectedAbstractProduct, setSelectedAbstractProduct] = useState({});
     const [isAbstractProductAutocompleteOpen, setIsAbstractProductAutocompleteOpen] = useState(false);
     const [attributes] = useAttributesByProductTypeId(selectedAbstractProduct.productType && selectedAbstractProduct.productType.productTypeId);
     const [selectedAttributeValues, setSelectedAttributeValues] = useState({});
     const [isExpanded, setIsExpanded] = useState(false);
-    const [select, setSelect] = useState()
+
     const getAttributeValueIds = useCallback((items) => {
         const ids = {};
         for (const {attributeValue} of items) {
@@ -55,12 +53,11 @@ export const SaveProduct = ({
     }, []);
 
     useEffect(() => {
-        if (!isEmpty(location.state)) {
-            const datas = location.state.data;
-            console.log(datas);
+        console.log(history, abstractProducts);
+        if (history.location.state !== undefined && history.location.state.abstractProductId && !isEmpty(abstractProducts)) {
+            setSelectedAbstractProduct(abstractProducts.find(item => item.abstractProductId === history.location.state.abstractProductId));
         }
-    }, [location]);
-
+    }, [history, abstractProducts]);
 
     useEffect(() => {
         if (!isEmpty(product)) {

@@ -13,7 +13,7 @@ export const CreateAbstractProductPage = ({history}) => {
         const {productTypeId, abstractProductDetails} = data;
         try {
             dispatch(setIsLoading(true));
-            await AbstractProductService.create({
+            const {abstractProductId} = await AbstractProductService.create({
                 productTypeId,
                 name: abstractProductDetails.name,
                 price: abstractProductDetails.price,
@@ -22,12 +22,12 @@ export const CreateAbstractProductPage = ({history}) => {
             dispatch(setIsLoading(false));
             if (history.location.state !== undefined && history.location.state.createOrder) {
                 history.push('/create-product', {
-                    createOrder: true
+                    createOrder: true,
+                    abstractProductId
                 });
             } else if (history.location.state !== undefined && history.location.state.createProduct) {
-                history.push({
-                    pathname: '/create-product',
-                    state: data
+                history.push('/create-product', {
+                    abstractProductId
                 });
             } else {
                 history.push('/abstract-products');
