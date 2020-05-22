@@ -51,7 +51,7 @@ export const SaveAbstractProductForm = ({
                                 label={t('PRICE')}
                                 name="price"
                                 variant="outlined"
-                                type="number"
+                                type="text"
                                 value={abstractProductDetails.price}
                                 onChange={onAbstractProductChangedHandler}
                                 required
