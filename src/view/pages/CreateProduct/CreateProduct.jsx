@@ -20,7 +20,13 @@ export const CreateProduct = ({history}) => {
                 attributeValues: selectedAttributeValues,
             });
             dispatch(setIsLoading(false));
-            history.push(history.location.state !== undefined && history.location.state.createOrder ? '/create-order' : '/products');
+            if (history.location.state !== undefined && history.location.state.createOrder) {
+                history.push('/create-order', {
+                    productDetails
+                });
+            } else {
+                history.push('/products');
+            }
         } catch (e) {
             dispatch(setIsLoading(false));
             dispatch(setSnackBarStatus({isOpen: true, message: e.message, success: false}));
