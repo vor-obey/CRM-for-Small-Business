@@ -33,7 +33,9 @@ export const ProductForm = ({
                                 orderedProducts,
                                 classes,
                                 isEdit,
-                                history
+                                history,
+                                orderDescription,
+                                onOrderDescriptionChangeHandler
                             }) => {
     const [products] = useProducts();
     const dispatch = useDispatch();
@@ -390,6 +392,8 @@ export const ProductForm = ({
                     submit={addProduct}
                     isEdit={isEdit}
                     orderedProducts={orderedProducts}
+                    orderDescription={orderDescription}
+                    onOrderDescriptionChangeHandler={onOrderDescriptionChangeHandler}
                 />
                 {renderSelectedProducts()}
                 <Grid item xs={12} sm={12} className={classes.productContainerTotal}>
