@@ -235,7 +235,7 @@ export const SaveProduct = ({
                                 label={t('PRICE')}
                                 name="price"
                                 variant="outlined"
-                                type="number"
+                                type='text'
                                 value={productDetails.price}
                                 onChange={onProductDetailsChangedHandler}
                                 required

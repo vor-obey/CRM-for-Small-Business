@@ -1,6 +1,15 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {SaveOrderProduct} from '../SaveOrderProduct/SaveOrderProduct';
-import {Grid, Container, Typography, Button, makeStyles, useMediaQuery} from '@material-ui/core';
+import {
+    Grid,
+    Container,
+    Typography,
+    Button,
+    makeStyles,
+    useMediaQuery,
+    FormControl, Divider,
+    InputLabel, OutlinedInput
+} from '@material-ui/core';
 import isEmpty from 'lodash/isEmpty';
 import {addOrderProductStyles} from "./AddOrderProduct.style";
 import {useTranslation} from "react-i18next";
@@ -14,8 +23,10 @@ export const AddOrderProduct = ({
                                     selectedProducts,
                                     orderedProducts,
                                     products,
+                                    submit,
+                                    orderDescription,
+                                    onOrderDescriptionChangeHandler
                                     isEdit,
-                                    submit
                                 }) => {
     const classes = useStyle();
     const [selectedProduct, setSelectedProduct] = useState({});
@@ -142,25 +153,45 @@ export const AddOrderProduct = ({
 
     return (
         <Container className={classes.containerRoot}>
+            <Grid container item xs={12} sm={12}>
+                <FormControl variant="outlined" fullWidth>
+                    <InputLabel>{t('DESCRIPTION')}</InputLabel>
+                    <OutlinedInput
+                        label={t('DESCRIPTION')}
+                        name='price'
+                        type='text'
+                        variant='outlined'
+                        labelWidth={70}
+                        value={orderDescription}
+                        onChange={onOrderDescriptionChangeHandler}
+                    />
+                </FormControl>
+                <Divider/>
+            </Grid>
             <Grid container item xl={12} lg={12}>
-                <SaveOrderProduct
-                    isOpen={isOpen}
-                    options={products}
-                    onClose={toggleAutocomplete}
-                    onToggle={toggleAutocomplete}
-                    inputLabel={t('SELECT_PRODUCT')}
-                    renderOption={renderProductOptions}
-                    getOptionLabel={getProductOptionLabel}
-                    onSelectHandler={onProductSelectHandler}
-                    value={selectedProduct}
-                    details={details}
-                    onChange={onDetailsChangedHandler}
-                    increment={incrementAmount}
-                    decrement={decrementAmount}
-                    totalPrice={totalPrice}
-                    classes={classes}
-                    filterOptions={filterOptions}
-                />
+                <fieldset className={classes.fieldset}>
+                    <legend className={classes.legend}>
+                        {t('ADD_PRODUCT')}
+                    </legend>
+                    <SaveOrderProduct
+                        isOpen={isOpen}
+                        options={products}
+                        onClose={toggleAutocomplete}
+                        onToggle={toggleAutocomplete}
+                        inputLabel={t('SELECT_PRODUCT')}
+                        renderOption={renderProductOptions}
+                        getOptionLabel={getProductOptionLabel}
+                        onSelectHandler={onProductSelectHandler}
+                        value={selectedProduct}
+                        details={details}
+                        onChange={onDetailsChangedHandler}
+                        increment={incrementAmount}
+                        decrement={decrementAmount}
+                        totalPrice={totalPrice}
+                        classes={classes}
+                        filterOptions={filterOptions}
+                    />
+                </fieldset>
             </Grid>
             <Grid container item xs={12} className={classes.buttonContainer}>
                 <Grid item xl={6} lg={6} md={6} sm={8} xs={12}>

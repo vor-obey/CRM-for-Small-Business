@@ -33,7 +33,9 @@ export const ProductForm = ({
                                 orderedProducts,
                                 classes,
                                 isEdit,
-                                history
+                                history,
+                                orderDescription,
+                                onOrderDescriptionChangeHandler
                             }) => {
     const [products] = useProducts();
     const dispatch = useDispatch();
@@ -388,6 +390,8 @@ export const ProductForm = ({
                     products={products}
                     selectedProducts={cart.products}
                     submit={addProduct}
+                    orderDescription={orderDescription}
+                    onOrderDescriptionChangeHandler={onOrderDescriptionChangeHandler}
                     isEdit={isEdit}
                     orderedProducts={orderedProducts}
                 />
