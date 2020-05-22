@@ -111,6 +111,20 @@ export const AddOrderProduct = ({
         onProductSelectHandler()
     }, [submit, details, onProductSelectHandler, selectedProduct, totalPrice]);
 
+    const notEditCb = useCallback((item) => {
+        return !!selectedProducts.find(({productId}) => productId === item.productId) === false;
+    }, [selectedProducts]);
+
+    const editCb = useCallback((item) => {
+        return !!orderedProducts.find((orderedProduct) => {
+            if (orderedProduct.productId === item.productId) {
+                return orderedProduct.action !== 'remove';
+            } else {
+                return false;
+            }
+        }) === false;
+    }, [orderedProducts]);
+
     const filterOptions = useCallback((array, {inputValue}) => {
         if (!array.length) {
             return [];
@@ -118,16 +132,13 @@ export const AddOrderProduct = ({
         const matchWhitespacesRegExp = /\s/g;
         const formattedInputValue = inputValue.toLowerCase().replace(matchWhitespacesRegExp, '');
         const filteredArr = array.filter((item) => {
-            return !isEdit ?
-                !!selectedProducts.find(({productId}) => productId === item.productId) === false
-                : !!orderedProducts.find(({productId}) => productId === item.productId) === false
-                || !!orderedProducts.find(({action}) => !action ? '' : action === 'remove') === true
+            return isEdit ? editCb(item) : notEditCb(item);
         });
         return filteredArr.filter((item) => {
             return item.name.toLowerCase().replace(matchWhitespacesRegExp, '').indexOf(formattedInputValue) !== -1;
         })
 
-    }, [selectedProducts, orderedProducts, isEdit]);
+    }, [isEdit, editCb, notEditCb]);
 
     return (
         <Container className={classes.containerRoot}>
