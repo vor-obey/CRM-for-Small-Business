@@ -35,6 +35,7 @@ export const CreateOrderPage = ({history}) => {
         city: null,
         warehouse: null
     });
+    const [orderDescription, setOrderDescription] = useState('');
 
     useEffect(() => {
         if (!isEmpty(createdCustomer)) {
@@ -109,6 +110,7 @@ export const CreateOrderPage = ({history}) => {
                         address: isCustom ? address : novaposhtaAddress,
                         shippingMethodId: shippingMethod.shippingMethodId
                     },
+                    description: orderDescription,
                 });
                 if (response.success) {
                     dispatch(setIsLoading(false));
@@ -134,7 +136,8 @@ export const CreateOrderPage = ({history}) => {
         shippingMethod,
         selectedProducts,
         status,
-        novaposhtaAddress
+        novaposhtaAddress,
+        orderDescription
     ]);
 
     const onStatusSelectHandler = useCallback((value) => {
@@ -149,6 +152,10 @@ export const CreateOrderPage = ({history}) => {
         if (warehouse !== undefined) {
             setNovaposhtaAddress(prevState => ({...prevState, warehouse}));
         }
+    }, []);
+
+    const onOrderDescriptionChangeHandler = useCallback((event) => {
+        setOrderDescription(event.target.value);
     }, []);
 
     return (
@@ -176,6 +183,8 @@ export const CreateOrderPage = ({history}) => {
             status={status}
             onSubmit={onSubmitHandler}
             onNovaposhtaAddressSelectHandler={onNovaposhtaAddressSelectHandler}
+            orderDescription={orderDescription}
+            onOrderDescriptionChangeHandler={onOrderDescriptionChangeHandler}
         />
     )
 };

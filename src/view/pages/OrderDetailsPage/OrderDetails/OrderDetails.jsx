@@ -101,7 +101,8 @@ export const OrderDetails = ({
                 </Typography>
                 {renderProducts()}
             </Grid>
-            <Grid container item xs={12} sm={12} className={classes.containerItem}>
+            <Grid container item xs={12} sm={12}>
+            <Grid container item xs={12} sm={6} className={classes.containerItem}>
                 <Grid item xl={12} sm={12}>
                     <Typography variant='h5'>
                         {t('STATUS')}
@@ -113,6 +114,19 @@ export const OrderDetails = ({
                             status={orderDetails.status}
                             submit={submit}
                         />
+                    </Grid>
+                </Grid>
+            </Grid>
+                <Grid container item xs={12} sm={6} className={classes.containerItem}>
+                    <Grid item xl={12} sm={12}>
+                        <Typography variant='h5'>
+                            {t('DESCRIPTION')}
+                        </Typography>
+                        <Typography
+                            variant='body1'
+                            className={classes.orderItem}>
+                            {(orderDetails && orderDetails.description) || ''}
+                        </Typography>
                     </Grid>
                 </Grid>
             </Grid>

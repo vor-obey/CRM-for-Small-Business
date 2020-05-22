@@ -1,6 +1,6 @@
 export const addOrderProductStyles = (theme => ({
     container: {
-        padding: theme.spacing(4, 0, 0, 0),
+        padding: theme.spacing(2, 0, 0, 0),
     },
     containerRoot: {
         margin: 0,
@@ -63,5 +63,18 @@ export const addOrderProductStyles = (theme => ({
         [theme.breakpoints.down('xs')]: {
             marginBottom: theme.spacing(1)
         }
+    },
+    fieldset: {
+        width: '100%',
+        borderTop: '1px solid #ccc',
+        paddingLeft: 0,
+        paddingRight: 0,
+        marginTop: '20px',
+        borderBottom: 0,
+        borderLeft: 0,
+        borderRight: 0,
+    },
+    legend: {
+        paddingRight: 10
     },
 }));
