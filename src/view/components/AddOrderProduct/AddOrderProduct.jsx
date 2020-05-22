@@ -121,6 +121,7 @@ export const AddOrderProduct = ({
             return !isEdit ?
                 !!selectedProducts.find(({productId}) => productId === item.productId) === false
                 : !!orderedProducts.find(({productId}) => productId === item.productId) === false
+                || !!orderedProducts.find(({action}) => !action ? '' : action === 'remove') === true
         });
         return filteredArr.filter((item) => {
             return item.name.toLowerCase().replace(matchWhitespacesRegExp, '').indexOf(formattedInputValue) !== -1;

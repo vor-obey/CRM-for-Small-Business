@@ -7,7 +7,6 @@ import {
     setProductsToCart
 } from "../../data/store/order/orderActions";
 import isEqual from 'lodash/isEqual';
-import {useProducts} from './productHooks';
 
 export const useCart = (items) => {
     const cartState = useSelector(state => state.orderReducer.cart);
@@ -26,8 +25,6 @@ export const useCart = (items) => {
             return;
         }
 
-        console.log('original products', originalProducts);
-        console.log('products', products);
         const isOriginalProductsChanged = () => {
             return products.reduce((prev, curr) => {
                 return !!originalProducts.find((product) => {
@@ -49,8 +46,6 @@ export const useCart = (items) => {
             }, false) || cartState.length !== products.length;
         };
 
-        console.log(isOriginalProductsChanged(), isCartChanged());
-
         const shouldUpdate = isOriginalProductsChanged() || isCartChanged();
 
         if (shouldUpdate) {
@@ -68,7 +63,6 @@ export const useCart = (items) => {
                     amount: cartProduct.amount,
                 };
             });
-            console.log(products, newProducts);
             if (!isEqual(products, newProducts)) {
                 changeProducts(newProducts);
             }

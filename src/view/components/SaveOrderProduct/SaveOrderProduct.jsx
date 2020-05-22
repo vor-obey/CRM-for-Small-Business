@@ -13,8 +13,6 @@ import {
 import RemoveIcon from '@material-ui/icons/Remove';
 import AddIcon from '@material-ui/icons/Add';
 import {useTranslation} from "react-i18next";
-import {useCart} from "../../../utils/hooks/cartHooks";
-import isEmpty from 'lodash/isEmpty';
 
 export const SaveOrderProduct = ({
                                      isOpen,
