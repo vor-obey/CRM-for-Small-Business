@@ -32,7 +32,7 @@ export const SaveIntegration = ({
                     label='Password'
                     name="password"
                     variant="outlined"
-                    type="text"
+                    type="password"
                     value={creds.password}
                     onChange={onChangedHandler}
                     required

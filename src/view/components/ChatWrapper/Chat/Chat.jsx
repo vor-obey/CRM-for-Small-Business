@@ -10,7 +10,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
 import Avatar from '@material-ui/core/Avatar';
 import {Container, useMediaQuery} from '@material-ui/core';
-import {InstagramService, StorageService} from '../../../../services';
+import {InstagramService} from '../../../../services';
 import {useDispatch, useSelector} from 'react-redux';
 import {initIgChatConnection, initSocketConnection} from '../../../../data/store/user/userActions';
 
@@ -35,12 +35,10 @@ export const Chat = ({
                     setIgExists(true);
                 } else {
                     setIgExists(false);
-                    StorageService.setChatConnection(false);
                     setConnection(false);
                 }
             } catch (e) {
                 setIgExists(false);
-                StorageService.setChatConnection(false);
                 setConnection(false);
             }
         };

@@ -18,6 +18,10 @@ class InstagramService extends CRUDService {
         return this.APIService.apiPost('/instagram/sendSecurityCode', {body});
     };
 
+    verify2FA = (body) => {
+      return this.APIService.apiPost('/instagram/verify2FA', {body});
+    };
+
     getThreads = () => {
         return this.APIService.apiGet('/instagram/threads');
     };

@@ -10,6 +10,7 @@ const useStyles = makeStyles(chatWrapperStyles);
 
 export const ChatWrapper = () => {
     const [connectToChat, setConnectToChat] = useState(false);
+    console.log(connectToChat);
     const classes = useStyles();
 
     useEffect(() => {
@@ -23,16 +24,16 @@ export const ChatWrapper = () => {
 
     return (
         <Container className={classes.container}>
-            {!connectToChat ? (
-                <ChatEnter
-                    setConnection={setConnectionHandler}
-                />
-            ) : (
-                <Chat
-                    classes={classes}
-                    setConnection={setConnectionHandler}
-                />
-            )}
+            {/*{!connectToChat ? (*/}
+            {/*    <ChatEnter*/}
+            {/*        setConnection={setConnectionHandler}*/}
+            {/*    />*/}
+            {/*) : (*/}
+            {/*<Chat*/}
+            {/*    classes={classes}*/}
+            {/*    setConnection={setConnectionHandler}*/}
+            {/*/>*/}
+            {/*)}*/}
         </Container>
     );
 };

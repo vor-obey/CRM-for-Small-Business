@@ -42,41 +42,23 @@ export const Integrations = ({
         }
     }, [organization]);
 
-    const createIntegration = useCallback(async (creds) => {
-        try {
-            dispatch(setIsLoading(true));
-            const response = await IntegrationService.create(creds);
-            if (response.success) {
-                dispatch(setIsLoading(false));
-                dispatch(closeModal());
-                triggerOrganizationDetailsUpdate();
-            } else {
-                dispatch(setIsLoading(false));
-                dispatch(setSnackBarStatus({isOpen: true, message: response.message, success: false}));
-            }
-        } catch (e) {
-            dispatch(setIsLoading(false));
-            dispatch(setSnackBarStatus({isOpen: true, message: e.message, success: false}));
-        }
-    }, [dispatch, triggerOrganizationDetailsUpdate]);
-
     const openAddIntegrationModal = useCallback(() => {
         dispatch(renderModal({
             isOpen: true,
             classes: {},
             children: (
                 <CreateIntegration
-                    onSubmit={createIntegration}
                     labels={{
                         title: t('ADD_INTEGRATION'),
                         actionButton: t('CREATE')
                     }}
                     classes={classes}
+                    triggerOrganizationDetailsUpdate={triggerOrganizationDetailsUpdate}
                 />
             ),
             onCloseHandler: () => dispatch(closeModal()),
         }))
-    }, [t, dispatch, createIntegration, classes]);
+    }, [t, dispatch, classes, triggerOrganizationDetailsUpdate]);
 
     const openEditIntegrationModal = useCallback((integration) => {
         const editIntegration = async (creds) => {
