@@ -59,4 +59,12 @@ export const OrganizationDetailsStyle = (theme => ({
         display: 'grid',
         justifyContent: 'space-evenly',
     },
+    integrationsList: {
+        width: '50%',
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        [theme.breakpoints.down('xs')]: {
+            width: '100%',
+        },
+    }
 }));

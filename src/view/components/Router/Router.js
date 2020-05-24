@@ -25,7 +25,7 @@ import {CreateOrganization} from "../../pages/CreateOrganization/CreateOrganizat
 import {EditUser} from '../../pages/EditUser/EditUser';
 import {EditOrder} from '../../pages/EditOrder/EditOrder';
 import {NotificationPage} from "../../pages/NotificationPage/NotificationPage";
-import {DraggableChat} from '../DraggableChat/DraggableChat';
+// import {DraggableChat} from '../DraggableChat/DraggableChat';
 import {OrganizationDetailsPage} from "../../pages/OrganizationDetailsPage/OrganizationDetailsPage";
 import {EditOrganization} from "../../pages/EditOrganization/EditOrganization";
 import {CreateAbstractProductPage} from '../../pages/CreateAbstractProductPage/CreateAbstractProductPage';
@@ -61,7 +61,7 @@ export const Routing = () => {
     return (
         <Router history={history}>
             <Header/>
-            <DraggableChat/>
+            {/*<DraggableChat/>*/}
             <CustomModal
                 open={modal.isOpen}
                 classes={modal.classes}

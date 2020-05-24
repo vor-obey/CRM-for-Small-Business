@@ -12,12 +12,23 @@ import IconButton from '@material-ui/core/IconButton';
 import {useDispatch} from 'react-redux';
 import {sendMessage} from '../../../../data/store/user/userActions';
 import moment from 'moment';
+import List from '@material-ui/core/List';
 
 export const ChatDialog = ({profile, thread, goBack, classes, minWidth}) => {
     const {users, thread_title, items} = thread;
     const {profile_pic_url} = users[0];
     const dispatch = useDispatch();
     const [text, setText] = useState('');
+
+    // const fetchThreadFeed = useCallback(async ({thread_id, prev_cursor}) => {
+    //     try {
+    //         const response = await InstagramService.getThreadById(thread_id, prev_cursor);
+    //         setSelectedThread(response);
+    //         // setIsDialogOpen(true);
+    //     } catch (e) {
+    //         console.log(e);
+    //     }
+    // }, []);
 
     let avatar = <PeopleAltIcon/>;
 
@@ -106,38 +117,51 @@ export const ChatDialog = ({profile, thread, goBack, classes, minWidth}) => {
     }, [text, profile.username, thread.thread_id, dispatch]);
 
     return (
-        <>
-            <div className={minWidth ? classes.scroll : null}>
-                <ListItem>
-                    {!minWidth ?
-                        <KeyboardBackspaceIcon
-                            className={classes.backButton}
-                            onClick={goBack}
-                        /> : null}
-                    <ListItemAvatar>
-                        {avatar}
-                    </ListItemAvatar>
-                    <ListItemText
-                        primary={thread_title}
+        <List className={classes.listDialog} style={{
+            padding: 0,
+            display: 'flex',
+            flexDirection: 'column',
+            flexFlow: 'wrap'
+        }}>
+            <ListItem style={{
+                height: '41px',
+                borderBottom: '1px solid #B7BFC4',
+                position: 'sticky',
+                top: 0,
+                backgroundColor: '#f0f7fd',
+                zIndex: 1
+            }}>
+                {!minWidth ?
+                    <KeyboardBackspaceIcon
+                        className={classes.backButton}
+                        onClick={goBack}
+                    /> : null}
+                <ListItemText
+                    primary={thread_title}
+                />
+                <RefreshIcon className={classes.cursor}/>
+            </ListItem>
+            {renderItems()}
+            <ListItem style={{
+                borderTop: '1px solid #B7BFC4',
+                position: 'sticky',
+                bottom: 0,
+                backgroundColor: '#f0f7fd',
+                zIndex: 1
+            }}>
+                <form onSubmit={submit} className={classes.form}>
+                    <TextField
+                        fullWidth
+                        label='Message'
+                        name='message'
+                        onChange={onChangedInput}
+                        value={text}
                     />
-                    <RefreshIcon className={classes.cursor}/>
-                </ListItem>
-                {renderItems()}
-                <ListItem>
-                    <form onSubmit={submit} className={classes.form}>
-                        <TextField
-                            fullWidth
-                            label='Message'
-                            name='message'
-                            onChange={onChangedInput}
-                            value={text}
-                        />
-                        <IconButton type='submit'>
-                            <KeyboardReturnIcon className={classes.cursor}/>
-                        </IconButton>
-                    </form>
-                </ListItem>
-            </div>
-        </>
+                    <IconButton type='submit'>
+                        <KeyboardReturnIcon className={classes.cursor}/>
+                    </IconButton>
+                </form>
+            </ListItem>
+        </List>
     )
 };

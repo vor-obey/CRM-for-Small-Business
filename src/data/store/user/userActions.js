@@ -2,7 +2,8 @@ import {
     GET_CURRENT_USER,
     GET_CURRENT_USER_SUCCESS, INITIALIZE_SOCKET_CONNECTION, LOGIN, SET_IG_PROFILE, ADD_MESSAGE,
     SET_THREADS, OPEN_CHAT_WIDGET, CLOSE_CHAT_WIDGET, SEND_MESSAGE, SET_SOCKET_ERROR, SET_SOCKET,
-    INITIALIZE_IG_CHAT_CONNECTION
+    INITIALIZE_IG_CHAT_CONNECTION, SET_IS_AUTO_CONNECT_TO_CHAT, SET_CONNECTION_TO_CHAT_STORAGE, SET_IS_IG_INTEGRATED,
+    SET_IS_IG_EXISTS, SET_CHAT_INIT
 } from "./userActionTypes";
 
 export const getCurrentUser = () => ({type: GET_CURRENT_USER});
@@ -18,3 +19,8 @@ export const sendMessage = (payload, socket) => ({type: SEND_MESSAGE, payload, s
 export const setSocket = (socket) => ({type: SET_SOCKET, socket});
 export const initSocketConnection = (organizationId) => ({type: INITIALIZE_SOCKET_CONNECTION, organizationId});
 export const initIgChatConnection = (socket) => ({type: INITIALIZE_IG_CHAT_CONNECTION, socket});
+export const setConnectionToChatStorage = (value) => ({type: SET_CONNECTION_TO_CHAT_STORAGE, value});
+export const setIsAutoConnectToChat = (value) => ({type: SET_IS_AUTO_CONNECT_TO_CHAT, value});
+export const setIsIgIntegrated = (value) => ({type: SET_IS_IG_INTEGRATED, value});
+export const setIsIgExists = (value) => ({type: SET_IS_IG_EXISTS, value});
+export const setChatInit = (value) => ({type: SET_CHAT_INIT, value});

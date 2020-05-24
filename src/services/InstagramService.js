@@ -6,10 +6,6 @@ class InstagramService extends CRUDService {
         super(USER_URLS.INSTAGRAM);
     }
 
-    validate = () => {
-        return this.APIService.apiGet('/instagram/validate')
-    };
-
     login = (creds) => {
         return this.APIService.apiPost('/instagram/login', {body: creds});
     };
@@ -24,6 +20,18 @@ class InstagramService extends CRUDService {
 
     getThreads = () => {
         return this.APIService.apiGet('/instagram/threads');
+    };
+
+    getThreadById = (threadId, prev_cursor) => {
+        return this.APIService.apiGet(`/instagram/threads/${threadId}/cursor/${prev_cursor}`);
+    };
+
+    getProfile = () => {
+        return this.APIService.apiGet('/instagram/profile');
+    };
+
+    check = () => {
+        return this.APIService.apiGet('/instagram/check');
     };
 }
 

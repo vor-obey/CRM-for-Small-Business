@@ -10,7 +10,13 @@ export const ChatThreads = ({
     return (
         <>
             <div className={classes.scroll}>
-                <ListItem className={classes.flexEnd}>
+                <ListItem style={{
+                    position: 'sticky',
+                    top: 0,
+                    zIndex: 1,
+                    borderBottom: '1px solid #B7BFC4',
+                    backgroundColor: 'white'
+                }}>
                     <RefreshIcon className={classes.cursor} onClick={() => refreshThreads()}/>
                 </ListItem>
                 {renderThreads()}

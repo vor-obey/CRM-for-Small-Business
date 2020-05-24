@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import List from '@material-ui/core/List';
 import {ChatThreads} from '../ChatThreads/ChatThreads';
 import {ChatDialog} from '../ChatDialog/ChatDialog';
@@ -10,78 +10,23 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
 import Avatar from '@material-ui/core/Avatar';
 import {Container, useMediaQuery} from '@material-ui/core';
-import {InstagramService} from '../../../../services';
-import {useDispatch, useSelector} from 'react-redux';
-import {initIgChatConnection, initSocketConnection} from '../../../../data/store/user/userActions';
+import {useSelector} from 'react-redux';
+import Grid from '@material-ui/core/Grid';
 
 export const Chat = ({
                          classes,
-                         setConnection
                      }) => {
     const [isDialogOpen, setIsDialogOpen] = useState(false);
-    const [selectedThreadId, setSelectedThreadId] = useState('');
-    const [threads, setThreads] = useState([]);
-    const profile = {};
+    const [selectedThread, setSelectedThread] = useState({});
     const minWidth600 = useMediaQuery('(min-width:600px)');
-    const [igExists, setIgExists] = useState(false);
-    const {socket, currentUser} = useSelector(state => state.userReducer);
-    const dispatch = useDispatch();
+    const {threads, igProfile} = useSelector(state => state.userReducer);
 
-    useEffect(() => {
-        const validateAcc = async () => {
-            try {
-                const response = await InstagramService.validate();
-                if (response.success) {
-                    setIgExists(true);
-                } else {
-                    setIgExists(false);
-                    setConnection(false);
-                }
-            } catch (e) {
-                setIgExists(false);
-                setConnection(false);
-            }
-        };
-        if (!igExists) {
-            validateAcc();
-        }
-    }, [igExists, setConnection]);
-
-    useEffect(() => {
-        if (igExists && !socket) {
-            const {organizationId} = currentUser.organization;
-            dispatch(initSocketConnection(organizationId))
-        }
-    }, [igExists, dispatch, currentUser.organization, socket]);
-
-    useEffect(() => {
-        if (socket !== null) {
-            dispatch(initIgChatConnection(socket));
-        }
-    }, [socket, dispatch]);
-
-    const fetchThreads = useCallback(async () => {
-        try {
-            const response = await InstagramService.getThreads();
-            setThreads(response);
-        } catch (e) {
-            console.log(e);
-        }
-    }, []);
-
-    useEffect(() => {
-        if (igExists) {
-            fetchThreads();
-        }
-    }, [igExists, fetchThreads]);
-
-    const openThread = useCallback((threadId) => {
-        setSelectedThreadId(threadId);
+    const openThread = useCallback(async (thread) => {
+        setSelectedThread(thread);
         setIsDialogOpen(true);
     }, []);
 
     const goBack = useCallback(() => {
-        setSelectedThreadId('');
         setIsDialogOpen(!isDialogOpen);
     }, [isDialogOpen]);
 
@@ -100,7 +45,7 @@ export const Chat = ({
                         <ListItem
                             alignItems='flex-start'
                             className={classes.cursor}
-                            onClick={() => openThread(thread.thread_id)}
+                            onClick={() => openThread(thread)}
                         >
                             <ListItemAvatar>
                                 <PeopleAltIcon/>
@@ -120,7 +65,7 @@ export const Chat = ({
                     <ListItem
                         alignItems='flex-start'
                         className={classes.cursor}
-                        onClick={() => openThread(thread.thread_id)}
+                        onClick={() => openThread(thread)}
                     >
                         <ListItemAvatar>
                             <Avatar alt={thread_title} src={profile_pic_url}/>
@@ -142,8 +87,8 @@ export const Chat = ({
                 <List className={classes.mobileList}>
                     {isDialogOpen ?
                         <ChatDialog
-                            profile={profile}
-                            thread={threads.find(item => item.thread_id === selectedThreadId)}
+                            profile={igProfile}
+                            thread={selectedThread}
                             goBack={goBack}
                             classes={classes}
                         />
@@ -159,26 +104,36 @@ export const Chat = ({
     }
 
     return (
-        <>
-            <List className={classes.listThreads}>
+        <Grid item xs={12} sm={12} style={{
+            maxHeight: '80%',
+            display: 'flex'
+        }}>
+            <List className={classes.listThreads} style={{padding: 0}}>
                 <ChatThreads
                     classes={classes}
                     renderThreads={renderThreads}
                 />
             </List>
-            <List className={classes.listDialog}>
-                {isDialogOpen ?
-                    <ChatDialog
-                        minWidth={minWidth600}
-                        profile={profile}
-                        thread={threads.find(item => item.thread_id === selectedThreadId)}
-                        classes={classes}
-                    />
-                    :
-                    <Typography variant='h6' className={classes.text}>Please select a chat to start
-                        messaging</Typography>
-                }
-            </List>
-        </>
+            {isDialogOpen ?
+                <ChatDialog
+                    minWidth={minWidth600}
+                    profile={igProfile}
+                    thread={selectedThread}
+                    classes={classes}
+                />
+                :
+                <Typography
+                    variant='h6'
+                    className={classes.text}
+                    style={{
+                        border: '1px solid #B7BFC4',
+                        width: '50%',
+                        height: 'auto'
+                    }}
+                >
+                    Please select a chat to start messaging
+                </Typography>
+            }
+        </Grid>
     );
 };

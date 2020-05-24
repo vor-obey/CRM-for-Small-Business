@@ -9,6 +9,9 @@ import {useDispatch} from 'react-redux';
 import {closeModal, setSnackBarStatus} from '../../../data/store/auxiliary/auxiliaryActions';
 import {TextField} from '@material-ui/core';
 import {InstagramService} from '../../../services';
+import {useTranslation} from 'react-i18next';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import {getCurrentUser} from '../../../data/store/user/userActions';
 
 export const CreateIntegration = ({
                                       labels,
@@ -28,6 +31,7 @@ export const CreateIntegration = ({
     });
     const [verificationCode, setVerificationCode] = useState('');
     const [twoFactorLoginData, setTwoFactorLoginData] = useState({});
+    const {t} = useTranslation('');
 
     const onChangedHandler = useCallback((event) => {
         const {name, value} = event.target;
@@ -53,6 +57,7 @@ export const CreateIntegration = ({
                         success: true
                     }));
                     triggerOrganizationDetailsUpdate();
+                    dispatch(getCurrentUser());
                 } else {
                     setLoading(false);
                     switch (message) {
@@ -123,6 +128,8 @@ export const CreateIntegration = ({
                     message: `IG account ${creds.username} was successfully integrated`,
                     success: true
                 }));
+                triggerOrganizationDetailsUpdate();
+                dispatch(getCurrentUser());
             } else {
                 setLoading(false);
                 if (message === 'CHALLENGE_WRONG_CODE') {
@@ -139,7 +146,7 @@ export const CreateIntegration = ({
             setLoading(false);
             dispatch(setSnackBarStatus({isOpen: true, message: e.message, success: false}));
         }
-    }, [creds.username, dispatch, verificationCode]);
+    }, [creds.username, dispatch, verificationCode, triggerOrganizationDetailsUpdate]);
 
     const verify2FA = useCallback(async () => {
         try {
@@ -157,6 +164,8 @@ export const CreateIntegration = ({
                     message: `IG account ${creds.username} was successfully integrated`,
                     success: true
                 }));
+                triggerOrganizationDetailsUpdate();
+                dispatch(getCurrentUser());
             } else {
                 setLoading(false);
                 if (message === 'CHALLENGE_WRONG_CODE') {
@@ -183,17 +192,16 @@ export const CreateIntegration = ({
             setLoading(false);
             dispatch(setSnackBarStatus({isOpen: true, message: e.message, success: false}));
         }
-    }, [creds.username, dispatch, twoFactorLoginData, verificationCode]);
+    }, [creds.username, dispatch, twoFactorLoginData, verificationCode, triggerOrganizationDetailsUpdate]);
 
     const renderForms = useCallback(() => {
         const {isOpen, type} = codeForm;
-        console.log(codeForm);
         if (isOpen) {
             return (
                 <>
                     <Grid container item xs={12}>
                         <Typography variant='h6'>
-                            {type === 'email' ? 'Security code was sent to your email.' : 'Verification code was sent via SMS/TOTP'}
+                            {type === 'email' ? t('EMAIL_SENT') : t('SMS_SENT')}
                         </Typography>
                     </Grid>
                     <Grid container item xs={12}>
@@ -233,21 +241,25 @@ export const CreateIntegration = ({
                         variant='outlined'
                         onClick={onSubmit}
                     >
-                        {labels.actionButton}
+                        {t('SAVE')}
                     </Button>
                 </Grid>
             </>
         );
 
-    }, [classes, creds, codeForm, labels, onChangedHandler, onSubmit, verificationCode, sendSecurityCode, verify2FA]);
+    }, [t, classes, creds, codeForm, labels, onChangedHandler, onSubmit, verificationCode, sendSecurityCode, verify2FA]);
 
     return (
         <Container maxWidth='xs'>
             <Grid container style={{marginTop: 20}}>
                 <Typography variant="subtitle1" style={{marginBottom: 20}}>
-                    {labels.title}
+                    {t('ADD_INTEGRATION')}
                 </Typography>
-                {loading ? (<div>loading</div>) : (renderForms())}
+                {loading ? (
+                    <Grid item xs={12}>
+                        <CircularProgress/>
+                    </Grid>
+                ) : (renderForms())}
             </Grid>
         </Container>
     );

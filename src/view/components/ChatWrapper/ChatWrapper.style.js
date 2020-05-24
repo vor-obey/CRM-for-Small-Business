@@ -3,20 +3,21 @@ export const chatWrapperStyles = (theme => ({
         display: 'flex',
         padding: 0,
         marginTop: theme.spacing(1),
-        height: 850
     },
     listThreads: {
         width: '50%',
         borderWidth: 1,
         borderColor: '#B7BFC4',
         borderStyle: 'solid',
+        overflowY: 'scroll',
     },
     listDialog: {
         width: '50%',
         borderWidth: 1,
         borderColor: '#B7BFC4',
         borderStyle: 'solid',
-        backgroundColor: '#EFF7FD'
+        backgroundColor: '#EFF7FD',
+        overflowY: 'scroll',
     },
     messageText: {
         border: '1px solid rgba(0, 0, 0, 0.12)',
@@ -49,10 +50,6 @@ export const chatWrapperStyles = (theme => ({
     typographyCredentials: {
         textAlign: 'center',
         padding: 5
-    },
-    scroll: {
-        height: 840,
-        overflowY: 'scroll',
     },
     cursor: {
         cursor: 'pointer'

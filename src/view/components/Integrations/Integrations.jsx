@@ -22,9 +22,9 @@ import InstagramIcon from '@material-ui/icons/Instagram';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import IconButton from '@material-ui/core/IconButton';
-import EditIcon from "@material-ui/icons/Edit";
+// import EditIcon from "@material-ui/icons/Edit";
 import RemoveIcon from '@material-ui/icons/Remove';
-import {EditIntegration} from '../EditIntegration/EditIntegration';
+// import {EditIntegration} from '../EditIntegration/EditIntegration';
 import {useTranslation} from 'react-i18next';
 
 export const Integrations = ({
@@ -48,57 +48,53 @@ export const Integrations = ({
             classes: {},
             children: (
                 <CreateIntegration
-                    labels={{
-                        title: t('ADD_INTEGRATION'),
-                        actionButton: t('CREATE')
-                    }}
                     classes={classes}
                     triggerOrganizationDetailsUpdate={triggerOrganizationDetailsUpdate}
                 />
             ),
             onCloseHandler: () => dispatch(closeModal()),
         }))
-    }, [t, dispatch, classes, triggerOrganizationDetailsUpdate]);
+    }, [dispatch, classes, triggerOrganizationDetailsUpdate]);
 
-    const openEditIntegrationModal = useCallback((integration) => {
-        const editIntegration = async (creds) => {
-            try {
-                dispatch(setIsLoading(true));
-                const response = await IntegrationService.update({
-                    integrationId: integration.integrationId,
-                    ...creds,
-                });
-                if (response.success) {
-                    dispatch(setIsLoading(false));
-                    dispatch(closeModal());
-                    dispatch(getCurrentUser());
-                    triggerOrganizationDetailsUpdate();
-                } else {
-                    dispatch(setIsLoading(false));
-                    dispatch(setSnackBarStatus({isOpen: true, message: response.message, success: false}));
-                }
-            } catch (e) {
-                dispatch(setIsLoading(false));
-                dispatch(setSnackBarStatus({isOpen: true, message: e.message, success: false}));
-            }
-        };
-        dispatch(renderModal({
-            isOpen: true,
-            classes: {},
-            children: (
-                <EditIntegration
-                    integration={integration}
-                    onSubmit={editIntegration}
-                    labels={{
-                        title: t('EDIT_INTEGRATION'),
-                        actionButton: t('EDIT')
-                    }}
-                    classes={classes}
-                />
-            ),
-            onCloseHandler: () => dispatch(closeModal()),
-        }))
-    }, [t, dispatch, triggerOrganizationDetailsUpdate, classes]);
+    // const openEditIntegrationModal = useCallback((integration) => {
+    //     const editIntegration = async (creds) => {
+    //         try {
+    //             dispatch(setIsLoading(true));
+    //             const response = await IntegrationService.update({
+    //                 integrationId: integration.integrationId,
+    //                 ...creds,
+    //             });
+    //             if (response.success) {
+    //                 dispatch(setIsLoading(false));
+    //                 dispatch(closeModal());
+    //                 dispatch(getCurrentUser());
+    //                 triggerOrganizationDetailsUpdate();
+    //             } else {
+    //                 dispatch(setIsLoading(false));
+    //                 dispatch(setSnackBarStatus({isOpen: true, message: response.message, success: false}));
+    //             }
+    //         } catch (e) {
+    //             dispatch(setIsLoading(false));
+    //             dispatch(setSnackBarStatus({isOpen: true, message: e.message, success: false}));
+    //         }
+    //     };
+    //     dispatch(renderModal({
+    //         isOpen: true,
+    //         classes: {},
+    //         children: (
+    //             <EditIntegration
+    //                 integration={integration}
+    //                 onSubmit={editIntegration}
+    //                 labels={{
+    //                     title: t('EDIT_INTEGRATION'),
+    //                     actionButton: t('EDIT')
+    //                 }}
+    //                 classes={classes}
+    //             />
+    //         ),
+    //         onCloseHandler: () => dispatch(closeModal()),
+    //     }))
+    // }, [t, dispatch, triggerOrganizationDetailsUpdate, classes]);
 
     const openDeleteIntegrationDialog = useCallback((integration) => {
         const deleteIntegrationById = async () => {
@@ -146,9 +142,9 @@ export const Integrations = ({
                         secondary={type}
                     />
                     <ListItemSecondaryAction>
-                        <IconButton onClick={() => openEditIntegrationModal(integration)}>
-                            <EditIcon/>
-                        </IconButton>
+                        {/*<IconButton onClick={() => openEditIntegrationModal(integration)}>*/}
+                        {/*    <EditIcon/>*/}
+                        {/*</IconButton>*/}
                         <IconButton onClick={() => openDeleteIntegrationDialog(integration)}>
                             <RemoveIcon/>
                         </IconButton>
@@ -156,18 +152,18 @@ export const Integrations = ({
                 </ListItem>
             );
         });
-    }, [integrations, openEditIntegrationModal, openDeleteIntegrationDialog]);
+    }, [integrations, openDeleteIntegrationDialog]);
 
     return (
-        <Grid container item xs={12} sm={6}>
+        <Grid container item xs={12} sm={12}>
             <Grid className={classes.root}>
-                <Grid item xs={12} className={classes.organizationItem}>
+                <Grid item xs={12} className={classes.organizationItem} style={{textAlign: 'center'}}>
                     <Typography variant='h6'>
                         Integrations
                     </Typography>
                 </Grid>
                 <Grid item sm={12} xs={12} className={classes.organizationItem}>
-                    <List>
+                    <List className={classes.integrationsList}>
                         {renderIntegrations()}
                         <ListItem style={{justifyContent: 'center'}}>
                             <Button

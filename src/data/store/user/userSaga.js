@@ -6,10 +6,10 @@ import isEmpty from 'lodash/isEmpty';
 import {
     addMessage,
     setCurrentUser,
-    setIgProfile,
-    setThreads,
     setSocketError,
-    setSocket
+    setSocket,
+    setIsIgIntegrated,
+    setConnectionToChatStorage, setIsAutoConnectToChat
 } from './userActions';
 import socketIOClient from 'socket.io-client';
 import {eventChannel} from 'redux-saga';
@@ -31,7 +31,8 @@ export function* login(action) {
         const response = yield UserService.login(action.loginData);
         if (response.accessToken) {
             StorageService.setJWTToken(response.accessToken);
-            StorageService.setChatConnection(false);
+            yield put(setConnectionToChatStorage(false));
+            yield put(setIsAutoConnectToChat(false));
             yield put(setIsLoading(false));
             yield* getCurrentUser();
         } else {
@@ -50,6 +51,11 @@ export function* getCurrentUser() {
         const response = yield UserService.getCurrentUser();
         if (!isEmpty(response)) {
             yield put(setCurrentUser(response));
+
+            const integration = !!response.organization.integrations
+                .find(integration => integration.type === 'instagram');
+            yield put(setIsIgIntegrated(integration));
+
             yield put(setIsLoading(false));
         } else {
             yield put(setIsLoading(false));
@@ -82,6 +88,10 @@ export function initializeInstagramChatConnection({socket}) {
     socket.emit('initChat');
 }
 
+export function setConnectionToChatSaga({value}) {
+    StorageService.setChatConnection(value);
+}
+
 export function* initializeSocketConnection(action) {
     const socket = yield call(connect, action.organizationId);
     yield put(setSocket(socket));
@@ -89,16 +99,8 @@ export function* initializeSocketConnection(action) {
     while (true) {
         const {event, payload} = yield take(channel);
         switch (event) {
-            case 'ig_profile': {
-                yield put(setIgProfile(payload));
-                break;
-            }
             case 'message': {
                 yield put(addMessage(payload));
-                break;
-            }
-            case 'threads': {
-                yield put(setThreads(payload));
                 break;
             }
             case 'igError': {
