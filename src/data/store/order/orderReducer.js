@@ -1,4 +1,4 @@
-import {ADD_TO_CART, DELETE_FROM_CART, EDIT_FROM_CART, SET_TO_CART} from "./orderActionTypes";
+import {ADD_TO_CART, DELETE_FROM_CART, EDIT_FROM_CART, SET_DESCRIPTION_TO_CART, SET_TO_CART} from "./orderActionTypes";
 
 const saveCartToLocalStorage = (cart) => {
     localStorage.setItem('cart', JSON.stringify(cart));
@@ -30,10 +30,17 @@ const initialState = {
 
      */
     cart: loadCartFromLocalStorage(),
+    description: ''
 };
 
 export const orderReducer = (state = initialState, action) => {
     switch (action.type) {
+        case SET_DESCRIPTION_TO_CART: {
+            return {
+                ...state,
+                description: action.description
+            }
+        }
         case ADD_TO_CART:
         case EDIT_FROM_CART:
         case SET_TO_CART:
