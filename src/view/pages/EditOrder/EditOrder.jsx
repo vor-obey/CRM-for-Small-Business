@@ -6,7 +6,6 @@ import {editOrderStyles} from './EditOrder.style';
 import isEmpty from 'lodash/isEmpty';
 import {useDispatch} from 'react-redux';
 import {setIsLoading, setSnackBarStatus} from '../../../data/store/auxiliary/auxiliaryActions';
-import {OrderService} from '../../../services';
 import {useTranslation} from 'react-i18next';
 import {useOrderDetailsById, useShippingMethods} from '../../../utils/hooks/orderHooks';
 import {useManagers} from '../../../utils/hooks/userHooks';
@@ -32,6 +31,7 @@ export const EditOrder = ({history}) => {
     const {t} = useTranslation();
     const [orderedProducts, setOrderedProducts] = useState([]);
     const [status, setStatus] = useState(0);
+    const [orderDescription, setOrderDescription] = useState('');
 
     const mapProducts = useCallback((orderToProducts, currency) => {
         return orderToProducts.map((orderToProduct) => {
@@ -54,6 +54,7 @@ export const EditOrder = ({history}) => {
             setAddress(JSON.parse(orderDetails.shippingDetails.address.address));
             setOrderedProducts(mapProducts(orderDetails.orderToProducts, orderDetails.currency));
             setStatus(orderDetails.status);
+            setOrderDescription(orderDetails.description)
         }
     }, [orderDetails, mapProducts]);
 
@@ -138,6 +139,11 @@ export const EditOrder = ({history}) => {
         setShippingMethodId(value);
     }, [shippingMethods]);
 
+    const onOrderDescriptionChangeHandler = useCallback((event) => {
+        setOrderDescription(event.target.value);
+    }, []);
+
+
     const onSubmitHandler = useCallback(async (e) => {
         e.preventDefault();
         const {shippingDetails, orderId} = orderDetails;
@@ -145,6 +151,7 @@ export const EditOrder = ({history}) => {
             dispatch(setIsLoading(true));
             console.log({
                 orderId,
+                description: orderDescription,
                 products: orderedProducts,
                 customerId: customer.customerId,
                 managerId: manager.userId,
@@ -192,9 +199,9 @@ export const EditOrder = ({history}) => {
         manager,
         shippingMethodId,
         orderDetails,
+        orderDescription,
         isCustom,
         dispatch,
-        history,
         orderedProducts,
         status
     ]);
@@ -225,10 +232,12 @@ export const EditOrder = ({history}) => {
             buttonText={t('SAVE')}
             getProducts={setOrderedProducts}
             status={status}
+            orderDescription={orderDescription}
             onSubmit={onSubmitHandler}
             orderedProducts={orderedProducts}
             isEdit={true}
             onNovaposhtaAddressSelectHandler={onChangedAddressInput}
+            onOrderDescriptionChangeHandler={onOrderDescriptionChangeHandler}
         />
     );
 };

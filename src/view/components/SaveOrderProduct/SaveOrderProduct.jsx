@@ -12,6 +12,7 @@ import {
 } from '@material-ui/core';
 import RemoveIcon from '@material-ui/icons/Remove';
 import AddIcon from '@material-ui/icons/Add';
+import isEmpty from 'lodash/isEmpty';
 import {useTranslation} from "react-i18next";
 
 export const SaveOrderProduct = ({
@@ -29,7 +30,8 @@ export const SaveOrderProduct = ({
                                      increment,
                                      decrement,
                                      classes,
-                                     filterOptions
+                                     filterOptions,
+                                     selectedProducts
                                  }) => {
     const {t} = useTranslation();
 
@@ -62,7 +64,8 @@ export const SaveOrderProduct = ({
                         getOptionLabel={getOptionLabel}
                         onSelectHandler={onSelectHandler}
                         value={value}
-                        onInputChangedHandler={() => {}}
+                        onInputChangedHandler={() => {
+                        }}
                         filterOptions={filterOptions}
                     />
                 </Grid>
@@ -113,6 +116,7 @@ export const SaveOrderProduct = ({
                             endAdornment={
                                 <InputAdornment position="end">
                                     <Select
+                                        disabled={!isEmpty(selectedProducts)}
                                         className={classes.currency}
                                         value={details.currency}
                                         name='currency'

@@ -41,7 +41,7 @@ export const useCart = (items) => {
             return cartState.reduce((prev, curr) => {
                 return !!products.find((product) => (
                     product.productId === curr.productId
-                    && product.amount !== curr.amount
+                    && (product.amount !== curr.amount || product.price !== curr.price)
                 )) || prev
             }, false) || cartState.length !== products.length;
         };
@@ -57,7 +57,7 @@ export const useCart = (items) => {
 
                 return {
                     ...originalProduct,
-                    price: cartProduct.price,
+                    price: cartProduct.price || originalProduct.price,
                     totalPrice: cartProduct.amount * cartProduct.price,
                     currency: cartProduct.currency,
                     amount: cartProduct.amount,

@@ -13,16 +13,16 @@ export const CreateProduct = ({history}) => {
         const {selectedAttributeValues, productDetails, selectedAbstractProduct} = data;
         try {
             dispatch(setIsLoading(true));
-            await ProductService.create({
+            const response = await ProductService.create({
                 abstractProductId: selectedAbstractProduct.abstractProductId,
                 name: productDetails.name,
                 price: productDetails.price,
                 attributeValues: selectedAttributeValues,
             });
             dispatch(setIsLoading(false));
-            if (history.location.state !== undefined && history.location.state.createOrder) {
+            if (history.location.state !== undefined && !history.location.state.editOrder) {
                 history.push('/create-order', {
-                    productDetails
+                     response
                 });
             } else {
                 history.push('/products');

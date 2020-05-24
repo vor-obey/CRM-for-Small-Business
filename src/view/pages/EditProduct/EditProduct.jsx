@@ -38,6 +38,7 @@ export const EditProduct = ({history}) => {
 
     return (
         <SaveProduct
+            history={history}
             product={productDetails}
             labels={{
                 title: t('EDIT_PRODUCT'),

@@ -9,6 +9,7 @@ import {
 import {useTranslation} from "react-i18next";
 import {useHistory} from 'react-router-dom';
 import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
+import isEmpty from 'lodash/isEmpty';
 import {EditOrderStatus} from "../../../components/EditOrderStatus/EditOrderStatus";
 
 export const OrderDetails = ({
@@ -95,12 +96,12 @@ export const OrderDetails = ({
                 </Typography>
             </Grid>
 
-            <Grid item xs={12} sm={12}>
+            {!isEmpty(orderToProducts) ? <Grid item xs={12} sm={12}>
                 <Typography variant='h5'>
                     {t('CART')}
                 </Typography>
                 {renderProducts()}
-            </Grid>
+            </Grid> : null}
             <Grid container item xs={12} sm={12}>
             <Grid container item xs={12} sm={6} className={classes.containerItem}>
                 <Grid item xl={12} sm={12}>
