@@ -3,7 +3,7 @@ import {
     GET_CURRENT_USER_SUCCESS, INITIALIZE_SOCKET_CONNECTION, LOGIN, SET_IG_PROFILE, ADD_MESSAGE,
     SET_THREADS, OPEN_CHAT_WIDGET, CLOSE_CHAT_WIDGET, SEND_MESSAGE, SET_SOCKET_ERROR, SET_SOCKET,
     INITIALIZE_IG_CHAT_CONNECTION, SET_IS_AUTO_CONNECT_TO_CHAT, SET_CONNECTION_TO_CHAT_STORAGE, SET_IS_IG_INTEGRATED,
-    SET_IS_IG_EXISTS, SET_CHAT_INIT
+    SET_IS_IG_EXISTS, SET_CHAT_INIT, DELETE_IG_INTEGRATION
 } from "./userActionTypes";
 
 export const getCurrentUser = () => ({type: GET_CURRENT_USER});
@@ -24,3 +24,4 @@ export const setIsAutoConnectToChat = (value) => ({type: SET_IS_AUTO_CONNECT_TO_
 export const setIsIgIntegrated = (value) => ({type: SET_IS_IG_INTEGRATED, value});
 export const setIsIgExists = (value) => ({type: SET_IS_IG_EXISTS, value});
 export const setChatInit = (value) => ({type: SET_CHAT_INIT, value});
+export const deleteIgIntegration = () => ({type: DELETE_IG_INTEGRATION});

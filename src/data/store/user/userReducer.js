@@ -10,17 +10,17 @@ import {
     SET_IS_IG_INTEGRATED,
     SET_IS_IG_EXISTS,
     SET_IS_AUTO_CONNECT_TO_CHAT,
-    SET_CHAT_INIT
+    SET_CHAT_INIT, DELETE_IG_INTEGRATION
 } from "./userActionTypes";
 
 const initialState = {
     currentUser: {},
     isIgIntegrated: false,
     isIgExists: false,
-    IsAutoConnectToChat: false,
+    isAutoConnectToChat: false,
     chatInit: false,
     igProfile: null,
-    isChatWidgetOpened: true,
+    isChatWidgetOpened: false,
     messages: [],
     threads: [],
     error: null,
@@ -107,6 +107,20 @@ export const userReducer = (state = initialState, action) => {
             return {
                 ...state,
                 chatInit: action.value
+            }
+        }
+        case DELETE_IG_INTEGRATION: {
+            return {
+                ...state,
+                isIgIntegrated: false,
+                isIgExists: false,
+                isAutoConnectToChat: false,
+                chatInit: false,
+                igProfile: null,
+                messages: [],
+                threads: [],
+                error: null,
+                socket: null
             }
         }
         default: {

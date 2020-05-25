@@ -17,7 +17,10 @@ import {Button} from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import {CreateIntegration} from '../CreateIntegration/CreateIntegration';
 import IntegrationService from '../../../services/IntegrationService';
-import {getCurrentUser} from '../../../data/store/user/userActions';
+import {
+    deleteIgIntegration,
+    getCurrentUser,
+} from '../../../data/store/user/userActions';
 import InstagramIcon from '@material-ui/icons/Instagram';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
@@ -103,6 +106,7 @@ export const Integrations = ({
                 const response = await IntegrationService.delete(integration.integrationId);
                 if (response.success) {
                     dispatch(getCurrentUser());
+                    dispatch(deleteIgIntegration());
                     triggerOrganizationDetailsUpdate();
                 } else {
                     dispatch(setSnackBarStatus({isOpen: true, message: response.message, success: false}));
