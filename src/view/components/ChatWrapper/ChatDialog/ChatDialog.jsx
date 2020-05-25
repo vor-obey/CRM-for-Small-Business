@@ -13,6 +13,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {sendMessage} from '../../../../data/store/user/userActions';
 import moment from 'moment';
 import List from '@material-ui/core/List';
+import {setSnackBarStatus} from '../../../../data/store/auxiliary/auxiliaryActions';
 
 export const ChatDialog = ({profile, thread, goBack, classes, minWidth}) => {
     const {users, thread_title, items} = thread;
@@ -140,7 +141,14 @@ export const ChatDialog = ({profile, thread, goBack, classes, minWidth}) => {
                 <ListItemText
                     primary={thread_title}
                 />
-                <RefreshIcon className={classes.cursor}/>
+                <RefreshIcon
+                    className={classes.cursor}
+                    onClick={() => dispatch(setSnackBarStatus({
+                        isOpen: true,
+                        message: 'feature is not implemented yet',
+                        success: false
+                    }))}
+                />
             </ListItem>
             {renderItems()}
             <ListItem style={{

@@ -57,11 +57,13 @@ export const userReducer = (state = initialState, action) => {
             const messageEvent = action.message;
             const threads = [...state.threads];
             const threadIndex = threads.findIndex(item => item.thread_id === messageEvent.message.thread_id);
-            threads[threadIndex].last_permanent_item = messageEvent.message;
-            threads[threadIndex].items.push(messageEvent.message);
+            const threadToMove = threads.splice(threadIndex, 1)[0];
+            threadToMove.last_permanent_item = messageEvent.message;
+            threadToMove.items.push(messageEvent.message);
+            const newThreads = [threadToMove, ...threads];
             return {
                 ...state,
-                threads,
+                threads: newThreads,
                 messages: [...state.messages, messageEvent.message]
             }
         }
