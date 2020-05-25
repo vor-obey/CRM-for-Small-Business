@@ -48,4 +48,5 @@ export const SystemEN = {
     ADD_INTEGRATION: 'Create integration',
     EDIT_INTEGRATION: 'Edit integration',
     DELETE_INTEGRATION: 'Delete integration',
+    ENTER: 'Enter',
 };

@@ -36,7 +36,7 @@ export const ChatEnter = ({setConnection}) => {
                 } else {
                     dispatch(setSnackBarStatus({
                         isOpen: true,
-                        message: `Organization owner haven't added IG credentials yet`,
+                        message: t('OWNER_HAVE_NOT_INTEGRATED'),
                         success: false
                     }));
                 }

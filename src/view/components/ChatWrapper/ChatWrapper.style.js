@@ -18,6 +18,9 @@ export const chatWrapperStyles = (theme => ({
         borderStyle: 'solid',
         backgroundColor: '#EFF7FD',
         overflowY: 'scroll',
+        '@media (max-width: 600px)': {
+            width: '100%'
+        }
     },
     messageText: {
         border: '1px solid rgba(0, 0, 0, 0.12)',

@@ -48,4 +48,5 @@ export const SystemRU = {
     ADD_INTEGRATION: 'Создать интеграцию',
     EDIT_INTEGRATION: 'Редактировать интеграцию',
     DELETE_INTEGRATION: 'Удалить интеграцию?',
+    ENTER: 'Войти',
 };
