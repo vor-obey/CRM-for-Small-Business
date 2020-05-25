@@ -28,11 +28,18 @@ export const createOrderPageStyles = (theme => ({
             },
         },
         removeProduct: {
-            textAlign: 'center',
+            display: 'flex',
+            justifyContent: 'center',
+            height: '100%',
+            alignItems: 'center',
+            marginBottom: theme.spacing(2),
             [theme.breakpoints.down('xs')]: {
+                display: 'block',
+                height: 0,
                 position: 'absolute',
                 right: 0,
                 top: 0,
+                marginTop: 6,
             },
         },
         productTitle: {
@@ -245,6 +252,15 @@ export const createOrderPageStyles = (theme => ({
         },
         gridStatus: {
             margin: '16px 0 10px 0px'
+        },
+        margin: {
+            width: 90,
+            color: 'white'
+        },
+        editProduct: {
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center'
         }
     }
 ));
