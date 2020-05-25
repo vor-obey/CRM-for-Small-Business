@@ -26,13 +26,13 @@ export const loadDescriptionFromLocalStorage = () => {
     const savedDescription = localStorage.getItem('description');
 
     if (!savedDescription) {
-        return [];
+        return '';
     }
 
     try {
         return JSON.parse(savedDescription);
     } catch {
-        return [];
+        return '';
     }
 };
 

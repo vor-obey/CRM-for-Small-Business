@@ -254,8 +254,10 @@ export const createOrderPageStyles = (theme => ({
             margin: '16px 0 10px 0px'
         },
         margin: {
-            width: 90,
-            color: 'white'
+            width: 80,
+            color: 'white',
+            borderWidth: "1px",
+            borderColor: "white"
         },
         editProduct: {
             display: 'flex',
