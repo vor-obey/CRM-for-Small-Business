@@ -27,6 +27,8 @@ import EditIcon from "@material-ui/icons/Edit";
 import CheckIcon from "@material-ui/icons/Check";
 
 import {useDispatch} from "react-redux";
+import {StorageService} from "../../../../services";
+import {setDescriptionToOrder} from "../../../../data/store/order/orderActions";
 
 export const ProductForm = ({
                                 getProducts,
@@ -362,8 +364,10 @@ export const ProductForm = ({
     }, [renderAmountButton, history, classes, renderTotalPrice, clickHandlerAction, renderButton, renderPrice, cart.products, orderedProducts]);
 
     const handleResetCart = useCallback(() => {
-        cart.setProducts([])
-    }, [cart]);
+        cart.setProducts([]);
+        dispatch(setDescriptionToOrder([]));
+        StorageService.setItem('description', '');
+    }, [cart, dispatch]);
 
     return (
         <>
