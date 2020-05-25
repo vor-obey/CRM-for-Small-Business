@@ -110,7 +110,7 @@ export const CreateIntegration = ({
                 }));
             }
         }
-    }, [creds, triggerOrganizationDetailsUpdate, dispatch]);
+    }, [creds, triggerOrganizationDetailsUpdate, dispatch, t]);
 
     const sendSecurityCode = useCallback(async () => {
         try {
@@ -146,7 +146,7 @@ export const CreateIntegration = ({
             setLoading(false);
             dispatch(setSnackBarStatus({isOpen: true, message: e.message, success: false}));
         }
-    }, [creds.username, dispatch, verificationCode, triggerOrganizationDetailsUpdate]);
+    }, [creds.username, dispatch, verificationCode, triggerOrganizationDetailsUpdate, t]);
 
     const verify2FA = useCallback(async () => {
         try {
@@ -192,7 +192,7 @@ export const CreateIntegration = ({
             setLoading(false);
             dispatch(setSnackBarStatus({isOpen: true, message: e.message, success: false}));
         }
-    }, [creds.username, dispatch, twoFactorLoginData, verificationCode, triggerOrganizationDetailsUpdate]);
+    }, [creds.username, dispatch, twoFactorLoginData, verificationCode, triggerOrganizationDetailsUpdate, t]);
 
     const renderForms = useCallback(() => {
         const {isOpen, type} = codeForm;
