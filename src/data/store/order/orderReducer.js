@@ -4,6 +4,10 @@ const saveCartToLocalStorage = (cart) => {
     localStorage.setItem('cart', JSON.stringify(cart));
 };
 
+const saveDescriptionToLocalStorage = (description) => {
+    localStorage.setItem('description', JSON.stringify(description));
+};
+
 export const loadCartFromLocalStorage = () => {
     const savedCart = localStorage.getItem('cart');
 
@@ -13,6 +17,20 @@ export const loadCartFromLocalStorage = () => {
 
     try {
         return JSON.parse(savedCart);
+    } catch {
+        return [];
+    }
+};
+
+export const loadDescriptionFromLocalStorage = () => {
+    const savedDescription = localStorage.getItem('description');
+
+    if (!savedDescription) {
+        return [];
+    }
+
+    try {
+        return JSON.parse(savedDescription);
     } catch {
         return [];
     }
@@ -30,12 +48,13 @@ const initialState = {
 
      */
     cart: loadCartFromLocalStorage(),
-    description: ''
+    description: loadDescriptionFromLocalStorage()
 };
 
 export const orderReducer = (state = initialState, action) => {
     switch (action.type) {
         case SET_DESCRIPTION_TO_CART: {
+            saveDescriptionToLocalStorage(action.description);
             return {
                 ...state,
                 description: action.description

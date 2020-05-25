@@ -150,30 +150,30 @@ export const EditOrder = ({history}) => {
         const {shippingDetails, orderId} = orderDetails;
         try {
             dispatch(setIsLoading(true));
-             const response = await OrderService.update({
-                 orderId,
-                 description: orderDescription,
-                 products: orderedProducts,
-                 customerId: customer.customerId,
-                 managerId: manager.userId,
-                 shippingDetails: {
-                     shippingDetailsId: shippingDetails.shippingDetailsId,
-                     shippingMethodId,
-                     address: {
-                         addressId: shippingDetails.address.addressId,
-                         address: address,
-                         isCustom
-                     },
-                 },
-                 status
-             });
-             if (response.success) {
-                 dispatch(setIsLoading(false));
-                 history.push(`/orders/${orderId}`);
-             } else {
-                 dispatch(setIsLoading(false));
-                 dispatch(setSnackBarStatus({isOpen: true, message: 'Error', success: false}));
-             }
+            const response = await OrderService.update({
+                orderId,
+                description: orderDescription,
+                products: orderedProducts,
+                customerId: customer.customerId,
+                managerId: manager.userId,
+                shippingDetails: {
+                    shippingDetailsId: shippingDetails.shippingDetailsId,
+                    shippingMethodId,
+                    address: {
+                        addressId: shippingDetails.address.addressId,
+                        address: address,
+                        isCustom
+                    },
+                },
+                status
+            });
+            if (response.success) {
+                dispatch(setIsLoading(false));
+                history.push(`/orders/${orderId}`);
+            } else {
+                dispatch(setIsLoading(false));
+                dispatch(setSnackBarStatus({isOpen: true, message: 'Error', success: false}));
+            }
         } catch {
             dispatch(setIsLoading(false));
             dispatch(setSnackBarStatus({isOpen: true, message: 'Error', success: false}));

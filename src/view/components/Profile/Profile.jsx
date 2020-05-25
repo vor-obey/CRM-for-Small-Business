@@ -36,6 +36,7 @@ export const Profile = ({currentUser}) => {
     const logOutHandler = useCallback(() => {
         StorageService.removeJWTToken();
         StorageService.setItem('cart', []);
+        StorageService.setItem('description', '');
     }, []);
 
     const toggleDrawer = useCallback((side, open) => event => {

@@ -63,7 +63,8 @@ export const ProductForm = ({
                 const ind = orderedProducts.findIndex(item => item.productId === product.productId);
                 orderedProducts[ind] = {
                     ...product,
-                    action: 'edit'
+                    action: 'edit',
+                    orderProductId: orderedProducts[ind].orderProductId,
                 }
             } else {
                 orderedProducts.push({...product, action: 'add'});
