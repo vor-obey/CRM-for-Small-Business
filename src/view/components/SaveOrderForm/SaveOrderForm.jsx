@@ -38,7 +38,9 @@ export const SaveOrderForm = ({
                                   orderedProducts,
                                   isEdit,
                                   onNovaposhtaAddressSelectHandler,
-                                  history
+                                  history,
+                                  orderDescription,
+                                  onOrderDescriptionChangeHandler
                               }) => {
     const {t} = useTranslation();
     const renderStatuses = useCallback(() => {
@@ -84,6 +86,8 @@ export const SaveOrderForm = ({
                                 orderedProducts={orderedProducts}
                                 isEdit={isEdit}
                                 history={history}
+                                orderDescription={orderDescription}
+                                onOrderDescriptionChangeHandler={onOrderDescriptionChangeHandler}
                             />
                         </Grid>
                         <Grid container item xl={12}>
