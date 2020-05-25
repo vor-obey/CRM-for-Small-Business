@@ -54,9 +54,15 @@ export const userReducer = (state = initialState, action) => {
             }
         }
         case ADD_MESSAGE: {
+            const messageEvent = action.message;
+            const threads = [...state.threads];
+            const threadIndex = threads.findIndex(item => item.thread_id === messageEvent.message.thread_id);
+            threads[threadIndex].last_permanent_item = messageEvent.message;
+            threads[threadIndex].items.push(messageEvent.message);
             return {
                 ...state,
-                messages: [...state.messages, action.message]
+                threads,
+                messages: [...state.messages, messageEvent.message]
             }
         }
         case SET_THREADS: {

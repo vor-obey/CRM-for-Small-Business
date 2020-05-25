@@ -9,7 +9,7 @@ import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 import {TextField} from '@material-ui/core';
 import KeyboardReturnIcon from '@material-ui/icons/KeyboardReturn';
 import IconButton from '@material-ui/core/IconButton';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {sendMessage} from '../../../../data/store/user/userActions';
 import moment from 'moment';
 import List from '@material-ui/core/List';
@@ -19,6 +19,7 @@ export const ChatDialog = ({profile, thread, goBack, classes, minWidth}) => {
     const {profile_pic_url} = users[0];
     const dispatch = useDispatch();
     const [text, setText] = useState('');
+    const {socket} = useSelector(state => state.userReducer);
 
     // const fetchThreadFeed = useCallback(async ({thread_id, prev_cursor}) => {
     //     try {
@@ -112,9 +113,9 @@ export const ChatDialog = ({profile, thread, goBack, classes, minWidth}) => {
 
     const submit = useCallback((event) => {
         event.preventDefault();
-        dispatch(sendMessage({text, username: profile.username, threadId: thread.thread_id}));
+        dispatch(sendMessage({text, threadId: thread.thread_id}, socket));
         setText('');
-    }, [text, profile.username, thread.thread_id, dispatch]);
+    }, [text, thread.thread_id, dispatch, socket]);
 
     return (
         <List className={classes.listDialog} style={{

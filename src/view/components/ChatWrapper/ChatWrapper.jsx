@@ -32,7 +32,7 @@ export const ChatWrapper = () => {
                     <Grid container item xs={12} sm={12} className={classes.chatEnterContainer}>
                         <Typography variant='h6'>
                             You haven't integrated your Instagram account yet. It can be done in <a
-                            href={`/organization/${organizationId}/edit`}>organization settings</a>
+                            href={`/organization/${organizationId}`}>organization settings</a>
                         </Typography>
                     </Grid>
                 );
