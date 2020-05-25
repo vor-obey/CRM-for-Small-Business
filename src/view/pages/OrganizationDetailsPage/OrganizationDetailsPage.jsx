@@ -40,7 +40,7 @@ export const OrganizationDetailsPage = ({
     }, [id, history]);
 
     return (
-        <Container component="main" className={classes.container}>
+        <Container maxWidth='md' className={classes.container}>
             <Paper className={classes.paper}>
                 <Grid container item xs={12} className={classes.organizationGrid}>
                     <Grid item xs={12}>

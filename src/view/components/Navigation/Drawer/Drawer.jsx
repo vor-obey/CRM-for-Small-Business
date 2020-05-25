@@ -17,6 +17,7 @@ import InsertDriveFileIcon from '@material-ui/icons/InsertDriveFile';
 import PlusIcon from '@material-ui/icons/PlusOne';
 import MenuIcon from '@material-ui/icons/Menu';
 import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
+import ChatIcon from '@material-ui/icons/Chat';
 import MessageIcon from "@material-ui/icons/Message";
 import {drawerStyle} from "./Drawer.style";
 import {useTranslation} from "react-i18next";
@@ -94,11 +95,11 @@ function Drawer(props) {
                     <ListItemText>{t('ORDERS')}</ListItemText>
                 </ListItem>
                 <ListItem
-                   className={classes.menuItem}
-                   button
-                   component={Link}
-                   to="/notifications"
-                   selected={isActive('/notifications')}>
+                    className={classes.menuItem}
+                    button
+                    component={Link}
+                    to="/notifications"
+                    selected={isActive('/notifications')}>
                     <ListItemIcon className={classes.menuIcon}><MessageIcon/></ListItemIcon>
                     <ListItemText>{t('NOTIFICATION')}</ListItemText>
                 </ListItem>
@@ -129,6 +130,15 @@ function Drawer(props) {
                     selected={isActive('/product-types')}>
                     <ListItemIcon className={classes.menuIcon}><InsertDriveFileIcon/></ListItemIcon>
                     <ListItemText>{t('PRODUCT_TYPES')}</ListItemText>
+                </ListItem>
+                <ListItem
+                    className={classes.menuItem}
+                    button
+                    component={Link}
+                    to="/chat"
+                    selected={isActive('/product-types')}>
+                    <ListItemIcon className={classes.menuIcon}><ChatIcon/></ListItemIcon>
+                    <ListItemText>{t('CHAT')}</ListItemText>
                 </ListItem>
             </List>
         </div>

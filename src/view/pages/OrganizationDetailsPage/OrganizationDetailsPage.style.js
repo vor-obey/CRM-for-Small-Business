@@ -43,6 +43,9 @@ export const OrganizationDetailsStyle = (theme => ({
         margin: theme.spacing(3),
         backgroundColor: theme.palette.primary.main,
     },
+    button: {
+        margin: theme.spacing(3),
+    },
     organizationInfo: {
         wordWrap: 'break-word',
     },
@@ -56,4 +59,12 @@ export const OrganizationDetailsStyle = (theme => ({
         display: 'grid',
         justifyContent: 'space-evenly',
     },
+    integrationsList: {
+        width: '50%',
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        [theme.breakpoints.down('xs')]: {
+            width: '100%',
+        },
+    }
 }));

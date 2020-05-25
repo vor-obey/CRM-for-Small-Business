@@ -25,7 +25,7 @@ import {CreateOrganization} from "../../pages/CreateOrganization/CreateOrganizat
 import {EditUser} from '../../pages/EditUser/EditUser';
 import {EditOrder} from '../../pages/EditOrder/EditOrder';
 import {NotificationPage} from "../../pages/NotificationPage/NotificationPage";
-import {DraggableChat} from '../DraggableChat/DraggableChat';
+// import {DraggableChat} from '../DraggableChat/DraggableChat';
 import {OrganizationDetailsPage} from "../../pages/OrganizationDetailsPage/OrganizationDetailsPage";
 import {EditOrganization} from "../../pages/EditOrganization/EditOrganization";
 import {CreateAbstractProductPage} from '../../pages/CreateAbstractProductPage/CreateAbstractProductPage';
@@ -42,6 +42,7 @@ import {CustomDialog} from '../CustomDialog/CustomDialog';
 import {EditProduct} from '../../pages/EditProduct/EditProduct';
 import {CreateProductTypeWithAttributes} from '../../pages/CreateProductTypeWithAttributes/CreateProductTypeWithAttributes';
 import {EditProductTypeWithAttributes} from '../../pages/EditProductTypeWithAttributes/EditProductTypeWithAttributes';
+import {ChatWrapper} from "../ChatWrapper/ChatWrapper";
 
 export const Routing = () => {
     const dispatch = useDispatch();
@@ -60,7 +61,7 @@ export const Routing = () => {
     return (
         <Router history={history}>
             <Header/>
-            <DraggableChat/>
+            {/*<DraggableChat/>*/}
             <CustomModal
                 open={modal.isOpen}
                 classes={modal.classes}
@@ -93,6 +94,7 @@ export const Routing = () => {
             <PrivateRoute exact path='/orders/:id' component={OrderDetailsPage}/>
             <PrivateRoute exact path='/orders/:id/edit' component={EditOrder}/>
             <PrivateRoute exact path='/organizations/:id' component={OrganizationDetailsPage}/>
+            <PrivateRoute exact path='/chat' component={ChatWrapper}/>
             <PrivateRoute exact path='/organizations/:id/edit' component={EditOrganization}/>
             <PrivateRoute exact path='/create-abstract-product' component={CreateAbstractProductPage}/>
             <PrivateRoute exact path='/abstract-products' component={AbstractProductsPage}/>

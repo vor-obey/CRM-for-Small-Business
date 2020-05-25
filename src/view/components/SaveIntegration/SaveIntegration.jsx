@@ -12,8 +12,10 @@ export const SaveIntegration = ({
                                     onChangedHandler
                                 }) => {
     return (
-        <>
-            <Grid item xs={12} style={{margin: '10px 0 10px 0'}}>
+        <Grid container item xs={12} sm={12} spacing={1}
+              direction='row' wrap='wrap' alignItems='flex-start'
+              alignContent='flex-start' justify='center'>
+            <Grid item xs={12} sm={12} style={{margin: '10px 0 10px 0'}}>
                 <TextField
                     label='Username'
                     name="username"
@@ -25,21 +27,22 @@ export const SaveIntegration = ({
                     fullWidth
                 />
             </Grid>
-            <Grid item xs={12} style={{margin: '10px 0 10px 0'}}>
+            <Grid item xs={12} sm={12} style={{margin: '10px 0 10px 0'}}>
                 <TextField
                     label='Password'
                     name="password"
                     variant="outlined"
-                    type="text"
+                    type="password"
                     value={creds.password}
                     onChange={onChangedHandler}
                     required
                     fullWidth
                 />
             </Grid>
-            <Grid item xs={12} style={{margin: '10px 0 10px 0'}}>
+            <Grid item xs={12} sm={12} style={{margin: '10px 0 10px 0'}}>
                 <FormControl
                     variant="outlined"
+                    fullWidth
                 >
                     <InputLabel id="demo-simple-select-outlined-label">
                         Type
@@ -61,6 +64,6 @@ export const SaveIntegration = ({
                     </Select>
                 </FormControl>
             </Grid>
-        </>
+        </Grid>
     );
 };

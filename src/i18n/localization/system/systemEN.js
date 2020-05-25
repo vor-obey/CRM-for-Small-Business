@@ -45,4 +45,8 @@ export const SystemEN = {
     NO_NEW_TYPES: 'There are no new products types',
     NO_NEW_CUSTOMERS: 'There are no new customers',
     ERROR: 'Error',
+    ADD_INTEGRATION: 'Create integration',
+    EDIT_INTEGRATION: 'Edit integration',
+    DELETE_INTEGRATION: 'Delete integration',
+    ENTER: 'Enter',
 };
