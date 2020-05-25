@@ -14,7 +14,6 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import {getCurrentUser} from '../../../data/store/user/userActions';
 
 export const CreateIntegration = ({
-                                      labels,
                                       classes,
                                       triggerOrganizationDetailsUpdate
                                   }) => {
@@ -222,7 +221,7 @@ export const CreateIntegration = ({
                             variant='outlined'
                             onClick={type === 'email' ? sendSecurityCode : verify2FA}
                         >
-                            {labels.actionButton}
+                            Send
                         </Button>
                     </Grid>
                 </>
@@ -247,7 +246,7 @@ export const CreateIntegration = ({
             </>
         );
 
-    }, [t, classes, creds, codeForm, labels, onChangedHandler, onSubmit, verificationCode, sendSecurityCode, verify2FA]);
+    }, [t, classes, creds, codeForm, onChangedHandler, onSubmit, verificationCode, sendSecurityCode, verify2FA]);
 
     return (
         <Container maxWidth='xs'>
