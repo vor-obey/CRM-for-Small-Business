@@ -5,4 +5,9 @@ export const InstagramUA = {
     ORG_SETTINGS: 'налаштуваннях організацій',
     OWNER_HAVE_NOT_INTEGRATED: 'Власник організації ще не інтегрував обліковий запис Instagram.',
     SELECT_CHAT: 'Виберіть чат, щоб розпочати обмін повідомленнями',
+    VERIFICATION_CODE: 'Код верифікації',
+    CODE_WAS_SENT: 'Код був відправлений.',
+    CODE_WAS_SENT_EMAIL: 'Код був відправлений на ваш email.',
+    PASSWORD_INCORRECT: 'Пароль введений неправильно. Будь ласка, спробуйте знову.',
+    USERNAME_INCORRECT: 'Аккаунт з таким логін не знайден. Будь ласка, перевірте Ваш логін і спробуйте знову.',
 };

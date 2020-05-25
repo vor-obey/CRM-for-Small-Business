@@ -79,7 +79,7 @@ export const CreateIntegration = ({
                         case 'INVALID_USER': {
                             dispatch(setSnackBarStatus({
                                 isOpen: true,
-                                message: `The username you entered doesn't appear to belong to an account. Please check your username and try again.`,
+                                message: t('USERNAME_INCORRECT'),
                                 success: false
                             }));
                             break;
@@ -87,7 +87,7 @@ export const CreateIntegration = ({
                         case 'INVALID_PASSWORD': {
                             dispatch(setSnackBarStatus({
                                 isOpen: true,
-                                message: `The password you entered is incorrect. Please try again.`,
+                                message: t('PASSWORD_INCORRECT'),
                                 success: false
                             }));
                             break;
@@ -135,7 +135,7 @@ export const CreateIntegration = ({
                 if (message === 'CHALLENGE_WRONG_CODE') {
                     dispatch(setSnackBarStatus({
                         isOpen: true,
-                        message: `Code was sent again to your email. Please try again`,
+                        message: t('CODE_WAS_SENT_EMAIL'),
                         success: false
                     }));
                 } else {
@@ -171,7 +171,7 @@ export const CreateIntegration = ({
                 if (message === 'CHALLENGE_WRONG_CODE') {
                     dispatch(setSnackBarStatus({
                         isOpen: true,
-                        message: `Code was sent again. Please try again`,
+                        message: t('CODE_WAS_SENT'),
                         success: false
                     }));
                 } else if (message === 'CHALLENGE_REQUIRED') {
@@ -206,7 +206,7 @@ export const CreateIntegration = ({
                     </Grid>
                     <Grid container item xs={12}>
                         <TextField
-                            label='Verification Code'
+                            label={t('VERIFICATION_CODE')}
                             name="verificationCode"
                             variant="outlined"
                             type="text"
@@ -251,12 +251,12 @@ export const CreateIntegration = ({
 
     return (
         <Container maxWidth='xs'>
-            <Grid container style={{marginTop: 20}}>
+            <Grid container style={{marginTop: 14}}>
                 <Typography variant="subtitle1" style={{marginBottom: 20}}>
                     {t('ADD_INTEGRATION')}
                 </Typography>
                 {loading ? (
-                    <Grid item xs={12}>
+                    <Grid container item xs={12} justify='center' alignItems='center' style={{paddingBottom: '20px'}}>
                         <CircularProgress/>
                     </Grid>
                 ) : (renderForms())}
