@@ -8,6 +8,7 @@ import {useDispatch} from 'react-redux';
 import {setIsLoading, setSnackBarStatus} from '../../../data/store/auxiliary/auxiliaryActions';
 import {useTranslation} from 'react-i18next';
 import {useOrderDetailsById, useShippingMethods} from '../../../utils/hooks/orderHooks';
+import OrderService from "../../../services/OrderService";
 import {useManagers} from '../../../utils/hooks/userHooks';
 import {useCustomers} from '../../../utils/hooks/customerHooks';
 
@@ -149,51 +150,36 @@ export const EditOrder = ({history}) => {
         const {shippingDetails, orderId} = orderDetails;
         try {
             dispatch(setIsLoading(true));
-            console.log({
-                orderId,
-                description: orderDescription,
-                products: orderedProducts,
-                customerId: customer.customerId,
-                managerId: manager.userId,
-                shippingDetails: {
-                    shippingDetailsId: shippingDetails.shippingDetailsId,
-                    shippingMethodId,
-                    address: {
-                        addressId: shippingDetails.address.addressId,
-                        address: address,
-                        isCustom
-                    },
-                },
-                status
-            });
-            // const response = await OrderService.update({
-            //     orderId,
-            //     products: orderedProducts,
-            //     customerId: customer.customerId,
-            //     managerId: manager.userId,
-            //     shippingDetails: {
-            //         shippingDetailsId: shippingDetails.shippingDetailsId,
-            //         shippingMethodId,
-            //         address: {
-            //             addressId: shippingDetails.address.addressId,
-            //             address: address,
-            //             isCustom
-            //         },
-            //     },
-            //     status
-            // });
-            // if (response.success) {
-            //     dispatch(setIsLoading(false));
-            //     history.push(`/orders/${orderId}`);
-            // } else {
-            //     dispatch(setIsLoading(false));
-            //     dispatch(setSnackBarStatus({isOpen: true, message: 'Error', success: false}));
-            // }
+             const response = await OrderService.update({
+                 orderId,
+                 description: orderDescription,
+                 products: orderedProducts,
+                 customerId: customer.customerId,
+                 managerId: manager.userId,
+                 shippingDetails: {
+                     shippingDetailsId: shippingDetails.shippingDetailsId,
+                     shippingMethodId,
+                     address: {
+                         addressId: shippingDetails.address.addressId,
+                         address: address,
+                         isCustom
+                     },
+                 },
+                 status
+             });
+             if (response.success) {
+                 dispatch(setIsLoading(false));
+                 history.push(`/orders/${orderId}`);
+             } else {
+                 dispatch(setIsLoading(false));
+                 dispatch(setSnackBarStatus({isOpen: true, message: 'Error', success: false}));
+             }
         } catch {
             dispatch(setIsLoading(false));
             dispatch(setSnackBarStatus({isOpen: true, message: 'Error', success: false}));
         }
     }, [
+        history,
         address,
         customer,
         manager,
