@@ -12,10 +12,12 @@ import Avatar from '@material-ui/core/Avatar';
 import {Container, useMediaQuery} from '@material-ui/core';
 import {useSelector} from 'react-redux';
 import Grid from '@material-ui/core/Grid';
+import {useTranslation} from "react-i18next";
 
 export const Chat = ({
                          classes,
                      }) => {
+    const {t} = useTranslation('');
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [selectedThread, setSelectedThread] = useState({});
     const minWidth600 = useMediaQuery('(min-width:600px)');
@@ -106,7 +108,8 @@ export const Chat = ({
     return (
         <Grid item xs={12} sm={12} style={{
             maxHeight: '80%',
-            display: 'flex'
+            display: 'flex',
+            margin: '0 10px',
         }}>
             <List className={classes.listThreads} style={{padding: 0}}>
                 <ChatThreads
@@ -127,11 +130,13 @@ export const Chat = ({
                     className={classes.text}
                     style={{
                         border: '1px solid #B7BFC4',
+                        borderLeft: 'none',
                         width: '50%',
-                        height: 'auto'
+                        height: 'auto',
+                        padding: '0 10px'
                     }}
                 >
-                    Please select a chat to start messaging
+                    {t('SELECT_CHAT')}
                 </Typography>
             }
         </Grid>

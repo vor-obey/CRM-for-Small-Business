@@ -48,4 +48,5 @@ export const SystemUA = {
     ADD_INTEGRATION: 'Створіть інтеграцію',
     EDIT_INTEGRATION: 'Редагувати інтеграцію',
     DELETE_INTEGRATION: 'Видалити інтеграцію?',
+    ENTER: 'Увійти',
 };

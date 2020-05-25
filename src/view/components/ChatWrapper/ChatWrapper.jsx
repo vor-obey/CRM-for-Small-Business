@@ -1,17 +1,17 @@
 import React, {useCallback} from 'react';
-import {Button, Container, Grid} from '@material-ui/core';
-import {makeStyles} from "@material-ui/core/styles";
+import {Button, Container, Grid,Typography, Link, makeStyles} from '@material-ui/core';
 import {chatWrapperStyles} from "./ChatWrapper.style";
 import {Chat} from './Chat/Chat';
 import {useDispatch, useSelector} from 'react-redux';
 import isEmpty from 'lodash/isEmpty';
-import Typography from '@material-ui/core/Typography';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import {setIsAutoConnectToChat, setConnectionToChatStorage} from '../../../data/store/user/userActions';
+import {useTranslation} from "react-i18next";
 
 const useStyles = makeStyles(chatWrapperStyles);
 
 export const ChatWrapper = () => {
+    const {t} = useTranslation('');
     const classes = useStyles();
     const {isIgIntegrated, currentUser, isAutoConnectToChat} = useSelector(state => state.userReducer);
     const {isLoading} = useSelector(state => state.auxiliaryReducer);
@@ -31,8 +31,7 @@ export const ChatWrapper = () => {
                 return (
                     <Grid container item xs={12} sm={12} className={classes.chatEnterContainer}>
                         <Typography variant='h6'>
-                            You haven't integrated your Instagram account yet. It can be done in <a
-                            href={`/organization/${organizationId}`}>organization settings</a>
+                            {t('NO_ACCOUNT')} <Link href={`/organizations/${organizationId}`}>{t('ORG_SETTINGS')}</Link>
                         </Typography>
                     </Grid>
                 );
@@ -41,7 +40,7 @@ export const ChatWrapper = () => {
             return (
                 <Grid container item xs={12} sm={12} className={classes.chatEnterContainer}>
                     <Typography variant='h6'>
-                        Organization owner haven't integrated Instagram account yet.
+                        {t('OWNER_HAVE_NOT_INTEGRATED')}
                     </Typography>
                 </Grid>
             );
@@ -55,7 +54,7 @@ export const ChatWrapper = () => {
                         color='primary'
                         onClick={enterChat}
                     >
-                        Enter
+                        {t('ENTER')}
                     </Button>
                 </Grid>
             );
@@ -64,7 +63,7 @@ export const ChatWrapper = () => {
         return <Chat
             classes={classes}
         />
-    }, [classes, isAutoConnectToChat, isIgIntegrated, enterChat, currentUser]);
+    }, [t, classes, isAutoConnectToChat, isIgIntegrated, enterChat, currentUser]);
 
     return (
         <Container className={classes.container} style={{height: '100vh'}}>
