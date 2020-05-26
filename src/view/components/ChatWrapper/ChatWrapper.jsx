@@ -1,5 +1,5 @@
 import React, {useCallback} from 'react';
-import {Button, Container, Grid,Typography, Link, makeStyles} from '@material-ui/core';
+import {Button,Grid,Typography, Link, makeStyles} from '@material-ui/core';
 import {chatWrapperStyles} from "./ChatWrapper.style";
 import {Chat} from './Chat/Chat';
 import {useDispatch, useSelector} from 'react-redux';
@@ -66,7 +66,7 @@ export const ChatWrapper = () => {
     }, [t, classes, isAutoConnectToChat, isIgIntegrated, enterChat, currentUser]);
 
     return (
-        <Container className={classes.container} style={{height: '100vh'}}>
+        <Grid className={classes.container}>
             {isLoading ? (
                 <Grid container item xs={12} sm={12}>
                     <CircularProgress/>
@@ -74,6 +74,6 @@ export const ChatWrapper = () => {
             ) : (
                 render()
             )}
-        </Container>
+        </Grid>
     );
 };

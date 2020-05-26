@@ -2,25 +2,69 @@ export const chatWrapperStyles = (theme => ({
     container: {
         display: 'flex',
         padding: 0,
-        marginTop: theme.spacing(1),
+        width: '100%',
+        height: 'calc(100vh - 64px)'
     },
     listThreads: {
-        width: '50%',
+        width: '30%',
         borderWidth: 1,
         borderColor: '#B7BFC4',
         borderStyle: 'solid',
-        overflowY: 'scroll',
+        overflowX: 'hidden',
     },
     listDialog: {
-        width: '50%',
-        borderWidth: 1,
-        borderColor: '#B7BFC4',
-        borderStyle: 'solid',
+        width: '100%',
+        border: '1px solid #E9EBED',
+        borderLeft: 'none',
         backgroundColor: '#EFF7FD',
-        overflowY: 'scroll',
+        position: 'relative',
         '@media (max-width: 600px)': {
             width: '100%'
         }
+    },
+    sentBox: {
+        borderTop: '1px solid #B7BFC4',
+        position: 'sticky',
+        bottom: '0',
+        backgroundColor: '#f0f7fd',
+        zIndex: 1,
+        padding: '20px',
+        width: 'calc(100% - 40px)',
+    },
+    noMessage: {
+        width: '100%',
+        border: '1px solid #B7BFC4',
+        borderLeft: 'none',
+        padding: '0 10px'
+    },
+    threadText: {
+        textOverflow: 'ellipsis',
+        overflow: 'hidden',
+        height: '1.5em',
+        whiteSpace: 'nowrap'
+    },
+    additionals: {
+        width: '10%',
+        border: '1px solid #B7BFC4',
+        borderLeft: 'none',
+        backgroundColor: '#E7EBF0',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-evenly',
+        alignItems: 'center'
+
+    },
+    dialogHeader: {
+        display: 'flex',
+        justifyContent: 'space-between',
+        padding: '8px 20px',
+        width: 'inherit',
+        height: '25px',
+        borderBottom: '1px solid #B7BFC4',
+        position: 'sticky',
+        top: 0,
+        backgroundColor: '#f0f7fd',
+        zIndex: 1
     },
     messageText: {
         border: '1px solid rgba(0, 0, 0, 0.12)',
@@ -30,7 +74,7 @@ export const chatWrapperStyles = (theme => ({
         marginRight: 5,
         marginLeft: 5,
         flex: 'unset',
-        wordBreak: 'break-all'
+        wordBreak: 'break-word'
     },
     messageImg: {
         width: 150,
