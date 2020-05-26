@@ -1,18 +1,13 @@
 import React, {useCallback, useState} from 'react';
-import List from '@material-ui/core/List';
 import {ChatThreads} from '../ChatThreads/ChatThreads';
 import {ChatDialog} from '../ChatDialog/ChatDialog';
-import Typography from '@material-ui/core/Typography';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
-import ListItemText from '@material-ui/core/ListItemText';
-import Divider from '@material-ui/core/Divider';
-import Avatar from '@material-ui/core/Avatar';
-import {Container, useMediaQuery} from '@material-ui/core';
+import {Grid, Avatar, Divider, Container, ListItemText, ListItemAvatar, ListItem, Typography, IconButton, List, useMediaQuery} from '@material-ui/core';
 import {useSelector} from 'react-redux';
-import Grid from '@material-ui/core/Grid';
 import {useTranslation} from "react-i18next";
+import InsertCommentOutlinedIcon from '@material-ui/icons/InsertCommentOutlined';
+import DescriptionOutlinedIcon from '@material-ui/icons/DescriptionOutlined';
+import NoteAddOutlinedIcon from '@material-ui/icons/NoteAddOutlined';
 
 export const Chat = ({
                          classes,
@@ -48,11 +43,17 @@ export const Chat = ({
                             alignItems='flex-start'
                             className={classes.cursor}
                             onClick={() => openThread(thread)}
+                            classes={{
+                                secondary: classes.threadText
+                            }}
                         >
                             <ListItemAvatar>
                                 <PeopleAltIcon/>
                             </ListItemAvatar>
                             <ListItemText
+                                classes={{
+                                    secondary: classes.threadText
+                                }}
                                 primary={thread_title}
                                 secondary={text}
                             />
@@ -73,6 +74,9 @@ export const Chat = ({
                             <Avatar alt={thread_title} src={profile_pic_url}/>
                         </ListItemAvatar>
                         <ListItemText
+                            classes={{
+                                secondary: classes.threadText
+                            }}
                             primary={thread_title}
                             secondary={text}
                         />
@@ -107,38 +111,50 @@ export const Chat = ({
 
     return (
         <Grid item xs={12} sm={12} style={{
-            maxHeight: '80%',
             display: 'flex',
-            margin: '0 10px',
+            alignItems: 'stretch'
         }}>
-            <List className={classes.listThreads} style={{padding: 0}}>
+            <Grid className={classes.listThreads} style={{padding: 0}}>
                 <ChatThreads
                     classes={classes}
                     renderThreads={renderThreads}
                 />
-            </List>
+            </Grid>
             {isDialogOpen ?
-                <ChatDialog
-                    minWidth={minWidth600}
-                    profile={igProfile}
-                    thread={selectedThread}
-                    classes={classes}
-                />
+
+                    <ChatDialog
+                        minWidth={minWidth600}
+                        profile={igProfile}
+                        thread={selectedThread}
+                        classes={classes}
+                    />
                 :
-                <Typography
-                    variant='h6'
-                    className={classes.text}
-                    style={{
-                        border: '1px solid #B7BFC4',
-                        borderLeft: 'none',
-                        width: '50%',
-                        height: 'auto',
-                        padding: '0 10px'
-                    }}
-                >
-                    {t('SELECT_CHAT')}
-                </Typography>
+                <Grid className={classes.noMessage}>
+                    <Typography
+                        variant='h6'
+                        className={classes.text}
+                    >
+                        {t('SELECT_CHAT')}
+                    </Typography>
+                </Grid>
             }
+            <Grid className={classes.additionals}>
+                <IconButton
+                    aria-label="open drawer"
+                >
+                    <DescriptionOutlinedIcon style={{fontSize: 30}}/>
+                </IconButton>
+                <IconButton
+                    aria-label="open drawer"
+                >
+                    <NoteAddOutlinedIcon style={{fontSize: 30}}/>
+                </IconButton>
+                <IconButton
+                    aria-label="open drawer"
+                >
+                    <InsertCommentOutlinedIcon style={{fontSize: 30}}/>
+                </IconButton>
+            </Grid>
         </Grid>
     );
 };
