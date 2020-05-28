@@ -4,7 +4,7 @@ export const InstagramUA = {
     NO_ACCOUNT: 'У Вас немає підключеного Instagram аккаунта. Ви можете зробити це в',
     ORG_SETTINGS: 'налаштуваннях організацій',
     OWNER_HAVE_NOT_INTEGRATED: 'Власник організації ще не інтегрував обліковий запис Instagram.',
-    SELECT_CHAT: 'Виберіть чат, щоб розпочати обмін повідомленнями',
+    SELECT_CHAT: 'Виберіть чат, щоб почати спілкуваня',
     VERIFICATION_CODE: 'Код верифікації',
     CODE_WAS_SENT: 'Код був відправлений.',
     CODE_WAS_SENT_EMAIL: 'Код був відправлений на ваш email.',

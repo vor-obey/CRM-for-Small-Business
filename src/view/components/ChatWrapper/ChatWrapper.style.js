@@ -1,3 +1,5 @@
+const drawerWidth = 400;
+
 export const chatWrapperStyles = (theme => ({
     container: {
         display: 'flex',
@@ -6,21 +8,36 @@ export const chatWrapperStyles = (theme => ({
         height: 'calc(100vh - 64px)'
     },
     listThreads: {
-        width: '30%',
-        borderWidth: 1,
-        borderColor: '#B7BFC4',
-        borderStyle: 'solid',
+        maxWidth: '300px',
+        border: '1px solid #B7BFC4',
         overflowX: 'hidden',
+        transition: theme.transitions.create('width', {
+            easing: theme.transitions.easing.easeInOut,
+            duration: theme.transitions.duration.leavingScreen,
+        }),
+    },
+    listThreadsMin: {
+        width: '72px',
+        minWidth: '72px',
+        transition: theme.transitions.create('width', {
+            easing: theme.transitions.easing.easeInOut,
+            duration: theme.transitions.duration.leavingScreen,
+        }),
     },
     listDialog: {
         width: '100%',
         border: '1px solid #E9EBED',
+        borderTop: 'none',
         borderLeft: 'none',
         backgroundColor: '#EFF7FD',
         position: 'relative',
         '@media (max-width: 600px)': {
             width: '100%'
-        }
+        },
+        transition: theme.transitions.create(['width', 'margin'], {
+            easing: theme.transitions.easing.easeIn,
+            duration: theme.transitions.duration.enteringScreen,
+        }),
     },
     sentBox: {
         borderTop: '1px solid #B7BFC4',
@@ -33,9 +50,10 @@ export const chatWrapperStyles = (theme => ({
     },
     noMessage: {
         width: '100%',
-        border: '1px solid #B7BFC4',
+        border: '1px solid #E9EBED',
         borderLeft: 'none',
-        padding: '0 10px'
+        backgroundColor: '#EFF7FD',
+        position: 'relative',
     },
     threadText: {
         textOverflow: 'ellipsis',
@@ -44,21 +62,47 @@ export const chatWrapperStyles = (theme => ({
         whiteSpace: 'nowrap'
     },
     additionals: {
-        width: '10%',
+        // width: '10%',
         border: '1px solid #B7BFC4',
         borderLeft: 'none',
         backgroundColor: '#E7EBF0',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-evenly',
+        alignItems: 'center',
+    },
+    additionalsBlocks: {
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'row',
+    },
+    additionalsNavigation: {
+        width: '100px',
+        height: '100%',
+        borderRight: '1px solid #B7BFC4',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignContent: 'center',
+        alignItems: 'center',
+    },
+    additionalButton: {
+        width: 50
+    },
+    additionalChild: {
+        display: 'flex',
+        justifyContent: 'center',
+        width: '100%',
         alignItems: 'center'
-
+    },
+    additionalChildHidden: {
+        display: 'none',
     },
     dialogHeader: {
         display: 'flex',
         justifyContent: 'space-between',
         padding: '8px 20px',
-        width: 'inherit',
+        width: '100%',
         height: '25px',
         borderBottom: '1px solid #B7BFC4',
         position: 'sticky',
@@ -129,6 +173,32 @@ export const chatWrapperStyles = (theme => ({
         alignItems: 'center',
     },
     paper: {
+        top: '64px',
         padding: 20,
+    },
+    hide: {
+        display: 'none',
+    },
+    drawer: {
+        width: '100px',
+        flexShrink: 0,
+        whiteSpace: 'nowrap',
+    },
+    drawerOpen: {
+        top: '65px',
+        width: drawerWidth,
+        transition: theme.transitions.create('width', {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.enteringScreen,
+        }),
+    },
+    drawerClose: {
+        width: '100px',
+        top: '65px',
+        transition: theme.transitions.create('width', {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.leavingScreen,
+        }),
+        overflowX: 'hidden',
     },
 }));

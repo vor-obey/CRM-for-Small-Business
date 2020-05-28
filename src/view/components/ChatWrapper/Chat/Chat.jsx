@@ -2,12 +2,26 @@ import React, {useCallback, useState} from 'react';
 import {ChatThreads} from '../ChatThreads/ChatThreads';
 import {ChatDialog} from '../ChatDialog/ChatDialog';
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
-import {Grid, Avatar, Divider, Container, ListItemText, ListItemAvatar, ListItem, Typography, IconButton, List, useMediaQuery} from '@material-ui/core';
+import {
+    Grid,
+    Avatar,
+    Divider,
+    Container,
+    ListItemText,
+    ListItemAvatar,
+    Drawer,
+    ListItem,
+    Typography,
+    IconButton,
+    List,
+    useMediaQuery
+} from '@material-ui/core';
 import {useSelector} from 'react-redux';
 import {useTranslation} from "react-i18next";
 import InsertCommentOutlinedIcon from '@material-ui/icons/InsertCommentOutlined';
 import DescriptionOutlinedIcon from '@material-ui/icons/DescriptionOutlined';
 import NoteAddOutlinedIcon from '@material-ui/icons/NoteAddOutlined';
+import clsx from "clsx";
 
 export const Chat = ({
                          classes,
@@ -17,6 +31,7 @@ export const Chat = ({
     const [selectedThread, setSelectedThread] = useState({});
     const minWidth600 = useMediaQuery('(min-width:600px)');
     const {threads, igProfile} = useSelector(state => state.userReducer);
+    const [open, setOpen] = useState(false);
 
     const openThread = useCallback(async (thread) => {
         setSelectedThread(thread);
@@ -109,25 +124,34 @@ export const Chat = ({
         );
     }
 
+    const handleDrawer = () => {
+        setOpen(prevState => !prevState);
+    };
+
+    const childrenContent = () => {
+        return ("11111111")
+    };
     return (
         <Grid item xs={12} sm={12} style={{
             display: 'flex',
             alignItems: 'stretch'
         }}>
-            <Grid className={classes.listThreads} style={{padding: 0}}>
+            <Grid className={clsx(classes.listThreads, {
+                [classes.listThreadsMin]: open
+            })}
+                  style={{padding: 0}}>
                 <ChatThreads
                     classes={classes}
                     renderThreads={renderThreads}
                 />
             </Grid>
             {isDialogOpen ?
-
-                    <ChatDialog
-                        minWidth={minWidth600}
-                        profile={igProfile}
-                        thread={selectedThread}
-                        classes={classes}
-                    />
+                <ChatDialog
+                    minWidth={minWidth600}
+                    profile={igProfile}
+                    thread={selectedThread}
+                    classes={classes}
+                />
                 :
                 <Grid className={classes.noMessage}>
                     <Typography
@@ -139,21 +163,49 @@ export const Chat = ({
                 </Grid>
             }
             <Grid className={classes.additionals}>
-                <IconButton
-                    aria-label="open drawer"
+
+                <Drawer
+                    variant="permanent"
+                    anchor="right"
+                    className={clsx(classes.drawer, {
+                        [classes.drawerOpen]: open,
+                        [classes.drawerClose]: !open,
+                    })}
+                    classes={{
+                        paper: clsx({
+                            [classes.drawerOpen]: open,
+                            [classes.drawerClose]: !open,
+                        }),
+                    }}
                 >
-                    <DescriptionOutlinedIcon style={{fontSize: 30}}/>
-                </IconButton>
-                <IconButton
-                    aria-label="open drawer"
-                >
-                    <NoteAddOutlinedIcon style={{fontSize: 30}}/>
-                </IconButton>
-                <IconButton
-                    aria-label="open drawer"
-                >
-                    <InsertCommentOutlinedIcon style={{fontSize: 30}}/>
-                </IconButton>
+                    <Grid className={classes.additionalsBlocks}>
+                        <Grid className={classes.additionalsNavigation}>
+                            <IconButton
+                                className={classes.additionalButton}
+                                aria-label="open drawer"
+                                onClick={handleDrawer}>
+                                <DescriptionOutlinedIcon style={{fontSize: 30}}/>
+                            </IconButton>
+                            <IconButton
+                                className={classes.additionalButton}
+                                aria-label="open drawer"
+                                onClick={handleDrawer}>
+                                <NoteAddOutlinedIcon style={{fontSize: 30}}/>
+                            </IconButton>
+                            <IconButton
+                                className={classes.additionalButton}
+                                aria-label="open drawer"
+                                onClick={handleDrawer}>
+                                <InsertCommentOutlinedIcon style={{fontSize: 30}}/>
+                            </IconButton>
+                        </Grid>
+                        <Grid className={clsx(classes.additionalChild, {
+                            [classes.additionalChildHidden]: !open,
+                        })}>
+                            {childrenContent()}
+                        </Grid>
+                    </Grid>
+                </Drawer>
             </Grid>
         </Grid>
     );
