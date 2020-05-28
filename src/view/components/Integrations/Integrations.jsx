@@ -45,6 +45,15 @@ export const Integrations = ({
         }
     }, [organization]);
 
+    const cancelIntegration = useCallback(async () => {
+        try {
+            await IntegrationService.cancel();
+            dispatch(closeModal());
+        } catch (e) {
+            dispatch(setSnackBarStatus({isOpen: true, message: e.message, success: false}));
+        }
+    }, [dispatch]);
+
     const openAddIntegrationModal = useCallback(() => {
         dispatch(renderModal({
             isOpen: true,
@@ -54,10 +63,10 @@ export const Integrations = ({
                     triggerOrganizationDetailsUpdate={triggerOrganizationDetailsUpdate}
                 />
             ),
-            onCloseHandler: () => dispatch(closeModal()),
+            onCloseHandler: cancelIntegration,
             allowBackDropClick: false
         }))
-    }, [dispatch, classes, triggerOrganizationDetailsUpdate]);
+    }, [dispatch, classes, triggerOrganizationDetailsUpdate, cancelIntegration]);
 
     // const openEditIntegrationModal = useCallback((integration) => {
     //     const editIntegration = async (creds) => {

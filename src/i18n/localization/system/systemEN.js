@@ -4,7 +4,7 @@ export const SystemEN = {
     LOGIN_BUTTON: 'Log in',
     FORGOT_PASSWORD: 'Forgot your password?',
     RESTORE_PASSWORD: 'Restore your Password',
-    FILL_ALL_THE_FIElDS: 'Fill all the fields',
+    FILL_ALL_THE_FIELDS: 'Fill all the fields',
     TOO_LONG_DESCRIPTION: 'Too long description',
     SEND: 'Send',
     INVALID_NUMBER: 'Invalid number',
