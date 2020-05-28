@@ -227,7 +227,7 @@ export const ProductForm = ({
     const renderPrice = useCallback((product) => {
         if (editId === product.productId) {
             return (
-                <div style={{display: 'flex'}}>
+                <div style={{display: 'flex', marginBottom: 4}}>
                     <ThemeProvider theme={theme}>
                         <TextField
                             className={classes.margin}
