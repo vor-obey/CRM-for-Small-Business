@@ -22,10 +22,10 @@ export const setSnackBarStatus = ({isOpen, message, success}) => {
     }
 };
 
-export const renderModal = ({isOpen, classes, children, onCloseHandler}) => {
+export const renderModal = ({isOpen, children, onCloseHandler, allowBackDropClick}) => {
     return {
         type: RENDER_MODAL,
-        modal: {isOpen, classes, children, onCloseHandler}
+        modal: {isOpen, children, onCloseHandler, allowBackDropClick}
     }
 };
 

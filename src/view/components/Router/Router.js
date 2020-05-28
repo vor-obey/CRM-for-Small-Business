@@ -64,8 +64,8 @@ export const Routing = () => {
             {/*<DraggableChat/>*/}
             <CustomModal
                 open={modal.isOpen}
-                classes={modal.classes}
                 handleClose={modal.onCloseHandler}
+                allowBackDropClick={modal.allowBackDropClick}
             >
                 {modal.children}
             </CustomModal>

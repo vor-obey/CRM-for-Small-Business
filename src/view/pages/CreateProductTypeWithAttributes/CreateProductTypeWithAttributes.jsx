@@ -59,7 +59,6 @@ export const CreateProductTypeWithAttributes = ({history}) => {
     const openCreateAttributeModal = useCallback(() => {
         dispatch(renderModal({
             isOpen: true,
-            classes: {},
             children: (
                 <CreateAttribute
                     onSubmit={createAttribute}
@@ -87,7 +86,6 @@ export const CreateProductTypeWithAttributes = ({history}) => {
         newAttribute.attributeValues = newAttribute.attributeValues.map(item => ({value: item}));
         dispatch(renderModal({
             isOpen: true,
-            classes: {},
             children: (
                 <EditAttribute
                     attribute={newAttribute}

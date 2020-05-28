@@ -48,7 +48,6 @@ export const Integrations = ({
     const openAddIntegrationModal = useCallback(() => {
         dispatch(renderModal({
             isOpen: true,
-            classes: {},
             children: (
                 <CreateIntegration
                     classes={classes}
@@ -56,6 +55,7 @@ export const Integrations = ({
                 />
             ),
             onCloseHandler: () => dispatch(closeModal()),
+            allowBackDropClick: false
         }))
     }, [dispatch, classes, triggerOrganizationDetailsUpdate]);
 
