@@ -9,6 +9,7 @@ import {
 import {useTranslation} from 'react-i18next';
 import ListItemText from "@material-ui/core/ListItemText";
 import {EOrderStatus} from '../../../../constants/statuses';
+import moment from "moment";
 
 export const OrderListItem = ({
                                   order,
@@ -32,21 +33,28 @@ export const OrderListItem = ({
         }
     }, [order]);
 
+    console.log(order);
+
     return (
         <ListItem key={order.orderId} disableGutters divider button
                   onClick={() => navigationToOrderDetails(order.orderId)}>
             <Grid container>
-                <Grid item xl={4} lg={4} md={4} sm={3} xs={12} className={classes.gridList}>
+                <Grid item xl={2} lg={2} md={2} sm={2} xs={12} className={classes.gridList}>
+                    <Typography className={classes.textList}>
+                        {t('ORDER_NUMBER')}:
+                    </Typography>
+                    <ListItemText primary={order.orderNum} />
+                </Grid>
+                <Grid item xl={2} lg={2} md={2} sm={2} xs={12} className={classes.gridList}>
                     <Typography className={classes.textList}>
                         {t('DESCRIPTION')}:
                     </Typography>
-                    <ListItemText primary={displayProduct()}
-                                  secondary={minWidth600 && order.currency}/>
+                    <ListItemText primary={displayProduct()}/>
                 </Grid>
-                <Grid item xl={3} lg={3} md={3} sm={4} xs={12} className={classes.grid}>
-                    <ListItemText primary={order.customer.name} secondary={minWidth600 && order.customer.contactEmail}/>
+                <Grid item xl={2} lg={2} md={2} sm={3} xs={12} className={classes.grid}>
+                    <ListItemText primary={order.customer.name} secondary={minWidth600 && order.customer.contactEmail} className={classes.textCustomer}/>
                 </Grid>
-                <Grid item xl={3} lg={3} md={3} sm={3} xs={12} className={classes.gridList}>
+                <Grid item xl={2} lg={2} md={2} sm={2} xs={12} className={classes.gridList}>
                     <Typography className={classes.textList}>
                         {t('CUSTOMER')}:
                     </Typography>
@@ -60,6 +68,12 @@ export const OrderListItem = ({
                     <ListItemText>
                         {minWidth600 === true ? calculateTotalPoints() : t(EOrderStatus[order.status])}
                     </ListItemText>
+                </Grid>
+                <Grid item xl={2} lg={2} md={2} sm={1} xs={12} className={classes.gridList}>
+                    <Typography className={classes.textList}>
+                        {t('DATE')}:
+                    </Typography>
+                    <ListItemText primary={moment(order.orderedAt).format('DD.MM.YY')} />
                 </Grid>
                 <Grid item xs={12} className={classes.totalGrid}>
                     <Typography className={classes.textList}>

@@ -1,4 +1,5 @@
 export const orderEN = {
+    ORDER_NUMBER: 'Order number',
     AMOUNT: 'Amount',
     PRODUCT_DETAILS: 'Product Details',
     PRODUCT: 'Product',
