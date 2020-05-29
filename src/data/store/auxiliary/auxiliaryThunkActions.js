@@ -1,5 +1,5 @@
 import {store} from "react-notifications-component";
-import {Notification} from '../../../view/components/ Notification/Notification';
+import {Notification} from '../../../view/components/Notification/Notification';
 import React from 'react';
 import {addNotification} from './auxiliaryActions';
 

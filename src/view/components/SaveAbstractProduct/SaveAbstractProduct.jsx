@@ -153,7 +153,6 @@ export const SaveAbstractProduct = ({
         };
         dispatch(renderModal({
             isOpen: true,
-            classes: {},
             children: (
                 <EditAttribute
                     attribute={attribute}
@@ -220,7 +219,6 @@ export const SaveAbstractProduct = ({
     const openCreateProductTypeModal = useCallback(() => {
         dispatch(renderModal({
             isOpen: true,
-            classes: {},
             children: (<SaveProductType
                 labels={{
                     title: t('CREATE_PRODUCT_TYPE'),
@@ -237,7 +235,6 @@ export const SaveAbstractProduct = ({
     const openEditProductTypeModal = useCallback(() => {
         dispatch(renderModal({
             isOpen: true,
-            classes: {},
             children: (
                 <SaveProductType
                     classes={classes}
@@ -275,7 +272,6 @@ export const SaveAbstractProduct = ({
     const openCreateAttributeModal = useCallback(() => {
         dispatch(renderModal({
             isOpen: true,
-            classes: {},
             children: (
                 <CreateAttribute
                     onSubmit={createAttribute}

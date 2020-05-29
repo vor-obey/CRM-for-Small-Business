@@ -1,18 +1,29 @@
 import React, {useCallback, useState} from 'react';
-import List from '@material-ui/core/List';
 import {ChatThreads} from '../ChatThreads/ChatThreads';
 import {ChatDialog} from '../ChatDialog/ChatDialog';
-import Typography from '@material-ui/core/Typography';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
-import ListItemText from '@material-ui/core/ListItemText';
-import Divider from '@material-ui/core/Divider';
-import Avatar from '@material-ui/core/Avatar';
-import {Container, useMediaQuery} from '@material-ui/core';
+import {
+    Avatar,
+    Container,
+    Divider,
+    Drawer,
+    Grid,
+    IconButton,
+    List,
+    ListItem,
+    ListItemAvatar,
+    ListItemText,
+    Typography,
+    useMediaQuery
+} from '@material-ui/core';
 import {useSelector} from 'react-redux';
-import Grid from '@material-ui/core/Grid';
 import {useTranslation} from "react-i18next";
+import InsertCommentOutlinedIcon from '@material-ui/icons/InsertCommentOutlined';
+import DescriptionOutlinedIcon from '@material-ui/icons/DescriptionOutlined';
+import NoteAddOutlinedIcon from '@material-ui/icons/NoteAddOutlined';
+import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
+import clsx from "clsx";
+import isEmpty from 'lodash/isEmpty';
 
 export const Chat = ({
                          classes,
@@ -22,6 +33,23 @@ export const Chat = ({
     const [selectedThread, setSelectedThread] = useState({});
     const minWidth600 = useMediaQuery('(min-width:600px)');
     const {threads, igProfile} = useSelector(state => state.userReducer);
+    const [drawerIcons, setDrawerIcons] = useState([
+        {
+            id: 1,
+            icon: <DescriptionOutlinedIcon style={{fontSize: 30}}/>,
+            isOpen: false,
+        },
+        {
+            id: 2,
+            icon: <NoteAddOutlinedIcon style={{fontSize: 30}}/>,
+            isOpen: false,
+        },
+        {
+            id: 3,
+            icon: <InsertCommentOutlinedIcon style={{fontSize: 30}}/>,
+            isOpen: false,
+        },
+    ]);
 
     const openThread = useCallback(async (thread) => {
         setSelectedThread(thread);
@@ -38,7 +66,32 @@ export const Chat = ({
         }
 
         return threads.map((thread) => {
-            const {users, last_permanent_item: {text}, thread_title} = thread;
+            const {users, last_permanent_item: {text}, thread_title, inviter} = thread;
+
+            if (!users.length && inviter.pk === igProfile.pk) {
+                return (
+                    <React.Fragment key={thread.thread_id}>
+                        <ListItem
+                            alignItems='flex-start'
+                            className={classes.cursor}
+                            onClick={() => openThread(thread)}
+                        >
+                            <ListItemAvatar>
+                                <Avatar alt={thread_title} src={igProfile.profile_pic_url}/>
+                            </ListItemAvatar>
+                            <ListItemText
+                                classes={{
+                                    secondary: classes.threadText
+                                }}
+                                primary={inviter.username}
+                                secondary={text}
+                            />
+                        </ListItem>
+                        <Divider/>
+                    </React.Fragment>
+                );
+            }
+
             const {profile_pic_url} = users[0];
 
             if (users.length > 1) {
@@ -48,11 +101,17 @@ export const Chat = ({
                             alignItems='flex-start'
                             className={classes.cursor}
                             onClick={() => openThread(thread)}
+                            classes={{
+                                secondary: classes.threadText
+                            }}
                         >
                             <ListItemAvatar>
                                 <PeopleAltIcon/>
                             </ListItemAvatar>
                             <ListItemText
+                                classes={{
+                                    secondary: classes.threadText
+                                }}
                                 primary={thread_title}
                                 secondary={text}
                             />
@@ -73,6 +132,9 @@ export const Chat = ({
                             <Avatar alt={thread_title} src={profile_pic_url}/>
                         </ListItemAvatar>
                         <ListItemText
+                            classes={{
+                                secondary: classes.threadText
+                            }}
                             primary={thread_title}
                             secondary={text}
                         />
@@ -81,7 +143,82 @@ export const Chat = ({
                 </React.Fragment>
             )
         });
-    }, [threads, openThread, classes]);
+    }, [threads, openThread, classes, igProfile]);
+
+    const handleDrawerIcon = useCallback((id, value) => () => {
+        setDrawerIcons(prevState => {
+            return [...prevState].map((item) => {
+                if (value) {
+                    if (item.id === id) {
+                        return {
+                            ...item,
+                            isOpen: true
+                        }
+                    } else {
+                        return {
+                            ...item,
+                            isOpen: false
+                        }
+                    }
+                }
+                return {
+                    ...item,
+                    isOpen: false
+                }
+            });
+        });
+    }, []);
+
+    const renderDrawerIcons = useCallback(() => {
+        if (isEmpty(drawerIcons)) {
+            return null;
+        }
+
+        return drawerIcons.map((item) => {
+            const {isOpen, id, icon} = item;
+            return (
+                <IconButton
+                    key={id}
+                    className={classes.additionalButton}
+                    aria-label="open drawer"
+                    onClick={!isOpen ? handleDrawerIcon(id, true) : handleDrawerIcon(id, false)}>
+                    {!isOpen ? icon : <ArrowForwardIosIcon style={{fontSize: 30}}/>}
+                </IconButton>
+            );
+        });
+    }, [drawerIcons, classes.additionalButton, handleDrawerIcon]);
+
+    const isDrawerOpen = useCallback(() => {
+        return !!drawerIcons.find(item => item.isOpen);
+    }, [drawerIcons]);
+
+    const renderChildrenContent = useCallback(() => {
+        const drawerIcon = drawerIcons.find(item => item.isOpen);
+        if (drawerIcon && drawerIcon.isOpen) {
+            switch (drawerIcon.id) {
+                case 1: {
+                    return (
+                        <div>1</div>
+                    );
+                }
+                case 2: {
+                    return (
+                        <div>2</div>
+                    );
+                }
+                case 3: {
+                    return (
+                        <div>3</div>
+                    );
+                }
+                default: {
+                    return <div>smth</div>
+                }
+            }
+        }
+
+        return null;
+    }, [drawerIcons]);
 
     if (!minWidth600) {
         return (
@@ -107,16 +244,18 @@ export const Chat = ({
 
     return (
         <Grid item xs={12} sm={12} style={{
-            maxHeight: '80%',
             display: 'flex',
-            margin: '0 10px',
+            alignItems: 'stretch'
         }}>
-            <List className={classes.listThreads} style={{padding: 0}}>
+            <Grid className={clsx(classes.listThreads, {
+                [classes.listThreadsMin]: isDrawerOpen()
+            })}
+                  style={{padding: 0}}>
                 <ChatThreads
                     classes={classes}
                     renderThreads={renderThreads}
                 />
-            </List>
+            </Grid>
             {isDialogOpen ?
                 <ChatDialog
                     minWidth={minWidth600}
@@ -125,20 +264,42 @@ export const Chat = ({
                     classes={classes}
                 />
                 :
-                <Typography
-                    variant='h6'
-                    className={classes.text}
-                    style={{
-                        border: '1px solid #B7BFC4',
-                        borderLeft: 'none',
-                        width: '50%',
-                        height: 'auto',
-                        padding: '0 10px'
+                <Grid className={classes.noMessage}>
+                    <Typography
+                        variant='h6'
+                        className={classes.text}
+                    >
+                        {t('SELECT_CHAT')}
+                    </Typography>
+                </Grid>
+            }
+            <Grid className={classes.additionals}>
+                <Drawer
+                    variant="permanent"
+                    anchor="right"
+                    className={clsx(classes.drawer, {
+                        [classes.drawerOpen]: isDrawerOpen(),
+                        [classes.drawerClose]: !isDrawerOpen(),
+                    })}
+                    classes={{
+                        paper: clsx({
+                            [classes.drawerOpen]: isDrawerOpen(),
+                            [classes.drawerClose]: !isDrawerOpen(),
+                        }),
                     }}
                 >
-                    {t('SELECT_CHAT')}
-                </Typography>
-            }
+                    <Grid className={classes.additionalsBlocks}>
+                        <Grid className={classes.additionalsNavigation}>
+                            {renderDrawerIcons()}
+                        </Grid>
+                        <Grid className={clsx(classes.additionalChild, {
+                            [classes.additionalChildHidden]: !isDrawerOpen(),
+                        })}>
+                            {renderChildrenContent()}
+                        </Grid>
+                    </Grid>
+                </Drawer>
+            </Grid>
         </Grid>
     );
 };

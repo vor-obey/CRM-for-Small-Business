@@ -7,33 +7,35 @@ import {customModalStyle} from "./CustomModal.style";
 const useStyles = makeStyles(customModalStyle);
 
 export const CustomModal = ({
-                               open,
-                               children,
-                               handleClose,
+                                open,
+                                children,
+                                handleClose,
+                                allowBackDropClick
                             }) => {
 
     const classes = useStyles();
 
-   return (
-         <Modal
+    return (
+        <Modal
             aria-labelledby="transition-modal-title"
             aria-describedby="transition-modal-description"
             open={open}
             onClose={handleClose}
             closeAfterTransition
             className={classes.modal}
-         >
+            disableBackdropClick={!allowBackDropClick}
+        >
             <Grid item className={classes.container}>
-               <Button onClick={handleClose} style={{
-                   position: 'absolute',
-                   marginTop: 8
-               }}>
-                  <CloseIcon/>
-               </Button>
-               <Grid className={classes.children}>
-                  {children}
-               </Grid>
+                <Button onClick={handleClose} style={{
+                    position: 'absolute',
+                    marginTop: 8
+                }}>
+                    <CloseIcon/>
+                </Button>
+                <Grid className={classes.children}>
+                    {children}
+                </Grid>
             </Grid>
-         </Modal>
-   );
+        </Modal>
+    );
 };
