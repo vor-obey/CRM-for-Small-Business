@@ -25,6 +25,8 @@ export const OrderListItem = ({
     const displayProduct = useCallback(() => {
         if (order.orderToProducts.length > 0) {
             return order.orderToProducts[0].product.name;
+        } else if (!order.orderToProducts[0] && order.description.length) {
+            return order.description;
         } else {
             return 'deleted product';
         }

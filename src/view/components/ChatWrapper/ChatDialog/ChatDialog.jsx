@@ -18,8 +18,8 @@ import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 
 export const ChatDialog = ({profile, thread, goBack, classes, minWidth}) => {
-    const {users, thread_title, items} = thread;
-    const {profile_pic_url} = users[0];
+    const {users, thread_title, items, inviter} = thread;
+    const profile_pic_url = users[0] ? users[0].profile_pic_url : inviter.profile_pic_url;
     const dispatch = useDispatch();
     const [text, setText] = useState('');
     const {socket} = useSelector(state => state.userReducer);

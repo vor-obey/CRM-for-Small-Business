@@ -1,4 +1,4 @@
-import {ADD_TO_CART, DELETE_FROM_CART, EDIT_FROM_CART, SET_TO_CART} from "./orderActionTypes";
+import {ADD_TO_CART, DELETE_FROM_CART, EDIT_FROM_CART, SET_TO_CART, SET_DESCRIPTION_TO_CART} from "./orderActionTypes";
 
 export const addProductToCart = (cart) => ({
     type: ADD_TO_CART,
@@ -18,4 +18,9 @@ export const editProductFromCart = (cart) => ({
 export const setProductsToCart = (cart) => ({
     type: SET_TO_CART,
     cart,
+});
+
+export const setDescriptionToOrder = (description) => ({
+    type: SET_DESCRIPTION_TO_CART,
+    description
 });

@@ -4,7 +4,7 @@ export const SystemUA = {
     LOGIN_BUTTON: 'Увійти',
     FORGOT_PASSWORD: 'Забули свій пароль?',
     RESTORE_PASSWORD: 'Відновлення паролю',
-    FILL_ALL_THE_FIElDS: 'Всі поля повинні бути заповнені',
+    FILL_ALL_THE_FIELDS: 'Всі поля повинні бути заповнені',
     TOO_LONG_DESCRIPTION: 'Занадто довгий опис',
     SEND: 'Відправити',
     INVALID_NUMBER: 'Недійсний номер',

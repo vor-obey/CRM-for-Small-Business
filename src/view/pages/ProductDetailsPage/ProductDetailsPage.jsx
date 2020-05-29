@@ -11,12 +11,12 @@ import {
 import {ProductService} from '../../../services';
 import isEmpty from 'lodash/isEmpty';
 import {useTranslation} from 'react-i18next';
-import {useProductDetailsById} from '../../../utils/hooks/productHooks';
+import {useProductDetailsById, useProducts} from '../../../utils/hooks/productHooks';
 import {productDetailsPageStyles} from "./ProductDetailsPage.Style";
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from "@material-ui/icons/Edit";
 import AssignmentOutlinedIcon from '@material-ui/icons/AssignmentOutlined';
-import {useCart} from "../../../utils/hooks/cartHooks";
+import {useCart, useEditCart} from "../../../utils/hooks/cartHooks";
 
 const useStyles = makeStyles(productDetailsPageStyles);
 
@@ -24,8 +24,10 @@ export const ProductDetailsPage = ({history}) => {
     const classes = useStyles();
     const dispatch = useDispatch();
     const {id} = useParams();
-    const cart = useCart();
+    const [products] = useProducts();
+    const cart = useCart(products);
     const [productDetails] = useProductDetailsById(id);
+    const cartUtils = useEditCart();
     const {t} = useTranslation('');
 
     const deleteProduct = useCallback(async () => {
@@ -35,8 +37,8 @@ export const ProductDetailsPage = ({history}) => {
             if (response.success) {
                 dispatch(setIsLoading(false));
                 dispatch(closeDialog());
-                if (cart.products.map(id => id.productId === id)) {
-                    cart.setProducts([]);
+                if (cart.products.find(({productId}) => productId === id)) {
+                    cartUtils.deleteProduct(cart.products.find(({productId}) => productId === id));
                 }
                 history.push('/products');
             } else {
@@ -47,7 +49,7 @@ export const ProductDetailsPage = ({history}) => {
             dispatch(setIsLoading(false));
             dispatch(setSnackBarStatus({isOpen: true, message: e.message, success: false}));
         }
-    }, [id, history, dispatch, cart]);
+    }, [id, history, dispatch, cart, cartUtils]);
 
     const renderAttributes = useCallback(() => {
         const {productToAttributeValues} = productDetails;

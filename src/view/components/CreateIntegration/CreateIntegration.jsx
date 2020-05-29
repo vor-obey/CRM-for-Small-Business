@@ -14,7 +14,6 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import {getCurrentUser} from '../../../data/store/user/userActions';
 
 export const CreateIntegration = ({
-                                      labels,
                                       classes,
                                       triggerOrganizationDetailsUpdate
                                   }) => {
@@ -33,8 +32,7 @@ export const CreateIntegration = ({
     const [twoFactorLoginData, setTwoFactorLoginData] = useState({});
     const {t} = useTranslation('');
 
-    const onChangedHandler = useCallback((event) => {
-        const {name, value} = event.target;
+    const onChangedHandler = useCallback((name, value) => {
         setCreds(prevState => {
             return {
                 ...prevState,
@@ -44,6 +42,14 @@ export const CreateIntegration = ({
     }, []);
 
     const onSubmit = useCallback(async () => {
+        if (!creds.username.length || !creds.password.length || !creds.type.length) {
+            dispatch(setSnackBarStatus({
+                isOpen: true,
+                message: t('FILL_ALL_THE_FIELDS'),
+                success: false
+            }));
+            return;
+        }
         if (creds.type === 'instagram') {
             try {
                 setLoading(true);
@@ -113,6 +119,10 @@ export const CreateIntegration = ({
     }, [creds, triggerOrganizationDetailsUpdate, dispatch, t]);
 
     const sendSecurityCode = useCallback(async () => {
+        if (!verificationCode.length) {
+            dispatch(setSnackBarStatus({isOpen: true, message: 'Incorrect code length', success: false}));
+            return;
+        }
         try {
             setLoading(true);
             const {success, message} = await InstagramService.sendSecurityCode({
@@ -135,7 +145,7 @@ export const CreateIntegration = ({
                 if (message === 'CHALLENGE_WRONG_CODE') {
                     dispatch(setSnackBarStatus({
                         isOpen: true,
-                        message: t('CODE_WAS_SENT_EMAIL'),
+                        message: t('CODE_SENT_AGAIN'),
                         success: false
                     }));
                 } else {
@@ -149,6 +159,10 @@ export const CreateIntegration = ({
     }, [creds.username, dispatch, verificationCode, triggerOrganizationDetailsUpdate, t]);
 
     const verify2FA = useCallback(async () => {
+        if (!verificationCode.length) {
+            dispatch(setSnackBarStatus({isOpen: true, message: 'Incorrect code length', success: false}));
+            return;
+        }
         try {
             setLoading(true);
             const {success, message} = await InstagramService.verify2FA({
@@ -171,7 +185,7 @@ export const CreateIntegration = ({
                 if (message === 'CHALLENGE_WRONG_CODE') {
                     dispatch(setSnackBarStatus({
                         isOpen: true,
-                        message: t('CODE_WAS_SENT'),
+                        message: t('CODE_SENT_AGAIN'),
                         success: false
                     }));
                 } else if (message === 'CHALLENGE_REQUIRED') {
@@ -201,7 +215,7 @@ export const CreateIntegration = ({
                 <>
                     <Grid container item xs={12}>
                         <Typography variant='h6'>
-                            {type === 'email' ? t('EMAIL_SENT') : t('SMS_SENT')}
+                            {t('CODE_SENT')}
                         </Typography>
                     </Grid>
                     <Grid container item xs={12}>
@@ -222,7 +236,7 @@ export const CreateIntegration = ({
                             variant='outlined'
                             onClick={type === 'email' ? sendSecurityCode : verify2FA}
                         >
-                            {labels.actionButton}
+                            Send
                         </Button>
                     </Grid>
                 </>
@@ -247,7 +261,7 @@ export const CreateIntegration = ({
             </>
         );
 
-    }, [t, classes, creds, codeForm, labels, onChangedHandler, onSubmit, verificationCode, sendSecurityCode, verify2FA]);
+    }, [t, classes, creds, codeForm, onChangedHandler, onSubmit, verificationCode, sendSecurityCode, verify2FA]);
 
     return (
         <Container maxWidth='xs'>

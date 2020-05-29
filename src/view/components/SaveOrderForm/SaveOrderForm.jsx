@@ -24,6 +24,7 @@ export const SaveOrderForm = ({
                                   onManagerSelectHandler,
                                   isCustom,
                                   customerLoading,
+                                  description,
                                   managerLoading,
                                   shippingMethod,
                                   shippingMethods,
@@ -82,6 +83,7 @@ export const SaveOrderForm = ({
                         <Grid container item xl={12}>
                             <ProductForm
                                 getProducts={getProducts}
+                                description={description}
                                 classes={classes}
                                 orderedProducts={orderedProducts}
                                 isEdit={isEdit}
