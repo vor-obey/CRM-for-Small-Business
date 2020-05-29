@@ -33,7 +33,32 @@ export const Chat = ({
         }
 
         return threads.map((thread) => {
-            const {users, last_permanent_item: {text}, thread_title} = thread;
+            const {users, last_permanent_item: {text}, thread_title, inviter} = thread;
+
+            if (!users.length && inviter.pk === igProfile.pk) {
+                return (
+                    <React.Fragment key={thread.thread_id}>
+                        <ListItem
+                            alignItems='flex-start'
+                            className={classes.cursor}
+                            onClick={() => openThread(thread)}
+                        >
+                            <ListItemAvatar>
+                                <Avatar alt={thread_title} src={igProfile.profile_pic_url}/>
+                            </ListItemAvatar>
+                            <ListItemText
+                                classes={{
+                                    secondary: classes.threadText
+                                }}
+                                primary={inviter.username}
+                                secondary={text}
+                            />
+                        </ListItem>
+                        <Divider/>
+                    </React.Fragment>
+                );
+            }
+
             const {profile_pic_url} = users[0];
 
             if (users.length > 1) {
@@ -85,7 +110,7 @@ export const Chat = ({
                 </React.Fragment>
             )
         });
-    }, [threads, openThread, classes]);
+    }, [threads, openThread, classes, igProfile]);
 
     if (!minWidth600) {
         return (
