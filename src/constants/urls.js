@@ -15,5 +15,6 @@ export const USER_URLS = {
     ATTRIBUTES: '/attributes',
     ABSTRACT_PRODUCTS: '/abstract-products',
     PRODUCTS: '/products',
-    INTEGRATION: '/integration'
+    INTEGRATION: '/integration',
+    TEMPLATES: '/template'
 };

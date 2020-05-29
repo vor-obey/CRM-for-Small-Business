@@ -43,6 +43,8 @@ import {EditProduct} from '../../pages/EditProduct/EditProduct';
 import {CreateProductTypeWithAttributes} from '../../pages/CreateProductTypeWithAttributes/CreateProductTypeWithAttributes';
 import {EditProductTypeWithAttributes} from '../../pages/EditProductTypeWithAttributes/EditProductTypeWithAttributes';
 import {ChatWrapper} from "../ChatWrapper/ChatWrapper";
+import {MessageTemplatePage} from "../../pages/MessageTemplatePage/MessageTemplatePage";
+import {CreateMessageTemplate} from "../../pages/CreateMessageTemplate/CreateMessageTemplate";
 
 export const Routing = () => {
     const dispatch = useDispatch();
@@ -109,6 +111,8 @@ export const Routing = () => {
             <PrivateRoute exact path='/product-types/:id' component={ProductTypeDetailsPage}/>
             <PrivateRoute exact path='/product-types/:id/edit' component={EditProductTypeWithAttributes}/>
             <PrivateRoute exact path='/notifications' component={NotificationPage}/>
+            <PrivateRoute exact path='/message-templates' component={MessageTemplatePage}/>
+            <PrivateRoute exact path='/create-message-template' component={CreateMessageTemplate}/>
             <Route exact path='/restore-password/:token' component={RestorePassword}/>
             <Route exact path='/forgot-password' component={ForgotPassword}/>
             <Route exact path='/create-organization' component={CreateOrganization}/>

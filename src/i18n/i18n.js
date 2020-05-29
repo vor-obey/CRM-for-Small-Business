@@ -28,6 +28,9 @@ import {NotificationUA} from "./localization/NotificationModule/notificationUA";
 import {InstagramEN} from './localization/instagramModule/instagramEN';
 import {InstagramUA} from './localization/instagramModule/instagramUA';
 import {InstagramRU} from './localization/instagramModule/instagramRU';
+import {TemplateEN} from "./localization/TemplateModule/TemplateEN";
+import {TemplateUA} from "./localization/TemplateModule/TemplateUA";
+import {TemplateRU} from "./localization/TemplateModule/TemplateRU";
 
 
 i18n
@@ -46,6 +49,7 @@ i18n
                     ...internetDocumentEN,
                     ...NotificationEN,
                     ...InstagramEN,
+                    ...TemplateEN,
                 }
             },
             ua: {
@@ -59,6 +63,7 @@ i18n
                     ...internetDocumentUA,
                     ...NotificationUA,
                     ...InstagramUA,
+                    ...TemplateUA,
                 }
             },
             ru: {
@@ -71,7 +76,8 @@ i18n
                     ...ProductRU,
                     ...internetDocumentRU,
                     ...NotificationRU,
-                    ...InstagramRU
+                    ...InstagramRU,
+                    ...TemplateRU,
                 }
             },
         },
