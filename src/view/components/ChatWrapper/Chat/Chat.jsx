@@ -3,17 +3,17 @@ import {ChatThreads} from '../ChatThreads/ChatThreads';
 import {ChatDialog} from '../ChatDialog/ChatDialog';
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 import {
-    Grid,
     Avatar,
-    Divider,
     Container,
-    ListItemText,
-    ListItemAvatar,
+    Divider,
     Drawer,
-    ListItem,
-    Typography,
+    Grid,
     IconButton,
     List,
+    ListItem,
+    ListItemAvatar,
+    ListItemText,
+    Typography,
     useMediaQuery
 } from '@material-ui/core';
 import {useSelector} from 'react-redux';
@@ -23,6 +23,7 @@ import DescriptionOutlinedIcon from '@material-ui/icons/DescriptionOutlined';
 import NoteAddOutlinedIcon from '@material-ui/icons/NoteAddOutlined';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import clsx from "clsx";
+import isEmpty from 'lodash/isEmpty';
 
 export const Chat = ({
                          classes,
@@ -32,11 +33,23 @@ export const Chat = ({
     const [selectedThread, setSelectedThread] = useState({});
     const minWidth600 = useMediaQuery('(min-width:600px)');
     const {threads, igProfile} = useSelector(state => state.userReducer);
-    const [drawer, setDrawer] = useState({
-        toggle: false,
-        child: ''
-    });
-    const [child, setChild] = useState('')
+    const [drawerIcons, setDrawerIcons] = useState([
+        {
+            id: 1,
+            icon: <DescriptionOutlinedIcon style={{fontSize: 30}}/>,
+            isOpen: false,
+        },
+        {
+            id: 2,
+            icon: <NoteAddOutlinedIcon style={{fontSize: 30}}/>,
+            isOpen: false,
+        },
+        {
+            id: 3,
+            icon: <InsertCommentOutlinedIcon style={{fontSize: 30}}/>,
+            isOpen: false,
+        },
+    ]);
 
     const openThread = useCallback(async (thread) => {
         setSelectedThread(thread);
@@ -107,6 +120,81 @@ export const Chat = ({
         });
     }, [threads, openThread, classes]);
 
+    const handleDrawerIcon = useCallback((id, value) => () => {
+        setDrawerIcons(prevState => {
+            return [...prevState].map((item) => {
+                if (value) {
+                    if (item.id === id) {
+                        return {
+                            ...item,
+                            isOpen: true
+                        }
+                    } else {
+                        return {
+                            ...item,
+                            isOpen: false
+                        }
+                    }
+                }
+                return {
+                    ...item,
+                    isOpen: false
+                }
+            });
+        });
+    }, []);
+
+    const renderDrawerIcons = useCallback(() => {
+        if (isEmpty(drawerIcons)) {
+            return null;
+        }
+
+        return drawerIcons.map((item) => {
+            const {isOpen, id, icon} = item;
+            return (
+                <IconButton
+                    key={id}
+                    className={classes.additionalButton}
+                    aria-label="open drawer"
+                    onClick={!isOpen ? handleDrawerIcon(id, true) : handleDrawerIcon(id, false)}>
+                    {!isOpen ? icon : <ArrowForwardIosIcon style={{fontSize: 30}}/>}
+                </IconButton>
+            );
+        });
+    }, [drawerIcons, classes.additionalButton, handleDrawerIcon]);
+
+    const isDrawerOpen = useCallback(() => {
+        return !!drawerIcons.find(item => item.isOpen);
+    }, [drawerIcons]);
+
+    const renderChildrenContent = useCallback(() => {
+        const drawerIcon = drawerIcons.find(item => item.isOpen);
+        if (drawerIcon && drawerIcon.isOpen) {
+            switch (drawerIcon.id) {
+                case 1: {
+                    return (
+                        <div>1</div>
+                    );
+                }
+                case 2: {
+                    return (
+                        <div>2</div>
+                    );
+                }
+                case 3: {
+                    return (
+                        <div>3</div>
+                    );
+                }
+                default: {
+                    return <div>smth</div>
+                }
+            }
+        }
+
+        return null;
+    }, [drawerIcons]);
+
     if (!minWidth600) {
         return (
             <Container className={classes.mobileContainer}>
@@ -129,34 +217,13 @@ export const Chat = ({
         );
     }
 
-    const handleDrawer = (open, child) => event => {
-        setDrawer(prevState => {
-            return {
-                toggle: open,
-                child: child
-            }
-        });
-    };
-
-    const childrenContent = () => {
-        if (drawer.child === 'child1') {
-            return console.log('111')
-        }
-        if (drawer.child === 'child2') {
-            return console.log('222')
-        }
-        if (drawer.child === 'child3') {
-            return console.log('333')
-        }
-    };
-
     return (
         <Grid item xs={12} sm={12} style={{
             display: 'flex',
             alignItems: 'stretch'
         }}>
             <Grid className={clsx(classes.listThreads, {
-                [classes.listThreadsMin]: drawer.toggle
+                [classes.listThreadsMin]: isDrawerOpen()
             })}
                   style={{padding: 0}}>
                 <ChatThreads
@@ -182,51 +249,28 @@ export const Chat = ({
                 </Grid>
             }
             <Grid className={classes.additionals}>
-
                 <Drawer
                     variant="permanent"
                     anchor="right"
                     className={clsx(classes.drawer, {
-                        [classes.drawerOpen]: drawer.toggle,
-                        [classes.drawerClose]: !drawer.toggle,
+                        [classes.drawerOpen]: isDrawerOpen(),
+                        [classes.drawerClose]: !isDrawerOpen(),
                     })}
                     classes={{
                         paper: clsx({
-                            [classes.drawerOpen]: drawer.toggle,
-                            [classes.drawerClose]: !drawer.toggle,
+                            [classes.drawerOpen]: isDrawerOpen(),
+                            [classes.drawerClose]: !isDrawerOpen(),
                         }),
                     }}
                 >
                     <Grid className={classes.additionalsBlocks}>
                         <Grid className={classes.additionalsNavigation}>
-                            {!drawer.toggle ? <IconButton
-                                className={classes.additionalButton}
-                                aria-label="open drawer"
-                                onClick={handleDrawer(true, 'child1')}>
-                                <DescriptionOutlinedIcon style={{fontSize: 30}}/>
-                            </IconButton> : <IconButton
-                                className={classes.additionalButton}
-                                aria-label="open drawer"
-                                onClick={handleDrawer(false, '')}>
-                                <ArrowForwardIosIcon style={{fontSize: 30}}/>
-                            </IconButton>}
-                            <IconButton
-                                className={classes.additionalButton}
-                                aria-label="open drawer"
-                                onClick={handleDrawer(true, 'child2')}>
-                                <NoteAddOutlinedIcon style={{fontSize: 30}}/>
-                            </IconButton>
-                            <IconButton
-                                className={classes.additionalButton}
-                                aria-label="open drawer"
-                                onClick={handleDrawer(true, 'child3')}>
-                                <InsertCommentOutlinedIcon style={{fontSize: 30}}/>
-                            </IconButton>
+                            {renderDrawerIcons()}
                         </Grid>
                         <Grid className={clsx(classes.additionalChild, {
-                            [classes.additionalChildHidden]: !drawer.open,
+                            [classes.additionalChildHidden]: !isDrawerOpen(),
                         })}>
-                            {childrenContent()}
+                            {renderChildrenContent()}
                         </Grid>
                     </Grid>
                 </Drawer>
