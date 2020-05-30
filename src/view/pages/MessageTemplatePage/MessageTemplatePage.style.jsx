@@ -17,7 +17,7 @@ export const templatePageStyles = ((theme) => ({
         display: 'flex'
     },
     break: {
-
+        wordBreak: 'break-all'
     },
     inputContent: {
         marginTop: 8
