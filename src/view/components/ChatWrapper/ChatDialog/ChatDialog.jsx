@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
@@ -17,12 +17,25 @@ import {setSnackBarStatus} from '../../../../data/store/auxiliary/auxiliaryActio
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 
-export const ChatDialog = ({profile, thread, goBack, classes, minWidth}) => {
+export const ChatDialog = ({
+                               profile,
+                               thread,
+                               goBack,
+                               classes,
+                               minWidth,
+                               templateContent
+}) => {
     const {users, thread_title, items, inviter} = thread;
     const profile_pic_url = users[0] ? users[0].profile_pic_url : inviter.profile_pic_url;
     const dispatch = useDispatch();
     const [text, setText] = useState('');
     const {socket} = useSelector(state => state.userReducer);
+
+    useEffect(() => {
+        if (templateContent) {
+            setText(templateContent);
+        }
+    }, [templateContent]);
 
     // const fetchThreadFeed = useCallback(async ({thread_id, prev_cursor}) => {
     //     try {
@@ -156,6 +169,7 @@ export const ChatDialog = ({profile, thread, goBack, classes, minWidth}) => {
                     <TextField
                         autoFocus
                         fullWidth
+                        multiline
                         label='Message'
                         name='message'
                         onChange={onChangedInput}

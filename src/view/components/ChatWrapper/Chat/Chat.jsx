@@ -24,6 +24,7 @@ import NoteAddOutlinedIcon from '@material-ui/icons/NoteAddOutlined';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import clsx from "clsx";
 import isEmpty from 'lodash/isEmpty';
+import {MessageTemplatePage} from "../../../pages/MessageTemplatePage/MessageTemplatePage";
 
 export const Chat = ({
                          classes,
@@ -33,6 +34,7 @@ export const Chat = ({
     const [selectedThread, setSelectedThread] = useState({});
     const minWidth600 = useMediaQuery('(min-width:600px)');
     const {threads, igProfile} = useSelector(state => state.userReducer);
+    const [templateContent, setTemplateContent] = useState();
     const [drawerIcons, setDrawerIcons] = useState([
         {
             id: 1,
@@ -106,15 +108,12 @@ export const Chat = ({
                             }}
                         >
                             <ListItemAvatar>
-                                <PeopleAltIcon/>
-                            </ListItemAvatar>
-                            <ListItemText
-                                classes={{
-                                    secondary: classes.threadText
-                                }}
-                                primary={thread_title}
-                                secondary={text}
-                            />
+                                <PeopleAltIcon/> </ListItemAvatar> <ListItemText classes={{
+                            secondary: classes.threadText
+                        }}
+                                                                                 primary={thread_title}
+                                                                                 secondary={text}
+                        />
                         </ListItem>
                         <Divider/>
                     </React.Fragment>
@@ -192,6 +191,10 @@ export const Chat = ({
         return !!drawerIcons.find(item => item.isOpen);
     }, [drawerIcons]);
 
+    const onSubmit = useCallback((template) => {
+        setTemplateContent(template)
+    }, []);
+
     const renderChildrenContent = useCallback(() => {
         const drawerIcon = drawerIcons.find(item => item.isOpen);
         if (drawerIcon && drawerIcon.isOpen) {
@@ -203,7 +206,9 @@ export const Chat = ({
                 }
                 case 2: {
                     return (
-                        <div>2</div>
+                        <div style={{overflowY: 'scroll', height: '93%'}}>
+                            <MessageTemplatePage onSubmit={onSubmit} chat={true}/>
+                        </div>
                     );
                 }
                 case 3: {
@@ -218,7 +223,7 @@ export const Chat = ({
         }
 
         return null;
-    }, [drawerIcons]);
+    }, [drawerIcons, onSubmit]);
 
     if (!minWidth600) {
         return (
@@ -229,7 +234,9 @@ export const Chat = ({
                             profile={igProfile}
                             thread={selectedThread}
                             goBack={goBack}
+                            onSubmit={onSubmit}
                             classes={classes}
+                            templateContent={templateContent}
                         />
                         :
                         <ChatThreads
@@ -262,6 +269,7 @@ export const Chat = ({
                     profile={igProfile}
                     thread={selectedThread}
                     classes={classes}
+                    templateContent={templateContent}
                 />
                 :
                 <Grid className={classes.noMessage}>

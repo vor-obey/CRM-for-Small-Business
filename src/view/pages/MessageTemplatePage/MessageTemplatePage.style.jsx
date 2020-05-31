@@ -17,6 +17,7 @@ export const templatePageStyles = ((theme) => ({
         display: 'flex'
     },
     break: {
+        whiteSpace: 'break-spaces',
         wordBreak: 'break-all'
     },
     inputContent: {
@@ -27,8 +28,10 @@ export const templatePageStyles = ((theme) => ({
     },
     root: {
         width: '90%',
+        paddingBottom: 20,
         [theme.breakpoints.down('xs')]: {
             width: '95%',
+            paddingBottom: 10,
         },
     },
     templateList: {
@@ -41,6 +44,10 @@ export const templatePageStyles = ((theme) => ({
     },
     templateTitle: {
         flexDirection: 'column',
+    },
+    templateTitleWithCursor: {
+        flexDirection: 'column',
+        cursor: 'pointer'
     },
     templateContainerName: {
         justifyContent: 'space-between'
@@ -66,4 +73,7 @@ export const templatePageStyles = ((theme) => ({
             alignItems: 'flex-start',
         },
     },
+    none: {
+        display: 'none'
+    }
 }));

@@ -33,7 +33,7 @@ import CloseIcon from "@material-ui/icons/Close";
 
 const useStyles = makeStyles(templatePageStyles);
 
-export const MessageTemplatePage = () => {
+export const MessageTemplatePage = ({chat, onSubmit}) => {
         const {t} = useTranslation();
         const classes = useStyles();
         const dispatch = useDispatch();
@@ -141,13 +141,14 @@ export const MessageTemplatePage = () => {
                 );
             }
             return (
-                <div className={classes.templateTitle}>
+                <div className={!chat ? classes.templateTitle : classes.templateTitleWithCursor}
+                     onClick={() => chat ? onSubmit(template.content) : null}>
                     <Typography variant='body1' className={classes.templateTitleName}>
                         {template.name}
                     </Typography>
                 </div>
             );
-        }, [editId, classes, onChangeName, editName]);
+        }, [editId, classes, onChangeName, editName, onSubmit, chat]);
 
         const renderContent = useCallback((template) => {
             if (editId === template.templateId) {
@@ -156,16 +157,12 @@ export const MessageTemplatePage = () => {
                         <TextField
                             name="content"
                             value={editContent}
-                            onChange={event => onChangeContent(event.target.value)}
-                            variant='outlined'
-                            fullWidth
-                            required
-                            multiline
-                        />
+                            onChange={event => onChangeContent(event.target.value)} variant='outlined' fullWidth required
+                            multiline/>
                     </Grid>
                 );
             }
-            if (minWidth600 === false) {
+            if (minWidth600 === false || chat === true) {
                 return (
                     <Grid item xs={12}>
                         <ExpansionPanel>
@@ -200,7 +197,7 @@ export const MessageTemplatePage = () => {
                     </div>
                 );
             }
-        }, [classes, editContent, editId, minWidth600, onChangeContent, t]);
+        }, [classes, editContent, editId, minWidth600, chat, onChangeContent, t]);
 
         const renderButton = useCallback((template) => {
             if (editId === template.templateId) {
@@ -243,9 +240,10 @@ export const MessageTemplatePage = () => {
                             <Grid item xs={12} sm={12} className={classes.templateInfo}>
                                 <Grid container item xs={12} sm={12} className={classes.templateContainerName}>
                                     {renderName(template)}
-                                    <div className={classes.display}>
-                                        {renderButton(template)}
-                                    </div>
+                                    {!chat ?
+                                        <div className={classes.display}>
+                                            {renderButton(template)}
+                                        </div> : null}
                                 </Grid>
                                 <Divider/>
                             </Grid>
@@ -254,7 +252,7 @@ export const MessageTemplatePage = () => {
                     </ListItem>
                 );
             });
-        }, [templatesList, classes, renderContent, renderName, renderButton]);
+        }, [templatesList, classes, renderContent, renderName, chat, renderButton]);
 
         if (isEmpty(templatesList) && !loading) {
             return (
@@ -288,7 +286,7 @@ export const MessageTemplatePage = () => {
                         {renderRows()}
                     </div>
                 </div>
-                <Grid container justify='center' className={classes.buttonContainer}>
+                <Grid container justify='center' className={!chat ? classes.buttonContainer : classes.none}>
                     <Button
                         type='submit'
                         variant="outlined"

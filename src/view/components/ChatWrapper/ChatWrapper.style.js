@@ -93,7 +93,7 @@ export const chatWrapperStyles = (theme => ({
         display: 'flex',
         justifyContent: 'center',
         width: '100%',
-        alignItems: 'center'
+        height: '100%'
     },
     additionalChildHidden: {
         display: 'none',
