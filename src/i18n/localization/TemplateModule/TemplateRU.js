@@ -1,4 +1,6 @@
 export const TemplateRU = {
+    READ_MORE: 'Читать далее',
+    HIDE_TEXT: 'Скрыть текст',
     TEMPLATE_NAME: 'Название шаблона',
     MESSAGE_TEMPLATES: 'Шаблоны сообщений',
     TEMPLATE_CONTENTS: 'Содержание шаблона',
