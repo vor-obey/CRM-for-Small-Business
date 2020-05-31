@@ -1,4 +1,6 @@
 export const TemplateEN = {
+    READ_MORE: 'Read more',
+    HIDE_TEXT: 'Hide text',
     TEMPLATE_NAME: 'Template name',
     TEMPLATE_CONTENTS: 'Template contents',
     MESSAGE_TEMPLATES: 'Message templates',

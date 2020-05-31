@@ -14,7 +14,7 @@ import {useTemplates} from "../../../utils/hooks/templatesHooks";
 import isEmpty from "lodash/isEmpty";
 import {templatePageStyles} from "./MessageTemplatePage.style";
 import EditIcon from "@material-ui/icons/Edit";
-import ReadMoreReact from 'read-more-react';
+import ReadMoreAndLess from 'react-read-more-less';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
@@ -188,11 +188,14 @@ export const MessageTemplatePage = () => {
                 return (
                     <div className={classes.templateTitle}>
                         <div className={classes.templateTitleName}>
-                            <ReadMoreReact text={template.content}
-                                           min={10}
-                                           ideal={1000}
-                                           max={1000}
-                                           readMoreText='•••'/>
+                            <ReadMoreAndLess
+                                className="read-more-content"
+                                charLimit={1500}
+                                readMoreText={t('READ_MORE')}
+                                readLessText={t('HIDE_TEXT')}
+                            >
+                                {template.content}
+                            </ReadMoreAndLess>
                         </div>
                     </div>
                 );
