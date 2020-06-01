@@ -1,4 +1,5 @@
 export const orderRU = {
+    ORDER_NUMBER: 'Номер заказа',
     PRODUCT_DETAILS: 'Информация о продукте',
     AMOUNT: 'Количество',
     PRODUCT: 'Продукт',

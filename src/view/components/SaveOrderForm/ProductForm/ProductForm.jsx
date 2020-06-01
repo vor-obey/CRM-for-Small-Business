@@ -9,7 +9,7 @@ import {
     OutlinedInput,
     InputAdornment,
     FormControl,
-    InputBase,
+    TextField,
     Chip
 } from "@material-ui/core";
 import {AddOrderProduct} from '../../AddOrderProduct/AddOrderProduct';
@@ -25,7 +25,6 @@ import Button from '@material-ui/core/Button';
 import {closeDialog, renderDialog} from "../../../../data/store/auxiliary/auxiliaryActions";
 import EditIcon from "@material-ui/icons/Edit";
 import CheckIcon from "@material-ui/icons/Check";
-
 import {useDispatch} from "react-redux";
 import {StorageService} from "../../../../services";
 import {setDescriptionToOrder} from "../../../../data/store/order/orderActions";
@@ -217,13 +216,13 @@ export const ProductForm = ({
     const renderPrice = useCallback((product) => {
         if (editId === product.productId) {
             return (
-                <div style={{display: 'flex'}}>
-                    <InputBase
-                        className={classes.margin}
-                        onChange={(event) => onPriceChange(product, event.target.value, product.productId)}
-                        value={editId === product.productId ? editPrice : product.price}
-                        inputProps={{'aria-label': 'naked'}}
-                    />
+                <div style={{display: 'flex', marginBottom: 4}}>
+                        <TextField
+                            className={classes.margin}
+                            onChange={(event) => onPriceChange(product, event.target.value, product.productId)}
+                            value={editId === product.productId ? editPrice : product.price}
+                            autoFocus
+                            InputProps={{ classes: {underline: classes.underline}}} />
                     <Typography style={{marginTop: 5}}>
                         &nbsp; {product.currency}
                     </Typography>
@@ -365,7 +364,7 @@ export const ProductForm = ({
 
     const handleResetCart = useCallback(() => {
         cart.setProducts([]);
-        dispatch(setDescriptionToOrder([]));
+        dispatch(setDescriptionToOrder(''));
         StorageService.setItem('description', '');
     }, [cart, dispatch]);
 

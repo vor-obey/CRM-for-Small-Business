@@ -254,13 +254,18 @@ export const createOrderPageStyles = (theme => ({
             margin: '16px 0 10px 0px'
         },
         margin: {
-            width: 90,
-            color: 'white'
+            width: 80,
         },
         editProduct: {
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center'
+        },
+        underline: {
+            color: '#FFF' ,
+            '&::after': {
+                border: '1px solid white'
+            }
         }
     }
 ));
