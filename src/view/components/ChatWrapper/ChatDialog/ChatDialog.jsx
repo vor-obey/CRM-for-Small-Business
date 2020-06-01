@@ -23,16 +23,6 @@ export const ChatDialog = ({profile, thread, goBack, classes, minWidth, isDrawer
     const [text, setText] = useState('');
     const {socket} = useSelector(state => state.userReducer);
 
-    // const fetchThreadFeed = useCallback(async ({thread_id, prev_cursor}) => {
-    //     try {
-    //         const response = await InstagramService.getThreadById(thread_id, prev_cursor);
-    //         setSelectedThread(response);
-    //         // setIsDialogOpen(true);
-    //     } catch (e) {
-    //         console.log(e);
-    //     }
-    // }, []);
-
     let avatar = <PeopleAltIcon/>;
 
     if (users.length === 1) {
@@ -60,9 +50,6 @@ export const ChatDialog = ({profile, thread, goBack, classes, minWidth, isDrawer
                             primary={item.text}
                             secondary={dateTime}
                             className={classes.messageText}
-                            // style={{
-                            //     textAlign: `${item.user_id === profile.pk ? 'right' : 'left'}`,
-                            // }}
                         />
                     );
                     break;

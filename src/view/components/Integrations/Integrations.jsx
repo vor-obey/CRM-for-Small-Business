@@ -25,9 +25,7 @@ import InstagramIcon from '@material-ui/icons/Instagram';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import IconButton from '@material-ui/core/IconButton';
-// import EditIcon from "@material-ui/icons/Edit";
 import RemoveIcon from '@material-ui/icons/Remove';
-// import {EditIntegration} from '../EditIntegration/EditIntegration';
 import {useTranslation} from 'react-i18next';
 
 export const Integrations = ({
@@ -67,46 +65,6 @@ export const Integrations = ({
             allowBackDropClick: false
         }))
     }, [dispatch, classes, triggerOrganizationDetailsUpdate, cancelIntegration]);
-
-    // const openEditIntegrationModal = useCallback((integration) => {
-    //     const editIntegration = async (creds) => {
-    //         try {
-    //             dispatch(setIsLoading(true));
-    //             const response = await IntegrationService.update({
-    //                 integrationId: integration.integrationId,
-    //                 ...creds,
-    //             });
-    //             if (response.success) {
-    //                 dispatch(setIsLoading(false));
-    //                 dispatch(closeModal());
-    //                 dispatch(getCurrentUser());
-    //                 triggerOrganizationDetailsUpdate();
-    //             } else {
-    //                 dispatch(setIsLoading(false));
-    //                 dispatch(setSnackBarStatus({isOpen: true, message: response.message, success: false}));
-    //             }
-    //         } catch (e) {
-    //             dispatch(setIsLoading(false));
-    //             dispatch(setSnackBarStatus({isOpen: true, message: e.message, success: false}));
-    //         }
-    //     };
-    //     dispatch(renderModal({
-    //         isOpen: true,
-    //         classes: {},
-    //         children: (
-    //             <EditIntegration
-    //                 integration={integration}
-    //                 onSubmit={editIntegration}
-    //                 labels={{
-    //                     title: t('EDIT_INTEGRATION'),
-    //                     actionButton: t('EDIT')
-    //                 }}
-    //                 classes={classes}
-    //             />
-    //         ),
-    //         onCloseHandler: () => dispatch(closeModal()),
-    //     }))
-    // }, [t, dispatch, triggerOrganizationDetailsUpdate, classes]);
 
     const openDeleteIntegrationDialog = useCallback((integration) => {
         const deleteIntegrationById = async () => {
