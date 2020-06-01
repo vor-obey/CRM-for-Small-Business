@@ -206,14 +206,14 @@ export const Chat = ({
                 }
                 case 2: {
                     return (
-                        <div style={{overflowY: 'scroll', height: '93%'}}>
-                            <MessageTemplatePage onSubmit={onSubmit} chat={true}/>
-                        </div>
+                        <div>2</div>
                     );
                 }
                 case 3: {
                     return (
-                        <div>3</div>
+                        <div style={{overflowY: 'scroll', height: '93%'}}>
+                            <MessageTemplatePage onSubmit={onSubmit} chat={true}/>
+                        </div>
                     );
                 }
                 default: {
