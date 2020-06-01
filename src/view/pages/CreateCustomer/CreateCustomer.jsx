@@ -39,9 +39,24 @@ export const CreateCustomer = ({
                     if (typeof updateCustomerList === 'function') {
                         updateCustomerList(response);
                         dispatch(setIsLoading(false));
-                        dispatch(addCustomerDetail({}));
+                        dispatch(addCustomerDetail({
+                            username: '',
+                            name: '',
+                            contactNumber: '',
+                            contactEmail: '',
+                            details: '',
+                            sourceId: '',
+                        }));
                     } else {
                         history.push('/customers');
+                        dispatch(addCustomerDetail({
+                            username: '',
+                            name: '',
+                            contactNumber: '',
+                            contactEmail: '',
+                            details: '',
+                            sourceId: '',
+                        }));
                         dispatch(setIsLoading(false));
                     }
                 }
