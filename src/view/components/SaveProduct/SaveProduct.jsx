@@ -38,8 +38,8 @@ export const SaveProduct = ({
     const classes = useStyles();
     const productStore = useSelector(state => state.productReducer.details);
     const [productDetails, setProductDetails] = useState({
-        name: createOrder !== false || createOrder !== undefined ? productStore.name : '',
-        price: createOrder !== false || createOrder !== undefined ? productStore.price : '',
+        name: createOrder !== undefined ? productStore.name : '',
+        price: createOrder !== undefined ? productStore.price : '',
     });
     const [abstractProducts] = useAbstractProducts();
     const [selectedAbstractProduct, setSelectedAbstractProduct] = useState({});
@@ -97,7 +97,7 @@ export const SaveProduct = ({
                 [name]: value
             }
         });
-        if (createOrder !== false && createOrder !== undefined) {
+        if (createOrder !== undefined) {
             dispatch(setProductDetailsToStore({name: productDetails.name, price: productDetails.price}))
         }
     }, [dispatch, productDetails, createOrder]);
