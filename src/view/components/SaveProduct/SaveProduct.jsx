@@ -21,6 +21,9 @@ import isEmpty from 'lodash/isEmpty';
 import {useAbstractProducts, useAttributesByProductTypeId} from '../../../utils/hooks/productHooks';
 import {saveProductStyles} from "./SaveProduct.styles";
 import {useTranslation} from 'react-i18next';
+import {useDispatch} from "react-redux";
+import {useSelector} from "react-redux";
+import {setProductDetailsToStore} from "../../../data/store/product/productActions";
 
 const useStyles = makeStyles(saveProductStyles);
 
@@ -32,9 +35,10 @@ export const SaveProduct = ({
                             }) => {
     const {t} = useTranslation();
     const classes = useStyles();
+    const productStore = useSelector(state => state.productReducer.details);
     const [productDetails, setProductDetails] = useState({
-        name: '',
-        price: '',
+        name: productStore.name,
+        price: productStore.price,
     });
     const [abstractProducts] = useAbstractProducts();
     const [selectedAbstractProduct, setSelectedAbstractProduct] = useState({});
@@ -42,6 +46,8 @@ export const SaveProduct = ({
     const [attributes] = useAttributesByProductTypeId(selectedAbstractProduct.productType && selectedAbstractProduct.productType.productTypeId);
     const [selectedAttributeValues, setSelectedAttributeValues] = useState({});
     const [isExpanded, setIsExpanded] = useState(false);
+    const dispatch = useDispatch();
+
 
     const getAttributeValueIds = useCallback((items) => {
         const ids = {};
@@ -69,7 +75,7 @@ export const SaveProduct = ({
             setSelectedAttributeValues(getAttributeValueIds(product.productToAttributeValues));
             setIsExpanded(true);
         }
-    }, [product, getAttributeValueIds]);
+    }, [product, getAttributeValueIds, productStore]);
 
     useEffect(() => {
         if (!isEmpty(selectedAbstractProduct)) {
@@ -88,7 +94,8 @@ export const SaveProduct = ({
                 [name]: value
             }
         });
-    }, []);
+        dispatch(setProductDetailsToStore({name: productDetails.name, price: productDetails.price}))
+    }, [dispatch, productDetails]);
 
     const toggleAbstractProductAutocomplete = useCallback(() => setIsAbstractProductAutocompleteOpen(prevState => !prevState), []);
 
@@ -108,7 +115,7 @@ export const SaveProduct = ({
         );
     }, []);
 
-    const getAbstractProductOptionLabel = useCallback(item => !isEmpty(item) ? item.name : '', [])
+    const getAbstractProductOptionLabel = useCallback(item => !isEmpty(item) ? item.name : '', []);
 
     const onAbstractProductSelectHandler = useCallback((item) => {
         if (!item) {
