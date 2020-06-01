@@ -1,7 +1,6 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import {Grid, TextField, makeStyles, Container, CssBaseline, Typography, Button} from "@material-ui/core";
 import {saveMessageTemplateStyle} from "./SaveMessageTemplateForm.style";
-import isEmpty from 'lodash/isEmpty';
 import {useTranslation} from "react-i18next";
 
 const useStyles = makeStyles(saveMessageTemplateStyle);
@@ -9,7 +8,6 @@ const useStyles = makeStyles(saveMessageTemplateStyle);
 export const SaveMessageTemplateForm = ({
                                             labels,
                                             onSubmit,
-                                            templateDetails
                                         }) => {
     const classes = useStyles();
     const {t} = useTranslation();
@@ -17,14 +15,6 @@ export const SaveMessageTemplateForm = ({
        name: '',
        content: ''
     });
-    useEffect(() => {
-        if (!isEmpty(templateDetails)) {
-            setDetails({
-                name: templateDetails.name,
-                content: templateDetails.content
-            })
-        }
-    }, [templateDetails]);
 
     const onChange = useCallback((event) => {
         const {name, value} = event.target;
