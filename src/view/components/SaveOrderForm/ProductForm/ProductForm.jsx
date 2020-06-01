@@ -10,7 +10,6 @@ import {
     InputAdornment,
     FormControl,
     TextField,
-    ThemeProvider,
     Chip
 } from "@material-ui/core";
 import {AddOrderProduct} from '../../AddOrderProduct/AddOrderProduct';
@@ -26,7 +25,6 @@ import Button from '@material-ui/core/Button';
 import {closeDialog, renderDialog} from "../../../../data/store/auxiliary/auxiliaryActions";
 import EditIcon from "@material-ui/icons/Edit";
 import CheckIcon from "@material-ui/icons/Check";
-import {createMuiTheme} from '@material-ui/core/styles';
 import {useDispatch} from "react-redux";
 import {StorageService} from "../../../../services";
 import {setDescriptionToOrder} from "../../../../data/store/order/orderActions";
@@ -53,15 +51,6 @@ export const ProductForm = ({
     const [editPrice, setEditPrice] = useState();
     let [editTotalPrice, setEditTotalPrice] = useState();
     let [editAmount, setEditAmount] = useState(0);
-
-    const theme = createMuiTheme({
-        palette: {
-            primary: {
-                main: '#fff',
-            },
-        },
-    });
-
 
     useEffect(() => {
         if (!isEdit) {
@@ -228,15 +217,12 @@ export const ProductForm = ({
         if (editId === product.productId) {
             return (
                 <div style={{display: 'flex', marginBottom: 4}}>
-                    <ThemeProvider theme={theme}>
                         <TextField
                             className={classes.margin}
                             onChange={(event) => onPriceChange(product, event.target.value, product.productId)}
                             value={editId === product.productId ? editPrice : product.price}
                             autoFocus
-                            inputProps={{className: classes.margin}}
-                        />
-                    </ThemeProvider>
+                            InputProps={{ classes: {underline: classes.underline}}} />
                     <Typography style={{marginTop: 5}}>
                         &nbsp; {product.currency}
                     </Typography>
@@ -253,7 +239,7 @@ export const ProductForm = ({
                 </Typography>
             </div>
         )
-    }, [classes, onPriceChange, editPrice, editId, theme]);
+    }, [classes, onPriceChange, editPrice, editId]);
 
     const renderAmountButton = useCallback((product) => {
         return (

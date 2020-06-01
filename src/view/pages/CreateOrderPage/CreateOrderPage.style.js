@@ -255,14 +255,17 @@ export const createOrderPageStyles = (theme => ({
         },
         margin: {
             width: 80,
-            color: 'white',
-            borderWidth: "1px",
-            borderColor: "white"
         },
         editProduct: {
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center'
+        },
+        underline: {
+            color: '#FFF' ,
+            '&::after': {
+                border: '1px solid white'
+            }
         }
     }
 ));
