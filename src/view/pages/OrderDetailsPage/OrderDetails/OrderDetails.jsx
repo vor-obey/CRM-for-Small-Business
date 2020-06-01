@@ -11,6 +11,7 @@ import {useHistory} from 'react-router-dom';
 import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
 import isEmpty from 'lodash/isEmpty';
 import {EditOrderStatus} from "../../../components/EditOrderStatus/EditOrderStatus";
+import moment from "moment";
 
 export const OrderDetails = ({
                                  classes,
@@ -132,6 +133,99 @@ export const OrderDetails = ({
                     </Grid>
                 </Grid>
             </Grid>
+            <Grid container item xs={12} sm={6} className={classes.containerItem}>
+                <Grid item xl={12} sm={12}>
+                    <Typography variant='h5'>
+                        {t('ORDER_NUMBER')}
+                    </Typography>
+                </Grid>
+                <Grid item xs={12} sm={12}>
+                    <Grid item xs={12} sm={12} className={classes.containerFieldsItem}>
+                        <Typography
+                            variant='body1'
+                            className={classes.orderItem}>
+                            {orderDetails.orderNum}
+                        </Typography>
+                    </Grid>
+                </Grid>
+                    <Grid item xl={12} sm={12} style={{marginTop: 30}}>
+                        <Typography variant='h5'>
+                            {t('MANAGER')}
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={12} sm={12}>
+                        <Grid item xs={12} sm={12} className={classes.containerFieldsItem}>
+                            <Typography
+                                variant='body1'
+                                className={classes.orderItem}>
+                                {(manager && `${manager.firstName} ${manager.middleName} ${manager.lastName}`) || ''}
+                            </Typography>
+                        </Grid>
+                    </Grid>
+            </Grid>
+            {isCustom ? null : (
+                <Grid container item xs={12} sm={6} className={classes.containerItem}>
+                    <Grid item xl={12} sm={12}>
+                        <Typography variant='h5'>
+                            {t('CUSTOMER')}
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={12} sm={12}>
+                        <Grid item xs={12} sm={12} className={classes.containerFieldsItem}>
+                            <Typography
+                                variant='body2'
+                                color='textSecondary'>
+                                {t('USERNAME')}
+                            </Typography>
+                            <Typography
+                                variant='body1'
+                                className={classes.orderItem}>
+                                {(customer && customer.username) || ''}
+                            </Typography>
+                        </Grid>
+                        <Grid item xs={12} sm={12} className={classes.containerFieldsItem}>
+                            <Typography
+                                variant='body2'
+                                color='textSecondary'>
+                                {t('FULL_NAME')}
+                            </Typography>
+                            <Typography
+                                variant='body1'
+                                className={classes.orderItem}>
+                                {(customer && customer.name) || ''}
+                            </Typography>
+                        </Grid>
+                        {!(customer && customer.contactNumber) ? null : (
+                            <Grid item xs={12} sm={12} className={classes.containerFieldsItem}>
+                                <Typography
+                                    variant='body2'
+                                    color='textSecondary'>
+                                    {t('NUMBER')}
+                                </Typography>
+                                <Typography
+                                    variant='body1'
+                                    className={classes.orderItem}>
+                                    {customer.contactNumber}
+                                </Typography>
+                            </Grid>
+                        )}
+                        {!(customer && customer.contactEmail) ? null : (
+                            <Grid item xs={12} sm={12} className={classes.containerFieldsItem}>
+                                <Typography
+                                    variant='body2'
+                                    color='textSecondary'>
+                                    {t('EMAIL')}
+                                </Typography>
+                                <Typography
+                                    variant='body1'
+                                    className={classes.orderItem}>
+                                    {customer.contactEmail}
+                                </Typography>
+                            </Grid>
+                        )}
+                    </Grid>
+                </Grid>
+            )}
             <Grid container item xs={12} sm={12}>
                 <Grid container item xs={12} sm={6} className={classes.containerItem}>
                     <Grid item xl={12} sm={12}>
@@ -156,86 +250,19 @@ export const OrderDetails = ({
 
                     </Grid>
                 </Grid>
-                {isCustom ? null : (
-                    <Grid container item xs={12} sm={6} className={classes.containerItem}>
-                        <Grid item xl={12} sm={12}>
-                            <Typography variant='h5'>
-                                {t('CUSTOMER')}
-                            </Typography>
-                        </Grid>
-                        <Grid item xs={12} sm={12}>
-                            <Grid item xs={12} sm={12} className={classes.containerFieldsItem}>
-                                <Typography
-                                    variant='body2'
-                                    color='textSecondary'>
-                                    {t('USERNAME')}
-                                </Typography>
-                                <Typography
-                                    variant='body1'
-                                    className={classes.orderItem}>
-                                    {(customer && customer.username) || ''}
-                                </Typography>
-                            </Grid>
-                            <Grid item xs={12} sm={12} className={classes.containerFieldsItem}>
-                                <Typography
-                                    variant='body2'
-                                    color='textSecondary'>
-                                    {t('FULL_NAME')}
-                                </Typography>
-                                <Typography
-                                    variant='body1'
-                                    className={classes.orderItem}>
-                                    {(customer && customer.name) || ''}
-                                </Typography>
-                            </Grid>
-                            {!(customer && customer.contactNumber) ? null : (
-                                <Grid item xs={12} sm={12} className={classes.containerFieldsItem}>
-                                    <Typography
-                                        variant='body2'
-                                        color='textSecondary'>
-                                        {t('NUMBER')}
-                                    </Typography>
-                                    <Typography
-                                        variant='body1'
-                                        className={classes.orderItem}>
-                                        {customer.contactNumber}
-                                    </Typography>
-                                </Grid>
-                            )}
-                            {!(customer && customer.contactEmail) ? null : (
-                                <Grid item xs={12} sm={12} className={classes.containerFieldsItem}>
-                                    <Typography
-                                        variant='body2'
-                                        color='textSecondary'>
-                                        {t('EMAIL')}
-                                    </Typography>
-                                    <Typography
-                                        variant='body1'
-                                        className={classes.orderItem}>
-                                        {customer.contactEmail}
-                                    </Typography>
-                                </Grid>
-                            )}
-                        </Grid>
-                    </Grid>
-                )}
-                <Grid container item xs={12} sm={6} className={classes.containerItem}>
+
+                <Grid container item xs={12} sm={4} className={classes.containerItem}>
                     <Grid item xl={12} sm={12}>
                         <Typography variant='h5'>
-                            {t('MANAGER')}
+                            {t('DATE')}
                         </Typography>
                     </Grid>
                     <Grid item xs={12} sm={12}>
                         <Grid item xs={12} sm={12} className={classes.containerFieldsItem}>
                             <Typography
-                                variant='body2'
-                                color='textSecondary'>
-                                {t('NAME')}
-                            </Typography>
-                            <Typography
                                 variant='body1'
                                 className={classes.orderItem}>
-                                {(manager && `${manager.firstName} ${manager.middleName} ${manager.lastName}`) || ''}
+                                {moment(orderDetails.orderAt).format('DD.MM.YYYY') || ''}
                             </Typography>
                         </Grid>
                     </Grid>
