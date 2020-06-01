@@ -60,7 +60,7 @@ export const SaveMessageTemplateForm = ({
                             </Grid>
                             <Grid item xs={12}>
                                 <TextField
-                                    label={t('TEMPLATE_CONTENTS')}
+                                    label={t('CONTENT')}
                                     name="content"
                                     value={details.content}
                                     onChange={onChange}

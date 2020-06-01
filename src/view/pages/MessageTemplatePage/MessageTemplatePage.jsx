@@ -174,7 +174,7 @@ export const MessageTemplatePage = () => {
                                 aria-controls="panel1a-content"
                                 id="panel1a-header"
                             >
-                                <Typography>{t('TEMPLATE_CONTENTS')}</Typography>
+                                <Typography>{t('CONTENT')}</Typography>
                             </ExpansionPanelSummary>
                             <ExpansionPanelDetails>
                                 <Typography className={classes.break}>
