@@ -24,6 +24,8 @@ import NoteAddOutlinedIcon from '@material-ui/icons/NoteAddOutlined';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import clsx from "clsx";
 import isEmpty from 'lodash/isEmpty';
+import MoreVertIcon from "@material-ui/icons/MoreVert";
+import CloseIcon from '@material-ui/icons/Close';
 
 export const Chat = ({
                          classes,
@@ -33,15 +35,16 @@ export const Chat = ({
     const [selectedThread, setSelectedThread] = useState({});
     const minWidth600 = useMediaQuery('(min-width:600px)');
     const {threads, igProfile} = useSelector(state => state.userReducer);
+    const [drawerMobileOpen, setDrawerMobileOpen] = useState(false)
     const [drawerIcons, setDrawerIcons] = useState([
         {
             id: 1,
-            icon: <DescriptionOutlinedIcon style={{fontSize: 30}}/>,
+            icon: <NoteAddOutlinedIcon style={{fontSize: 30}}/>,
             isOpen: false,
         },
         {
             id: 2,
-            icon: <NoteAddOutlinedIcon style={{fontSize: 30}}/>,
+            icon: <DescriptionOutlinedIcon style={{fontSize: 30}}/>,
             isOpen: false,
         },
         {
@@ -192,6 +195,10 @@ export const Chat = ({
         return !!drawerIcons.find(item => item.isOpen);
     }, [drawerIcons]);
 
+    const isDrawerMobileOpen = useCallback((value) => {
+        setDrawerMobileOpen(prevState => !prevState)
+    }, []);
+
     const renderChildrenContent = useCallback(() => {
         const drawerIcon = drawerIcons.find(item => item.isOpen);
         if (drawerIcon && drawerIcon.isOpen) {
@@ -225,12 +232,49 @@ export const Chat = ({
             <Container className={classes.mobileContainer}>
                 <List className={classes.mobileList}>
                     {isDialogOpen ?
+                        <>
                         <ChatDialog
                             profile={igProfile}
                             thread={selectedThread}
                             goBack={goBack}
                             classes={classes}
+                            isDrawerOpened={isDrawerOpen}
+                            isDrawerMobileOpen={isDrawerMobileOpen}
                         />
+                            <Grid className={classes.additionals}>
+                                <Drawer
+                                    variant="permanent"
+                                    anchor="right"
+                                    className={clsx(classes.drawer, {
+                                        [classes.drawerOpen]: drawerMobileOpen,
+                                        [classes.drawerClose]: !drawerMobileOpen,
+                                    })}
+                                    classes={{
+                                        paper: clsx({
+                                            [classes.drawerOpen]: drawerMobileOpen,
+                                            [classes.drawerClose]: !drawerMobileOpen,
+                                        }),
+                                    }}
+                                >
+                                    <Grid className={classes.additionalsBlocks}>
+                                        <Grid className={classes.additionalsNavigation}>
+                                            { drawerMobileOpen ? <CloseIcon
+                                                className={classes.cursor}
+                                                style={{    top: '12px',
+                                                    position: 'absolute'}}
+                                                onClick={isDrawerMobileOpen}
+                                            /> : null}
+                                            {renderDrawerIcons()}
+                                        </Grid>
+                                        <Grid className={clsx(classes.additionalChild, {
+                                            [classes.additionalChildHidden]: !drawerMobileOpen,
+                                        })}>
+                                            {renderChildrenContent()}
+                                        </Grid>
+                                    </Grid>
+                                </Drawer>
+                            </Grid>
+                        </>
                         :
                         <ChatThreads
                             classes={classes}
@@ -262,9 +306,13 @@ export const Chat = ({
                     profile={igProfile}
                     thread={selectedThread}
                     classes={classes}
+                    isDrawerOpened={isDrawerOpen}
                 />
                 :
-                <Grid className={classes.noMessage}>
+                <Grid className={clsx(classes.noMessage, {
+                    [classes.noMessageMin]: isDrawerOpen(),
+                })}
+                >
                     <Typography
                         variant='h6'
                         className={classes.text}

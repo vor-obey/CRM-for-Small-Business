@@ -2,7 +2,6 @@ import React, {useCallback, useState} from 'react';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
-import RefreshIcon from '@material-ui/icons/Refresh';
 import KeyboardBackspaceIcon from '@material-ui/icons/KeyboardBackspace';
 import ListItemText from '@material-ui/core/ListItemText';
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
@@ -16,8 +15,9 @@ import List from '@material-ui/core/List';
 import {setSnackBarStatus} from '../../../../data/store/auxiliary/auxiliaryActions';
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
+import MoreVertIcon from '@material-ui/icons/MoreVert';
 
-export const ChatDialog = ({profile, thread, goBack, classes, minWidth}) => {
+export const ChatDialog = ({profile, thread, goBack, classes, minWidth, isDrawerOpened, isDrawerMobileOpen}) => {
     const {users, thread_title, items, inviter} = thread;
     const profile_pic_url = users[0] ? users[0].profile_pic_url : inviter.profile_pic_url;
     const dispatch = useDispatch();
@@ -121,13 +121,14 @@ export const ChatDialog = ({profile, thread, goBack, classes, minWidth}) => {
     }, [text, thread.thread_id, dispatch, socket]);
 
     return (
-
         <Grid className={classes.listDialog} style={{
             padding: 0,
             display: 'flex',
             flexDirection: 'column',
             flexFlow: 'wrap',
-        }}>
+            width: isDrawerOpened !== undefined && isDrawerOpened() ? (minWidth ? 'calc(50% - 77px)' : '100%') : '100%'
+        }}
+        >
             <Grid className={classes.dialogHeader}>
                 {!minWidth ?
                     <KeyboardBackspaceIcon
@@ -137,16 +138,14 @@ export const ChatDialog = ({profile, thread, goBack, classes, minWidth}) => {
                 <Typography>
                     {thread_title}
                 </Typography>
-                <RefreshIcon
-                    className={classes.cursor}
-                    onClick={() => dispatch(setSnackBarStatus({
-                        isOpen: true,
-                        message: 'feature is not implemented yet',
-                        success: false
-                    }))}
-                />
+                {!minWidth ?
+                    <MoreVertIcon
+                        className={classes.cursor}
+                        onClick={isDrawerMobileOpen}
+                    />
+                    : null}
             </Grid>
-            <Grid style={{width: '100%',overflowY: 'scroll', height: 'calc(100% - 130px)'}}>
+            <Grid style={{width: '100%', overflowY: 'scroll', height: 'calc(100% - 130px)'}}>
                 <List>
                     {renderItems()}
                 </List>

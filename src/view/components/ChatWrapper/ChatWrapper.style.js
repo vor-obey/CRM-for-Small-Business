@@ -1,5 +1,3 @@
-const drawerWidth = 400;
-
 export const chatWrapperStyles = (theme => ({
     container: {
         display: 'flex',
@@ -39,6 +37,7 @@ export const chatWrapperStyles = (theme => ({
             duration: theme.transitions.duration.enteringScreen,
         }),
     },
+
     sentBox: {
         borderTop: '1px solid #B7BFC4',
         position: 'sticky',
@@ -55,6 +54,13 @@ export const chatWrapperStyles = (theme => ({
         backgroundColor: '#EFF7FD',
         position: 'relative',
     },
+    noMessageMin: {
+        width: 'calc(50% - 77px)%',
+        border: '1px solid #E9EBED',
+        borderLeft: 'none',
+        backgroundColor: '#EFF7FD',
+        position: 'relative',
+    },
     threadText: {
         textOverflow: 'ellipsis',
         overflow: 'hidden',
@@ -62,7 +68,6 @@ export const chatWrapperStyles = (theme => ({
         whiteSpace: 'nowrap'
     },
     additionals: {
-        // width: '10%',
         border: '1px solid #B7BFC4',
         borderLeft: 'none',
         backgroundColor: '#E7EBF0',
@@ -186,11 +191,15 @@ export const chatWrapperStyles = (theme => ({
     },
     drawerOpen: {
         top: '65px',
-        width: drawerWidth,
+        width: '50%',
         transition: theme.transitions.create('width', {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.enteringScreen,
         }),
+        '@media (max-width: 600px)': {
+            width: '100%',
+            top: '57px'
+        },
     },
     drawerClose: {
         width: '100px',
@@ -200,5 +209,9 @@ export const chatWrapperStyles = (theme => ({
             duration: theme.transitions.duration.leavingScreen,
         }),
         overflowX: 'hidden',
+        '@media (max-width: 600px)': {
+            width: '0px',
+            top: '57px'
+        },
     },
 }));
