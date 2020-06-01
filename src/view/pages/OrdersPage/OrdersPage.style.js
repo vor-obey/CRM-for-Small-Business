@@ -82,5 +82,12 @@ export const ordersPageStyles = ((theme) => ({
       [theme.breakpoints.down('xs')]: {
          display: 'none',
       }
-   }
+   },
+   textOrderNumber: {
+     paddingRight: 10
+   },
+    textCustomer: {
+       width: 100,
+       wordBreak: 'break-word'
+    }
 }));
