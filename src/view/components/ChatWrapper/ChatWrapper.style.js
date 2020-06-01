@@ -2,25 +2,118 @@ export const chatWrapperStyles = (theme => ({
     container: {
         display: 'flex',
         padding: 0,
-        marginTop: theme.spacing(1),
+        width: '100%',
+        height: 'calc(100vh - 64px)'
     },
     listThreads: {
-        width: '50%',
-        borderWidth: 1,
-        borderColor: '#B7BFC4',
-        borderStyle: 'solid',
-        overflowY: 'scroll',
+        maxWidth: '300px',
+        border: '1px solid #B7BFC4',
+        overflowX: 'hidden',
+        transition: theme.transitions.create('width', {
+            easing: theme.transitions.easing.easeInOut,
+            duration: theme.transitions.duration.leavingScreen,
+        }),
+    },
+    listThreadsMin: {
+        width: '72px',
+        minWidth: '72px',
+        transition: theme.transitions.create('width', {
+            easing: theme.transitions.easing.easeInOut,
+            duration: theme.transitions.duration.leavingScreen,
+        }),
     },
     listDialog: {
-        width: '50%',
-        borderWidth: 1,
-        borderColor: '#B7BFC4',
-        borderStyle: 'solid',
+        width: '100%',
+        border: '1px solid #E9EBED',
+        borderTop: 'none',
+        borderLeft: 'none',
         backgroundColor: '#EFF7FD',
-        overflowY: 'scroll',
+        position: 'relative',
         '@media (max-width: 600px)': {
             width: '100%'
-        }
+        },
+        transition: theme.transitions.create(['width', 'margin'], {
+            easing: theme.transitions.easing.easeIn,
+            duration: theme.transitions.duration.enteringScreen,
+        }),
+    },
+
+    sentBox: {
+        borderTop: '1px solid #B7BFC4',
+        position: 'sticky',
+        bottom: '0',
+        backgroundColor: '#f0f7fd',
+        zIndex: 1,
+        padding: '20px',
+        width: 'calc(100% - 40px)',
+    },
+    noMessage: {
+        width: '100%',
+        border: '1px solid #E9EBED',
+        borderLeft: 'none',
+        backgroundColor: '#EFF7FD',
+        position: 'relative',
+    },
+    noMessageMin: {
+        width: 'calc(50% - 77px)%',
+        border: '1px solid #E9EBED',
+        borderLeft: 'none',
+        backgroundColor: '#EFF7FD',
+        position: 'relative',
+    },
+    threadText: {
+        textOverflow: 'ellipsis',
+        overflow: 'hidden',
+        height: '1.5em',
+        whiteSpace: 'nowrap'
+    },
+    additionals: {
+        border: '1px solid #B7BFC4',
+        borderLeft: 'none',
+        backgroundColor: '#E7EBF0',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-evenly',
+        alignItems: 'center',
+    },
+    additionalsBlocks: {
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'row',
+    },
+    additionalsNavigation: {
+        width: '100px',
+        height: '100%',
+        borderRight: '1px solid #B7BFC4',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignContent: 'center',
+        alignItems: 'center',
+    },
+    additionalButton: {
+        width: 50
+    },
+    additionalChild: {
+        display: 'flex',
+        justifyContent: 'center',
+        width: '100%',
+        alignItems: 'center'
+    },
+    additionalChildHidden: {
+        display: 'none',
+    },
+    dialogHeader: {
+        display: 'flex',
+        justifyContent: 'space-between',
+        padding: '8px 20px',
+        width: '100%',
+        height: '25px',
+        borderBottom: '1px solid #B7BFC4',
+        position: 'sticky',
+        top: 0,
+        backgroundColor: '#f0f7fd',
+        zIndex: 1
     },
     messageText: {
         border: '1px solid rgba(0, 0, 0, 0.12)',
@@ -30,7 +123,7 @@ export const chatWrapperStyles = (theme => ({
         marginRight: 5,
         marginLeft: 5,
         flex: 'unset',
-        wordBreak: 'break-all'
+        wordBreak: 'break-word'
     },
     messageImg: {
         width: 150,
@@ -85,6 +178,40 @@ export const chatWrapperStyles = (theme => ({
         alignItems: 'center',
     },
     paper: {
+        top: '64px',
         padding: 20,
+    },
+    hide: {
+        display: 'none',
+    },
+    drawer: {
+        width: '100px',
+        flexShrink: 0,
+        whiteSpace: 'nowrap',
+    },
+    drawerOpen: {
+        top: '65px',
+        width: '50%',
+        transition: theme.transitions.create('width', {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.enteringScreen,
+        }),
+        '@media (max-width: 600px)': {
+            width: '100%',
+            top: '57px'
+        },
+    },
+    drawerClose: {
+        width: '100px',
+        top: '65px',
+        transition: theme.transitions.create('width', {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.leavingScreen,
+        }),
+        overflowX: 'hidden',
+        '@media (max-width: 600px)': {
+            width: '0px',
+            top: '57px'
+        },
     },
 }));

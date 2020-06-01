@@ -103,7 +103,7 @@ export const CreateOrderPage = ({history}) => {
         if ((isEmpty(orderDescription) && isEmpty(selectedProducts)) || isEmpty(manager)
             || isEmpty(customer) || isEmpty(novaposhtaAddress.city) || isEmpty(novaposhtaAddress.warehouse)
         ) {
-            dispatch(setSnackBarStatus({isOpen: true, message: t('FILL_ALL_THE_FIElDS'), success: false}));
+            dispatch(setSnackBarStatus({isOpen: true, message: t('FILL_ALL_THE_FIELDS'), success: false}));
         } else {
             try {
                 dispatch(setIsLoading(true));

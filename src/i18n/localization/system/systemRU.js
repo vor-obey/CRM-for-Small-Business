@@ -4,7 +4,7 @@ export const SystemRU = {
     LOGIN_BUTTON: 'Войти',
     FORGOT_PASSWORD: 'Забыли ваш пароль?',
     RESTORE_PASSWORD: 'Восстановление пароля',
-    FILL_ALL_THE_FIElDS: 'Все поля должны быть заполнены',
+    FILL_ALL_THE_FIELDS: 'Все поля должны быть заполнены',
     TOO_LONG_DESCRIPTION: 'Слишком длинное описание',
     SEND: 'Отправить',
     SENDING: 'Отправляется...',

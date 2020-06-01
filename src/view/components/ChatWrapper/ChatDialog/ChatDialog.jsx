@@ -2,7 +2,6 @@ import React, {useCallback, useState} from 'react';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
-import RefreshIcon from '@material-ui/icons/Refresh';
 import KeyboardBackspaceIcon from '@material-ui/icons/KeyboardBackspace';
 import ListItemText from '@material-ui/core/ListItemText';
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
@@ -13,11 +12,13 @@ import {useDispatch, useSelector} from 'react-redux';
 import {sendMessage} from '../../../../data/store/user/userActions';
 import moment from 'moment';
 import List from '@material-ui/core/List';
-import {setSnackBarStatus} from '../../../../data/store/auxiliary/auxiliaryActions';
+import Grid from "@material-ui/core/Grid";
+import Typography from "@material-ui/core/Typography";
+import MoreVertIcon from '@material-ui/icons/MoreVert';
 
-export const ChatDialog = ({profile, thread, goBack, classes, minWidth}) => {
-    const {users, thread_title, items} = thread;
-    const {profile_pic_url} = users[0];
+export const ChatDialog = ({profile, thread, goBack, classes, minWidth, isDrawerOpened, isDrawerMobileOpen}) => {
+    const {users, thread_title, items, inviter} = thread;
+    const profile_pic_url = users[0] ? users[0].profile_pic_url : inviter.profile_pic_url;
     const dispatch = useDispatch();
     const [text, setText] = useState('');
     const {socket} = useSelector(state => state.userReducer);
@@ -59,9 +60,9 @@ export const ChatDialog = ({profile, thread, goBack, classes, minWidth}) => {
                             primary={item.text}
                             secondary={dateTime}
                             className={classes.messageText}
-                            style={{
-                                textAlign: `${item.user_id === profile.pk ? 'right' : 'left'}`,
-                            }}
+                            // style={{
+                            //     textAlign: `${item.user_id === profile.pk ? 'right' : 'left'}`,
+                            // }}
                         />
                     );
                     break;
@@ -119,47 +120,39 @@ export const ChatDialog = ({profile, thread, goBack, classes, minWidth}) => {
     }, [text, thread.thread_id, dispatch, socket]);
 
     return (
-        <List className={classes.listDialog} style={{
+        <Grid className={classes.listDialog} style={{
             padding: 0,
             display: 'flex',
             flexDirection: 'column',
-            flexFlow: 'wrap'
-        }}>
-            <ListItem style={{
-                height: '41px',
-                borderBottom: '1px solid #B7BFC4',
-                position: 'sticky',
-                top: 0,
-                backgroundColor: '#f0f7fd',
-                zIndex: 1
-            }}>
+            flexFlow: 'wrap',
+            width: isDrawerOpened !== undefined && isDrawerOpened() ? (minWidth ? 'calc(50% - 77px)' : '100%') : '100%'
+        }}
+        >
+            <Grid className={classes.dialogHeader}>
                 {!minWidth ?
                     <KeyboardBackspaceIcon
                         className={classes.backButton}
                         onClick={goBack}
                     /> : null}
-                <ListItemText
-                    primary={thread_title}
-                />
-                <RefreshIcon
-                    className={classes.cursor}
-                    onClick={() => dispatch(setSnackBarStatus({
-                        isOpen: true,
-                        message: 'feature is not implemented yet',
-                        success: false
-                    }))}
-                />
-            </ListItem>
-            {renderItems()}
-            <ListItem style={{
-                borderTop: '1px solid #B7BFC4',
-                position: 'sticky',
-                bottom: 0,
-                backgroundColor: '#f0f7fd',
-                zIndex: 1
-            }}>
+                <Typography>
+                    {thread_title}
+                </Typography>
+                {!minWidth ?
+                    <MoreVertIcon
+                        className={classes.cursor}
+                        onClick={isDrawerMobileOpen}
+                    />
+                    : null}
+            </Grid>
+            <Grid style={{width: '100%', overflowY: 'scroll', height: 'calc(100% - 130px)'}}>
+                <List>
+                    {renderItems()}
+                </List>
+            </Grid>
+            <Grid className={classes.sentBox}>
                 <form onSubmit={submit} className={classes.form}>
                     <TextField
+                        autoFocus
                         fullWidth
                         label='Message'
                         name='message'
@@ -170,7 +163,7 @@ export const ChatDialog = ({profile, thread, goBack, classes, minWidth}) => {
                         <KeyboardReturnIcon className={classes.cursor}/>
                     </IconButton>
                 </form>
-            </ListItem>
-        </List>
+            </Grid>
+        </Grid>
     )
 };

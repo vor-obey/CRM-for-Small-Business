@@ -87,7 +87,7 @@ export const InternetDocument = ({orderDetails, handleClose}) => {
 
     const submit = useCallback(async () => {
         if (isEmpty(novaposhtaAddress.city) || isEmpty(novaposhtaAddress.warehouse)) {
-            dispatch(setSnackBarStatus({isOpen: true, message: 'Fill all the fields', success: false}))
+            dispatch(setSnackBarStatus({isOpen: true, message: t('FILL_ALL_THE_FIELDS'), success: false}))
         } else {
             try {
                 dispatch(setIsLoading(true));

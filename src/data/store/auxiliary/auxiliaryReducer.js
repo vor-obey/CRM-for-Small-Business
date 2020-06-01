@@ -17,9 +17,9 @@ const initialState = {
     },
     modal: {
         isOpen: false,
-        classes: {},
         children: null,
-        onCloseHandler: null
+        onCloseHandler: null,
+        allowBackDropClick: true,
     },
     dialog: {
         isShow: false,

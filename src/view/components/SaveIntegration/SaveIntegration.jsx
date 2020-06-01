@@ -20,29 +20,35 @@ export const SaveIntegration = ({
                     label='Username'
                     name="username"
                     variant="outlined"
-                    type="text"
                     value={creds.username}
-                    onChange={onChangedHandler}
+                    onChange={({target: {value}}) => onChangedHandler('username', value)}
                     required
                     fullWidth
+                    inputProps={{
+                        autoComplete: 'off',
+                        type: 'text'
+                    }}
                 />
             </Grid>
             <Grid item xs={12} sm={12} style={{margin: '10px 0 10px 0'}}>
                 <TextField
                     label='Password'
-                    name="password"
                     variant="outlined"
-                    type="password"
                     value={creds.password}
-                    onChange={onChangedHandler}
+                    onChange={({target: {value}}) => onChangedHandler('password', value)}
                     required
                     fullWidth
+                    inputProps={{
+                        autoComplete: 'new-password',
+                        type: 'password',
+                    }}
                 />
             </Grid>
             <Grid item xs={12} sm={12} style={{margin: '10px 0 10px 0'}}>
                 <FormControl
                     variant="outlined"
                     fullWidth
+                    required
                 >
                     <InputLabel id="demo-simple-select-outlined-label">
                         Type
@@ -51,7 +57,7 @@ export const SaveIntegration = ({
                         native
                         name="type"
                         value={creds.type}
-                        onChange={onChangedHandler}
+                        onChange={({target: {value}}) => onChangedHandler('type', value)}
                         labelWidth={40}
                         required
                         inputProps={{
