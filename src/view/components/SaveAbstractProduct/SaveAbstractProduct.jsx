@@ -316,6 +316,25 @@ export const SaveAbstractProduct = ({
         }));
     }, [dispatch, deleteProductType, t]);
 
+    const disableButton = useCallback(() => {
+        if (!abstractProductDetails.name.trim().length) {
+            return true;
+        }
+        if (!abstractProductDetails.price) {
+            return true;
+        }
+        if (!abstractProductDetails.description.trim().length) {
+            return true;
+        }
+        if (isEmpty(selectedProductType)) {
+            return true;
+        }
+        if (isEmpty(attributes)) {
+            return true;
+        }
+        return false;
+    }, [abstractProductDetails, attributes, selectedProductType]);
+
     const onSubmit = useCallback(() => {
         onSave({
             abstractProductDetails,
@@ -340,6 +359,7 @@ export const SaveAbstractProduct = ({
             openDeleteProductTypeDialog={openDeleteProductTypeDialog}
             onSubmit={onSubmit}
             t={t}
+            disableButton={disableButton}
         />
     );
 };

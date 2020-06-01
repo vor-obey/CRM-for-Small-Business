@@ -45,4 +45,8 @@ export const SystemRU = {
     NO_NEW_TYPES: 'Пока нет новых типов продуктов',
     NO_NEW_CUSTOMERS: 'Пока нет новых клиентов',
     ERROR: 'Ошибка',
+    ADD_INTEGRATION: 'Создать интеграцию',
+    EDIT_INTEGRATION: 'Редактировать интеграцию',
+    DELETE_INTEGRATION: 'Удалить интеграцию?',
+    ENTER: 'Войти',
 };

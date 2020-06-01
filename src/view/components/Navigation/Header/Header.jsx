@@ -13,6 +13,7 @@ import {setSnackBarStatus} from "../../../../data/store/auxiliary/auxiliaryActio
 import {headerStyle} from "./Header.style";
 import {Flags} from "../Flags/Flags";
 import {NotificationsFunc} from "../../../../utils/notifications";
+import {InstagramConnection} from '../../../../utils/instagramConnection';
 
 const useStyles = makeStyles(headerStyle);
 
@@ -22,7 +23,7 @@ export const Header = () => {
 
     const isLoading = useSelector(state => state.auxiliaryReducer.isLoading);
     const {isOpen, message, success} = useSelector(state => state.auxiliaryReducer.snackBarStatus);
-    const currentUser = useSelector(state => state.userReducer.currentUser);
+    const {currentUser} = useSelector(state => state.userReducer);
 
     const onClosedHandler = useCallback(() => {
         dispatch(setSnackBarStatus({isOpen: !isOpen, message: message, success: success}))
@@ -47,7 +48,7 @@ export const Header = () => {
                 onClose={onClosedHandler}
             />
             {NotificationsFunc()}
-
+            {InstagramConnection()}
         </div>
     );
 };

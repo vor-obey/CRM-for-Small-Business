@@ -25,6 +25,9 @@ import {orderRU} from "./localization/orderModule/orderRU";
 import {NotificationEN} from "./localization/NotificationModule/notificationEN";
 import {NotificationRU} from "./localization/NotificationModule/notificationRU";
 import {NotificationUA} from "./localization/NotificationModule/notificationUA";
+import {InstagramEN} from './localization/instagramModule/instagramEN';
+import {InstagramUA} from './localization/instagramModule/instagramUA';
+import {InstagramRU} from './localization/instagramModule/instagramRU';
 
 
 i18n
@@ -41,7 +44,8 @@ i18n
                     ...OrgEN,
                     ...ProductEN,
                     ...internetDocumentEN,
-                    ...NotificationEN
+                    ...NotificationEN,
+                    ...InstagramEN,
                 }
             },
             ua: {
@@ -54,6 +58,7 @@ i18n
                     ...ProductUA,
                     ...internetDocumentUA,
                     ...NotificationUA,
+                    ...InstagramUA,
                 }
             },
             ru: {
@@ -65,7 +70,8 @@ i18n
                     ...OrgRU,
                     ...ProductRU,
                     ...internetDocumentRU,
-                    ...NotificationRU
+                    ...NotificationRU,
+                    ...InstagramRU
                 }
             },
         },

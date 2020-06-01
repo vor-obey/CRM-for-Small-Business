@@ -8,13 +8,10 @@ export const NotificationsFunc = () => {
     const location = useLocation();
     const dispatch = useDispatch();
 
-    const threads = useSelector(state => state.userReducer.threads);
-    const profile = useSelector(state => state.userReducer.igProfile);
-    const addMessage = useSelector(state => state.userReducer.messages);
+    const {threads, igProfile, messages} = useSelector(state => state.userReducer);
 
-    const message = addMessage[addMessage.length - 1];
-    const users = threads.filter(item => item.thread_id === (message && message.message.thread_id));
-    const user = users[users.length - 1];
+    const lastMessage = messages[messages.length - 1];
+    const thread = threads.find(item => item.thread_id === (lastMessage && lastMessage.thread_id));
 
     const navigationClick = useCallback(() => {
         history.push({
@@ -23,16 +20,17 @@ export const NotificationsFunc = () => {
     }, [history]);
 
     useEffect(() => {
-        if (location.pathname === '/dashboard' || location.pathname === '/chat') {
-        } else if (message && message.message.text !== undefined && message.message.user_id !== profile.pk) {
-            dispatch(displayNotification({
-                icon: user && user.inviter.profile_pic_url,
-                text: message && message.message.text,
-                username: user && user.thread_title,
-                date: new Date(),
-                status: 'message',
-                onClick: navigationClick
-            }));
+        if (location.pathname !== '/dashboard' && location.pathname !== '/chat') {
+            if (lastMessage && lastMessage.user_id !== igProfile.pk) {
+                dispatch(displayNotification({
+                    icon: thread && thread.inviter.profile_pic_url,
+                    text: lastMessage.text,
+                    username: thread && thread.thread_title,
+                    date: new Date(),
+                    status: 'message',
+                    onClick: navigationClick
+                }));
+            }
         }
-    }, [dispatch, message, profile, location, navigationClick, user]);
+    }, [dispatch, lastMessage, igProfile, location, navigationClick, thread]);
 };

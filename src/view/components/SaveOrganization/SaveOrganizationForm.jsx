@@ -39,7 +39,7 @@ export const SaveOrganizationForm = ({
                     variant="outlined"
                     type="text"
                     onChange={onChangedInput}
-                    value={organization.organizationName || ''}
+                    value={organization.name || ''}
                     required
                     fullWidth
                 />

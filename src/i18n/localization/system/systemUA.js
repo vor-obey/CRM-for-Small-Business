@@ -45,4 +45,8 @@ export const SystemUA = {
     NO_NEW_TYPES: 'Наразі немає нових типів продукту',
     NO_NEW_CUSTOMERS: 'Наразі немає клієнтів',
     ERROR: 'Помилка',
+    ADD_INTEGRATION: 'Створіть інтеграцію',
+    EDIT_INTEGRATION: 'Редагувати інтеграцію',
+    DELETE_INTEGRATION: 'Видалити інтеграцію?',
+    ENTER: 'Увійти',
 };

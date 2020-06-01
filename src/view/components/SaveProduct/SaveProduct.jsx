@@ -21,7 +21,6 @@ import isEmpty from 'lodash/isEmpty';
 import {useAbstractProducts, useAttributesByProductTypeId} from '../../../utils/hooks/productHooks';
 import {saveProductStyles} from "./SaveProduct.styles";
 import {useTranslation} from 'react-i18next';
-import {useHistory} from 'react-router-dom';
 
 const useStyles = makeStyles(saveProductStyles);
 
@@ -29,8 +28,8 @@ export const SaveProduct = ({
                                 product,
                                 labels,
                                 onSave,
+                                history
                             }) => {
-    const history = useHistory();
     const {t} = useTranslation();
     const classes = useStyles();
     const [productDetails, setProductDetails] = useState({
@@ -52,6 +51,13 @@ export const SaveProduct = ({
         }
         return ids;
     }, []);
+
+    useEffect(() => {
+        if (history.location.state !== undefined && history.location.state.abstractProductId && !isEmpty(abstractProducts)) {
+            setSelectedAbstractProduct(abstractProducts.find(item => item.abstractProductId === history.location.state.abstractProductId));
+            setIsExpanded(true);
+        }
+    }, [history, abstractProducts]);
 
     useEffect(() => {
         if (!isEmpty(product)) {
@@ -143,7 +149,7 @@ export const SaveProduct = ({
                         <Select
                             native
                             name={attributeId}
-                            value={selectedAttributeValues[attributeId] || ''}
+                            value={(selectedAttributeValues && selectedAttributeValues[attributeId]) || ''}
                             onChange={onAttributeValueSelectHandler}
                             inputProps={{
                                 name: attributeId
@@ -195,6 +201,20 @@ export const SaveProduct = ({
         return false;
     }, [attributes.length, productDetails, selectedAbstractProduct, selectedAttributeValues, validateAttributeValues]);
 
+    const filterOptions = useCallback((array, {inputValue}) => {
+        if (!array.length) {
+            return [];
+        }
+
+        const matchWhitespacesRegExp = /\s/g;
+        const formattedInputValue = inputValue.toLowerCase().replace(matchWhitespacesRegExp, '');
+
+        return array.filter((item) => {
+            return item.name.toLowerCase().replace(matchWhitespacesRegExp, '').indexOf(formattedInputValue) !== -1
+                || item.description.toLowerCase().replace(matchWhitespacesRegExp, '').indexOf(formattedInputValue) !== -1;
+        });
+    }, []);
+
     return (
         <Container component='main' maxWidth='md' className={classes.root}>
             <Grid container>
@@ -222,7 +242,7 @@ export const SaveProduct = ({
                                 label={t('PRICE')}
                                 name="price"
                                 variant="outlined"
-                                type="number"
+                                type='text'
                                 value={productDetails.price}
                                 onChange={onProductDetailsChangedHandler}
                                 required
@@ -233,7 +253,17 @@ export const SaveProduct = ({
                     <Grid container item xs={12} sm={12} className={classes.containerProduct}>
                         <Grid item xs={12} sm={2} className={classes.containerProductItem}
                               style={{textAlign: 'center'}}>
-                            <IconButton onClick={() => history.push('/create-abstract-product')}>
+                            <IconButton onClick={() => {
+                                if (history.location.state !== undefined && history.location.state.createOrder) {
+                                    history.push('/create-abstract-product', {
+                                        createOrder: true
+                                    });
+                                } else {
+                                    history.push('/create-abstract-product', {
+                                        createProduct: true
+                                    });
+                                }
+                            }}>
                                 <AddCircleIcon fontSize='large'/>
                             </IconButton>
                         </Grid>
@@ -248,6 +278,9 @@ export const SaveProduct = ({
                                 getOptionLabel={getAbstractProductOptionLabel}
                                 onSelectHandler={onAbstractProductSelectHandler}
                                 value={selectedAbstractProduct}
+                                onInputChangedHandler={() => {
+                                }}
+                                filterOptions={filterOptions}
                             />
                         </Grid>
                     </Grid>

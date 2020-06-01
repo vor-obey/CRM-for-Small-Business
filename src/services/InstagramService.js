@@ -6,16 +6,32 @@ class InstagramService extends CRUDService {
         super(USER_URLS.INSTAGRAM);
     }
 
-    init = () => {
-        return this.APIService.apiPost('/Instagram/check')
+    login = (creds) => {
+        return this.APIService.apiPost('/instagram/login', {body: creds});
+    };
+
+    sendSecurityCode = (body) => {
+        return this.APIService.apiPost('/instagram/sendSecurityCode', {body});
+    };
+
+    verify2FA = (body) => {
+      return this.APIService.apiPost('/instagram/verify2FA', {body});
     };
 
     getThreads = () => {
-        return this.APIService.apiGet('/Instagram/threads')
+        return this.APIService.apiGet('/instagram/threads');
     };
 
-    refreshThread = (id) => {
-      return this.APIService.apiGet(`/Instagram/threads/refresh?threadId=${id}`)
+    getThreadById = (threadId, prev_cursor) => {
+        return this.APIService.apiGet(`/instagram/threads/${threadId}/cursor/${prev_cursor}`);
+    };
+
+    getProfile = () => {
+        return this.APIService.apiGet('/instagram/profile');
+    };
+
+    check = () => {
+        return this.APIService.apiGet('/instagram/check');
     };
 }
 

@@ -16,7 +16,6 @@ import EditIcon from '@material-ui/icons/Edit';
 import {useTranslation} from "react-i18next";
 import {CustomDialog} from "../CustomDialog/CustomDialog";
 import BusinessIcon from "@material-ui/icons/Business";
-import {useCart} from "../../../utils/hooks/cartHooks";
 import isEmpty from 'lodash/isEmpty';
 import {StorageService} from '../../../services';
 
@@ -25,7 +24,6 @@ const useStyles = makeStyles(profileStyles);
 export const Profile = ({currentUser}) => {
     const classes = useStyles();
     const {t} = useTranslation('');
-    const cart = useCart();
     const [userDrawer, setUserDrawer] = React.useState({
         right: false,
     });
@@ -36,9 +34,10 @@ export const Profile = ({currentUser}) => {
     }, []);
 
     const logOutHandler = useCallback(() => {
-        cart.setProducts([]);
         StorageService.removeJWTToken();
-    }, [cart]);
+        StorageService.setItem('cart', []);
+        StorageService.setItem('description', '');
+    }, []);
 
     const toggleDrawer = useCallback((side, open) => event => {
         if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {

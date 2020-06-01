@@ -1,4 +1,4 @@
-import {call, delay, put, race, take} from '@redux-saga/core/effects';
+import {call, put, take} from '@redux-saga/core/effects';
 import {setIsLoading, setSnackBarStatus} from '../auxiliary/auxiliaryActions';
 import {StorageService, UserService} from '../../../services';
 import {COMMON_ERROR_MESSAGE} from '../../../constants/statuses';
@@ -6,14 +6,24 @@ import isEmpty from 'lodash/isEmpty';
 import {
     addMessage,
     setCurrentUser,
-    setIgProfile,
-    setThreads,
-    setIsConnected,
-    setIsIntegrated, setSocketError
+    setSocketError,
+    setSocket,
+    setIsIgIntegrated,
+    setConnectionToChatStorage, setIsAutoConnectToChat
 } from './userActions';
 import socketIOClient from 'socket.io-client';
 import {eventChannel} from 'redux-saga';
 import {BASE_URL} from '../../../constants/urls';
+
+export function connect(organizationId) {
+    const socket = socketIOClient(`${BASE_URL}/`, {query: `roomId=${organizationId}`});
+    return new Promise(resolve => {
+        socket.on('connect', () => {
+            resolve(socket);
+            console.log("Socket connected");
+        });
+    });
+}
 
 export function* login(action) {
     try {
@@ -21,6 +31,8 @@ export function* login(action) {
         const response = yield UserService.login(action.loginData);
         if (response.accessToken) {
             StorageService.setJWTToken(response.accessToken);
+            yield put(setConnectionToChatStorage(false));
+            yield put(setIsAutoConnectToChat(false));
             yield put(setIsLoading(false));
             yield* getCurrentUser();
         } else {
@@ -39,6 +51,11 @@ export function* getCurrentUser() {
         const response = yield UserService.getCurrentUser();
         if (!isEmpty(response)) {
             yield put(setCurrentUser(response));
+
+            const integration = !!response.organization.integrations
+                .find(integration => integration.type === 'instagram');
+            yield put(setIsIgIntegrated(integration));
+
             yield put(setIsLoading(false));
         } else {
             yield put(setIsLoading(false));
@@ -52,55 +69,38 @@ export function* getCurrentUser() {
 
 export function createEventChannel(socket) {
     return eventChannel(emitter => {
-        socket.emit('initChat');
         socket.on('getIgProfile', payload => emitter({event: 'ig_profile', payload}));
         socket.on('message', payload => emitter({event: 'message', payload}));
         socket.on('getThreads', payload => emitter({event: 'threads', payload}));
-        socket.on('integrated', payload => emitter({event: 'integrated', payload}));
-        socket.on('error', payload => emitter({event: 'error', payload}));
+        socket.on('igError', payload => emitter({event: 'igError', payload}));
+        socket.on('initStatus', payload => emitter({event: 'initStatus', payload}));
         return () => {
             socket.close();
         }
     });
 }
 
-export function sendMessage(action) {
-    const socket = socketIOClient(`${BASE_URL}/`, {query: `roomId=${action.organizationId}`});
-    socket.emit('sendMessage', action.payload);
+export function sendMessage({payload, socket}) {
+    socket.emit('sendMessage', payload);
 }
 
-export function deleteIntegration(action) {
-    const socket = socketIOClient(`${BASE_URL}/`, {query: `roomId=${action.organizationId}`});
-    socket.emit('deleteIntegration');
+export function initializeInstagramChatConnection({socket}) {
+    socket.emit('initChat');
 }
 
-export function* initializeConnection(action) {
-    yield put(setIsConnected(true));
-    const {socket, timeout} = yield race({
-        socket: socketIOClient(`${BASE_URL}/`, {query: `roomId=${action.organizationId}`}),
-        timeout: delay(2000),
-    });
-    if (timeout) {
-        yield put(setIsConnected(false));
-    }
+export function setConnectionToChatSaga({value}) {
+    StorageService.setChatConnection(value);
+}
+
+export function* initializeSocketConnection(action) {
+    const socket = yield call(connect, action.organizationId);
+    yield put(setSocket(socket));
     const channel = yield call(createEventChannel, socket);
     while (true) {
         const {event, payload} = yield take(channel);
         switch (event) {
-            case 'ig_profile': {
-                yield put(setIgProfile(payload));
-                break;
-            }
             case 'message': {
                 yield put(addMessage(payload));
-                break;
-            }
-            case 'threads': {
-                yield put(setThreads(payload));
-                break;
-            }
-            case 'integrated': {
-                yield put(setIsIntegrated(payload));
                 break;
             }
             case 'igError': {

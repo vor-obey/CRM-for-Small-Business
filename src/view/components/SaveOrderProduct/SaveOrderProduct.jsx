@@ -12,9 +12,8 @@ import {
 } from '@material-ui/core';
 import RemoveIcon from '@material-ui/icons/Remove';
 import AddIcon from '@material-ui/icons/Add';
-import {useTranslation} from "react-i18next";
-import {useCart} from "../../../utils/hooks/cartHooks";
 import isEmpty from 'lodash/isEmpty';
+import {useTranslation} from "react-i18next";
 
 export const SaveOrderProduct = ({
                                      isOpen,
@@ -31,9 +30,9 @@ export const SaveOrderProduct = ({
                                      increment,
                                      decrement,
                                      classes,
-                                     filterOptions
+                                     filterOptions,
+                                     selectedProducts
                                  }) => {
-    const cart = useCart();
     const {t} = useTranslation();
 
     const currencies = [
@@ -65,7 +64,8 @@ export const SaveOrderProduct = ({
                         getOptionLabel={getOptionLabel}
                         onSelectHandler={onSelectHandler}
                         value={value}
-                        onInputChangedHandler={() => {}}
+                        onInputChangedHandler={() => {
+                        }}
                         filterOptions={filterOptions}
                     />
                 </Grid>
@@ -116,7 +116,7 @@ export const SaveOrderProduct = ({
                             endAdornment={
                                 <InputAdornment position="end">
                                     <Select
-                                        disabled={!isEmpty(cart.products)}
+                                        disabled={!isEmpty(selectedProducts)}
                                         className={classes.currency}
                                         value={details.currency}
                                         name='currency'

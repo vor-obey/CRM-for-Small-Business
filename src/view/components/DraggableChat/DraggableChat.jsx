@@ -1,6 +1,6 @@
 import React, {useCallback, useState} from 'react';
 import Draggable from 'react-draggable';
-import {Chat} from '../Chat/Chat';
+import {ChatWrapper} from '../ChatWrapper/ChatWrapper';
 import {Card, CardHeader, IconButton} from '@material-ui/core';
 import CardContent from '@material-ui/core/CardContent';
 import Avatar from '@material-ui/core/Avatar';
@@ -79,7 +79,7 @@ export const DraggableChat = () => {
                             padding: 0
                         }}
                     >
-                        <Chat
+                        <ChatWrapper
                             style={{
                                 padding: 0,
                             }}

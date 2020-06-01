@@ -1,7 +1,8 @@
 export default class StorageService {
     static KEYS = {
         ACCESS_TOKEN: 'acc',
-        REFRESH_TOKEN: 'rfr'
+        REFRESH_TOKEN: 'rfr',
+        CONNECT_CHAT: 'connectChat'
     };
 
     static getItem(key) {
@@ -26,5 +27,13 @@ export default class StorageService {
 
     static setJWTToken(value) {
         this.setItem(StorageService.KEYS.ACCESS_TOKEN, value)
+    }
+
+    static getChatConnection() {
+        return this.getItem(StorageService.KEYS.CONNECT_CHAT);
+    }
+
+    static setChatConnection(value) {
+        this.setItem(StorageService.KEYS.CONNECT_CHAT, value)
     }
 }

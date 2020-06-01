@@ -11,7 +11,7 @@ import {useCustomers} from '../../../utils/hooks/customerHooks';
 import {setIsLoading, setSnackBarStatus} from '../../../data/store/auxiliary/auxiliaryActions';
 import OrderService from '../../../services/OrderService';
 import {COMMON_ERROR_MESSAGE} from '../../../constants/statuses';
-import {setProductsToCart} from "../../../data/store/order/orderActions";
+import {setDescriptionToOrder, setProductsToCart} from "../../../data/store/order/orderActions";
 
 const useStyles = makeStyles(createOrderPageStyles);
 
@@ -26,15 +26,17 @@ export const CreateOrderPage = ({history}) => {
     const [customers, setCustomers, customerLoading] = useCustomers();
     const [customer, setCustomer] = useState({});
     const [createdCustomer, setCreatedCustomer] = useState({});
-    const currentUser = useSelector(state => state.userReducer.currentUser);
     const [isCustom, setIsCustom] = useState(false);
     const [address, setAddress] = useState('');
     const [selectedProducts, setSelectedProducts] = useState([]);
     const [status, setStatus] = useState(0);
+    const currentUser = useSelector(state => state.userReducer.currentUser);
+    const orderStoreDescription = useSelector(state => state.orderReducer.description);
     const [novaposhtaAddress, setNovaposhtaAddress] = useState({
         city: null,
         warehouse: null
     });
+    const [orderDescription, setOrderDescription] = useState('');
 
     useEffect(() => {
         if (!isEmpty(createdCustomer)) {
@@ -44,6 +46,12 @@ export const CreateOrderPage = ({history}) => {
             setCustomer(createdCustomer);
         }
     }, [createdCustomer, setCustomers]);
+
+    useEffect(() => {
+        if (orderStoreDescription) {
+            setOrderDescription(orderStoreDescription)
+        }
+    }, [setOrderDescription, orderStoreDescription]);
 
     useEffect(() => {
         if (managers && currentUser) {
@@ -92,7 +100,7 @@ export const CreateOrderPage = ({history}) => {
 
     const onSubmitHandler = useCallback(async (e) => {
         e.preventDefault();
-        if (isEmpty(selectedProducts) || isEmpty(manager)
+        if ((isEmpty(orderDescription) && isEmpty(selectedProducts)) || isEmpty(manager)
             || isEmpty(customer) || isEmpty(novaposhtaAddress.city) || isEmpty(novaposhtaAddress.warehouse)
         ) {
             dispatch(setSnackBarStatus({isOpen: true, message: t('FILL_ALL_THE_FIElDS'), success: false}));
@@ -109,11 +117,13 @@ export const CreateOrderPage = ({history}) => {
                         address: isCustom ? address : novaposhtaAddress,
                         shippingMethodId: shippingMethod.shippingMethodId
                     },
+                    description: orderDescription,
                 });
                 if (response.success) {
                     dispatch(setIsLoading(false));
                     history.push('/orders');
                     dispatch(setProductsToCart([]));
+                    dispatch(setDescriptionToOrder([]))
                 } else {
                     dispatch(setIsLoading(false));
                     dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE, success: false}));
@@ -134,7 +144,8 @@ export const CreateOrderPage = ({history}) => {
         shippingMethod,
         selectedProducts,
         status,
-        novaposhtaAddress
+        novaposhtaAddress,
+        orderDescription
     ]);
 
     const onStatusSelectHandler = useCallback((value) => {
@@ -149,6 +160,12 @@ export const CreateOrderPage = ({history}) => {
         if (warehouse !== undefined) {
             setNovaposhtaAddress(prevState => ({...prevState, warehouse}));
         }
+        dispatch(setDescriptionToOrder(orderDescription))
+    }, [dispatch, orderDescription]);
+
+
+    const onOrderDescriptionChangeHandler = useCallback((event) => {
+        setOrderDescription(event.target.value);
     }, []);
 
     return (
@@ -176,6 +193,8 @@ export const CreateOrderPage = ({history}) => {
             status={status}
             onSubmit={onSubmitHandler}
             onNovaposhtaAddressSelectHandler={onNovaposhtaAddressSelectHandler}
+            orderDescription={orderDescription}
+            onOrderDescriptionChangeHandler={onOrderDescriptionChangeHandler}
         />
     )
 };
