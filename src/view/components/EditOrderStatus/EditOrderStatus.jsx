@@ -16,11 +16,12 @@ export function EditOrderStatus({
                                     submit
                                 }) {
     const [currentStatus, setCurrentStatus] = useState(status);
+    const classes = useStyle();
+    const {t} = useTranslation('');
+
     useEffect(() => {
         setCurrentStatus(status);
     }, [status]);
-    const classes = useStyle();
-    const {t} = useTranslation('');
 
     const onStatusSelectHandler = useCallback((value) => {
         submit(value);
@@ -44,7 +45,7 @@ export function EditOrderStatus({
                     }}
                     native
                     name="status"
-                    value={(currentStatus && currentStatus)}
+                    value={currentStatus}
                     onChange={(event) => onStatusSelectHandler(event.target.value)}
                     inputProps={{
                         name: 'status',
