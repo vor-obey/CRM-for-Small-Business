@@ -70,7 +70,7 @@ export const MessageTemplatePage = () => {
                         content: editContent,
                         templateId: editId
                     });
-                    if (response === true) {
+                    if (response.success) {
                         dispatch(setIsLoading(false));
                         const ind = templatesList.findIndex(({templateId}) => templateId === editId);
                         template.name = editName;
