@@ -25,6 +25,7 @@ import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import clsx from "clsx";
 import isEmpty from 'lodash/isEmpty';
 import CloseIcon from '@material-ui/icons/Close';
+import {MessageTemplatePage} from "../../../pages/MessageTemplatePage/MessageTemplatePage";
 
 export const Chat = ({
                          classes,
@@ -35,6 +36,7 @@ export const Chat = ({
     const minWidth600 = useMediaQuery('(min-width:600px)');
     const {threads, igProfile} = useSelector(state => state.userReducer);
     const [drawerMobileOpen, setDrawerMobileOpen] = useState(false)
+    const [templateContent, setTemplateContent] = useState();
     const [drawerIcons, setDrawerIcons] = useState([
         {
             id: 1,
@@ -198,6 +200,10 @@ export const Chat = ({
         setDrawerMobileOpen(prevState => !prevState)
     }, []);
 
+    const onSubmit = useCallback((template) => {
+        setTemplateContent(template)
+    }, []);
+
     const renderChildrenContent = useCallback(() => {
         const drawerIcon = drawerIcons.find(item => item.isOpen);
         if (drawerIcon && drawerIcon.isOpen) {
@@ -214,7 +220,9 @@ export const Chat = ({
                 }
                 case 3: {
                     return (
-                        <div>3</div>
+                        <div style={{overflowY: 'scroll', height: '93%'}}>
+                            <MessageTemplatePage onSubmit={onSubmit} chat={true}/>
+                        </div>
                     );
                 }
                 default: {
@@ -224,7 +232,7 @@ export const Chat = ({
         }
 
         return null;
-    }, [drawerIcons]);
+    }, [drawerIcons, onSubmit]);
 
     if (!minWidth600) {
         return (
@@ -232,14 +240,16 @@ export const Chat = ({
                 <List className={classes.mobileList}>
                     {isDialogOpen ?
                         <>
-                        <ChatDialog
-                            profile={igProfile}
-                            thread={selectedThread}
-                            goBack={goBack}
-                            classes={classes}
-                            isDrawerOpened={isDrawerOpen}
-                            isDrawerMobileOpen={isDrawerMobileOpen}
-                        />
+                            <ChatDialog
+                                profile={igProfile}
+                                thread={selectedThread}
+                                goBack={goBack}
+                                onSubmit={onSubmit}
+                                classes={classes}
+                                isDrawerOpened={isDrawerOpen}
+                                isDrawerMobileOpen={isDrawerMobileOpen}
+                                templateContent={templateContent}
+                            />
                             <Grid className={classes.additionals}>
                                 <Drawer
                                     variant="permanent"
@@ -257,10 +267,12 @@ export const Chat = ({
                                 >
                                     <Grid className={classes.additionalsBlocks}>
                                         <Grid className={classes.additionalsNavigation}>
-                                            { drawerMobileOpen ? <CloseIcon
+                                            {drawerMobileOpen ? <CloseIcon
                                                 className={classes.cursor}
-                                                style={{    top: '12px',
-                                                    position: 'absolute'}}
+                                                style={{
+                                                    top: '12px',
+                                                    position: 'absolute'
+                                                }}
                                                 onClick={isDrawerMobileOpen}
                                             /> : null}
                                             {renderDrawerIcons()}
@@ -306,6 +318,7 @@ export const Chat = ({
                     thread={selectedThread}
                     classes={classes}
                     isDrawerOpened={isDrawerOpen}
+                    templateContent={templateContent}
                 />
                 :
                 <Grid className={clsx(classes.noMessage, {
