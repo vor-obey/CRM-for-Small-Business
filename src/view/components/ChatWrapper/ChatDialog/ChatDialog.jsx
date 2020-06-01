@@ -126,6 +126,7 @@ export const ChatDialog = ({profile, thread, goBack, classes, minWidth, isDrawer
             display: 'flex',
             flexDirection: 'column',
             flexFlow: 'wrap',
+            height: '100%',
             width: isDrawerOpened !== undefined && isDrawerOpened() ? (minWidth ? 'calc(50% - 77px)' : '100%') : '100%'
         }}
         >

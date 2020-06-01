@@ -33,7 +33,7 @@ export const Chat = ({
     const {t} = useTranslation('');
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [selectedThread, setSelectedThread] = useState({});
-    const minWidth600 = useMediaQuery('(min-width:600px)');
+    const minWidth769 = useMediaQuery('(min-width:769px)');
     const {threads, igProfile} = useSelector(state => state.userReducer);
     const [drawerMobileOpen, setDrawerMobileOpen] = useState(false)
     const [drawerIcons, setDrawerIcons] = useState([
@@ -227,7 +227,7 @@ export const Chat = ({
         return null;
     }, [drawerIcons]);
 
-    if (!minWidth600) {
+    if (!minWidth769) {
         return (
             <Container className={classes.mobileContainer}>
                 <List className={classes.mobileList}>
@@ -238,7 +238,6 @@ export const Chat = ({
                             thread={selectedThread}
                             goBack={goBack}
                             classes={classes}
-                            isDrawerOpened={isDrawerOpen}
                             isDrawerMobileOpen={isDrawerMobileOpen}
                         />
                             <Grid className={classes.additionals}>
@@ -259,9 +258,7 @@ export const Chat = ({
                                     <Grid className={classes.additionalsBlocks}>
                                         <Grid className={classes.additionalsNavigation}>
                                             { drawerMobileOpen ? <CloseIcon
-                                                className={classes.cursor}
-                                                style={{    top: '12px',
-                                                    position: 'absolute'}}
+                                                className={classes.closeButton}
                                                 onClick={isDrawerMobileOpen}
                                             /> : null}
                                             {renderDrawerIcons()}
@@ -269,7 +266,7 @@ export const Chat = ({
                                         <Grid className={clsx(classes.additionalChild, {
                                             [classes.additionalChildHidden]: !drawerMobileOpen,
                                         })}>
-                                            {renderChildrenContent()}
+                                            {renderChildrenContent ? renderChildrenContent() : '1111' }
                                         </Grid>
                                     </Grid>
                                 </Drawer>
@@ -302,7 +299,7 @@ export const Chat = ({
             </Grid>
             {isDialogOpen ?
                 <ChatDialog
-                    minWidth={minWidth600}
+                    minWidth={minWidth769}
                     profile={igProfile}
                     thread={selectedThread}
                     classes={classes}
