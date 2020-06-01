@@ -31,14 +31,15 @@ export const SaveProduct = ({
                                 product,
                                 labels,
                                 onSave,
-                                history
+                                history,
+                                createOrder
                             }) => {
     const {t} = useTranslation();
     const classes = useStyles();
     const productStore = useSelector(state => state.productReducer.details);
     const [productDetails, setProductDetails] = useState({
-        name: productStore.name,
-        price: productStore.price,
+        name: createOrder !== false || createOrder !== undefined ? productStore.name : '',
+        price: createOrder !== false || createOrder !== undefined ? productStore.price : '',
     });
     const [abstractProducts] = useAbstractProducts();
     const [selectedAbstractProduct, setSelectedAbstractProduct] = useState({});
@@ -48,7 +49,6 @@ export const SaveProduct = ({
     const [isExpanded, setIsExpanded] = useState(false);
     const dispatch = useDispatch();
 
-
     const getAttributeValueIds = useCallback((items) => {
         const ids = {};
         for (const {attributeValue} of items) {
@@ -57,6 +57,9 @@ export const SaveProduct = ({
         }
         return ids;
     }, []);
+
+    console.log(createOrder);
+    console.log(productStore);
 
     useEffect(() => {
         if (history.location.state !== undefined && history.location.state.abstractProductId && !isEmpty(abstractProducts)) {
@@ -94,8 +97,10 @@ export const SaveProduct = ({
                 [name]: value
             }
         });
-        dispatch(setProductDetailsToStore({name: productDetails.name, price: productDetails.price}))
-    }, [dispatch, productDetails]);
+        if (createOrder !== false && createOrder !== undefined) {
+            dispatch(setProductDetailsToStore({name: productDetails.name, price: productDetails.price}))
+        }
+    }, [dispatch, productDetails, createOrder]);
 
     const toggleAbstractProductAutocomplete = useCallback(() => setIsAbstractProductAutocompleteOpen(prevState => !prevState), []);
 
