@@ -24,7 +24,6 @@ import NoteAddOutlinedIcon from '@material-ui/icons/NoteAddOutlined';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import clsx from "clsx";
 import isEmpty from 'lodash/isEmpty';
-import MoreVertIcon from "@material-ui/icons/MoreVert";
 import CloseIcon from '@material-ui/icons/Close';
 
 export const Chat = ({

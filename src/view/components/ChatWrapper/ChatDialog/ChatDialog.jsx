@@ -12,7 +12,6 @@ import {useDispatch, useSelector} from 'react-redux';
 import {sendMessage} from '../../../../data/store/user/userActions';
 import moment from 'moment';
 import List from '@material-ui/core/List';
-import {setSnackBarStatus} from '../../../../data/store/auxiliary/auxiliaryActions';
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import MoreVertIcon from '@material-ui/icons/MoreVert';
