@@ -43,13 +43,13 @@ export const OrderDetails = ({
                                     </Grid>
                                     <Grid item xs={12} sm={11} className={classes.productInfo}>
                                         <Grid container item xs={12} sm={12} className={classes.productContainerItem}>
-                                        <Grid className={classes.productTitle}>
-                                            <Typography variant='body1'
-                                                        className={classes.productTitleName}>
-                                                {name}
-                                            </Typography>
+                                            <Grid className={classes.productTitle}>
+                                                <Typography variant='body1'
+                                                            className={classes.productTitleName}>
+                                                    {name}
+                                                </Typography>
+                                            </Grid>
                                         </Grid>
-                                    </Grid>
                                         <Grid item xs={12} sm={12} className={classes.productMeta}>
                                             <Grid item xs={12} sm={4}>
                                                 <Typography variant='body1'>
@@ -103,21 +103,22 @@ export const OrderDetails = ({
                 {renderProducts()}
             </Grid> : null}
             <Grid container item xs={12} sm={12}>
-            <Grid container item xs={12} sm={6} className={classes.containerItem}>
-                <Grid item xl={12} sm={12}>
-                    <Typography variant='h5'>
-                        {t('STATUS')}
-                    </Typography>
-                </Grid>
-                <Grid container item xs={12} sm={12} justify={"space-between"} alignItems={"center"} direction={"row"}>
-                    <Grid item xs={12} sm={12}>
-                        <EditOrderStatus
-                            status={orderDetails.status}
-                            submit={submit}
-                        />
+                <Grid container item xs={12} sm={6} className={classes.containerItem}>
+                    <Grid item xl={12} sm={12}>
+                        <Typography variant='h5'>
+                            {t('STATUS')}
+                        </Typography>
+                    </Grid>
+                    <Grid container item xs={12} sm={12} justify={"space-between"} alignItems={"center"}
+                          direction={"row"}>
+                        <Grid item xs={12} sm={12}>
+                            <EditOrderStatus
+                                status={orderDetails.status}
+                                submit={submit}
+                            />
+                        </Grid>
                     </Grid>
                 </Grid>
-            </Grid>
                 <Grid container item xs={12} sm={6} className={classes.containerItem}>
                     <Grid item xl={12} sm={12}>
                         <Typography variant='h5'>
