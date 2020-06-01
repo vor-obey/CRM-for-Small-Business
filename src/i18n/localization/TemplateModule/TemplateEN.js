@@ -2,7 +2,7 @@ export const TemplateEN = {
     READ_MORE: 'Read more',
     HIDE_TEXT: 'Hide text',
     TEMPLATE_NAME: 'Template name',
-    CONTENT: 'Contents',
+    CONTENT: 'Content',
     MESSAGE_TEMPLATES: 'Message templates',
     EDIT_MESSAGE_TEMPLATE: 'Edit message template',
     CREATE_MESSAGE_TEMPLATE: 'Create message template',
