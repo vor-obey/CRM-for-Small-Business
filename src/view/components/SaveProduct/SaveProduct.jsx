@@ -58,9 +58,6 @@ export const SaveProduct = ({
         return ids;
     }, []);
 
-    console.log(createOrder);
-    console.log(productStore);
-
     useEffect(() => {
         if (history.location.state !== undefined && history.location.state.abstractProductId && !isEmpty(abstractProducts)) {
             setSelectedAbstractProduct(abstractProducts.find(item => item.abstractProductId === history.location.state.abstractProductId));
