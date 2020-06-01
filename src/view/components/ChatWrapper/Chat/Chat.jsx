@@ -232,7 +232,7 @@ export const Chat = ({
         }
 
         return null;
-    }, [drawerIcons]);
+    }, [drawerIcons, onSubmit]);
 
     if (!minWidth600) {
         return (
