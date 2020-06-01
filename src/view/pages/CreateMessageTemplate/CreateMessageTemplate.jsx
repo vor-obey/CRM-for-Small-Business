@@ -15,7 +15,7 @@ export const CreateMessageTemplate = () => {
 
     const onSubmitHandler = useCallback(async (event, details) => {
         event.preventDefault();
-        if (isEmpty(details)) {
+        if (!details.name.trim().length || details.content.trim().length) {
             return null;
         } else {
             try {

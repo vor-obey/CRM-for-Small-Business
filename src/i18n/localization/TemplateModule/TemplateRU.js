@@ -3,7 +3,7 @@ export const TemplateRU = {
     HIDE_TEXT: 'Скрыть текст',
     TEMPLATE_NAME: 'Название шаблона',
     MESSAGE_TEMPLATES: 'Шаблоны сообщений',
-    TEMPLATE_CONTENTS: 'Содержание шаблона',
+    CONTENT: 'Содержание',
     EDIT_MESSAGE_TEMPLATE: 'Изменить шаблон сообщения',
     DETAILS_MESSAGE_TEMPLATE: 'Детали шаблона сообщения',
     DELETE_MESSAGE_TEMPLATE: 'Удалить шаблон сообщения',

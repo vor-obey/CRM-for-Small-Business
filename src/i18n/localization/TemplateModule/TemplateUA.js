@@ -2,7 +2,7 @@ export const TemplateUA = {
     READ_MORE: 'Читати більше',
     HIDE_TEXT: 'Приховати текст',
     TEMPLATE_NAME: 'Назва шаблону',
-    TEMPLATE_CONTENTS: 'Зміст шаблону',
+    CONTENT: 'Зміст',
     MESSAGE_TEMPLATES: 'Шаблони повідомлень',
     EDIT_MESSAGE_TEMPLATE: 'Редагувати шаблон повідомлення',
     DETAILS_MESSAGE_TEMPLATE: 'Деталі шаблону повідомлення',
