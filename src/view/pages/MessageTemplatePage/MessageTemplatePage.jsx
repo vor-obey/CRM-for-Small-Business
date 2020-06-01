@@ -30,6 +30,7 @@ import TemplateService from "../../../services/TemplateService";
 import {useDispatch} from "react-redux";
 import CheckIcon from "@material-ui/icons/Check";
 import CloseIcon from "@material-ui/icons/Close";
+import {COMMON_ERROR_MESSAGE} from "../../../constants/statuses";
 
 const useStyles = makeStyles(templatePageStyles);
 
@@ -64,19 +65,24 @@ export const MessageTemplatePage = ({chat, onSubmit}) => {
                 event.preventDefault();
                 try {
                     dispatch(setIsLoading(true));
-                    await TemplateService.update({
+                    const response = await TemplateService.update({
                         name: editName,
                         content: editContent,
                         templateId: editId
                     });
-                    dispatch(setIsLoading(false));
-                    const ind = templatesList.findIndex(({templateId}) => templateId === editId);
-                    template.name = editName;
-                    template.content = editContent;
-                    templatesList[ind] = {
-                        ...template
-                    };
-                    setEditId('');
+                    if (response) {
+                        dispatch(setIsLoading(false));
+                        const ind = templatesList.findIndex(({templateId}) => templateId === editId);
+                        template.name = editName;
+                        template.content = editContent;
+                        templatesList[ind] = {
+                            ...template
+                        };
+                        setEditId('');
+                    } else {
+                        dispatch(setIsLoading(false));
+                        dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE, success: false}));
+                    }
                 } catch (e) {
                     dispatch(setIsLoading(false));
                     dispatch(setSnackBarStatus({isOpen: true, message: e.message, success: false}));
