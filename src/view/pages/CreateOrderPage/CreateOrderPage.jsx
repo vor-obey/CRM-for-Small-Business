@@ -160,13 +160,13 @@ export const CreateOrderPage = ({history}) => {
         if (warehouse !== undefined) {
             setNovaposhtaAddress(prevState => ({...prevState, warehouse}));
         }
-        dispatch(setDescriptionToOrder(orderDescription))
-    }, [dispatch, orderDescription]);
+    }, []);
 
 
     const onOrderDescriptionChangeHandler = useCallback((event) => {
         setOrderDescription(event.target.value);
-    }, []);
+        dispatch(setDescriptionToOrder(orderDescription))
+    }, [dispatch, orderDescription]);
 
     return (
         <SaveOrderForm

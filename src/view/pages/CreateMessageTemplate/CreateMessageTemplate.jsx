@@ -1,6 +1,5 @@
 import React, {useCallback} from 'react';
 import {useHistory} from "react-router-dom";
-import {isEmpty} from 'lodash';
 import {SaveMessageTemplateForm} from "../../components/SaveMessageTemplateForm/SaveMessageTemplateForm";
 import {useTranslation} from "react-i18next";
 import TemplateService from "../../../services/TemplateService";
@@ -15,7 +14,7 @@ export const CreateMessageTemplate = () => {
 
     const onSubmitHandler = useCallback(async (event, details) => {
         event.preventDefault();
-        if (isEmpty(details)) {
+        if (!details.name.trim().length || !details.content.trim().length) {
             return null;
         } else {
             try {

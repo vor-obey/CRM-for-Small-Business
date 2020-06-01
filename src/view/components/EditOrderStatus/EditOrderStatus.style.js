@@ -15,40 +15,6 @@ export const editOrderStatusStyles = ((theme) => ({
             paddingLeft: 0
         }
     },
-    currentStatus: {
-        width: 'fit-content',
-    },
-    statusForm: {
-        order: 2,
-        '@media (max-width: 365px)': {
-            order: 1,
-            margin: '0 22px',
-        },
-        '@media (min-width: 350px) and (max-width:365px)': {
-            margin: '0 25px',
-        },
-    },
-    actionButton: {
-        order: 3,
-        '@media (max-width: 365px)': {
-            order: 3
-        },
-    },
-    actionButtonPanel: {
-        order: 3,
-        '@media (max-width: 365px)': {
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'center',
-            order: 3
-        },
-    },
-    actionADD: {
-        order: 1,
-        '@media (max-width: 365px)': {
-            order: 2
-        },
-    },
     selectStatusDisabled: {
         backgroundColor: '#fff'
     },

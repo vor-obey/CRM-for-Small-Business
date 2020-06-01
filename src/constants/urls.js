@@ -16,5 +16,5 @@ export const USER_URLS = {
     ABSTRACT_PRODUCTS: '/abstract-products',
     PRODUCTS: '/products',
     INTEGRATION: '/integration',
-    TEMPLATES: '/template'
+    TEMPLATE: '/template'
 };

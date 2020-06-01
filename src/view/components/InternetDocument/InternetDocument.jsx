@@ -153,9 +153,7 @@ export const InternetDocument = ({orderDetails, handleClose}) => {
             }
             case 'cost': {
                 setParcelDetails({
-                    weight: '',
-                    seatsAmount: '',
-                    description: '',
+                    ...parcelDetails,
                     cost: calculateTotalPoints(),
                 });
                 break;
@@ -163,7 +161,7 @@ export const InternetDocument = ({orderDetails, handleClose}) => {
             default: {
             }
         }
-    }, [setRecipient, recipient, calculateTotalPoints, orderDetails]);
+    }, [setRecipient, recipient, calculateTotalPoints, orderDetails, parcelDetails]);
 
     return (
         <Container className={classes.container}>

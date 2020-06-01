@@ -1,7 +1,8 @@
-import {useCallback, useEffect} from "react";
+import React, {useCallback, useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {useLocation, useHistory} from "react-router-dom";
 import {displayNotification} from "../data/store/auxiliary/auxiliaryThunkActions";
+import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 
 export const NotificationsFunc = () => {
     const history = useHistory();
@@ -19,12 +20,22 @@ export const NotificationsFunc = () => {
         })
     }, [history]);
 
+    const icon = useCallback(() => {
+        if (thread) {
+            if (thread.users.length > 1) {
+                return <PeopleAltIcon/>
+            }
+
+            return thread.users[0].profile_pic_url;
+        }
+    }, [thread]);
+
     useEffect(() => {
         if (location.pathname !== '/dashboard' && location.pathname !== '/chat') {
-            if (lastMessage && lastMessage.user_id !== igProfile.pk) {
+            if (lastMessage && lastMessage.user_id !== igProfile.pk && thread) {
                 dispatch(displayNotification({
-                    icon: thread && thread.inviter.profile_pic_url,
-                    text: lastMessage.text,
+                    icon: icon(),
+                    text: lastMessage.item_type === 'text' ? lastMessage.text : 'Unsupported content',
                     username: thread && thread.thread_title,
                     date: new Date(),
                     status: 'message',
@@ -32,5 +43,5 @@ export const NotificationsFunc = () => {
                 }));
             }
         }
-    }, [dispatch, lastMessage, igProfile, location, navigationClick, thread]);
+    }, [dispatch, lastMessage, igProfile, location, navigationClick, thread, icon]);
 };

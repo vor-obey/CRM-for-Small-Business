@@ -1,4 +1,5 @@
 export const orderUA = {
+    ORDER_NUMBER: 'Номер замовлення',
     PRODUCT_DETAILS: 'Деталі продукту',
     PRODUCT: 'Продукт',
     AMOUNT: 'Кількість',
