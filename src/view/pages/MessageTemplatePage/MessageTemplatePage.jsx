@@ -70,7 +70,7 @@ export const MessageTemplatePage = ({chat, onSubmit}) => {
                         content: editContent,
                         templateId: editId
                     });
-                    if (response) {
+                    if (response === true) {
                         dispatch(setIsLoading(false));
                         const ind = templatesList.findIndex(({templateId}) => templateId === editId);
                         template.name = editName;
