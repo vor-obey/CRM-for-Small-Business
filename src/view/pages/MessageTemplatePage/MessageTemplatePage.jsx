@@ -34,7 +34,7 @@ import {COMMON_ERROR_MESSAGE} from "../../../constants/statuses";
 
 const useStyles = makeStyles(templatePageStyles);
 
-export const MessageTemplatePage = ({chat, onSubmit}) => {
+export const MessageTemplatePage = ({chat, onSubmit, handleDrawerIcon}) => {
         const {t} = useTranslation();
         const classes = useStyles();
         const dispatch = useDispatch();
@@ -129,6 +129,13 @@ export const MessageTemplatePage = ({chat, onSubmit}) => {
             }));
         }, [dispatch, deleteTemplate, t]);
 
+        const handleClick = useCallback((template) => {
+            if (chat) {
+                onSubmit(template.content);
+                handleDrawerIcon();
+            }
+        }, [chat, onSubmit, handleDrawerIcon]);
+
         const renderName = useCallback((template) => {
             if (editId === template.templateId) {
                 return (
@@ -148,13 +155,13 @@ export const MessageTemplatePage = ({chat, onSubmit}) => {
             }
             return (
                 <div className={!chat ? classes.templateTitle : classes.templateTitleWithCursor}
-                     onClick={() => chat ? onSubmit(template.content) : null}>
+                     onClick={() => handleClick(template)}>
                     <Typography variant='body1' className={classes.templateTitleName}>
                         {template.name}
                     </Typography>
                 </div>
             );
-        }, [editId, classes, onChangeName, editName, onSubmit, chat]);
+        }, [editId, classes, onChangeName, editName, handleClick, chat]);
 
         const renderContent = useCallback((template) => {
             if (editId === template.templateId) {

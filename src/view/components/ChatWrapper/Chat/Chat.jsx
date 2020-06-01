@@ -35,7 +35,7 @@ export const Chat = ({
     const [selectedThread, setSelectedThread] = useState({});
     const minWidth600 = useMediaQuery('(min-width:600px)');
     const {threads, igProfile} = useSelector(state => state.userReducer);
-    const [drawerMobileOpen, setDrawerMobileOpen] = useState(false)
+    const [drawerMobileOpen, setDrawerMobileOpen] = useState(false);
     const [templateContent, setTemplateContent] = useState();
     const [drawerIcons, setDrawerIcons] = useState([
         {
@@ -221,7 +221,7 @@ export const Chat = ({
                 case 3: {
                     return (
                         <div style={{overflowY: 'scroll', height: '93%'}}>
-                            <MessageTemplatePage onSubmit={onSubmit} chat={true}/>
+                            <MessageTemplatePage handleDrawerIcon={handleDrawerIcon(3, false)} onSubmit={onSubmit} chat={true}/>
                         </div>
                     );
                 }
@@ -232,7 +232,7 @@ export const Chat = ({
         }
 
         return null;
-    }, [drawerIcons, onSubmit]);
+    }, [drawerIcons, handleDrawerIcon, onSubmit]);
 
     if (!minWidth600) {
         return (
