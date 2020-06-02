@@ -22,7 +22,6 @@ import InsertCommentOutlinedIcon from '@material-ui/icons/InsertCommentOutlined'
 import DescriptionOutlinedIcon from '@material-ui/icons/DescriptionOutlined';
 import NoteAddOutlinedIcon from '@material-ui/icons/NoteAddOutlined';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
-import CloseIcon from '@material-ui/icons/Close';
 import clsx from "clsx";
 import isEmpty from 'lodash/isEmpty';
 
