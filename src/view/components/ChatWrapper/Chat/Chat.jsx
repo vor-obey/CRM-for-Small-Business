@@ -36,7 +36,7 @@ export const Chat = ({
     const minWidth600 = useMediaQuery('(min-width:600px)');
     const {threads, igProfile} = useSelector(state => state.userReducer);
     const [drawerMobileOpen, setDrawerMobileOpen] = useState(false)
-    const [templateContent, setTemplateContent] = useState();
+    const [templateContent, setTemplateContent] = useState('');
     const [drawerIcons, setDrawerIcons] = useState([
         {
             id: 1,
@@ -201,8 +201,10 @@ export const Chat = ({
     }, []);
 
     const onSubmit = useCallback((template) => {
-        setTemplateContent(template)
-    }, []);
+        if (isDialogOpen) {
+            setTemplateContent(template);
+        }
+    }, [isDialogOpen]);
 
     const renderChildrenContent = useCallback(() => {
         const drawerIcon = drawerIcons.find(item => item.isOpen);
@@ -221,7 +223,7 @@ export const Chat = ({
                 case 3: {
                     return (
                         <div style={{overflowY: 'scroll', height: '93%'}}>
-                            <MessageTemplatePage onSubmit={onSubmit} chat={true}/>
+                            <MessageTemplatePage handleDrawerIcon={handleDrawerIcon(3, false)} onSubmit={onSubmit} chat={true} isDialogOpen={isDialogOpen}/>
                         </div>
                     );
                 }
@@ -232,7 +234,7 @@ export const Chat = ({
         }
 
         return null;
-    }, [drawerIcons, onSubmit]);
+    }, [drawerIcons, onSubmit, isDialogOpen, handleDrawerIcon]);
 
     if (!minWidth600) {
         return (
