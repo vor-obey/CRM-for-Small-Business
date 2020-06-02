@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {ChatThreads} from '../ChatThreads/ChatThreads';
 import {ChatDialog} from '../ChatDialog/ChatDialog';
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
@@ -22,10 +22,9 @@ import InsertCommentOutlinedIcon from '@material-ui/icons/InsertCommentOutlined'
 import DescriptionOutlinedIcon from '@material-ui/icons/DescriptionOutlined';
 import NoteAddOutlinedIcon from '@material-ui/icons/NoteAddOutlined';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
+import CloseIcon from '@material-ui/icons/Close';
 import clsx from "clsx";
 import isEmpty from 'lodash/isEmpty';
-import MoreVertIcon from "@material-ui/icons/MoreVert";
-import CloseIcon from '@material-ui/icons/Close';
 
 export const Chat = ({
                          classes,
@@ -53,6 +52,47 @@ export const Chat = ({
             isOpen: false,
         },
     ]);
+
+    const toggleDrawerMobile = useCallback(() => {
+        setDrawerMobileOpen(prevState => !prevState);
+    }, []);
+
+    const handleDrawerIcon = useCallback((id, value) => () => {
+        setDrawerIcons(prevState => {
+            return [...prevState].map((item) => {
+                if (value) {
+                    if (item.id === id) {
+                        return {
+                            ...item,
+                            isOpen: true
+                        }
+                    } else {
+                        return {
+                            ...item,
+                            isOpen: false
+                        }
+                    }
+                }
+                return {
+                    ...item,
+                    isOpen: false
+                }
+            });
+        });
+        if (!value && drawerMobileOpen) {
+            toggleDrawerMobile();
+        }
+    }, [drawerMobileOpen, toggleDrawerMobile]);
+
+    const isDrawerOpen = useCallback(() => {
+        return !!drawerIcons.find(item => item.isOpen);
+    }, [drawerIcons]);
+
+    useEffect(() => {
+        if (drawerMobileOpen && !isDrawerOpen()) {
+            handleDrawerIcon(1, true)();
+        }
+    },[drawerMobileOpen, handleDrawerIcon, isDrawerOpen]);
 
     const openThread = useCallback(async (thread) => {
         setSelectedThread(thread);
@@ -148,30 +188,6 @@ export const Chat = ({
         });
     }, [threads, openThread, classes, igProfile]);
 
-    const handleDrawerIcon = useCallback((id, value) => () => {
-        setDrawerIcons(prevState => {
-            return [...prevState].map((item) => {
-                if (value) {
-                    if (item.id === id) {
-                        return {
-                            ...item,
-                            isOpen: true
-                        }
-                    } else {
-                        return {
-                            ...item,
-                            isOpen: false
-                        }
-                    }
-                }
-                return {
-                    ...item,
-                    isOpen: false
-                }
-            });
-        });
-    }, []);
-
     const renderDrawerIcons = useCallback(() => {
         if (isEmpty(drawerIcons)) {
             return null;
@@ -190,14 +206,6 @@ export const Chat = ({
             );
         });
     }, [drawerIcons, classes.additionalButton, handleDrawerIcon]);
-
-    const isDrawerOpen = useCallback(() => {
-        return !!drawerIcons.find(item => item.isOpen);
-    }, [drawerIcons]);
-
-    const isDrawerMobileOpen = useCallback((value) => {
-        setDrawerMobileOpen(prevState => !prevState)
-    }, []);
 
     const renderChildrenContent = useCallback(() => {
         const drawerIcon = drawerIcons.find(item => item.isOpen);
@@ -233,40 +241,37 @@ export const Chat = ({
                 <List className={classes.mobileList}>
                     {isDialogOpen ?
                         <>
-                        <ChatDialog
-                            profile={igProfile}
-                            thread={selectedThread}
-                            goBack={goBack}
-                            classes={classes}
-                            isDrawerMobileOpen={isDrawerMobileOpen}
-                        />
+                            <ChatDialog
+                                profile={igProfile}
+                                thread={selectedThread}
+                                goBack={goBack}
+                                classes={classes}
+                                toggleDrawerMobile={toggleDrawerMobile}
+                                handleDrawerIcons={handleDrawerIcon()}
+                            />
                             <Grid className={classes.additionals}>
                                 <Drawer
                                     variant="permanent"
                                     anchor="right"
                                     className={clsx(classes.drawer, {
-                                        [classes.drawerOpen]: drawerMobileOpen,
+                                        [classes.drawerOpen]: drawerIcons,
                                         [classes.drawerClose]: !drawerMobileOpen,
                                     })}
                                     classes={{
                                         paper: clsx({
-                                            [classes.drawerOpen]: drawerMobileOpen,
+                                            [classes.drawerOpen]: drawerIcons,
                                             [classes.drawerClose]: !drawerMobileOpen,
                                         }),
                                     }}
                                 >
                                     <Grid className={classes.additionalsBlocks}>
                                         <Grid className={classes.additionalsNavigation}>
-                                            { drawerMobileOpen ? <CloseIcon
-                                                className={classes.closeButton}
-                                                onClick={isDrawerMobileOpen}
-                                            /> : null}
                                             {renderDrawerIcons()}
                                         </Grid>
                                         <Grid className={clsx(classes.additionalChild, {
                                             [classes.additionalChildHidden]: !drawerMobileOpen,
                                         })}>
-                                            {renderChildrenContent ? renderChildrenContent() : '1111' }
+                                            {renderChildrenContent ? renderChildrenContent() : '1111'}
                                         </Grid>
                                     </Grid>
                                 </Drawer>

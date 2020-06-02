@@ -17,7 +17,7 @@ import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 
-export const ChatDialog = ({profile, thread, goBack, classes, minWidth, isDrawerOpened, isDrawerMobileOpen}) => {
+export const ChatDialog = ({profile, thread, goBack, classes, minWidth, isDrawerOpened, toggleDrawerMobile, handleDrawerIcons}) => {
     const {users, thread_title, items, inviter} = thread;
     const profile_pic_url = users[0] ? users[0].profile_pic_url : inviter.profile_pic_url;
     const dispatch = useDispatch();
@@ -142,7 +142,7 @@ export const ChatDialog = ({profile, thread, goBack, classes, minWidth, isDrawer
                 {!minWidth ?
                     <MoreVertIcon
                         className={classes.cursor}
-                        onClick={isDrawerMobileOpen}
+                        onClick={toggleDrawerMobile}
                     />
                     : null}
             </Grid>
