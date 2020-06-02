@@ -46,7 +46,6 @@ export const CreateProduct = ({history}) => {
             }}
             onSave={createProduct}
             history={history}
-            createOrder={history.location.state !== undefined && history.location.state.createOrder ? history.location.state.createOrder : undefined}
         />
     );
 };

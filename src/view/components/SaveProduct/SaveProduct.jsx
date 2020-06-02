@@ -32,14 +32,13 @@ export const SaveProduct = ({
                                 labels,
                                 onSave,
                                 history,
-                                createOrder
                             }) => {
     const {t} = useTranslation();
     const classes = useStyles();
     const productStore = useSelector(state => state.productReducer.details);
     const [productDetails, setProductDetails] = useState({
-        name: createOrder !== undefined ? productStore.name : '',
-        price: createOrder !== undefined ? productStore.price : '',
+        name: productStore.name,
+        price: productStore.price ,
     });
     const [abstractProducts] = useAbstractProducts();
     const [selectedAbstractProduct, setSelectedAbstractProduct] = useState({});
@@ -94,10 +93,8 @@ export const SaveProduct = ({
                 [name]: value
             }
         });
-        if (createOrder !== undefined) {
             dispatch(setProductDetailsToStore({name: productDetails.name, price: productDetails.price}))
-        }
-    }, [dispatch, productDetails, createOrder]);
+    }, [dispatch, productDetails]);
 
     const toggleAbstractProductAutocomplete = useCallback(() => setIsAbstractProductAutocompleteOpen(prevState => !prevState), []);
 
