@@ -3,7 +3,7 @@ import {useHistory} from "react-router-dom";
 import {SaveMessageTemplateForm} from "../../components/SaveMessageTemplateForm/SaveMessageTemplateForm";
 import {useTranslation} from "react-i18next";
 import TemplateService from "../../../services/TemplateService";
-import {closeModal, setIsLoading, setSnackBarStatus} from "../../../data/store/auxiliary/auxiliaryActions";
+import {closeModal, setSnackBarStatus} from "../../../data/store/auxiliary/auxiliaryActions";
 import {useDispatch} from "react-redux";
 import {COMMON_ERROR_MESSAGE} from "../../../constants/statuses";
 
