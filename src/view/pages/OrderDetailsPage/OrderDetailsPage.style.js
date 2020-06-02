@@ -19,10 +19,13 @@ export const orderDetailsStyles = ((theme) => ({
         }
     },
     containerTitle: {
+        width: '100%',
         marginTop: 15,
+        display: 'flex',
         marginBottom: 15,
         textAlign: 'center',
-        width: '100%'
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     productList: {
         flexDirection: 'row',
@@ -172,4 +175,8 @@ export const orderDetailsStyles = ((theme) => ({
     button: {
         margin: '10px',
     },
+    orderNum: {
+        marginTop: 4,
+        fontSize: 20
+    }
 }));
