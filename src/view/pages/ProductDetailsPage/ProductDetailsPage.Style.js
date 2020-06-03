@@ -46,4 +46,4 @@ export const productDetailsPageStyles = (theme => ({
         margin: theme.spacing(3, 3, 0),
         backgroundColor: theme.palette.primary.main,
     },
-}))
+}));
