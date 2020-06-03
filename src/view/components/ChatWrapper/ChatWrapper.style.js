@@ -29,7 +29,7 @@ export const chatWrapperStyles = (theme => ({
         borderLeft: 'none',
         backgroundColor: '#EFF7FD',
         position: 'relative',
-        '@media (max-width: 600px)': {
+        '@media (max-width: 769px)': {
             width: '100%'
         },
         transition: theme.transitions.create(['width', 'margin'], {
@@ -55,7 +55,7 @@ export const chatWrapperStyles = (theme => ({
         position: 'relative',
     },
     noMessageMin: {
-        width: 'calc(50% - 77px)%',
+        width: 'calc(50% - 77px)',
         border: '1px solid #E9EBED',
         borderLeft: 'none',
         backgroundColor: '#EFF7FD',
@@ -80,6 +80,9 @@ export const chatWrapperStyles = (theme => ({
         height: '100%',
         display: 'flex',
         flexDirection: 'row',
+        '@media (max-width: 769px)': {
+            flexDirection: 'column',
+        },
     },
     additionalsNavigation: {
         width: '100px',
@@ -90,6 +93,20 @@ export const chatWrapperStyles = (theme => ({
         justifyContent: 'center',
         alignContent: 'center',
         alignItems: 'center',
+        '@media (max-width: 769px)': {
+            width: '100%',
+            height: '50px',
+            flexDirection: 'row',
+            borderBottom: '1px solid #B7BFC4',
+        },
+    },
+    closeButton: {
+        top: '12px',
+        position: 'absolute',
+        '@media (max-width: 769px)': {
+            top: 0,
+            position: 'relative'
+        },
     },
     additionalButton: {
         width: 50
@@ -98,7 +115,10 @@ export const chatWrapperStyles = (theme => ({
         display: 'flex',
         justifyContent: 'center',
         width: '100%',
-        alignItems: 'center'
+        alignItems: 'center',
+        '@media (max-width: 769px)': {
+            marginTop: '10px',
+        },
     },
     additionalChildHidden: {
         display: 'none',
@@ -155,7 +175,8 @@ export const chatWrapperStyles = (theme => ({
     },
     mobileList: {
         padding: 0,
-        width: '100%'
+        width: '100%',
+        height:'100%'
     },
     backButton: {
         cursor: 'pointer',
@@ -196,9 +217,9 @@ export const chatWrapperStyles = (theme => ({
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.enteringScreen,
         }),
-        '@media (max-width: 600px)': {
+        '@media (max-width: 769px)': {
             width: '100%',
-            top: '57px'
+            top: '0'
         },
     },
     drawerClose: {
@@ -209,9 +230,9 @@ export const chatWrapperStyles = (theme => ({
             duration: theme.transitions.duration.leavingScreen,
         }),
         overflowX: 'hidden',
-        '@media (max-width: 600px)': {
+        '@media (max-width: 769px)': {
             width: '0px',
-            top: '57px'
+            top: '0'
         },
     },
 }));

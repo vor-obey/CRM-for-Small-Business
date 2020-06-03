@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {ChatThreads} from '../ChatThreads/ChatThreads';
 import {ChatDialog} from '../ChatDialog/ChatDialog';
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
@@ -33,7 +33,7 @@ export const Chat = ({
     const {t} = useTranslation('');
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [selectedThread, setSelectedThread] = useState({});
-    const minWidth600 = useMediaQuery('(min-width:600px)');
+    const minWidth769 = useMediaQuery('(min-width:769px)');
     const {threads, igProfile} = useSelector(state => state.userReducer);
     const [drawerMobileOpen, setDrawerMobileOpen] = useState(false);
     const [templateContent, setTemplateContent] = useState();
@@ -54,6 +54,47 @@ export const Chat = ({
             isOpen: false,
         },
     ]);
+
+    const toggleDrawerMobile = useCallback(() => {
+        setDrawerMobileOpen(prevState => !prevState);
+    }, []);
+
+    const handleDrawerIcon = useCallback((id, value) => () => {
+        setDrawerIcons(prevState => {
+            return [...prevState].map((item) => {
+                if (value) {
+                    if (item.id === id) {
+                        return {
+                            ...item,
+                            isOpen: true
+                        }
+                    } else {
+                        return {
+                            ...item,
+                            isOpen: false
+                        }
+                    }
+                }
+                return {
+                    ...item,
+                    isOpen: false
+                }
+            });
+        });
+        if (!value && drawerMobileOpen) {
+            toggleDrawerMobile();
+        }
+    }, [drawerMobileOpen, toggleDrawerMobile]);
+
+    const isDrawerOpen = useCallback(() => {
+        return !!drawerIcons.find(item => item.isOpen);
+    }, [drawerIcons]);
+
+    useEffect(() => {
+        if (drawerMobileOpen && !isDrawerOpen()) {
+            handleDrawerIcon(1, true)();
+        }
+    },[drawerMobileOpen, handleDrawerIcon, isDrawerOpen]);
 
     const openThread = useCallback(async (thread) => {
         setSelectedThread(thread);
@@ -149,30 +190,6 @@ export const Chat = ({
         });
     }, [threads, openThread, classes, igProfile]);
 
-    const handleDrawerIcon = useCallback((id, value) => () => {
-        setDrawerIcons(prevState => {
-            return [...prevState].map((item) => {
-                if (value) {
-                    if (item.id === id) {
-                        return {
-                            ...item,
-                            isOpen: true
-                        }
-                    } else {
-                        return {
-                            ...item,
-                            isOpen: false
-                        }
-                    }
-                }
-                return {
-                    ...item,
-                    isOpen: false
-                }
-            });
-        });
-    }, []);
-
     const renderDrawerIcons = useCallback(() => {
         if (isEmpty(drawerIcons)) {
             return null;
@@ -191,10 +208,6 @@ export const Chat = ({
             );
         });
     }, [drawerIcons, classes.additionalButton, handleDrawerIcon]);
-
-    const isDrawerOpen = useCallback(() => {
-        return !!drawerIcons.find(item => item.isOpen);
-    }, [drawerIcons]);
 
     const isDrawerMobileOpen = useCallback((value) => {
         setDrawerMobileOpen(prevState => !prevState)
@@ -234,7 +247,7 @@ export const Chat = ({
         return null;
     }, [drawerIcons, handleDrawerIcon, onSubmit]);
 
-    if (!minWidth600) {
+    if (!minWidth769) {
         return (
             <Container className={classes.mobileContainer}>
                 <List className={classes.mobileList}>
@@ -246,8 +259,8 @@ export const Chat = ({
                                 goBack={goBack}
                                 onSubmit={onSubmit}
                                 classes={classes}
-                                isDrawerOpened={isDrawerOpen}
-                                isDrawerMobileOpen={isDrawerMobileOpen}
+                                toggleDrawerMobile={toggleDrawerMobile}
+                                handleDrawerIcons={handleDrawerIcon()}
                                 templateContent={templateContent}
                             />
                             <Grid className={classes.additionals}>
@@ -255,32 +268,24 @@ export const Chat = ({
                                     variant="permanent"
                                     anchor="right"
                                     className={clsx(classes.drawer, {
-                                        [classes.drawerOpen]: drawerMobileOpen,
+                                        [classes.drawerOpen]: drawerIcons,
                                         [classes.drawerClose]: !drawerMobileOpen,
                                     })}
                                     classes={{
                                         paper: clsx({
-                                            [classes.drawerOpen]: drawerMobileOpen,
+                                            [classes.drawerOpen]: drawerIcons,
                                             [classes.drawerClose]: !drawerMobileOpen,
                                         }),
                                     }}
                                 >
                                     <Grid className={classes.additionalsBlocks}>
                                         <Grid className={classes.additionalsNavigation}>
-                                            {drawerMobileOpen ? <CloseIcon
-                                                className={classes.cursor}
-                                                style={{
-                                                    top: '12px',
-                                                    position: 'absolute'
-                                                }}
-                                                onClick={isDrawerMobileOpen}
-                                            /> : null}
                                             {renderDrawerIcons()}
                                         </Grid>
                                         <Grid className={clsx(classes.additionalChild, {
                                             [classes.additionalChildHidden]: !drawerMobileOpen,
                                         })}>
-                                            {renderChildrenContent()}
+                                            {renderChildrenContent ? renderChildrenContent() : '1111'}
                                         </Grid>
                                     </Grid>
                                 </Drawer>
@@ -313,7 +318,7 @@ export const Chat = ({
             </Grid>
             {isDialogOpen ?
                 <ChatDialog
-                    minWidth={minWidth600}
+                    minWidth={minWidth769}
                     profile={igProfile}
                     thread={selectedThread}
                     classes={classes}
