@@ -96,9 +96,11 @@ export const MessageTemplatePage = ({chat, onSubmit}) => {
         const deleteTemplate = useCallback(async (id) => {
             try {
                 dispatch(setIsLoading(true));
-                await TemplateService.delete(id);
-                const newArr = templatesList.filter(template => template.templateId !== id);
-                setTemplateList(newArr);
+                const response = await TemplateService.delete(id);
+                if (response.success) {
+                    const newArr = templatesList.filter(template => template.templateId !== id);
+                    setTemplateList(newArr);
+                }
                 dispatch(setIsLoading(false));
                 dispatch(closeDialog());
             } catch (e) {
