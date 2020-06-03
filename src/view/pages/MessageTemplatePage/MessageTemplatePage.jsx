@@ -21,8 +21,10 @@ import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import DeleteIcon from "@material-ui/icons/Delete";
 import {
-    closeDialog, closeModal,
-    renderDialog, renderModal,
+    closeDialog,
+    closeModal,
+    renderDialog,
+    renderModal,
     setIsLoading,
     setSnackBarStatus
 } from "../../../data/store/auxiliary/auxiliaryActions";
@@ -39,24 +41,12 @@ export const MessageTemplatePage = ({chat, onSubmit, isDialogOpen, handleDrawerI
     const {t} = useTranslation();
     const classes = useStyles();
     const dispatch = useDispatch();
-    const [, updateState] = useState();
     const [editName, setEditName] = useState();
     const [editContent, setEditContent] = useState();
-    const [templatesList, , loading] = useTemplates();
+    const [templatesList, setTemplateList, loading] = useTemplates();
     const [editId, setEditId] = useState('');
     const minWidth600 = useMediaQuery('(min-width:900px)');
-    const forceUpdate = useCallback(() => updateState({}), []);
     const history = useHistory();
-
-export const MessageTemplatePage = ({chat, onSubmit}) => {
-        const {t} = useTranslation();
-        const classes = useStyles();
-        const dispatch = useDispatch();
-        const [editName, setEditName] = useState();
-        const [editContent, setEditContent] = useState();
-        const [templatesList, setTemplateList, loading] = useTemplates();
-        const [editId, setEditId] = useState('');
-        const minWidth600 = useMediaQuery('(min-width:900px)');
 
     const onChangeName = useCallback((value) => {
         setEditName(value);
@@ -72,33 +62,33 @@ export const MessageTemplatePage = ({chat, onSubmit}) => {
         setEditId('');
     }, []);
 
-        const saveHandleClick = useCallback(async (event, template) => {
-            if (editId) {
-                event.preventDefault();
-                try {
-                    dispatch(setIsLoading(true));
-                    const response = await TemplateService.update({
-                        name: editName,
-                        content: editContent,
-                        templateId: editId
-                    });
-                    if (response.success) {
-                        dispatch(setIsLoading(false));
-                        template.name = editName;
-                        template.content = editContent;
-                        setEditId('');
-                    } else {
-                        dispatch(setIsLoading(false));
-                        dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE, success: false}));
-                    }
-                } catch (e) {
+    const saveHandleClick = useCallback(async (event, template) => {
+        if (editId) {
+            event.preventDefault();
+            try {
+                dispatch(setIsLoading(true));
+                const response = await TemplateService.update({
+                    name: editName,
+                    content: editContent,
+                    templateId: editId
+                });
+                if (response.success) {
                     dispatch(setIsLoading(false));
-                    dispatch(setSnackBarStatus({isOpen: true, message: e.message, success: false}));
+                    template.name = editName;
+                    template.content = editContent;
+                    setEditId('');
+                } else {
+                    dispatch(setIsLoading(false));
+                    dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE, success: false}));
                 }
-            } else {
-                return null;
+            } catch (e) {
+                dispatch(setIsLoading(false));
+                dispatch(setSnackBarStatus({isOpen: true, message: e.message, success: false}));
             }
-        }, [editId, editContent, editName, dispatch]);
+        } else {
+            return null;
+        }
+    }, [editId, editContent, editName, dispatch]);
 
     const editHandler = useCallback((template) => {
         setEditId(template.templateId);
@@ -106,21 +96,21 @@ export const MessageTemplatePage = ({chat, onSubmit}) => {
         setEditContent(template.content);
     }, []);
 
-        const deleteTemplate = useCallback(async (id) => {
-            try {
-                dispatch(setIsLoading(true));
-                const response = await TemplateService.delete(id);
-                if (response.success) {
-                    const newArr = templatesList.filter(template => template.templateId !== id);
-                    setTemplateList(newArr);
-                }
-                dispatch(setIsLoading(false));
-                dispatch(closeDialog());
-            } catch (e) {
-                dispatch(setIsLoading(false));
-                dispatch(setSnackBarStatus({isOpen: true, message: e.message, success: false}));
+    const deleteTemplate = useCallback(async (id) => {
+        try {
+            dispatch(setIsLoading(true));
+            const response = await TemplateService.delete(id);
+            if (response.success) {
+                const newArr = templatesList.filter(template => template.templateId !== id);
+                setTemplateList(newArr);
             }
-        }, [dispatch, setTemplateList, templatesList]);
+            dispatch(setIsLoading(false));
+            dispatch(closeDialog());
+        } catch (e) {
+            dispatch(setIsLoading(false));
+            dispatch(setSnackBarStatus({isOpen: true, message: e.message, success: false}));
+        }
+    }, [dispatch, setTemplateList, templatesList]);
 
     const openTemplateDeleteDialog = useCallback((template) => {
         dispatch(renderDialog({
@@ -132,6 +122,13 @@ export const MessageTemplatePage = ({chat, onSubmit}) => {
             onActionHandler: () => deleteTemplate(template.templateId),
         }));
     }, [dispatch, deleteTemplate, t]);
+
+    const handleClick = useCallback((template) => {
+        if (chat) {
+            onSubmit(template.content);
+            handleDrawerIcon();
+        }
+    }, [chat, onSubmit, handleDrawerIcon]);
 
     const renderName = useCallback((template) => {
         if (editId === template.templateId) {
@@ -152,13 +149,13 @@ export const MessageTemplatePage = ({chat, onSubmit}) => {
         }
         return (
             <div className={!chat ? classes.templateTitle : classes.templateTitleWithCursor}
-                 onClick={() => chat ? onSubmit(template.content) : null}>
+                 onClick={() => handleClick(template)}>
                 <Typography variant='body1' className={classes.templateTitleName}>
                     {template.name}
                 </Typography>
             </div>
         );
-    }, [editId, classes, onChangeName, editName, onSubmit, chat]);
+    }, [editId, classes, onChangeName, editName, handleClick, chat]);
 
     const renderContent = useCallback((template) => {
         if (editId === template.templateId) {
