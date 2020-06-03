@@ -5,10 +5,15 @@ export const chatWrapperStyles = (theme => ({
         width: '100%',
         height: 'calc(100vh - 64px)'
     },
+    containerChat: {
+        display: 'flex',
+        alignItems: 'stretch'
+    },
     listThreads: {
         maxWidth: '300px',
         border: '1px solid #B7BFC4',
         overflowX: 'hidden',
+        padding: 0,
         transition: theme.transitions.create('width', {
             easing: theme.transitions.easing.easeInOut,
             duration: theme.transitions.duration.leavingScreen,
@@ -21,6 +26,10 @@ export const chatWrapperStyles = (theme => ({
             easing: theme.transitions.easing.easeInOut,
             duration: theme.transitions.duration.leavingScreen,
         }),
+    },
+    ListThreadsMobile: {
+        width: '100%',
+        maxWidth: 'none'
     },
     listDialog: {
         width: '100%',

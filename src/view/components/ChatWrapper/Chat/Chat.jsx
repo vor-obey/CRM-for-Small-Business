@@ -4,12 +4,10 @@ import {ChatDialog} from '../ChatDialog/ChatDialog';
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 import {
     Avatar,
-    Container,
     Divider,
     Drawer,
     Grid,
     IconButton,
-    List,
     ListItem,
     ListItemAvatar,
     ListItemText,
@@ -93,7 +91,7 @@ export const Chat = ({
         if (drawerMobileOpen && !isDrawerOpen()) {
             handleDrawerIcon(1, true)();
         }
-    },[drawerMobileOpen, handleDrawerIcon, isDrawerOpen]);
+    }, [drawerMobileOpen, handleDrawerIcon, isDrawerOpen]);
 
     const openThread = useCallback(async (thread) => {
         setSelectedThread(thread);
@@ -244,96 +242,49 @@ export const Chat = ({
         return null;
     }, [drawerIcons, handleDrawerIcon, isDialogOpen, onSubmit]);
 
-    if (!minWidth769) {
-        return (
-            <Container className={classes.mobileContainer}>
-                <List className={classes.mobileList}>
-                    {isDialogOpen ?
-                        <>
-                            <ChatDialog
-                                profile={igProfile}
-                                thread={selectedThread}
-                                goBack={goBack}
-                                onSubmit={onSubmit}
-                                classes={classes}
-                                toggleDrawerMobile={toggleDrawerMobile}
-                                handleDrawerIcons={handleDrawerIcon()}
-                                templateContent={templateContent}
-                            />
-                            <Grid className={classes.additionals}>
-                                <Drawer
-                                    variant="permanent"
-                                    anchor="right"
-                                    className={clsx(classes.drawer, {
-                                        [classes.drawerOpen]: drawerIcons,
-                                        [classes.drawerClose]: !drawerMobileOpen,
-                                    })}
-                                    classes={{
-                                        paper: clsx({
-                                            [classes.drawerOpen]: drawerIcons,
-                                            [classes.drawerClose]: !drawerMobileOpen,
-                                        }),
-                                    }}
-                                >
-                                    <Grid className={classes.additionalsBlocks}>
-                                        <Grid className={classes.additionalsNavigation}>
-                                            {renderDrawerIcons()}
-                                        </Grid>
-                                        <Grid className={clsx(classes.additionalChild, {
-                                            [classes.additionalChildHidden]: !drawerMobileOpen,
-                                        })}>
-                                            {renderChildrenContent ? renderChildrenContent() : '1111'}
-                                        </Grid>
-                                    </Grid>
-                                </Drawer>
-                            </Grid>
-                        </>
-                        :
-                        <ChatThreads
-                            classes={classes}
-                            renderThreads={renderThreads}
-                        />
-                    }
-                </List>
-            </Container>
-        );
-    }
-
     return (
-        <Grid item xs={12} sm={12} style={{
-            display: 'flex',
-            alignItems: 'stretch'
-        }}>
-            <Grid className={clsx(classes.listThreads, {
-                [classes.listThreadsMin]: isDrawerOpen()
-            })}
-                  style={{padding: 0}}>
+        <Grid item xs={12} sm={12} className={classes.containerChat}>
+            {minWidth769 ? <Grid className={clsx(classes.listThreads, {
+                [classes.listThreadsMin]: isDrawerOpen(),
+            })}>
                 <ChatThreads
                     classes={classes}
                     renderThreads={renderThreads}
                 />
-            </Grid>
+            </Grid> : null}
             {isDialogOpen ?
                 <ChatDialog
+                    goBack={goBack}
                     minWidth={minWidth769}
                     profile={igProfile}
                     thread={selectedThread}
+                    toggleDrawerMobile={toggleDrawerMobile}
                     classes={classes}
                     isDrawerOpened={isDrawerOpen}
                     templateContent={templateContent}
                 />
-                :
-                <Grid className={clsx(classes.noMessage, {
-                    [classes.noMessageMin]: isDrawerOpen(),
-                })}
-                >
-                    <Typography
-                        variant='h6'
-                        className={classes.text}
+                : (minWidth769 ? (
+                    <Grid className={clsx(classes.noMessage, {
+                        [classes.noMessageMin]: isDrawerOpen(),
+                    })}
                     >
-                        {t('SELECT_CHAT')}
-                    </Typography>
-                </Grid>
+                        <Typography
+                            variant='h6'
+                            className={classes.text}
+                        >
+                            {t('SELECT_CHAT')}
+                        </Typography>
+                    </Grid>
+                ) : (
+                    <Grid className={clsx(classes.listThreads, {
+                        [classes.ListThreadsMobile]: !isDrawerOpen(),
+                    })}>
+                        <ChatThreads
+                            classes={classes}
+                            renderThreads={renderThreads}
+                        />
+                    </Grid>
+                ))
             }
             <Grid className={classes.additionals}>
                 <Drawer
