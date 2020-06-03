@@ -24,7 +24,6 @@ import NoteAddOutlinedIcon from '@material-ui/icons/NoteAddOutlined';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import clsx from "clsx";
 import isEmpty from 'lodash/isEmpty';
-import CloseIcon from '@material-ui/icons/Close';
 import {MessageTemplatePage} from "../../../pages/MessageTemplatePage/MessageTemplatePage";
 
 export const Chat = ({
@@ -208,10 +207,6 @@ export const Chat = ({
             );
         });
     }, [drawerIcons, classes.additionalButton, handleDrawerIcon]);
-
-    const isDrawerMobileOpen = useCallback((value) => {
-        setDrawerMobileOpen(prevState => !prevState)
-    }, []);
 
     const onSubmit = useCallback((template) => {
         setTemplateContent(template)
