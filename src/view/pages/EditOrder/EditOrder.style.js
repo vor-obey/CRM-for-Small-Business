@@ -247,8 +247,13 @@ export const editOrderStyles = (theme => ({
             margin: '16px 0 10px 0px'
         },
         margin: {
-            width: 90,
-            color: 'white'
+            width: 80,
+        },
+        underline: {
+            color: '#FFF' ,
+            '&::after': {
+                border: '1px solid white'
+            }
         },
         editProduct: {
             display: 'flex',

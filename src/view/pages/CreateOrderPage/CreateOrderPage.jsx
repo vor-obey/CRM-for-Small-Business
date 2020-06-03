@@ -101,7 +101,7 @@ export const CreateOrderPage = ({history}) => {
     const onSubmitHandler = useCallback(async (e) => {
         e.preventDefault();
         if ((isEmpty(orderDescription) && isEmpty(selectedProducts)) || isEmpty(manager)
-            || isEmpty(customer) || isEmpty(novaposhtaAddress.city) || isEmpty(novaposhtaAddress.warehouse)
+            || isEmpty(customer) || ((isEmpty(novaposhtaAddress.city) || isEmpty(novaposhtaAddress.warehouse)) && (isEmpty(address)))
         ) {
             dispatch(setSnackBarStatus({isOpen: true, message: t('FILL_ALL_THE_FIELDS'), success: false}));
         } else {
@@ -161,7 +161,6 @@ export const CreateOrderPage = ({history}) => {
             setNovaposhtaAddress(prevState => ({...prevState, warehouse}));
         }
     }, []);
-
 
     const onOrderDescriptionChangeHandler = useCallback((event) => {
         setOrderDescription(event.target.value);
