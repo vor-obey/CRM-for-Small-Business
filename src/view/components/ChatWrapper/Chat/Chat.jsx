@@ -25,6 +25,7 @@ import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import clsx from "clsx";
 import isEmpty from 'lodash/isEmpty';
 import CloseIcon from '@material-ui/icons/Close';
+import {OrdersPage} from "../../../pages/OrdersPage/OrdersPage";
 
 export const Chat = ({
                          classes,
@@ -209,7 +210,9 @@ export const Chat = ({
                 }
                 case 2: {
                     return (
-                        <div>2</div>
+                        <OrdersPage
+                            selected={selectedThread.inviter}
+                        />
                     );
                 }
                 case 3: {
@@ -224,7 +227,7 @@ export const Chat = ({
         }
 
         return null;
-    }, [drawerIcons]);
+    }, [drawerIcons, selectedThread]);
 
     if (!minWidth600) {
         return (

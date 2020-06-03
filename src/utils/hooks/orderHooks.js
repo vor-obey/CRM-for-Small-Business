@@ -13,15 +13,15 @@ export const useOrders = () => {
         const fetchOrders = async () => {
             try {
                 setLoading(true);
-                dispatch(setIsLoading(true));
+                // dispatch(setIsLoading(true));
                 const response = await OrderService.list();
                 setOrdersList(response);
-                dispatch(setIsLoading(false));
+                // dispatch(setIsLoading(false));
                 setLoading(false);
             } catch (e) {
                 setLoading(false);
-                dispatch(setIsLoading(false));
-                dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE, success: false}))
+                // dispatch(setIsLoading(false));
+                // dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE, success: false}))
             }
         };
         fetchOrders();

@@ -21,13 +21,14 @@ import {
 
 const useStyles = makeStyles(ordersPageStyles);
 
-export const OrdersPage = ({history}) => {
+export const OrdersPage = ({history, selected}) => {
     const classes = useStyles();
     const {t} = useTranslation('');
     const location = useLocation();
     const minWidth600 = useMediaQuery('(min-width:600px)');
+    const selectedCustomer = (selected && selected.username);
 
-    const [orderList,, loading] = useOrders();
+    const [orderList, , loading] = useOrders();
     const [inputFilter, setInputFilter] = useState('');
     const [selectedOption, setSelectedOption] = useState('');
 
@@ -78,17 +79,33 @@ export const OrdersPage = ({history}) => {
             return null;
         }
         return filterStatus().map((order) => {
-            return (
-                <OrderListItem
-                    key={order.orderId}
-                    order={order}
-                    classes={classes}
-                    minWidth600={minWidth600}
-                    navigationToOrderDetails={navigationToOrderDetails}
-                />
-            );
+            if (selectedCustomer) {
+                if (order.customer.username === selectedCustomer) {
+                    return (
+                        <OrderListItem
+                            selected={selected}
+                            key={order.orderId}
+                            order={order}
+                            classes={classes}
+                            minWidth600={minWidth600}
+                            navigationToOrderDetails={navigationToOrderDetails}
+                        />
+                    );
+                }
+            } else {
+                return (
+                    <OrderListItem
+                        selected={selected}
+                        key={order.orderId}
+                        order={order}
+                        classes={classes}
+                        minWidth600={minWidth600}
+                        navigationToOrderDetails={navigationToOrderDetails}
+                    />
+                );
+            }
         })
-    }, [orderList, navigationToOrderDetails, filterStatus, minWidth600, classes]);
+    }, [orderList, navigationToOrderDetails, filterStatus, minWidth600, classes, selected, selectedCustomer]);
 
     if (isEmpty(orderList) && !loading) {
         return (
@@ -117,15 +134,17 @@ export const OrdersPage = ({history}) => {
 
     return (
         <Container className={classes.root}>
-            <Grid className={classes.searchBox}>
-                <InputFilter
-                    classes={classes}
-                    value={inputFilter}
-                    label={t('FILTER')}
-                    onChange={onFilterChangedHandler}
-                />
-                {renderSelect()}
-            </Grid>
+            {selected ? null : (
+                <Grid className={classes.searchBox}>
+                    <InputFilter
+                        classes={classes}
+                        value={inputFilter}
+                        label={t('FILTER')}
+                        onChange={onFilterChangedHandler}
+                    />
+                    {renderSelect()}
+                </Grid>
+            )}
 
             <List>
                 <ListItem disableGutters divider>
@@ -136,15 +155,19 @@ export const OrdersPage = ({history}) => {
                         <Grid item xl={2} lg={2} md={2} sm={2}>
                             <Typography>{t('DESCRIPTION')}</Typography>
                         </Grid>
-                        <Grid item xl={2} lg={2} md={2} sm={3}>
-                            <Typography>{t('CUSTOMER')}</Typography>
-                        </Grid>
+                        {selected ? null : (
+                            <Grid item xl={2} lg={2} md={2} sm={3}>
+                                <Typography>{t('CUSTOMER')}</Typography>
+                            </Grid>
+                        )}
                         <Grid item xl={2} lg={2} md={2} sm={2}>
                             <Typography>{t('STATUS')}</Typography>
                         </Grid>
-                        <Grid item xl={2} ld={2} md={2} sm={2}>
-                            <Typography>{t('TOTAL')}</Typography>
-                        </Grid>
+                        {selected ? null : (
+                            <Grid item xl={2} ld={2} md={2} sm={2}>
+                                <Typography>{t('TOTAL')}</Typography>
+                            </Grid>
+                        )}
                         <Grid item xl={2} lg={2} md={2} sm={1}>
                             <Typography>{t('DATE')}</Typography>
                         </Grid>
