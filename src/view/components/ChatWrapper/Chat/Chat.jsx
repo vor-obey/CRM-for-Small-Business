@@ -4,12 +4,10 @@ import {ChatDialog} from '../ChatDialog/ChatDialog';
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 import {
     Avatar,
-    Container,
     Divider,
     Drawer,
     Grid,
     IconButton,
-    List,
     ListItem,
     ListItemAvatar,
     ListItemText,
@@ -22,7 +20,6 @@ import InsertCommentOutlinedIcon from '@material-ui/icons/InsertCommentOutlined'
 import DescriptionOutlinedIcon from '@material-ui/icons/DescriptionOutlined';
 import NoteAddOutlinedIcon from '@material-ui/icons/NoteAddOutlined';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
-import CloseIcon from '@material-ui/icons/Close';
 import clsx from "clsx";
 import isEmpty from 'lodash/isEmpty';
 
@@ -235,7 +232,7 @@ export const Chat = ({
         return null;
     }, [drawerIcons]);
 
-     return (
+    return (
         <Grid item xs={12} sm={12} className={classes.containerChat}>
             {minWidth769 ? <Grid className={clsx(classes.listThreads, {
                 [classes.listThreadsMin]: isDrawerOpen(),
@@ -277,7 +274,6 @@ export const Chat = ({
                         />
                     </Grid>
                 ))
-
             }
             <Grid className={classes.additionals}>
                 <Drawer
