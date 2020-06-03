@@ -33,8 +33,6 @@ export const OrderListItem = ({
         }
     }, [order]);
 
-    console.log(order);
-
     return (
         <ListItem key={order.orderId} disableGutters divider button
                   onClick={() => navigationToOrderDetails(order.orderId)}>
