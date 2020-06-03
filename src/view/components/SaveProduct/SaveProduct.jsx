@@ -32,14 +32,11 @@ export const SaveProduct = ({
                                 labels,
                                 onSave,
                                 history,
+                                isEdit
                             }) => {
     const {t} = useTranslation();
     const classes = useStyles();
-    const productStore = useSelector(state => state.productReducer.details);
-    const [productDetails, setProductDetails] = useState({
-        name: productStore.name,
-        price: productStore.price ,
-    });
+    const productDetails = useSelector(state => state.productReducer.details);
     const [abstractProducts] = useAbstractProducts();
     const [selectedAbstractProduct, setSelectedAbstractProduct] = useState({});
     const [isAbstractProductAutocompleteOpen, setIsAbstractProductAutocompleteOpen] = useState(false);
@@ -66,35 +63,37 @@ export const SaveProduct = ({
 
     useEffect(() => {
         if (!isEmpty(product)) {
-            setProductDetails({
+            dispatch(setProductDetailsToStore({
                 name: product.name,
                 price: product.price
-            });
+            }));
             setSelectedAbstractProduct(product.abstractProduct);
             setSelectedAttributeValues(getAttributeValueIds(product.productToAttributeValues));
             setIsExpanded(true);
         }
-    }, [product, getAttributeValueIds, productStore]);
+        return () => {
+            if (isEdit) {
+                dispatch(setProductDetailsToStore({
+                    name: '',
+                    price: ''
+                }));
+            }
+        }
+    }, [product, getAttributeValueIds, dispatch, isEdit]);
 
     useEffect(() => {
         if (!isEmpty(selectedAbstractProduct)) {
-            setProductDetails(prevState => ({
+            dispatch(setProductDetailsToStore(prevState => ({
                 ...prevState,
                 price: prevState.price ? prevState.price : selectedAbstractProduct.price
-            }));
+            })));
         }
-    }, [selectedAbstractProduct]);
+    }, [selectedAbstractProduct, dispatch]);
 
     const onProductDetailsChangedHandler = useCallback((event) => {
         const {name, value} = event.target;
-        setProductDetails(prevState => {
-            return {
-                ...prevState,
-                [name]: value
-            }
-        });
-            dispatch(setProductDetailsToStore({name: productDetails.name, price: productDetails.price}))
-    }, [dispatch, productDetails]);
+        dispatch(setProductDetailsToStore({[name]: value}))
+    }, [dispatch]);
 
     const toggleAbstractProductAutocomplete = useCallback(() => setIsAbstractProductAutocompleteOpen(prevState => !prevState), []);
 
@@ -237,7 +236,7 @@ export const SaveProduct = ({
                                 name="name"
                                 variant="outlined"
                                 type="text"
-                                value={productDetails.name}
+                                value={(productDetails && productDetails.name) || ''}
                                 onChange={onProductDetailsChangedHandler}
                                 required
                                 fullWidth
@@ -249,7 +248,7 @@ export const SaveProduct = ({
                                 name="price"
                                 variant="outlined"
                                 type='text'
-                                value={productDetails.price}
+                                value={(productDetails && productDetails.price) || ''}
                                 onChange={onProductDetailsChangedHandler}
                                 required
                                 fullWidth

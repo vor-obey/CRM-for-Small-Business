@@ -10,10 +10,13 @@ const initialState = {
 export const productReducer = (state = initialState, action) => {
     switch (action.type) {
         case SET_PRODUCT_DETAILS: {
-           return {
-               ...state,
-               details: action.details
-           }
+            return {
+                ...state,
+                details: {
+                    ...state.details,
+                    ...action.details
+                }
+            }
         }
         default: {
             return state
