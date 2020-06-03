@@ -158,7 +158,7 @@ export const Chat = ({
                                 }}
                                 primary={thread_title}
                                 secondary={text}
-                            />
+                             />
                         </ListItem>
                         <Divider/>
                     </React.Fragment>

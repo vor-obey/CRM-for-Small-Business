@@ -158,13 +158,6 @@ export const MessageTemplatePage = ({chat, onSubmit, isDialogOpen, handleDrawerI
         );
     }, [editId, classes, onChangeName, editName, onSubmit, chat]);
 
-    const handleClick = useCallback((template) => {
-        if (chat) {
-            onSubmit(template.content);
-            handleDrawerIcon();
-        }
-    }, [chat, onSubmit, handleDrawerIcon]);
-
     const renderContent = useCallback((template) => {
         if (editId === template.templateId) {
             return (
