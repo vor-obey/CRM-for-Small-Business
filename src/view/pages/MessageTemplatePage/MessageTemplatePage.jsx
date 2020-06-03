@@ -71,12 +71,8 @@ export const MessageTemplatePage = ({chat, onSubmit}) => {
                     });
                     if (response.success) {
                         dispatch(setIsLoading(false));
-                        const ind = templatesList.findIndex(({templateId}) => templateId === editId);
                         template.name = editName;
                         template.content = editContent;
-                        templatesList[ind] = {
-                            ...template
-                        };
                         setEditId('');
                     } else {
                         dispatch(setIsLoading(false));
@@ -89,7 +85,7 @@ export const MessageTemplatePage = ({chat, onSubmit}) => {
             } else {
                 return null;
             }
-        }, [editId, templatesList, editContent, editName, dispatch]);
+        }, [editId, editContent, editName, dispatch]);
 
         const editHandler = useCallback((template) => {
             setEditId(template.templateId);
