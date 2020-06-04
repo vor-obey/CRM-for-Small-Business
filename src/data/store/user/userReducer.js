@@ -12,6 +12,10 @@ import {
     SET_IS_AUTO_CONNECT_TO_CHAT,
     SET_CHAT_INIT, DELETE_IG_INTEGRATION
 } from "./userActionTypes";
+import React from "react";
+import {store} from "react-notifications-component";
+import {Notification} from "../../../view/components/Notification/Notification";
+import {addNotification} from "../auxiliary/auxiliaryActions";
 
 const initialState = {
     currentUser: {},
@@ -21,10 +25,49 @@ const initialState = {
     chatInit: false,
     igProfile: null,
     isChatWidgetOpened: false,
-    messages: [],
     threads: [],
     error: null,
     socket: null,
+};
+
+//const navigationClick = () => {
+//  useHistory.push({
+//    pathname: '/chat',
+//})
+//};
+
+const displayNotification = (notification) => {
+    store.addNotification({
+        content: <Notification notification={notification}/>,
+        container: 'bottom-right',
+        animationIn: ["animated", "fadeIn"],
+        animationOut: ["animated", "fadeOut"],
+        dismiss: {
+            duration: 5000
+        }
+    });
+      addNotification(notification)
+};
+
+const functionNotification = (action, state) => {
+    const messageEvent = action.message;
+    const threads = [...state.threads];
+    const igProfile = state.igProfile;
+    const threadIndex = threads.findIndex(item => item.thread_id === messageEvent.thread_id);
+    const threadToMove = threads.splice(threadIndex, 1)[0];
+    threadToMove.last_permanent_item = messageEvent.message;
+    threadToMove.items.push(messageEvent.message);
+    const newThreads = [threadToMove];
+
+    displayNotification({
+        icon: threadToMove.inviter.profile_pic_url,
+        text: messageEvent.item_type === 'text' ? messageEvent.text : 'Unsupported content',
+        username: igProfile.username,
+        date: new Date(),
+        status: 'message',
+    });
+
+    return newThreads;
 };
 
 export const userReducer = (state = initialState, action) => {
@@ -54,17 +97,10 @@ export const userReducer = (state = initialState, action) => {
             }
         }
         case ADD_MESSAGE: {
-            const messageEvent = action.message;
-            const threads = [...state.threads];
-            const threadIndex = threads.findIndex(item => item.thread_id === messageEvent.message.thread_id);
-            const threadToMove = threads.splice(threadIndex, 1)[0];
-            threadToMove.last_permanent_item = messageEvent.message;
-            threadToMove.items.push(messageEvent.message);
-            const newThreads = [threadToMove, ...threads];
+            const newThreads = functionNotification(action.message, state);
             return {
                 ...state,
                 threads: newThreads,
-                messages: [...state.messages, messageEvent.message]
             }
         }
         case SET_THREADS: {
