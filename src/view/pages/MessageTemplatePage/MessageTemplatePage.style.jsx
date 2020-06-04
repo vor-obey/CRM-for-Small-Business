@@ -1,7 +1,7 @@
 export const templatePageStyles = ((theme) => ({
     container: {
         display: 'flex',
-        justifyContent: 'center'
+        justifyContent: 'center',
     },
     buttonContainer: {
         marginTop: 18
@@ -38,9 +38,7 @@ export const templatePageStyles = ((theme) => ({
         marginTop: 20,
         border: '1px solid rgba(0, 0, 0, 0.12)',
         borderRadius: 5,
-        paddingLeft: 0,
-        paddingBottom: 0,
-        paddingRight: 0,
+        padding: 0,
     },
     templateTitle: {
         flexDirection: 'column',
@@ -75,5 +73,8 @@ export const templatePageStyles = ((theme) => ({
     },
     none: {
         display: 'none'
+    },
+    button: {
+        paddingBottom: 30
     }
 }));
