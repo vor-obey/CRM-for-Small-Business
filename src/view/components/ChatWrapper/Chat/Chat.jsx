@@ -1,5 +1,6 @@
 import React, {useCallback, useState} from 'react';
 import {ChatThreads} from '../ChatThreads/ChatThreads';
+import {useHistory} from 'react-router-dom';
 import {ChatDialog} from '../ChatDialog/ChatDialog';
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 import {
@@ -30,6 +31,7 @@ import {OrdersPage} from "../../../pages/OrdersPage/OrdersPage";
 export const Chat = ({
                          classes,
                      }) => {
+    const history = useHistory();
     const {t} = useTranslation('');
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [selectedThread, setSelectedThread] = useState({});
@@ -212,6 +214,7 @@ export const Chat = ({
                     return (
                         <OrdersPage
                             selected={selectedThread.inviter}
+                            history={history}
                         />
                     );
                 }
@@ -227,7 +230,7 @@ export const Chat = ({
         }
 
         return null;
-    }, [drawerIcons, selectedThread]);
+    }, [drawerIcons, history, selectedThread]);
 
     if (!minWidth600) {
         return (
