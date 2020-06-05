@@ -21,6 +21,9 @@ import isEmpty from 'lodash/isEmpty';
 import {useAbstractProducts, useAttributesByProductTypeId} from '../../../utils/hooks/productHooks';
 import {saveProductStyles} from "./SaveProduct.styles";
 import {useTranslation} from 'react-i18next';
+import {useDispatch} from "react-redux";
+import {useSelector} from "react-redux";
+import {setProductDetailsToStore} from "../../../data/store/product/productActions";
 
 const useStyles = makeStyles(saveProductStyles);
 
@@ -28,20 +31,19 @@ export const SaveProduct = ({
                                 product,
                                 labels,
                                 onSave,
-                                history
+                                history,
+                                isEdit
                             }) => {
     const {t} = useTranslation();
     const classes = useStyles();
-    const [productDetails, setProductDetails] = useState({
-        name: '',
-        price: '',
-    });
+    const productDetails = useSelector(state => state.productReducer.details);
     const [abstractProducts] = useAbstractProducts();
     const [selectedAbstractProduct, setSelectedAbstractProduct] = useState({});
     const [isAbstractProductAutocompleteOpen, setIsAbstractProductAutocompleteOpen] = useState(false);
     const [attributes] = useAttributesByProductTypeId(selectedAbstractProduct.productType && selectedAbstractProduct.productType.productTypeId);
     const [selectedAttributeValues, setSelectedAttributeValues] = useState({});
     const [isExpanded, setIsExpanded] = useState(false);
+    const dispatch = useDispatch();
 
     const getAttributeValueIds = useCallback((items) => {
         const ids = {};
@@ -61,34 +63,37 @@ export const SaveProduct = ({
 
     useEffect(() => {
         if (!isEmpty(product)) {
-            setProductDetails({
+            dispatch(setProductDetailsToStore({
                 name: product.name,
                 price: product.price
-            });
+            }));
             setSelectedAbstractProduct(product.abstractProduct);
             setSelectedAttributeValues(getAttributeValueIds(product.productToAttributeValues));
             setIsExpanded(true);
         }
-    }, [product, getAttributeValueIds]);
+        return () => {
+            if (isEdit) {
+                dispatch(setProductDetailsToStore({
+                    name: '',
+                    price: ''
+                }));
+            }
+        }
+    }, [product, getAttributeValueIds, dispatch, isEdit]);
 
     useEffect(() => {
         if (!isEmpty(selectedAbstractProduct)) {
-            setProductDetails(prevState => ({
+            dispatch(setProductDetailsToStore(prevState => ({
                 ...prevState,
                 price: prevState.price ? prevState.price : selectedAbstractProduct.price
-            }));
+            })));
         }
-    }, [selectedAbstractProduct]);
+    }, [selectedAbstractProduct, dispatch]);
 
     const onProductDetailsChangedHandler = useCallback((event) => {
         const {name, value} = event.target;
-        setProductDetails(prevState => {
-            return {
-                ...prevState,
-                [name]: value
-            }
-        });
-    }, []);
+        dispatch(setProductDetailsToStore({[name]: value}))
+    }, [dispatch]);
 
     const toggleAbstractProductAutocomplete = useCallback(() => setIsAbstractProductAutocompleteOpen(prevState => !prevState), []);
 
@@ -108,7 +113,7 @@ export const SaveProduct = ({
         );
     }, []);
 
-    const getAbstractProductOptionLabel = useCallback(item => !isEmpty(item) ? item.name : '', [])
+    const getAbstractProductOptionLabel = useCallback(item => !isEmpty(item) ? item.name : '', []);
 
     const onAbstractProductSelectHandler = useCallback((item) => {
         if (!item) {
@@ -231,7 +236,7 @@ export const SaveProduct = ({
                                 name="name"
                                 variant="outlined"
                                 type="text"
-                                value={productDetails.name}
+                                value={(productDetails && productDetails.name) || ''}
                                 onChange={onProductDetailsChangedHandler}
                                 required
                                 fullWidth
@@ -243,7 +248,7 @@ export const SaveProduct = ({
                                 name="price"
                                 variant="outlined"
                                 type='text'
-                                value={productDetails.price}
+                                value={(productDetails && productDetails.price) || ''}
                                 onChange={onProductDetailsChangedHandler}
                                 required
                                 fullWidth
