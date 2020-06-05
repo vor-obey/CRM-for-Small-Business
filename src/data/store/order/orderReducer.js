@@ -38,7 +38,6 @@ export const loadDescriptionFromLocalStorage = () => {
 
 const initialState = {
     /*
-
      cart: {
          productId: string,
          amount: string,
