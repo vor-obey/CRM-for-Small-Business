@@ -9,7 +9,6 @@ import {
 } from './user/userActionTypes';
 
 import * as userSaga from './user/userSaga';
-import * as auxiliarySaga from './auxiliary/auxiliarySaga';
 
 export function* rootSaga() {
     yield takeLatest(LOGIN, userSaga.login);
@@ -18,5 +17,5 @@ export function* rootSaga() {
     yield takeEvery(INITIALIZE_IG_CHAT_CONNECTION, userSaga.initializeInstagramChatConnection);
     yield takeEvery(SEND_MESSAGE, userSaga.sendMessage);
     yield takeEvery(SET_CONNECTION_TO_CHAT_STORAGE, userSaga.setConnectionToChatSaga);
-    yield takeEvery(ADD_MESSAGE, auxiliarySaga.initializeMessages);
+    yield takeEvery(ADD_MESSAGE, userSaga.addAndDisplayMessage);
 }

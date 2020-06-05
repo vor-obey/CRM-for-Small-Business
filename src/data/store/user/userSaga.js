@@ -1,7 +1,9 @@
+import React from "react";
 import {call, put, take} from '@redux-saga/core/effects';
-import {setIsLoading, setSnackBarStatus} from '../auxiliary/auxiliaryActions';
+import {addNotification, setIsLoading, setSnackBarStatus} from '../auxiliary/auxiliaryActions';
 import {StorageService, UserService} from '../../../services';
 import {COMMON_ERROR_MESSAGE} from '../../../constants/statuses';
+import GroupIcon from '@material-ui/icons/Group';
 import isEmpty from 'lodash/isEmpty';
 import {
     addMessage,
@@ -9,11 +11,13 @@ import {
     setSocketError,
     setSocket,
     setIsIgIntegrated,
-    setConnectionToChatStorage, setIsAutoConnectToChat
+    setConnectionToChatStorage, setIsAutoConnectToChat, setNewMessageToThread
 } from './userActions';
 import socketIOClient from 'socket.io-client';
 import {eventChannel} from 'redux-saga';
 import {BASE_URL} from '../../../constants/urls';
+import {history} from "../../../utils/history";
+import {select} from "redux-saga/effects";
 
 export function connect(organizationId) {
     const socket = socketIOClient(`${BASE_URL}/`, {query: `roomId=${organizationId}`});
@@ -111,5 +115,29 @@ export function* initializeSocketConnection(action) {
                 break;
             }
         }
+    }
+}
+
+const clickPushToChat = () => {
+    history.push('/chat')
+};
+
+export function* addAndDisplayMessage(payload) {
+    const message = payload.message.message;
+
+    yield put(setNewMessageToThread(message));
+
+    const state = yield select(state => state.userReducer);
+    const findThread = state.threads.find(item => item.thread_id === message.thread_id);
+
+    if (message.user_id !== state.igProfile.pk && !findThread.users.length) {
+        yield put(addNotification({
+            icon: findThread.users.length > 1 ? <GroupIcon /> : findThread.users[0].profile_pic_url,
+            text: message.text,
+            username: findThread.thread_title,
+            date: new Date(),
+            status: 'message',
+            onClick: clickPushToChat
+        }));
     }
 }

@@ -26,9 +26,8 @@ const initialState = {
     socket: null,
 };
 
-export const functionNotification = (action, state) => {
+export const functionThreads = (action, threads) => {
     const messageEvent = action.payload;
-    const threads = [...state.threads];
     const threadIndex = threads.findIndex(item => item.thread_id === messageEvent.thread_id);
     const threadToMove = threads.splice(threadIndex, 1)[0];
     threadToMove.last_permanent_item = messageEvent;
@@ -63,7 +62,7 @@ export const userReducer = (state = initialState, action) => {
             }
         }
         case SET_NEW_MESSAGE_TO_THREAD: {
-            const newThreads = functionNotification(action, state);
+            const newThreads = functionThreads(action, state.threads);
             return {
                 ...state,
                 threads: newThreads,
