@@ -130,7 +130,7 @@ export function* addAndDisplayMessage(payload) {
     const state = yield select(state => state.userReducer);
     const findThread = state.threads.find(item => item.thread_id === message.thread_id);
 
-    if (message.user_id !== state.igProfile.pk && !findThread.users.length) {
+    if (message.user_id !== state.igProfile.pk && findThread.users) {
         yield put(addNotification({
             icon: findThread.users.length > 1 ? <GroupIcon /> : findThread.users[0].profile_pic_url,
             text: message.text,
