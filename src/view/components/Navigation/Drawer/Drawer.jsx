@@ -21,6 +21,7 @@ import ChatIcon from '@material-ui/icons/Chat';
 import MessageIcon from "@material-ui/icons/Message";
 import {drawerStyle} from "./Drawer.style";
 import {useTranslation} from "react-i18next";
+import AddToHomeScreenIcon from '@material-ui/icons/AddToHomeScreen';
 
 function Drawer(props) {
     const {classes} = props;
@@ -139,6 +140,15 @@ function Drawer(props) {
                     selected={isActive('/product-types')}>
                     <ListItemIcon className={classes.menuIcon}><ChatIcon/></ListItemIcon>
                     <ListItemText>{t('CHAT')}</ListItemText>
+                </ListItem>
+                <ListItem
+                    className={classes.menuItem}
+                    button
+                    component={Link}
+                    to="/message-templates"
+                    selected={isActive('/message-templates')}>
+                    <ListItemIcon className={classes.menuIcon}><AddToHomeScreenIcon/></ListItemIcon>
+                    <ListItemText>{t('MESSAGE_TEMPLATES')}</ListItemText>
                 </ListItem>
             </List>
         </div>
