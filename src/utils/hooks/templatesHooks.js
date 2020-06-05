@@ -9,8 +9,7 @@ export const useTemplates = () => {
     const [loading, setLoading] = useState(false);
     const dispatch = useDispatch();
 
-    const refetchTemplates = useCallback(() => {
-        const fetchTemplates = async () => {
+    const fetchTemplates = useCallback(async () => {
             try {
                 setLoading(true);
                 const response = await templateService.list();
@@ -20,14 +19,12 @@ export const useTemplates = () => {
                 setLoading(false);
                 dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE, success: false}))
             }
-        };
-        fetchTemplates();
     }, [dispatch]);
 
     useEffect(() => {
-      refetchTemplates();
-    }, [refetchTemplates]);
+      fetchTemplates();
+    }, [fetchTemplates]);
 
-    return [templatesList, setTemplatesList, loading, refetchTemplates];
+    return [templatesList, setTemplatesList, loading, fetchTemplates];
 };
 

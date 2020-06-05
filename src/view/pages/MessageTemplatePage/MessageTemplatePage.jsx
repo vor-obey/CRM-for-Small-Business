@@ -43,7 +43,7 @@ export const MessageTemplatePage = ({chat, onSubmit, isDialogOpen, handleDrawerI
     const dispatch = useDispatch();
     const [editName, setEditName] = useState();
     const [editContent, setEditContent] = useState();
-    const [templatesList, setTemplateList, loading, refetchTemplates] = useTemplates();
+    const [templatesList, loading, fetchTemplates] = useTemplates();
     const [editId, setEditId] = useState('');
     const minWidth600 = useMediaQuery('(min-width:900px)');
     const history = useHistory();
@@ -74,9 +74,7 @@ export const MessageTemplatePage = ({chat, onSubmit, isDialogOpen, handleDrawerI
                 });
                 if (response.success) {
                     dispatch(setIsLoading(false));
-                    template.name = editName;
-                    template.content = editContent;
-                    refetchTemplates();
+                    fetchTemplates();
                     setEditId('');
                 } else {
                     dispatch(setIsLoading(false));
@@ -89,7 +87,7 @@ export const MessageTemplatePage = ({chat, onSubmit, isDialogOpen, handleDrawerI
         } else {
             return null;
         }
-    }, [editId, editContent, refetchTemplates, editName, dispatch]);
+    }, [editId, editContent, fetchTemplates, editName, dispatch]);
 
     const editHandler = useCallback((template) => {
         setEditId(template.templateId);
@@ -100,19 +98,15 @@ export const MessageTemplatePage = ({chat, onSubmit, isDialogOpen, handleDrawerI
     const deleteTemplate = useCallback(async (id) => {
         try {
             dispatch(setIsLoading(true));
-            const response = await TemplateService.delete(id);
-            if (response.success) {
-                const newArr = templatesList.filter(template => template.templateId !== id);
-                setTemplateList(newArr);
-            }
-            refetchTemplates();
+            await TemplateService.delete(id);
+            fetchTemplates();
             dispatch(setIsLoading(false));
             dispatch(closeDialog());
         } catch (e) {
             dispatch(setIsLoading(false));
             dispatch(setSnackBarStatus({isOpen: true, message: e.message, success: false}));
         }
-    }, [dispatch, setTemplateList, refetchTemplates, templatesList]);
+    }, [dispatch, fetchTemplates]);
 
     const openTemplateDeleteDialog = useCallback((template) => {
         dispatch(renderDialog({
