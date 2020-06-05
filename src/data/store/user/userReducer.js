@@ -1,21 +1,17 @@
 import {
-    GET_CURRENT_USER_SUCCESS,
-    SET_IG_PROFILE,
-    ADD_MESSAGE,
-    SET_THREADS,
-    OPEN_CHAT_WIDGET,
     CLOSE_CHAT_WIDGET,
-    SET_SOCKET_ERROR,
-    SET_SOCKET,
-    SET_IS_IG_INTEGRATED,
-    SET_IS_IG_EXISTS,
+    DELETE_IG_INTEGRATION,
+    GET_CURRENT_USER_SUCCESS,
+    OPEN_CHAT_WIDGET,
+    SET_CHAT_INIT,
+    SET_IG_PROFILE,
     SET_IS_AUTO_CONNECT_TO_CHAT,
-    SET_CHAT_INIT, DELETE_IG_INTEGRATION
+    SET_IS_IG_EXISTS,
+    SET_IS_IG_INTEGRATED, SET_NEW_MESSAGE_TO_THREAD,
+    SET_SOCKET,
+    SET_SOCKET_ERROR,
+    SET_THREADS
 } from "./userActionTypes";
-import React from "react";
-import {store} from "react-notifications-component";
-import {Notification} from "../../../view/components/Notification/Notification";
-import {addNotification} from "../auxiliary/auxiliaryActions";
 
 const initialState = {
     currentUser: {},
@@ -30,44 +26,14 @@ const initialState = {
     socket: null,
 };
 
-//const navigationClick = () => {
-//  useHistory.push({
-//    pathname: '/chat',
-//})
-//};
-
-const displayNotification = (notification) => {
-    store.addNotification({
-        content: <Notification notification={notification}/>,
-        container: 'bottom-right',
-        animationIn: ["animated", "fadeIn"],
-        animationOut: ["animated", "fadeOut"],
-        dismiss: {
-            duration: 5000
-        }
-    });
-      addNotification(notification)
-};
-
-const functionNotification = (action, state) => {
-    const messageEvent = action.message;
+export const functionNotification = (action, state) => {
+    const messageEvent = action.payload;
     const threads = [...state.threads];
-    const igProfile = state.igProfile;
     const threadIndex = threads.findIndex(item => item.thread_id === messageEvent.thread_id);
     const threadToMove = threads.splice(threadIndex, 1)[0];
-    threadToMove.last_permanent_item = messageEvent.message;
-    threadToMove.items.push(messageEvent.message);
-    const newThreads = [threadToMove];
-
-    displayNotification({
-        icon: threadToMove.inviter.profile_pic_url,
-        text: messageEvent.item_type === 'text' ? messageEvent.text : 'Unsupported content',
-        username: igProfile.username,
-        date: new Date(),
-        status: 'message',
-    });
-
-    return newThreads;
+    threadToMove.last_permanent_item = messageEvent;
+    threadToMove.items.push(messageEvent);
+    return [threadToMove, ...threads];
 };
 
 export const userReducer = (state = initialState, action) => {
@@ -96,8 +62,8 @@ export const userReducer = (state = initialState, action) => {
                 igProfile: action.igProfile
             }
         }
-        case ADD_MESSAGE: {
-            const newThreads = functionNotification(action.message, state);
+        case SET_NEW_MESSAGE_TO_THREAD: {
+            const newThreads = functionNotification(action, state);
             return {
                 ...state,
                 threads: newThreads,
