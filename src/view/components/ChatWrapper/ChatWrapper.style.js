@@ -166,9 +166,6 @@ export const chatWrapperStyles = (theme => ({
         marginLeft: 5,
         flex: 'unset'
     },
-    hide: {
-        display: 'none',
-    },
     text: {
         height: '100%',
         display: 'flex',

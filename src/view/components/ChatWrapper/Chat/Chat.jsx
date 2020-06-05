@@ -24,7 +24,6 @@ import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import clsx from "clsx";
 import isEmpty from 'lodash/isEmpty';
 import {MessageTemplatePage} from "../../../pages/MessageTemplatePage/MessageTemplatePage";
-import CloseIcon from '@material-ui/icons/Close';
 import {OrdersPage} from "../../../pages/OrdersPage/OrdersPage";
 
 export const Chat = ({
