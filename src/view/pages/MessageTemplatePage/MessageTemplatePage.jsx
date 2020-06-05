@@ -284,10 +284,9 @@ export const MessageTemplatePage = ({chat, onSubmit, isDialogOpen, handleDrawerI
                             <Grid item xs={12} sm={12} className={classes.templateInfo}>
                                 <Grid container item xs={12} sm={12} className={classes.templateContainerName}>
                                     {renderName(template)}
-                                    {!chat ?
                                         <div className={classes.display}>
                                             {renderButton(template)}
-                                        </div> : null}
+                                        </div>
                                 </Grid>
                                 <Divider/>
                             </Grid>
