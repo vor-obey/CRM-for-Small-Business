@@ -6,6 +6,7 @@ import {setIsLoading, setSnackBarStatus} from '../../../data/store/auxiliary/aux
 import ProductService from '../../../services/ProductService';
 import {useDispatch} from 'react-redux';
 import {useTranslation} from "react-i18next";
+import {setProductDetailsToStore} from "../../../data/store/product/productActions";
 
 export const EditProduct = ({history}) => {
     const {t} = useTranslation();
@@ -24,6 +25,7 @@ export const EditProduct = ({history}) => {
                 price: productDetails.price,
                 attributeValues: selectedAttributeValues,
             });
+            dispatch(setProductDetailsToStore({name: '', price: ''}));
             dispatch(setIsLoading(false));
             history.push(`/products/${id}`);
         } catch (e) {
@@ -45,6 +47,7 @@ export const EditProduct = ({history}) => {
                 button: t('SAVE')
             }}
             onSave={editProduct}
+            isEdit={true}
         />
     );
 };
