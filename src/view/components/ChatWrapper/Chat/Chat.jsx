@@ -228,7 +228,7 @@ export const Chat = ({
                 }
                 case 3: {
                     return (
-                        <div style={{overflowY: 'scroll', height: '93%'}}>
+                        <div className={classes.additionalChildTemplates}>
                             <MessageTemplatePage handleDrawerIcon={handleDrawerIcon(3, false)} onSubmit={onSubmit}
                                                  chat={true} isDialogOpen={isDialogOpen}/>
                         </div>
