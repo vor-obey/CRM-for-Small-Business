@@ -83,8 +83,8 @@ export const orderDetailsStyles = ((theme) => ({
     containerFieldsItem: {
         marginTop: '15px'
     },
-    orderItem: {
-        marginTop: theme.spacing(1),
+    containerFieldsItem: {
+        marginTop: '15px'
     },
     orderCurrency: {
         paddingLeft: theme.spacing(1),
