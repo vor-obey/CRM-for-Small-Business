@@ -227,7 +227,7 @@ export const Chat = ({
                 case 2: {
                     return (
                         <OrdersPage
-                            selected={selectedThread.inviter}
+                            selected={selectedThread.users && selectedThread.users[0]}
                             history={history}
                         />
                     );
