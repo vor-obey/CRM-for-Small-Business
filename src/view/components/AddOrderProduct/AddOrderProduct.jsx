@@ -215,6 +215,7 @@ export const AddOrderProduct = ({
                             className={classes.buttonFab}
                             variant='outlined'
                             onClick={handleClick}
+                            color="primary"
                             disabled={isEmpty(selectedProduct)}
                         >
                             {t('ADD_PRODUCT')}
@@ -223,7 +224,9 @@ export const AddOrderProduct = ({
                             className={classes.buttonFub}
                             fullWidth={!minWidth600}
                             variant="outlined" color="primary"
-                            onClick={navigateToCreateProduct}>
+                            onClick={navigateToCreateProduct}
+                            disabled={!isEmpty(selectedProduct)}
+                        >
                             <AddIcon/>
                             {t('CREATE_PRODUCT')}
                         </Button>
