@@ -14,14 +14,11 @@ export const useManagers = () => {
         const fetchManagers = async () => {
             try {
                 setLoading(true);
-                dispatch(setIsLoading(true));
                 const managers = await UserService.list();
                 setManagers(managers);
-                dispatch(setIsLoading(false));
                 setLoading(false);
             } catch (e) {
                 setLoading(false);
-                dispatch(setIsLoading(false));
                 dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE, success: false}));
             }
         };

@@ -23,6 +23,7 @@ import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import clsx from "clsx";
 import isEmpty from 'lodash/isEmpty';
 import {MessageTemplatePage} from "../../../pages/MessageTemplatePage/MessageTemplatePage";
+import {CreateOrderPage} from "../../../pages/CreateOrderPage/CreateOrderPage";
 
 export const Chat = ({
                          classes,
@@ -218,7 +219,9 @@ export const Chat = ({
             switch (drawerIcon.id) {
                 case 1: {
                     return (
-                        <div>1</div>
+                        <CreateOrderPage
+                            chat={true}
+                        />
                     );
                 }
                 case 2: {
@@ -229,7 +232,12 @@ export const Chat = ({
                 case 3: {
                     return (
                         <div style={{overflowY: 'scroll', height: '93%'}}>
-                            <MessageTemplatePage handleDrawerIcon={handleDrawerIcon(3, false)} onSubmit={onSubmit} chat={true} isDialogOpen={isDialogOpen}/>
+                            <MessageTemplatePage
+                                handleDrawerIcon={handleDrawerIcon(3, false)}
+                                onSubmit={onSubmit}
+                                chat={true}
+                                isDialogOpen={isDialogOpen}
+                            />
                         </div>
                     );
                 }

@@ -52,7 +52,7 @@ export const SaveOrderForm = ({
     }, [t]);
 
     return (
-        <Container maxWidth='lg' className={classes.root}>
+        <Container className={classes.root}>
             <Grid container>
                 <Grid container item>
                     <Paper className={classes.paper}>
