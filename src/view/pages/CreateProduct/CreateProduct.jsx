@@ -4,6 +4,7 @@ import {setIsLoading, setSnackBarStatus} from '../../../data/store/auxiliary/aux
 import {useDispatch} from 'react-redux';
 import ProductService from '../../../services/ProductService';
 import {useTranslation} from "react-i18next";
+import {setProductDetailsToStore} from "../../../data/store/product/productActions";
 
 export const CreateProduct = ({history}) => {
     const {t} = useTranslation();
@@ -20,6 +21,7 @@ export const CreateProduct = ({history}) => {
                 attributeValues: selectedAttributeValues,
             });
             dispatch(setIsLoading(false));
+            dispatch(setProductDetailsToStore({name: '', price: ''}));
             if (history.location.state !== undefined && !history.location.state.editOrder) {
                 history.push('/create-order', {
                      response

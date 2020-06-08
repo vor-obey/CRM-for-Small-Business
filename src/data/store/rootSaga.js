@@ -5,7 +5,7 @@ import {
     LOGIN,
     SEND_MESSAGE,
     INITIALIZE_IG_CHAT_CONNECTION,
-    SET_CONNECTION_TO_CHAT_STORAGE
+    SET_CONNECTION_TO_CHAT_STORAGE, ADD_MESSAGE
 } from './user/userActionTypes';
 
 import * as userSaga from './user/userSaga';
@@ -17,4 +17,5 @@ export function* rootSaga() {
     yield takeEvery(INITIALIZE_IG_CHAT_CONNECTION, userSaga.initializeInstagramChatConnection);
     yield takeEvery(SEND_MESSAGE, userSaga.sendMessage);
     yield takeEvery(SET_CONNECTION_TO_CHAT_STORAGE, userSaga.setConnectionToChatSaga);
+    yield takeEvery(ADD_MESSAGE, userSaga.addAndDisplayMessage);
 }
