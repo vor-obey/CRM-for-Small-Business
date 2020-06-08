@@ -98,10 +98,14 @@ export const MessageTemplatePage = ({chat, onSubmit, isDialogOpen, handleDrawerI
     const deleteTemplate = useCallback(async (id) => {
         try {
             dispatch(setIsLoading(true));
-            await TemplateService.delete(id);
-            fetchTemplates();
+            const response = await TemplateService.delete(id);
+            if (response.success) {
+                fetchTemplates();
+                dispatch(setIsLoading(false));
+                dispatch(closeDialog());
+            }
             dispatch(setIsLoading(false));
-            dispatch(closeDialog());
+            dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE, success: false}));
         } catch (e) {
             dispatch(setIsLoading(false));
             dispatch(setSnackBarStatus({isOpen: true, message: e.message, success: false}));
