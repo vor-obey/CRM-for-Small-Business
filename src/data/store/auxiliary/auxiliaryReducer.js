@@ -35,11 +35,11 @@ const initialState = {
     notificationsArr: []
 };
 
-const addNotification = (detailsMessage) => {
+const displayNotification = (details) => {
     const location = window.location.pathname;
     if (location !== '/notifications' && location !== '/dashboard' && location !== '/chat') {
         store.addNotification({
-            content: <Notification detailsMessage={detailsMessage}/>,
+            content: <Notification details={details}/>,
             container: 'bottom-right',
             animationIn: ["animated", "fadeIn"],
             animationOut: ["animated", "fadeOut"],
@@ -93,7 +93,7 @@ export const auxiliaryReducer = (state = initialState, action) => {
             }
         }
         case ADD_NOTIFICATION: {
-            addNotification(action.notification);
+            displayNotification(action.notification);
             return {
                 ...state,
                 notificationsArr: [...state.notificationsArr, action.notification]

@@ -6,10 +6,10 @@ import {makeStyles, ListItemAvatar, ListItemText, Avatar, ListItem} from "@mater
 const useStyles = makeStyles(NotificationStyle);
 
 export const Notification = ({
-                                detailsMessage
+                                details
                              }) => {
    const classes = useStyles();
-   const {icon, text, date, onClick} = detailsMessage;
+   const {icon, text, date, onClick} = details;
 
    return (
       <div
