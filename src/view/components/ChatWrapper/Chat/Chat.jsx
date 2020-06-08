@@ -156,7 +156,7 @@ export const Chat = ({
                                 }}
                                 primary={thread_title}
                                 secondary={text}
-                             />
+                            />
                         </ListItem>
                         <Divider/>
                     </React.Fragment>
@@ -228,8 +228,9 @@ export const Chat = ({
                 }
                 case 3: {
                     return (
-                        <div style={{overflowY: 'scroll', width: '100%', height: '93%'}}>
-                            <MessageTemplatePage handleDrawerIcon={handleDrawerIcon(3, false)} onSubmit={onSubmit} chat={true} isDialogOpen={isDialogOpen}/>
+                        <div style={{overflowY: 'scroll', height: '93%'}}>
+                            <MessageTemplatePage handleDrawerIcon={handleDrawerIcon(3, false)} onSubmit={onSubmit}
+                                                 chat={true} isDialogOpen={isDialogOpen}/>
                         </div>
                     );
                 }
@@ -291,6 +292,7 @@ export const Chat = ({
                     variant="permanent"
                     anchor="right"
                     className={clsx(classes.drawer, {
+                        [classes.hide]: !isDialogOpen,
                         [classes.drawerOpen]: isDrawerOpen(),
                         [classes.drawerClose]: !isDrawerOpen(),
                     })}
