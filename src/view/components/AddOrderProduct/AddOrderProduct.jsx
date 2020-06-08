@@ -29,7 +29,6 @@ export const AddOrderProduct = ({
                                 }) => {
         const classes = useStyle();
         const [selectedProduct, setSelectedProduct] = useState({});
-        console.log(selectedProduct);
         const [isOpen, setIsOpen] = useState(false);
         const [details, setDetails] = useState({
             price: 0,
