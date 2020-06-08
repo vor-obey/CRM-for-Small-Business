@@ -25,6 +25,7 @@ import clsx from "clsx";
 import isEmpty from 'lodash/isEmpty';
 import {MessageTemplatePage} from "../../../pages/MessageTemplatePage/MessageTemplatePage";
 import {CustomerOrderList} from "../../CustomerOrderList/CustomerOrderList";
+import {CreateOrderPage} from "../../../pages/CreateOrderPage/CreateOrderPage";
 
 export const Chat = ({
                          classes,
@@ -227,7 +228,9 @@ export const Chat = ({
             switch (drawerIcon.id) {
                 case 1: {
                     return (
-                        <div>1</div>
+                        <CreateOrderPage
+                            chat={true}
+                        />
                     );
                 }
                 case 2: {
@@ -241,9 +244,13 @@ export const Chat = ({
                 }
                 case 3: {
                     return (
-                        <div className={classes.additionalChildTemplates}>
-                            <MessageTemplatePage handleDrawerIcon={handleDrawerIcon(3, false)} onSubmit={onSubmit}
-                                                 chat={true} isDialogOpen={isDialogOpen}/>
+                        <div style={{overflowY: 'scroll', height: '93%'}}>
+                            <MessageTemplatePage
+                                handleDrawerIcon={handleDrawerIcon(3, false)}
+                                onSubmit={onSubmit}
+                                chat={true}
+                                isDialogOpen={isDialogOpen}
+                            />
                         </div>
                     );
                 }

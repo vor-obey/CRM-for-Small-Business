@@ -15,7 +15,7 @@ import {setOrderDescription, setProductsToCart} from "../../../data/store/order/
 
 const useStyles = makeStyles(createOrderPageStyles);
 
-export const CreateOrderPage = ({history}) => {
+export const CreateOrderPage = ({history, chat}) => {
     const classes = useStyles();
     const dispatch = useDispatch();
     const {t} = useTranslation();
@@ -101,7 +101,6 @@ export const CreateOrderPage = ({history}) => {
             dispatch(setSnackBarStatus({isOpen: true, message: t('FILL_ALL_THE_FIELDS'), success: false}));
         } else {
             try {
-                dispatch(setIsLoading(true));
                 const response = await OrderService.create({
                     products: selectedProducts,
                     status: status,
@@ -115,16 +114,17 @@ export const CreateOrderPage = ({history}) => {
                     description: orderDescription
                 });
                 if (response.success) {
-                    dispatch(setIsLoading(false));
-                    history.push('/orders');
+                    if (chat) {
+                        dispatch(setSnackBarStatus({isOpen: true, message: response.message, success: true}));
+                    } else {
+                        history.push('/orders');
+                    }
                     dispatch(setProductsToCart([]));
                     dispatch(setOrderDescription(''))
                 } else {
-                    dispatch(setIsLoading(false));
                     dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE, success: false}));
                 }
             } catch {
-                dispatch(setIsLoading(false));
                 dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE, success: false}));
             }
         }

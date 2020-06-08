@@ -14,14 +14,11 @@ export const useCustomers = () => {
         const fetchCustomers = async () => {
             try {
                 setCustomerLoading(true);
-                dispatch(setIsLoading(true));
                 const customers = await CustomerService.list();
                 setCustomers(customers);
-                dispatch(setIsLoading(false));
                 setCustomerLoading(false);
             } catch (e) {
                 setCustomerLoading(false);
-                dispatch(setIsLoading(false));
                 dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE, success: false}));
             }
         };
@@ -48,7 +45,7 @@ export const useCustomerById = (id) => {
             }
         };
 
-        fetchCustomerById(id);
+        return () => fetchCustomerById(id);
     }, [dispatch, id]);
 
     return {customerDetails}
