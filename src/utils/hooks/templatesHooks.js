@@ -25,6 +25,6 @@ export const useTemplates = () => {
       fetchTemplates();
     }, [fetchTemplates]);
 
-    return [templatesList, setTemplatesList, loading, fetchTemplates];
+    return {templatesList, setTemplatesList, loading, fetchTemplates};
 };
 
