@@ -1,16 +1,16 @@
 import {
-    GET_CURRENT_USER_SUCCESS,
-    SET_IG_PROFILE,
-    ADD_MESSAGE,
-    SET_THREADS,
-    OPEN_CHAT_WIDGET,
     CLOSE_CHAT_WIDGET,
-    SET_SOCKET_ERROR,
-    SET_SOCKET,
-    SET_IS_IG_INTEGRATED,
-    SET_IS_IG_EXISTS,
+    DELETE_IG_INTEGRATION,
+    GET_CURRENT_USER_SUCCESS,
+    OPEN_CHAT_WIDGET,
+    SET_CHAT_INIT,
+    SET_IG_PROFILE,
     SET_IS_AUTO_CONNECT_TO_CHAT,
-    SET_CHAT_INIT, DELETE_IG_INTEGRATION
+    SET_IS_IG_EXISTS,
+    SET_IS_IG_INTEGRATED, SET_NEW_MESSAGE_TO_THREAD,
+    SET_SOCKET,
+    SET_SOCKET_ERROR,
+    SET_THREADS
 } from "./userActionTypes";
 
 const initialState = {
@@ -21,10 +21,18 @@ const initialState = {
     chatInit: false,
     igProfile: null,
     isChatWidgetOpened: false,
-    messages: [],
     threads: [],
     error: null,
     socket: null,
+};
+
+export const refreshThreads = (action, threads) => {
+    const messageEvent = action.payload;
+    const threadIndex = threads.findIndex(item => item.thread_id === messageEvent.thread_id);
+    const threadToMove = threads.splice(threadIndex, 1)[0];
+    threadToMove.last_permanent_item = messageEvent;
+    threadToMove.items.push(messageEvent);
+    return [threadToMove, ...threads];
 };
 
 export const userReducer = (state = initialState, action) => {
@@ -53,18 +61,11 @@ export const userReducer = (state = initialState, action) => {
                 igProfile: action.igProfile
             }
         }
-        case ADD_MESSAGE: {
-            const messageEvent = action.message;
-            const threads = [...state.threads];
-            const threadIndex = threads.findIndex(item => item.thread_id === messageEvent.message.thread_id);
-            const threadToMove = threads.splice(threadIndex, 1)[0];
-            threadToMove.last_permanent_item = messageEvent.message;
-            threadToMove.items.push(messageEvent.message);
-            const newThreads = [threadToMove, ...threads];
+        case SET_NEW_MESSAGE_TO_THREAD: {
+            const newThreads = refreshThreads(action, state.threads);
             return {
                 ...state,
                 threads: newThreads,
-                messages: [...state.messages, messageEvent.message]
             }
         }
         case SET_THREADS: {

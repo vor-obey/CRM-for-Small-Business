@@ -1,3 +1,4 @@
+import React from "react";
 import {
     SET_SNACKBAR_STATUS,
     SET_IS_LOADING,
@@ -7,6 +8,8 @@ import {
     CLOSE_DIALOG,
     ADD_NOTIFICATION
 } from "./auxiliaryActionTypes";
+import {store} from "react-notifications-component";
+import {Notification} from "../../../view/components/Notification/Notification";
 
 const initialState = {
     isLoading: false,
@@ -30,6 +33,21 @@ const initialState = {
         children: null,
     },
     notificationsArr: []
+};
+
+const displayNotification = (details) => {
+    const location = window.location.pathname;
+    if (location !== '/notifications' && location !== '/dashboard' && location !== '/chat') {
+        store.addNotification({
+            content: <Notification details={details}/>,
+            container: 'bottom-right',
+            animationIn: ["animated", "fadeIn"],
+            animationOut: ["animated", "fadeOut"],
+            dismiss: {
+                duration: 5000
+            }
+        });
+    }
 };
 
 export const auxiliaryReducer = (state = initialState, action) => {
@@ -75,6 +93,7 @@ export const auxiliaryReducer = (state = initialState, action) => {
             }
         }
         case ADD_NOTIFICATION: {
+            displayNotification(action.notification);
             return {
                 ...state,
                 notificationsArr: [...state.notificationsArr, action.notification]
