@@ -287,7 +287,6 @@ export const Chat = ({
                     </Grid>
                 ))
             }
-
             <Grid className={classes.additionals}>
                 <Drawer
                     variant="permanent"
