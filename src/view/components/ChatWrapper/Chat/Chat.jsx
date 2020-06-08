@@ -267,6 +267,7 @@ export const Chat = ({
                     thread={selectedThread}
                     toggleDrawerMobile={toggleDrawerMobile}
                     classes={classes}
+                    setTemplateContent={setTemplateContent}
                     isDrawerOpened={isDrawerOpen}
                     templateContent={templateContent}
                 />
