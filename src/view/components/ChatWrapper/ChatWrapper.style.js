@@ -124,7 +124,6 @@ export const chatWrapperStyles = (theme => ({
         display: 'flex',
         justifyContent: 'center',
         width: '100%',
-        alignItems: 'center',
         '@media (max-width: 769px)': {
             marginTop: '10px',
         },

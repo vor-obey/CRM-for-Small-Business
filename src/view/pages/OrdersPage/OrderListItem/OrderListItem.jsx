@@ -16,7 +16,7 @@ export const OrderListItem = ({
                                   classes,
                                   minWidth600,
                                   navigationToOrderDetails,
-                                  selected
+                                  selectedCustomer
                               }) => {
     const {t} = useTranslation();
 
@@ -55,7 +55,6 @@ export const OrderListItem = ({
                                   secondary={minWidth600 && order.customer.contactEmail}
                                   className={classes.textCustomer}/>
                 </Grid>
-
                 <Grid item xl={2} lg={2} md={2} sm={2} xs={12} className={classes.gridList}>
                     <Typography className={classes.textList}>
                         {t('CUSTOMER')}:
@@ -78,7 +77,7 @@ export const OrderListItem = ({
                     </Typography>
                     <ListItemText primary={moment(order.orderedAt).format('DD.MM.YY')}/>
                 </Grid>
-                <Grid item xs={12} className={classes.totalGrid}>
+                {selectedCustomer ? null : <Grid item xs={12} className={classes.totalGrid}>
                     <Typography className={classes.textList}>
                         {t('TOTAL')}:
                     </Typography>
@@ -86,6 +85,7 @@ export const OrderListItem = ({
                         {calculateTotalPoints()}
                     </ListItemText>
                 </Grid>
+                }
             </Grid>
         </ListItem>
     )

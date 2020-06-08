@@ -21,12 +21,12 @@ import {
 
 const useStyles = makeStyles(ordersPageStyles);
 
-export const OrdersPage = ({history, selected}) => {
+export const OrdersPage = ({history, selectedСustomerInChat}) => {
         const classes = useStyles();
         const {t} = useTranslation('');
         const location = useLocation();
         const minWidth600 = useMediaQuery('(min-width:600px)');
-        const selectedCustomer = (selected && selected.username);
+        const selectedCustomer = (selectedСustomerInChat && selectedСustomerInChat.username);
         const [orderList, , loading] = useOrders();
         const [inputFilter, setInputFilter] = useState('');
         const [selectedOption, setSelectedOption] = useState('');
@@ -82,7 +82,7 @@ export const OrdersPage = ({history, selected}) => {
                     if (order.customer.username === selectedCustomer) {
                         return (
                             <OrderListItem
-                                selected={selected}
+                                selectedCustomer={selectedCustomer}
                                 key={order.orderId}
                                 order={order}
                                 classes={classes}
@@ -105,7 +105,7 @@ export const OrdersPage = ({history, selected}) => {
 
                 return null;
             })
-        }, [orderList, navigationToOrderDetails, filterStatus, minWidth600, classes, selected, selectedCustomer]);
+        }, [orderList, navigationToOrderDetails, filterStatus, minWidth600, classes, selectedCustomer]);
 
         if (isEmpty(orderList) && !loading) {
             return (
@@ -134,7 +134,7 @@ export const OrdersPage = ({history, selected}) => {
 
         return (
             <Container className={classes.root}>
-                {selected ? null : (
+                {selectedСustomerInChat ? null : (
                     <Grid className={classes.searchBox}>
                         <InputFilter
                             classes={classes}
