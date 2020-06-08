@@ -1,5 +1,6 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {ChatThreads} from '../ChatThreads/ChatThreads';
+import {useHistory} from 'react-router-dom';
 import {ChatDialog} from '../ChatDialog/ChatDialog';
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 import {
@@ -23,10 +24,12 @@ import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import clsx from "clsx";
 import isEmpty from 'lodash/isEmpty';
 import {MessageTemplatePage} from "../../../pages/MessageTemplatePage/MessageTemplatePage";
+import {OrdersPage} from "../../../pages/OrdersPage/OrdersPage";
 
 export const Chat = ({
                          classes,
                      }) => {
+    const history = useHistory();
     const {t} = useTranslation('');
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [selectedThread, setSelectedThread] = useState({});
@@ -156,7 +159,7 @@ export const Chat = ({
                                 }}
                                 primary={thread_title}
                                 secondary={text}
-                             />
+                            />
                         </ListItem>
                         <Divider/>
                     </React.Fragment>
@@ -223,13 +226,17 @@ export const Chat = ({
                 }
                 case 2: {
                     return (
-                        <div>2</div>
+                        <OrdersPage
+                            selectedСustomerInChat={selectedThread.users && selectedThread.users[0]}
+                            history={history}
+                        />
                     );
                 }
                 case 3: {
                     return (
-                        <div style={{overflowY: 'scroll', height: '93%'}}>
-                            <MessageTemplatePage handleDrawerIcon={handleDrawerIcon(3, false)} onSubmit={onSubmit} chat={true} isDialogOpen={isDialogOpen}/>
+                        <div className={classes.additionalChildTemplates}>
+                            <MessageTemplatePage handleDrawerIcon={handleDrawerIcon(3, false)} onSubmit={onSubmit}
+                                                 chat={true} isDialogOpen={isDialogOpen}/>
                         </div>
                     );
                 }
@@ -240,7 +247,7 @@ export const Chat = ({
         }
 
         return null;
-    }, [drawerIcons, handleDrawerIcon, isDialogOpen, onSubmit]);
+    }, [drawerIcons, handleDrawerIcon, isDialogOpen, onSubmit, history, selectedThread]);
 
     return (
         <Grid item xs={12} sm={12} className={classes.containerChat}>
@@ -291,6 +298,7 @@ export const Chat = ({
                     variant="permanent"
                     anchor="right"
                     className={clsx(classes.drawer, {
+                        [classes.hide]: !isDialogOpen,
                         [classes.drawerOpen]: isDrawerOpen(),
                         [classes.drawerClose]: !isDrawerOpen(),
                     })}
