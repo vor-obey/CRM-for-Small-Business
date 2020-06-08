@@ -74,7 +74,7 @@ export const MessageTemplatePage = ({chat, onSubmit, isDialogOpen, handleDrawerI
                 });
                 if (response.success) {
                     dispatch(setIsLoading(false));
-                    fetchTemplates();
+                    await fetchTemplates();
                     setEditId('');
                 } else {
                     dispatch(setIsLoading(false));
@@ -100,12 +100,12 @@ export const MessageTemplatePage = ({chat, onSubmit, isDialogOpen, handleDrawerI
             dispatch(setIsLoading(true));
             const response = await TemplateService.delete(id);
             if (response.success) {
-                fetchTemplates();
+                await fetchTemplates();
                 dispatch(setIsLoading(false));
                 dispatch(closeDialog());
             } else {
                 dispatch(setIsLoading(false));
-                dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE, success: false}));
+                dispatch(setSnackBarStatus({isOpen: true, message: response.message, success: false}));
             }
         } catch (e) {
             dispatch(setIsLoading(false));
