@@ -36,7 +36,6 @@ export const CreateOrderPage = ({history}) => {
         city: null,
         warehouse: null
     });
-    const [orderDescription, setOrderDescription] = useState('');
 
     useEffect(() => {
         if (!isEmpty(createdCustomer)) {
@@ -46,12 +45,6 @@ export const CreateOrderPage = ({history}) => {
             setCustomer(createdCustomer);
         }
     }, [createdCustomer, setCustomers]);
-
-    useEffect(() => {
-        if (orderStoreDescription) {
-            setOrderDescription(orderStoreDescription)
-        }
-    }, [setOrderDescription, orderStoreDescription]);
 
     useEffect(() => {
         if (managers && currentUser) {
@@ -98,9 +91,11 @@ export const CreateOrderPage = ({history}) => {
         setAddress(value);
     }, []);
 
+
+
     const onSubmitHandler = useCallback(async (e) => {
         e.preventDefault();
-        if ((isEmpty(orderDescription) && isEmpty(selectedProducts)) || isEmpty(manager)
+        if ((isEmpty(orderStoreDescription) && isEmpty(selectedProducts)) || isEmpty(manager)
             || isEmpty(customer) || ((isEmpty(novaposhtaAddress.city) || isEmpty(novaposhtaAddress.warehouse)) && (isEmpty(address)))
         ) {
             dispatch(setSnackBarStatus({isOpen: true, message: t('FILL_ALL_THE_FIELDS'), success: false}));
@@ -117,7 +112,7 @@ export const CreateOrderPage = ({history}) => {
                         address: isCustom ? address : novaposhtaAddress,
                         shippingMethodId: shippingMethod.shippingMethodId
                     },
-                    description: orderDescription,
+                    description: orderStoreDescription
                 });
                 if (response.success) {
                     dispatch(setIsLoading(false));
@@ -139,13 +134,13 @@ export const CreateOrderPage = ({history}) => {
         manager,
         dispatch,
         history,
+        orderStoreDescription,
         address,
         isCustom,
         shippingMethod,
         selectedProducts,
         status,
         novaposhtaAddress,
-        orderDescription
     ]);
 
     const onStatusSelectHandler = useCallback((value) => {
@@ -161,11 +156,6 @@ export const CreateOrderPage = ({history}) => {
             setNovaposhtaAddress(prevState => ({...prevState, warehouse}));
         }
     }, []);
-
-    const onOrderDescriptionChangeHandler = useCallback((event) => {
-        setOrderDescription(event.target.value);
-        dispatch(setDescriptionToOrder(orderDescription))
-    }, [dispatch, orderDescription]);
 
     return (
         <SaveOrderForm
@@ -192,8 +182,6 @@ export const CreateOrderPage = ({history}) => {
             status={status}
             onSubmit={onSubmitHandler}
             onNovaposhtaAddressSelectHandler={onNovaposhtaAddressSelectHandler}
-            orderDescription={orderDescription}
-            onOrderDescriptionChangeHandler={onOrderDescriptionChangeHandler}
         />
     )
 };

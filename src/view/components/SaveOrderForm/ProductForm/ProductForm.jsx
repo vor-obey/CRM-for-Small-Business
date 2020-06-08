@@ -28,6 +28,7 @@ import CheckIcon from "@material-ui/icons/Check";
 import {useDispatch} from "react-redux";
 import {StorageService} from "../../../../services";
 import {setDescriptionToOrder} from "../../../../data/store/order/orderActions";
+import {DescriptionForm} from "../DescriptionForm/DescriptionForm";
 
 export const ProductForm = ({
                                 getProducts,
@@ -35,8 +36,7 @@ export const ProductForm = ({
                                 classes,
                                 isEdit,
                                 history,
-                                orderDescription,
-                                onOrderDescriptionChangeHandler
+    orderDetails,
                             }) => {
     const [products] = useProducts();
     const dispatch = useDispatch();
@@ -379,13 +379,12 @@ export const ProductForm = ({
                 </Button> : null}
                 <Divider/>
             </Grid>
+            <DescriptionForm isEdit={isEdit} orderDetails={orderDetails}/>
             <Grid container item xs={12} sm={12}>
                 <AddOrderProduct
                     products={products}
                     selectedProducts={cart.products}
                     submit={addProduct}
-                    orderDescription={orderDescription}
-                    onOrderDescriptionChangeHandler={onOrderDescriptionChangeHandler}
                     isEdit={isEdit}
                     orderedProducts={orderedProducts}
                 />

@@ -7,8 +7,6 @@ import {
     Button,
     makeStyles,
     useMediaQuery,
-    FormControl, Divider,
-    InputLabel, OutlinedInput
 } from '@material-ui/core';
 import isEmpty from 'lodash/isEmpty';
 import {addOrderProductStyles} from "./AddOrderProduct.style";
@@ -23,9 +21,7 @@ export const AddOrderProduct = ({
                                     orderedProducts,
                                     products,
                                     submit,
-                                    orderDescription,
                                     isEdit,
-                                    onOrderDescriptionChangeHandler
                                 }) => {
         const classes = useStyle();
         const [selectedProduct, setSelectedProduct] = useState({});
@@ -167,21 +163,6 @@ export const AddOrderProduct = ({
 
         return (
             <Container className={classes.containerRoot}>
-                <Grid container item xs={12} sm={12}>
-                    <FormControl variant="outlined" fullWidth>
-                        <InputLabel>{t('DESCRIPTION')}</InputLabel>
-                        <OutlinedInput
-                            label={t('DESCRIPTION')}
-                            name='price'
-                            type='text'
-                            variant='outlined'
-                            labelWidth={70}
-                            value={orderDescription}
-                            onChange={onOrderDescriptionChangeHandler}
-                        />
-                    </FormControl>
-                    <Divider/>
-                </Grid>
                 <Grid container item xl={12} lg={12}>
                     <fieldset className={classes.fieldset}>
                         <legend className={classes.legend}>
