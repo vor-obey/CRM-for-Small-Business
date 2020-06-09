@@ -47,6 +47,14 @@ export const MessageTemplatePage = ({chat, onSubmit, isDialogOpen, handleDrawerI
     const [editId, setEditId] = useState('');
     const minWidth600 = useMediaQuery('(min-width:900px)');
     const history = useHistory();
+    const [templateId, setTemplateId] = useState('');
+
+    const textReadMore = useCallback((template) => {
+        setTemplateId(template.templateId);
+        if (templateId) {
+            setTemplateId('');
+        }
+    }, [templateId]);
 
     const onChangeName = useCallback((value) => {
         setEditName(value);
@@ -215,25 +223,32 @@ export const MessageTemplatePage = ({chat, onSubmit, isDialogOpen, handleDrawerI
     }, [isDialogOpen, handleDrawerIcon, onSubmit]);
 
     const renderChatContent = useCallback((template) => {
-        return (
-            <Grid item xs={12}>
-                <ExpansionPanel>
-                    <ExpansionPanelSummary
-                        expandIcon={<ExpandMoreIcon/>}
-                        aria-controls="panel1a-content"
-                        id="panel1a-header"
-                    >
-                        <Typography onClick={() => handleClickSubmit(template)}>{template.name}</Typography>
-                    </ExpansionPanelSummary>
-                    <ExpansionPanelDetails>
-                        <Typography className={classes.break}>
-                            {template.content}
-                        </Typography>
-                    </ExpansionPanelDetails>
-                </ExpansionPanel>
-            </Grid>
-        );
-    }, [classes, handleClickSubmit]);
+        if (templateId === template.templateId) {
+            return (
+                <Grid>
+                    <Typography color='primary'>{template.name}</Typography>
+                    <Typography onClick={() => handleClickSubmit(template)}
+                                className={classes.readLessText}>{template.content}
+                    </Typography>
+                    <Typography onClick={() => textReadMore(template)} className={classes.buttonText}
+                                color='primary'>{t('HIDE_ALL')}</Typography>
+                    <Divider/>
+                </Grid>
+            );
+        } else {
+            return (
+                <Grid style={{width: '100%'}}>
+                    <Typography color='primary'>{template.name}</Typography>
+                    <div onClick={() => textReadMore(template)} className={classes.display}>
+                        <Typography className={classes.readMoreText}>{template.content}</Typography>
+                        <Typography className={classes.buttonText}
+                                    color='primary'>{t('SHOW_MORE')}</Typography>
+                    </div>
+                    <Divider/>
+                </Grid>
+            );
+        }
+    }, [handleClickSubmit, classes, t, templateId, textReadMore]);
 
     const renderButton = useCallback((template) => {
         if (editId === template.templateId) {
@@ -272,10 +287,8 @@ export const MessageTemplatePage = ({chat, onSubmit, isDialogOpen, handleDrawerI
             }
             if (chat) {
                 return (
-                    <ListItem key={templateId} className={classes.templateList}>
-                        <Grid container item xs={12} sm={12} className={classes.templateContainer}>
-                            {renderChatContent(template)}
-                        </Grid>
+                    <ListItem key={templateId} style={{width: '100%'}}>
+                        {renderChatContent(template)}
                     </ListItem>
                 );
             } else {
@@ -285,9 +298,9 @@ export const MessageTemplatePage = ({chat, onSubmit, isDialogOpen, handleDrawerI
                             <Grid item xs={12} sm={12} className={classes.templateInfo}>
                                 <Grid container item xs={12} sm={12} className={classes.templateContainerName}>
                                     {renderName(template)}
-                                        <div className={classes.display}>
-                                            {renderButton(template)}
-                                        </div>
+                                    <div className={classes.display}>
+                                        {renderButton(template)}
+                                    </div>
                                 </Grid>
                                 <Divider/>
                             </Grid>
@@ -340,8 +353,8 @@ export const MessageTemplatePage = ({chat, onSubmit, isDialogOpen, handleDrawerI
 
     return (
         <div>
-            <div className={classes.container}>
-                <div className={classes.root}>
+            <div className={chat ? classes.containerChat : classes.container}>
+                <div style={{width: chat ? '100%' : null}} className={classes.root}>
                     {renderRows()}
                 </div>
             </div>
