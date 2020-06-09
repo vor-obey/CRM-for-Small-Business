@@ -58,12 +58,9 @@ export const useSources = () => {
     useEffect(() => {
         const fetchSources = async () => {
             try {
-                dispatch(setIsLoading(true));
                 const sources = await SourcesService.list();
                 setSources(sources);
-                dispatch(setIsLoading(false));
             } catch (e) {
-                dispatch(setIsLoading(false));
                 dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE, success: false}))
             }
         };
