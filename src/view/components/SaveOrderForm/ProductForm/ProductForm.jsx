@@ -49,8 +49,8 @@ export const ProductForm = ({
 
     const [editId, setEditId] = useState('');
     const [editPrice, setEditPrice] = useState();
-    let [editTotalPrice, setEditTotalPrice] = useState();
-    let [editAmount, setEditAmount] = useState(0);
+    const [editTotalPrice, setEditTotalPrice] = useState();
+    const [editAmount, setEditAmount] = useState(0);
 
     useEffect(() => {
         if (!isEdit) {
@@ -97,13 +97,13 @@ export const ProductForm = ({
     }, [validate, editId, editAmount]);
 
     const decrement = useCallback(() => {
-        setEditTotalPrice(editPrice * --editAmount);
         setEditAmount(prevState => --prevState);
+        setEditTotalPrice(editPrice * (editAmount-1));
     }, [editPrice, editAmount]);
 
     const increment = useCallback(() => {
-        setEditTotalPrice(editPrice * ++editAmount);
         setEditAmount(prevState => ++prevState);
+        setEditTotalPrice(editPrice * (editAmount+1));
     }, [editPrice, editAmount]);
 
     const calculateTotalPoints = useCallback(() => {
