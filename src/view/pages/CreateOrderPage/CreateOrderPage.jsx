@@ -8,7 +8,7 @@ import {useTranslation} from 'react-i18next';
 import {useShippingMethods} from '../../../utils/hooks/orderHooks';
 import {useManagers} from '../../../utils/hooks/userHooks';
 import {useCustomers} from '../../../utils/hooks/customerHooks';
-import {setIsLoading, setSnackBarStatus} from '../../../data/store/auxiliary/auxiliaryActions';
+import {setSnackBarStatus} from '../../../data/store/auxiliary/auxiliaryActions';
 import OrderService from '../../../services/OrderService';
 import {COMMON_ERROR_MESSAGE} from '../../../constants/statuses';
 import {setDescriptionToOrder, setProductsToCart} from "../../../data/store/order/orderActions";
@@ -145,7 +145,8 @@ export const CreateOrderPage = ({history, chat}) => {
         selectedProducts,
         status,
         novaposhtaAddress,
-        orderDescription
+        orderDescription,
+        chat
     ]);
 
     const onStatusSelectHandler = useCallback((value) => {
