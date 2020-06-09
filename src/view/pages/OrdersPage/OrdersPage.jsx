@@ -53,13 +53,15 @@ export const OrdersPage = ({history, selectedСustomerInChat}) => {
         }, []);
 
         const filterStatus = useCallback(() => {
-            let filteredStatus = filter(orderList, inputFilter, ['customer']);
+            const orders = [...orderList];
+            orders.sort((a, b) => a.orderedAt > b.orderedAt ? -1 : 1);
 
+            let filteredStatus = filter(orders, inputFilter, ['customer']);
             if (!selectedOption) {
                 return filteredStatus;
             }
 
-            return filter(filteredStatus, selectedOption, null, 'status');
+            return filter(filteredStatus,  selectedOption, null, 'status');
         }, [inputFilter, selectedOption, orderList]);
 
         const renderSelect = useCallback(() => {
