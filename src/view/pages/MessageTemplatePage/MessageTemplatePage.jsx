@@ -47,14 +47,20 @@ export const MessageTemplatePage = ({chat, onSubmit, isDialogOpen, handleDrawerI
     const [editId, setEditId] = useState('');
     const minWidth600 = useMediaQuery('(min-width:900px)');
     const history = useHistory();
-    const [templateId, setTemplateId] = useState('');
+    const [templateArrayId, setTemplateArrayId] = useState([]);
 
-    const textReadMore = useCallback((template) => {
-        setTemplateId(template.templateId);
-        if (templateId) {
-            setTemplateId('');
+    const showMore = useCallback((template) => {
+        if (!templateArrayId.find(({id}) => id === template.templateId)) {
+            setTemplateArrayId([...templateArrayId, {id: template.templateId}]);
         }
-    }, [templateId]);
+    }, [templateArrayId]);
+
+    const hideAll = useCallback((template) => {
+        const newArr = [...templateArrayId];
+        const ind = newArr.findIndex(({id}) => id === template.templateId)
+        newArr.splice(ind, 1);
+        setTemplateArrayId(newArr);
+    }, [templateArrayId]);
 
     const onChangeName = useCallback((value) => {
         setEditName(value);
@@ -223,33 +229,34 @@ export const MessageTemplatePage = ({chat, onSubmit, isDialogOpen, handleDrawerI
     }, [isDialogOpen, handleDrawerIcon, onSubmit]);
 
     const renderChatContent = useCallback((template) => {
-        if (templateId === template.templateId) {
-            return (
-                <Grid>
-                    <Typography color='primary'>{template.name}</Typography>
-                    <Typography onClick={() => handleClickSubmit(template)}
-                                className={classes.readLessText}>{template.content}
-                    </Typography>
-                    <Typography onClick={() => textReadMore(template)} className={classes.buttonText}
-                                color='primary'>{t('HIDE_ALL')}</Typography>
-                    <Divider/>
-                </Grid>
-            );
-        } else {
-            return (
-                <Grid style={{width: '100%'}}>
-                    <Typography color='primary'>{template.name}</Typography>
-                    {template.content.length > 30 ? <div onClick={() => textReadMore(template)} className={classes.display}>
-                            <Typography className={classes.readMoreText}>{template.content}</Typography>
-                            <Typography className={classes.buttonText}
-                                        color='primary'>{t('SHOW_MORE')}</Typography>
-                        </div>
-                        : <Typography className={classes.readMoreText}>{template.content}</Typography> }
-                    <Divider/>
-                </Grid>
-            );
-        }
-    }, [handleClickSubmit, classes, t, templateId, textReadMore]);
+         if (templateArrayId.find(({id}) => id === template.templateId)) {
+             return (
+                 <Grid>
+                     <Typography color='primary'>{template.name}</Typography>
+                     <Typography onClick={() => handleClickSubmit(template)}
+                                 className={classes.readLessText}>{template.content}
+                     </Typography>
+                     <Typography onClick={() => hideAll(template)} className={classes.buttonText}
+                                 color='primary'>{t('HIDE_ALL')}</Typography>
+                     <Divider/>
+                 </Grid>
+             );
+         } else {
+             return (
+                 <Grid style={{width: '100%'}}>
+                     <Typography color='primary'>{template.name}</Typography>
+                     {template.content.length > 30 ?
+                         <div onClick={() => showMore(template)} className={classes.display}>
+                             <Typography className={classes.readMoreText}>{template.content}</Typography>
+                             <Typography className={classes.buttonText}
+                                         color='primary'>{t('SHOW_MORE')}</Typography>
+                         </div>
+                         : <Typography className={classes.readMoreText}>{template.content}</Typography>}
+                     <Divider/>
+                 </Grid>
+             );
+         }
+    }, [templateArrayId, handleClickSubmit, classes, t, showMore, hideAll]);
 
     const renderButton = useCallback((template) => {
         if (editId === template.templateId) {
