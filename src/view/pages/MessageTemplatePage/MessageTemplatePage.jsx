@@ -57,7 +57,7 @@ export const MessageTemplatePage = ({chat, onSubmit, isDialogOpen, handleDrawerI
 
     const hideAll = useCallback((template) => {
         const newArr = [...templateArrayId];
-        const ind = newArr.findIndex(({id}) => id === template.templateId)
+        const ind = newArr.findIndex(({id}) => id === template.templateId);
         newArr.splice(ind, 1);
         setTemplateArrayId(newArr);
     }, [templateArrayId]);
