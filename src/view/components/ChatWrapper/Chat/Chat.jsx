@@ -247,7 +247,7 @@ export const Chat = ({
         }
 
         return null;
-    }, [drawerIcons, handleDrawerIcon, isDialogOpen, onSubmit, history, selectedThread]);
+    }, [drawerIcons, handleDrawerIcon, isDialogOpen, onSubmit, history, selectedThread, classes.additionalChildTemplates]);
 
     return (
         <Grid item xs={12} sm={12} className={classes.containerChat}>
@@ -267,6 +267,7 @@ export const Chat = ({
                     thread={selectedThread}
                     toggleDrawerMobile={toggleDrawerMobile}
                     classes={classes}
+                    setTemplateContent={setTemplateContent}
                     isDrawerOpened={isDrawerOpen}
                     templateContent={templateContent}
                 />

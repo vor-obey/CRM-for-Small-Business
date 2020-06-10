@@ -132,6 +132,7 @@ export const chatWrapperStyles = (theme => ({
         display: 'none',
     },
     additionalChildTemplates: {
+        width: '100%',
         overflowY: 'scroll',
         marginBottom: '30px',
     },
