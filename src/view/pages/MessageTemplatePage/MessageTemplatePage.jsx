@@ -239,11 +239,12 @@ export const MessageTemplatePage = ({chat, onSubmit, isDialogOpen, handleDrawerI
             return (
                 <Grid style={{width: '100%'}}>
                     <Typography color='primary'>{template.name}</Typography>
-                    <div onClick={() => textReadMore(template)} className={classes.display}>
-                        <Typography className={classes.readMoreText}>{template.content}</Typography>
-                        <Typography className={classes.buttonText}
-                                    color='primary'>{t('SHOW_MORE')}</Typography>
-                    </div>
+                    {template.content.length > 30 ? <div onClick={() => textReadMore(template)} className={classes.display}>
+                            <Typography className={classes.readMoreText}>{template.content}</Typography>
+                            <Typography className={classes.buttonText}
+                                        color='primary'>{t('SHOW_MORE')}</Typography>
+                        </div>
+                        : <Typography className={classes.readMoreText}>{template.content}</Typography> }
                     <Divider/>
                 </Grid>
             );
