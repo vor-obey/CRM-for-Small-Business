@@ -41,8 +41,6 @@ export const ProductForm = ({
                             }) => {
     const {products} = useProducts();
     const dispatch = useDispatch();
-    const [, updateState] = useState();
-    const forceUpdate = useCallback(() => updateState({}), []);
 
     const cartUtils = useEditCart();
     const {t} = useTranslation();
@@ -76,11 +74,10 @@ export const ProductForm = ({
                 newArr.push({...product, action: 'add'});
                 setOrderedProducts(newArr);
             }
-            forceUpdate();
         } else {
             cartUtils.addProduct(product);
         }
-    }, [orderedProducts, setOrderedProducts, isEdit, cartUtils, forceUpdate]);
+    }, [orderedProducts, setOrderedProducts, isEdit, cartUtils]);
 
     const validate = useCallback((value) => {
         const regexp = /^((?!(0))\d+$)/;
@@ -177,8 +174,7 @@ export const ProductForm = ({
             amount: product.amount,
             totalPrice: product.totalPrice,
         });
-        forceUpdate()
-    }, [forceUpdate]);
+    }, []);
 
     const saveHandleClick = useCallback((product) => {
         if (editDetailsProduct.id) {
