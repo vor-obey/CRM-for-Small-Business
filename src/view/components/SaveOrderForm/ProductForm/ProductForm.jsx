@@ -31,6 +31,7 @@ import {setOrderDescription} from "../../../../data/store/order/orderActions";
 import {OrderDescriptionInput} from "../OrderDescriptionInput/OrderDescriptionInput";
 
 export const ProductForm = ({
+                                setOrderedProducts,
                                 getProducts,
                                 orderedProducts,
                                 classes,
@@ -47,10 +48,12 @@ export const ProductForm = ({
     const {t} = useTranslation();
     const cart = useCart(products);
 
-    const [editId, setEditId] = useState('');
-    const [editPrice, setEditPrice] = useState();
-    const [editTotalPrice, setEditTotalPrice] = useState();
-    const [editAmount, setEditAmount] = useState(0);
+    const [editDetailsProduct, setEditDetailsProduct] = useState({
+        id: '',
+        price: '',
+        amount: '',
+        totalPrice: '',
+    });
 
     useEffect(() => {
         if (!isEdit) {
@@ -60,21 +63,24 @@ export const ProductForm = ({
 
     const addProduct = useCallback((product) => {
         if (isEdit) {
+            const newArr = [...orderedProducts];
+            const ind = newArr.findIndex(item => item.productId === product.productId);
             if (orderedProducts.find(item => item.productId === product.productId)) {
-                const ind = orderedProducts.findIndex(item => item.productId === product.productId);
-                orderedProducts[ind] = {
+                newArr[ind] = {
                     ...product,
                     action: 'edit',
                     orderProductId: orderedProducts[ind].orderProductId,
-                }
+                };
+                setOrderedProducts(newArr)
             } else {
-                orderedProducts.push({...product, action: 'add'});
+                newArr.push({...product, action: 'add'});
+                setOrderedProducts(newArr);
             }
             forceUpdate();
         } else {
             cartUtils.addProduct(product);
         }
-    }, [orderedProducts, isEdit, cartUtils, forceUpdate]);
+    }, [orderedProducts, setOrderedProducts, isEdit, cartUtils, forceUpdate]);
 
     const validate = useCallback((value) => {
         const regexp = /^((?!(0))\d+$)/;
@@ -83,30 +89,47 @@ export const ProductForm = ({
 
     const onAmountChange = useCallback((value) => {
         if (validate(value)) {
-            setEditAmount(value);
-            setEditTotalPrice(validate(value) ? value * editPrice : editPrice * editAmount);
+            setEditDetailsProduct(prevState => {
+                return {
+                    ...prevState,
+                    amount: value,
+                    totalPrice: validate(value) ? value * editDetailsProduct.price : editDetailsProduct.price * editDetailsProduct.amount
+                }
+            });
         }
-    }, [validate, editPrice, editAmount]);
+    }, [validate, editDetailsProduct]);
 
     const onPriceChange = useCallback((product, value) => {
         if (validate(value)) {
-            setEditId(editId);
-            setEditPrice(validate(value) ? value : product.price);
-            setEditTotalPrice(validate(value) ? value * editAmount : product.price * editAmount);
+            setEditDetailsProduct(prevState => {
+                return {
+                    ...prevState,
+                    price: validate(value) ? value : product.price,
+                    totalPrice: validate(value) ? value * editDetailsProduct.amount : product.price * editDetailsProduct.amount
+                }
+            });
         }
-    }, [validate, editId, editAmount]);
+    }, [validate, editDetailsProduct]);
 
     const decrement = useCallback(() => {
-        const amount = editAmount-1;
-        setEditAmount(amount);
-        setEditTotalPrice(editPrice * amount);
-    }, [editPrice, editAmount]);
+        setEditDetailsProduct(prevState => {
+            return {
+                ...prevState,
+                amount: editDetailsProduct.amount - 1,
+                totalPrice: editDetailsProduct.price * (editDetailsProduct.amount - 1)
+            }
+        });
+    }, [editDetailsProduct]);
 
     const increment = useCallback(() => {
-        const amount = editAmount+1;
-        setEditAmount(amount);
-        setEditTotalPrice(editPrice * amount);
-    }, [editPrice, editAmount]);
+        setEditDetailsProduct(prevState => {
+            return {
+                ...prevState,
+                amount: editDetailsProduct.amount + 1,
+                totalPrice: editDetailsProduct.price * (editDetailsProduct.amount + 1)
+            }
+        });
+    }, [editDetailsProduct]);
 
     const calculateTotalPoints = useCallback(() => {
         if (isEdit) {
@@ -120,65 +143,70 @@ export const ProductForm = ({
 
     const removeProduct = useCallback((product) => {
         if (isEdit) {
-            const index = orderedProducts.findIndex(item => item.productId === product.productId);
             const newArr = [...orderedProducts];
             const ind = newArr.findIndex(item => item.productId === product.productId);
-            newArr[ind] = {
-                ...product,
-                action: 'remove'
-            };
-            dispatch(closeDialog());
-            orderedProducts[ind] = newArr[ind];
             if (product.action === 'add') {
-                orderedProducts.splice(index, 1)
+                newArr.splice(ind, 1);
+                setOrderedProducts(newArr);
+            } else {
+                newArr[ind] = {
+                    ...product,
+                    action: 'remove'
+                };
+                setOrderedProducts(newArr);
+                dispatch(closeDialog());
             }
-            forceUpdate();
         } else {
             cartUtils.deleteProduct(product);
         }
-    }, [orderedProducts, isEdit, cartUtils, dispatch, forceUpdate]);
+    }, [orderedProducts, setOrderedProducts,  isEdit, cartUtils, dispatch]);
 
     const editHandleClick = useCallback((product) => {
-        setEditId(product.productId);
-        setEditPrice(product.price);
-        setEditTotalPrice(product.totalPrice);
-        setEditAmount(product.amount);
+        setEditDetailsProduct({
+            id: product.productId,
+            price: product.price,
+            amount: product.amount,
+            totalPrice: product.totalPrice
+        });
     }, []);
 
     const deleteChange = useCallback((product) => {
-        setEditId(editId);
-        setEditPrice(product.price);
-        setEditTotalPrice(product.totalPrice);
-        setEditAmount(product.amount);
+        setEditDetailsProduct({
+            id: product.id,
+            price: product.price,
+            amount: product.amount,
+            totalPrice: product.totalPrice,
+        });
         forceUpdate()
-    }, [forceUpdate, editId]);
+    }, [forceUpdate]);
 
     const saveHandleClick = useCallback((product) => {
-        if (editId) {
+        if (editDetailsProduct.id) {
             if (isEdit) {
-                const ind = orderedProducts.findIndex(item => item.productId === product.productId);
-                product.price = editPrice;
-                product.amount = editAmount;
-                product.totalPrice = product.price * product.amount;
-                orderedProducts[ind] = {
+                const newArr = [...orderedProducts];
+                const ind = newArr.findIndex(item => item.productId === product.productId);
+                newArr[ind] = {
                     ...product,
+                    price: editDetailsProduct.price,
+                    amount: editDetailsProduct.amount,
                     action: product.action === 'add' ? 'add' : 'edit'
                 };
-                setEditId('');
+                setOrderedProducts(newArr);
+                setEditDetailsProduct(prevState => ({...prevState, id: ''}));
             } else {
-                product.price = editPrice;
-                product.amount = editAmount;
+                product.price = editDetailsProduct.price;
+                product.amount = editDetailsProduct.amount;
                 product.totalPrice = product.price * product.amount;
                 cartUtils.editProduct(product);
-                setEditId('');
+                setEditDetailsProduct(prevState => ({...prevState, id: ''}));
             }
         } else {
             return null;
         }
-    }, [editId, editPrice, cartUtils, isEdit, orderedProducts, editAmount]);
+    }, [cartUtils, editDetailsProduct, setOrderedProducts, isEdit, orderedProducts]);
 
     const renderButton = useCallback((product) => {
-        if (editId === product.productId) {
+        if (editDetailsProduct.id === product.productId) {
             return (
                 <IconButton onClick={() => saveHandleClick(product)}>
                     <CheckIcon className={classes.editButton}/>
@@ -191,7 +219,7 @@ export const ProductForm = ({
                 </IconButton>
             );
         }
-    }, [editHandleClick, saveHandleClick, editId, classes]);
+    }, [editHandleClick, saveHandleClick, editDetailsProduct, classes]);
 
     const openProductDeleteDialog = useCallback((product) => {
         dispatch(renderDialog({
@@ -205,24 +233,24 @@ export const ProductForm = ({
     }, [removeProduct, t, dispatch]);
 
     const clickHandlerAction = useCallback((product) => {
-        if (product.action !== 'add' && editId.length === 0 && isEdit) {
+        if (product.action !== 'add' && editDetailsProduct.id.length === 0 && isEdit) {
             openProductDeleteDialog(product)
-        } else if (editId) {
+        } else if (editDetailsProduct.id) {
             deleteChange(product);
-            setEditId('');
+            setEditDetailsProduct(prevState => ({...prevState, id: ''}));
         } else {
             removeProduct(product)
         }
-    }, [isEdit, openProductDeleteDialog, deleteChange, editId, removeProduct]);
+    }, [isEdit, openProductDeleteDialog, deleteChange, editDetailsProduct, removeProduct]);
 
     const renderPrice = useCallback((product) => {
-        if (editId === product.productId) {
+        if (editDetailsProduct.id === product.productId) {
             return (
                 <div style={{display: 'flex', marginBottom: 4}}>
                     <TextField
                         className={classes.margin}
                         onChange={(event) => onPriceChange(product, event.target.value, product.productId)}
-                        value={editId === product.productId ? editPrice : product.price}
+                        value={editDetailsProduct.id === product.productId ? editDetailsProduct.price : product.price}
                         autoFocus
                         InputProps={{classes: {underline: classes.underline}}}/>
                     <Typography style={{marginTop: 5}}>
@@ -241,7 +269,7 @@ export const ProductForm = ({
                 </Typography>
             </div>
         )
-    }, [classes, onPriceChange, editPrice, editId]);
+    }, [classes, onPriceChange, editDetailsProduct]);
 
     const renderAmountButton = useCallback((product) => {
         return (
@@ -252,10 +280,10 @@ export const ProductForm = ({
                     <OutlinedInput
                         className={classes.amount}
                         type='text'
-                        disabled={editId !== product.productId}
+                        disabled={editDetailsProduct.id !== product.productId}
                         label={t('AMOUNT')}
                         name='amount'
-                        value={editId === product.productId ? editAmount : product.amount}
+                        value={editDetailsProduct.id === product.productId ? editDetailsProduct.amount : product.amount}
                         onChange={(event) => onAmountChange(event.target.value, product.productId)}
                         startAdornment={
                             <InputAdornment position="start">
@@ -263,7 +291,7 @@ export const ProductForm = ({
                                     className={classes.amountButton}
                                     fontSize="small"
                                     onClick={decrement}
-                                    disabled={editAmount === 1 || editId !== product.productId}>
+                                    disabled={editDetailsProduct.amount === 1 || editDetailsProduct.id !== product.productId}>
                                     <RemoveIcon/>
                                 </IconButton>
                             </InputAdornment>
@@ -273,7 +301,7 @@ export const ProductForm = ({
                                 <IconButton
                                     className={classes.amountButton}
                                     fontSize="small"
-                                    disabled={editId !== product.productId}
+                                    disabled={editDetailsProduct.id !== product.productId}
                                     onClick={increment}>
                                     <AddIcon/>
                                 </IconButton>
@@ -284,7 +312,7 @@ export const ProductForm = ({
                 </FormControl>
             </Grid>
         )
-    }, [t, classes, increment, decrement, editId, onAmountChange, editAmount]);
+    }, [t, classes, increment, decrement, onAmountChange, editDetailsProduct]);
 
     const renderTotalPrice = useCallback((product) => {
         return (
@@ -294,12 +322,12 @@ export const ProductForm = ({
                         {t('SUMMARY')}:
                     </Typography>
                     <Typography variant='body1'>
-                        {product.productId === editId ? editTotalPrice : product.totalPrice} {product.currency}
+                        {product.productId === editDetailsProduct.id ? editDetailsProduct.totalPrice : product.totalPrice} {product.currency}
                     </Typography>
                 </Grid>
             </Grid>
         )
-    }, [t, editId, editTotalPrice, classes]);
+    }, [t, editDetailsProduct, classes]);
 
     const renderSelectedProducts = useCallback(() => {
         if (isEmpty(orderedProducts) && isEmpty(cart.products)) {
