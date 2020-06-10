@@ -38,7 +38,6 @@ export const SaveOrderForm = ({
                                   onSubmit,
                                   orderedProducts,
                                   isEdit,
-                                  orderDetails,
                                   onNovaposhtaAddressSelectHandler,
                                   history,
                               }) => {
@@ -82,7 +81,6 @@ export const SaveOrderForm = ({
                         <Grid container item xl={12}>
                             <ProductForm
                                 getProducts={getProducts}
-                                orderDetails={orderDetails}
                                 description={description}
                                 classes={classes}
                                 orderedProducts={orderedProducts}

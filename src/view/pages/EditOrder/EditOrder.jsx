@@ -32,7 +32,7 @@ export const EditOrder = ({history}) => {
     const {t} = useTranslation();
     const [orderedProducts, setOrderedProducts] = useState([]);
     const [status, setStatus] = useState(0);
-    const orderStoreDescription = useSelector(state => state.orderReducer.description);
+    const orderDescription = useSelector(state => state.orderReducer.description);
 
     const mapProducts = useCallback((orderToProducts, currency) => {
         return orderToProducts.map((orderToProduct) => {
@@ -146,7 +146,7 @@ export const EditOrder = ({history}) => {
             dispatch(setIsLoading(true));
             const response = await OrderService.update({
                 orderId,
-                description: orderStoreDescription,
+                description: orderDescription,
                 products: orderedProducts,
                 customerId: customer.customerId,
                 managerId: manager.userId,
@@ -175,7 +175,7 @@ export const EditOrder = ({history}) => {
     }, [
         history,
         address,
-        orderStoreDescription,
+        orderDescription,
         customer,
         manager,
         shippingMethodId,
@@ -215,7 +215,7 @@ export const EditOrder = ({history}) => {
             onSubmit={onSubmitHandler}
             orderedProducts={orderedProducts}
             isEdit={true}
-            orderDetails={orderDetails}
+            description={orderDetails.description}
             onNovaposhtaAddressSelectHandler={onChangedAddressInput}
         />
     );

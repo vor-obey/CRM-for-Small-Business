@@ -11,7 +11,7 @@ import {useCustomers} from '../../../utils/hooks/customerHooks';
 import {setIsLoading, setSnackBarStatus} from '../../../data/store/auxiliary/auxiliaryActions';
 import OrderService from '../../../services/OrderService';
 import {COMMON_ERROR_MESSAGE} from '../../../constants/statuses';
-import {setDescriptionToOrder, setProductsToCart} from "../../../data/store/order/orderActions";
+import {setOrderDescription, setProductsToCart} from "../../../data/store/order/orderActions";
 
 const useStyles = makeStyles(createOrderPageStyles);
 
@@ -31,7 +31,7 @@ export const CreateOrderPage = ({history}) => {
     const [selectedProducts, setSelectedProducts] = useState([]);
     const [status, setStatus] = useState(0);
     const currentUser = useSelector(state => state.userReducer.currentUser);
-    const orderStoreDescription = useSelector(state => state.orderReducer.description);
+    const orderDescription = useSelector(state => state.orderReducer.description);
     const [novaposhtaAddress, setNovaposhtaAddress] = useState({
         city: null,
         warehouse: null
@@ -95,7 +95,7 @@ export const CreateOrderPage = ({history}) => {
 
     const onSubmitHandler = useCallback(async (e) => {
         e.preventDefault();
-        if ((isEmpty(orderStoreDescription) && isEmpty(selectedProducts)) || isEmpty(manager)
+        if ((isEmpty(orderDescription) && isEmpty(selectedProducts)) || isEmpty(manager)
             || isEmpty(customer) || ((isEmpty(novaposhtaAddress.city) || isEmpty(novaposhtaAddress.warehouse)) && (isEmpty(address)))
         ) {
             dispatch(setSnackBarStatus({isOpen: true, message: t('FILL_ALL_THE_FIELDS'), success: false}));
@@ -112,13 +112,13 @@ export const CreateOrderPage = ({history}) => {
                         address: isCustom ? address : novaposhtaAddress,
                         shippingMethodId: shippingMethod.shippingMethodId
                     },
-                    description: orderStoreDescription
+                    description: orderDescription
                 });
                 if (response.success) {
                     dispatch(setIsLoading(false));
                     history.push('/orders');
                     dispatch(setProductsToCart([]));
-                    dispatch(setDescriptionToOrder([]))
+                    dispatch(setOrderDescription(''))
                 } else {
                     dispatch(setIsLoading(false));
                     dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE, success: false}));
@@ -134,7 +134,7 @@ export const CreateOrderPage = ({history}) => {
         manager,
         dispatch,
         history,
-        orderStoreDescription,
+        orderDescription,
         address,
         isCustom,
         shippingMethod,

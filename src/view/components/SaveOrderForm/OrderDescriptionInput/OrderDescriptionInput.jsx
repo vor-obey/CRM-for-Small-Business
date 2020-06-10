@@ -3,28 +3,26 @@ import {Divider, FormControl, Grid, InputLabel, OutlinedInput} from "@material-u
 import {useTranslation} from "react-i18next";
 import {useSelector} from "react-redux";
 import {useDispatch} from "react-redux";
-import {setDescriptionToOrder} from "../../../../data/store/order/orderActions";
-import isEmpty from "lodash/isEmpty";
+import {setOrderDescription} from "../../../../data/store/order/orderActions";
 
-export const DescriptionForm = ({isEdit, orderDetails}) => {
+export const OrderDescriptionInput = ({isEdit, description}) => {
     const dispatch = useDispatch();
     const {t} = useTranslation();
-    const orderStoreDescription = useSelector(state => state.orderReducer.description);
+    const orderDescription = useSelector(state => state.orderReducer.description);
 
     useEffect(() => {
-        if (!isEmpty(orderDetails)) {
-            console.log(orderDetails);
-            dispatch(setDescriptionToOrder(orderDetails.description));
+        if (description) {
+            dispatch(setOrderDescription(description));
         }
         return () => {
             if (isEdit) {
-                dispatch(setDescriptionToOrder(''));
+                dispatch(setOrderDescription(''));
             }
         }
-    }, [orderDetails, isEdit, dispatch]);
+    }, [description, isEdit, dispatch]);
 
-    const onOrderDescriptionChange = useCallback((event) => {
-        dispatch(setDescriptionToOrder(event.target.value))
+    const onChangedInput = useCallback((event) => {
+        dispatch(setOrderDescription(event.target.value))
     }, [dispatch]);
 
     return (
@@ -33,12 +31,12 @@ export const DescriptionForm = ({isEdit, orderDetails}) => {
                 <InputLabel>{t('DESCRIPTION')}</InputLabel>
                 <OutlinedInput
                     label={t('DESCRIPTION')}
-                    name='price'
+                    name='description'
                     type='text'
                     variant='outlined'
                     labelWidth={70}
-                    value={orderStoreDescription}
-                    onChange={onOrderDescriptionChange}
+                    value={orderDescription}
+                    onChange={onChangedInput}
                 />
             </FormControl>
             <Divider/>
