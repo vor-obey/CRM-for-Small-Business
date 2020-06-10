@@ -220,6 +220,7 @@ export const EditOrder = ({history}) => {
             status={status}
             orderDescription={orderDescription}
             onSubmit={onSubmitHandler}
+            setOrderedProducts={setOrderedProducts}
             orderedProducts={orderedProducts}
             isEdit={true}
             onNovaposhtaAddressSelectHandler={onChangedAddressInput}
