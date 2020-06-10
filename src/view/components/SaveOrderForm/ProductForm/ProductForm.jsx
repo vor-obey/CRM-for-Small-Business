@@ -27,7 +27,8 @@ import EditIcon from "@material-ui/icons/Edit";
 import CheckIcon from "@material-ui/icons/Check";
 import {useDispatch} from "react-redux";
 import {StorageService} from "../../../../services";
-import {setDescriptionToOrder} from "../../../../data/store/order/orderActions";
+import {setOrderDescription} from "../../../../data/store/order/orderActions";
+import {OrderDescriptionInput} from "../OrderDescriptionInput/OrderDescriptionInput";
 
 export const ProductForm = ({
                                 getProducts,
@@ -35,8 +36,7 @@ export const ProductForm = ({
                                 classes,
                                 isEdit,
                                 history,
-                                orderDescription,
-                                onOrderDescriptionChangeHandler
+                                description,
                             }) => {
     const [products] = useProducts();
     const dispatch = useDispatch();
@@ -217,12 +217,12 @@ export const ProductForm = ({
         if (editId === product.productId) {
             return (
                 <div style={{display: 'flex', marginBottom: 4}}>
-                        <TextField
-                            className={classes.margin}
-                            onChange={(event) => onPriceChange(product, event.target.value, product.productId)}
-                            value={editId === product.productId ? editPrice : product.price}
-                            autoFocus
-                            InputProps={{ classes: {underline: classes.underline}}} />
+                    <TextField
+                        className={classes.margin}
+                        onChange={(event) => onPriceChange(product, event.target.value, product.productId)}
+                        value={editId === product.productId ? editPrice : product.price}
+                        autoFocus
+                        InputProps={{classes: {underline: classes.underline}}}/>
                     <Typography style={{marginTop: 5}}>
                         &nbsp; {product.currency}
                     </Typography>
@@ -364,7 +364,7 @@ export const ProductForm = ({
 
     const handleResetCart = useCallback(() => {
         cart.setProducts([]);
-        dispatch(setDescriptionToOrder(''));
+        dispatch(setOrderDescription(''));
         StorageService.setItem('description', '');
     }, [cart, dispatch]);
 
@@ -379,13 +379,12 @@ export const ProductForm = ({
                 </Button> : null}
                 <Divider/>
             </Grid>
+            <OrderDescriptionInput isEdit={isEdit} description={description}/>
             <Grid container item xs={12} sm={12}>
                 <AddOrderProduct
                     products={products}
                     selectedProducts={cart.products}
                     submit={addProduct}
-                    orderDescription={orderDescription}
-                    onOrderDescriptionChangeHandler={onOrderDescriptionChangeHandler}
                     isEdit={isEdit}
                     orderedProducts={orderedProducts}
                 />

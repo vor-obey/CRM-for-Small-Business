@@ -20,7 +20,7 @@ export const setProductsToCart = (cart) => ({
     cart,
 });
 
-export const setDescriptionToOrder = (description) => ({
+export const setOrderDescription = (description) => ({
     type: SET_DESCRIPTION_TO_CART,
     description
 });
