@@ -1,6 +1,18 @@
 export const templatePageStyles = ((theme) => ({
     container: {
         display: 'flex',
+        width: '100%',
+        justifyContent: 'center',
+    },
+    containerChat: {
+        display: 'flex',
+        width: '100%',
+        [theme.breakpoints.down('md')]: {
+            width: '90%',
+        },
+        '@media (max-width: 769px)': {
+            width: '100%'
+        },
         justifyContent: 'center',
     },
     buttonContainer: {
@@ -76,5 +88,40 @@ export const templatePageStyles = ((theme) => ({
     },
     button: {
         paddingBottom: 30
+    },
+    readMoreText: {
+        fontSize: '16px',
+        cursor: 'pointer',
+        overflow: 'hidden',
+        whiteSpace: 'nowrap',
+        wordBreak: 'break-word',
+        color: 'gray',
+        textOverflow: 'ellipsis',
+        marginTop:  6,
+        [theme.breakpoints.down('xl')]: {
+            width: '760px'
+        },
+        [theme.breakpoints.down('lg')]: {
+            width: '450px'
+        },
+        [theme.breakpoints.down('sm')]: {
+            width: '700px'
+        },
+        [theme.breakpoints.down('xs')]: {
+            width: '500px'
+        },
+    },
+    readLessText: {
+        fontSize: '16px',
+        color: 'gray',
+        cursor: 'pointer',
+        marginTop:  4,
+        wordBreak: 'break-word',
+        whiteSpace: 'break-spaces'
+    },
+    buttonText: {
+        fontSize: '12px',
+        cursor: 'pointer',
+        paddingTop: '10px',
     }
 }));
