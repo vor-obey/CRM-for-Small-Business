@@ -22,7 +22,7 @@ import {isEmpty} from 'lodash';
 const useStyles = makeStyles(customersPageStyle);
 
 export const CustomersPage = ({history}) => {
-    const {customerList, loading} = useCustomers();
+    const {customers, loading} = useCustomers();
     const classes = useStyles();
     const [inputFilter, setInputFilter] = useState('');
     const {t} = useTranslation('');
@@ -38,10 +38,10 @@ export const CustomersPage = ({history}) => {
     }, []);
 
     const renderRows = useCallback(() => {
-        if (isEmpty(customerList)) {
+        if (isEmpty(customers)) {
             return null;
         }
-        return filter(customerList, inputFilter).map((customer) => {
+        return filter(customers, inputFilter).map((customer) => {
             return (
                 <CustomerListItem
                     t={t}
@@ -53,9 +53,9 @@ export const CustomersPage = ({history}) => {
                 />
             )
         })
-    }, [customerList, classes, navigateToCustomerDetails, inputFilter, minWidth600, t]);
+    }, [customers, classes, navigateToCustomerDetails, inputFilter, minWidth600, t]);
 
-    if (isEmpty(customerList) && !loading) {
+    if (isEmpty(customers) && !loading) {
         return (
             <Grid container justify='center' style={{display: 'grid', paddingTop: 24}}>
                 <Typography variant='h5' style={{paddingBottom: 18}}>{t('NO_NEW_CUSTOMERS')}</Typography>
