@@ -53,6 +53,7 @@ export const createOrderPageStyles = (theme => ({
         productTitleName: {
             color: '#1769aa',
             wordBreak: 'break-word',
+            whiteSpace: 'break-spaces',
             cursor: 'pointer'
         },
         productContainer: {

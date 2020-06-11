@@ -14,6 +14,7 @@ const autocompleteBreakpoints = {
 };
 
 export const SaveOrderForm = ({
+                                  breakpoints,
                                   classes,
                                   setCreatedCustomer,
                                   customers,
@@ -82,6 +83,7 @@ export const SaveOrderForm = ({
                         </Grid>
                         <Grid container item xl={12}>
                             <ProductForm
+                                breakpoints={breakpoints}
                                 setOrderedProducts={setOrderedProducts}
                                 chat={chat}
                                 getProducts={getProducts}
