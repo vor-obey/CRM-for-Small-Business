@@ -16,19 +16,22 @@ export const NotificationPage = () => {
 
     const renderNotification = useCallback(() => {
         if (isEmpty(notifications)) {
-          return (
-              <Grid container spacing={0}
-                    direction="column"
-                    alignItems="center"
-                    justify="center"
-                    style={{minHeight: 'calc(100vh - 64px)'}}>
-                  <Grid container item xs={8} sm={4} style={{flexDirection: 'column', textAlign: 'center'}}>
-                      <Typography variant='h5' style={{paddingBottom: 18}}>{t('NO_NEW_NOTIFICATIONS')}</Typography>
-                  </Grid>
-              </Grid>
-          );
+            return (
+                <Grid container spacing={0}
+                      direction="column"
+                      alignItems="center"
+                      justify="center"
+                      style={{minHeight: 'calc(100vh - 64px)'}}>
+                    <Grid container item xs={8} sm={4} style={{flexDirection: 'column', textAlign: 'center'}}>
+                        <Typography variant='h5' style={{paddingBottom: 18}}>{t('NO_NEW_NOTIFICATIONS')}</Typography>
+                    </Grid>
+                </Grid>
+            );
         }
-        return notifications.map((notification, index) => {
+        const notificationsArr = [...notifications];
+        notificationsArr.sort(((a, b) => a.date > b.date ? -1 : 1));
+
+        return notificationsArr.map((notification, index) => {
             return <NotificationList
                 key={index}
                 classes={classes}
