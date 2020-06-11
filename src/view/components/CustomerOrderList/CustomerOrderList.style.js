@@ -12,6 +12,7 @@ export const customerOrderListStyle = ((theme) => ({
         display: 'flex',
         alignItems: 'center',
         overflowWrap: 'break-word',
+        whiteSpace: 'break-spaces',
         '@media (max-width: 1150px)': {
             display: 'flex',
             flexDirection: 'row',

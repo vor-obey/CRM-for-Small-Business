@@ -3,7 +3,7 @@ export const chatWrapperStyles = (theme => ({
         display: 'flex',
         padding: 0,
         width: '100%',
-        height: 'calc(100vh - 64px)'
+        height: 'calc(100vh - 65px)'
     },
     containerChat: {
         display: 'flex',
