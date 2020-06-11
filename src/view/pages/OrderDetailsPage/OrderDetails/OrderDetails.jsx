@@ -92,8 +92,13 @@ export const OrderDetails = ({
     return (
         <Grid container item xs={12} sm={12} className={classes.container}>
             <Grid item xl={12} sm={12} className={classes.containerTitle}>
-                <Typography variant='h5'>
+                <Typography variant='h5' style={{paddingRight: 10}}>
                     {t('ORDER_DETAILS')}
+                </Typography>
+                <Typography
+                    variant='body1'
+                    className={classes.orderNum}>
+                    {`№ ${orderDetails.orderNum}`}
                 </Typography>
             </Grid>
 
@@ -120,49 +125,42 @@ export const OrderDetails = ({
                         </Grid>
                     </Grid>
                 </Grid>
+                {orderDetails.description ?
                 <Grid container item xs={12} sm={6} className={classes.containerItem}>
                     <Grid item xl={12} sm={12}>
                         <Typography variant='h5'>
                             {t('DESCRIPTION')}
                         </Typography>
                         <Typography
-                            variant='body1'
-                            className={classes.orderItem}>
+                            variant='body1'>
                             {(orderDetails && orderDetails.description) || ''}
                         </Typography>
                     </Grid>
-                </Grid>
+                </Grid> : null}
             </Grid>
             <Grid container item xs={12} sm={6} className={classes.containerItem}>
                 <Grid item xl={12} sm={12}>
                     <Typography variant='h5'>
-                        {t('ORDER_NUMBER')}
+                        {t('SHIPPING_DETAILS')}
                     </Typography>
                 </Grid>
                 <Grid item xs={12} sm={12}>
+                    {renderShippingAddress()}
                     <Grid item xs={12} sm={12} className={classes.containerFieldsItem}>
                         <Typography
-                            variant='body1'
-                            className={classes.orderItem}>
-                            {orderDetails.orderNum}
+                            variant='body2'
+                            color='textSecondary'>
+                            {t('SHIPPING_METHOD')}
+                        </Typography>
+                        <Typography
+                            variant='body1'>
+                            {(shippingMethod && shippingMethod.name) || ''}
                         </Typography>
                     </Grid>
                 </Grid>
-                    <Grid item xl={12} sm={12} style={{marginTop: 30}}>
-                        <Typography variant='h5'>
-                            {t('MANAGER')}
-                        </Typography>
-                    </Grid>
-                    <Grid item xs={12} sm={12}>
-                        <Grid item xs={12} sm={12} className={classes.containerFieldsItem}>
-                            <Typography
-                                variant='body1'
-                                className={classes.orderItem}>
-                                {(manager && `${manager.firstName} ${manager.middleName} ${manager.lastName}`) || ''}
-                            </Typography>
-                        </Grid>
-                    </Grid>
+
             </Grid>
+
             {isCustom ? null : (
                 <Grid container item xs={12} sm={6} className={classes.containerItem}>
                     <Grid item xl={12} sm={12}>
@@ -178,8 +176,7 @@ export const OrderDetails = ({
                                 {t('USERNAME')}
                             </Typography>
                             <Typography
-                                variant='body1'
-                                className={classes.orderItem}>
+                                variant='body1'>
                                 {(customer && customer.username) || ''}
                             </Typography>
                         </Grid>
@@ -190,8 +187,7 @@ export const OrderDetails = ({
                                 {t('FULL_NAME')}
                             </Typography>
                             <Typography
-                                variant='body1'
-                                className={classes.orderItem}>
+                                variant='body1'>
                                 {(customer && customer.name) || ''}
                             </Typography>
                         </Grid>
@@ -203,8 +199,7 @@ export const OrderDetails = ({
                                     {t('NUMBER')}
                                 </Typography>
                                 <Typography
-                                    variant='body1'
-                                    className={classes.orderItem}>
+                                    variant='body1'>
                                     {customer.contactNumber}
                                 </Typography>
                             </Grid>
@@ -217,8 +212,7 @@ export const OrderDetails = ({
                                     {t('EMAIL')}
                                 </Typography>
                                 <Typography
-                                    variant='body1'
-                                    className={classes.orderItem}>
+                                    variant='body1'>
                                     {customer.contactEmail}
                                 </Typography>
                             </Grid>
@@ -226,45 +220,34 @@ export const OrderDetails = ({
                     </Grid>
                 </Grid>
             )}
-            <Grid container item xs={12} sm={12}>
-                <Grid container item xs={12} sm={6} className={classes.containerItem}>
-                    <Grid item xl={12} sm={12}>
-                        <Typography variant='h5'>
-                            {t('SHIPPING_DETAILS')}
-                        </Typography>
-                    </Grid>
+            <Grid container item xs={12} sm={6} className={classes.containerItem}>
+                <Grid item xl={12} sm={12}>
+                    <Typography variant='h5'>
+                        {t('DATE')}
+                    </Typography>
+                </Grid>
+                <Grid item xs={12} sm={12}>
                     <Grid item xs={12} sm={12}>
-                        {renderShippingAddress()}
-                        <Grid item xs={12} sm={12} className={classes.containerFieldsItem}>
-                            <Typography
-                                variant='body2'
-                                color='textSecondary'>
-                                {t('SHIPPING_METHOD')}
-                            </Typography>
-                            <Typography
-                                variant='body1'
-                                className={classes.orderItem}>
-                                {(shippingMethod && shippingMethod.name) || ''}
-                            </Typography>
-                        </Grid>
-
+                        <Typography
+                            variant='body1'>
+                            {moment(orderDetails.orderAt).format('DD.MM.YYYY') || ''}
+                        </Typography>
                     </Grid>
                 </Grid>
+            </Grid>
 
-                <Grid container item xs={12} sm={4} className={classes.containerItem}>
-                    <Grid item xl={12} sm={12}>
-                        <Typography variant='h5'>
-                            {t('DATE')}
-                        </Typography>
-                    </Grid>
+            <Grid container item xs={12} sm={6} style={{marginTop: 20}}>
+                <Grid item xl={12} sm={12}>
+                    <Typography variant='h5'>
+                        {t('MANAGER')}
+                    </Typography>
+                </Grid>
+                <Grid item xs={12} sm={12}>
                     <Grid item xs={12} sm={12}>
-                        <Grid item xs={12} sm={12} className={classes.containerFieldsItem}>
-                            <Typography
-                                variant='body1'
-                                className={classes.orderItem}>
-                                {moment(orderDetails.orderAt).format('DD.MM.YYYY') || ''}
-                            </Typography>
-                        </Grid>
+                        <Typography
+                            variant='body1'>
+                            {(manager && `${manager.firstName} ${manager.middleName} ${manager.lastName}`) || ''}
+                        </Typography>
                     </Grid>
                 </Grid>
             </Grid>
