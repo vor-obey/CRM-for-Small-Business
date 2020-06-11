@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
@@ -28,6 +28,12 @@ export const ChatDialog = ({profile, thread, goBack, classes, minWidth, isDrawer
             setText(templateContent);
         }
     }, [templateContent]);
+
+    const scrollToBottom = () => {
+        messagesEndRef.current.scrollIntoView();
+    };
+
+    useEffect(scrollToBottom, [items]);
 
     // const fetchThreadFeed = useCallback(async ({thread_id, prev_cursor}) => {
     //     try {
@@ -122,8 +128,10 @@ export const ChatDialog = ({profile, thread, goBack, classes, minWidth, isDrawer
         setText('');
     }, [text, thread.thread_id, dispatch, socket]);
 
+    const messagesEndRef = useRef(null);
+
     return (
-        <Grid className={classes.listDialog} style={{
+        <Grid id='scroll' className={classes.listDialog} style={{
             padding: 0,
             display: 'flex',
             flexDirection: 'column',
@@ -148,14 +156,24 @@ export const ChatDialog = ({profile, thread, goBack, classes, minWidth, isDrawer
                     />
                     : null}
             </Grid>
-            <Grid style={{width: '100%', overflowY: 'scroll', height: 'calc(100% - 130px)'}}>
+            <Grid style={{
+                display: 'grid',
+                alignItems: 'flex-end',
+                width: '100%',
+                overflowY: 'auto',
+                height: 'calc(100% - 130px)'
+            }}>
                 <List>
                     {renderItems()}
+                    <div ref={messagesEndRef}/>
                 </List>
             </Grid>
-            <Grid className={classes.sentBox}>
-                <form onSubmit={submit} className={classes.form}>
-                    <TextField
+            <Grid
+                className={classes.sentBox}>
+                < form
+                    onSubmit={submit}
+                    className={classes.form}>
+                    < TextField
                         autoFocus
                         fullWidth
                         multiline
