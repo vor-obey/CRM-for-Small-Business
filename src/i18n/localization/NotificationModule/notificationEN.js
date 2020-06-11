@@ -4,5 +4,6 @@ export const NotificationEN = {
    TIME: 'Time',
    MESSAGE: 'Message',
    SEND: 'sent you a message:',
-   NOTIFICATION: 'Notification'
+   NOTIFICATION: 'Notification',
+   NO_NEW_NOTIFICATIONS: 'There are no new notifications'
 };

@@ -5,4 +5,5 @@ export const NotificationRU = {
    MESSAGE: 'Сообщение',
    NOTIFICATION: 'Уведомления',
    SEND: 'отправил(-а) вам сообщение:',
+   NO_NEW_NOTIFICATIONS: 'Пока нет новых уведомлений'
 };
