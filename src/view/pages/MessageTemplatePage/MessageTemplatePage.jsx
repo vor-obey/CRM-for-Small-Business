@@ -329,6 +329,7 @@ export const MessageTemplatePage = ({chat, onSubmit, isDialogOpen, handleDrawerI
                                            isDialogOpen={isDialogOpen}/>
                 ),
                 onCloseHandler: () => dispatch(closeModal()),
+                allowBackDropClick: true
             }))
         } else {
             history.push('/create-message-template')

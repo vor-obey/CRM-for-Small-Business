@@ -160,6 +160,7 @@ export const SaveAbstractProduct = ({
                 />
             ),
             onCloseHandler: () => dispatch(closeModal()),
+            allowBackDropClick: true
         }))
     }, [dispatch, updateAttributes]);
 
@@ -229,6 +230,7 @@ export const SaveAbstractProduct = ({
                 updateProductTypes={updateProductTypes}
             />),
             onCloseHandler: () => dispatch(closeModal()),
+            allowBackDropClick: true
         }))
     }, [dispatch, updateProductTypes, t, classes]);
 
@@ -249,6 +251,7 @@ export const SaveAbstractProduct = ({
                 />
             ),
             onCloseHandler: () => dispatch(closeModal()),
+            allowBackDropClick: true
         }))
     }, [t, dispatch, selectedProductType, updateProductTypes, classes]);
 
@@ -278,6 +281,7 @@ export const SaveAbstractProduct = ({
                 />
             ),
             onCloseHandler: () => dispatch(closeModal()),
+            allowBackDropClick: true
         }))
     }, [dispatch, createAttribute]);
 
