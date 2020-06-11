@@ -221,6 +221,7 @@ export const chatWrapperStyles = (theme => ({
     drawerOpen: {
         top: '65px',
         width: '50%',
+        borderLeft: 'none',
         transition: theme.transitions.create('width', {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.enteringScreen,

@@ -24,7 +24,7 @@ import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import clsx from "clsx";
 import isEmpty from 'lodash/isEmpty';
 import {MessageTemplatePage} from "../../../pages/MessageTemplatePage/MessageTemplatePage";
-import {OrdersPage} from "../../../pages/OrdersPage/OrdersPage";
+import {CustomerOrderList} from "../../CustomerOrderList/CustomerOrderList";
 
 export const Chat = ({
                          classes,
@@ -226,7 +226,7 @@ export const Chat = ({
                 }
                 case 2: {
                     return (
-                        <OrdersPage
+                        <CustomerOrderList
                             selectedСustomerInChat={selectedThread.users && selectedThread.users[0]}
                             history={history}
                         />
