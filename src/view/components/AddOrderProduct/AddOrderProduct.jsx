@@ -189,6 +189,7 @@ export const AddOrderProduct = ({
                             {t('ADD_PRODUCT')}
                         </legend>
                         <SaveOrderProduct
+                            chat={chat}
                             isOpen={isOpen}
                             options={products}
                             onClose={toggleAutocomplete}
