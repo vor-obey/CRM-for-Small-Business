@@ -11,7 +11,7 @@ export const EditAbstractProduct = ({history}) => {
     const {id} = useParams();
     const dispatch = useDispatch();
     const {t} = useTranslation();
-    const [abstractProduct] = useAbstractProductDetailsById(id);
+    const {abstractProductDetails} = useAbstractProductDetailsById(id);
 
     const editAbstractProduct = useCallback(async (data) => {
         const {productTypeId, abstractProductDetails} = data;
@@ -38,7 +38,7 @@ export const EditAbstractProduct = ({history}) => {
 
     return (
         <SaveAbstractProduct
-            abstractProduct={abstractProduct}
+            abstractProduct={abstractProductDetails}
             labels={{
                 title: t('EDIT_CATEGORY_PRODUCT'),
                 button: t('SAVE')

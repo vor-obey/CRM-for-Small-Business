@@ -45,7 +45,7 @@ export const EditProductTypeWithAttributes = ({history}) => {
     const dispatch = useDispatch();
     const [name, setName] = useState('');
     const [attributes, setAttributes] = useState([]);
-    const [productTypeDetails] = useProductTypeById(id);
+    const {productType} = useProductTypeById(id);
     const {t} = useTranslation('');
 
     const mapAttributes = useCallback((items) => {
@@ -63,11 +63,11 @@ export const EditProductTypeWithAttributes = ({history}) => {
     }, []);
 
     useEffect(() => {
-        if (!isEmpty(productTypeDetails)) {
-            setName(productTypeDetails.name);
-            setAttributes(mapAttributes(productTypeDetails.productTypeToAttributes));
+        if (!isEmpty(productType)) {
+            setName(productType.name);
+            setAttributes(mapAttributes(productType.productTypeToAttributes));
         }
-    }, [mapAttributes, productTypeDetails]);
+    }, [mapAttributes, productType]);
 
     const onChange = useCallback((event) => {
         setName(event.target.value);

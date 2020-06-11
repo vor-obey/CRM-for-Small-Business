@@ -37,10 +37,10 @@ export const SaveProduct = ({
     const {t} = useTranslation();
     const classes = useStyles();
     const productDetails = useSelector(state => state.productReducer.details);
-    const [abstractProducts] = useAbstractProducts();
+    const {abstractProducts} = useAbstractProducts();
     const [selectedAbstractProduct, setSelectedAbstractProduct] = useState({});
     const [isAbstractProductAutocompleteOpen, setIsAbstractProductAutocompleteOpen] = useState(false);
-    const [attributes] = useAttributesByProductTypeId(selectedAbstractProduct.productType && selectedAbstractProduct.productType.productTypeId);
+    const {attributes} = useAttributesByProductTypeId(selectedAbstractProduct.productType && selectedAbstractProduct.productType.productTypeId);
     const [selectedAttributeValues, setSelectedAttributeValues] = useState({});
     const [isExpanded, setIsExpanded] = useState(false);
     const dispatch = useDispatch();

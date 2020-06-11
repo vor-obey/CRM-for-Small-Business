@@ -23,13 +23,13 @@ const useStyles = makeStyles(HomeStyles);
 export const Home = ({history}) => {
     const classes = useStyles();
     const {t} = useTranslation('');
-    const [orders] = useOrders();
+    const {orderList} = useOrders();
     const dispatch = useDispatch();
 
     const renderOrdersCountByStatus = useCallback((status) => {
-        const filtered = orders.filter(order => order.status === status);
+        const filtered = orderList.filter(order => order.status === status);
         return <div>{filtered.length}</div>;
-    }, [orders]);
+    }, [orderList]);
 
     const navigateToOrdersPage = useCallback((status) => {
         history.push({

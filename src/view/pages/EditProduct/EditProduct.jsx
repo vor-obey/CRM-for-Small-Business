@@ -11,7 +11,7 @@ import {setProductDetailsToStore} from "../../../data/store/product/productActio
 export const EditProduct = ({history}) => {
     const {t} = useTranslation();
     const {id} = useParams();
-    const [productDetails] = useProductDetailsById(id);
+    const {productDetails} = useProductDetailsById(id);
     const dispatch = useDispatch();
 
     const editProduct = useCallback(async (data) => {
