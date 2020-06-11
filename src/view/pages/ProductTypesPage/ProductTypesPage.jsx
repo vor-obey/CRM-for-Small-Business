@@ -12,7 +12,7 @@ import {Link} from "react-router-dom";
 
 export const ProductTypesPage = ({history}) => {
     const {t} = useTranslation();
-    const [productTypes,,, loading] = useProductTypes();
+    const {productTypes, loading} = useProductTypes();
 
     const renderProductTypes = useCallback(() => {
         if (isEmpty(productTypes)) {

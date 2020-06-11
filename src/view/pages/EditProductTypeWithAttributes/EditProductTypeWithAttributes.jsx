@@ -45,7 +45,7 @@ export const EditProductTypeWithAttributes = ({history}) => {
     const dispatch = useDispatch();
     const [name, setName] = useState('');
     const [attributes, setAttributes] = useState([]);
-    const [productTypeDetails] = useProductTypeById(id);
+    const {productTypeDetails} = useProductTypeById(id);
     const {t} = useTranslation('');
 
     const mapAttributes = useCallback((items) => {

@@ -36,7 +36,7 @@ export const AbstractProductDetailsPage = ({history}) => {
     const classes = useStyles();
     const dispatch = useDispatch();
     const {id} = useParams();
-    const [abstractProductDetails] = useAbstractProductDetailsById(id);
+    const {abstractProductDetails} = useAbstractProductDetailsById(id);
     const {t} = useTranslation('');
 
     const deleteAbstractProduct = useCallback(async () => {

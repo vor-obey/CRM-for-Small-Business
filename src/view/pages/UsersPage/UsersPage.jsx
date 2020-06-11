@@ -26,9 +26,9 @@ export const UsersPage = ({history}) => {
     const classes = useStyles();
     const {t} = useTranslation('');
 
-    const [userList] = useManagers();
+    const {managers} = useManagers();
     const minWidth600 = useMediaQuery('(min-width:600px)');
-    const [roles] = useRoles();
+    const {roles} = useRoles();
     const [inputFilter, setInputFilter] = useState('');
     const [selectedOption, setSelectedOption] = useState('');
 
@@ -47,14 +47,14 @@ export const UsersPage = ({history}) => {
     }, []);
 
     const filterUsers = useCallback(() => {
-        let filteredUsers = filter(userList, inputFilter);
+        let filteredUsers = filter(managers, inputFilter);
 
         if (!selectedOption) {
             return filteredUsers;
         }
 
         return filter(filteredUsers, selectedOption, ['role']);
-    }, [inputFilter, selectedOption, userList]);
+    }, [inputFilter, selectedOption, managers]);
 
     const renderSelect = useCallback(() => {
         return (
@@ -69,7 +69,7 @@ export const UsersPage = ({history}) => {
     }, [roles, classes, t, selectedOption, onSelectHandler]);
 
     const renderRows = useCallback(() => {
-        if (!userList || !userList.length) {
+        if (!managers || !managers.length) {
             return null;
         }
 
@@ -84,7 +84,7 @@ export const UsersPage = ({history}) => {
                 />
             );
         })
-    }, [userList, classes, navigateToUserDetails, filterUsers, minWidth600]);
+    }, [managers, classes, navigateToUserDetails, filterUsers, minWidth600]);
 
     return (
         <Container className={classes.root}>

@@ -19,7 +19,7 @@ export const OrganizationDetailsPage = ({
     const {id} = useParams();
     const classes = useStyles();
     const {t} = useTranslation('');
-    const [organizationDetails,, triggerOrganizationDetailsUpdate] = useOrganizationDetailsById(id);
+    const {organizationDetails, triggerOrganizationDetailsUpdate} = useOrganizationDetailsById(id);
     const currentUser = useSelector(state => state.userReducer.currentUser);
 
     const renderOrganizationDetails = useCallback(() => {

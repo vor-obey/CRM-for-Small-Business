@@ -7,20 +7,20 @@ import UserService from '../../services/UserService';
 
 export const useManagers = () => {
     const [managers, setManagers] = useState([]);
-    const [loading, setLoading] = useState(false);
+    const [managerLoading, setManagerLoading] = useState(false);
     const dispatch = useDispatch();
 
     useEffect(() => {
         const fetchManagers = async () => {
             try {
-                setLoading(true);
+                setManagerLoading(true);
                 dispatch(setIsLoading(true));
                 const managers = await UserService.list();
                 setManagers(managers);
                 dispatch(setIsLoading(false));
-                setLoading(false);
+                setManagerLoading(false);
             } catch (e) {
-                setLoading(false);
+                setManagerLoading(false);
                 dispatch(setIsLoading(false));
                 dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE, success: false}));
             }
@@ -28,11 +28,11 @@ export const useManagers = () => {
         fetchManagers();
     }, [dispatch]);
 
-    return [managers, setManagers, loading];
+    return {managers, setManagers, managerLoading};
 };
 
 export const useManagerById = (id) => {
-    const [manager, setManager] = useState({});
+    const [managerDetails, setManagerDetails] = useState({});
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -40,7 +40,7 @@ export const useManagerById = (id) => {
             try {
                 dispatch(setIsLoading(true));
                 const response = await UserService.findOneById(id);
-                setManager(response);
+                setManagerDetails(response);
                 dispatch(setIsLoading(false));
             } catch (e) {
                 dispatch(setIsLoading(false));
@@ -50,7 +50,7 @@ export const useManagerById = (id) => {
         fetchUserById();
     }, [id, dispatch]);
 
-    return [manager, setManager];
+    return {managerDetails, setManagerDetails};
 };
 
 export const useRoles = () => {
@@ -72,5 +72,5 @@ export const useRoles = () => {
         fetchRoles();
     }, [dispatch]);
 
-    return [roles, setRoles];
+    return {roles, setRoles};
 };

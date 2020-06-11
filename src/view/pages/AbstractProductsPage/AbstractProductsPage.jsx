@@ -11,7 +11,7 @@ import {Link} from "react-router-dom";
 
 export const AbstractProductsPage = ({history}) => {
     const {t} = useTranslation();
-    const [abstractProducts,, loading] = useAbstractProducts();
+    const {abstractProducts, loading} = useAbstractProducts();
 
     const renderAbstractProducts = useCallback(() => {
         if (isEmpty(abstractProducts)) {

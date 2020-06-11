@@ -18,13 +18,13 @@ export const EditOrder = ({history}) => {
     const classes = useStyles();
     const {id} = useParams();
     const dispatch = useDispatch();
-    const [orderDetails] = useOrderDetailsById(id);
-    const [shippingMethods] = useShippingMethods();
+    const {orderDetails} = useOrderDetailsById(id);
+    const {shippingMethods} = useShippingMethods();
     const [shippingMethod, setShippingMethod] = useState({});
     const [shippingMethodId, setShippingMethodId] = useState('');
-    const [managers] = useManagers();
+    const {managers} = useManagers();
     const [manager, setManager] = useState({});
-    const [customers, setCustomers] = useCustomers();
+    const {customers, setCustomers} = useCustomers();
     const [customer, setCustomer] = useState({});
     const [createdCustomer, setCreatedCustomer] = useState({});
     const [address, setAddress] = useState('');
