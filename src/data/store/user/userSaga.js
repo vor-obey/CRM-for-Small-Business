@@ -118,8 +118,11 @@ export function* initializeSocketConnection(action) {
     }
 }
 
-const clickPushToChat = () => {
-    history.push('/chat')
+const clickPushToChat = (thread) => {
+    history.push({
+        pathname: 'chat',
+        thread: thread
+    })
 };
 
 export function* addAndDisplayMessage(payload) {
@@ -137,7 +140,7 @@ export function* addAndDisplayMessage(payload) {
             username: findThread.thread_title,
             date: new Date(),
             status: 'message',
-            onClick: clickPushToChat
+            onClick: () => clickPushToChat(findThread)
         }));
     }
 }
