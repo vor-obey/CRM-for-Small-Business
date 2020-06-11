@@ -247,11 +247,11 @@ export const MessageTemplatePage = ({chat, onSubmit, isDialogOpen, handleDrawerI
                      <Typography color='primary'>{template.name}</Typography>
                      {template.content.length > 30 ?
                          <div onClick={() => showMore(template)} className={classes.display}>
-                             <Typography className={classes.readMoreText}>{template.content}</Typography>
+                             <Typography  onClick={() => handleClickSubmit(template)} className={classes.readMoreText}>{template.content}</Typography>
                              <Typography className={classes.buttonText}
                                          color='primary'>{t('SHOW_MORE')}</Typography>
                          </div>
-                         : <Typography className={classes.readMoreText}>{template.content}</Typography>}
+                         : <Typography onClick={() => handleClickSubmit(template)} className={classes.readMoreText}>{template.content}</Typography>}
                      <Divider/>
                  </Grid>
              );
