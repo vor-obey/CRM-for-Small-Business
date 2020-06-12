@@ -15,24 +15,24 @@ import {
 export const NotificationList = ({
                                      index,
                                      classes,
-                                     notifications
+                                     notification
                                  }) => {
     const {t} = useTranslation('');
 
     const renderDesktop = () => {
         return (
-            <div key={index} onClick={() => notifications.onClick()}>
+            <div key={index} onClick={() => notification.onClick()}>
                 <div className={classes.wrap}>
                     <ListItemAvatar>
-                        {typeof notifications.icon === 'string' ?
-                            <Avatar alt="Icon" src={notifications.icon}/> :
-                            <Avatar>{notifications.icon}</Avatar>}
+                        {typeof notification.icon === 'string' ?
+                            <Avatar alt="Icon" src={notification.icon}/> :
+                            <Avatar>{notification.icon}</Avatar>}
                     </ListItemAvatar>
                     <Typography>
-                        <span className={classes.username}>{notifications.username}</span>
+                        <span className={classes.username}>{notification.username}</span>
                         <span>{t('SEND')}</span>
-                        <span className={classes.message}>{notifications.text}</span>
-                        <span className={classes.date}>{moment(notifications.date).format('HH:mm')}</span>
+                        <span className={classes.message}>{notification.text}</span>
+                        <span className={classes.date}>{moment(notification.date).format('HH:mm')}</span>
                     </Typography>
                 </div>
             </div>
@@ -44,23 +44,24 @@ export const NotificationList = ({
             <div className={classes.divMobile}>
                 <ExpansionPanel>
                     <ExpansionPanelSummary expandIcon={<ExpandMoreIcon/>} className={classes.panel}>
-                        <div key={index} onClick={() => notifications.onClick()} className={classes.root}>
+                        <div key={index} onClick={() => notification.onClick()} className={classes.root}>
                             <div className={classes.wrap}>
                                 <ListItemAvatar>
-                                    {typeof notifications.icon === 'string' ?
-                                        <Avatar alt="Icon" src={notifications.icon}/> :
-                                        <Avatar>{notifications.icon}</Avatar>}
+                                    {typeof notification.icon === 'string' ?
+                                        <Avatar alt="Icon" src={notification.icon}/> :
+                                        <Avatar>{notification.icon}</Avatar>}
                                 </ListItemAvatar>
                                 <Typography>
-                                    <span className={classes.username}>{notifications.username}</span>
+                                    <span className={classes.username}>{notification.username}</span>
+                                    {notification.username.length > 15 ? <br/>: null}
                                     <span className={classes.send}>{t('SEND')}</span>
-                                    <span className={classes.date}>{moment(notifications.date).format('HH:mm')}</span>
+                                    <span className={classes.date}>{moment(notification.date).format('HH:mm')}</span>
                                 </Typography>
                             </div>
                         </div>
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails>
-                        <Typography className={classes.messageMobile}>{notifications.text}</Typography>
+                        <Typography className={classes.messageMobile}>{notification.text}</Typography>
                     </ExpansionPanelDetails>
                 </ExpansionPanel>
             </div>

@@ -18,6 +18,7 @@ export const NotificationPageStyle = (theme => ({
         display: 'flex',
     },
     username: {
+        paddingRight: 2,
         fontWeight: 'bold',
     },
     message: {
