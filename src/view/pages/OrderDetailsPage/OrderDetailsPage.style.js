@@ -83,6 +83,7 @@ export const orderDetailsStyles = ((theme) => ({
     containerFieldsItem: {
         marginTop: '15px'
     },
+
     orderCurrency: {
         paddingLeft: theme.spacing(1),
         [theme.breakpoints.down('lg')]: {

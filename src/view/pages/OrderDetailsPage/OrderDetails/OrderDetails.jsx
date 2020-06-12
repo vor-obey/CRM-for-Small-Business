@@ -169,7 +169,7 @@ export const OrderDetails = ({
                         </Typography>
                     </Grid>
                     <Grid item xs={12} sm={12}>
-                        <Grid item xs={12} sm={12} className={classes.containerFieldsItem}>
+                        <Grid item xs={12} sm={12}>
                             <Typography
                                 variant='body2'
                                 color='textSecondary'>
@@ -236,7 +236,7 @@ export const OrderDetails = ({
                 </Grid>
             </Grid>
 
-            <Grid container item xs={12} sm={6} style={{marginTop: 20}}>
+            <Grid container item xs={12} sm={6} className={classes.containerItem}>
                 <Grid item xl={12} sm={12}>
                     <Typography variant='h5'>
                         {t('MANAGER')}
