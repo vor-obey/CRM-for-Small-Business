@@ -1,6 +1,6 @@
 export const TemplateUA = {
     SHOW_MORE: 'Показати більше',
-    HIDE_ALL: 'Приховати все',
+    HIDE: 'Приховати',
     TEMPLATE_NAME: 'Назва шаблону',
     CONTENT: 'Зміст',
     MESSAGE_TEMPLATES: 'Шаблони повідомлень',
