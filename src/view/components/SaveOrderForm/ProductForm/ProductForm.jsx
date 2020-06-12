@@ -185,6 +185,7 @@ export const ProductForm = ({
                     ...product,
                     price: editDetailsProduct.price,
                     amount: editDetailsProduct.amount,
+                    totalPrice: editDetailsProduct.price * editDetailsProduct.amount,
                     action: product.action === 'add' ? 'add' : 'edit'
                 };
                 setOrderedProducts(newArr);
