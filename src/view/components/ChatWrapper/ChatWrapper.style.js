@@ -159,7 +159,6 @@ export const chatWrapperStyles = (theme => ({
         wordBreak: 'break-word'
     },
     messageImg: {
-        width: 150,
         height: 150
     },
     messageUnsupported: {
@@ -169,6 +168,29 @@ export const chatWrapperStyles = (theme => ({
         marginRight: 5,
         marginLeft: 5,
         flex: 'unset'
+    },
+    sharedBox: {
+        maxWidth: 345,
+    },
+    sharedBoxAvatar: {
+        height: 40,
+    },
+    sharedBoxMedia: {
+        height: 0,
+        paddingTop: '56.25%', // 16:9
+    },
+    sharedBoxCaption: {
+        height: 100,
+        overflow: 'hidden',
+    },
+    like: {
+        color: '#ED4956',
+        fontSize: 30
+    },
+    links: {
+        display: 'flex',
+        flexDirection: 'column',
+
     },
     text: {
         height: '100%',
@@ -189,7 +211,7 @@ export const chatWrapperStyles = (theme => ({
     mobileList: {
         padding: 0,
         width: '100%',
-        height:'100%'
+        height: '100%'
     },
     backButton: {
         cursor: 'pointer',
