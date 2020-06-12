@@ -28,6 +28,7 @@ import {CreateOrderPage} from "../../../pages/CreateOrderPage/CreateOrderPage";
 export const Chat = ({
                          classes,
                      }) => {
+    const history = useHistory();
     const {t} = useTranslation('');
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [selectedThread, setSelectedThread] = useState({});
@@ -157,7 +158,7 @@ export const Chat = ({
                                 }}
                                 primary={thread_title}
                                 secondary={text}
-                             />
+                            />
                         </ListItem>
                         <Divider/>
                     </React.Fragment>
@@ -231,13 +232,9 @@ export const Chat = ({
                 }
                 case 3: {
                     return (
-                        <div style={{overflowY: 'scroll', height: '93%'}}>
-                            <MessageTemplatePage
-                                handleDrawerIcon={handleDrawerIcon(3, false)}
-                                onSubmit={onSubmit}
-                                chat={true}
-                                isDialogOpen={isDialogOpen}
-                            />
+                        <div className={classes.additionalChildTemplates}>
+                            <MessageTemplatePage handleDrawerIcon={handleDrawerIcon(3, false)} onSubmit={onSubmit}
+                                                 chat={true} isDialogOpen={isDialogOpen}/>
                         </div>
                     );
                 }
@@ -248,7 +245,7 @@ export const Chat = ({
         }
 
         return null;
-    }, [drawerIcons, handleDrawerIcon, isDialogOpen, onSubmit]);
+    }, [drawerIcons, handleDrawerIcon, isDialogOpen, onSubmit, history, selectedThread, classes.additionalChildTemplates]);
 
     return (
         <Grid item xs={12} sm={12} className={classes.containerChat}>
@@ -268,6 +265,7 @@ export const Chat = ({
                     thread={selectedThread}
                     toggleDrawerMobile={toggleDrawerMobile}
                     classes={classes}
+                    setTemplateContent={setTemplateContent}
                     isDrawerOpened={isDrawerOpen}
                     templateContent={templateContent}
                 />
@@ -299,6 +297,7 @@ export const Chat = ({
                     variant="permanent"
                     anchor="right"
                     className={clsx(classes.drawer, {
+                        [classes.hide]: !isDialogOpen,
                         [classes.drawerOpen]: isDrawerOpen(),
                         [classes.drawerClose]: !isDrawerOpen(),
                     })}

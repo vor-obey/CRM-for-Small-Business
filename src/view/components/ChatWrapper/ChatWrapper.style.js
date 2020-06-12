@@ -134,6 +134,11 @@ export const chatWrapperStyles = (theme => ({
     additionalChildHidden: {
         display: 'none',
     },
+    additionalChildTemplates: {
+        width: '100%',
+        overflowY: 'scroll',
+        marginBottom: '30px',
+    },
     dialogHeader: {
         display: 'flex',
         justifyContent: 'space-between',

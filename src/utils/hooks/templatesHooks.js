@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {useCallback, useEffect, useState} from "react";
 import {useDispatch} from "react-redux";
 import {setSnackBarStatus} from "../../data/store/auxiliary/auxiliaryActions";
 import {COMMON_ERROR_MESSAGE} from "../../constants/statuses";
@@ -9,8 +9,7 @@ export const useTemplates = () => {
     const [loading, setLoading] = useState(false);
     const dispatch = useDispatch();
 
-    useEffect(() => {
-        const fetchTemplates = async () => {
+    const fetchTemplates = useCallback(async () => {
             try {
                 setLoading(true);
                 const response = await templateService.list();
@@ -20,10 +19,12 @@ export const useTemplates = () => {
                 setLoading(false);
                 dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE, success: false}))
             }
-        };
-        fetchTemplates();
     }, [dispatch]);
 
-    return [templatesList, setTemplatesList, loading];
+    useEffect(() => {
+      fetchTemplates();
+    }, [fetchTemplates]);
+
+    return {templatesList, setTemplatesList, loading, fetchTemplates};
 };
 

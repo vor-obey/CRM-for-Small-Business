@@ -21,8 +21,10 @@ import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import DeleteIcon from "@material-ui/icons/Delete";
 import {
-    closeDialog, closeModal,
-    renderDialog, renderModal,
+    closeDialog,
+    closeModal,
+    renderDialog,
+    renderModal,
     setIsLoading,
     setSnackBarStatus
 } from "../../../data/store/auxiliary/auxiliaryActions";
@@ -39,13 +41,11 @@ export const MessageTemplatePage = ({chat, onSubmit, isDialogOpen, handleDrawerI
     const {t} = useTranslation();
     const classes = useStyles();
     const dispatch = useDispatch();
-    const [, updateState] = useState();
     const [editName, setEditName] = useState();
     const [editContent, setEditContent] = useState();
-    const [templatesList, , loading] = useTemplates();
+    const {templatesList, loading, fetchTemplates} = useTemplates();
     const [editId, setEditId] = useState('');
     const minWidth600 = useMediaQuery('(min-width:900px)');
-    const forceUpdate = useCallback(() => updateState({}), []);
     const history = useHistory();
 
     const onChangeName = useCallback((value) => {
@@ -62,7 +62,7 @@ export const MessageTemplatePage = ({chat, onSubmit, isDialogOpen, handleDrawerI
         setEditId('');
     }, []);
 
-    const saveHandleClick = useCallback(async (event, template) => {
+    const saveHandleClick = useCallback(async (event) => {
         if (editId) {
             event.preventDefault();
             try {
@@ -74,12 +74,7 @@ export const MessageTemplatePage = ({chat, onSubmit, isDialogOpen, handleDrawerI
                 });
                 if (response.success) {
                     dispatch(setIsLoading(false));
-                    const ind = templatesList.findIndex(({templateId}) => templateId === editId);
-                    template.name = editName;
-                    template.content = editContent;
-                    templatesList[ind] = {
-                        ...template
-                    };
+                    await fetchTemplates();
                     setEditId('');
                 } else {
                     dispatch(setIsLoading(false));
@@ -92,7 +87,7 @@ export const MessageTemplatePage = ({chat, onSubmit, isDialogOpen, handleDrawerI
         } else {
             return null;
         }
-    }, [editId, templatesList, editContent, editName, dispatch]);
+    }, [editId, editContent, fetchTemplates, editName, dispatch]);
 
     const editHandler = useCallback((template) => {
         setEditId(template.templateId);
@@ -105,10 +100,9 @@ export const MessageTemplatePage = ({chat, onSubmit, isDialogOpen, handleDrawerI
             dispatch(setIsLoading(true));
             const response = await TemplateService.delete(id);
             if (response.success) {
+                await fetchTemplates();
                 dispatch(setIsLoading(false));
                 dispatch(closeDialog());
-                const indexToDelete = templatesList.findIndex(({templateId}) => templateId === id);
-                templatesList.splice(indexToDelete, 1);
             } else {
                 dispatch(setIsLoading(false));
                 dispatch(setSnackBarStatus({isOpen: true, message: response.message, success: false}));
@@ -117,8 +111,7 @@ export const MessageTemplatePage = ({chat, onSubmit, isDialogOpen, handleDrawerI
             dispatch(setIsLoading(false));
             dispatch(setSnackBarStatus({isOpen: true, message: e.message, success: false}));
         }
-        forceUpdate();
-    }, [dispatch, forceUpdate, templatesList]);
+    }, [dispatch, fetchTemplates]);
 
     const openTemplateDeleteDialog = useCallback((template) => {
         dispatch(renderDialog({
@@ -130,6 +123,13 @@ export const MessageTemplatePage = ({chat, onSubmit, isDialogOpen, handleDrawerI
             onActionHandler: () => deleteTemplate(template.templateId),
         }));
     }, [dispatch, deleteTemplate, t]);
+
+    const handleClick = useCallback((template) => {
+        if (chat) {
+            onSubmit(template.content);
+            handleDrawerIcon();
+        }
+    }, [chat, onSubmit, handleDrawerIcon]);
 
     const renderName = useCallback((template) => {
         if (editId === template.templateId) {
@@ -150,13 +150,13 @@ export const MessageTemplatePage = ({chat, onSubmit, isDialogOpen, handleDrawerI
         }
         return (
             <div className={!chat ? classes.templateTitle : classes.templateTitleWithCursor}
-                 onClick={() => chat ? onSubmit(template.content) : null}>
+                 onClick={() => handleClick(template)}>
                 <Typography variant='body1' className={classes.templateTitleName}>
                     {template.name}
                 </Typography>
             </div>
         );
-    }, [editId, classes, onChangeName, editName, onSubmit, chat]);
+    }, [editId, classes, onChangeName, editName, handleClick, chat]);
 
     const renderContent = useCallback((template) => {
         if (editId === template.templateId) {
@@ -170,7 +170,7 @@ export const MessageTemplatePage = ({chat, onSubmit, isDialogOpen, handleDrawerI
                 </Grid>
             );
         }
-        if (minWidth600 === false || chat === true) {
+        if (minWidth600 === false) {
             return (
                 <Grid item xs={12}>
                     <ExpansionPanel>
@@ -205,7 +205,35 @@ export const MessageTemplatePage = ({chat, onSubmit, isDialogOpen, handleDrawerI
                 </div>
             );
         }
-    }, [classes, editContent, editId, minWidth600, chat, onChangeContent, t]);
+    }, [classes, editContent, editId, minWidth600, onChangeContent, t]);
+
+    const handleClickSubmit = useCallback((template) => {
+        if (isDialogOpen) {
+            handleDrawerIcon();
+            onSubmit(template.content);
+        }
+    }, [isDialogOpen, handleDrawerIcon, onSubmit]);
+
+    const renderChatContent = useCallback((template) => {
+        return (
+            <Grid item xs={12}>
+                <ExpansionPanel>
+                    <ExpansionPanelSummary
+                        expandIcon={<ExpandMoreIcon/>}
+                        aria-controls="panel1a-content"
+                        id="panel1a-header"
+                    >
+                        <Typography onClick={() => handleClickSubmit(template)}>{template.name}</Typography>
+                    </ExpansionPanelSummary>
+                    <ExpansionPanelDetails>
+                        <Typography className={classes.break}>
+                            {template.content}
+                        </Typography>
+                    </ExpansionPanelDetails>
+                </ExpansionPanel>
+            </Grid>
+        );
+    }, [classes, handleClickSubmit]);
 
     const renderButton = useCallback((template) => {
         if (editId === template.templateId) {
@@ -242,25 +270,34 @@ export const MessageTemplatePage = ({chat, onSubmit, isDialogOpen, handleDrawerI
             if (!templateId.length) {
                 return null;
             }
-            return (
-                <ListItem key={templateId} className={classes.templateList}>
-                    <Grid container item xs={12} sm={12} className={classes.templateContainer}>
-                        <Grid item xs={12} sm={12} className={classes.templateInfo}>
-                            <Grid container item xs={12} sm={12} className={classes.templateContainerName}>
-                                {renderName(template)}
-                                {!chat ?
-                                    <div className={classes.display}>
-                                        {renderButton(template)}
-                                    </div> : null}
-                            </Grid>
-                            <Divider/>
+            if (chat) {
+                return (
+                    <ListItem key={templateId} className={classes.templateList}>
+                        <Grid container item xs={12} sm={12} className={classes.templateContainer}>
+                            {renderChatContent(template)}
                         </Grid>
-                        {renderContent(template)}
-                    </Grid>
-                </ListItem>
-            );
+                    </ListItem>
+                );
+            } else {
+                return (
+                    <ListItem key={templateId} className={classes.templateList}>
+                        <Grid container item xs={12} sm={12} className={classes.templateContainer}>
+                            <Grid item xs={12} sm={12} className={classes.templateInfo}>
+                                <Grid container item xs={12} sm={12} className={classes.templateContainerName}>
+                                    {renderName(template)}
+                                        <div className={classes.display}>
+                                            {renderButton(template)}
+                                        </div>
+                                </Grid>
+                                <Divider/>
+                            </Grid>
+                            {renderContent(template)}
+                        </Grid>
+                    </ListItem>
+                );
+            }
         });
-    }, [templatesList, classes, renderContent, renderName, chat, renderButton]);
+    }, [templatesList, classes, renderContent, renderChatContent, renderName, chat, renderButton]);
 
     const handleClickAction = useCallback(() => {
         if (chat) {
@@ -308,7 +345,7 @@ export const MessageTemplatePage = ({chat, onSubmit, isDialogOpen, handleDrawerI
                     {renderRows()}
                 </div>
             </div>
-            <Grid container justify='center'>
+            <Grid container justify='center' className={classes.button}>
                 <Button
                     type='submit'
                     variant="outlined"
