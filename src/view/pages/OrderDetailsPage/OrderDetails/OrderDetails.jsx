@@ -92,7 +92,7 @@ export const OrderDetails = ({
     return (
         <Grid container item xs={12} sm={12} className={classes.container}>
             <Grid item xl={12} sm={12} className={classes.containerTitle}>
-                <Typography variant='h5' style={{paddingRight: 10}}>
+                <Typography variant='h5' className={classes.orderDetails}>
                     {t('ORDER_DETAILS')}
                 </Typography>
                 <Typography
