@@ -45,7 +45,7 @@ export const useCustomerById = (id) => {
             }
         };
 
-        return () => fetchCustomerById(id);
+        fetchCustomerById(id);
     }, [dispatch, id]);
 
     return [customerDetails]
