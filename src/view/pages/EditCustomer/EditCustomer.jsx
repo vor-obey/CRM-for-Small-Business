@@ -43,7 +43,7 @@ export const EditCustomer = ({history}) => {
 
    const onSubmitHandler = useCallback(async (event, customerDetails) => {
       event.preventDefault();
-      if (customerDetails.contactNumber.length < 10 || customerDetails.contactNumber.length > 12) {
+         if (customerDetails.contactNumber && (customerDetails.contactNumber.length < 10 || customerDetails.contactNumber.length > 12)) {
          dispatch(setSnackBarStatus({isOpen: true, message: t('INVALID_NUMBER'), success: false}))
       } else {
          try {
