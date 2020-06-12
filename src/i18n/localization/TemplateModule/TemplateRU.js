@@ -1,6 +1,6 @@
 export const TemplateRU = {
     SHOW_MORE: 'Показать больше',
-    HIDE_ALL: 'Скрыть все',
+    HIDE: 'Скрыть',
     TEMPLATE_NAME: 'Название шаблона',
     MESSAGE_TEMPLATES: 'Шаблоны сообщений',
     CONTENT: 'Содержание',

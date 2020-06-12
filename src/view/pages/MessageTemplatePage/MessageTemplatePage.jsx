@@ -6,20 +6,15 @@ import {
     TextField,
     Typography,
     makeStyles,
-    ListItem, IconButton, useMediaQuery
+    ListItem, IconButton
 } from "@material-ui/core";
+
+import isEmpty from "lodash/isEmpty";
 import {useHistory} from "react-router-dom";
 import {useTranslation} from "react-i18next";
-import {useTemplates} from "../../../utils/hooks/templatesHooks";
-import isEmpty from "lodash/isEmpty";
-import {templatePageStyles} from "./MessageTemplatePage.style";
 import EditIcon from "@material-ui/icons/Edit";
-import ReadMoreAndLess from 'react-read-more-less';
-import ExpansionPanel from '@material-ui/core/ExpansionPanel';
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import DeleteIcon from "@material-ui/icons/Delete";
+
 import {
     closeDialog,
     closeModal,
@@ -28,11 +23,14 @@ import {
     setIsLoading,
     setSnackBarStatus
 } from "../../../data/store/auxiliary/auxiliaryActions";
-import TemplateService from "../../../services/TemplateService";
+
 import {useDispatch} from "react-redux";
-import CheckIcon from "@material-ui/icons/Check";
 import CloseIcon from "@material-ui/icons/Close";
+import CheckIcon from "@material-ui/icons/Check";
+import {templatePageStyles} from "./MessageTemplatePage.style";
+import TemplateService from "../../../services/TemplateService";
 import {COMMON_ERROR_MESSAGE} from "../../../constants/statuses";
+import {useTemplates} from "../../../utils/hooks/templatesHooks";
 import {CreateMessageTemplate} from "../CreateMessageTemplate/CreateMessageTemplate";
 
 const useStyles = makeStyles(templatePageStyles);
@@ -40,27 +38,27 @@ const useStyles = makeStyles(templatePageStyles);
 export const MessageTemplatePage = ({chat, onSubmit, isDialogOpen, handleDrawerIcon}) => {
     const {t} = useTranslation();
     const classes = useStyles();
+    const history = useHistory();
     const dispatch = useDispatch();
     const [editName, setEditName] = useState();
     const [editContent, setEditContent] = useState();
-    const {templatesList, loading, fetchTemplates} = useTemplates();
     const [editId, setEditId] = useState('');
-    const minWidth600 = useMediaQuery('(min-width:900px)');
-    const history = useHistory();
-    const [templateArrayId, setTemplateArrayId] = useState([]);
+    const [templateIds, setTemplateIds] = useState([]);
+    const {templatesList, loading, fetchTemplates} = useTemplates();
 
     const showMore = useCallback((template) => {
-        if (!templateArrayId.find(({id}) => id === template.templateId)) {
-            setTemplateArrayId([...templateArrayId, {id: template.templateId}]);
+        const id = templateIds.find((id) => id === template.templateId);
+        if (!id) {
+            setTemplateIds([...templateIds, template.templateId]);
         }
-    }, [templateArrayId]);
+    }, [templateIds]);
 
-    const hideAll = useCallback((template) => {
-        const newArr = [...templateArrayId];
-        const ind = newArr.findIndex(({id}) => id === template.templateId);
+    const hide = useCallback((template) => {
+        const newArr = [...templateIds];
+        const ind = newArr.findIndex((id) => id === template.templateId);
         newArr.splice(ind, 1);
-        setTemplateArrayId(newArr);
-    }, [templateArrayId]);
+        setTemplateIds(newArr);
+    }, [templateIds]);
 
     const onChangeName = useCallback((value) => {
         setEditName(value);
@@ -148,7 +146,7 @@ export const MessageTemplatePage = ({chat, onSubmit, isDialogOpen, handleDrawerI
     const renderName = useCallback((template) => {
         if (editId === template.templateId) {
             return (
-                <div className={classes.divName}>
+                <Grid className={classes.gridName}>
                     <TextField
                         className={classes.inputName}
                         variant='standard'
@@ -159,20 +157,28 @@ export const MessageTemplatePage = ({chat, onSubmit, isDialogOpen, handleDrawerI
                         value={editName}
                         onChange={(event) => onChangeName(event.target.value)}
                     />
-                </div>
+                </Grid>
             );
         }
         return (
-            <div className={!chat ? classes.templateTitle : classes.templateTitleWithCursor}
-                 onClick={() => handleClick(template)}>
-                <Typography variant='body1' className={classes.templateTitleName}>
+            <Grid className={classes.templateTitle}
+                  onClick={() => handleClick(template)}>
+                <Typography color='primary' variant='body1' className={classes.templateTitleName}>
                     {template.name}
                 </Typography>
-            </div>
+            </Grid>
         );
-    }, [editId, classes, onChangeName, editName, handleClick, chat]);
+    }, [editId, classes, onChangeName, editName, handleClick]);
+
+    const handleClickSubmit = useCallback((template) => {
+        if (isDialogOpen) {
+            handleDrawerIcon();
+            onSubmit(template.content);
+        }
+    }, [isDialogOpen, handleDrawerIcon, onSubmit]);
 
     const renderContent = useCallback((template) => {
+        const id = templateIds.find((id) => id === template.templateId);
         if (editId === template.templateId) {
             return (
                 <Grid item xs={12}>
@@ -183,103 +189,87 @@ export const MessageTemplatePage = ({chat, onSubmit, isDialogOpen, handleDrawerI
                         multiline/>
                 </Grid>
             );
+        } else {
+            if (id) {
+                return (
+                    <Grid className={classes.gridLess}>
+                        <Typography className={classes.readLessText}>{template.content}</Typography>
+                        <Typography onClick={() => hide(template)} className={classes.buttonText}
+                                    color='primary'>{t('HIDE')}</Typography>
+                    </Grid>
+                );
+            } else {
+                return (
+                    <Grid className={classes.gridMore}>
+                        {template.content.length > 300 ?
+                            <Grid onClick={() => showMore(template)} className={classes.display}>
+                                <Typography className={classes.readMoreText}>{template.content}</Typography>
+                                <Typography className={classes.buttonText} color='primary'>
+                                    {t('SHOW_MORE')}
+                                </Typography>
+                            </Grid>
+                            : <Typography className={classes.readMoreText}>{template.content}</Typography>}
+                    </Grid>
+                );
+            }
         }
-        if (minWidth600 === false) {
+    }, [classes, editContent, editId, templateIds, hide, showMore, onChangeContent, t]);
+
+    const renderChatContent = useCallback((template) => {
+        const id = templateIds.find((id) => id === template.templateId);
+        if (id) {
             return (
-                <Grid item xs={12}>
-                    <ExpansionPanel>
-                        <ExpansionPanelSummary
-                            expandIcon={<ExpandMoreIcon/>}
-                            aria-controls="panel1a-content"
-                            id="panel1a-header"
-                        >
-                            <Typography>{t('CONTENT')}</Typography>
-                        </ExpansionPanelSummary>
-                        <ExpansionPanelDetails>
-                            <Typography className={classes.break}>
-                                {template.content}
-                            </Typography>
-                        </ExpansionPanelDetails>
-                    </ExpansionPanel>
+                <Grid>
+                    <Typography color='primary'>{template.name}</Typography>
+                    <Typography onClick={() => handleClickSubmit(template)}
+                                className={classes.readLessText}>{template.content}
+                    </Typography>
+                    <Typography onClick={() => hide(template)} className={classes.buttonText}
+                                color='primary'>{t('HIDE_ALL')}</Typography>
+                    <Divider/>
                 </Grid>
             );
         } else {
             return (
-                <div className={classes.templateTitle}>
-                    <div className={classes.templateTitleName}>
-                        <ReadMoreAndLess
-                            className="read-more-content"
-                            charLimit={1500}
-                            readMoreText={t('READ_MORE')}
-                            readLessText={t('HIDE_TEXT')}
-                        >
-                            {template.content}
-                        </ReadMoreAndLess>
-                    </div>
-                </div>
+                <Grid style={{width: '100%'}}>
+                    <Typography color='primary'>{template.name}</Typography>
+                    {template.content.length > 30 ?
+                        <div onClick={() => showMore(template)} className={classes.display}>
+                            <Typography onClick={() => handleClickSubmit(template)}
+                                        className={classes.readMoreText}>{template.content}</Typography>
+                            <Typography className={classes.buttonText}
+                                        color='primary'>{t('SHOW_MORE')}</Typography>
+                        </div>
+                        : <Typography onClick={() => handleClickSubmit(template)}
+                                      className={classes.readMoreText}>{template.content}</Typography>}
+                    <Divider/>
+                </Grid>
             );
         }
-    }, [classes, editContent, editId, minWidth600, onChangeContent, t]);
-
-    const handleClickSubmit = useCallback((template) => {
-        if (isDialogOpen) {
-            handleDrawerIcon();
-            onSubmit(template.content);
-        }
-    }, [isDialogOpen, handleDrawerIcon, onSubmit]);
-
-    const renderChatContent = useCallback((template) => {
-         if (templateArrayId.find(({id}) => id === template.templateId)) {
-             return (
-                 <Grid>
-                     <Typography color='primary'>{template.name}</Typography>
-                     <Typography onClick={() => handleClickSubmit(template)}
-                                 className={classes.readLessText}>{template.content}
-                     </Typography>
-                     <Typography onClick={() => hideAll(template)} className={classes.buttonText}
-                                 color='primary'>{t('HIDE_ALL')}</Typography>
-                     <Divider/>
-                 </Grid>
-             );
-         } else {
-             return (
-                 <Grid style={{width: '100%'}}>
-                     <Typography color='primary'>{template.name}</Typography>
-                     {template.content.length > 30 ?
-                         <div onClick={() => showMore(template)} className={classes.display}>
-                             <Typography  onClick={() => handleClickSubmit(template)} className={classes.readMoreText}>{template.content}</Typography>
-                             <Typography className={classes.buttonText}
-                                         color='primary'>{t('SHOW_MORE')}</Typography>
-                         </div>
-                         : <Typography onClick={() => handleClickSubmit(template)} className={classes.readMoreText}>{template.content}</Typography>}
-                     <Divider/>
-                 </Grid>
-             );
-         }
-    }, [templateArrayId, handleClickSubmit, classes, t, showMore, hideAll]);
+    }, [templateIds, handleClickSubmit, classes, t, showMore, hide]);
 
     const renderButton = useCallback((template) => {
         if (editId === template.templateId) {
             return (
-                <div>
+                <Grid>
                     <IconButton onClick={event => saveHandleClick(event, template)}>
                         <CheckIcon/>
                     </IconButton>
                     <IconButton onClick={() => deleteChange(template)}>
                         <CloseIcon/>
                     </IconButton>
-                </div>
+                </Grid>
             );
         } else {
             return (
-                <div>
+                <Grid>
                     <IconButton onClick={() => editHandler(template)}>
                         <EditIcon/>
                     </IconButton>
                     <IconButton onClick={() => openTemplateDeleteDialog(template)}>
                         <DeleteIcon/>
                     </IconButton>
-                </div>
+                </Grid>
             );
         }
     }, [editHandler, deleteChange, openTemplateDeleteDialog, editId, saveHandleClick]);
@@ -295,7 +285,7 @@ export const MessageTemplatePage = ({chat, onSubmit, isDialogOpen, handleDrawerI
             }
             if (chat) {
                 return (
-                    <ListItem key={templateId} style={{width: '100%'}}>
+                    <ListItem key={templateId} style={{width: '96%'}}>
                         {renderChatContent(template)}
                     </ListItem>
                 );
@@ -306,9 +296,9 @@ export const MessageTemplatePage = ({chat, onSubmit, isDialogOpen, handleDrawerI
                             <Grid item xs={12} sm={12} className={classes.templateInfo}>
                                 <Grid container item xs={12} sm={12} className={classes.templateContainerName}>
                                     {renderName(template)}
-                                    <div className={classes.display}>
+                                    <Grid className={classes.display}>
                                         {renderButton(template)}
-                                    </div>
+                                    </Grid>
                                 </Grid>
                                 <Divider/>
                             </Grid>
@@ -360,12 +350,12 @@ export const MessageTemplatePage = ({chat, onSubmit, isDialogOpen, handleDrawerI
     }
 
     return (
-        <div>
-            <div className={chat ? classes.containerChat : classes.container}>
-                <div style={{width: chat ? '100%' : null}} className={classes.root}>
+        <Grid>
+            <Grid className={chat ? classes.containerChat : classes.container}>
+                <Grid style={{width: chat ? '100%' : null}} className={classes.root}>
                     {renderRows()}
-                </div>
-            </div>
+                </Grid>
+            </Grid>
             <Grid container justify='center' className={classes.button}>
                 <Button
                     type='submit'
@@ -376,6 +366,6 @@ export const MessageTemplatePage = ({chat, onSubmit, isDialogOpen, handleDrawerI
                     {t('CREATE_MESSAGE_TEMPLATE')}
                 </Button>
             </Grid>
-        </div>
+        </Grid>
     );
 };
