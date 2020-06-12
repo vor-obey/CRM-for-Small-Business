@@ -65,6 +65,7 @@ export const CreateProductTypeWithAttributes = ({history}) => {
                 />
             ),
             onCloseHandler: () => dispatch(closeModal()),
+            allowBackDropClick: true
         }))
     }, [dispatch, createAttribute]);
 
@@ -93,6 +94,7 @@ export const CreateProductTypeWithAttributes = ({history}) => {
                 />
             ),
             onCloseHandler: () => dispatch(closeModal()),
+            allowBackDropClick: true
         }))
     }, [dispatch, attributes]);
 
