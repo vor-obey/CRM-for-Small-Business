@@ -1,10 +1,11 @@
 import React, {useCallback} from "react";
-import {Container, Grid, List, ListItem, Typography, makeStyles, useMediaQuery} from "@material-ui/core";
+import {Container, Grid, List, ListItem, Typography, makeStyles, useMediaQuery, Button} from "@material-ui/core";
 import {useTranslation} from "react-i18next";
 import {useOrders} from "../../../utils/hooks/orderHooks";
 import isEmpty from "lodash/isEmpty";
 import {CustomerOrderListItem} from './CustomerOrderListItem/CustomerOrderListItem'
 import {customerOrderListStyle} from "./CustomerOrderList.style";
+import {Link} from "react-router-dom";
 
 const useStyles = makeStyles(customerOrderListStyle);
 
@@ -14,18 +15,14 @@ export const CustomerOrderList = ({history, selectedСustomerInChat}) => {
     const minWidth1150 = useMediaQuery('(min-width:1150px)');
     const selectedCustomer = (selectedСustomerInChat && selectedСustomerInChat.username);
     const [orderList] = useOrders();
+    const customerList = orderList.filter(order => order.customer.username === selectedCustomer)
 
     const navigationToOrderDetails = useCallback((orderId) => {
         history.push(`/orders/${orderId}`);
     }, [history]);
 
     const renderRows = useCallback(() => {
-        if (isEmpty(orderList)) {
-            return null
-        }
-
-        return orderList.map((order) => {
-            if (order.customer.username === selectedCustomer) {
+        return customerList.map((order) => {
                 return (
                     <CustomerOrderListItem
                         key={order.orderId}
@@ -35,10 +32,34 @@ export const CustomerOrderList = ({history, selectedСustomerInChat}) => {
                         navigationToOrderDetails={navigationToOrderDetails}
                     />
                 );
-            }
-            return null
         });
-    }, [orderList, minWidth1150, navigationToOrderDetails, classes, selectedCustomer]);
+
+    }, [customerList, minWidth1150, navigationToOrderDetails, classes]);
+
+    if (isEmpty(customerList)) {
+        return (
+            <Grid
+                container
+                item
+                spacing={0}
+                className={classes.noContent}
+            >
+                <Grid container item xs={12} className={classes.noContentInfo}>
+                    <Typography variant='h5' style={{paddingBottom: 18, paddingRight: 20,}}>{t('NO_NEW_ORDERS')}</Typography>
+                    <Button
+                        type='submit'
+                        variant="outlined"
+                        color="primary"
+                        className={classes.button}
+                        component={Link}
+                        to='/create-order'
+                    >
+                        {t('CREATE')}
+                    </Button>
+                </Grid>
+            </Grid>
+        )
+    }
 
     return (
         <Container className={classes.root}>

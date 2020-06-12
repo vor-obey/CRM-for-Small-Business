@@ -25,6 +25,16 @@ export const customerOrderListStyle = ((theme) => ({
             flexDirection: 'column',
         },
     },
+    noContent: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    noContentInfo: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'baseline',
+    },
     textList: {
         display: 'block',
         marginRight: theme.spacing(1)
