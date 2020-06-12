@@ -2,7 +2,6 @@ import React, {useCallback, useEffect, useState} from "react";
 import {
     FormControl,
     Select,
-    InputLabel,
     makeStyles
 } from "@material-ui/core";
 import {EOrderStatus} from "../../../constants/statuses";
@@ -35,10 +34,8 @@ export function EditOrderStatus({
     }, [t]);
 
     return (
-            <FormControl variant="filled" size={"small"} margin={'none'}>
-                <InputLabel>{t('STATUS')}</InputLabel>
+            <FormControl variant="filled" size="small" margin='none'>
                 <Select
-                    label={t('STATUS')}
                     classes={{
                         disabled: classes.selectStatusDisabled,
                         filled: classes.selectStatusFilled,
