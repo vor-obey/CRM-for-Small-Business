@@ -234,6 +234,7 @@ export const Chat = ({
                     return (
                         <CustomerOrderList
                             selectedСustomerInChat={selectedThread.users && selectedThread.users[0]}
+                            handleDrawerIcon={handleDrawerIcon}
                             history={history}
                         />
                     );
