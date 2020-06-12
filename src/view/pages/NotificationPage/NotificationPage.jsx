@@ -29,13 +29,12 @@ export const NotificationPage = () => {
             );
         }
         const notificationsArr = [...notifications];
-        notificationsArr.sort(((a, b) => a.date > b.date ? -1 : 1));
 
-        return notificationsArr.map((notification, index) => {
+        return notificationsArr.sort(((a, b) => a.date > b.date ? -1 : 1)).map((notification, index) => {
             return <NotificationList
                 key={index}
                 classes={classes}
-                notifications={notification}
+                notification={notification}
             />
         })
     }, [notifications, classes, t]);
