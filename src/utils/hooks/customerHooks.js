@@ -73,5 +73,5 @@ export const useSources = () => {
         fetchSources();
     }, [dispatch]);
 
-    return sources;
+    return {sources, setSources};
 };

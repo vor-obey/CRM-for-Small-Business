@@ -17,7 +17,7 @@ export const CreateCustomer = ({
                                }) => {
 
     const details = useSelector(state => state.customerReducer.details);
-    const sources = useSources();
+    const {sources} = useSources();
     const dispatch = useDispatch();
     const {t} = useTranslation('');
 
