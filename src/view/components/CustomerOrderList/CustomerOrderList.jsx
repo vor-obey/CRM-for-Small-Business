@@ -9,7 +9,7 @@ import {Link} from "react-router-dom";
 
 const useStyles = makeStyles(customerOrderListStyle);
 
-export const CustomerOrderList = ({history, selectedСustomerInChat}) => {
+export const CustomerOrderList = ({history, selectedСustomerInChat, handleDrawerIcon}) => {
     const classes = useStyles();
     const {t} = useTranslation('');
     const minWidth1150 = useMediaQuery('(min-width:1150px)');
@@ -23,15 +23,15 @@ export const CustomerOrderList = ({history, selectedСustomerInChat}) => {
 
     const renderRows = useCallback(() => {
         return customerList.map((order) => {
-                return (
-                    <CustomerOrderListItem
-                        key={order.orderId}
-                        order={order}
-                        minWidth1150={minWidth1150}
-                        classes={classes}
-                        navigationToOrderDetails={navigationToOrderDetails}
-                    />
-                );
+            return (
+                <CustomerOrderListItem
+                    key={order.orderId}
+                    order={order}
+                    minWidth1150={minWidth1150}
+                    classes={classes}
+                    navigationToOrderDetails={navigationToOrderDetails}
+                />
+            );
         });
 
     }, [customerList, minWidth1150, navigationToOrderDetails, classes]);
@@ -45,14 +45,14 @@ export const CustomerOrderList = ({history, selectedСustomerInChat}) => {
                 className={classes.noContent}
             >
                 <Grid container item xs={12} className={classes.noContentInfo}>
-                    <Typography variant='h5' style={{paddingBottom: 18, paddingRight: 20,}}>{t('NO_NEW_ORDERS')}</Typography>
+                    <Typography variant='h5'
+                                style={{paddingBottom: 18, paddingRight: 20,}}>{t('NO_NEW_ORDERS')}</Typography>
                     <Button
                         type='submit'
                         variant="outlined"
                         color="primary"
                         className={classes.button}
-                        component={Link}
-                        to='/create-order'
+                        onClick={handleDrawerIcon(1, true)}
                     >
                         {t('CREATE')}
                     </Button>
