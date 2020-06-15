@@ -5,17 +5,16 @@ import {useOrders} from "../../../utils/hooks/orderHooks";
 import isEmpty from "lodash/isEmpty";
 import {CustomerOrderListItem} from './CustomerOrderListItem/CustomerOrderListItem'
 import {customerOrderListStyle} from "./CustomerOrderList.style";
-import {Link} from "react-router-dom";
 
 const useStyles = makeStyles(customerOrderListStyle);
 
-export const CustomerOrderList = ({history, selectedСustomerInChat, handleDrawerIcon}) => {
+export const CustomerOrderList = ({history, selectedCustomerInChat, handleDrawerIcon}) => {
     const classes = useStyles();
     const {t} = useTranslation('');
     const minWidth1150 = useMediaQuery('(min-width:1150px)');
-    const selectedCustomer = (selectedСustomerInChat && selectedСustomerInChat.username);
+    const selectedCustomer = (selectedCustomerInChat && selectedCustomerInChat.username);
     const [orderList] = useOrders();
-    const customerList = orderList.filter(order => order.customer.username === selectedCustomer)
+    const customerList = orderList.filter(order => order.customer.username === selectedCustomer);
 
     const navigationToOrderDetails = useCallback((orderId) => {
         history.push(`/orders/${orderId}`);
