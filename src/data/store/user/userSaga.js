@@ -118,8 +118,11 @@ export function* initializeSocketConnection(action) {
     }
 }
 
-const clickPushToChat = () => {
-    history.push('/chat')
+const navigateToThread = (thread) => {
+    history.push({
+        pathname: 'chat',
+        thread: thread
+    })
 };
 
 export function* addAndDisplayMessage(payload) {
@@ -127,17 +130,17 @@ export function* addAndDisplayMessage(payload) {
 
     yield put(setNewMessageToThread(message));
 
-    const state = yield select(state => state.userReducer);
-    const findThread = state.threads.find(item => item.thread_id === message.thread_id);
+    const {threads, igProfile} = yield select(state => state.userReducer);
+    const selectedThread = threads.find(item => item.thread_id === message.thread_id);
 
-    if (message.user_id !== state.igProfile.pk && findThread.users) {
+    if (message.user_id !== igProfile.pk && selectedThread.users) {
         yield put(addNotification({
-            icon: findThread.users.length > 1 ? <GroupIcon /> : findThread.users[0].profile_pic_url,
+            icon: selectedThread.users.length > 1 ? <GroupIcon/> : selectedThread.users[0].profile_pic_url,
             text: message.text,
-            username: findThread.thread_title,
+            username: selectedThread.thread_title,
             date: new Date(),
             status: 'message',
-            onClick: clickPushToChat
+            onClick: () => navigateToThread(selectedThread)
         }));
     }
 }

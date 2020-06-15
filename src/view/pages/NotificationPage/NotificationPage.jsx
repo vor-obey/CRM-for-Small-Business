@@ -3,7 +3,7 @@ import isEmpty from 'lodash/isEmpty';
 import {useSelector} from "react-redux";
 import {makeStyles, Container, Grid} from "@material-ui/core";
 import {NotificationPageStyle} from "./NotificationPage.style";
-import {NotificationList} from "./NotificationList/NotificationList";
+import {NotificationListItem} from "./NotificationListItem/NotificationListItem";
 import Typography from "@material-ui/core/Typography";
 import {useTranslation} from "react-i18next";
 
@@ -16,23 +16,25 @@ export const NotificationPage = () => {
 
     const renderNotification = useCallback(() => {
         if (isEmpty(notifications)) {
-          return (
-              <Grid container spacing={0}
-                    direction="column"
-                    alignItems="center"
-                    justify="center"
-                    style={{minHeight: 'calc(100vh - 64px)'}}>
-                  <Grid container item xs={8} sm={4} style={{flexDirection: 'column', textAlign: 'center'}}>
-                      <Typography variant='h5' style={{paddingBottom: 18}}>{t('NO_NEW_NOTIFICATIONS')}</Typography>
-                  </Grid>
-              </Grid>
-          );
+            return (
+                <Grid container spacing={0}
+                      direction="column"
+                      alignItems="center"
+                      justify="center"
+                      style={{minHeight: 'calc(100vh - 64px)'}}>
+                    <Grid container item xs={8} sm={4} style={{flexDirection: 'column', textAlign: 'center'}}>
+                        <Typography variant='h5' style={{paddingBottom: 18}}>{t('NO_NEW_NOTIFICATIONS')}</Typography>
+                    </Grid>
+                </Grid>
+            );
         }
-        return notifications.map((notification, index) => {
-            return <NotificationList
+        const notificationsArr = [...notifications];
+
+        return notificationsArr.sort(((a, b) => a.date > b.date ? -1 : 1)).map((notification, index) => {
+            return <NotificationListItem
                 key={index}
                 classes={classes}
-                notifications={notification}
+                notification={notification}
             />
         })
     }, [notifications, classes, t]);

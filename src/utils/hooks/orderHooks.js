@@ -24,7 +24,7 @@ export const useOrders = () => {
         fetchOrders();
     }, [dispatch]);
 
-    return [orderList, setOrdersList, loading];
+    return {orderList, setOrdersList, loading};
 };
 
 export const useOrderDetailsById = (id) => {
@@ -46,11 +46,11 @@ export const useOrderDetailsById = (id) => {
         fetchOrderById(id);
     }, [id, dispatch]);
 
-    return [orderDetails, setOrderDetails];
+    return {orderDetails, setOrderDetails};
 };
 
 export const useShippingMethods = () => {
-    const [methods, setMethods] = useState([]);
+    const [shippingMethods, setMethods] = useState([]);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -68,5 +68,5 @@ export const useShippingMethods = () => {
         fetchShippingMethods();
     }, [dispatch]);
 
-    return [methods, setMethods];
+    return {shippingMethods, setMethods};
 };

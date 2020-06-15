@@ -19,11 +19,11 @@ export const CreateOrderPage = ({history}) => {
     const classes = useStyles();
     const dispatch = useDispatch();
     const {t} = useTranslation();
-    const [shippingMethods] = useShippingMethods();
+    const {shippingMethods} = useShippingMethods();
     const [shippingMethod, setShippingMethod] = useState({});
-    const [managers, , managerLoading] = useManagers();
+    const {managers,  managerLoading} = useManagers();
     const [manager, setManager] = useState({});
-    const [customers, setCustomers, customerLoading] = useCustomers();
+    const {customers, setCustomers, customerLoading} = useCustomers();
     const [customer, setCustomer] = useState({});
     const [createdCustomer, setCreatedCustomer] = useState({});
     const [isCustom, setIsCustom] = useState(false);

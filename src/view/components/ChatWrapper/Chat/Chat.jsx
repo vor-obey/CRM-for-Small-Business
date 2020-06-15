@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {ChatThreads} from '../ChatThreads/ChatThreads';
-import {useHistory} from 'react-router-dom';
+import {useHistory, useLocation} from 'react-router-dom';
 import {ChatDialog} from '../ChatDialog/ChatDialog';
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 import {
@@ -24,12 +24,13 @@ import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import clsx from "clsx";
 import isEmpty from 'lodash/isEmpty';
 import {MessageTemplatePage} from "../../../pages/MessageTemplatePage/MessageTemplatePage";
-import {OrdersPage} from "../../../pages/OrdersPage/OrdersPage";
+import {CustomerOrderList} from "../../CustomerOrderList/CustomerOrderList";
 
 export const Chat = ({
                          classes,
                      }) => {
     const history = useHistory();
+    const location = useLocation();
     const {t} = useTranslation('');
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [selectedThread, setSelectedThread] = useState({});
@@ -94,7 +95,12 @@ export const Chat = ({
         if (drawerMobileOpen && !isDrawerOpen()) {
             handleDrawerIcon(1, true)();
         }
-    }, [drawerMobileOpen, handleDrawerIcon, isDrawerOpen]);
+        if (location.thread !== undefined) {
+            setSelectedThread(location.thread);
+            setIsDialogOpen(true);
+        }
+    }, [drawerMobileOpen, handleDrawerIcon, threads, location, isDrawerOpen]);
+
 
     const openThread = useCallback(async (thread) => {
         setSelectedThread(thread);
@@ -226,8 +232,9 @@ export const Chat = ({
                 }
                 case 2: {
                     return (
-                        <OrdersPage
+                        <CustomerOrderList
                             selectedСustomerInChat={selectedThread.users && selectedThread.users[0]}
+                            handleDrawerIcon={handleDrawerIcon}
                             history={history}
                         />
                     );

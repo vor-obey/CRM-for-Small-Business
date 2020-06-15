@@ -27,7 +27,7 @@ export const OrdersPage = ({history, selectedСustomerInChat}) => {
         const location = useLocation();
         const minWidth600 = useMediaQuery('(min-width:600px)');
         const selectedCustomer = (selectedСustomerInChat && selectedСustomerInChat.username);
-        const [orderList, , loading] = useOrders();
+        const {orderList,  loading} = useOrders();
         const [inputFilter, setInputFilter] = useState('');
         const [selectedOption, setSelectedOption] = useState('');
 

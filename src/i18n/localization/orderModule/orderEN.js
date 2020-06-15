@@ -13,7 +13,7 @@ export const orderEN = {
     CITY: 'City',
     DESCRIPTION: 'Description',
     ORDER: 'Order',
-    ORDER_DETAILS: 'Order details',
+    ORDER_DETAILS: 'Order',
     STATUS: 'Status',
     SORT_BY_STATUS: 'Sort by status',
     NEW: 'New',

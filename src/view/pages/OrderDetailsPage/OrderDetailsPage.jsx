@@ -18,7 +18,7 @@ const useStyles = makeStyles(orderDetailsStyles);
 
 export const OrderDetailsPage = ({history}) => {
     const {id} = useParams();
-    const [orderDetails, setOrderDetails] = useOrderDetailsById(id);
+    const {orderDetails, setOrderDetails} = useOrderDetailsById(id);
     const {shippingDetails: {address: {isCustom} = {}} = {}} = orderDetails;
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [isPrintModalOpen, setIsPrintModalOpen] = useState(false);
@@ -69,7 +69,7 @@ export const OrderDetailsPage = ({history}) => {
         if (!isCustom) {
             return (
                 <>
-                    <Grid item xs={12} sm={10} className={classes.containerFieldsItem}>
+                    <Grid item xs={12} sm={10}>
                         <Typography
                             variant='body2'
                             color='textSecondary'>

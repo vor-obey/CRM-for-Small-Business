@@ -7,20 +7,20 @@ import SourcesService from '../../services/SourcesService';
 
 export const useCustomers = () => {
     const [customers, setCustomers] = useState([]);
-    const [loading, setLoading] = useState(false);
+    const [customerLoading, setCustomerLoading] = useState(false);
     const dispatch = useDispatch();
 
     useEffect(() => {
         const fetchCustomers = async () => {
             try {
-                setLoading(true);
+                setCustomerLoading(true);
                 dispatch(setIsLoading(true));
                 const customers = await CustomerService.list();
                 setCustomers(customers);
                 dispatch(setIsLoading(false));
-                setLoading(false);
+                setCustomerLoading(false);
             } catch (e) {
-                setLoading(false);
+                setCustomerLoading(false);
                 dispatch(setIsLoading(false));
                 dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE, success: false}));
             }
@@ -28,7 +28,7 @@ export const useCustomers = () => {
         fetchCustomers();
     }, [dispatch]);
 
-    return [customers, setCustomers, loading];
+    return {customers, setCustomers, customerLoading};
 };
 
 export const useCustomerById = (id) => {
@@ -51,7 +51,7 @@ export const useCustomerById = (id) => {
         fetchCustomerById(id);
     }, [dispatch, id]);
 
-    return [customerDetails]
+    return {customerDetails}
 };
 
 export const useSources = () => {
@@ -73,5 +73,5 @@ export const useSources = () => {
         fetchSources();
     }, [dispatch]);
 
-    return sources;
+    return {sources, setSources};
 };

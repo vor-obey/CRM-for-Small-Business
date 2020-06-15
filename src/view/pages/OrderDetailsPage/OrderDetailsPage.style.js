@@ -19,10 +19,13 @@ export const orderDetailsStyles = ((theme) => ({
         }
     },
     containerTitle: {
+        width: '100%',
         marginTop: 15,
+        display: 'flex',
         marginBottom: 15,
         textAlign: 'center',
-        width: '100%'
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     productList: {
         flexDirection: 'row',
@@ -80,9 +83,7 @@ export const orderDetailsStyles = ((theme) => ({
     containerFieldsItem: {
         marginTop: '15px'
     },
-    orderItem: {
-        marginTop: theme.spacing(1),
-    },
+
     orderCurrency: {
         paddingLeft: theme.spacing(1),
         [theme.breakpoints.down('lg')]: {
@@ -172,4 +173,27 @@ export const orderDetailsStyles = ((theme) => ({
     button: {
         margin: '10px',
     },
+    orderNum: {
+        marginTop: 2,
+        fontSize: 20,
+        [theme.breakpoints.down('lg')]: {
+            marginTop: 4,
+        },
+        [theme.breakpoints.down('xs')]: {
+            fontSize: 17,
+            marginTop: 0,
+        }
+    },
+    orderDetails: {
+        marginTop: 2,
+        fontSize: 20,
+        paddingRight: 10,
+        [theme.breakpoints.down('lg')]: {
+            marginTop: 4,
+        },
+        [theme.breakpoints.down('xs')]: {
+            fontSize: 17,
+            marginTop: 0,
+        }
+    }
 }));

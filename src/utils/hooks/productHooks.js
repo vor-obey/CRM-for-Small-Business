@@ -27,7 +27,7 @@ export const useProductTypes = () => {
         fetchProductTypes();
     }, [dispatch, triggerCount]);
 
-    return [productTypes, setProductTypes, triggerProductTypesUpdate, loading];
+    return {productTypes, setProductTypes, triggerProductTypesUpdate, loading};
 };
 
 export const useProductTypeById = (id) => {
@@ -50,7 +50,7 @@ export const useProductTypeById = (id) => {
         fetchProductType();
     }, [dispatch, id]);
 
-    return [productType, setProductType];
+    return {productType, setProductType};
 };
 
 export const useAbstractProductDetailsById = (id) => {
@@ -72,7 +72,7 @@ export const useAbstractProductDetailsById = (id) => {
         fetchAbstractProductDetailsById(id);
     }, [dispatch, id]);
 
-    return [abstractProductDetails, setAbstractProductDetails];
+    return {abstractProductDetails, setAbstractProductDetails};
 };
 
 export const useAbstractProducts = () => {
@@ -98,7 +98,7 @@ export const useAbstractProducts = () => {
         fetchAbstractProducts();
     }, [dispatch]);
 
-    return [abstractProducts, setAbstractProducts, loading];
+    return {abstractProducts, setAbstractProducts, loading};
 };
 
 export const useProductDetailsById = (id) => {
@@ -120,7 +120,7 @@ export const useProductDetailsById = (id) => {
         fetchProductDetailsById(id);
     }, [dispatch, id]);
 
-    return [productDetails, setProductDetails];
+    return {productDetails, setProductDetails};
 };
 
 export const useProducts = () => {
@@ -146,7 +146,7 @@ export const useProducts = () => {
         fetchProducts();
     }, [dispatch]);
 
-    return [products, setProducts, loading];
+    return {products, setProducts, loading};
 };
 
 export const useAttributesByProductTypeId = (productTypeId) => {
@@ -171,5 +171,5 @@ export const useAttributesByProductTypeId = (productTypeId) => {
         }
     }, [productTypeId, dispatch, triggerCount]);
 
-    return [attributes, setAttributes, triggerAttributesUpdate];
+    return {attributes, setAttributes, triggerAttributesUpdate};
 };

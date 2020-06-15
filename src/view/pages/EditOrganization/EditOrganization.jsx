@@ -18,7 +18,7 @@ export const EditOrganization = ({history}) => {
     const {id} = useParams();
     const {t} = useTranslation();
     const classes = useStyles();
-    const [organizationDetails, setOrganizationDetails] = useOrganizationDetailsById(id);
+    const {organizationDetails, setOrganizationDetails} = useOrganizationDetailsById(id);
     const dispatch = useDispatch();
 
     const validateDetails = useCallback(({name, apiKeyNP}) => {
