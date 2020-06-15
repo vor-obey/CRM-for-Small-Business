@@ -236,7 +236,7 @@ export const Chat = ({
                 case 2: {
                     return (
                         <CustomerOrderList
-                            selectedСustomerInChat={selectedThread.users && selectedThread.users[0]}
+                            selectedCustomerInChat={selectedThread.users && selectedThread.users[0]}
                             handleDrawerIcon={handleDrawerIcon}
                             history={history}
                         />

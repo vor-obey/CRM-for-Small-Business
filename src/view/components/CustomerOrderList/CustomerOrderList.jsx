@@ -1,4 +1,4 @@
-import React, {useCallback} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import {Container, Grid, List, ListItem, Typography, makeStyles, useMediaQuery, Button} from "@material-ui/core";
 import {useTranslation} from "react-i18next";
 import {useOrders} from "../../../utils/hooks/orderHooks";
@@ -12,15 +12,53 @@ export const CustomerOrderList = ({history, selectedCustomerInChat, handleDrawer
     const classes = useStyles();
     const {t} = useTranslation('');
     const minWidth1150 = useMediaQuery('(min-width:1150px)');
-    const selectedCustomer = (selectedCustomerInChat && selectedCustomerInChat.username);
-    const [orderList] = useOrders();
-    const customerList = orderList.filter(order => order.customer.username === selectedCustomer);
+    const [selectedCustomer, setSelectedCustomer] = useState('');
+    const {orderList, loading} = useOrders();
+    const [customerList, setCustomerList] = useState([]);
+
+    useEffect(() => {
+        if (!isEmpty(selectedCustomerInChat)) {
+            setSelectedCustomer(selectedCustomerInChat.username);
+        }
+    }, [selectedCustomerInChat]);
+
+    useEffect(() => {
+        if (!loading && orderList.length > 0 && selectedCustomer) {
+            const filteredArray = orderList.filter((order) => order.customer.username === selectedCustomer);
+            setCustomerList(filteredArray);
+        }
+    }, [loading, orderList, selectedCustomer]);
 
     const navigationToOrderDetails = useCallback((orderId) => {
         history.push(`/orders/${orderId}`);
     }, [history]);
 
     const renderRows = useCallback(() => {
+        if (isEmpty(customerList)) {
+            return (
+                <Grid
+                    container
+                    item
+                    spacing={0}
+                    className={classes.noContent}
+                >
+                    <Grid container item xs={12} className={classes.noContentInfo}>
+                        <Typography variant='h5'
+                                    style={{paddingBottom: 18, paddingRight: 20,}}>{t('NO_NEW_ORDERS')}</Typography>
+                        <Button
+                            type='submit'
+                            variant="outlined"
+                            color="primary"
+                            className={classes.button}
+                            onClick={handleDrawerIcon(1, true)}
+                        >
+                            {t('CREATE')}
+                        </Button>
+                    </Grid>
+                </Grid>
+            )
+        }
+
         return customerList.map((order) => {
             return (
                 <CustomerOrderListItem
@@ -33,32 +71,7 @@ export const CustomerOrderList = ({history, selectedCustomerInChat, handleDrawer
             );
         });
 
-    }, [customerList, minWidth1150, navigationToOrderDetails, classes]);
-
-    if (isEmpty(customerList)) {
-        return (
-            <Grid
-                container
-                item
-                spacing={0}
-                className={classes.noContent}
-            >
-                <Grid container item xs={12} className={classes.noContentInfo}>
-                    <Typography variant='h5'
-                                style={{paddingBottom: 18, paddingRight: 20,}}>{t('NO_NEW_ORDERS')}</Typography>
-                    <Button
-                        type='submit'
-                        variant="outlined"
-                        color="primary"
-                        className={classes.button}
-                        onClick={handleDrawerIcon(1, true)}
-                    >
-                        {t('CREATE')}
-                    </Button>
-                </Grid>
-            </Grid>
-        )
-    }
+    }, [customerList, minWidth1150, navigationToOrderDetails, classes, handleDrawerIcon, t]);
 
     return (
         <Container className={classes.root}>
