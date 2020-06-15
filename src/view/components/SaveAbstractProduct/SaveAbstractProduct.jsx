@@ -47,9 +47,9 @@ export const SaveAbstractProduct = ({
         description: '',
         price: ''
     });
-    const [productTypes, , triggerProductTypesUpdate] = useProductTypes();
+    const {productTypes, triggerProductTypesUpdate} = useProductTypes();
     const [selectedProductType, setSelectedProductType] = useState({});
-    const [attributes, setAttributes, triggerAttributesUpdate] = useAttributesByProductTypeId(selectedProductType && selectedProductType.productTypeId);
+    const {attributes, setAttributes, triggerAttributesUpdate} = useAttributesByProductTypeId(selectedProductType && selectedProductType.productTypeId);
     const [isExpanded, setIsExpanded] = useState(false);
     const {t} = useTranslation('');
 

@@ -36,7 +36,7 @@ const useStyles = makeStyles(productTypeDetailsPageStyles);
 export const ProductTypeDetailsPage = ({history}) => {
     const classes = useStyles();
     const {id} = useParams();
-    const [productType] = useProductTypeById(id);
+    const {productType} = useProductTypeById(id);
     const {t} = useTranslation();
     const dispatch = useDispatch();
 

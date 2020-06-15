@@ -25,7 +25,7 @@ const useStyles = makeStyles(customerDetailsStyle);
 
 export const CustomerDetailsPage = ({history}) => {
     const {id} = useParams();
-    const [customerDetails] = useCustomerById(id);
+    const {customerDetails} = useCustomerById(id);
     const [isShow, setIsShow] = useState(false);
     const dispatch = useDispatch();
     const classes = useStyles();

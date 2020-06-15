@@ -9,7 +9,7 @@ import {useRoles} from '../../../utils/hooks/userHooks';
 
 export const CreateUser = ({history}) => {
     const dispatch = useDispatch();
-    const [roles] = useRoles();
+    const {roles} = useRoles();
     const { t } = useTranslation('');
 
     const onSubmitHandler = useCallback(async (userInput) => {

@@ -24,5 +24,5 @@ export const useOrganizationDetailsById = (id) => {
         fetchOrganizationById(id);
     }, [id, dispatch, triggerCount]);
 
-    return [organizationDetails, setOrganizationDetails, triggerOrganizationDetailsUpdate];
+    return {organizationDetails, setOrganizationDetails, triggerOrganizationDetailsUpdate};
 };

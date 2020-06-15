@@ -29,7 +29,7 @@ export const UserDetailsPage = ({history}) => {
     const {id} = useParams();
     const classes = useStyles();
     const [isShow, setIsShow] = useState(false);
-    const [userDetails] = useManagerById(id);
+    const {managerDetails} = useManagerById(id);
     const {t} = useTranslation('');
 
     const handleOpenDialog = useCallback(() => {
@@ -59,11 +59,11 @@ export const UserDetailsPage = ({history}) => {
 
 
     const renderUserDetails = useCallback(() => {
-        if (isEmpty(userDetails)) {
+        if (isEmpty(managerDetails)) {
             return null;
         }
-        return <UserDetails userDetails={userDetails} classes={classes}/>
-    }, [classes, userDetails]);
+        return <UserDetails userDetails={managerDetails} classes={classes}/>
+    }, [classes, managerDetails]);
 
     return (
         <Container component="main" className={classes.userDetailsContainer}>

@@ -39,7 +39,7 @@ export const ProductForm = ({
                                 history,
                                 description,
                             }) => {
-    const [products] = useProducts();
+    const {products} = useProducts();
     const dispatch = useDispatch();
 
     const cartUtils = useEditCart();

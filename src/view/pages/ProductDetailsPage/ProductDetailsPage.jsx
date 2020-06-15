@@ -24,9 +24,9 @@ export const ProductDetailsPage = ({history}) => {
     const classes = useStyles();
     const dispatch = useDispatch();
     const {id} = useParams();
-    const [products] = useProducts();
+    const {products} = useProducts();
     const cart = useCart(products);
-    const [productDetails] = useProductDetailsById(id);
+    const {productDetails} = useProductDetailsById(id);
     const cartUtils = useEditCart();
     const {t} = useTranslation('');
 

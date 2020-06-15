@@ -18,7 +18,7 @@ const useStyles = makeStyles(orderDetailsStyles);
 
 export const OrderDetailsPage = ({history}) => {
     const {id} = useParams();
-    const [orderDetails, setOrderDetails] = useOrderDetailsById(id);
+    const {orderDetails, setOrderDetails} = useOrderDetailsById(id);
     const {shippingDetails: {address: {isCustom} = {}} = {}} = orderDetails;
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [isPrintModalOpen, setIsPrintModalOpen] = useState(false);
