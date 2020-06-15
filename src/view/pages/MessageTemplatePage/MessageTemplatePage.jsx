@@ -40,8 +40,8 @@ export const MessageTemplatePage = ({chat, onSubmit, isDialogOpen, handleDrawerI
     const classes = useStyles();
     const history = useHistory();
     const dispatch = useDispatch();
-    const [editName, setEditName] = useState();
-    const [editContent, setEditContent] = useState();
+    const [editName, setEditName] = useState('');
+    const [editContent, setEditContent] = useState('');
     const [editId, setEditId] = useState('');
     const [templateIds, setTemplateIds] = useState([]);
     const {templatesList, loading, fetchTemplates} = useTemplates();
@@ -68,7 +68,7 @@ export const MessageTemplatePage = ({chat, onSubmit, isDialogOpen, handleDrawerI
         setEditContent(value);
     }, []);
 
-    const deleteChange = useCallback((template) => {
+    const onCancelChanges = useCallback((template) => {
         setEditName(template.name);
         setEditContent(template.content);
         setEditId('');
@@ -96,8 +96,6 @@ export const MessageTemplatePage = ({chat, onSubmit, isDialogOpen, handleDrawerI
                 dispatch(setIsLoading(false));
                 dispatch(setSnackBarStatus({isOpen: true, message: e.message, success: false}));
             }
-        } else {
-            return null;
         }
     }, [editId, editContent, fetchTemplates, editName, dispatch]);
 
@@ -252,10 +250,10 @@ export const MessageTemplatePage = ({chat, onSubmit, isDialogOpen, handleDrawerI
         if (editId === template.templateId) {
             return (
                 <Grid>
-                    <IconButton onClick={event => saveHandleClick(event, template)}>
+                    <IconButton onClick={event => saveHandleClick(event)}>
                         <CheckIcon/>
                     </IconButton>
-                    <IconButton onClick={() => deleteChange(template)}>
+                    <IconButton onClick={() => onCancelChanges(template)}>
                         <CloseIcon/>
                     </IconButton>
                 </Grid>
@@ -272,7 +270,7 @@ export const MessageTemplatePage = ({chat, onSubmit, isDialogOpen, handleDrawerI
                 </Grid>
             );
         }
-    }, [editHandler, deleteChange, openTemplateDeleteDialog, editId, saveHandleClick]);
+    }, [editHandler, onCancelChanges, openTemplateDeleteDialog, editId, saveHandleClick]);
 
     const renderRows = useCallback(() => {
         if (isEmpty(templatesList)) {
