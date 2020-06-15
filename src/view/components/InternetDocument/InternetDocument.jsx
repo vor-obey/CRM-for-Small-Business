@@ -40,7 +40,7 @@ export const InternetDocument = ({orderDetails, handleClose}) => {
     });
 
     const calculateTotalPoints = useCallback(() => {
-        return `${orderDetails.orderToProducts.reduce((a, b) => a + b.orderProductPrice, 0)}`;
+        return `${orderDetails.orderToProducts.reduce((a, {orderProductPrice, amount}) => a + (orderProductPrice * amount), 0)}`;
     }, [orderDetails]);
 
     useEffect(() => {
