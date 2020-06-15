@@ -21,7 +21,7 @@ export const CreateOrderPage = ({history, chat}) => {
     const {t} = useTranslation();
     const {shippingMethods} = useShippingMethods();
     const [shippingMethod, setShippingMethod] = useState({});
-    const {managers,  managerLoading} = useManagers();
+    const {managers, managerLoading} = useManagers();
     const [manager, setManager] = useState({});
     const {customers, setCustomers, customerLoading} = useCustomers();
     const [customer, setCustomer] = useState({});
