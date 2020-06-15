@@ -16,7 +16,17 @@ import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 
-export const ChatDialog = ({profile, thread, goBack, classes, minWidth, isDrawerOpened, toggleDrawerMobile, handleDrawerIcons, templateContent}) => {
+export const ChatDialog = ({
+                               profile,
+                               thread,
+                               goBack,
+                               classes,
+                               minWidth,
+                               isDrawerOpened,
+                               toggleDrawerMobile,
+                               setTemplateContent,
+                               templateContent
+                           }) => {
     const {users, thread_title, items, inviter} = thread;
     const profile_pic_url = users[0] ? users[0].profile_pic_url : inviter.profile_pic_url;
     const dispatch = useDispatch();
@@ -115,7 +125,8 @@ export const ChatDialog = ({profile, thread, goBack, classes, minWidth, isDrawer
         event.preventDefault();
         dispatch(sendMessage({text, threadId: thread.thread_id}, socket));
         setText('');
-    }, [text, thread.thread_id, dispatch, socket]);
+        setTemplateContent('');
+    }, [text, thread.thread_id, setTemplateContent, dispatch, socket]);
 
     return (
         <Grid id='scroll' className={classes.listDialog} style={{

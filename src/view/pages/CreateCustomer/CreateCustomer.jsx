@@ -2,7 +2,7 @@ import React, {useCallback} from 'react';
 
 import {SaveCustomerForm} from "../../components/SaveCustomerForm/SaveCustomerForm";
 import {CustomerService} from "../../../services";
-import {setIsLoading, setSnackBarStatus} from "../../../data/store/auxiliary/auxiliaryActions";
+import {closeModal, setSnackBarStatus} from "../../../data/store/auxiliary/auxiliaryActions";
 import {COMMON_ERROR_MESSAGE} from "../../../constants/statuses";
 import {useDispatch} from "react-redux";
 import {useTranslation} from "react-i18next";
@@ -27,18 +27,15 @@ export const CreateCustomer = ({
     }, [dispatch]);
 
     const onSubmitHandler = useCallback(async (event, customerDetails) => {
-        event.stopPropagation();
         event.preventDefault();
         if (customerDetails.contactNumber && (customerDetails.contactNumber.length < 10 || customerDetails.contactNumber.length > 12)) {
             dispatch(setSnackBarStatus({isOpen: true, message: t('INVALID_NUMBER'), success: false}))
         } else {
             try {
-                dispatch(setIsLoading(true));
                 const response = await CustomerService.create(customerDetails);
                 if (response) {
                     if (typeof updateCustomerList === 'function') {
                         updateCustomerList(response);
-                        dispatch(setIsLoading(false));
                         dispatch(addCustomerDetail({
                             username: '',
                             name: '',
@@ -57,11 +54,11 @@ export const CreateCustomer = ({
                             details: '',
                             sourceId: '',
                         }));
-                        dispatch(setIsLoading(false));
                     }
+                    dispatch(closeModal());
                 }
+
             } catch (e) {
-                dispatch(setIsLoading(false));
                 dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE, success: false}))
             }
         }

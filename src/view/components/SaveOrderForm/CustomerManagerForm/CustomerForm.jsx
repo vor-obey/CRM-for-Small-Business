@@ -9,10 +9,11 @@ import {
 
 import {CustomAutocomplete} from "../../Autocomplete/Autocomplete";
 import PersonAddIcon from "@material-ui/icons/PersonAdd";
-import {CustomModal} from "../../CustomModal/CustomModal";
 import {CreateCustomer} from "../../../pages/CreateCustomer/CreateCustomer";
 import isEmpty from 'lodash/isEmpty';
 import {useTranslation} from "react-i18next";
+import {closeModal, renderModal} from "../../../../data/store/auxiliary/auxiliaryActions";
+import {useDispatch} from "react-redux";
 
 export const CustomerForm = ({
                                  classes,
@@ -27,7 +28,7 @@ export const CustomerForm = ({
                                  onCustomerSelectHandler
                              }) => {
     const {t} = useTranslation('');
-    const [isModalOpen, setIsModalOpen] = useState(false);
+    const dispatch = useDispatch();
     const [isCustomerAutocompleteOpen, setIsCustomerAutocompleteOpen] = useState(false);
     const [isManagerAutocompleteOpen, setIsManagerAutocompleteOpen] = useState(false);
 
@@ -39,14 +40,9 @@ export const CustomerForm = ({
         setIsManagerAutocompleteOpen(prevState => !prevState);
     }, []);
 
-    const toggleModal = useCallback(() => {
-        setIsModalOpen(prevState => !prevState);
-    }, []);
-
     const updateCustomersList = useCallback((customer) => {
         setCreatedCustomer(customer);
-        toggleModal();
-    }, [setCreatedCustomer, toggleModal]);
+    }, [setCreatedCustomer]);
 
     const renderCustomerOptions = useCallback((customer) => {
         return (
@@ -122,6 +118,19 @@ export const CustomerForm = ({
         });
     }, []);
 
+
+    const handleCreateCustomer = useCallback(() => {
+        dispatch(renderModal({
+                isOpen: true,
+                children: (<CreateCustomer
+                    updateCustomerList={updateCustomersList}
+                />),
+                onCloseHandler: () => dispatch(closeModal())
+            })
+        )
+    }, [dispatch, updateCustomersList]);
+
+
     return (
         <>
             <Grid item xl={12} xs={12}>
@@ -135,26 +144,11 @@ export const CustomerForm = ({
                     margin='normal'
                     color='primary'
                     fullWidth
-                    onClick={toggleModal}
+                    onClick={handleCreateCustomer}
                 >
                     <PersonAddIcon/>
                 </Button>
             </Grid>
-            <CustomModal
-                open={isModalOpen}
-                classes={classes}
-                handleClose={toggleModal}
-                breakpoints={{
-                    xl: 3,
-                    lg: 3,
-                    md: 4,
-                    xs: 9
-                }}
-            >
-                <CreateCustomer
-                    updateCustomerList={updateCustomersList}
-                />
-            </CustomModal>
             <Grid item lg={11} sm={10} md={10} xs={10} className={classes.gridCustomers}>
                 <CustomAutocomplete
                     isOpen={isCustomerAutocompleteOpen}

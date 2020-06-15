@@ -14,14 +14,11 @@ export const useCustomers = () => {
         const fetchCustomers = async () => {
             try {
                 setCustomerLoading(true);
-                dispatch(setIsLoading(true));
                 const customers = await CustomerService.list();
                 setCustomers(customers);
-                dispatch(setIsLoading(false));
                 setCustomerLoading(false);
             } catch (e) {
                 setCustomerLoading(false);
-                dispatch(setIsLoading(false));
                 dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE, success: false}));
             }
         };
@@ -61,12 +58,9 @@ export const useSources = () => {
     useEffect(() => {
         const fetchSources = async () => {
             try {
-                dispatch(setIsLoading(true));
                 const sources = await SourcesService.list();
                 setSources(sources);
-                dispatch(setIsLoading(false));
             } catch (e) {
-                dispatch(setIsLoading(false));
                 dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE, success: false}))
             }
         };

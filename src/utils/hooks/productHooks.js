@@ -132,14 +132,11 @@ export const useProducts = () => {
         const fetchProducts = async () => {
             try {
                 setLoading(true);
-                dispatch(setIsLoading(true));
                 const response = await ProductService.list();
                 setProducts(response);
-                dispatch(setIsLoading(false));
                 setLoading(false);
             } catch (e) {
                 setLoading(false);
-                dispatch(setIsLoading(false));
                 dispatch(setSnackBarStatus({isOpen: true, message: e.message, success: false}));
             }
         };

@@ -17,6 +17,7 @@ import {useHistory} from "react-router-dom";
 const useStyle = makeStyles(addOrderProductStyles);
 
 export const AddOrderProduct = ({
+                                    chat,
                                     selectedProducts,
                                     orderedProducts,
                                     products,
@@ -169,6 +170,7 @@ export const AddOrderProduct = ({
                             {t('ADD_PRODUCT')}
                         </legend>
                         <SaveOrderProduct
+                            chat={chat}
                             isOpen={isOpen}
                             options={products}
                             onClose={toggleAutocomplete}
@@ -201,6 +203,7 @@ export const AddOrderProduct = ({
                         >
                             {t('ADD_PRODUCT')}
                         </Button>
+                        {!chat ?
                         <Button
                             className={classes.buttonFub}
                             fullWidth={!minWidth600}
@@ -210,7 +213,7 @@ export const AddOrderProduct = ({
                         >
                             <AddIcon/>
                             {t('CREATE_PRODUCT')}
-                        </Button>
+                        </Button> : null}
                     </Grid>
                     <Grid item xl={6} lg={6} md={6} sm={4} xs={12} className={classes.containerProductItemTotal}>
                         <Typography variant='subtitle1'>

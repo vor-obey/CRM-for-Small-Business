@@ -31,6 +31,7 @@ import {setOrderDescription} from "../../../../data/store/order/orderActions";
 import {OrderDescriptionInput} from "../OrderDescriptionInput/OrderDescriptionInput";
 
 export const ProductForm = ({
+                                chat,
                                 setOrderedProducts,
                                 getProducts,
                                 orderedProducts,
@@ -405,6 +406,7 @@ export const ProductForm = ({
             <OrderDescriptionInput isEdit={isEdit} description={description}/>
             <Grid container item xs={12} sm={12}>
                 <AddOrderProduct
+                    chat={chat}
                     products={products}
                     selectedProducts={cart.products}
                     submit={addProduct}
