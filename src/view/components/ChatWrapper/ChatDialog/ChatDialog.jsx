@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
@@ -22,6 +22,7 @@ export const ChatDialog = ({profile, thread, goBack, classes, minWidth, isDrawer
     const dispatch = useDispatch();
     const [text, setText] = useState('');
     const {socket} = useSelector(state => state.userReducer);
+    const messagesEndRef = useRef(null);
 
     useEffect(() => {
         if (templateContent) {
@@ -29,15 +30,9 @@ export const ChatDialog = ({profile, thread, goBack, classes, minWidth, isDrawer
         }
     }, [templateContent]);
 
-    // const fetchThreadFeed = useCallback(async ({thread_id, prev_cursor}) => {
-    //     try {
-    //         const response = await InstagramService.getThreadById(thread_id, prev_cursor);
-    //         setSelectedThread(response);
-    //         // setIsDialogOpen(true);
-    //     } catch (e) {
-    //         console.log(e);
-    //     }
-    // }, []);
+    useEffect(() => {
+        messagesEndRef.current.scrollIntoView();
+    }, [items]);
 
     let avatar = <PeopleAltIcon/>;
 
@@ -123,7 +118,7 @@ export const ChatDialog = ({profile, thread, goBack, classes, minWidth, isDrawer
     }, [text, thread.thread_id, dispatch, socket]);
 
     return (
-        <Grid className={classes.listDialog} style={{
+        <Grid id='scroll' className={classes.listDialog} style={{
             padding: 0,
             display: 'flex',
             flexDirection: 'column',
@@ -148,14 +143,24 @@ export const ChatDialog = ({profile, thread, goBack, classes, minWidth, isDrawer
                     />
                     : null}
             </Grid>
-            <Grid style={{width: '100%', overflowY: 'scroll', height: 'calc(100% - 130px)'}}>
+            <Grid style={{
+                display: 'grid',
+                alignItems: 'flex-end',
+                width: '100%',
+                overflowY: 'auto',
+                height: 'calc(100% - 130px)'
+            }}>
                 <List>
                     {renderItems()}
+                    <div ref={messagesEndRef}/>
                 </List>
             </Grid>
-            <Grid className={classes.sentBox}>
-                <form onSubmit={submit} className={classes.form}>
-                    <TextField
+            <Grid
+                className={classes.sentBox}>
+                < form
+                    onSubmit={submit}
+                    className={classes.form}>
+                    < TextField
                         autoFocus
                         fullWidth
                         multiline
