@@ -69,7 +69,7 @@ export const OrderDetailsPage = ({history}) => {
         if (!isCustom) {
             return (
                 <>
-                    <Grid item xs={12} sm={10} className={classes.containerFieldsItem}>
+                    <Grid item xs={12} sm={10}>
                         <Typography
                             variant='body2'
                             color='textSecondary'>
