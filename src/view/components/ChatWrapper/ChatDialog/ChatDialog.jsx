@@ -64,7 +64,6 @@ export const ChatDialog = ({
         return messages.map((item) => {
             let content;
             const date = Number(item.timestamp);
-
             const timestampInSeconds = moment(date).unix();
             const dateTime = moment(timestampInSeconds).format('dddd HH:mm');
 
@@ -183,7 +182,7 @@ export const ChatDialog = ({
                     <ListItem key={item.item_id} className={classes.flexEnd}>
                         {content}
                         <ListItemAvatar>
-                            <Avatar alt={thread_title} src={profile.profile_pic_url}/>
+                            <Avatar alt={thread_title} src={profile.profile_pic_url} style={{ marginLeft: 18}}/>
                         </ListItemAvatar>
                     </ListItem>
                 );
