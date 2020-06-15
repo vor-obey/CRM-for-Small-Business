@@ -218,6 +218,7 @@ export const EditOrder = ({history}) => {
             getProducts={setOrderedProducts}
             status={status}
             onSubmit={onSubmitHandler}
+            setOrderedProducts={setOrderedProducts}
             orderedProducts={orderedProducts}
             isEdit={true}
             description={orderDetails.description}
