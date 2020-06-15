@@ -15,6 +15,13 @@ export const editOrderStatusStyles = ((theme) => ({
             paddingLeft: 0
         }
     },
+    selectStatus: {
+        paddingTop: 0,
+        '&:focus': {
+            backgroundColor: '#fff',
+        },
+    },
+
     selectStatusDisabled: {
         backgroundColor: '#fff'
     },

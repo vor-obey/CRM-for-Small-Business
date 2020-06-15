@@ -37,6 +37,7 @@ export function EditOrderStatus({
             <FormControl variant="filled" size="small" margin='none'>
                 <Select
                     classes={{
+                        select: classes.selectStatus,
                         disabled: classes.selectStatusDisabled,
                         filled: classes.selectStatusFilled,
                     }}
