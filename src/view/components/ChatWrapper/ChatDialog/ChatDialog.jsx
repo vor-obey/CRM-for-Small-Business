@@ -15,6 +15,11 @@ import List from '@material-ui/core/List';
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import MoreVertIcon from '@material-ui/icons/MoreVert';
+import Link from '@material-ui/core/Link';
+import Card from "@material-ui/core/Card";
+import CardHeader from "@material-ui/core/CardHeader";
+import CardMedia from "@material-ui/core/CardMedia";
+import CardContent from "@material-ui/core/CardContent";
 
 export const ChatDialog = ({
                                profile,
@@ -58,7 +63,6 @@ export const ChatDialog = ({
         const messages = items.sort((a, b) => a.timestamp - b.timestamp);
         return messages.map((item) => {
             let content;
-
             const date = Number(item.timestamp);
 
             const timestampInSeconds = moment(date).unix();
@@ -75,10 +79,89 @@ export const ChatDialog = ({
                     );
                     break;
                 }
+                case 'action_log': {
+                    content = (
+                        <ListItemText
+                            primary={item.action_log.description}
+                            className={classes.messageText}
+                        />
+                    );
+                    break;
+                }
                 case 'media': {
                     content = (
                         <img src={item.media.image_versions2.candidates[0].url} alt="Media"
                              className={classes.messageImg}/>
+                    );
+                    break;
+                }
+                case 'raven_media': {
+                    content = (
+                        <img src={item.visual_media.media.image_versions2.candidates[0].url} alt="Raven Media"
+                             className={classes.messageImg}/>
+                    );
+                    break;
+                }
+                case 'animated_media': {
+                    content = (
+                        <img src={item.animated_media.images.fixed_height.url} alt="Raven Media"
+                             className={classes.messageImg}/>
+                    );
+                    break;
+                }
+                case 'media_share': {
+                    content = (
+                        <Card className={classes.sharedBox}>
+                            <CardHeader
+                                avatar={
+                                    <Avatar aria-label="recipe">
+                                        <img src={item.media_share.user.profile_pic_url} alt="Avatar"
+                                             className={classes.sharedBoxAvatar}
+                                        />
+                                    </Avatar>
+                                }
+                                title={<Typography variant="body2">{item.media_share.user.username}</Typography>}
+                            />
+                            <CardMedia
+                                className={classes.sharedBoxMedia}
+                                image={item.media_share.image_versions2.candidates[0].url}
+                                title={item.media_share.user.username}
+                            />
+                            <CardContent>
+                                <Typography variant="body2" color="textSecondary">
+                                    {item.media_share.user.username}
+                                </Typography>
+                                <Typography variant="body2" color="textSecondary" className={classes.sharedBoxCaption}>
+                                    {item.media_share.caption.text}
+                                </Typography>
+                            </CardContent>
+                        </Card>
+                    );
+                    break;
+                }
+                case 'like': {
+                    content = (
+                        <ListItemText
+                            primary={item.like}
+                            classes={{
+                                primary: classes.like
+                            }}
+                        />
+                    );
+                    break;
+                }
+                case 'link': {
+                    content = (
+                        <ListItemText
+                            primary={<Link href={item.link.text} rel="noopener"  underline="none" target='_blank'>{item.link.text}</Link>}
+                            secondary={
+                                <Link href={item.link.text} rel="noopener" target='_blank' underline="none" component="button" className={classes.links}>
+                                    <Typography variant='body1' color="textPrimary">{item.link.link_context.link_title}</Typography>
+                                    <Typography variant='body2' color="textSecondary">{item.link.link_context.link_summary}</Typography>
+                                </Link>
+                            }
+                            className={classes.messageText}
+                        />
                     );
                     break;
                 }
