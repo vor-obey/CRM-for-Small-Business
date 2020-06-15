@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import moment from "moment";
 import {useTranslation} from "react-i18next";
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
@@ -12,14 +12,14 @@ import {
     ExpansionPanelDetails
 } from "@material-ui/core";
 
-export const NotificationList = ({
+export const NotificationListItem = ({
                                      index,
                                      classes,
                                      notification
                                  }) => {
     const {t} = useTranslation('');
 
-    const renderDesktop = () => {
+    const renderDesktop = useCallback(() => {
         return (
             <div key={index} onClick={() => notification.onClick()}>
                 <div className={classes.wrap}>
@@ -37,9 +37,9 @@ export const NotificationList = ({
                 </div>
             </div>
         );
-    };
+    }, [classes, index, notification, t]);
 
-    const renderMobile = () => {
+    const renderMobile = useCallback(() => {
         return (
             <div className={classes.divMobile}>
                 <ExpansionPanel>
@@ -66,7 +66,7 @@ export const NotificationList = ({
                 </ExpansionPanel>
             </div>
         );
-    };
+    }, [classes, index, notification, t]);
 
     return (
         <div>
