@@ -30,6 +30,7 @@ import {StorageService} from "../../../../services";
 import {setDescriptionToOrder} from "../../../../data/store/order/orderActions";
 
 export const ProductForm = ({
+                                chat,
                                 getProducts,
                                 orderedProducts,
                                 classes,
@@ -217,12 +218,12 @@ export const ProductForm = ({
         if (editId === product.productId) {
             return (
                 <div style={{display: 'flex', marginBottom: 4}}>
-                        <TextField
-                            className={classes.margin}
-                            onChange={(event) => onPriceChange(product, event.target.value, product.productId)}
-                            value={editId === product.productId ? editPrice : product.price}
-                            autoFocus
-                            InputProps={{ classes: {underline: classes.underline}}} />
+                    <TextField
+                        className={classes.margin}
+                        onChange={(event) => onPriceChange(product, event.target.value, product.productId)}
+                        value={editId === product.productId ? editPrice : product.price}
+                        autoFocus
+                        InputProps={{classes: {underline: classes.underline}}}/>
                     <Typography style={{marginTop: 5}}>
                         &nbsp; {product.currency}
                     </Typography>
@@ -381,6 +382,7 @@ export const ProductForm = ({
             </Grid>
             <Grid container item xs={12} sm={12}>
                 <AddOrderProduct
+                    chat={chat}
                     products={products}
                     selectedProducts={cart.products}
                     submit={addProduct}

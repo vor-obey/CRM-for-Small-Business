@@ -1,6 +1,5 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {ChatThreads} from '../ChatThreads/ChatThreads';
-import {useHistory} from 'react-router-dom';
 import {ChatDialog} from '../ChatDialog/ChatDialog';
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 import {
@@ -23,8 +22,9 @@ import NoteAddOutlinedIcon from '@material-ui/icons/NoteAddOutlined';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import clsx from "clsx";
 import isEmpty from 'lodash/isEmpty';
+import {useHistory} from 'react-router-dom';
 import {MessageTemplatePage} from "../../../pages/MessageTemplatePage/MessageTemplatePage";
-import {OrdersPage} from "../../../pages/OrdersPage/OrdersPage";
+import {CreateOrderPage} from "../../../pages/CreateOrderPage/CreateOrderPage";
 
 export const Chat = ({
                          classes,
@@ -221,15 +221,14 @@ export const Chat = ({
             switch (drawerIcon.id) {
                 case 1: {
                     return (
-                        <div>1</div>
+                        <CreateOrderPage
+                            chat={true}
+                        />
                     );
                 }
                 case 2: {
                     return (
-                        <OrdersPage
-                            selectedСustomerInChat={selectedThread.users && selectedThread.users[0]}
-                            history={history}
-                        />
+                        <div>2</div>
                     );
                 }
                 case 3: {

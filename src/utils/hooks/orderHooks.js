@@ -56,12 +56,9 @@ export const useShippingMethods = () => {
     useEffect(() => {
         const fetchShippingMethods = async () => {
             try {
-                dispatch(setIsLoading(true));
                 const methods = await ShippingMethodService.list();
                 setMethods(methods);
-                dispatch(setIsLoading(false));
             } catch (e) {
-                dispatch(setIsLoading(false));
                 dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE, success: false}));
             }
         };

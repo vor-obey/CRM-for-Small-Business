@@ -14,6 +14,7 @@ const autocompleteBreakpoints = {
 };
 
 export const SaveOrderForm = ({
+                                  breakpoints,
                                   classes,
                                   setCreatedCustomer,
                                   customers,
@@ -41,7 +42,8 @@ export const SaveOrderForm = ({
                                   onNovaposhtaAddressSelectHandler,
                                   history,
                                   orderDescription,
-                                  onOrderDescriptionChangeHandler
+                                  onOrderDescriptionChangeHandler,
+                                  chat
                               }) => {
     const {t} = useTranslation();
     const renderStatuses = useCallback(() => {
@@ -52,7 +54,7 @@ export const SaveOrderForm = ({
     }, [t]);
 
     return (
-        <Container maxWidth='lg' className={classes.root}>
+        <Container className={classes.root}>
             <Grid container>
                 <Grid container item>
                     <Paper className={classes.paper}>
@@ -82,6 +84,8 @@ export const SaveOrderForm = ({
                         </Grid>
                         <Grid container item xl={12}>
                             <ProductForm
+                                breakpoints={breakpoints}
+                                chat={chat}
                                 getProducts={getProducts}
                                 description={description}
                                 classes={classes}
