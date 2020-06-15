@@ -32,6 +32,7 @@ export const ChatDialog = ({
     const dispatch = useDispatch();
     const [text, setText] = useState('');
     const {socket} = useSelector(state => state.userReducer);
+    const messagesEndRef = useRef(null);
 
     useEffect(() => {
         if (templateContent) {
@@ -39,21 +40,9 @@ export const ChatDialog = ({
         }
     }, [templateContent]);
 
-    const scrollToBottom = () => {
+    useEffect(() => {
         messagesEndRef.current.scrollIntoView();
-    };
-
-    useEffect(scrollToBottom, [items]);
-
-    // const fetchThreadFeed = useCallback(async ({thread_id, prev_cursor}) => {
-    //     try {
-    //         const response = await InstagramService.getThreadById(thread_id, prev_cursor);
-    //         setSelectedThread(response);
-    //         // setIsDialogOpen(true);
-    //     } catch (e) {
-    //         console.log(e);
-    //     }
-    // }, []);
+    }, [items]);
 
     let avatar = <PeopleAltIcon/>;
 
@@ -138,8 +127,6 @@ export const ChatDialog = ({
         setText('');
         setTemplateContent('');
     }, [text, thread.thread_id, setTemplateContent, dispatch, socket]);
-
-    const messagesEndRef = useRef(null);
 
     return (
         <Grid id='scroll' className={classes.listDialog} style={{
