@@ -3,7 +3,7 @@ import isEmpty from 'lodash/isEmpty';
 import {useSelector} from "react-redux";
 import {makeStyles, Container, Grid} from "@material-ui/core";
 import {NotificationPageStyle} from "./NotificationPage.style";
-import {NotificationList} from "./NotificationList/NotificationList";
+import {NotificationListItem} from "./NotificationListItem/NotificationListItem";
 import Typography from "@material-ui/core/Typography";
 import {useTranslation} from "react-i18next";
 
@@ -31,7 +31,7 @@ export const NotificationPage = () => {
         const notificationsArr = [...notifications];
 
         return notificationsArr.sort(((a, b) => a.date > b.date ? -1 : 1)).map((notification, index) => {
-            return <NotificationList
+            return <NotificationListItem
                 key={index}
                 classes={classes}
                 notification={notification}
