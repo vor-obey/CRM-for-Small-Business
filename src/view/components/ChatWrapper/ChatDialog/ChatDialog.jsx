@@ -20,6 +20,8 @@ import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
 import CardMedia from "@material-ui/core/CardMedia";
 import CardContent from "@material-ui/core/CardContent";
+import {closeModal, renderModal} from "../../../../data/store/auxiliary/auxiliaryActions";
+import Button from "@material-ui/core/Button";
 
 export const ChatDialog = ({
                                profile,
@@ -54,6 +56,16 @@ export const ChatDialog = ({
     if (users.length === 1) {
         avatar = <Avatar alt={thread_title} src={profile_pic_url}/>
     }
+
+    const handleOpenFullSize = useCallback((src) => {
+        dispatch(renderModal({
+                isOpen: true,
+                children: (typeof src === 'string' ? <img alt="Media" src={src}/> : src),
+                onCloseHandler: () => dispatch(closeModal()),
+                allowBackDropClick: true,
+            })
+        )
+    }, [dispatch]);
 
     const renderItems = useCallback(() => {
         if (!items.length) {
@@ -91,21 +103,26 @@ export const ChatDialog = ({
                 case 'media': {
                     content = (
                         <img src={item.media.image_versions2.candidates[0].url} alt="Media"
-                             className={classes.messageImg}/>
+                             className={classes.messageImg}
+                             onClick={() => handleOpenFullSize(item.media.image_versions2.candidates[0].url)}
+                        />
                     );
                     break;
                 }
                 case 'raven_media': {
                     content = (
                         <img src={item.visual_media.media.image_versions2.candidates[0].url} alt="Raven Media"
-                             className={classes.messageImg}/>
+                             className={classes.messageImg}
+                             onClick={() => handleOpenFullSize(item.visual_media.media.image_versions2.candidates[0].url)}
+                        />
                     );
                     break;
                 }
                 case 'animated_media': {
                     content = (
                         <img src={item.animated_media.images.fixed_height.url} alt="Raven Media"
-                             className={classes.messageImg}/>
+                             className={classes.animatedMedia}
+                        />
                     );
                     break;
                 }
@@ -126,6 +143,7 @@ export const ChatDialog = ({
                                 className={classes.sharedBoxMedia}
                                 image={item.media_share.image_versions2.candidates[0].url}
                                 title={item.media_share.user.username}
+                                onClick={() => handleOpenFullSize(item.media_share.image_versions2.candidates[0].url)}
                             />
                             <CardContent>
                                 <Typography variant="body2" color="textSecondary">
@@ -153,11 +171,15 @@ export const ChatDialog = ({
                 case 'link': {
                     content = (
                         <ListItemText
-                            primary={<Link href={item.link.text} rel="noopener"  underline="none" target='_blank'>{item.link.text}</Link>}
+                            primary={<Link href={item.link.text} rel="noopener" underline="none"
+                                           target='_blank'>{item.link.text}</Link>}
                             secondary={
-                                <Link href={item.link.text} rel="noopener" target='_blank' underline="none" component="button" className={classes.links}>
-                                    <Typography variant='body1' color="textPrimary">{item.link.link_context.link_title}</Typography>
-                                    <Typography variant='body2' color="textSecondary">{item.link.link_context.link_summary}</Typography>
+                                <Link href={item.link.text} rel="noopener" target='_blank' underline="none"
+                                      component="button" className={classes.links}>
+                                    <Typography variant='body1'
+                                                color="textPrimary">{item.link.link_context.link_title}</Typography>
+                                    <Typography variant='body2'
+                                                color="textSecondary">{item.link.link_context.link_summary}</Typography>
                                 </Link>
                             }
                             className={classes.messageText}
@@ -197,7 +219,7 @@ export const ChatDialog = ({
                 </ListItem>
             )
         });
-    }, [avatar, profile, items, thread_title, classes]);
+    }, [avatar, profile, items, thread_title, classes, handleOpenFullSize]);
 
     const onChangedInput = useCallback((event) => {
         const {value} = event.target;

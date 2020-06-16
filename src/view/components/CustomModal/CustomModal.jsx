@@ -28,9 +28,9 @@ export const CustomModal = ({
             <Grid item className={classes.container}>
                 <Button onClick={handleClose} style={{
                     position: 'absolute',
-                    marginTop: 8
+                    marginTop: 8,
                 }}>
-                    <CloseIcon/>
+                    <CloseIcon className={classes.closeButton}/>
                 </Button>
                 <Grid className={classes.children}>
                     {children}
