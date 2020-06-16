@@ -230,7 +230,7 @@ export const MessageTemplatePage = ({chat, onSubmit, isDialogOpen, handleDrawerI
         } else {
             return (
                 <Grid style={{width: '100%'}}>
-                    <Typography color='primary'>{template.name}</Typography>
+                    <Typography color='primary' className={classes.chatNameTemplate}>{template.name}</Typography>
                     {template.content.length > 200 ?
                         <div onClick={() => showMore(template)} className={classes.display}>
                             <Typography onClick={() => handleClickSubmit(template)}

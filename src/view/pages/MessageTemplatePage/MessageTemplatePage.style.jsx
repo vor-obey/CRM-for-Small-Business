@@ -142,5 +142,9 @@ export const templatePageStyles = ((theme) => ({
     },
     gridLess: {
         padding: 6
+    },
+    chatNameTemplate: {
+        wordBreak: 'break-all',
+        whiteSpace: 'break-spaces'
     }
 }));
