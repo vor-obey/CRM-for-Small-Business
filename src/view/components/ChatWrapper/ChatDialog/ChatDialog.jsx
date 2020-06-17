@@ -21,7 +21,6 @@ import CardHeader from "@material-ui/core/CardHeader";
 import CardMedia from "@material-ui/core/CardMedia";
 import CardContent from "@material-ui/core/CardContent";
 import {closeModal, renderModal} from "../../../../data/store/auxiliary/auxiliaryActions";
-import Button from "@material-ui/core/Button";
 
 export const ChatDialog = ({
                                profile,

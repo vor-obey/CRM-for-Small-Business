@@ -50,7 +50,7 @@ export const CustomerOrderList = ({history, selectedCustomerInChat, handleDrawer
             );
         });
 
-    }, [customerList, minWidth1150, navigationToOrderDetails, classes, handleDrawerIcon, t]);
+    }, [customerList, minWidth1150, navigationToOrderDetails, classes]);
 
     if (isEmpty(customerList)) {
         return (
