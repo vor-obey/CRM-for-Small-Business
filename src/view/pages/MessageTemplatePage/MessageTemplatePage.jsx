@@ -223,15 +223,15 @@ export const MessageTemplatePage = ({chat, onSubmit, isDialogOpen, handleDrawerI
                                 className={classes.readLessText}>{template.content}
                     </Typography>
                     <Typography onClick={() => hide(template)} className={classes.buttonText}
-                                color='primary'>{t('HIDE_ALL')}</Typography>
+                                color='primary'>{t('HIDE')}</Typography>
                     <Divider/>
                 </Grid>
             );
         } else {
             return (
                 <Grid style={{width: '100%'}}>
-                    <Typography color='primary'>{template.name}</Typography>
-                    {template.content.length > 30 ?
+                    <Typography color='primary' className={classes.chatNameTemplate}>{template.name}</Typography>
+                    {template.content.length > 200 ?
                         <div onClick={() => showMore(template)} className={classes.display}>
                             <Typography onClick={() => handleClickSubmit(template)}
                                         className={classes.readMoreText}>{template.content}</Typography>
