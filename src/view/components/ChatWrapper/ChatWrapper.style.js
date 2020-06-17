@@ -96,12 +96,20 @@ export const chatWrapperStyles = (theme => ({
     additionalsNavigation: {
         width: '100px',
         height: '100%',
+        position: 'fixed',
         borderRight: '1px solid #B7BFC4',
+        backgroundColor: '#fff',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
         alignContent: 'center',
         alignItems: 'center',
+        zIndex: 99999,
+        '&::after': {
+            display: 'block',
+            content: "''",
+            clear: 'both',
+        },
         '@media (max-width: 769px)': {
             width: '100%',
             height: '50px',
@@ -121,13 +129,15 @@ export const chatWrapperStyles = (theme => ({
         width: 50
     },
     additionalChild: {
+        width: '100%',
+        marginLeft: '101px',
         display: 'flex',
         justifyContent: 'center',
-        width: '100%',
         height: 'max-content',
         paddingBottom: '50px',
         '@media (max-width: 769px)': {
             marginTop: '10px',
+            marginLeft: '0px',
         },
     },
     additionalChildHidden: {
