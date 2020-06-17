@@ -35,28 +35,7 @@ export const CustomerOrderList = ({history, selectedCustomerInChat, handleDrawer
 
     const renderRows = useCallback(() => {
         if (isEmpty(customerList)) {
-            return (
-                <Grid
-                    container
-                    item
-                    spacing={0}
-                    className={classes.noContent}
-                >
-                    <Grid container item xs={12} className={classes.noContentInfo}>
-                        <Typography variant='h5'
-                                    style={{paddingBottom: 18, paddingRight: 20,}}>{t('NO_NEW_ORDERS')}</Typography>
-                        <Button
-                            type='submit'
-                            variant="outlined"
-                            color="primary"
-                            className={classes.button}
-                            onClick={handleDrawerIcon(1, true)}
-                        >
-                            {t('CREATE')}
-                        </Button>
-                    </Grid>
-                </Grid>
-            )
+            return null
         }
 
         return customerList.map((order) => {
@@ -72,6 +51,31 @@ export const CustomerOrderList = ({history, selectedCustomerInChat, handleDrawer
         });
 
     }, [customerList, minWidth1150, navigationToOrderDetails, classes, handleDrawerIcon, t]);
+
+    if (isEmpty(customerList)) {
+        return (
+            <Grid
+                container
+                item
+                spacing={0}
+                className={classes.noContent}
+            >
+                <Grid container item xs={12} className={classes.noContentInfo} style={{height: '100vh', alignContent: 'center'}}>
+                    <Typography variant='h5'
+                                style={{paddingBottom: 18, paddingRight: 20,}}>{t('NO_NEW_ORDERS')}</Typography>
+                    <Button
+                        type='submit'
+                        variant="outlined"
+                        color="primary"
+                        className={classes.button}
+                        onClick={handleDrawerIcon(1, true)}
+                    >
+                        {t('CREATE')}
+                    </Button>
+                </Grid>
+            </Grid>
+        )
+    }
 
     return (
         <Container className={classes.root}>
