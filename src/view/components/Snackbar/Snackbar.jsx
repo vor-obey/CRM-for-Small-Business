@@ -13,6 +13,7 @@ export const AlertSnackbar = ({
                                   success
                               }) => {
     const theme = useTheme();
+    const minWidth600 = useMediaQuery('(min-width:600px)');
     const breakpointOnSm = useMediaQuery(theme.breakpoints.down('sm'));
 
     return (
@@ -22,7 +23,7 @@ export const AlertSnackbar = ({
                 horizontal: breakpointOnSm ? 'center' : 'right'
             }}
             open={isOpen}
-            autoHideDuration={1000000}
+            autoHideDuration={minWidth600 ? 10000 : 3000}
             onClose={onClose}
         >
             <Alert severity={success ? "success" : "error"} onClose={onClose}>
