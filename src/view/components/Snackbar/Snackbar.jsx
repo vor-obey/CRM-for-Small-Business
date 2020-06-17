@@ -23,7 +23,7 @@ export const AlertSnackbar = ({
                 horizontal: breakpointOnSm ? 'center' : 'right'
             }}
             open={isOpen}
-            autoHideDuration={minWidth600 ? 100000 : 3000}
+            autoHideDuration={minWidth600 ? 10000 : 3000}
             onClose={onClose}
         >
             <Alert severity={success ? "success" : "error"} onClose={onClose}>
