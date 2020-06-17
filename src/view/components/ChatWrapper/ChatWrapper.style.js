@@ -149,6 +149,9 @@ export const chatWrapperStyles = (theme => ({
         overflowY: 'scroll',
         marginBottom: '30px',
     },
+    animatedMedia: {
+        width: '150px',
+    },
     dialogHeader: {
         display: 'flex',
         justifyContent: 'space-between',
@@ -172,7 +175,8 @@ export const chatWrapperStyles = (theme => ({
         wordBreak: 'break-word'
     },
     messageImg: {
-        height: 150
+        height: 150,
+        cursor: 'pointer',
     },
     messageUnsupported: {
         border: '1px solid rgba(0, 0, 0, 0.12)',
@@ -191,6 +195,7 @@ export const chatWrapperStyles = (theme => ({
     sharedBoxMedia: {
         height: 0,
         paddingTop: '56.25%', // 16:9
+        cursor: 'pointer',
     },
     sharedBoxCaption: {
         height: 100,
@@ -203,7 +208,7 @@ export const chatWrapperStyles = (theme => ({
     links: {
         display: 'flex',
         flexDirection: 'column',
-
+        textAlign: 'left',
     },
     text: {
         height: '100%',

@@ -15,4 +15,11 @@ export const customModalStyle = (theme => ({
             top: 0,
         },
     },
+    closeButton: {
+        border: '2px solid #000000ab',
+        borderRadius: '50%',
+        backgroundColor: '#fff',
+        height: '25px',
+        width: '26px',
+    },
 }));
