@@ -129,6 +129,7 @@ export const chatWrapperStyles = (theme => ({
         width: 50
     },
     additionalChild: {
+        padding: '20px 0 0',
         width: '100%',
         marginLeft: '101px',
         display: 'flex',
