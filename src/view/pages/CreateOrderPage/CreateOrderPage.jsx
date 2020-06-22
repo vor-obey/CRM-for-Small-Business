@@ -15,7 +15,7 @@ import {setOrderDescription, setProductsToCart} from "../../../data/store/order/
 
 const useStyles = makeStyles(createOrderPageStyles);
 
-export const CreateOrderPage = ({history, chat}) => {
+export const CreateOrderPage = ({history, chat, selectedCustomerInChat}) => {
     const classes = useStyles();
     const dispatch = useDispatch();
     const {t} = useTranslation();
@@ -30,12 +30,19 @@ export const CreateOrderPage = ({history, chat}) => {
     const [address, setAddress] = useState('');
     const [selectedProducts, setSelectedProducts] = useState([]);
     const [status, setStatus] = useState(0);
+    const [selectedCustomer, setSelectedCustomer] = useState('');
     const currentUser = useSelector(state => state.userReducer.currentUser);
     const orderDescription = useSelector(state => state.orderReducer.description);
     const [novaposhtaAddress, setNovaposhtaAddress] = useState({
         city: null,
         warehouse: null
     });
+
+    useEffect(() => {
+        if (!isEmpty(selectedCustomerInChat)) {
+            setSelectedCustomer(selectedCustomerInChat);
+        }
+    }, [selectedCustomerInChat]);
 
     useEffect(() => {
         if (!isEmpty(createdCustomer)) {
@@ -158,6 +165,7 @@ export const CreateOrderPage = ({history, chat}) => {
 
     return (
         <SaveOrderForm
+            selectedCustomer={selectedCustomer}
             chat={chat}
             history={history}
             classes={classes}

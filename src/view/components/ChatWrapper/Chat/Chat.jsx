@@ -229,6 +229,7 @@ export const Chat = ({
                 case 1: {
                     return (
                         <CreateOrderPage
+                            selectedCustomerInChat={selectedThread.users && selectedThread.users[0]}
                             chat={true}
                         />
                     );

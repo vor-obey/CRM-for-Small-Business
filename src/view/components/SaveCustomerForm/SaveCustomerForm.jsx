@@ -1,5 +1,15 @@
 import React from 'react';
-import {Avatar, Button, Container, CssBaseline, Grid, TextField, Typography, makeStyles} from "@material-ui/core";
+import {
+    Avatar,
+    Button,
+    Container,
+    CssBaseline,
+    Grid,
+    TextField,
+    Typography,
+    makeStyles,
+    InputLabel
+} from "@material-ui/core";
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import {saveCustomerStyle} from "./SaveCustomerForm.style";
 import FormControl from "@material-ui/core/FormControl";
@@ -15,6 +25,7 @@ export const SaveCustomerForm = ({
                                      details,
                                      onSubmit,
                                      onChange,
+                                     selectedCustomer,
                                  }) => {
     const classes = useStyles();
     const {t} = useTranslation('');
@@ -62,7 +73,7 @@ export const SaveCustomerForm = ({
                                     name="username"
                                     variant="outlined"
                                     type="text"
-                                    value={(details && details.username) || ''}
+                                    value={(details && details.username) || (selectedCustomer && selectedCustomer.username) || ''}
                                     onChange={onChange}
                                     required
                                     fullWidth
@@ -74,7 +85,7 @@ export const SaveCustomerForm = ({
                                     name="name"
                                     variant="outlined"
                                     type="text"
-                                    value={(details && details.name) || ''}
+                                    value={(details && details.name) || (selectedCustomer && selectedCustomer.full_name) || ''}
                                     onChange={onChange}
                                     required
                                     fullWidth

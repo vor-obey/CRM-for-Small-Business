@@ -25,7 +25,8 @@ export const CustomerForm = ({
                                  manager,
                                  customer,
                                  onManagerSelectHandler,
-                                 onCustomerSelectHandler
+                                 onCustomerSelectHandler,
+                                 selectedCustomer,
                              }) => {
     const {t} = useTranslation('');
     const dispatch = useDispatch();
@@ -123,12 +124,13 @@ export const CustomerForm = ({
         dispatch(renderModal({
                 isOpen: true,
                 children: (<CreateCustomer
+                    selectedCustomer={selectedCustomer}
                     updateCustomerList={updateCustomersList}
                 />),
                 onCloseHandler: () => dispatch(closeModal())
             })
         )
-    }, [dispatch, updateCustomersList]);
+    }, [dispatch, updateCustomersList, selectedCustomer]);
 
 
     return (
