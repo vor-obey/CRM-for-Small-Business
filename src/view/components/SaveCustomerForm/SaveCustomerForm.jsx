@@ -8,7 +8,6 @@ import {
     TextField,
     Typography,
     makeStyles,
-    InputLabel
 } from "@material-ui/core";
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import {saveCustomerStyle} from "./SaveCustomerForm.style";
