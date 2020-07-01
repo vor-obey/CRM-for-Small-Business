@@ -10,10 +10,12 @@ import {useSources} from '../../../utils/hooks/customerHooks';
 import isEmpty from 'lodash/isEmpty';
 import {useSelector} from "react-redux";
 import {addCustomerDetail} from "../../../data/store/customer/customerActions";
+// import {CustomAutocomplete} from "../../components/Autocomplete/Autocomplete";
 
 export const CreateCustomer = ({
                                    history,
-                                   updateCustomerList
+                                   updateCustomerList,
+                                   selectedCustomer
                                }) => {
 
     const details = useSelector(state => state.customerReducer.details);
@@ -78,6 +80,7 @@ export const CreateCustomer = ({
 
     return (
         <SaveCustomerForm
+            selectedCustomer={selectedCustomer}
             details={details}
             renderSource={renderSources}
             titleText={t('CREATE_CUSTOMER')}
