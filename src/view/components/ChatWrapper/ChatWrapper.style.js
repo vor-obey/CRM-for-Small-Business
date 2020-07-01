@@ -250,6 +250,8 @@ export const chatWrapperStyles = (theme => ({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
+        paddingLeft: 15,
+        paddingRight: 15,
     },
     paper: {
         top: '64px',
