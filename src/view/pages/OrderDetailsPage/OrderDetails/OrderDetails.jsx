@@ -116,7 +116,7 @@ export const OrderDetails = ({
                         </Typography>
                     </Grid>
                     <Grid container item xs={12} sm={12} justify={"space-between"} alignItems={"center"}
-                          direction={"row"}>
+                          direction={"row"} style={{marginTop: 15}}>
                         <Grid item xs={12} sm={12}>
                             <EditOrderStatus
                                 status={orderDetails.status}

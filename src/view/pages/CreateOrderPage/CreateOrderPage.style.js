@@ -60,7 +60,7 @@ export const createOrderPageStyles = (theme => ({
             alignItems: 'center',
         },
         productContainerItem: {
-            marginTop: '00px',
+            marginTop: 0,
         },
         productInfo: {
             display: 'flex',
