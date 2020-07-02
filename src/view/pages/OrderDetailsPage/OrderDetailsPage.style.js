@@ -99,9 +99,6 @@ export const orderDetailsStyles = ((theme) => ({
     wrapper: {
         paddingRight: theme.spacing(2)
     },
-    productContainerItem: {
-        paddingLeft: 0
-    },
     inputManager: {
         paddingRight: theme.spacing(2),
     },
@@ -122,7 +119,11 @@ export const orderDetailsStyles = ((theme) => ({
         [theme.breakpoints.down('xs')]: {
             flexDirection: 'column',
             alignItems: 'flex-start',
-            padding: '10px 16px 0'
+            paddingTop: 10,
+            paddingRight: 16,
+            paddingLeft: 16,
+            paddingBottom: 10,
+            minHeight: 95,
         },
     },
     modal: {
