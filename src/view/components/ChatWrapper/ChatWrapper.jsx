@@ -10,7 +10,7 @@ import {useTranslation} from "react-i18next";
 
 const useStyles = makeStyles(chatWrapperStyles);
 
-export const ChatWrapper = () => {
+export const ChatWrapper = ({history}) => {
     const {t} = useTranslation('');
     const classes = useStyles();
     const {isIgIntegrated, currentUser, isAutoConnectToChat} = useSelector(state => state.userReducer);
@@ -22,6 +22,10 @@ export const ChatWrapper = () => {
         dispatch(setIsAutoConnectToChat(true));
     }, [dispatch]);
 
+    const navigateToOrganizationSettings = useCallback((organizationId) => () => {
+        history.push(`/organizations/${organizationId}`);
+    }, [history]);
+
     const render = useCallback(() => {
         if (!isIgIntegrated && !isEmpty(currentUser)) {
             const role = currentUser.role.name;
@@ -30,8 +34,8 @@ export const ChatWrapper = () => {
             if (role === 'Owner') {
                 return (
                     <Grid container item xs={12} sm={12} className={classes.chatEnterContainer}>
-                        <Typography variant='h6'>
-                            {t('NO_ACCOUNT')} <Link href={`/organizations/${organizationId}`}>{t('ORG_SETTINGS')}</Link>
+                        <Typography variant='h6' align='center'>
+                            {t('NO_ACCOUNT')} <Link onClick={navigateToOrganizationSettings(organizationId)}>{t('ORG_SETTINGS')}</Link>
                         </Typography>
                     </Grid>
                 );
@@ -39,7 +43,7 @@ export const ChatWrapper = () => {
 
             return (
                 <Grid container item xs={12} sm={12} className={classes.chatEnterContainer}>
-                    <Typography variant='h6'>
+                    <Typography variant='h6' align='center'>
                         {t('OWNER_HAVE_NOT_INTEGRATED')}
                     </Typography>
                 </Grid>
@@ -63,7 +67,7 @@ export const ChatWrapper = () => {
         return <Chat
             classes={classes}
         />
-    }, [t, classes, isAutoConnectToChat, isIgIntegrated, enterChat, currentUser]);
+    }, [t, classes, isAutoConnectToChat, isIgIntegrated, enterChat, currentUser, navigateToOrganizationSettings]);
 
     return (
         <Grid className={classes.container}>
