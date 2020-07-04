@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import {useDispatch} from "react-redux";
 import {setIsLoading, setSnackBarStatus} from "../../../data/store/auxiliary/auxiliaryActions";
 import {OrganizationService} from "../../../services";
@@ -11,10 +11,12 @@ import {SaveUserDetails} from "../../components/SaveUser/SaveUserDetails/SaveUse
 import {SaveUserCredentials} from "../../components/SaveUser/SaveUserCredentials/SaveUserCredentials";
 import Grid from "@material-ui/core/Grid";
 import {useTranslation} from "react-i18next";
+import {useLocation} from "react-router-dom";
 
 const useStyles = makeStyles(saveOrganizationStyle);
 
 export const CreateOrganization = ({history}) => {
+    const location = useLocation();
     const {t} = useTranslation('');
     const dispatch = useDispatch();
     const classes = useStyles();
@@ -31,6 +33,16 @@ export const CreateOrganization = ({history}) => {
         confirmPassword: '',
     });
     const [showPassword, setShowPassword] = useState(false);
+
+    useEffect(() => {
+        const params = new URLSearchParams(location.search);
+        if (params.get('email')) {
+            setOrganization(prevState => ({...prevState, email: params.get('email')}));
+        }
+        if (params.get('code')) {
+            setOrganization(prevState => ({...prevState, codeValue: params.get('code')}));
+        }
+    }, [location]);
 
     const validateDetails = useCallback(({
                                              password,
