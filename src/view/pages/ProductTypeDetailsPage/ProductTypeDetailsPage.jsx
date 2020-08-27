@@ -159,7 +159,7 @@ export const ProductTypeDetailsPage = ({history}) => {
                     <Grid container item xs={12} sm={12} className={classes.containerType}>
                         <Grid item sm={12} xs={12} className={classes.containerTypeItem}>
                             <Typography variant='h6'>
-                                {t('PRODUCT_CATEGORY')}
+                                {t('PRODUCT_TEMPLATE')}
                             </Typography>
                         </Grid>
                         <Grid item sm={12} xs={12}>

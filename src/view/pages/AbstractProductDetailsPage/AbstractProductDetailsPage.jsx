@@ -133,7 +133,7 @@ export const AbstractProductDetailsPage = ({history}) => {
             onCloseHandler: () => dispatch(closeDialog()),
             closeText: t('DISAGREE'),
             actionText: t('AGREE'),
-            children: `${t('DELETE_PRODUCT_CATEGORY') } "${abstractProductDetails.name}"?`,
+            children: `${t('DELETE_PRODUCT_TEMPLATE') } "${abstractProductDetails.name}"?`,
             onActionHandler: () => deleteAbstractProduct(),
         }));
     }, [dispatch, abstractProductDetails, deleteAbstractProduct, t]);
@@ -144,7 +144,7 @@ export const AbstractProductDetailsPage = ({history}) => {
                 <Grid container item xl={12} lg={12} className={classes.container}>
                     <Grid item className={classes.containerTitle}>
                         <Typography variant='h5'>
-                            {t('PRODUCT_CATEGORY_DETAILS')}
+                            {t('PRODUCT_TEMPLATE_DETAILS')}
                         </Typography>
                     </Grid>
                     <Grid container item xs={12} sm={12} className={classes.containerProduct}>

@@ -11,11 +11,12 @@ export const CreateProduct = ({history}) => {
     const dispatch = useDispatch();
 
     const createProduct = useCallback(async (data) => {
-        const {selectedAttributeValues, productDetails, selectedAbstractProduct} = data;
+        const { selectedAttributeValues, productDetails, selectedAbstractProduct, selectedProductType} = data;
         try {
             dispatch(setIsLoading(true));
             const response = await ProductService.create({
-                abstractProductId: selectedAbstractProduct.abstractProductId,
+                abstractProductId: selectedAbstractProduct?.abstractProductId,
+                productTypeId: selectedProductType.productTypeId,
                 name: productDetails.name,
                 price: productDetails.price,
                 attributeValues: selectedAttributeValues,

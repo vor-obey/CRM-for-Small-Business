@@ -99,6 +99,7 @@ export const CreateOrderPage = ({history, chat, selectedCustomerInChat}) => {
     }, []);
 
     const onSubmitHandler = useCallback(async (e) => {
+        debugger
         e.preventDefault();
         if ((isEmpty(orderDescription) && isEmpty(selectedProducts)) || isEmpty(manager)
             || isEmpty(customer) || ((isEmpty(novaposhtaAddress.city) || isEmpty(novaposhtaAddress.warehouse)) && (isEmpty(address)))
