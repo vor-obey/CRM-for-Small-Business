@@ -36,6 +36,7 @@ import {AttributeService, ProductTypeService} from '../../../services';
 import {COMMON_ERROR_MESSAGE} from '../../../constants/statuses';
 import {useTranslation} from 'react-i18next';
 import {editProductTypeWithAttributesStyles} from "./EditProductTypeWithAttributes.style";
+import {PRODUCT_TYPES} from "../../../constants/routes";
 
 const useStyles = makeStyles(editProductTypeWithAttributesStyles);
 
@@ -244,7 +245,7 @@ export const EditProductTypeWithAttributes = ({history}) => {
             });
             if (response.success) {
                 dispatch(setIsLoading(false));
-                history.push(`/product-types/${id}`);
+                history.push(`${PRODUCT_TYPES}/${id}`);
             } else {
                 dispatch(setIsLoading(false));
                 dispatch(setSnackBarStatus({isOpen: true, message: response.message, success: false}));

@@ -4,6 +4,7 @@ import {setIsLoading, setSnackBarStatus} from '../../../data/store/auxiliary/aux
 import AbstractProductService from '../../../services/AbstractProductService';
 import {useDispatch} from 'react-redux';
 import {useTranslation} from "react-i18next";
+import {PRODUCT_TEMPLATES, PRODUCTS_CREATE} from "../../../constants/routes";
 
 export const CreateAbstractProductPage = ({history}) => {
     const {t} = useTranslation();
@@ -21,16 +22,16 @@ export const CreateAbstractProductPage = ({history}) => {
             });
             dispatch(setIsLoading(false));
             if (history.location.state !== undefined && history.location.state.createOrder) {
-                history.push('/create-product', {
+                history.push(PRODUCTS_CREATE, {
                     createOrder: true,
                     abstractProductId
                 });
             } else if (history.location.state !== undefined && history.location.state.createProduct) {
-                history.push('/create-product', {
+                history.push(PRODUCTS_CREATE, {
                     abstractProductId
                 });
             } else {
-                history.push('/abstract-products');
+                history.push(PRODUCT_TEMPLATES);
             }
         } catch (e) {
             dispatch(setIsLoading(false));

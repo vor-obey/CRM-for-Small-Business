@@ -12,6 +12,7 @@ import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
 import isEmpty from 'lodash/isEmpty';
 import {EditOrderStatus} from "../../../components/EditOrderStatus/EditOrderStatus";
 import moment from "moment";
+import {PRODUCTS} from "../../../../constants/routes";
 
 export const OrderDetails = ({
                                  classes,
@@ -40,7 +41,7 @@ export const OrderDetails = ({
                             <ListItem className={classes.productContainerItem}>
                                 <Grid container className={classes.productList}>
                                     <Grid item xs={12} sm={1} className={classes.productIcon}>
-                                        <ShoppingBasketIcon onClick={() => history.push(`/products/${productId}`)}/>
+                                        <ShoppingBasketIcon onClick={() => history.push(`${PRODUCTS}/${productId}`)}/>
                                     </Grid>
                                     <Grid item xs={12} sm={11} className={classes.productInfo}>
                                         <Grid container item xs={12} sm={12} className={classes.productContainerItem}>

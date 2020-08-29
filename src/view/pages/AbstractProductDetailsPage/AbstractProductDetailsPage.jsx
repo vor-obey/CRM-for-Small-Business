@@ -29,6 +29,7 @@ import {abstractProductDetailsPageStyles} from "./AbstractProductDetailsPage.sty
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
+import {PRODUCT_TEMPLATES, PRODUCTS} from "../../../constants/routes";
 
 const useStyles = makeStyles(abstractProductDetailsPageStyles);
 
@@ -46,7 +47,7 @@ export const AbstractProductDetailsPage = ({history}) => {
             if (response.success) {
                 dispatch(setIsLoading(false));
                 dispatch(closeDialog());
-                history.push('/abstract-products');
+                history.push(PRODUCT_TEMPLATES);
             } else {
                 dispatch(setIsLoading(false));
                 dispatch(setSnackBarStatus({isOpen: true, message: response.message, success: false}));
@@ -110,7 +111,7 @@ export const AbstractProductDetailsPage = ({history}) => {
                 <React.Fragment key={productId}>
                     <Grid container item xs={12} sm={6}>
                         <ListItem
-                            onClick={() => history.push(`/products/${productId}`)}
+                            onClick={() => history.push(`${PRODUCTS}/${productId}`)}
                             style={{cursor: 'pointer'}}
                         >
                             <ListItemIcon>
@@ -212,7 +213,7 @@ export const AbstractProductDetailsPage = ({history}) => {
                     <Grid container item xs={12} className={classes.buttonContainer}>
                         <Fab
                             className={classes.buttonFab}
-                            onClick={() => history.push(`/abstract-products/${id}/edit`)}
+                            onClick={() => history.push(`${PRODUCT_TEMPLATES}/${id}/edit`)}
                             color="primary"
                             aria-label="edit"
                             size="small">

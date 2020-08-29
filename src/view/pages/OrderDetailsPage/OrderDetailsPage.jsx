@@ -13,6 +13,7 @@ import {useTranslation} from "react-i18next";
 import {CustomModal} from '../../components/CustomModal/CustomModal';
 import {InternetDocument} from '../../components/InternetDocument/InternetDocument';
 import {useOrderDetailsById} from '../../../utils/hooks/orderHooks';
+import {ORDERS} from "../../../constants/routes";
 
 const useStyles = makeStyles(orderDetailsStyles);
 
@@ -139,7 +140,7 @@ export const OrderDetailsPage = ({history}) => {
             const response = await OrderService.delete(id);
             if (response.success) {
                 dispatch(setIsLoading(false));
-                history.push('/orders');
+                history.push(ORDERS);
             } else {
                 dispatch(setIsLoading(false));
                 dispatch(setSnackBarStatus({isOpen: false, message: COMMON_ERROR_MESSAGE, success: false}));
@@ -170,7 +171,7 @@ export const OrderDetailsPage = ({history}) => {
                         color="primary"
                         className={classes.button}
                         component={Link}
-                        to='/orders'
+                        to={ORDERS}
                     >
                         {t('BACK')}
                     </Button>
@@ -189,7 +190,7 @@ export const OrderDetailsPage = ({history}) => {
                         color="primary"
                         className={classes.button}
                         component={Link}
-                        to={`/orders/${id}/edit`}
+                        to={`${ORDERS}/${id}/edit`}
                     >
                         {t('EDIT')}
                     </Button>

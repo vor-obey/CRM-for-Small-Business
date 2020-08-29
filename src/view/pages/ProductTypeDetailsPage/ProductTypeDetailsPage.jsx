@@ -30,6 +30,7 @@ import {ProductTypeService} from '../../../services';
 import {COMMON_ERROR_MESSAGE} from '../../../constants/statuses';
 import {useDispatch} from 'react-redux';
 import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
+import {PRODUCT_TEMPLATES, PRODUCT_TYPES} from "../../../constants/routes";
 
 const useStyles = makeStyles(productTypeDetailsPageStyles);
 
@@ -53,7 +54,7 @@ export const ProductTypeDetailsPage = ({history}) => {
                 <React.Fragment key={abstractProductId}>
                     <Grid container item xs={12} sm={6}>
                         <ListItem
-                            onClick={() => history.push(`/abstract-products/${abstractProductId}`)}
+                            onClick={() => history.push(`${PRODUCT_TEMPLATES}/${abstractProductId}`)}
                             style={{cursor: 'pointer'}}
                         >
                             <ListItemIcon><ShoppingBasketIcon/></ListItemIcon>
@@ -115,7 +116,7 @@ export const ProductTypeDetailsPage = ({history}) => {
             dispatch(setIsLoading(true));
             const response = await ProductTypeService.delete(id);
             if (response.success) {
-                history.push('/product-types');
+                history.push(PRODUCT_TYPES);
             } else {
                 dispatch(setSnackBarStatus({isOpen: true, message: response.message, success: false}));
             }
@@ -186,7 +187,7 @@ export const ProductTypeDetailsPage = ({history}) => {
                             color="primary"
                             aria-label="edit"
                             size="small"
-                            onClick={() => history.push(`/product-types/${id}/edit`)}
+                            onClick={() => history.push(`${PRODUCT_TYPES}/${id}/edit`)}
                         >
                             <EditIcon/>
                         </Fab>

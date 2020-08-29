@@ -15,10 +15,11 @@ import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import {UserListItem} from "./UserListItem/UserListItem";
 import {InputFilter} from "../../components/Filter/InputFilter";
 import {filter} from "../../../utils/helpers";
-import {USER_URLS} from '../../../constants/urls';
+import {API_URLS} from '../../../constants/api_urls';
 import {useTranslation} from 'react-i18next';
 import {SelectFilter} from "../../components/Filter/SelectFilter";
 import {useManagers, useRoles} from '../../../utils/hooks/userHooks';
+import {USERS, USERS_CREATE} from "../../../constants/routes";
 
 const useStyles = makeStyles(usersPageStyle);
 
@@ -33,7 +34,7 @@ export const UsersPage = ({history}) => {
     const [selectedOption, setSelectedOption] = useState('');
 
     const navigateToUserDetails = useCallback((userId) => {
-        history.push(`${USER_URLS.USERS}/${userId}`)
+        history.push(`${USERS}/${userId}`)
     }, [history]);
 
     const onFilterChangedHandler = useCallback((event) => {
@@ -123,7 +124,7 @@ export const UsersPage = ({history}) => {
                     color="primary"
                     className={classes.button}
                     component={Link}
-                    to='/create-user'>
+                    to={USERS_CREATE}>
                     <PersonAddIcon className={classes.addUser}/>
                     {t('CREATE')}
                 </Button>

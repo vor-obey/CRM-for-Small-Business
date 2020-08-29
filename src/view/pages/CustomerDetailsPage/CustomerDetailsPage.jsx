@@ -20,6 +20,7 @@ import {setIsLoading, setSnackBarStatus} from "../../../data/store/auxiliary/aux
 import {COMMON_ERROR_MESSAGE} from "../../../constants/statuses";
 import {useTranslation} from "react-i18next";
 import {useCustomerById} from '../../../utils/hooks/customerHooks';
+import {CUSTOMERS} from "../../../constants/routes";
 
 const useStyles = makeStyles(customerDetailsStyle);
 
@@ -40,7 +41,7 @@ export const CustomerDetailsPage = ({history}) => {
             dispatch(setIsLoading( true));
             const response = await CustomerService.delete(id);
             if (response) {
-                history.push('/customers');
+                history.push(CUSTOMERS);
                 dispatch(setIsLoading(false))
             }
         } catch (e) {
@@ -51,7 +52,7 @@ export const CustomerDetailsPage = ({history}) => {
     }, [history, dispatch, id]);
 
     const handleClickEdit = useCallback(() => {
-        history.push(`${id}/edit`);
+        history.push(`${CUSTOMERS}/${id}/edit`);
     }, [id, history]);
 
 

@@ -11,6 +11,7 @@ import {useOrderDetailsById, useShippingMethods} from '../../../utils/hooks/orde
 import OrderService from "../../../services/OrderService";
 import {useManagers} from '../../../utils/hooks/userHooks';
 import {useCustomers} from '../../../utils/hooks/customerHooks';
+import {ORDERS} from "../../../constants/routes";
 
 const useStyles = makeStyles(editOrderStyles);
 
@@ -166,7 +167,7 @@ export const EditOrder = ({history}) => {
                 });
                 if (response.success) {
                     dispatch(setIsLoading(false));
-                    history.push(`/orders/${orderId}`);
+                    history.push(`${ORDERS}/${orderId}`);
                 } else {
                     dispatch(setIsLoading(false));
                     dispatch(setSnackBarStatus({isOpen: true, message: 'Error', success: false}));

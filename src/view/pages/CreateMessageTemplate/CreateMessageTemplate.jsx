@@ -6,6 +6,7 @@ import TemplateService from "../../../services/TemplateService";
 import {closeModal, setSnackBarStatus} from "../../../data/store/auxiliary/auxiliaryActions";
 import {useDispatch} from "react-redux";
 import {COMMON_ERROR_MESSAGE} from "../../../constants/statuses";
+import {CHAT_TEMPLATES} from "../../../constants/routes";
 
 export const CreateMessageTemplate = ({chat, onSubmit, isDialogOpen, handleDrawerIcon}) => {
     const {t} = useTranslation();
@@ -30,7 +31,7 @@ export const CreateMessageTemplate = ({chat, onSubmit, isDialogOpen, handleDrawe
                         handleDrawerIcon();
                         dispatch(closeModal())
                     } else {
-                        history.push('/message-templates');
+                        history.push(CHAT_TEMPLATES);
                     }
                 } else {
                     dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE, success: false}));

@@ -1,16 +1,12 @@
-import React from 'react';
-import {Link} from "react-router-dom";
+import React, {useState} from 'react';
+import {useLocation} from 'react-router-dom';
 
 import {
     SwipeableDrawer,
     Button,
-    List,
-    Divider,
-    ListItem,
-    ListItemIcon,
-    ListItemText,
     withStyles
 } from '@material-ui/core';
+
 import HomeIcon from '@material-ui/icons/Home';
 import PeopleIcon from '@material-ui/icons/People';
 import InsertDriveFileIcon from '@material-ui/icons/InsertDriveFile';
@@ -20,153 +16,152 @@ import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
 import ChatIcon from '@material-ui/icons/Chat';
 import MessageIcon from "@material-ui/icons/Message";
 import {drawerStyle} from "./Drawer.style";
-import {useTranslation} from "react-i18next";
 import AddToHomeScreenIcon from '@material-ui/icons/AddToHomeScreen';
+import {Sidebar} from "./Sidebar";
+
+import {
+    CHAT,
+    CHAT_TEMPLATES,
+    CUSTOMERS,
+    DASHBOARD,
+    NOTIFICATIONS,
+    ORDERS,
+    ORDERS_CREATE,
+    PRODUCT_TEMPLATES,
+    PRODUCT_TYPES,
+    PRODUCTS,
+    USERS
+} from "../../../../constants/routes";
+
+const NAVIGATION = [
+    {
+        to: DASHBOARD,
+        Icon: HomeIcon,
+        label: 'HOME',
+    },
+    {
+        to: CUSTOMERS,
+        Icon: AssignmentIndIcon,
+        label: 'CUSTOMERS'
+    },
+    {
+        to: USERS,
+        Icon: PeopleIcon,
+        label: 'USERS'
+    },
+    {
+        to: ORDERS,
+        Icon: InsertDriveFileIcon,
+        label: 'ORDERS',
+        children: [
+            {
+                to: ORDERS,
+                Icon: InsertDriveFileIcon,
+                label: 'ORDERS',
+            },
+            {
+                to: ORDERS_CREATE,
+                Icon: PlusIcon,
+                label: 'CREATE_ORDER'
+            },
+        ]
+    },
+    {
+        to: PRODUCTS,
+        Icon: InsertDriveFileIcon,
+        label: 'PRODUCTS',
+        children: [
+            {
+                to: PRODUCTS,
+                Icon: InsertDriveFileIcon,
+                label: 'PRODUCTS',
+            },
+            {
+                to: PRODUCT_TEMPLATES,
+                Icon: InsertDriveFileIcon,
+                label: 'PRODUCT_CATEGORIES'
+            },
+            {
+                to: PRODUCT_TYPES,
+                Icon: InsertDriveFileIcon,
+                label: 'PRODUCT_TYPES'
+            }
+        ]
+    },
+    {
+        to: CHAT,
+        Icon: ChatIcon,
+        label: 'CHAT',
+        children: [
+            {
+                to: CHAT,
+                Icon: ChatIcon,
+                label: 'CHAT'
+            },
+            {
+                to: CHAT_TEMPLATES,
+                Icon: AddToHomeScreenIcon,
+                label: 'MESSAGE_TEMPLATES'
+            }
+        ]
+    },
+    {
+        to: NOTIFICATIONS,
+        Icon: MessageIcon,
+        label: 'NOTIFICATION'
+    },
+]
+
 
 function Drawer(props) {
     const {classes} = props;
-    const [state, setState] = React.useState({
-        left: false,
-    });
-    const {t} = useTranslation('');
+    const [isOpen, setIsOpen] = React.useState(false);
+    const [activeSidebar, setActiveSidebar] = useState(null);
+    const { pathname } = useLocation();
 
-    const toggleDrawer = (side, open) => event => {
+
+    const toggleDrawer = (open) => event => {
         if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
             return;
         }
-        setState({...state, [side]: open});
+        setIsOpen(open);
+        setActiveSidebar(null);
     };
 
-    const isActive = (e) => window.location.pathname === e ? true : null;
-
-    const sideList = side => (
-        <div
-            className={classes.list}
-            role="presentation"
-            onClick={toggleDrawer(side, false)}
-            onKeyDown={toggleDrawer(side, false)}
-        >
-            <List>
-                <ListItem
-                    className={classes.menuItem}
-                    button
-                    component={Link}
-                    to="/dashboard"
-                    selected={isActive('/')}>
-                    <ListItemIcon><HomeIcon className={classes.menuIcon}/></ListItemIcon>
-                    <ListItemText>{t('HOME')}</ListItemText>
-                </ListItem>
-                <Divider variant="inset" component="li"/>
-                <ListItem
-                    className={classes.menuItem}
-                    button
-                    component={Link}
-                    to="/create-order"
-                    selected={isActive('/#')}>
-                    <ListItemIcon className={classes.menuIcon}><PlusIcon/></ListItemIcon>
-                    <ListItemText>{t('CREATE_ORDER')}</ListItemText>
-                </ListItem>
-                <Divider variant="inset" component="li"/>
-                <ListItem
-                    className={classes.menuItem}
-                    button
-                    component={Link}
-                    to="/customers"
-                    selected={isActive('/customers')}>
-                    <ListItemIcon className={classes.menuIcon}><AssignmentIndIcon/></ListItemIcon>
-                    <ListItemText>{t('CUSTOMERS')}</ListItemText>
-                </ListItem>
-                <Divider variant="inset" component="li"/>
-                <ListItem
-                    className={classes.menuItem}
-                    button
-                    component={Link}
-                    to="/users"
-                    selected={isActive('/users')}>
-                    <ListItemIcon className={classes.menuIcon}><PeopleIcon/></ListItemIcon>
-                    <ListItemText>{t('USERS')}</ListItemText>
-                </ListItem>
-                <ListItem
-                    className={classes.menuItem}
-                    button
-                    component={Link}
-                    to="/orders"
-                    selected={isActive('/orders')}>
-                    <ListItemIcon className={classes.menuIcon}><InsertDriveFileIcon/></ListItemIcon>
-                    <ListItemText>{t('ORDERS')}</ListItemText>
-                </ListItem>
-                <ListItem
-                    className={classes.menuItem}
-                    button
-                    component={Link}
-                    to="/notifications"
-                    selected={isActive('/notifications')}>
-                    <ListItemIcon className={classes.menuIcon}><MessageIcon/></ListItemIcon>
-                    <ListItemText>{t('NOTIFICATION')}</ListItemText>
-                </ListItem>
-                <Divider variant="inset" component="li"/>
-                <ListItem
-                    className={classes.menuItem}
-                    button
-                    component={Link}
-                    to="/abstract-products"
-                    selected={isActive('/abstract-products')}>
-                    <ListItemIcon className={classes.menuIcon}><InsertDriveFileIcon/></ListItemIcon>
-                    <ListItemText>{t('PRODUCT_CATEGORIES')}</ListItemText>
-                </ListItem>
-                <ListItem
-                    className={classes.menuItem}
-                    button
-                    component={Link}
-                    to="/products"
-                    selected={isActive('/products')}>
-                    <ListItemIcon className={classes.menuIcon}><InsertDriveFileIcon/></ListItemIcon>
-                    <ListItemText>{t('PRODUCTS')}</ListItemText>
-                </ListItem>
-                <ListItem
-                    className={classes.menuItem}
-                    button
-                    component={Link}
-                    to="/product-types"
-                    selected={isActive('/product-types')}>
-                    <ListItemIcon className={classes.menuIcon}><InsertDriveFileIcon/></ListItemIcon>
-                    <ListItemText>{t('PRODUCT_TYPES')}</ListItemText>
-                </ListItem>
-                <ListItem
-                    className={classes.menuItem}
-                    button
-                    component={Link}
-                    to="/chat"
-                    selected={isActive('/product-types')}>
-                    <ListItemIcon className={classes.menuIcon}><ChatIcon/></ListItemIcon>
-                    <ListItemText>{t('CHAT')}</ListItemText>
-                </ListItem>
-                <ListItem
-                    className={classes.menuItem}
-                    button
-                    component={Link}
-                    to="/message-templates"
-                    selected={isActive('/message-templates')}>
-                    <ListItemIcon className={classes.menuIcon}><AddToHomeScreenIcon/></ListItemIcon>
-                    <ListItemText>{t('MESSAGE_TEMPLATES')}</ListItemText>
-                </ListItem>
-            </List>
-        </div>
-    );
+    const childSidebars = NAVIGATION.reduce((acc, item) => {
+        return !item.children ? acc : [...acc, {
+            parent: item.to,
+            options: item.children
+        }];
+    }, [])
 
     return (
         <div>
-            <Button onClick={toggleDrawer('left', true)}>
+            <Button onClick={toggleDrawer(true)}>
                 <MenuIcon
                     className={classes.burger}
                 />
             </Button>
             <SwipeableDrawer
-                open={state.left}
-                onClose={toggleDrawer('left', false)}
-                onOpen={toggleDrawer('left', true)}
+                open={isOpen}
+                onClose={toggleDrawer(false)}
+                onOpen={toggleDrawer(true)}
             >
-                {sideList('left')}
+                <Sidebar side='left'
+                         toggleDrawer={toggleDrawer}
+                         options={NAVIGATION}
+                         setActive={setActiveSidebar}
+                />
+                {childSidebars.map(({ parent, options }) => (
+                    <Sidebar side='left'
+                             key={parent}
+                             toggleDrawer={toggleDrawer}
+                             parent={parent}
+                             options={options}
+                             setActive={setActiveSidebar}
+                             isActive={activeSidebar ? activeSidebar === parent : pathname.startsWith(parent)}
+                    />
+                ))}
             </SwipeableDrawer>
         </div>
     );

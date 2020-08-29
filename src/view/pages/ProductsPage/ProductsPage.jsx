@@ -8,6 +8,7 @@ import Divider from '@material-ui/core/Divider';
 import {useProducts} from '../../../utils/hooks/productHooks';
 import {useTranslation} from "react-i18next";
 import {Link} from "react-router-dom";
+import {PRODUCTS, PRODUCTS_CREATE} from "../../../constants/routes";
 
 export const ProductsPage = ({history}) => {
     const {t} = useTranslation();
@@ -22,7 +23,7 @@ export const ProductsPage = ({history}) => {
             const {productId, name, price} = product;
             return (
                 <React.Fragment key={productId}>
-                    <ListItem onClick={() => history.push(`/products/${productId}`)} style={{cursor: 'pointer'}}>
+                    <ListItem onClick={() => history.push(`${PRODUCTS}/${productId}`)} style={{cursor: 'pointer'}}>
                         <ListItemText
                             primary={name}
                             secondary={`Price: ${price}`}
@@ -48,7 +49,7 @@ export const ProductsPage = ({history}) => {
                         variant="outlined"
                         color="primary"
                         component={Link}
-                        to='/create-product'
+                        to={PRODUCTS_CREATE}
                     >
                         {t('CREATE')}
                     </Button>
@@ -66,7 +67,7 @@ export const ProductsPage = ({history}) => {
                 <Button
                     variant='outlined'
                     style={{marginTop: 20}}
-                    onClick={() => history.push('/create-product')}
+                    onClick={() => history.push(PRODUCTS_CREATE)}
                 >
                     {t('CREATE')}
                 </Button>

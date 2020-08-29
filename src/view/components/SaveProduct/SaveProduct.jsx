@@ -24,6 +24,7 @@ import {useTranslation} from 'react-i18next';
 import {useDispatch} from "react-redux";
 import {useSelector} from "react-redux";
 import {setProductDetailsToStore} from "../../../data/store/product/productActions";
+import {PRODUCT_TEMPLATES_CREATE} from "../../../constants/routes";
 
 const useStyles = makeStyles(saveProductStyles);
 
@@ -290,11 +291,11 @@ export const SaveProduct = ({
                               style={{textAlign: 'center'}}>
                             <IconButton onClick={() => {
                                 if (history.location.state !== undefined && history.location.state.createOrder) {
-                                    history.push('/create-abstract-product', {
+                                    history.push(PRODUCT_TEMPLATES_CREATE, {
                                         createOrder: true
                                     });
                                 } else {
-                                    history.push('/create-abstract-product', {
+                                    history.push(PRODUCT_TEMPLATES_CREATE, {
                                         createProduct: true
                                     });
                                 }

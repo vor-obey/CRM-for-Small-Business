@@ -6,6 +6,7 @@ import {setIsLoading, setSnackBarStatus} from "../../../data/store/auxiliary/aux
 import {COMMON_ERROR_MESSAGE} from "../../../constants/statuses";
 import {useTranslation} from "react-i18next";
 import {useRoles} from '../../../utils/hooks/userHooks';
+import {USERS} from "../../../constants/routes";
 
 export const CreateUser = ({history}) => {
     const dispatch = useDispatch();
@@ -19,7 +20,7 @@ export const CreateUser = ({history}) => {
             const response = await UserService.create(user);
             if (response) {
                 dispatch(setIsLoading(false));
-                history.push('/users');
+                history.push(USERS);
             }
         } catch (e) {
             dispatch(setIsLoading(false));

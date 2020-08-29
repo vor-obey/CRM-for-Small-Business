@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {Router, Route} from 'react-router-dom';
+import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import StorageService from "../../../services/StorageService";
 import {useDispatch, useSelector} from "react-redux";
 
@@ -45,6 +45,33 @@ import {EditProductTypeWithAttributes} from '../../pages/EditProductTypeWithAttr
 import {ChatWrapper} from "../ChatWrapper/ChatWrapper";
 import {MessageTemplatePage} from "../../pages/MessageTemplatePage/MessageTemplatePage";
 import {CreateMessageTemplate} from "../../pages/CreateMessageTemplate/CreateMessageTemplate";
+import {
+    CHAT, CHAT_TEMPLATES, CHAT_TEMPLATES_CREATE,
+    CUSTOMER_PAGE,
+    CUSTOMERS,
+    CUSTOMERS_CREATE,
+    CUSTOMERS_EDIT,
+    DASHBOARD, NOTIFICATIONS,
+    ORDER_PAGE,
+    ORDERS,
+    ORDERS_CREATE,
+    ORDERS_EDIT,
+    PRODUCT_PAGE,
+    PRODUCT_TEMPLATES,
+    PRODUCT_TEMPLATES_CREATE,
+    PRODUCT_TEMPLATES_EDIT,
+    PRODUCT_TEMPLATES_PAGE,
+    PRODUCT_TYPE_PAGE,
+    PRODUCT_TYPES,
+    PRODUCT_TYPES_CREATE, PRODUCT_TYPES_EDIT,
+    PRODUCTS,
+    PRODUCTS_CREATE,
+    PRODUCTS_EDIT,
+    USER_PAGE,
+    USERS,
+    USERS_CREATE,
+    USERS_EDIT
+} from "../../../constants/routes";
 
 export const Routing = () => {
     const dispatch = useDispatch();
@@ -61,7 +88,7 @@ export const Routing = () => {
     }, [dispatch]);
 
     return (
-        <Router history={history}>
+        <BrowserRouter history={history}>
             <Header/>
             {/*<DraggableChat/>*/}
             <CustomModal
@@ -81,41 +108,56 @@ export const Routing = () => {
             >
                 {dialog.children}
             </CustomDialog>
-            <PrivateRoute exact path="/" component={Login}/>
-            <PrivateRoute exact path="/dashboard" component={Home}/>
-            <PrivateRoute exact path="/create-user" component={CreateUser}/>
-            <PrivateRoute exact path="/create-customer" component={CreateCustomer}/>
-            <PrivateRoute exact path='/customers' component={CustomersPage}/>
-            <PrivateRoute exact path='/customers/:id' component={CustomerDetailsPage}/>
-            <PrivateRoute exact path='/customers/:id/edit' component={EditCustomer}/>
-            <PrivateRoute exact path='/users' component={UsersPage}/>
-            <PrivateRoute exact path='/users/:id/edit' component={EditUser}/>
-            <PrivateRoute exact path='/users/:id' component={UserDetailsPage}/>
-            <PrivateRoute exact path='/orders' component={OrdersPage}/>
-            <PrivateRoute exact path='/create-order' component={CreateOrderPage}/>
-            <PrivateRoute exact path='/orders/:id' component={OrderDetailsPage}/>
-            <PrivateRoute exact path='/orders/:id/edit' component={EditOrder}/>
-            <PrivateRoute exact path='/organizations/:id' component={OrganizationDetailsPage}/>
-            <PrivateRoute exact path='/chat' component={ChatWrapper}/>
-            <PrivateRoute exact path='/organizations/:id/edit' component={EditOrganization}/>
-            <PrivateRoute exact path='/create-abstract-product' component={CreateAbstractProductPage}/>
-            <PrivateRoute exact path='/abstract-products' component={AbstractProductsPage}/>
-            <PrivateRoute exact path='/abstract-products/:id' component={AbstractProductDetailsPage}/>
-            <PrivateRoute exact path='/abstract-products/:id/edit' component={EditAbstractProduct}/>
-            <PrivateRoute exact path='/create-product' component={CreateProduct}/>
-            <PrivateRoute exact path='/products' component={ProductsPage}/>
-            <PrivateRoute exact path='/products/:id' component={ProductDetailsPage}/>
-            <PrivateRoute exact path='/products/:id/edit' component={EditProduct}/>
-            <PrivateRoute exact path='/create-product-type' component={CreateProductTypeWithAttributes}/>
-            <PrivateRoute exact path='/product-types/' component={ProductTypesPage}/>
-            <PrivateRoute exact path='/product-types/:id' component={ProductTypeDetailsPage}/>
-            <PrivateRoute exact path='/product-types/:id/edit' component={EditProductTypeWithAttributes}/>
-            <PrivateRoute exact path='/notifications' component={NotificationPage}/>
-            <PrivateRoute exact path='/message-templates' component={MessageTemplatePage}/>
-            <PrivateRoute exact path='/create-message-template' component={CreateMessageTemplate}/>
-            <Route exact path='/restore-password/:token' component={RestorePassword}/>
-            <Route exact path='/forgot-password' component={ForgotPassword}/>
-            <Route exact path='/create-organization' component={CreateOrganization}/>
-        </Router>
+
+            <Switch>
+                <PrivateRoute exact path="/" component={Login}/>
+                <PrivateRoute exact path={DASHBOARD} component={Home}/>
+
+                <PrivateRoute exact path={USERS_CREATE} component={CreateUser}/>
+                <PrivateRoute exact path={USERS_EDIT} component={EditUser}/>
+                <PrivateRoute exact path={USERS} component={UsersPage}/>
+                <PrivateRoute path={USER_PAGE} component={UserDetailsPage}/>
+
+                <PrivateRoute exact path={CUSTOMERS_CREATE} component={CreateCustomer}/>
+                <PrivateRoute exact path={CUSTOMERS_EDIT} component={EditCustomer}/>
+                <PrivateRoute exact path={CUSTOMERS} component={CustomersPage}/>
+                <PrivateRoute path={CUSTOMER_PAGE} component={CustomerDetailsPage}/>
+
+                <PrivateRoute exact path={ORDERS_CREATE} component={CreateOrderPage}/>
+                <PrivateRoute exact path={ORDERS_EDIT} component={EditOrder}/>
+                <PrivateRoute exact path={ORDERS} component={OrdersPage}/>
+                <PrivateRoute path={ORDER_PAGE} component={OrderDetailsPage}/>
+
+                <Route exact path='/create-organization' component={CreateOrganization}/>
+
+                <PrivateRoute exact path='/organizations/:id' component={OrganizationDetailsPage}/>
+                <PrivateRoute exact path='/organizations/:id/edit' component={EditOrganization}/>
+
+                <PrivateRoute exact path={PRODUCT_TEMPLATES_CREATE} component={CreateAbstractProductPage}/>
+                <PrivateRoute exact path={PRODUCT_TEMPLATES_EDIT} component={EditAbstractProduct}/>
+                <PrivateRoute exact path={PRODUCT_TEMPLATES} component={AbstractProductsPage}/>
+                <PrivateRoute path={PRODUCT_TEMPLATES_PAGE} component={AbstractProductDetailsPage}/>
+
+                <PrivateRoute exact path={PRODUCT_TYPES_CREATE} component={CreateProductTypeWithAttributes}/>
+                <PrivateRoute exact path={PRODUCT_TYPES_EDIT} component={EditProductTypeWithAttributes}/>
+                <PrivateRoute exact path={PRODUCT_TYPES} component={ProductTypesPage}/>
+                <PrivateRoute path={PRODUCT_TYPE_PAGE} component={ProductTypeDetailsPage}/>
+
+                <PrivateRoute exact path={PRODUCTS_CREATE} component={CreateProduct}/>
+                <PrivateRoute exact path={PRODUCTS_EDIT} component={EditProduct}/>
+                <PrivateRoute exact path={PRODUCTS} component={ProductsPage}/>
+                <PrivateRoute exact path={PRODUCT_PAGE} component={ProductDetailsPage}/>
+
+                <PrivateRoute exact path={NOTIFICATIONS} component={NotificationPage}/>
+
+                <PrivateRoute exact path={CHAT_TEMPLATES_CREATE} component={CreateMessageTemplate}/>
+                <PrivateRoute exact path={CHAT_TEMPLATES} component={MessageTemplatePage}/>
+                <PrivateRoute exact path={CHAT} component={ChatWrapper}/>
+
+                <Route exact path='/restore-password/:token' component={RestorePassword}/>
+                <Route exact path='/forgot-password' component={ForgotPassword}/>
+
+            </Switch>
+        </BrowserRouter>
     );
 };

@@ -18,6 +18,7 @@ import {
     List,
     useMediaQuery,
 } from "@material-ui/core";
+import {ORDERS, ORDERS_CREATE} from "../../../constants/routes";
 
 const useStyles = makeStyles(ordersPageStyles);
 
@@ -39,7 +40,7 @@ export const OrdersPage = ({history, selectedСustomerInChat}) => {
         }, [location]);
 
         const navigationToOrderDetails = useCallback((orderId) => {
-            history.push(`/orders/${orderId}`);
+            history.push(`${ORDERS}/${orderId}`);
         }, [history]);
 
         const onFilterChangedHandler = useCallback((event) => {
@@ -125,7 +126,7 @@ export const OrdersPage = ({history, selectedСustomerInChat}) => {
                             color="primary"
                             className={classes.button}
                             component={Link}
-                            to='/create-order'
+                            to={ORDERS_CREATE}
                         >
                             {t('CREATE')}
                         </Button>
