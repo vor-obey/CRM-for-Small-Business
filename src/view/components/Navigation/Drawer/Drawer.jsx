@@ -122,7 +122,7 @@ const useStyles = makeStyles((theme) => ({
         height: '100%',
         overflow: 'hidden',
         marginTop: 86,
-        boxShadow: '2px 0 10px rgba(0,0,0,0.1)',
+        boxShadow: '2px 5px 10px rgba(0,0,0,0.1)',
     },
     list: {
         width: 150,

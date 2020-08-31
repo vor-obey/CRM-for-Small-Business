@@ -62,8 +62,8 @@ export const Header = () => {
                         {isSignedIn ? <Profile currentUser={currentUser}/> : <div/>}
                     </div>
                 </Toolbar>
+                <ProgressBar isLoading={isLoading}/>
             </AppBar>
-            <ProgressBar isLoading={isLoading}/>
             <AlertSnackbar
                 isOpen={isOpen}
                 message={message}
