@@ -9,6 +9,7 @@ import Divider from '@material-ui/core/Divider';
 import Typography from '@material-ui/core/Typography';
 import {useTranslation} from "react-i18next";
 import {Link} from "react-router-dom";
+import {PRODUCT_TYPES, PRODUCT_TYPES_CREATE} from "../../../constants/routes";
 
 export const ProductTypesPage = ({history}) => {
     const {t} = useTranslation();
@@ -23,7 +24,7 @@ export const ProductTypesPage = ({history}) => {
             const {productTypeId, name, description} = productType;
             return (
                 <React.Fragment key={productTypeId}>
-                    <ListItem onClick={() => history.push(`/product-types/${productTypeId}`)}
+                    <ListItem onClick={() => history.push(`${PRODUCT_TYPES}/${productTypeId}`)}
                               style={{cursor: 'pointer'}}>
                         <ListItemText
                             primary={name}
@@ -50,7 +51,7 @@ export const ProductTypesPage = ({history}) => {
                         variant="outlined"
                         color="primary"
                         component={Link}
-                        to='/create-product-type'
+                        to={PRODUCT_TYPES_CREATE}
                     >
                         {t('CREATE')}
                     </Button>
@@ -71,7 +72,7 @@ export const ProductTypesPage = ({history}) => {
                     <Button
                         variant='outlined'
                         style={{marginTop: 20}}
-                        onClick={() => history.push('/create-product-type')}
+                        onClick={() => history.push(PRODUCT_TYPES_CREATE)}
                     >
                         {t('CREATE')}
                     </Button>

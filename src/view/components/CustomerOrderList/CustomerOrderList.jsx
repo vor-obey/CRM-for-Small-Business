@@ -5,6 +5,7 @@ import {useOrders} from "../../../utils/hooks/orderHooks";
 import isEmpty from "lodash/isEmpty";
 import {CustomerOrderListItem} from './CustomerOrderListItem/CustomerOrderListItem'
 import {customerOrderListStyle} from "./CustomerOrderList.style";
+import {ORDERS} from "../../../constants/routes";
 
 const useStyles = makeStyles(customerOrderListStyle);
 
@@ -30,7 +31,7 @@ export const CustomerOrderList = ({history, selectedCustomerInChat, handleDrawer
     }, [loading, orderList, selectedCustomer]);
 
     const navigationToOrderDetails = useCallback((orderId) => {
-        history.push(`/orders/${orderId}`);
+        history.push(`${ORDERS}/${orderId}`);
     }, [history]);
 
     const renderRows = useCallback(() => {

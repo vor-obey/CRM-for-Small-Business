@@ -29,6 +29,7 @@ import {useDispatch} from "react-redux";
 import {StorageService} from "../../../../services";
 import {setOrderDescription} from "../../../../data/store/order/orderActions";
 import {OrderDescriptionInput} from "../OrderDescriptionInput/OrderDescriptionInput";
+import {PRODUCTS} from "../../../../constants/routes";
 
 export const ProductForm = ({
                                 setOrderedProducts,
@@ -346,7 +347,7 @@ export const ProductForm = ({
                                 <Grid className={classes.productTitle}>
                                     <Typography variant='body1'
                                                 className={classes.productTitleName}
-                                                onClick={() => history.push(`/products/${productId}`)}
+                                                onClick={() => history.push(`${PRODUCTS}/${productId}`)}
                                     >
                                         {name}
                                     </Typography>

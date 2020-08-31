@@ -8,6 +8,7 @@ import Button from '@material-ui/core/Button';
 import {useAbstractProducts} from '../../../utils/hooks/productHooks';
 import {useTranslation} from "react-i18next";
 import {Link} from "react-router-dom";
+import {PRODUCT_TEMPLATES, PRODUCT_TEMPLATES_CREATE} from "../../../constants/routes";
 
 export const AbstractProductsPage = ({history}) => {
     const {t} = useTranslation();
@@ -23,7 +24,7 @@ export const AbstractProductsPage = ({history}) => {
             return (
                 <React.Fragment key={abstractProductId}>
                     <ListItem
-                        onClick={() => history.push(`/abstract-products/${abstractProductId}`)}
+                        onClick={() => history.push(`${PRODUCT_TEMPLATES}/${abstractProductId}`)}
                         style={{cursor: 'pointer'}}
                     >
                         <ListItemText
@@ -51,7 +52,7 @@ export const AbstractProductsPage = ({history}) => {
                         variant="outlined"
                         color="primary"
                         component={Link}
-                        to='/create-abstract-product'
+                        to={PRODUCT_TEMPLATES_CREATE}
                     >
                         {t('CREATE')}
                     </Button>
@@ -69,7 +70,7 @@ export const AbstractProductsPage = ({history}) => {
                     <Button
                         variant='outlined'
                         style={{marginTop: 20}}
-                        onClick={() => history.push('/create-abstract-product')}
+                        onClick={() => history.push(PRODUCT_TEMPLATES_CREATE)}
                     >
                         {t('CREATE')}
                     </Button>

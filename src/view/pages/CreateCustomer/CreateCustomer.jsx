@@ -10,6 +10,7 @@ import {useSources} from '../../../utils/hooks/customerHooks';
 import isEmpty from 'lodash/isEmpty';
 import {useSelector} from "react-redux";
 import {addCustomerDetail} from "../../../data/store/customer/customerActions";
+import {CUSTOMERS} from "../../../constants/routes";
 // import {CustomAutocomplete} from "../../components/Autocomplete/Autocomplete";
 
 export const CreateCustomer = ({
@@ -47,7 +48,7 @@ export const CreateCustomer = ({
                             sourceId: '',
                         }));
                     } else {
-                        history.push('/customers');
+                        history.push(CUSTOMERS);
                         dispatch(addCustomerDetail({
                             username: '',
                             name: '',

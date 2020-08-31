@@ -1,9 +1,9 @@
 import CRUDService from './CRUDService';
-import {USER_URLS} from '../constants/urls';
+import {API_URLS} from '../constants/api_urls';
 
 class ShippingMethodService extends CRUDService {
     constructor() {
-        super(USER_URLS.METHODS);
+        super(API_URLS.METHODS);
     }
 }
 

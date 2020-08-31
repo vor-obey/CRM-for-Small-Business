@@ -13,6 +13,7 @@ import {addOrderProductStyles} from "./AddOrderProduct.style";
 import {useTranslation} from "react-i18next";
 import AddIcon from "@material-ui/icons/Add";
 import {useHistory} from "react-router-dom";
+import {PRODUCTS_CREATE} from "../../../constants/routes";
 
 const useStyle = makeStyles(addOrderProductStyles);
 
@@ -122,9 +123,9 @@ export const AddOrderProduct = ({
 
         const navigateToCreateProduct = useCallback(() => {
             if (!isEdit) {
-                history.push('/create-product', {createOrder: true});
+                history.push(PRODUCTS_CREATE, {createOrder: true});
             } else {
-                history.push('/create-product', {editOrder: true});
+                history.push(PRODUCTS_CREATE, {editOrder: true});
             }
         }, [history, isEdit]);
 

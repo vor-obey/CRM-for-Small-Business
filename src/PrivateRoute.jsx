@@ -2,6 +2,7 @@ import React, {useCallback, useEffect, useState} from "react";
 import {Route, Redirect} from "react-router-dom";
 import StorageService from './services/StorageService';
 import {useSelector} from "react-redux";
+import {DASHBOARD} from "./constants/routes";
 
 export const PrivateRoute = ({component: Component, ...rest}) => {
     const [isAuthenticated, setAuthenticated] = useState(StorageService.getJWTToken());
@@ -23,7 +24,7 @@ export const PrivateRoute = ({component: Component, ...rest}) => {
         const enabled = currentUser.organization && currentUser.organization.enabled;
 
         if (match.path === '/') {
-            return isAuthenticated ? <Redirect to='/dashboard'/> : <Component {...props} />;
+            return isAuthenticated ? <Redirect to={DASHBOARD}/> : <Component {...props} />;
         }
 
         if (!isAuthenticated) {
@@ -40,7 +41,7 @@ export const PrivateRoute = ({component: Component, ...rest}) => {
         }
 
         return <Component {...props} />;
-    }, [currentUser, isAuthenticated]);
+    }, [Component, currentUser, isAuthenticated]);
 
     return (
         <Route

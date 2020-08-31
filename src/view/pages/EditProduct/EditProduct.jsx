@@ -7,6 +7,7 @@ import ProductService from '../../../services/ProductService';
 import {useDispatch} from 'react-redux';
 import {useTranslation} from "react-i18next";
 import {setProductDetailsToStore} from "../../../data/store/product/productActions";
+import {PRODUCTS} from "../../../constants/routes";
 
 export const EditProduct = ({history}) => {
     const {t} = useTranslation();
@@ -27,7 +28,7 @@ export const EditProduct = ({history}) => {
             });
             dispatch(setProductDetailsToStore({name: '', price: ''}));
             dispatch(setIsLoading(false));
-            history.push(`/products/${id}`);
+            history.push(`${PRODUCTS}/${id}`);
         } catch (e) {
             dispatch(setIsLoading(false));
             dispatch(setSnackBarStatus({isOpen: true, message: e.message, success: false}));

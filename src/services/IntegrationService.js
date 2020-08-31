@@ -1,9 +1,9 @@
 import CRUDService from './CRUDService';
-import {USER_URLS} from '../constants/urls';
+import {API_URLS} from '../constants/api_urls';
 
 class IntegrationService extends CRUDService {
     constructor() {
-        super(USER_URLS.INTEGRATION);
+        super(API_URLS.INTEGRATION);
     }
 
     cancel = () => {

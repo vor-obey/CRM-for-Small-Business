@@ -32,6 +32,7 @@ import TemplateService from "../../../services/TemplateService";
 import {COMMON_ERROR_MESSAGE} from "../../../constants/statuses";
 import {useTemplates} from "../../../utils/hooks/templatesHooks";
 import {CreateMessageTemplate} from "../CreateMessageTemplate/CreateMessageTemplate";
+import {CHAT_TEMPLATES_CREATE} from "../../../constants/routes";
 
 const useStyles = makeStyles(templatePageStyles);
 
@@ -320,7 +321,7 @@ export const MessageTemplatePage = ({chat, onSubmit, isDialogOpen, handleDrawerI
                 allowBackDropClick: true
             }))
         } else {
-            history.push('/create-message-template')
+            history.push(CHAT_TEMPLATES_CREATE)
         }
     }, [chat, dispatch, onSubmit, isDialogOpen, handleDrawerIcon, history]);
 

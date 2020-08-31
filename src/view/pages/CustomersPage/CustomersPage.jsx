@@ -12,12 +12,13 @@ import {
 import {customersPageStyle} from "./CustomersPage.style";
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import {CustomerListItem} from "./CustomerListItem/CustomerListItem";
-import {USER_URLS} from "../../../constants/urls";
+import {API_URLS} from "../../../constants/api_urls";
 import {InputFilter} from "../../components/Filter/InputFilter";
 import {filter} from "../../../utils/helpers";
 import {useTranslation} from "react-i18next";
 import {useCustomers} from '../../../utils/hooks/customerHooks';
 import {isEmpty} from 'lodash';
+import {CUSTOMERS, CUSTOMERS_CREATE} from "../../../constants/routes";
 
 const useStyles = makeStyles(customersPageStyle);
 
@@ -29,7 +30,7 @@ export const CustomersPage = ({history}) => {
     const minWidth600 = useMediaQuery('(min-width:600px)');
 
     const navigateToCustomerDetails = useCallback((customerId) => {
-        history.push(`${USER_URLS.CUSTOMERS}/${customerId}`)
+        history.push(`${CUSTOMERS}/${customerId}`)
     }, [history]);
 
     const onFilterChangedHandler = useCallback((event) => {
@@ -64,7 +65,7 @@ export const CustomersPage = ({history}) => {
                     variant="outlined"
                     color="primary"
                     component={Link}
-                    to='/create-customer'
+                    to={CUSTOMERS_CREATE}
                 >
                     <PersonAddIcon className={classes.addCustomer}/>
                     {t('CREATE_CUSTOMER')}
@@ -106,7 +107,7 @@ export const CustomersPage = ({history}) => {
                     color="primary"
                     className={classes.button}
                     component={Link}
-                    to='/create-customer'
+                    to={CUSTOMERS_CREATE}
                 >
                     <PersonAddIcon className={classes.addCustomer}/>
                     {t('CREATE_CUSTOMER')}

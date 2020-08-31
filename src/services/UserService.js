@@ -1,9 +1,9 @@
-import { USER_URLS } from "../constants/urls";
+import { API_URLS } from "../constants/api_urls";
 import CRUDService from "./CRUDService";
 
 class UserService extends CRUDService {
     constructor(){
-        super(USER_URLS.USERS)
+        super(API_URLS.USERS)
     }
 
     async login({email, password}) {

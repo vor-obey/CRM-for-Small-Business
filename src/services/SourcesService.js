@@ -1,9 +1,9 @@
 import CRUDService from "./CRUDService";
-import {USER_URLS} from "../constants/urls";
+import {API_URLS} from "../constants/api_urls";
 
 class SourcesService extends CRUDService {
    constructor() {
-      super(USER_URLS.SOURCES)
+      super(API_URLS.SOURCES)
    }
 }
 

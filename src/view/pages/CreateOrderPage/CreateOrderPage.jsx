@@ -12,6 +12,7 @@ import {setSnackBarStatus} from '../../../data/store/auxiliary/auxiliaryActions'
 import OrderService from '../../../services/OrderService';
 import {COMMON_ERROR_MESSAGE} from '../../../constants/statuses';
 import {setOrderDescription, setProductsToCart} from "../../../data/store/order/orderActions";
+import {ORDERS} from "../../../constants/routes";
 
 const useStyles = makeStyles(createOrderPageStyles);
 
@@ -99,6 +100,7 @@ export const CreateOrderPage = ({history, chat, selectedCustomerInChat}) => {
     }, []);
 
     const onSubmitHandler = useCallback(async (e) => {
+        debugger
         e.preventDefault();
         if ((isEmpty(orderDescription) && isEmpty(selectedProducts)) || isEmpty(manager)
             || isEmpty(customer) || ((isEmpty(novaposhtaAddress.city) || isEmpty(novaposhtaAddress.warehouse)) && (isEmpty(address)))
@@ -122,7 +124,7 @@ export const CreateOrderPage = ({history, chat, selectedCustomerInChat}) => {
                     if (chat) {
                         dispatch(setSnackBarStatus({isOpen: true, message: response.message, success: true}));
                     } else {
-                        history.push('/orders');
+                        history.push(ORDERS);
                     }
                     dispatch(setProductsToCart([]));
                     dispatch(setOrderDescription(''))

@@ -20,6 +20,7 @@ import {UserDetails} from './UserDetails/UserDetails';
 import {setIsLoading, setSnackBarStatus} from "../../../data/store/auxiliary/auxiliaryActions";
 import {useTranslation} from "react-i18next";
 import {useManagerById} from '../../../utils/hooks/userHooks';
+import {USERS} from "../../../constants/routes";
 
 const useStyles = makeStyles(userDetailsStyle);
 
@@ -42,7 +43,7 @@ export const UserDetailsPage = ({history}) => {
             const response = await UserService.delete(id);
             if (response.success) {
                 dispatch(setIsLoading(false));
-                history.push('/users');
+                history.push(USERS);
             } else {
                 dispatch(setIsLoading(false));
                 dispatch(setSnackBarStatus({isOpen: true, message: response.message, success: false}));

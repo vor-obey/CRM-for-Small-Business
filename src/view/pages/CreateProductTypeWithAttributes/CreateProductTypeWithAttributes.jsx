@@ -33,6 +33,7 @@ import {editProductTypeWithAttributesStyles} from "../EditProductTypeWithAttribu
 import {useTranslation} from "react-i18next";
 import cloneDeep from 'lodash/cloneDeep';
 import {v4 as uuidv4} from 'uuid'
+import {PRODUCT_TYPES} from "../../../constants/routes";
 
 const useStyle = makeStyles(editProductTypeWithAttributesStyles);
 
@@ -172,7 +173,7 @@ export const CreateProductTypeWithAttributes = ({history}) => {
                 attributes
             });
             dispatch(setIsLoading(false));
-            history.push('/product-types');
+            history.push(PRODUCT_TYPES);
         } catch (e) {
             dispatch(setIsLoading(false));
             dispatch(setSnackBarStatus({isOpen: true, message: e.message, success: false}));

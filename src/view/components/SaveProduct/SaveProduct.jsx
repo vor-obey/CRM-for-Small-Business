@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import {
     Grid,
     Typography,
@@ -18,14 +18,25 @@ import {
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import {CustomAutocomplete} from '../Autocomplete/Autocomplete';
 import isEmpty from 'lodash/isEmpty';
-import {useAbstractProducts, useAttributesByProductTypeId} from '../../../utils/hooks/productHooks';
+import {useAbstractProducts, useAttributesByProductTypeId, useProductTypes} from '../../../utils/hooks/productHooks';
 import {saveProductStyles} from "./SaveProduct.styles";
 import {useTranslation} from 'react-i18next';
 import {useDispatch} from "react-redux";
 import {useSelector} from "react-redux";
 import {setProductDetailsToStore} from "../../../data/store/product/productActions";
+import {PRODUCT_TEMPLATES_CREATE} from "../../../constants/routes";
 
 const useStyles = makeStyles(saveProductStyles);
+
+const getSelectedProductType = (selectedProductType, selectedAbstractProduct) => {
+    if(!isEmpty(selectedProductType)) {
+        return selectedProductType.productTypeId;
+    }
+
+    if(selectedAbstractProduct?.productType){
+        return selectedAbstractProduct?.productType.productTypeId;
+    }
+}
 
 export const SaveProduct = ({
                                 product,
@@ -37,11 +48,26 @@ export const SaveProduct = ({
     const {t} = useTranslation();
     const classes = useStyles();
     const productDetails = useSelector(state => state.productReducer.details);
+
+
     const {abstractProducts} = useAbstractProducts();
     const [selectedAbstractProduct, setSelectedAbstractProduct] = useState({});
     const [isAbstractProductAutocompleteOpen, setIsAbstractProductAutocompleteOpen] = useState(false);
-    const {attributes} = useAttributesByProductTypeId(selectedAbstractProduct.productType && selectedAbstractProduct.productType.productTypeId);
+    const toggleAbstractProductAutocomplete = useCallback(() => setIsAbstractProductAutocompleteOpen(prevState => !prevState), []);
+
+
+    const {productTypes} = useProductTypes();
+    const [selectedProductType, setSelectedProductType] = useState({});
+    const [isProductTypeAutocompleteOpen, setIsProductTypeAutocompleteOpen] = useState(false);
+    const toggleProductTypeAutocomplete = useCallback(() => setIsProductTypeAutocompleteOpen(prevState => !prevState), []);
+
+    const productTypeId = useMemo(
+        () => getSelectedProductType(selectedProductType, selectedAbstractProduct),
+        [selectedProductType, selectedAbstractProduct]
+    );
+    const {attributes} = useAttributesByProductTypeId(productTypeId);
     const [selectedAttributeValues, setSelectedAttributeValues] = useState({});
+
     const [isExpanded, setIsExpanded] = useState(false);
     const dispatch = useDispatch();
 
@@ -95,7 +121,6 @@ export const SaveProduct = ({
         dispatch(setProductDetailsToStore({[name]: value}))
     }, [dispatch]);
 
-    const toggleAbstractProductAutocomplete = useCallback(() => setIsAbstractProductAutocompleteOpen(prevState => !prevState), []);
 
     const renderAbstractProductOptions = useCallback((item) => {
         const {abstractProductId, name, price, description} = item;
@@ -113,14 +138,45 @@ export const SaveProduct = ({
         );
     }, []);
 
+    const renderProductTypeOptions = useCallback((item) => {
+        const {productTypeId, name} = item;
+        return (
+            <Grid container alignItems='center'>
+                <Grid item xs>
+                    <span key={productTypeId}>
+                        {name}
+                    </span>
+                </Grid>
+            </Grid>
+        );
+    }, []);
+
+
     const getAbstractProductOptionLabel = useCallback(item => !isEmpty(item) ? item.name : '', []);
+    const getProductTypeOptionLabel = useCallback(item => !isEmpty(item) ? item.name : '', []);
 
     const onAbstractProductSelectHandler = useCallback((item) => {
         if (!item) {
             setSelectedAbstractProduct({});
+            setSelectedProductType({})
             setIsExpanded(false);
         } else {
             setSelectedAbstractProduct(item);
+            if(item.productType) {
+                setSelectedProductType(item.productType);
+            }
+            dispatch(setProductDetailsToStore({ name: item.name, price: item.price}))
+            setIsExpanded(true);
+        }
+        setSelectedAttributeValues({});
+    }, []);
+
+    const onProductTypeSelectHandler = useCallback((item) => {
+        if (!item) {
+            setSelectedProductType({});
+            setIsExpanded(false);
+        } else {
+            setSelectedProductType(item);
             setIsExpanded(true);
         }
         setSelectedAttributeValues({});
@@ -178,6 +234,7 @@ export const SaveProduct = ({
         onSave({
             productDetails,
             selectedAbstractProduct,
+            selectedProductType,
             selectedAttributeValues
         });
     }, [productDetails, selectedAttributeValues, selectedAbstractProduct, onSave]);
@@ -186,14 +243,14 @@ export const SaveProduct = ({
         return arr.find(item => item === '');
     }, []);
 
-    const disableButton = useCallback(() => {
+    const isSubmitDisabled = useMemo(() => {
         if (!attributes.length) {
             return true;
         }
         if (!productDetails.name.trim().length || !productDetails.price) {
             return true;
         }
-        if (isEmpty(selectedAbstractProduct)) {
+        if (isEmpty(selectedProductType)) {
             return true;
         }
         const attributeValuesEntriesLength = Object.entries(selectedAttributeValues).length;
@@ -204,7 +261,7 @@ export const SaveProduct = ({
             return true;
         }
         return false;
-    }, [attributes.length, productDetails, selectedAbstractProduct, selectedAttributeValues, validateAttributeValues]);
+    }, [attributes.length, productDetails, selectedProductType, selectedAttributeValues, validateAttributeValues]);
 
     const filterOptions = useCallback((array, {inputValue}) => {
         if (!array.length) {
@@ -228,6 +285,40 @@ export const SaveProduct = ({
                         <Typography variant='h5'>
                             {labels.title}
                         </Typography>
+                    </Grid>
+                    <Grid container item xs={12} sm={12} className={classes.containerProduct}>
+                        <Grid item xs={12} sm={2} className={classes.containerProductItem}
+                              style={{textAlign: 'center'}}>
+                            <IconButton onClick={() => {
+                                if (history.location.state !== undefined && history.location.state.createOrder) {
+                                    history.push(PRODUCT_TEMPLATES_CREATE, {
+                                        createOrder: true
+                                    });
+                                } else {
+                                    history.push(PRODUCT_TEMPLATES_CREATE, {
+                                        createProduct: true
+                                    });
+                                }
+                            }}>
+                                <AddCircleIcon fontSize='large'/>
+                            </IconButton>
+                        </Grid>
+                        <Grid item xs={12} sm={10} className={classes.containerProductItem}>
+                            <CustomAutocomplete
+                                isOpen={isAbstractProductAutocompleteOpen}
+                                options={abstractProducts}
+                                onClose={toggleAbstractProductAutocomplete}
+                                onToggle={toggleAbstractProductAutocomplete}
+                                inputLabel={t('SELECT_PRODUCT_TEMPLATE')}
+                                renderOption={renderAbstractProductOptions}
+                                getOptionLabel={getAbstractProductOptionLabel}
+                                onSelectHandler={onAbstractProductSelectHandler}
+                                value={selectedAbstractProduct}
+                                onInputChangedHandler={() => {
+                                }}
+                                filterOptions={filterOptions}
+                            />
+                        </Grid>
                     </Grid>
                     <Grid container item xs={12} sm={12} className={classes.containerProduct}>
                         <Grid item xs={12} sm={9} className={classes.containerProductItem}>
@@ -256,33 +347,17 @@ export const SaveProduct = ({
                         </Grid>
                     </Grid>
                     <Grid container item xs={12} sm={12} className={classes.containerProduct}>
-                        <Grid item xs={12} sm={2} className={classes.containerProductItem}
-                              style={{textAlign: 'center'}}>
-                            <IconButton onClick={() => {
-                                if (history.location.state !== undefined && history.location.state.createOrder) {
-                                    history.push('/create-abstract-product', {
-                                        createOrder: true
-                                    });
-                                } else {
-                                    history.push('/create-abstract-product', {
-                                        createProduct: true
-                                    });
-                                }
-                            }}>
-                                <AddCircleIcon fontSize='large'/>
-                            </IconButton>
-                        </Grid>
-                        <Grid item xs={12} sm={10} className={classes.containerProductItem}>
+                        <Grid item xs={12} sm={12} className={classes.containerProductItem}>
                             <CustomAutocomplete
-                                isOpen={isAbstractProductAutocompleteOpen}
-                                options={abstractProducts}
-                                onClose={toggleAbstractProductAutocomplete}
-                                onToggle={toggleAbstractProductAutocomplete}
-                                inputLabel={t('SELECT_PRODUCT_CATEGORY')}
-                                renderOption={renderAbstractProductOptions}
-                                getOptionLabel={getAbstractProductOptionLabel}
-                                onSelectHandler={onAbstractProductSelectHandler}
-                                value={selectedAbstractProduct}
+                                isOpen={isProductTypeAutocompleteOpen}
+                                options={productTypes}
+                                onClose={toggleProductTypeAutocomplete}
+                                onToggle={toggleProductTypeAutocomplete}
+                                inputLabel={t('SELECT_PRODUCT_TYPE')}
+                                renderOption={renderProductTypeOptions}
+                                getOptionLabel={getProductTypeOptionLabel}
+                                onSelectHandler={onProductTypeSelectHandler}
+                                value={selectedProductType}
                                 onInputChangedHandler={() => {
                                 }}
                                 filterOptions={filterOptions}
@@ -307,7 +382,7 @@ export const SaveProduct = ({
                                 <Button
                                     variant='outlined'
                                     onClick={onSubmit}
-                                    disabled={disableButton()}
+                                    disabled={isSubmitDisabled}
                                 >
                                     {labels.button}
                                 </Button>

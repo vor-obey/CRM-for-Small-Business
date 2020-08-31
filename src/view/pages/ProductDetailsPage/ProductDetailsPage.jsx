@@ -17,6 +17,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from "@material-ui/icons/Edit";
 import AssignmentOutlinedIcon from '@material-ui/icons/AssignmentOutlined';
 import {useCart, useEditCart} from "../../../utils/hooks/cartHooks";
+import {PRODUCTS} from "../../../constants/routes";
 
 const useStyles = makeStyles(productDetailsPageStyles);
 
@@ -40,7 +41,7 @@ export const ProductDetailsPage = ({history}) => {
                 if (cart.products.find(({productId}) => productId === id)) {
                     cartUtils.deleteProduct(cart.products.find(({productId}) => productId === id));
                 }
-                history.push('/products');
+                history.push(PRODUCTS);
             } else {
                 dispatch(setIsLoading(false));
                 dispatch(setSnackBarStatus({isOpen: true, message: response.message, success: false}));
@@ -106,27 +107,12 @@ export const ProductDetailsPage = ({history}) => {
                         </Grid>
                     </Grid>
                     <Grid container item xs={12} sm={6} className={classes.containerProduct}>
-                        <Grid item xs={12} sm={12} className={classes.containerProductItem}>
-                            <Typography variant='h6'>
-                                {t('PRODUCT_CATEGORY')}
-                            </Typography>
-                            <ListItem
-                                onClick={() => history.push(`/abstract-products/${productDetails.abstractProduct && productDetails.abstractProduct.abstractProductId}`)}
-                                className={classes.productNavigation}>
-                                <ListItemIcon
-                                className={classes.productNavigationIcon}
-                                ><AssignmentOutlinedIcon/></ListItemIcon>
-                                <ListItemText
-                                    primary={productDetails.abstractProduct && productDetails.abstractProduct.name}
-                                />
-                            </ListItem>
-                        </Grid>
                         <Grid item xl={12} lg={12} className={classes.containerProductItem}>
                             <Typography variant='h6'>
                                 {t('PRODUCT_TYPE')}
                             </Typography>
                             <Typography variant='body1'>
-                                {productDetails.abstractProduct && productDetails.abstractProduct.productType.name}
+                                {productDetails.productType && productDetails.productType.name}
                             </Typography>
                         </Grid>
                     </Grid>
@@ -141,7 +127,7 @@ export const ProductDetailsPage = ({history}) => {
                     <Grid container item xl={12} lg={12} className={classes.buttonContainer}>
                         <Fab
                             className={classes.buttonFab}
-                            onClick={() => history.push(`/products/${id}/edit`)}
+                            onClick={() => history.push(`${PRODUCTS}/${id}/edit`)}
                             color="primary"
                             aria-label="edit"
                             size="small">

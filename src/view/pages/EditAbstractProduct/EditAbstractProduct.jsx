@@ -6,6 +6,7 @@ import {setIsLoading, setSnackBarStatus} from '../../../data/store/auxiliary/aux
 import AbstractProductService from '../../../services/AbstractProductService';
 import {useDispatch} from 'react-redux';
 import {useTranslation} from "react-i18next";
+import {PRODUCT_TEMPLATES} from "../../../constants/routes";
 
 export const EditAbstractProduct = ({history}) => {
     const {id} = useParams();
@@ -25,7 +26,7 @@ export const EditAbstractProduct = ({history}) => {
                 description: abstractProductDetails.description,
             });
             if (response.success) {
-                history.push(`/abstract-products/${id}`);
+                history.push(`${PRODUCT_TEMPLATES}/${id}`);
             } else {
                 dispatch(setSnackBarStatus({isOpen: true, message: response.message, success: false}));
             }

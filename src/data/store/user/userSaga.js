@@ -15,9 +15,10 @@ import {
 } from './userActions';
 import socketIOClient from 'socket.io-client';
 import {eventChannel} from 'redux-saga';
-import {BASE_URL} from '../../../constants/urls';
+import {BASE_URL} from '../../../constants/api_urls';
 import {history} from "../../../utils/history";
 import {select} from "redux-saga/effects";
+import {CHAT} from "../../../constants/routes";
 
 export function connect(organizationId) {
     const socket = socketIOClient(`${BASE_URL}/`, {query: `roomId=${organizationId}`});
@@ -120,7 +121,7 @@ export function* initializeSocketConnection(action) {
 
 const navigateToThread = (thread) => {
     history.push({
-        pathname: 'chat',
+        pathname: CHAT,
         thread: thread
     })
 };

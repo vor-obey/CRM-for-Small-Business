@@ -17,6 +17,7 @@ import {useTranslation} from "react-i18next";
 import {useOrders} from '../../../utils/hooks/orderHooks';
 import {useDispatch} from 'react-redux';
 import {openChatWidget} from '../../../data/store/user/userActions';
+import {ORDERS} from "../../../constants/routes";
 
 const useStyles = makeStyles(HomeStyles);
 
@@ -33,7 +34,7 @@ export const Home = ({history}) => {
 
     const navigateToOrdersPage = useCallback((status) => {
         history.push({
-            pathname: '/orders',
+            pathname: ORDERS,
             state: {
                 status: status,
             }

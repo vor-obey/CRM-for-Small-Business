@@ -13,6 +13,7 @@ import {setSnackBarStatus} from "../../../../data/store/auxiliary/auxiliaryActio
 import {headerStyle} from "./Header.style";
 import {Flags} from "../Flags/Flags";
 import {InstagramConnection} from '../../../../utils/instagramConnection';
+import isEmpty from 'lodash/isEmpty';
 
 const useStyles = makeStyles(headerStyle);
 
@@ -24,6 +25,8 @@ export const Header = () => {
     const {isOpen, message, success} = useSelector(state => state.auxiliaryReducer.snackBarStatus);
     const {currentUser} = useSelector(state => state.userReducer);
 
+    const isSignedIn = !isEmpty(currentUser);
+
     const onClosedHandler = useCallback(() => {
         dispatch(setSnackBarStatus({isOpen: !isOpen, message: message, success: success}))
     }, [dispatch, isOpen, message, success]);
@@ -32,10 +35,10 @@ export const Header = () => {
         <div className={classes.root}>
             <AppBar position="static">
                 <Toolbar className={classes.toolbar}>
-                    {currentUser ? <Drawer/> : <div/>}
+                    {isSignedIn ? <Drawer/> : <div/>}
                     <div className={classes.user}>
                         <Flags classes={classes}/>
-                        {currentUser ? <Profile currentUser={currentUser}/> : <div/>}
+                        {isSignedIn ? <Profile currentUser={currentUser}/> : <div/>}
                     </div>
                 </Toolbar>
             </AppBar>

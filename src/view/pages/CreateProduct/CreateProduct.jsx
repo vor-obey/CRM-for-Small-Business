@@ -5,17 +5,19 @@ import {useDispatch} from 'react-redux';
 import ProductService from '../../../services/ProductService';
 import {useTranslation} from "react-i18next";
 import {setProductDetailsToStore} from "../../../data/store/product/productActions";
+import {ORDERS_CREATE, PRODUCTS} from "../../../constants/routes";
 
 export const CreateProduct = ({history}) => {
     const {t} = useTranslation();
     const dispatch = useDispatch();
 
     const createProduct = useCallback(async (data) => {
-        const {selectedAttributeValues, productDetails, selectedAbstractProduct} = data;
+        const { selectedAttributeValues, productDetails, selectedAbstractProduct, selectedProductType} = data;
         try {
             dispatch(setIsLoading(true));
             const response = await ProductService.create({
-                abstractProductId: selectedAbstractProduct.abstractProductId,
+                abstractProductId: selectedAbstractProduct?.abstractProductId,
+                productTypeId: selectedProductType.productTypeId,
                 name: productDetails.name,
                 price: productDetails.price,
                 attributeValues: selectedAttributeValues,
@@ -23,11 +25,11 @@ export const CreateProduct = ({history}) => {
             dispatch(setIsLoading(false));
             dispatch(setProductDetailsToStore({name: '', price: ''}));
             if (history.location.state !== undefined && !history.location.state.editOrder) {
-                history.push('/create-order', {
+                history.push(ORDERS_CREATE, {
                      response
                 });
             } else {
-                history.push('/products');
+                history.push(PRODUCTS);
             }
         } catch (e) {
             dispatch(setIsLoading(false));

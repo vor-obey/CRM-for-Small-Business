@@ -1,9 +1,9 @@
 import CRUDService from './CRUDService';
-import {USER_URLS} from '../constants/urls';
+import {API_URLS} from '../constants/api_urls';
 
 class InstagramService extends CRUDService {
     constructor() {
-        super(USER_URLS.INSTAGRAM);
+        super(API_URLS.INSTAGRAM);
     }
 
     login = (creds) => {

@@ -1,9 +1,9 @@
 import CRUDService from "./CRUDService";
-import {USER_URLS} from "../constants/urls";
+import {API_URLS} from "../constants/api_urls";
 
 class NovaPoshtaService extends CRUDService {
     constructor() {
-        super(USER_URLS.NOVA_POSHTA);
+        super(API_URLS.NOVA_POSHTA);
     }
 
     async getNovaPoshtaCities(value) {
