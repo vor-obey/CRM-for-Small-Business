@@ -3,7 +3,7 @@ export const chatWrapperStyles = (theme => ({
         display: 'flex',
         padding: 0,
         width: '100%',
-        height: 'calc(100vh - 65px)'
+        height: 'calc(100vh - 86px)'
     },
     containerChat: {
         display: 'flex',
@@ -254,7 +254,7 @@ export const chatWrapperStyles = (theme => ({
         paddingRight: 15,
     },
     paper: {
-        top: '64px',
+        top: '86px',
         padding: 20,
     },
     hide: {
@@ -266,7 +266,7 @@ export const chatWrapperStyles = (theme => ({
         whiteSpace: 'nowrap',
     },
     drawerOpen: {
-        top: '65px',
+        top: '86px',
         width: '50%',
         borderLeft: 'none',
         transition: theme.transitions.create('width', {
@@ -280,7 +280,7 @@ export const chatWrapperStyles = (theme => ({
     },
     drawerClose: {
         width: '100px',
-        top: '65px',
+        top: '86px',
         transition: theme.transitions.create('width', {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,

@@ -3,6 +3,7 @@ import {useLocation} from 'react-router-dom';
 
 import {
     SwipeableDrawer,
+    Drawer as MUIDrawer,
     Button,
     withStyles
 } from '@material-ui/core';
@@ -15,7 +16,6 @@ import MenuIcon from '@material-ui/icons/Menu';
 import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
 import ChatIcon from '@material-ui/icons/Chat';
 import MessageIcon from "@material-ui/icons/Message";
-import {drawerStyle} from "./Drawer.style";
 import AddToHomeScreenIcon from '@material-ui/icons/AddToHomeScreen';
 import {Sidebar} from "./Sidebar";
 
@@ -32,6 +32,7 @@ import {
     PRODUCTS,
     USERS
 } from "../../../../constants/routes";
+import {makeStyles} from "@material-ui/core/styles";
 
 const NAVIGATION = [
     {
@@ -112,9 +113,40 @@ const NAVIGATION = [
     },
 ]
 
+const useStyles = makeStyles((theme) => ({
+    root: {
+        width: 150
+    },
+    navigation: {
+        width: 150,
+        height: '100%',
+        overflow: 'hidden',
+        marginTop: 86,
+        boxShadow: '2px 0 10px rgba(0,0,0,0.1)',
+    },
+    list: {
+        width: 150,
+    },
+    fullList: {
+        width: 'auto',
+    },
+    burger: {
+        color: '#ffffff',
+    },
+    menuItem: {
+        '&:hover': {
+            color: '#fff',
+            background: 'linear-gradient(90deg, rgba(63,81,181,1) 50%, rgba(34,171,199,1) 100%)',
+            '& $menuIcon': {
+                color: '#fff',
+            },
+        },
+    },
+    menuIcon:{},
+}))
 
 function Drawer(props) {
-    const {classes} = props;
+    const classes = useStyles();
     const [isOpen, setIsOpen] = React.useState(false);
     const [activeSidebar, setActiveSidebar] = useState(null);
     const { pathname } = useLocation();
@@ -136,35 +168,26 @@ function Drawer(props) {
     }, [])
 
     return (
-        <div>
-            <Button onClick={toggleDrawer(true)}>
-                <MenuIcon
-                    className={classes.burger}
-                />
-            </Button>
-            <SwipeableDrawer
-                open={isOpen}
-                onClose={toggleDrawer(false)}
-                onOpen={toggleDrawer(true)}
-            >
+        <MUIDrawer variant='permanent' className={classes.root} classes={{
+            paper: classes.navigation
+        }}>
+            <Sidebar side='left'
+                     toggleDrawer={toggleDrawer}
+                     options={NAVIGATION}
+                     setActive={setActiveSidebar}
+            />
+            {childSidebars.map(({ parent, options }) => (
                 <Sidebar side='left'
+                         key={parent}
                          toggleDrawer={toggleDrawer}
-                         options={NAVIGATION}
+                         parent={parent}
+                         options={options}
                          setActive={setActiveSidebar}
+                         isActive={activeSidebar ? activeSidebar === parent : pathname.startsWith(parent)}
                 />
-                {childSidebars.map(({ parent, options }) => (
-                    <Sidebar side='left'
-                             key={parent}
-                             toggleDrawer={toggleDrawer}
-                             parent={parent}
-                             options={options}
-                             setActive={setActiveSidebar}
-                             isActive={activeSidebar ? activeSidebar === parent : pathname.startsWith(parent)}
-                    />
-                ))}
-            </SwipeableDrawer>
-        </div>
+            ))}
+        </MUIDrawer>
     );
 }
 
-export default withStyles(drawerStyle)(Drawer);
+export default Drawer;

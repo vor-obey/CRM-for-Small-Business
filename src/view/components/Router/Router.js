@@ -72,8 +72,23 @@ import {
     USERS_CREATE,
     USERS_EDIT
 } from "../../../constants/routes";
+import Drawer from "../Navigation/Drawer/Drawer";
+import {Toolbar} from "@material-ui/core";
+import {makeStyles} from "@material-ui/styles";
+
+const useStyles = makeStyles((theme) => ({
+    root: {
+        width: '100%',
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'row',
+        marginTop: 86,
+        background: '#f8f8f8'
+    }
+}))
 
 export const Routing = () => {
+    const classes = useStyles();
     const dispatch = useDispatch();
     const modal = useSelector(state => state.auxiliaryReducer.modal);
     const dialog = useSelector(state => state.auxiliaryReducer.dialog);
@@ -88,76 +103,78 @@ export const Routing = () => {
     }, [dispatch]);
 
     return (
-        <BrowserRouter history={history}>
-            <Header/>
-            {/*<DraggableChat/>*/}
-            <CustomModal
-                open={modal.isOpen}
-                handleClose={modal.onCloseHandler}
-                allowBackDropClick={modal.allowBackDropClick}
-            >
-                {modal.children}
-            </CustomModal>
-            <CustomDialog
-                title={dialog.title}
-                isShow={dialog.isShow}
-                onClose={dialog.onCloseHandler}
-                closeText={dialog.closeText}
-                actionText={dialog.actionText}
-                onAction={dialog.onActionHandler}
-            >
-                {dialog.children}
-            </CustomDialog>
+        <div className={classes.root}>
+            <BrowserRouter history={history}>
+                <Drawer/>
 
-            <Switch>
-                <PrivateRoute exact path="/" component={Login}/>
-                <PrivateRoute exact path={DASHBOARD} component={Home}/>
+                <Header/>
+                {/*<DraggableChat/>*/}
+                <Switch>
+                    <PrivateRoute exact path="/" component={Login}/>
+                    <PrivateRoute exact path={DASHBOARD} component={Home}/>
 
-                <PrivateRoute exact path={USERS_CREATE} component={CreateUser}/>
-                <PrivateRoute exact path={USERS_EDIT} component={EditUser}/>
-                <PrivateRoute exact path={USERS} component={UsersPage}/>
-                <PrivateRoute path={USER_PAGE} component={UserDetailsPage}/>
+                    <PrivateRoute exact path={USERS_CREATE} component={CreateUser}/>
+                    <PrivateRoute exact path={USERS_EDIT} component={EditUser}/>
+                    <PrivateRoute exact path={USERS} component={UsersPage}/>
+                    <PrivateRoute path={USER_PAGE} component={UserDetailsPage}/>
 
-                <PrivateRoute exact path={CUSTOMERS_CREATE} component={CreateCustomer}/>
-                <PrivateRoute exact path={CUSTOMERS_EDIT} component={EditCustomer}/>
-                <PrivateRoute exact path={CUSTOMERS} component={CustomersPage}/>
-                <PrivateRoute path={CUSTOMER_PAGE} component={CustomerDetailsPage}/>
+                    <PrivateRoute exact path={CUSTOMERS_CREATE} component={CreateCustomer}/>
+                    <PrivateRoute exact path={CUSTOMERS_EDIT} component={EditCustomer}/>
+                    <PrivateRoute exact path={CUSTOMERS} component={CustomersPage}/>
+                    <PrivateRoute path={CUSTOMER_PAGE} component={CustomerDetailsPage}/>
 
-                <PrivateRoute exact path={ORDERS_CREATE} component={CreateOrderPage}/>
-                <PrivateRoute exact path={ORDERS_EDIT} component={EditOrder}/>
-                <PrivateRoute exact path={ORDERS} component={OrdersPage}/>
-                <PrivateRoute path={ORDER_PAGE} component={OrderDetailsPage}/>
+                    <PrivateRoute exact path={ORDERS_CREATE} component={CreateOrderPage}/>
+                    <PrivateRoute exact path={ORDERS_EDIT} component={EditOrder}/>
+                    <PrivateRoute exact path={ORDERS} component={OrdersPage}/>
+                    <PrivateRoute path={ORDER_PAGE} component={OrderDetailsPage}/>
 
-                <Route exact path='/create-organization' component={CreateOrganization}/>
+                    <Route exact path='/create-organization' component={CreateOrganization}/>
 
-                <PrivateRoute exact path='/organizations/:id' component={OrganizationDetailsPage}/>
-                <PrivateRoute exact path='/organizations/:id/edit' component={EditOrganization}/>
+                    <PrivateRoute exact path='/organizations/:id' component={OrganizationDetailsPage}/>
+                    <PrivateRoute exact path='/organizations/:id/edit' component={EditOrganization}/>
 
-                <PrivateRoute exact path={PRODUCT_TEMPLATES_CREATE} component={CreateAbstractProductPage}/>
-                <PrivateRoute exact path={PRODUCT_TEMPLATES_EDIT} component={EditAbstractProduct}/>
-                <PrivateRoute exact path={PRODUCT_TEMPLATES} component={AbstractProductsPage}/>
-                <PrivateRoute path={PRODUCT_TEMPLATES_PAGE} component={AbstractProductDetailsPage}/>
+                    <PrivateRoute exact path={PRODUCT_TEMPLATES_CREATE} component={CreateAbstractProductPage}/>
+                    <PrivateRoute exact path={PRODUCT_TEMPLATES_EDIT} component={EditAbstractProduct}/>
+                    <PrivateRoute exact path={PRODUCT_TEMPLATES} component={AbstractProductsPage}/>
+                    <PrivateRoute path={PRODUCT_TEMPLATES_PAGE} component={AbstractProductDetailsPage}/>
 
-                <PrivateRoute exact path={PRODUCT_TYPES_CREATE} component={CreateProductTypeWithAttributes}/>
-                <PrivateRoute exact path={PRODUCT_TYPES_EDIT} component={EditProductTypeWithAttributes}/>
-                <PrivateRoute exact path={PRODUCT_TYPES} component={ProductTypesPage}/>
-                <PrivateRoute path={PRODUCT_TYPE_PAGE} component={ProductTypeDetailsPage}/>
+                    <PrivateRoute exact path={PRODUCT_TYPES_CREATE} component={CreateProductTypeWithAttributes}/>
+                    <PrivateRoute exact path={PRODUCT_TYPES_EDIT} component={EditProductTypeWithAttributes}/>
+                    <PrivateRoute exact path={PRODUCT_TYPES} component={ProductTypesPage}/>
+                    <PrivateRoute path={PRODUCT_TYPE_PAGE} component={ProductTypeDetailsPage}/>
 
-                <PrivateRoute exact path={PRODUCTS_CREATE} component={CreateProduct}/>
-                <PrivateRoute exact path={PRODUCTS_EDIT} component={EditProduct}/>
-                <PrivateRoute exact path={PRODUCTS} component={ProductsPage}/>
-                <PrivateRoute exact path={PRODUCT_PAGE} component={ProductDetailsPage}/>
+                    <PrivateRoute exact path={PRODUCTS_CREATE} component={CreateProduct}/>
+                    <PrivateRoute exact path={PRODUCTS_EDIT} component={EditProduct}/>
+                    <PrivateRoute exact path={PRODUCTS} component={ProductsPage}/>
+                    <PrivateRoute exact path={PRODUCT_PAGE} component={ProductDetailsPage}/>
 
-                <PrivateRoute exact path={NOTIFICATIONS} component={NotificationPage}/>
+                    <PrivateRoute exact path={NOTIFICATIONS} component={NotificationPage}/>
 
-                <PrivateRoute exact path={CHAT_TEMPLATES_CREATE} component={CreateMessageTemplate}/>
-                <PrivateRoute exact path={CHAT_TEMPLATES} component={MessageTemplatePage}/>
-                <PrivateRoute exact path={CHAT} component={ChatWrapper}/>
+                    <PrivateRoute exact path={CHAT_TEMPLATES_CREATE} component={CreateMessageTemplate}/>
+                    <PrivateRoute exact path={CHAT_TEMPLATES} component={MessageTemplatePage}/>
+                    <PrivateRoute exact path={CHAT} component={ChatWrapper}/>
 
-                <Route exact path='/restore-password/:token' component={RestorePassword}/>
-                <Route exact path='/forgot-password' component={ForgotPassword}/>
-
-            </Switch>
-        </BrowserRouter>
+                    <Route exact path='/restore-password/:token' component={RestorePassword}/>
+                    <Route exact path='/forgot-password' component={ForgotPassword}/>
+                </Switch>
+                <CustomModal
+                    open={modal.isOpen}
+                    handleClose={modal.onCloseHandler}
+                    allowBackDropClick={modal.allowBackDropClick}
+                >
+                    {modal.children}
+                </CustomModal>
+                <CustomDialog
+                    title={dialog.title}
+                    isShow={dialog.isShow}
+                    onClose={dialog.onCloseHandler}
+                    closeText={dialog.closeText}
+                    actionText={dialog.actionText}
+                    onAction={dialog.onActionHandler}
+                >
+                    {dialog.children}
+                </CustomDialog>
+            </BrowserRouter>
+        </div>
     );
 };
