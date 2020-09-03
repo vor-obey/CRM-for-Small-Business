@@ -1,34 +1,15 @@
-import React from "react";
-import {call, put, take} from '@redux-saga/core/effects';
-import {addNotification, setIsLoading, setSnackBarStatus} from '../auxiliary/auxiliaryActions';
-import {StorageService, UserService} from '../../../services';
+import {put} from '@redux-saga/core/effects';
+import {setIsLoading, setSnackBarStatus} from '../auxiliary/auxiliaryActions';
+import {RoleService, StorageService, UserService} from '../../../services';
 import {COMMON_ERROR_MESSAGE} from '../../../constants/statuses';
-import GroupIcon from '@material-ui/icons/Group';
 import isEmpty from 'lodash/isEmpty';
 import {
-    addMessage,
     setCurrentUser,
-    setSocketError,
-    setSocket,
-    setIsIgIntegrated,
-    setConnectionToChatStorage, setIsAutoConnectToChat, setNewMessageToThread
 } from './userActions';
-import socketIOClient from 'socket.io-client';
-import {eventChannel} from 'redux-saga';
-import {BASE_URL} from '../../../constants/api_urls';
-import {history} from "../../../utils/history";
-import {select} from "redux-saga/effects";
-import {CHAT} from "../../../constants/routes";
+import {GET_ROLES_FAIL, GET_ROLES_SUCCESS, GET_USERS_FAIL, GET_USERS_SUCCESS} from "./userActionTypes";
+import {getListSaga} from "../helpers/sagaHelpers";
+import {setConnectionToChatStorage, setIsAutoConnectToChat, setIsIgIntegrated} from "../chat/chatActions";
 
-export function connect(organizationId) {
-    const socket = socketIOClient(`${BASE_URL}/`, {query: `roomId=${organizationId}`});
-    return new Promise(resolve => {
-        socket.on('connect', () => {
-            resolve(socket);
-            console.log("Socket connected");
-        });
-    });
-}
 
 export function* login(action) {
     try {
@@ -72,76 +53,5 @@ export function* getCurrentUser() {
     }
 }
 
-export function createEventChannel(socket) {
-    return eventChannel(emitter => {
-        socket.on('getIgProfile', payload => emitter({event: 'ig_profile', payload}));
-        socket.on('message', payload => emitter({event: 'message', payload}));
-        socket.on('getThreads', payload => emitter({event: 'threads', payload}));
-        socket.on('igError', payload => emitter({event: 'igError', payload}));
-        socket.on('initStatus', payload => emitter({event: 'initStatus', payload}));
-        return () => {
-            socket.close();
-        }
-    });
-}
-
-export function sendMessage({payload, socket}) {
-    socket.emit('sendMessage', payload);
-}
-
-export function initializeInstagramChatConnection({socket}) {
-    socket.emit('initChat');
-}
-
-export function setConnectionToChatSaga({value}) {
-    StorageService.setChatConnection(value);
-}
-
-export function* initializeSocketConnection(action) {
-    const socket = yield call(connect, action.organizationId);
-    yield put(setSocket(socket));
-    const channel = yield call(createEventChannel, socket);
-    while (true) {
-        const {event, payload} = yield take(channel);
-        switch (event) {
-            case 'message': {
-                yield put(addMessage(payload));
-                break;
-            }
-            case 'igError': {
-                yield put(setSocketError(payload));
-                break;
-            }
-            default: {
-                break;
-            }
-        }
-    }
-}
-
-const navigateToThread = (thread) => {
-    history.push({
-        pathname: CHAT,
-        thread: thread
-    })
-};
-
-export function* addAndDisplayMessage(payload) {
-    const message = payload.message.message;
-
-    yield put(setNewMessageToThread(message));
-
-    const {threads, igProfile} = yield select(state => state.userReducer);
-    const selectedThread = threads.find(item => item.thread_id === message.thread_id);
-
-    if (message.user_id !== igProfile.pk && selectedThread.users) {
-        yield put(addNotification({
-            icon: selectedThread.users.length > 1 ? <GroupIcon/> : selectedThread.users[0].profile_pic_url,
-            text: message.text,
-            username: selectedThread.thread_title,
-            date: new Date(),
-            status: 'message',
-            onClick: () => navigateToThread(selectedThread)
-        }));
-    }
-}
+export const getUsers = getListSaga(UserService, GET_USERS_SUCCESS, GET_USERS_FAIL);
+export const getRoles = getListSaga(RoleService, GET_ROLES_SUCCESS, GET_ROLES_FAIL);

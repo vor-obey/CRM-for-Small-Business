@@ -5,6 +5,7 @@ import {auxiliaryReducer} from "./auxiliary/auxiliaryReducer";
 import {customerReducer} from "./customer/customerReducer";
 import {orderReducer} from "./order/orderReducer";
 import {productReducer} from "./product/productReducer";
+import {chatReducer} from "./chat/chatReducer";
 
 export const reducers = combineReducers({
     userReducer,
@@ -12,4 +13,5 @@ export const reducers = combineReducers({
     customerReducer,
     orderReducer,
     productReducer,
+    chatReducer,
 });

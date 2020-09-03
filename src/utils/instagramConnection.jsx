@@ -5,21 +5,26 @@ import {setIsLoading, setSnackBarStatus} from '../data/store/auxiliary/auxiliary
 import {
     initIgChatConnection,
     initSocketConnection,
-    setChatInit, setIgProfile,
+    setChatInit,
+    setIgProfile,
     setIsAutoConnectToChat,
-    setIsIgExists, setThreads
-} from '../data/store/user/userActions';
+    setIsIgExists,
+    setThreads
+} from '../data/store/chat/chatActions';
 import isEmpty from 'lodash/isEmpty';
 
 export const InstagramConnection = () => {
     const {
         isIgIntegrated,
-        currentUser,
         isIgExists,
         isAutoConnectToChat,
         chatInit,
         socket
-    } = useSelector(state => state.userReducer);
+    } = useSelector(state => state.chatReducer);
+
+    const {
+        currentUser,
+    } = useSelector( state => state.userReducer)
     const dispatch = useDispatch();
 
     useEffect(() => {

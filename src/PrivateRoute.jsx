@@ -20,6 +20,7 @@ export const PrivateRoute = ({component: Component, ...rest}) => {
 
     const renderComponent = useCallback((props) => {
         const {match} = props;
+        const RouteComponent = Component;
         const role = currentUser.role && currentUser.role.name;
         const enabled = currentUser.organization && currentUser.organization.enabled;
 
@@ -37,10 +38,10 @@ export const PrivateRoute = ({component: Component, ...rest}) => {
         }
 
         if (role && (match.path === '/organizations/:id' || match.path === '/organizations/:id/edit')) {
-            return role === 'Owner' ? <Component {...props} /> : <Redirect to='/'/>;
+            return role === 'Owner' ? <RouteComponent {...props} /> : <Redirect to='/'/>;
         }
 
-        return <Component {...props} />;
+        return <RouteComponent {...props} />;
     }, [Component, currentUser, isAuthenticated]);
 
     return (

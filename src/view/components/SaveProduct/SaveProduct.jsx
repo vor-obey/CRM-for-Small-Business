@@ -169,7 +169,7 @@ export const SaveProduct = ({
             setIsExpanded(true);
         }
         setSelectedAttributeValues({});
-    }, []);
+    }, [dispatch]);
 
     const onProductTypeSelectHandler = useCallback((item) => {
         if (!item) {
@@ -237,7 +237,7 @@ export const SaveProduct = ({
             selectedProductType,
             selectedAttributeValues
         });
-    }, [productDetails, selectedAttributeValues, selectedAbstractProduct, onSave]);
+    }, [selectedProductType, productDetails, selectedAttributeValues, selectedAbstractProduct, onSave]);
 
     const validateAttributeValues = useCallback((arr) => {
         return arr.find(item => item === '');

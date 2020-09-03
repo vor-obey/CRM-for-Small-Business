@@ -2,17 +2,13 @@ import React, {useState} from 'react';
 import {useLocation} from 'react-router-dom';
 
 import {
-    SwipeableDrawer,
     Drawer as MUIDrawer,
-    Button,
-    withStyles
 } from '@material-ui/core';
 
 import HomeIcon from '@material-ui/icons/Home';
 import PeopleIcon from '@material-ui/icons/People';
 import InsertDriveFileIcon from '@material-ui/icons/InsertDriveFile';
 import PlusIcon from '@material-ui/icons/PlusOne';
-import MenuIcon from '@material-ui/icons/Menu';
 import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
 import ChatIcon from '@material-ui/icons/Chat';
 import MessageIcon from "@material-ui/icons/Message";
@@ -145,20 +141,10 @@ const useStyles = makeStyles((theme) => ({
     menuIcon:{},
 }))
 
-function Drawer(props) {
+function Drawer() {
     const classes = useStyles();
-    const [isOpen, setIsOpen] = React.useState(false);
     const [activeSidebar, setActiveSidebar] = useState(null);
     const { pathname } = useLocation();
-
-
-    const toggleDrawer = (open) => event => {
-        if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
-            return;
-        }
-        setIsOpen(open);
-        setActiveSidebar(null);
-    };
 
     const childSidebars = NAVIGATION.reduce((acc, item) => {
         return !item.children ? acc : [...acc, {
@@ -172,14 +158,12 @@ function Drawer(props) {
             paper: classes.navigation
         }}>
             <Sidebar side='left'
-                     toggleDrawer={toggleDrawer}
                      options={NAVIGATION}
                      setActive={setActiveSidebar}
             />
             {childSidebars.map(({ parent, options }) => (
                 <Sidebar side='left'
                          key={parent}
-                         toggleDrawer={toggleDrawer}
                          parent={parent}
                          options={options}
                          setActive={setActiveSidebar}

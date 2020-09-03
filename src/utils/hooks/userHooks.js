@@ -1,9 +1,10 @@
 import {useEffect, useState} from 'react';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {setIsLoading, setSnackBarStatus} from '../../data/store/auxiliary/auxiliaryActions';
 import {RoleService} from '../../services';
 import {COMMON_ERROR_MESSAGE} from '../../constants/statuses';
 import UserService from '../../services/UserService';
+import {getRoles, getUsers} from "../../data/store/user/userActions";
 
 export const useManagers = () => {
     const [managers, setManagers] = useState([]);
@@ -27,6 +28,31 @@ export const useManagers = () => {
 
     return {managers, setManagers, managerLoading};
 };
+
+export const useUsersState = () => {
+    const dispatch = useDispatch();
+    const { users, usersStatus } = useSelector(state => state.userReducer);
+
+    useEffect(() => {
+        if(users.length < 1 && !usersStatus.isLoading && !usersStatus.isSuccess) {
+            dispatch(getUsers());
+        }
+    }, [dispatch, users, usersStatus])
+
+    return { users, usersStatus };
+}
+
+export const useRolesState = () => {
+    const dispatch = useDispatch();
+    const { roles, rolesStatus } = useSelector(state => state.userReducer);
+    useEffect(() => {
+        if(roles.length < 1 && !rolesStatus.isLoading && !rolesStatus.isSuccess) {
+            dispatch(getRoles());
+        }
+    }, [dispatch, roles, rolesStatus])
+
+    return { roles, rolesStatus};
+}
 
 export const useManagerById = (id) => {
     const [managerDetails, setManagerDetails] = useState({});

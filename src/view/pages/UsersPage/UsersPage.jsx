@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react';
+import React, {memo, useCallback, useState} from 'react';
 import {Link} from "react-router-dom";
 import {
     Button,
@@ -15,27 +15,27 @@ import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import {UserListItem} from "./UserListItem/UserListItem";
 import {InputFilter} from "../../components/Filter/InputFilter";
 import {filter} from "../../../utils/helpers";
-import {API_URLS} from '../../../constants/api_urls';
 import {useTranslation} from 'react-i18next';
 import {SelectFilter} from "../../components/Filter/SelectFilter";
-import {useManagers, useRoles} from '../../../utils/hooks/userHooks';
+import { useRolesState, useUsersState } from '../../../utils/hooks/userHooks';
 import {USERS, USERS_CREATE} from "../../../constants/routes";
+import { history } from "../../../utils/history";
 
 const useStyles = makeStyles(usersPageStyle);
 
-export const UsersPage = ({history}) => {
+export const UsersPage = memo(() => {
     const classes = useStyles();
     const {t} = useTranslation('');
-
-    const {managers} = useManagers();
-    const minWidth600 = useMediaQuery('(min-width:600px)');
-    const {roles} = useRoles();
+    const { users } = useUsersState();
+    const { roles } = useRolesState();
     const [inputFilter, setInputFilter] = useState('');
     const [selectedOption, setSelectedOption] = useState('');
 
+    const minWidth600 = useMediaQuery('(min-width:600px)');
+
     const navigateToUserDetails = useCallback((userId) => {
         history.push(`${USERS}/${userId}`)
-    }, [history]);
+    }, []);
 
     const onFilterChangedHandler = useCallback((event) => {
         const {value} = event.target;
@@ -48,14 +48,14 @@ export const UsersPage = ({history}) => {
     }, []);
 
     const filterUsers = useCallback(() => {
-        let filteredUsers = filter(managers, inputFilter);
+        let filteredUsers = filter(users, inputFilter);
 
         if (!selectedOption) {
             return filteredUsers;
         }
 
         return filter(filteredUsers, selectedOption, ['role']);
-    }, [inputFilter, selectedOption, managers]);
+    }, [inputFilter, selectedOption, users]);
 
     const renderSelect = useCallback(() => {
         return (
@@ -70,7 +70,7 @@ export const UsersPage = ({history}) => {
     }, [roles, classes, t, selectedOption, onSelectHandler]);
 
     const renderRows = useCallback(() => {
-        if (!managers || !managers.length) {
+        if (!users || !users.length) {
             return null;
         }
 
@@ -85,7 +85,7 @@ export const UsersPage = ({history}) => {
                 />
             );
         })
-    }, [managers, classes, navigateToUserDetails, filterUsers, minWidth600]);
+    }, [users, classes, navigateToUserDetails, filterUsers, minWidth600]);
 
     return (
         <Container className={classes.root}>
@@ -131,4 +131,4 @@ export const UsersPage = ({history}) => {
             </Grid>
         </Container>
     );
-};
+});

@@ -1,72 +1,41 @@
-import React, {useCallback} from 'react';
-import {Container, Grid, ListItemText, Typography} from '@material-ui/core';
+import React from 'react';
+import {Container, Typography} from '@material-ui/core';
 import List from '@material-ui/core/List';
 import isEmpty from 'lodash/isEmpty';
 import ListItem from '@material-ui/core/ListItem';
 import Button from '@material-ui/core/Button';
-import Divider from '@material-ui/core/Divider';
-import {useProducts} from '../../../utils/hooks/productHooks';
+import {useProductsState} from '../../../utils/hooks/productHooks';
 import {useTranslation} from "react-i18next";
-import {Link} from "react-router-dom";
-import {PRODUCTS, PRODUCTS_CREATE} from "../../../constants/routes";
+import {PRODUCTS_CREATE} from "../../../constants/routes";
+import {ProductListItem} from "./ProductListItem";
+import {makeStyles} from "@material-ui/styles";
 
+const useStyles = makeStyles((theme) => ({
+    root: {
+        marginTop: 50
+    },
+    listItem : {
+        justifyContent: 'center'
+    },
+    createButton: {
+        marginTop: 20
+    }
+}))
 export const ProductsPage = ({history}) => {
     const {t} = useTranslation();
-    const {products, loading} = useProducts();
+    const classes = useStyles();
+    const { products, productsStatus } = useProductsState();
 
-    const renderProducts = useCallback(() => {
-        if (isEmpty(products)) {
-            return null;
-        }
-
-        return products.map((product) => {
-            const {productId, name, price} = product;
-            return (
-                <React.Fragment key={productId}>
-                    <ListItem onClick={() => history.push(`${PRODUCTS}/${productId}`)} style={{cursor: 'pointer'}}>
-                        <ListItemText
-                            primary={name}
-                            secondary={`Price: ${price}`}
-                        />
-                    </ListItem>
-                    <Divider/>
-                </React.Fragment>
-            );
-        });
-    }, [products, history]);
-
-    if (isEmpty(products) && !loading) {
-        return (
-            <Grid container spacing={0}
-                  direction="column"
-                  alignItems="center"
-                  justify="center"
-                  style={{minHeight: 'calc(100vh - 64px)'}}>
-                <Grid container item xs={8} sm={2} style={{flexDirection: 'column', textAlign: 'center'}}>
-                    <Typography variant='h5' style={{paddingBottom: 18}}>{t('NO_NEW_PRODUCTS')}</Typography>
-                    <Button
-                        type='submit'
-                        variant="outlined"
-                        color="primary"
-                        component={Link}
-                        to={PRODUCTS_CREATE}
-                    >
-                        {t('CREATE')}
-                    </Button>
-                </Grid>
-            </Grid>
-        );
-    }
     return (
-        <Container maxWidth='lg' style={{marginTop: 50}}>
+        <Container maxWidth='lg' className={classes.root}>
             <List>
-                {renderProducts()}
+                { (isEmpty(products) || productsStatus.isLoading) && <Placeholder /> }
+                { products.map((product) => <ProductListItem key={product.productId} product={product} /> )}
             </List>
-            <ListItem style={{justifyContent: 'center'}}
-            >
+            <ListItem className={classes.listItem} >
                 <Button
                     variant='outlined'
-                    style={{marginTop: 20}}
+                    className={classes.createButton}
                     onClick={() => history.push(PRODUCTS_CREATE)}
                 >
                     {t('CREATE')}
@@ -75,3 +44,13 @@ export const ProductsPage = ({history}) => {
         </Container>
     );
 };
+
+const Placeholder = () => {
+    const {t} = useTranslation();
+    const classes = useStyles();
+    return (
+        <ListItem className={classes.listItem}>
+            <Typography variant='h5'>{t('NO_NEW_PRODUCTS')}</Typography>
+        </ListItem>
+    )
+}

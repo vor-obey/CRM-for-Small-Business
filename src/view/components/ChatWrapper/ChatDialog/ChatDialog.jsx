@@ -9,7 +9,7 @@ import {TextField} from '@material-ui/core';
 import KeyboardReturnIcon from '@material-ui/icons/KeyboardReturn';
 import IconButton from '@material-ui/core/IconButton';
 import {useDispatch, useSelector} from 'react-redux';
-import {sendMessage} from '../../../../data/store/user/userActions';
+import {sendMessage} from '../../../../data/store/chat/chatActions';
 import moment from 'moment';
 import List from '@material-ui/core/List';
 import Grid from "@material-ui/core/Grid";
@@ -37,7 +37,7 @@ export const ChatDialog = ({
     const profile_pic_url = users[0] ? users[0].profile_pic_url : inviter.profile_pic_url;
     const dispatch = useDispatch();
     const [text, setText] = useState('');
-    const {socket} = useSelector(state => state.userReducer);
+    const {socket} = useSelector(state => state.chatReducer);
     const messagesEndRef = useRef(null);
 
     useEffect(() => {

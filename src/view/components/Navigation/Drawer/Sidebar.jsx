@@ -1,7 +1,6 @@
+import React from 'react';
 import {List, ListItem, ListItemIcon, ListItemText} from '@material-ui/core';
 import {Link} from 'react-router-dom';
-import React, {useEffect, useMemo, useState} from 'react';
-import { useLocation } from 'react-router';
 import {makeStyles} from '@material-ui/styles';
 import {useTranslation} from 'react-i18next';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
@@ -71,7 +70,7 @@ const useStyles = makeStyles(((theme) => ({
     }
 })))
 
-export const Sidebar = ({ toggleDrawer, options, parent, setActive, isActive }) => {
+export const Sidebar = ({ options, parent, setActive, isActive }) => {
     const {t} = useTranslation('');
     const classes = useStyles();
 
@@ -85,7 +84,6 @@ export const Sidebar = ({ toggleDrawer, options, parent, setActive, isActive }) 
                 }
             )}
             role='presentation'
-            onKeyDown={toggleDrawer(false)}
         >
             <List className={classes.list}>
                 { parent && (
@@ -111,7 +109,6 @@ export const Sidebar = ({ toggleDrawer, options, parent, setActive, isActive }) 
                         key={to}
                         className={classes.menuItem}
                         button
-                        onClick={toggleDrawer(false)}
                         component={Link}
                         to={to}>
                         <ListItemIcon className={classes.menuIcon}>

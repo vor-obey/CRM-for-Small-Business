@@ -1,6 +1,6 @@
 import React, {useCallback} from 'react';
 import {useDispatch} from 'react-redux';
-import {Paper, Typography, Container, Grid, makeStyles, Fab, ListItem, ListItemText, ListItemIcon} from "@material-ui/core";
+import {Paper, Typography, Container, Grid, makeStyles, Fab} from "@material-ui/core";
 import {useParams} from "react-router-dom";
 import {
     closeDialog,
@@ -15,7 +15,6 @@ import {useProductDetailsById, useProducts} from '../../../utils/hooks/productHo
 import {productDetailsPageStyles} from "./ProductDetailsPage.Style";
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from "@material-ui/icons/Edit";
-import AssignmentOutlinedIcon from '@material-ui/icons/AssignmentOutlined';
 import {useCart, useEditCart} from "../../../utils/hooks/cartHooks";
 import {PRODUCTS} from "../../../constants/routes";
 

@@ -5,7 +5,7 @@ import {Chat} from './Chat/Chat';
 import {useDispatch, useSelector} from 'react-redux';
 import isEmpty from 'lodash/isEmpty';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import {setIsAutoConnectToChat, setConnectionToChatStorage} from '../../../data/store/user/userActions';
+import {setIsAutoConnectToChat, setConnectionToChatStorage} from '../../../data/store/chat/chatActions';
 import {useTranslation} from "react-i18next";
 
 const useStyles = makeStyles(chatWrapperStyles);
@@ -13,7 +13,7 @@ const useStyles = makeStyles(chatWrapperStyles);
 export const ChatWrapper = ({history}) => {
     const {t} = useTranslation('');
     const classes = useStyles();
-    const {isIgIntegrated, currentUser, isAutoConnectToChat} = useSelector(state => state.userReducer);
+    const {chatReducer: { isIgIntegrated, isAutoConnectToChat }, userReducer: { currentUser }} = useSelector(state => state);
     const {isLoading} = useSelector(state => state.auxiliaryReducer);
     const dispatch = useDispatch();
 

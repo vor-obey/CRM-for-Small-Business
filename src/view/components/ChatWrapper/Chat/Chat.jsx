@@ -36,7 +36,7 @@ export const Chat = ({
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [selectedThread, setSelectedThread] = useState({});
     const minWidth769 = useMediaQuery('(min-width:769px)');
-    const {threads, igProfile} = useSelector(state => state.userReducer);
+    const {threads, igProfile} = useSelector(state => state.chatReducer);
     const [drawerMobileOpen, setDrawerMobileOpen] = useState(false);
     const [templateContent, setTemplateContent] = useState('');
     const [drawerIcons, setDrawerIcons] = useState([

@@ -22,8 +22,6 @@ export const PRODUCT_TEMPLATES_PAGE = `${PRODUCT_TEMPLATES}/:id`
 export const PRODUCT_TEMPLATES_CREATE = `${PRODUCT_TEMPLATES}/create`
 export const PRODUCT_TEMPLATES_EDIT = `${PRODUCT_TEMPLATES}/:id/edit`
 
-console.log(PRODUCT_TEMPLATES_PAGE, PRODUCT_TEMPLATES_CREATE)
-
 export const CUSTOMERS = '/customers'
 export const CUSTOMER_PAGE = `${CUSTOMERS}/:id`;
 export const CUSTOMERS_CREATE = `${CUSTOMERS}/create`

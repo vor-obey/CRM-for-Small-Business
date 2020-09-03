@@ -16,7 +16,7 @@ import {Graph} from '../../components/Graph/Graph'
 import {useTranslation} from "react-i18next";
 import {useOrders} from '../../../utils/hooks/orderHooks';
 import {useDispatch} from 'react-redux';
-import {openChatWidget} from '../../../data/store/user/userActions';
+import {openChatWidget} from '../../../data/store/chat/chatActions';
 import {ORDERS} from "../../../constants/routes";
 
 const useStyles = makeStyles(HomeStyles);

@@ -12,7 +12,6 @@ import {
 import {customersPageStyle} from "./CustomersPage.style";
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import {CustomerListItem} from "./CustomerListItem/CustomerListItem";
-import {API_URLS} from "../../../constants/api_urls";
 import {InputFilter} from "../../components/Filter/InputFilter";
 import {filter} from "../../../utils/helpers";
 import {useTranslation} from "react-i18next";

@@ -1,129 +1,61 @@
 import {
-    CLOSE_CHAT_WIDGET,
-    DELETE_IG_INTEGRATION,
     GET_CURRENT_USER_SUCCESS,
-    OPEN_CHAT_WIDGET,
-    SET_CHAT_INIT,
-    SET_IG_PROFILE,
-    SET_IS_AUTO_CONNECT_TO_CHAT,
-    SET_IS_IG_EXISTS,
-    SET_IS_IG_INTEGRATED, SET_NEW_MESSAGE_TO_THREAD,
-    SET_SOCKET,
-    SET_SOCKET_ERROR,
-    SET_THREADS
+    GET_ROLES,
+    GET_ROLES_FAIL,
+    GET_ROLES_SUCCESS,
+    GET_USERS,
+    GET_USERS_FAIL,
+    GET_USERS_SUCCESS,
 } from "./userActionTypes";
+import {AsyncState} from "../helpers/reduxHelpers";
 
 const initialState = {
     currentUser: {},
-    isIgIntegrated: false,
-    isIgExists: false,
-    isAutoConnectToChat: false,
-    chatInit: false,
-    igProfile: null,
-    isChatWidgetOpened: false,
-    threads: [],
-    error: null,
-    socket: null,
-};
-
-export const refreshThreads = (action, threads) => {
-    const messageEvent = action.payload;
-    const threadIndex = threads.findIndex(item => item.thread_id === messageEvent.thread_id);
-    const threadToMove = threads.splice(threadIndex, 1)[0];
-    threadToMove.last_permanent_item = messageEvent;
-    threadToMove.items.push(messageEvent);
-    return [threadToMove, ...threads];
+    users: [],
+    usersStatus: new AsyncState(),
+    roles: [],
+    rolesStatus: new AsyncState(),
 };
 
 export const userReducer = (state = initialState, action) => {
     switch (action.type) {
-        case SET_SOCKET: {
-            return {
-                ...state,
-                socket: action.socket
-            };
-        }
         case GET_CURRENT_USER_SUCCESS: {
             return {
                 ...state,
                 currentUser: action.currentUser
             };
         }
-        case SET_SOCKET_ERROR: {
+        case GET_USERS:
             return {
                 ...state,
-                error: action.payload
+                usersStatus: new AsyncState(true, false, false)
             }
-        }
-        case SET_IG_PROFILE: {
+        case GET_USERS_SUCCESS:
             return {
                 ...state,
-                igProfile: action.igProfile
+                users: action.payload,
+                usersStatus: new AsyncState(false, true, false)
             }
-        }
-        case SET_NEW_MESSAGE_TO_THREAD: {
-            const newThreads = refreshThreads(action, state.threads);
+        case GET_USERS_FAIL:
             return {
                 ...state,
-                threads: newThreads,
+                usersStatus: new AsyncState(false, false, true)
             }
-        }
-        case SET_THREADS: {
+        case GET_ROLES:
             return {
                 ...state,
-                threads: action.threads
+                rolesStatus: new AsyncState(true, false, false)
             }
-        }
-        case OPEN_CHAT_WIDGET: {
-            return {
+        case GET_ROLES_SUCCESS:
+            return  {
                 ...state,
-                isChatWidgetOpened: true
+                roles: action.payload
             }
-        }
-        case CLOSE_CHAT_WIDGET: {
-            return {
+        case GET_ROLES_FAIL:
+            return  {
                 ...state,
-                isChatWidgetOpened: false
+                rolesStatus: new AsyncState(false, false, true)
             }
-        }
-        case SET_IS_IG_INTEGRATED: {
-            return {
-                ...state,
-                isIgIntegrated: action.value
-            }
-        }
-        case SET_IS_IG_EXISTS: {
-            return {
-                ...state,
-                isIgExists: action.value
-            }
-        }
-        case SET_IS_AUTO_CONNECT_TO_CHAT: {
-            return {
-                ...state,
-                isAutoConnectToChat: action.value
-            }
-        }
-        case SET_CHAT_INIT: {
-            return {
-                ...state,
-                chatInit: action.value
-            }
-        }
-        case DELETE_IG_INTEGRATION: {
-            return {
-                ...state,
-                isIgIntegrated: false,
-                isIgExists: false,
-                isAutoConnectToChat: false,
-                chatInit: false,
-                igProfile: null,
-                messages: [],
-                threads: [],
-                error: null,
-                socket: null
-            }
-        }
         default: {
             return state;
         }

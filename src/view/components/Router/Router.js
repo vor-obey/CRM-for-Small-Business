@@ -19,7 +19,6 @@ import {getCurrentUser} from "../../../data/store/user/userActions";
 import {ForgotPassword} from "../../pages/ForgotPassword/ForgotPassword";
 import {OrdersPage} from "../../pages/OrdersPage/OrdersPage";
 import {OrderDetailsPage} from "../../pages/OrderDetailsPage/OrderDetailsPage";
-import {history} from "../../../utils/history";
 import {CreateOrderPage} from "../../pages/CreateOrderPage/CreateOrderPage";
 import {CreateOrganization} from "../../pages/CreateOrganization/CreateOrganization";
 import {EditUser} from '../../pages/EditUser/EditUser';
@@ -73,7 +72,6 @@ import {
     USERS_EDIT
 } from "../../../constants/routes";
 import Drawer from "../Navigation/Drawer/Drawer";
-import {Toolbar} from "@material-ui/core";
 import {makeStyles} from "@material-ui/styles";
 
 const useStyles = makeStyles((theme) => ({
@@ -104,7 +102,7 @@ export const Routing = () => {
 
     return (
         <div className={classes.root}>
-            <BrowserRouter history={history}>
+            <BrowserRouter>
                 <Drawer/>
 
                 <Header/>

@@ -1,7 +1,8 @@
 import {useEffect, useState} from 'react';
 import {setIsLoading, setSnackBarStatus} from '../../data/store/auxiliary/auxiliaryActions';
 import {AbstractProductService, AttributeService, ProductService, ProductTypeService} from '../../services';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
+import {getProducts} from "../../data/store/product/productActions";
 
 export const useProductTypes = () => {
     const dispatch = useDispatch();
@@ -123,6 +124,20 @@ export const useProductDetailsById = (id) => {
     return {productDetails, setProductDetails};
 };
 
+export const useProductsState = () => {
+    const dispatch = useDispatch();
+    const { products, productsStatus } = useSelector(state => state.productReducer);
+
+    useEffect(() => {
+        if (products.length < 1 && !productsStatus.isSuccess && !productsStatus.isLoading) {
+            dispatch(getProducts())
+        }
+    }, [dispatch, products, productsStatus])
+
+    return { products, productsStatus };
+};
+
+
 export const useProducts = () => {
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(false);
@@ -140,7 +155,7 @@ export const useProducts = () => {
                 dispatch(setSnackBarStatus({isOpen: true, message: e.message, success: false}));
             }
         };
-        fetchProducts();
+        fetchProducts().then(() => {});
     }, [dispatch]);
 
     return {products, setProducts, loading};

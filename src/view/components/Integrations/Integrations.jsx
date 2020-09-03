@@ -18,7 +18,6 @@ import AddIcon from '@material-ui/icons/Add';
 import {CreateIntegration} from '../CreateIntegration/CreateIntegration';
 import IntegrationService from '../../../services/IntegrationService';
 import {
-    deleteIgIntegration,
     getCurrentUser,
 } from '../../../data/store/user/userActions';
 import InstagramIcon from '@material-ui/icons/Instagram';
@@ -27,6 +26,7 @@ import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import IconButton from '@material-ui/core/IconButton';
 import RemoveIcon from '@material-ui/icons/Remove';
 import {useTranslation} from 'react-i18next';
+import {deleteIgIntegration} from "../../../data/store/chat/chatActions";
 
 export const Integrations = ({
                                  classes,
