@@ -112,6 +112,7 @@ export const Chat = ({
         setIsDialogOpen(!isDialogOpen);
     }, [isDialogOpen]);
 
+    //TODO вынести в компонент
     const renderThreads = useCallback(() => {
         if (!threads.length) {
             return null;

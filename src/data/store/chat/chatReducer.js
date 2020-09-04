@@ -27,6 +27,10 @@ const initialState = {
 export const refreshThreads = (action, threads) => {
     const messageEvent = action.payload;
     const threadIndex = threads.findIndex(item => item.thread_id === messageEvent.thread_id);
+    /* TODO
+    вот тут то и бага, если сообщение в треде, которого нет на клиенте, то оно вернёт инднкс
+    -1, и splice вытащит последний тред из массива
+     */
     const threadToMove = threads.splice(threadIndex, 1)[0];
     threadToMove.last_permanent_item = messageEvent;
     threadToMove.items.push(messageEvent);
