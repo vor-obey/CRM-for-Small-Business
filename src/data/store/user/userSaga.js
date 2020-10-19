@@ -6,10 +6,23 @@ import isEmpty from 'lodash/isEmpty';
 import {
     setCurrentUser,
 } from './userActions';
-import {GET_ROLES_FAIL, GET_ROLES_SUCCESS, GET_USERS_FAIL, GET_USERS_SUCCESS} from "./userActionTypes";
+import {
+    CREATE_USER_FAIL,
+    CREATE_USER_SUCCESS,
+    DELETE_USER_FAIL,
+    DELETE_USER_SUCCESS,
+    GET_ROLES_FAIL,
+    GET_ROLES_SUCCESS,
+    GET_USER_BY_ID_FAIL,
+    GET_USER_BY_ID_SUCCESS,
+    GET_USERS_FAIL,
+    GET_USERS_SUCCESS,
+    UPDATE_USER_FAIL,
+    UPDATE_USER_SUCCESS
+} from "./userActionTypes";
 import {getListSaga} from "../helpers/sagaHelpers";
 import {setConnectionToChatStorage, setIsAutoConnectToChat, setIsIgIntegrated} from "../chat/chatActions";
-
+import {history} from "../../../utils/history";
 
 export function* login(action) {
     try {
@@ -19,15 +32,15 @@ export function* login(action) {
             StorageService.setJWTToken(response.accessToken);
             yield put(setConnectionToChatStorage(false));
             yield put(setIsAutoConnectToChat(false));
-            yield put(setIsLoading(false));
             yield* getCurrentUser();
         } else {
-            yield put(setIsLoading(false));
             yield put(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE, success: false}))
         }
     } catch (e) {
-        yield put(setIsLoading(false));
         yield put(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE, success: false}))
+    }
+    finally {
+        yield put(setIsLoading(false));
     }
 }
 
@@ -42,14 +55,75 @@ export function* getCurrentUser() {
                 .find(integration => integration.type === 'instagram');
             yield put(setIsIgIntegrated(integration));
 
-            yield put(setIsLoading(false));
         } else {
-            yield put(setIsLoading(false));
             yield put(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE, success: false}))
         }
     } catch (e) {
-        yield put(setIsLoading(false));
         yield put(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE, success: false}))
+    }
+    finally {
+        yield put(setIsLoading(false));
+    }
+}
+
+export function* getUserById(action) {
+    try {
+        yield put(setIsLoading(true));
+        const response = yield UserService.findOneById(action.payload);
+        yield put({type: GET_USER_BY_ID_SUCCESS, payload: response})
+    }
+    catch (e) {
+        yield put({type: GET_USER_BY_ID_FAIL})
+        yield put(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE, success: false}))
+    } finally {
+        yield put(setIsLoading(false));
+    }
+}
+
+export function* updateUser(action) {
+    const {roleId, ...user} = action.payload.userInput;
+    try {
+        yield put(setIsLoading(true));
+        yield UserService.update({ ...user, roleId});
+        yield put({type: UPDATE_USER_SUCCESS, payload: action.payload});
+        history.goBack();
+        }
+    catch (e) {
+        yield put({type: UPDATE_USER_FAIL})
+        yield put(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE, success: false}))
+    }
+    finally {
+        yield put(setIsLoading(false));
+    }
+}
+
+export function* deleteUser(action){
+    try {
+        yield put(setIsLoading(true));
+        yield UserService.delete(action.payload);
+        yield put({type: DELETE_USER_SUCCESS, payload: action.payload});
+        history.goBack();
+    } catch (e) {
+        yield put({type: DELETE_USER_FAIL})
+        yield put(setSnackBarStatus({isOpen: true, message: e.message, success: false}));
+    }
+    finally {
+        yield put(setIsLoading(false));
+    }
+}
+
+export function* createUser(action){
+    const {confirmPassword, ...user} = action.payload;
+    try {
+        yield put(setIsLoading(true));
+        const response =  yield UserService.create(user);
+        yield put({type: CREATE_USER_SUCCESS, payload: response})
+        history.goBack()
+    } catch (e) {
+        yield put({type: CREATE_USER_FAIL})
+        yield put(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE, success: false}))
+    } finally {
+        yield put(setIsLoading(false));
     }
 }
 

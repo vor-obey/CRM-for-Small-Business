@@ -5,10 +5,13 @@ import * as userSaga from './user/userSaga';
 import * as productsSaga from './product/productsSaga';
 
 import {
+    CREATE_USER,
+    DELETE_USER,
     GET_CURRENT_USER,
     GET_ROLES,
+    GET_USER_BY_ID,
     GET_USERS,
-    LOGIN,
+    LOGIN, UPDATE_USER,
 } from './user/userActionTypes';
 
 import {
@@ -27,7 +30,10 @@ export function* rootSaga() {
 
     yield takeLatest(GET_USERS, userSaga.getUsers);
     yield takeLatest(GET_ROLES, userSaga.getRoles);
-
+    yield takeLatest(GET_USER_BY_ID, userSaga.getUserById);
+    yield takeLatest(UPDATE_USER, userSaga.updateUser);
+    yield takeLatest(DELETE_USER, userSaga.deleteUser);
+    yield takeLatest(CREATE_USER, userSaga.createUser);
 
     yield takeEvery(INITIALIZE_SOCKET_CONNECTION, chatSaga.initializeSocketConnection);
     yield takeEvery(INITIALIZE_IG_CHAT_CONNECTION, chatSaga.initializeInstagramChatConnection);

@@ -141,7 +141,7 @@ const useStyles = makeStyles((theme) => ({
     menuIcon:{},
 }))
 
-function Drawer() {
+const Drawer = () => {
     const classes = useStyles();
     const [activeSidebar, setActiveSidebar] = useState(null);
     const { pathname } = useLocation();

@@ -4,7 +4,7 @@ import {setIsLoading, setSnackBarStatus} from '../../data/store/auxiliary/auxili
 import {RoleService} from '../../services';
 import {COMMON_ERROR_MESSAGE} from '../../constants/statuses';
 import UserService from '../../services/UserService';
-import {getRoles, getUsers} from "../../data/store/user/userActions";
+import {getRoles, getUserById, getUsers} from "../../data/store/user/userActions";
 
 export const useManagers = () => {
     const [managers, setManagers] = useState([]);
@@ -26,7 +26,7 @@ export const useManagers = () => {
         fetchManagers();
     }, [dispatch]);
 
-    return {managers, setManagers, managerLoading};
+    return { managers, setManagers, managerLoading };
 };
 
 export const useUsersState = () => {
@@ -34,7 +34,7 @@ export const useUsersState = () => {
     const { users, usersStatus } = useSelector(state => state.userReducer);
 
     useEffect(() => {
-        if(users.length < 1 && !usersStatus.isLoading && !usersStatus.isSuccess) {
+        if(!users.length && !usersStatus.isLoading && !usersStatus.isSuccess) {
             dispatch(getUsers());
         }
     }, [dispatch, users, usersStatus])
@@ -46,34 +46,34 @@ export const useRolesState = () => {
     const dispatch = useDispatch();
     const { roles, rolesStatus } = useSelector(state => state.userReducer);
     useEffect(() => {
-        if(roles.length < 1 && !rolesStatus.isLoading && !rolesStatus.isSuccess) {
+        if(!roles.length && !rolesStatus.isLoading && !rolesStatus.isSuccess) {
             dispatch(getRoles());
         }
     }, [dispatch, roles, rolesStatus])
 
-    return { roles, rolesStatus};
+    return { roles, rolesStatus };
 }
 
 export const useManagerById = (id) => {
-    const [managerDetails, setManagerDetails] = useState({});
     const dispatch = useDispatch();
+    const userDetails = useSelector(state => state.userReducer.userDetails)
 
     useEffect(() => {
-        const fetchUserById = async () => {
-            try {
-                dispatch(setIsLoading(true));
-                const response = await UserService.findOneById(id);
-                setManagerDetails(response);
-                dispatch(setIsLoading(false));
-            } catch (e) {
-                dispatch(setIsLoading(false));
-                dispatch(setSnackBarStatus({isOpen: true, message: e.message, success: false}))
-            }
-        };
-        fetchUserById();
-    }, [id, dispatch]);
+        if(!userDetails || id !== userDetails.userId) {
+            const fetchUserById = async () => {
+                try {
+                    await dispatch(getUserById(id));
+                } catch (e) {
+                    dispatch(setIsLoading(false));
+                    dispatch(setSnackBarStatus({isOpen: true, message: e.message, success: false}))
+                }
+            };
+            fetchUserById();
+        }
 
-    return {managerDetails, setManagerDetails};
+    }, [id, userDetails, dispatch]);
+
+    return { userDetails };
 };
 
 export const useRoles = () => {
@@ -95,5 +95,5 @@ export const useRoles = () => {
         fetchRoles();
     }, [dispatch]);
 
-    return {roles, setRoles};
+    return { roles, setRoles };
 };

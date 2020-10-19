@@ -7,7 +7,7 @@ import {
     Fab,
     Grid,
 } from "@material-ui/core";
-import {customerDetailsStyle} from "../CustomerDetailsPage/CustomerDetailsPage.style.js";
+import {customerDetailsStyle} from "./CustomerDetailsPage.style";
 import {useDispatch} from "react-redux";
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -45,7 +45,6 @@ export const CustomerDetailsPage = ({history}) => {
                 dispatch(setIsLoading(false))
             }
         } catch (e) {
-            dispatch(setIsLoading(false));
             dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE}))
         }
 

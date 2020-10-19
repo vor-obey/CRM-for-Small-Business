@@ -35,7 +35,6 @@ export const SaveUserForm = ({
         confirmPassword: '',
     });
 
-
     const [showPassword, setShowPassword] = useState(false);
 
     useEffect(() => {

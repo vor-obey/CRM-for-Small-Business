@@ -1,4 +1,4 @@
-import React, {useState, useCallback} from "react";
+import React, {useState, useCallback, useEffect} from "react";
 
 import {
     Paper,
@@ -8,63 +8,54 @@ import {
     Fab,
     Grid,
 } from "@material-ui/core";
-import {userDetailsStyle} from "../UserDetailsPage/UserDetailsPage.style.js";
+import {userDetailsStyle} from "./UserDetailsPage.style";
 import {useDispatch} from "react-redux";
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import {CustomDialog} from '../../components/CustomDialog/CustomDialog';
 import {useParams} from 'react-router-dom';
-import {UserService} from "../../../services";
 import {isEmpty} from 'lodash';
 import {UserDetails} from './UserDetails/UserDetails';
-import {setIsLoading, setSnackBarStatus} from "../../../data/store/auxiliary/auxiliaryActions";
 import {useTranslation} from "react-i18next";
 import {useManagerById} from '../../../utils/hooks/userHooks';
 import {USERS} from "../../../constants/routes";
+import {cleanUserDetails, deleteUser} from "../../../data/store/user/userActions";
 
 const useStyles = makeStyles(userDetailsStyle);
 
 export const UserDetailsPage = ({history}) => {
-
     const dispatch = useDispatch();
     const {id} = useParams();
     const classes = useStyles();
     const [isShow, setIsShow] = useState(false);
-    const {managerDetails} = useManagerById(id);
+    const {userDetails} = useManagerById(id);
     const {t} = useTranslation('');
+
+    useEffect(() => {
+        return () => {
+            dispatch(cleanUserDetails());
+        }
+    }, [dispatch]);
+
+    const onDeleteUser = useCallback(() => {
+        dispatch(deleteUser(id));
+    }, [dispatch, id]);
 
     const handleOpenDialog = useCallback(() => {
         setIsShow(prevState => !prevState);
     }, []);
 
-    const handleClickDeleteUser = useCallback(async () => {
-        try {
-            dispatch(setIsLoading(true));
-            const response = await UserService.delete(id);
-            if (response.success) {
-                dispatch(setIsLoading(false));
-                history.push(USERS);
-            } else {
-                dispatch(setIsLoading(false));
-                dispatch(setSnackBarStatus({isOpen: true, message: response.message, success: false}));
-            }
-        } catch (e) {
-            dispatch(setIsLoading(false));
-            dispatch(setSnackBarStatus({isOpen: true, message: e.message, success: false}));
-        }
-    }, [dispatch, id, history]);
-
     const handleClickEdit = useCallback(() => {
-        history.push(`${id}/edit`);
+        history.push(`${USERS}/${id}/edit`);
     }, [id, history]);
 
-
     const renderUserDetails = useCallback(() => {
-        if (isEmpty(managerDetails)) {
+        if (isEmpty(userDetails)) {
             return null;
         }
-        return <UserDetails userDetails={managerDetails} classes={classes}/>
-    }, [classes, managerDetails]);
+
+        return <UserDetails userDetails={userDetails} classes={classes}/>
+    }, [classes, userDetails]);
 
     return (
         <Container component="main" className={classes.userDetailsContainer}>
@@ -105,7 +96,7 @@ export const UserDetailsPage = ({history}) => {
                 onClose={handleOpenDialog}
                 closeText={t('DISAGREE')}
                 actionText={t('AGREE')}
-                onAction={handleClickDeleteUser}
+                onAction={onDeleteUser}
             />
         </Container>
     );

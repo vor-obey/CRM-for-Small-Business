@@ -19,11 +19,10 @@ import {useTranslation} from 'react-i18next';
 import {SelectFilter} from "../../components/Filter/SelectFilter";
 import { useRolesState, useUsersState } from '../../../utils/hooks/userHooks';
 import {USERS, USERS_CREATE} from "../../../constants/routes";
-import { history } from "../../../utils/history";
 
 const useStyles = makeStyles(usersPageStyle);
 
-export const UsersPage = memo(() => {
+export const UsersPage = memo(({history}) => {
     const classes = useStyles();
     const {t} = useTranslation('');
     const { users } = useUsersState();
@@ -35,7 +34,7 @@ export const UsersPage = memo(() => {
 
     const navigateToUserDetails = useCallback((userId) => {
         history.push(`${USERS}/${userId}`)
-    }, []);
+    }, [history]);
 
     const onFilterChangedHandler = useCallback((event) => {
         const {value} = event.target;

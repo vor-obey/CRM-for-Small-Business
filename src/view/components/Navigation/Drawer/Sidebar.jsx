@@ -8,7 +8,7 @@ import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import cx from 'clsx';
 import Divider from "@material-ui/core/Divider";
 
-const useStyles = makeStyles(((theme) => ({
+const useStyles = makeStyles((theme) => ({
     root: {
         width: '100%',
         height: '100%',
@@ -68,7 +68,7 @@ const useStyles = makeStyles(((theme) => ({
             height: 15
         }
     }
-})))
+}))
 
 export const Sidebar = ({ options, parent, setActive, isActive }) => {
     const {t} = useTranslation('');
