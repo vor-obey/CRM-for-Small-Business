@@ -4,14 +4,13 @@ import {getCustomerById, getCustomers, getSources} from "../../data/store/custom
 
 export const useCustomers = () => {
     const dispatch = useDispatch();
-    const customers = useSelector(state => state.customerReducer.customers)
-    const customersStatus = useSelector(state => state.customerReducer.customerStatus)
+    const customers = useSelector(state => state.customerReducer.customers);
+    const customersStatus = useSelector(state => state.customerReducer.customerStatus);
 
     useEffect(() => {
         if(customers.length < 1 && !customersStatus.isLoading && !customersStatus.isSuccess) {
                  dispatch(getCustomers())
         }
-
     }, [dispatch, customers, customersStatus.isLoading, customersStatus.isSuccess]);
 
     return {customers};
@@ -19,7 +18,7 @@ export const useCustomers = () => {
 
 export const useCustomerById = (id) => {
     const dispatch = useDispatch();
-    const customerDetails = useSelector(state => state.customerReducer.customerDetails)
+    const customerDetails = useSelector(state => state.customerReducer.customerDetails);
 
     useEffect(() => {
         if(!customerDetails || customerDetails.customerId !== id){
