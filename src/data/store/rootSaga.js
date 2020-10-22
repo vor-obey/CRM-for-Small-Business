@@ -3,6 +3,7 @@ import {takeEvery, takeLatest} from '@redux-saga/core/effects';
 import * as chatSaga from './chat/chatSaga';
 import * as userSaga from './user/userSaga';
 import * as productsSaga from './product/productsSaga';
+import * as customerSaga from './customer/customerSaga';
 
 import {
     CREATE_USER,
@@ -23,6 +24,13 @@ import {
 } from './chat/chatActionTypes'
 
 import {GET_PRODUCTS} from "./product/productActionTypes";
+import {
+    CREATE_CUSTOMER,
+    DELETE_CUSTOMER,
+    GET_CUSTOMER_BY_ID,
+    GET_CUSTOMERS, GET_SOURCES,
+    UPDATE_CUSTOMER
+} from "./customer/customerActionTypes";
 
 export function* rootSaga() {
     yield takeLatest(LOGIN, userSaga.login);
@@ -34,6 +42,13 @@ export function* rootSaga() {
     yield takeLatest(UPDATE_USER, userSaga.updateUser);
     yield takeLatest(DELETE_USER, userSaga.deleteUser);
     yield takeLatest(CREATE_USER, userSaga.createUser);
+
+    yield takeLatest(CREATE_CUSTOMER, customerSaga.createCustomer);
+    yield takeLatest(GET_CUSTOMERS, customerSaga.getCustomers);
+    yield takeLatest(DELETE_CUSTOMER, customerSaga.deleteCustomer);
+    yield takeLatest(GET_CUSTOMER_BY_ID, customerSaga.getCustomerById);
+    yield takeLatest(UPDATE_CUSTOMER, customerSaga.updateCustomer);
+    yield takeLatest(GET_SOURCES, customerSaga.getSources);
 
     yield takeEvery(INITIALIZE_SOCKET_CONNECTION, chatSaga.initializeSocketConnection);
     yield takeEvery(INITIALIZE_IG_CHAT_CONNECTION, chatSaga.initializeInstagramChatConnection);

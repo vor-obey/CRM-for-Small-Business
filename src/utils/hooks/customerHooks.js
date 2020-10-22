@@ -1,71 +1,44 @@
-import {useEffect, useState} from 'react';
-import {useDispatch} from 'react-redux';
-import {setIsLoading, setSnackBarStatus} from '../../data/store/auxiliary/auxiliaryActions';
-import CustomerService from '../../services/CustomerService';
-import {COMMON_ERROR_MESSAGE} from '../../constants/statuses';
-import SourcesService from '../../services/SourcesService';
+import {useEffect} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
+import {getCustomerById, getCustomers, getSources} from "../../data/store/customer/customerActions";
 
 export const useCustomers = () => {
-    const [customers, setCustomers] = useState([]);
-    const [customerLoading, setCustomerLoading] = useState(false);
     const dispatch = useDispatch();
+    const customers = useSelector(state => state.customerReducer.customers)
+    const customersStatus = useSelector(state => state.customerReducer.customerStatus)
 
     useEffect(() => {
-        const fetchCustomers = async () => {
-            try {
-                setCustomerLoading(true);
-                const customers = await CustomerService.list();
-                setCustomers(customers);
-                setCustomerLoading(false);
-            } catch (e) {
-                setCustomerLoading(false);
-                dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE, success: false}));
-            }
-        };
-        fetchCustomers();
-    }, [dispatch]);
+        if(customers.length < 1 && !customersStatus.isLoading && !customersStatus.isSuccess) {
+                 dispatch(getCustomers())
+        }
 
-    return {customers, setCustomers, customerLoading};
+    }, [dispatch, customers, customersStatus.isLoading, customersStatus.isSuccess]);
+
+    return {customers};
 };
 
 export const useCustomerById = (id) => {
-    const [customerDetails, setCustomerDetails] = useState({});
     const dispatch = useDispatch();
+    const customerDetails = useSelector(state => state.customerReducer.customerDetails)
 
     useEffect(() => {
-        const fetchCustomerById = async (id) => {
-            try {
-                dispatch(setIsLoading(true));
-                const response = await CustomerService.findOneById(id);
-                setCustomerDetails(response);
-                dispatch(setIsLoading(false));
-            } catch (e) {
-                dispatch(setIsLoading(false));
-                dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE}));
+        if(!customerDetails || customerDetails.customerId !== id){
+            dispatch(getCustomerById(id))
             }
-        };
-
-        fetchCustomerById(id);
-    }, [dispatch, id]);
+    }, [dispatch, id, customerDetails]);
 
     return {customerDetails}
 };
 
 export const useSources = () => {
-    const [sources, setSources] = useState([]);
     const dispatch = useDispatch();
+    const sources = useSelector(state => state.customerReducer.sources)
 
     useEffect(() => {
-        const fetchSources = async () => {
-            try {
-                const sources = await SourcesService.list();
-                setSources(sources);
-            } catch (e) {
-                dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE, success: false}))
-            }
-        };
-        fetchSources();
-    }, [dispatch]);
+        if(!sources) {
+            dispatch(getSources())
+        }
+    }, [dispatch, sources]);
 
-    return {sources, setSources};
+    return {sources};
 };

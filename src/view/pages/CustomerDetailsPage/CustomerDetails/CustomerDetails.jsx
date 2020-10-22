@@ -33,13 +33,13 @@ export const CustomerDetails = (props) => {
                                 {customerDetails.name}
                             </Typography>
                         </Grid>
-                        {customerDetails.source.name ? (
+                        {customerDetails.name ? (
                             <Grid item xs={12} md={12} className={classes.customerItem}>
                                 <Typography variant="h6">
                                     {t('SOURCES')}
                                 </Typography>
                                 <Typography variant="body1">
-                                    {customerDetails.source.name}
+                                    {customerDetails.name}
                                 </Typography>
                             </Grid>)
                             : null

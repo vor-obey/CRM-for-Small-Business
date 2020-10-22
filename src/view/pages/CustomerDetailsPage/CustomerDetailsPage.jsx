@@ -1,4 +1,4 @@
-import React, {useState, useCallback} from "react";
+import React, {useState, useCallback, useEffect} from "react";
 import {
     Paper,
     Typography,
@@ -13,14 +13,12 @@ import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { CustomDialog } from '../../components/CustomDialog/CustomDialog';
 import {useParams} from 'react-router-dom';
-import {CustomerService} from "../../../services";
 import {isEmpty} from 'lodash';
 import {CustomerDetails} from './CustomerDetails/CustomerDetails';
-import {setIsLoading, setSnackBarStatus} from "../../../data/store/auxiliary/auxiliaryActions";
-import {COMMON_ERROR_MESSAGE} from "../../../constants/statuses";
 import {useTranslation} from "react-i18next";
 import {useCustomerById} from '../../../utils/hooks/customerHooks';
 import {CUSTOMERS} from "../../../constants/routes";
+import {cleanCustomerDetail, deleteCustomer} from "../../../data/store/customer/customerActions";
 
 const useStyles = makeStyles(customerDetailsStyle);
 
@@ -32,23 +30,17 @@ export const CustomerDetailsPage = ({history}) => {
     const classes = useStyles();
     const { t } = useTranslation('');
 
+    useEffect(() => {
+        return () => dispatch(cleanCustomerDetail())
+    }, [dispatch])
+
+    const onDeleteCustomer = useCallback( () => {
+        dispatch(deleteCustomer(id))
+    }, [dispatch, id]);
+
     const handleOpenDialog = useCallback(() => {
         setIsShow(prevState => !prevState);
     }, []);
-
-    const handleClickDeleteCustomer = useCallback(async () => {
-        try {
-            dispatch(setIsLoading( true));
-            const response = await CustomerService.delete(id);
-            if (response) {
-                history.push(CUSTOMERS);
-                dispatch(setIsLoading(false))
-            }
-        } catch (e) {
-            dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE}))
-        }
-
-    }, [history, dispatch, id]);
 
     const handleClickEdit = useCallback(() => {
         history.push(`${CUSTOMERS}/${id}/edit`);
@@ -107,7 +99,7 @@ export const CustomerDetailsPage = ({history}) => {
                 onClose={handleOpenDialog}
                 closeText={t('DISAGREE')}
                 actionText={t('AGREE')}
-                onAction={handleClickDeleteCustomer}
+                onAction={onDeleteCustomer}
             >{t('DELETE_CUSTOMER_TEXT')}</CustomDialog>
         </Container>
     );

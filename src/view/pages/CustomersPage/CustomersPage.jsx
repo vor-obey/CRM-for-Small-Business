@@ -18,15 +18,17 @@ import {useTranslation} from "react-i18next";
 import {useCustomers} from '../../../utils/hooks/customerHooks';
 import {isEmpty} from 'lodash';
 import {CUSTOMERS, CUSTOMERS_CREATE} from "../../../constants/routes";
+import {useSelector} from "react-redux";
 
 const useStyles = makeStyles(customersPageStyle);
 
 export const CustomersPage = ({history}) => {
-    const {customers, loading} = useCustomers();
+    const {customers} = useCustomers();
     const classes = useStyles();
     const [inputFilter, setInputFilter] = useState('');
     const {t} = useTranslation('');
     const minWidth600 = useMediaQuery('(min-width:600px)');
+    const customersStatus = useSelector(state => state.customerReducer.customerStatus)
 
     const navigateToCustomerDetails = useCallback((customerId) => {
         history.push(`${CUSTOMERS}/${customerId}`)
@@ -41,6 +43,7 @@ export const CustomersPage = ({history}) => {
         if (isEmpty(customers)) {
             return null;
         }
+
         return filter(customers, inputFilter).map((customer) => {
             return (
                 <CustomerListItem
@@ -55,7 +58,7 @@ export const CustomersPage = ({history}) => {
         })
     }, [customers, classes, navigateToCustomerDetails, inputFilter, minWidth600, t]);
 
-    if (isEmpty(customers) && !loading) {
+    if (isEmpty(customers) && customersStatus.isSuccess) {
         return (
             <Grid container justify='center' style={{display: 'grid', paddingTop: 24}}>
                 <Typography variant='h5' style={{paddingBottom: 18}}>{t('NO_NEW_CUSTOMERS')}</Typography>
@@ -71,6 +74,8 @@ export const CustomersPage = ({history}) => {
                 </Button>
             </Grid>
         );
+    } else if(isEmpty(customers) && !customersStatus.isSuccess){
+        return null;
     }
 
     return (

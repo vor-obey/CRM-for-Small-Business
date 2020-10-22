@@ -1,17 +1,13 @@
 import React, {useCallback} from 'react';
-
 import {SaveCustomerForm} from "../../components/SaveCustomerForm/SaveCustomerForm";
-import {CustomerService} from "../../../services";
 import {closeModal, setSnackBarStatus} from "../../../data/store/auxiliary/auxiliaryActions";
-import {COMMON_ERROR_MESSAGE} from "../../../constants/statuses";
 import {useDispatch} from "react-redux";
 import {useTranslation} from "react-i18next";
 import {useSources} from '../../../utils/hooks/customerHooks';
 import isEmpty from 'lodash/isEmpty';
 import {useSelector} from "react-redux";
-import {addCustomerDetail} from "../../../data/store/customer/customerActions";
+import {addCustomerDetail, createCustomer} from "../../../data/store/customer/customerActions";
 import {CUSTOMERS} from "../../../constants/routes";
-// import {CustomAutocomplete} from "../../components/Autocomplete/Autocomplete";
 
 export const CreateCustomer = ({
                                    history,
@@ -23,49 +19,40 @@ export const CreateCustomer = ({
     const {sources} = useSources();
     const dispatch = useDispatch();
     const {t} = useTranslation('');
+    const customerDetails = {
+        username: '',
+        name: '',
+        contactNumber: '',
+        contactEmail: '',
+        details: '',
+        sourceId: ''
+    }
 
     const onChangeHandler = useCallback((event) => {
         const {name, value} = event.target;
         dispatch(addCustomerDetail({[name]: value}));
     }, [dispatch]);
 
+    const onSubmitted = useCallback((response) => {
+        if (typeof updateCustomerList === 'function') {
+            updateCustomerList(response);
+        } else {
+            history.push(CUSTOMERS);
+        }
+
+        dispatch(addCustomerDetail(customerDetails));
+        dispatch(closeModal());
+
+    }, [history, updateCustomerList, dispatch, customerDetails]);
+
     const onSubmitHandler = useCallback(async (event, customerDetails) => {
         event.preventDefault();
         if (customerDetails.contactNumber && (customerDetails.contactNumber.length < 10 || customerDetails.contactNumber.length > 12)) {
             dispatch(setSnackBarStatus({isOpen: true, message: t('INVALID_NUMBER'), success: false}))
         } else {
-            try {
-                const response = await CustomerService.create(customerDetails);
-                if (response) {
-                    if (typeof updateCustomerList === 'function') {
-                        updateCustomerList(response);
-                        dispatch(addCustomerDetail({
-                            username: '',
-                            name: '',
-                            contactNumber: '',
-                            contactEmail: '',
-                            details: '',
-                            sourceId: '',
-                        }));
-                    } else {
-                        history.push(CUSTOMERS);
-                        dispatch(addCustomerDetail({
-                            username: '',
-                            name: '',
-                            contactNumber: '',
-                            contactEmail: '',
-                            details: '',
-                            sourceId: '',
-                        }));
-                    }
-                    dispatch(closeModal());
-                }
-
-            } catch (e) {
-                dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE, success: false}))
-            }
+               await dispatch(createCustomer({customerDetails, onSubmitted}))
         }
-    }, [t, history, dispatch, updateCustomerList]);
+    }, [dispatch, t, onSubmitted]);
 
     const renderSources = useCallback(() => {
         if (isEmpty(sources)) {
