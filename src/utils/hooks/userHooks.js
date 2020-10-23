@@ -1,7 +1,6 @@
 import {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {setIsLoading, setSnackBarStatus} from '../../data/store/auxiliary/auxiliaryActions';
-import {RoleService} from '../../services';
+import {setSnackBarStatus} from '../../data/store/auxiliary/auxiliaryActions';
 import {COMMON_ERROR_MESSAGE} from '../../constants/statuses';
 import UserService from '../../services/UserService';
 import {getRoles, getUserById, getUsers} from "../../data/store/user/userActions";
@@ -60,40 +59,9 @@ export const useManagerById = (id) => {
 
     useEffect(() => {
         if(!userDetails || id !== userDetails.userId) {
-            const fetchUserById = async () => {
-                try {
-                    await dispatch(getUserById(id));
-                } catch (e) {
-                    dispatch(setIsLoading(false));
-                    dispatch(setSnackBarStatus({isOpen: true, message: e.message, success: false}))
-                }
-            };
-            fetchUserById();
+            dispatch(getUserById(id));
         }
-
     }, [id, userDetails, dispatch]);
 
     return { userDetails };
-};
-
-export const useRoles = () => {
-    const [roles, setRoles] = useState([]);
-    const dispatch = useDispatch();
-
-    useEffect(() => {
-        const fetchRoles = async () => {
-            try {
-                dispatch(setIsLoading(true));
-                const roles = await RoleService.list();
-                setRoles(roles);
-                dispatch(setIsLoading(false));
-            } catch (e) {
-                dispatch(setIsLoading(false));
-                dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE, success: false}))
-            }
-        };
-        fetchRoles();
-    }, [dispatch]);
-
-    return { roles, setRoles };
 };

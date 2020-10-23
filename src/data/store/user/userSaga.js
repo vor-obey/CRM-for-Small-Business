@@ -1,4 +1,4 @@
-import {put} from '@redux-saga/core/effects';
+import {put, select} from '@redux-saga/core/effects';
 import {setIsLoading, setSnackBarStatus} from '../auxiliary/auxiliaryActions';
 import {RoleService, StorageService, UserService} from '../../../services';
 import {COMMON_ERROR_MESSAGE} from '../../../constants/statuses';
@@ -81,11 +81,14 @@ export function* getUserById(action) {
 }
 
 export function* updateUser(action) {
-    const {roleId, ...user} = action.payload.userInput;
+    const userDetails = action.payload.userInput;
     try {
+        const roles = yield select(state => state.userReducer.roles);
+        const newRole = roles.find(role => role.roleId === userDetails.roleId);
+
         yield put(setIsLoading(true));
-        yield UserService.update({ ...user, roleId});
-        yield put({type: UPDATE_USER_SUCCESS, payload: action.payload});
+        yield UserService.update(userDetails);
+        yield put({type: UPDATE_USER_SUCCESS, payload: { ...action.payload, userInput: { ...userDetails, role: newRole } }});
         history.goBack();
         }
     catch (e) {
