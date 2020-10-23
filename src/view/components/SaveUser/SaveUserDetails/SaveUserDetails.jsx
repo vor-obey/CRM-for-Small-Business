@@ -6,7 +6,6 @@ import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
 import {useTranslation} from "react-i18next";
 import {ROLES} from "../../../../constants/statuses";
-
 export const SaveUserDetails = ({
                                     roles,
                                     onChangedInput,
@@ -15,7 +14,6 @@ export const SaveUserDetails = ({
                                     renderRoles = true,
                                 }) => {
     const {t} = useTranslation();
-
     const renderRoleOptions = useCallback(() => {
         return roles.map((role) => {
             if (role.name === 'Super Admin') {
@@ -44,7 +42,7 @@ export const SaveUserDetails = ({
                     <Select
                         native
                         name="roleId"
-                        value={(userDetails && userDetails.roleId) || ''}
+                        value={userDetails.roleId}
                         onChange={onChangedInput}
                         labelWidth={40}
                         required

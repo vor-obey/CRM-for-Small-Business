@@ -38,7 +38,10 @@ export const SaveUserForm = ({
     const [showPassword, setShowPassword] = useState(false);
 
     useEffect(() => {
-        setUserDetailsInputs(userDetails);
+        if (userDetails) {
+            const { role: {roleId},role, ...otherDetails } = userDetails;
+            setUserDetailsInputs({ ...otherDetails, roleId, role });
+        }
     }, [userDetails]);
 
     const handleClickShowPassword = useCallback(() => {
