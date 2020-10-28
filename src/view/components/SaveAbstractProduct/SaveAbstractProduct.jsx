@@ -47,7 +47,7 @@ export const SaveAbstractProduct = ({
         description: '',
         price: ''
     });
-    const {productTypes, triggerProductTypesUpdate} = useProductTypes();
+    const {productsTypes, triggerProductTypesUpdate} = useProductTypes();
     const [selectedProductType, setSelectedProductType] = useState({});
     const {attributes, setAttributes, triggerAttributesUpdate} = useAttributesByProductTypeId(selectedProductType && selectedProductType.productTypeId);
     const [isExpanded, setIsExpanded] = useState(false);
@@ -348,7 +348,7 @@ export const SaveAbstractProduct = ({
             labels={labels}
             abstractProductDetails={abstractProductDetails}
             onAbstractProductChangedHandler={onAbstractProductChangedHandler}
-            productTypes={productTypes}
+            productTypes={productsTypes}
             selectedProductType={selectedProductType}
             onProductTypeSelectHandler={onProductTypeSelectHandler}
             isExpanded={isExpanded}

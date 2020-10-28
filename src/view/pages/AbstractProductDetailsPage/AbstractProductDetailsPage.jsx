@@ -15,14 +15,10 @@ import {useDispatch} from 'react-redux';
 import {
     closeDialog,
     renderDialog,
-    setIsLoading,
-    setSnackBarStatus
 } from '../../../data/store/auxiliary/auxiliaryActions';
-import {AbstractProductService} from '../../../services';
 import {useParams} from "react-router-dom";
 import isEmpty from 'lodash/isEmpty';
 import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
-import {COMMON_ERROR_MESSAGE} from '../../../constants/statuses';
 import {useTranslation} from 'react-i18next';
 import {useAbstractProductDetailsById} from '../../../utils/hooks/productHooks';
 import {abstractProductDetailsPageStyles} from "./AbstractProductDetailsPage.style";
@@ -30,6 +26,7 @@ import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 import {PRODUCT_TEMPLATES, PRODUCTS} from "../../../constants/routes";
+import {deleteTemplateProduct} from "../../../data/store/product/productActions";
 
 const useStyles = makeStyles(abstractProductDetailsPageStyles);
 
@@ -41,22 +38,13 @@ export const AbstractProductDetailsPage = ({history}) => {
     const {t} = useTranslation('');
 
     const deleteAbstractProduct = useCallback(async () => {
-        try {
-            dispatch(setIsLoading(true));
-            const response = await AbstractProductService.delete(id);
-            if (response.success) {
-                dispatch(setIsLoading(false));
-                dispatch(closeDialog());
-                history.push(PRODUCT_TEMPLATES);
-            } else {
-                dispatch(setIsLoading(false));
-                dispatch(setSnackBarStatus({isOpen: true, message: response.message, success: false}));
-            }
-        } catch (e) {
-            dispatch(setIsLoading(false));
-            dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE, success: false}));
+        const onSuccessfullyDeleted = () => {
+            dispatch(closeDialog());
+            history.push(PRODUCT_TEMPLATES);
         }
-    }, [id, history, dispatch]);
+
+       dispatch(deleteTemplateProduct({id, onSuccessfullyDeleted}))
+    }, [dispatch, history, id]);
 
     const renderAttributes = useCallback(() => {
         const {productType: {productTypeToAttributes = {}} = {}} = abstractProductDetails;
@@ -138,6 +126,10 @@ export const AbstractProductDetailsPage = ({history}) => {
             onActionHandler: () => deleteAbstractProduct(),
         }));
     }, [dispatch, abstractProductDetails, deleteAbstractProduct, t]);
+
+    if(!abstractProductDetails){
+        return null
+    }
 
     return (
         <Container maxWidth='md' className={classes.root}>

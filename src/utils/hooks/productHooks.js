@@ -1,127 +1,85 @@
 import {useEffect, useState} from 'react';
 import {setIsLoading, setSnackBarStatus} from '../../data/store/auxiliary/auxiliaryActions';
-import {AbstractProductService, AttributeService, ProductService, ProductTypeService} from '../../services';
+import {AttributeService} from '../../services';
 import {useDispatch, useSelector} from 'react-redux';
-import {getProducts} from "../../data/store/product/productActions";
+import {
+    cleanProductDetails, cleanProductTemplateDetails, cleanProductTypeDetails,
+    getProductDetailsById,
+    getProducts,
+    getProductsTypes, getTemplatesProducts, setProductTypeDetails, setTemplateProductDetails
+} from "../../data/store/product/productActions";
+
 
 export const useProductTypes = () => {
     const dispatch = useDispatch();
     const [triggerCount, triggerProductTypesUpdate] = useState(0);
-    const [loading, setLoading] = useState(false);
-    const [productTypes, setProductTypes] = useState([]);
-
+    const productsTypes = useSelector(state => state.productReducer.productsTypes);
+    const productsStatus = useSelector( state => state.productReducer.productsStatus);
     useEffect(() => {
-        const fetchProductTypes = async () => {
-            try {
-                setLoading(true);
-                dispatch(setIsLoading(true));
-                const response = await ProductTypeService.list();
-                setProductTypes(response);
-                dispatch(setIsLoading(false));
-                setLoading(false);
-            } catch (e) {
-                setLoading(false);
-                dispatch(setIsLoading(false));
-                dispatch(setSnackBarStatus({isOpen: true, message: e.message, success: false}));
-            }
-        };
-        fetchProductTypes();
-    }, [dispatch, triggerCount]);
+        if(productsTypes.length < 1){
+            dispatch(getProductsTypes());
+        }
+    }, [dispatch]);
 
-    return {productTypes, setProductTypes, triggerProductTypesUpdate, loading};
+    return {productsTypes, productsStatus, triggerProductTypesUpdate, triggerCount};
 };
 
 export const useProductTypeById = (id) => {
     const dispatch = useDispatch();
-    const [productType, setProductType] = useState({});
-
+    const productType = useSelector(state => state.productReducer.productTypeDetails);
     useEffect(() => {
-        const fetchProductType = async () => {
-            try {
-                dispatch(setIsLoading(true));
-                dispatch(setIsLoading(true));
-                const response = await ProductTypeService.findOneById(id);
-                setProductType(response);
-                dispatch(setIsLoading(false));
-            } catch (e) {
-                dispatch(setIsLoading(false));
-                dispatch(setSnackBarStatus({isOpen: true, message: e.message, success: false}));
+            dispatch(setProductTypeDetails(id));
+
+            return () => {
+                dispatch(cleanProductTypeDetails())
             }
-        };
-        fetchProductType();
+
     }, [dispatch, id]);
 
-    return {productType, setProductType};
+    return {productType};
 };
 
 export const useAbstractProductDetailsById = (id) => {
     const dispatch = useDispatch();
-    const [abstractProductDetails, setAbstractProductDetails] = useState({});
+    const abstractProductDetails = useSelector(state => state.productReducer.productTemplateDetails);
 
     useEffect(() => {
-        const fetchAbstractProductDetailsById = async (id) => {
-            try {
-                dispatch(setIsLoading(true));
-                const response = await AbstractProductService.findOneById(id);
-                setAbstractProductDetails(response);
-                dispatch(setIsLoading(false));
-            } catch (e) {
-                dispatch(setIsLoading(false));
-                dispatch(setSnackBarStatus({isOpen: true, message: e.message, success: false}));
-            }
-        };
-        fetchAbstractProductDetailsById(id);
+        dispatch(setTemplateProductDetails(id));
+
+        return () => {
+            dispatch(cleanProductTemplateDetails());
+        }
     }, [dispatch, id]);
 
-    return {abstractProductDetails, setAbstractProductDetails};
+    return {abstractProductDetails};
 };
 
 export const useAbstractProducts = () => {
     const dispatch = useDispatch();
-    const [loading, setLoading] = useState(false);
-    const [abstractProducts, setAbstractProducts] = useState([]);
-
+    const abstractProducts = useSelector(state => state.productReducer.productsTemplates);
+    const isLoading = useSelector(state => state.auxiliaryReducer.isLoading);
     useEffect(() => {
-        const fetchAbstractProducts = async () => {
-            try {
-                setLoading(true);
-                dispatch(setIsLoading(true));
-                const response = await AbstractProductService.list();
-                setAbstractProducts(response);
-                dispatch(setIsLoading(false));
-                setLoading(false);
-            } catch (e) {
-                setLoading(false);
-                dispatch(setIsLoading(false));
-                dispatch(setSnackBarStatus({isOpen: false, message: e.message, success: false}));
-            }
-        };
-        fetchAbstractProducts();
+        if(abstractProducts.length < 1 ){
+            dispatch(getTemplatesProducts())
+        }
     }, [dispatch]);
 
-    return {abstractProducts, setAbstractProducts, loading};
+    return {abstractProducts, isLoading};
 };
 
 export const useProductDetailsById = (id) => {
     const dispatch = useDispatch();
-    const [productDetails, setProductDetails] = useState({});
+    const productDetails = useSelector(state => state.productReducer.productDetails);
 
     useEffect(() => {
-        const fetchProductDetailsById = async (id) => {
-            try {
-                dispatch(setIsLoading(true));
-                const response = await ProductService.findOneById(id);
-                setProductDetails(response);
-                dispatch(setIsLoading(false));
-            } catch (e) {
-                dispatch(setIsLoading(false));
-                dispatch(setSnackBarStatus({isOpen: true, message: e.message, success: false}));
-            }
-        };
-        fetchProductDetailsById(id);
+        dispatch(getProductDetailsById(id));
+
+        return () => {
+            dispatch(cleanProductDetails())
+        }
     }, [dispatch, id]);
 
-    return {productDetails, setProductDetails};
+    return {productDetails};
 };
 
 export const useProductsState = () => {
@@ -135,30 +93,6 @@ export const useProductsState = () => {
     }, [dispatch, products, productsStatus])
 
     return { products, productsStatus };
-};
-
-
-export const useProducts = () => {
-    const dispatch = useDispatch();
-    const [loading, setLoading] = useState(false);
-    const [products, setProducts] = useState([]);
-
-    useEffect(() => {
-        const fetchProducts = async () => {
-            try {
-                setLoading(true);
-                const response = await ProductService.list();
-                setProducts(response);
-                setLoading(false);
-            } catch (e) {
-                setLoading(false);
-                dispatch(setSnackBarStatus({isOpen: true, message: e.message, success: false}));
-            }
-        };
-        fetchProducts().then(() => {});
-    }, [dispatch]);
-
-    return {products, setProducts, loading};
 };
 
 export const useAttributesByProductTypeId = (productTypeId) => {

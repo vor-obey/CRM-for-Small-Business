@@ -13,14 +13,14 @@ import {PRODUCT_TYPES, PRODUCT_TYPES_CREATE} from "../../../constants/routes";
 
 export const ProductTypesPage = ({history}) => {
     const {t} = useTranslation();
-    const {productTypes, loading} = useProductTypes();
+    const {productsTypes, productsStatus} = useProductTypes();
 
     const renderProductTypes = useCallback(() => {
-        if (isEmpty(productTypes)) {
+        if (isEmpty(productsTypes)) {
             return null;
         }
 
-        return productTypes.map((productType) => {
+        return productsTypes.map((productType) => {
             const {productTypeId, name, description} = productType;
             return (
                 <React.Fragment key={productTypeId}>
@@ -35,9 +35,9 @@ export const ProductTypesPage = ({history}) => {
                 </React.Fragment>
             );
         });
-    }, [productTypes, history]);
+    }, [productsTypes, history]);
 
-    if (isEmpty(productTypes) && !loading) {
+    if (isEmpty(productsTypes) && productsStatus.isSuccess) {
         return (
             <Grid container spacing={0}
                   direction="column"

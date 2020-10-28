@@ -2,11 +2,10 @@ import React, {useCallback} from 'react';
 import {useParams} from 'react-router-dom';
 import {useAbstractProductDetailsById} from '../../../utils/hooks/productHooks';
 import {SaveAbstractProduct} from '../../components/SaveAbstractProduct/SaveAbstractProduct';
-import {setIsLoading, setSnackBarStatus} from '../../../data/store/auxiliary/auxiliaryActions';
-import AbstractProductService from '../../../services/AbstractProductService';
 import {useDispatch} from 'react-redux';
 import {useTranslation} from "react-i18next";
 import {PRODUCT_TEMPLATES} from "../../../constants/routes";
+import {editTemplateProduct} from "../../../data/store/product/productActions";
 
 export const EditAbstractProduct = ({history}) => {
     const {id} = useParams();
@@ -15,26 +14,11 @@ export const EditAbstractProduct = ({history}) => {
     const {abstractProductDetails} = useAbstractProductDetailsById(id);
 
     const editAbstractProduct = useCallback(async (data) => {
-        const {productTypeId, abstractProductDetails} = data;
-        try {
-            dispatch(setIsLoading(true));
-            const response = await AbstractProductService.update({
-                abstractProductId: id,
-                productTypeId,
-                name: abstractProductDetails.name,
-                price: abstractProductDetails.price,
-                description: abstractProductDetails.description,
-            });
-            if (response.success) {
-                history.push(`${PRODUCT_TEMPLATES}/${id}`);
-            } else {
-                dispatch(setSnackBarStatus({isOpen: true, message: response.message, success: false}));
-            }
-        } catch (e) {
-            dispatch(setSnackBarStatus({isOpen: true, message: e.message, success: false}));
-        } finally {
-            dispatch(setIsLoading(false));
+        const onEditSuccessfully = () => {
+            history.push(`${PRODUCT_TEMPLATES}/${id}`);
         }
+
+        dispatch(editTemplateProduct({id, onEditSuccessfully, data}));
     }, [dispatch, history, id]);
 
     return (

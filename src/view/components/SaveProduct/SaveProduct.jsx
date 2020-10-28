@@ -56,7 +56,7 @@ export const SaveProduct = ({
     const toggleAbstractProductAutocomplete = useCallback(() => setIsAbstractProductAutocompleteOpen(prevState => !prevState), []);
 
 
-    const {productTypes} = useProductTypes();
+    const {productsTypes} = useProductTypes();
     const [selectedProductType, setSelectedProductType] = useState({});
     const [isProductTypeAutocompleteOpen, setIsProductTypeAutocompleteOpen] = useState(false);
     const toggleProductTypeAutocomplete = useCallback(() => setIsProductTypeAutocompleteOpen(prevState => !prevState), []);
@@ -88,7 +88,7 @@ export const SaveProduct = ({
     }, [history, abstractProducts]);
 
     useEffect(() => {
-        if (!isEmpty(product)) {
+        if ((product)) {
             dispatch(setProductDetailsToStore({
                 name: product.name,
                 price: product.price
@@ -257,7 +257,7 @@ export const SaveProduct = ({
         if (attributes.length !== attributeValuesEntriesLength) {
             return true;
         }
-        if ((validateAttributeValues(Object.values(selectedAttributeValues)) !== undefined)) {
+        if (validateAttributeValues(Object.values(selectedAttributeValues)) !== undefined) {
             return true;
         }
         return false;
@@ -350,7 +350,7 @@ export const SaveProduct = ({
                         <Grid item xs={12} sm={12} className={classes.containerProductItem}>
                             <CustomAutocomplete
                                 isOpen={isProductTypeAutocompleteOpen}
-                                options={productTypes}
+                                options={productsTypes}
                                 onClose={toggleProductTypeAutocomplete}
                                 onToggle={toggleProductTypeAutocomplete}
                                 inputLabel={t('SELECT_PRODUCT_TYPE')}

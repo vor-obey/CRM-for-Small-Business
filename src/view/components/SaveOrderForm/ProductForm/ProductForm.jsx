@@ -13,7 +13,7 @@ import {
     Chip
 } from "@material-ui/core";
 import {AddOrderProduct} from '../../AddOrderProduct/AddOrderProduct';
-import {useProducts} from '../../../../utils/hooks/productHooks';
+import {useProductsState} from '../../../../utils/hooks/productHooks';
 import isEmpty from 'lodash/isEmpty';
 import CloseIcon from "@material-ui/icons/Close";
 import RemoveIcon from '@material-ui/icons/Remove';
@@ -41,7 +41,7 @@ export const ProductForm = ({
                                 history,
                                 description,
                             }) => {
-    const {products} = useProducts();
+    const {products} = useProductsState();
     const dispatch = useDispatch();
 
     const cartUtils = useEditCart();

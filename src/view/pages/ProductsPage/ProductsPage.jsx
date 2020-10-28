@@ -30,7 +30,7 @@ export const ProductsPage = ({history}) => {
         <Container maxWidth='lg' className={classes.root}>
             <List>
                 { (isEmpty(products) || productsStatus.isLoading) && <Placeholder /> }
-                { products.map((product) => <ProductListItem key={product.productId} product={product} /> )}
+                { products.map((product) => <ProductListItem key={product.productId} product={product} history={history} /> )}
             </List>
             <ListItem className={classes.listItem} >
                 <Button

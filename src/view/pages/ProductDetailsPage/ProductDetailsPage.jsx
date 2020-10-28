@@ -1,22 +1,28 @@
 import React, {useCallback} from 'react';
 import {useDispatch} from 'react-redux';
-import {Paper, Typography, Container, Grid, makeStyles, Fab} from "@material-ui/core";
+import {
+    Paper,
+    Typography,
+    Container,
+    Grid,
+    makeStyles,
+    Fab
+} from "@material-ui/core";
 import {useParams} from "react-router-dom";
 import {
     closeDialog,
     renderDialog,
-    setIsLoading,
-    setSnackBarStatus
+
 } from '../../../data/store/auxiliary/auxiliaryActions';
-import {ProductService} from '../../../services';
 import isEmpty from 'lodash/isEmpty';
 import {useTranslation} from 'react-i18next';
-import {useProductDetailsById, useProducts} from '../../../utils/hooks/productHooks';
+import {useProductDetailsById, useProductsState} from '../../../utils/hooks/productHooks';
 import {productDetailsPageStyles} from "./ProductDetailsPage.Style";
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from "@material-ui/icons/Edit";
 import {useCart, useEditCart} from "../../../utils/hooks/cartHooks";
 import {PRODUCTS} from "../../../constants/routes";
+import {deleteProduct} from "../../../data/store/product/productActions";
 
 const useStyles = makeStyles(productDetailsPageStyles);
 
@@ -24,32 +30,19 @@ export const ProductDetailsPage = ({history}) => {
     const classes = useStyles();
     const dispatch = useDispatch();
     const {id} = useParams();
-    const {products} = useProducts();
+    const {products} = useProductsState();
     const cart = useCart(products);
     const {productDetails} = useProductDetailsById(id);
     const cartUtils = useEditCart();
     const {t} = useTranslation('');
 
-    const deleteProduct = useCallback(async () => {
-        try {
-            dispatch(setIsLoading(true));
-            const response = await ProductService.delete(id);
-            if (response.success) {
-                dispatch(setIsLoading(false));
-                dispatch(closeDialog());
-                if (cart.products.find(({productId}) => productId === id)) {
-                    cartUtils.deleteProduct(cart.products.find(({productId}) => productId === id));
-                }
-                history.push(PRODUCTS);
-            } else {
-                dispatch(setIsLoading(false));
-                dispatch(setSnackBarStatus({isOpen: true, message: response.message, success: false}));
-            }
-        } catch (e) {
-            dispatch(setIsLoading(false));
-            dispatch(setSnackBarStatus({isOpen: true, message: e.message, success: false}));
+    const onDeleteProduct = useCallback(async () => {
+        if (cart.products.find(({productId}) => productId === id)) {
+            cartUtils.deleteProduct(cart.products.find(({productId}) => productId === id));
         }
-    }, [id, history, dispatch, cart, cartUtils]);
+        dispatch(deleteProduct(id))
+
+    }, [id, dispatch, cart, cartUtils]);
 
     const renderAttributes = useCallback(() => {
         const {productToAttributeValues} = productDetails;
@@ -74,10 +67,13 @@ export const ProductDetailsPage = ({history}) => {
             closeText: t('DISAGREE'),
             children: `${t('DELETE_PRODUCT')} "${productDetails.name}"?`,
             actionText: t('AGREE'),
-            onActionHandler: () => deleteProduct(),
+            onActionHandler: () => onDeleteProduct(),
         }));
-    }, [productDetails, dispatch, deleteProduct, t]);
+    }, [productDetails, dispatch, onDeleteProduct, t]);
 
+    if(!productDetails){
+        return null;
+    }
     return (
         <Container maxWidth='md' className={classes.root}>
             <Paper className={classes.paper}>

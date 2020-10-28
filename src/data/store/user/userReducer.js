@@ -85,7 +85,7 @@ export const userReducer = (state = initialState, action) => {
         case CREATE_USER_FAIL:
             return {
                 ...state,
-                usersStatus: new AsyncState(false, false, false)
+                usersStatus: new AsyncState(false, false, true)
             }
         case DELETE_USER_SUCCESS:
             let allUsers = [...state.users];

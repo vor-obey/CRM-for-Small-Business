@@ -37,6 +37,7 @@ import {COMMON_ERROR_MESSAGE} from '../../../constants/statuses';
 import {useTranslation} from 'react-i18next';
 import {editProductTypeWithAttributesStyles} from "./EditProductTypeWithAttributes.style";
 import {PRODUCT_TYPES} from "../../../constants/routes";
+import {editProductType} from "../../../data/store/product/productActions";
 
 const useStyles = makeStyles(editProductTypeWithAttributesStyles);
 
@@ -215,7 +216,7 @@ export const EditProductTypeWithAttributes = ({history}) => {
         });
     }, [classes, attributes, openEditAttributeModal, openDeleteAttributeDialog]);
 
-    const editProductType = useCallback(async () => {
+    const onEditProductType = useCallback(async () => {
         const newAttributes = cloneDeep(attributes);
         for (const attribute of newAttributes) {
             let resultValues = [];
@@ -236,24 +237,11 @@ export const EditProductTypeWithAttributes = ({history}) => {
             });
             attribute.attributeValues = resultValues;
         }
-        try {
-            dispatch(setIsLoading(true));
-            const response = await ProductTypeService.update({
-                productTypeId: id,
-                name,
-                attributes: newAttributes,
-            });
-            if (response.success) {
-                dispatch(setIsLoading(false));
-                history.push(`${PRODUCT_TYPES}/${id}`);
-            } else {
-                dispatch(setIsLoading(false));
-                dispatch(setSnackBarStatus({isOpen: true, message: response.message, success: false}));
-            }
-        } catch (e) {
-            dispatch(setIsLoading(false));
-            dispatch(setSnackBarStatus({isOpen: true, message: e.message, success: false}));
-        }
+
+        dispatch(editProductType({id, name, newAttributes}))
+
+        history.push(`${PRODUCT_TYPES}/${id}`);
+
     }, [id, name, attributes, dispatch, history]);
 
     return (
@@ -273,7 +261,7 @@ export const EditProductTypeWithAttributes = ({history}) => {
                     <Button
                         className={classes.buttonFab}
                         variant='outlined'
-                        onClick={editProductType}
+                        onClick={onEditProductType}
                         disabled={isEmpty(attributes) || isEmpty(name.trim())}
                     >
                         {t('SAVE')}

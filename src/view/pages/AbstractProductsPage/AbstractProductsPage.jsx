@@ -12,7 +12,7 @@ import {PRODUCT_TEMPLATES, PRODUCT_TEMPLATES_CREATE} from "../../../constants/ro
 
 export const AbstractProductsPage = ({history}) => {
     const {t} = useTranslation();
-    const {abstractProducts, loading} = useAbstractProducts();
+    const {abstractProducts, isLoading} = useAbstractProducts();
 
     const renderAbstractProducts = useCallback(() => {
         if (isEmpty(abstractProducts)) {
@@ -38,7 +38,7 @@ export const AbstractProductsPage = ({history}) => {
         });
     }, [abstractProducts, history]);
 
-    if (isEmpty(abstractProducts) && !loading) {
+    if (isEmpty(abstractProducts) && !isLoading) {
         return (
             <Grid container spacing={0}
                   direction="column"

@@ -23,14 +23,11 @@ import {useTranslation} from "react-i18next";
 import {
     closeDialog,
     renderDialog,
-    setIsLoading,
-    setSnackBarStatus
 } from '../../../data/store/auxiliary/auxiliaryActions';
-import {ProductTypeService} from '../../../services';
-import {COMMON_ERROR_MESSAGE} from '../../../constants/statuses';
 import {useDispatch} from 'react-redux';
 import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
 import {PRODUCT_TEMPLATES, PRODUCT_TYPES} from "../../../constants/routes";
+import {deleteProductType} from "../../../data/store/product/productActions";
 
 const useStyles = makeStyles(productTypeDetailsPageStyles);
 
@@ -111,22 +108,9 @@ export const ProductTypeDetailsPage = ({history}) => {
         });
     }, [productType, classes]);
 
-    const deleteProductType = useCallback(async () => {
-        try {
-            dispatch(setIsLoading(true));
-            const response = await ProductTypeService.delete(id);
-            if (response.success) {
-                history.push(PRODUCT_TYPES);
-            } else {
-                dispatch(setSnackBarStatus({isOpen: true, message: response.message, success: false}));
-            }
-        } catch (e) {
-            dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE, success: false}));
-        } finally {
-            dispatch(setIsLoading(false));
-            dispatch(closeDialog());
-        }
-    }, [dispatch, history, id]);
+    const onDeleteProductType = useCallback(async () => {
+            dispatch(deleteProductType(id))
+    }, [dispatch, id]);
 
     const openDeleteProductTypeDialog = useCallback(() => {
         dispatch(renderDialog({
@@ -134,10 +118,14 @@ export const ProductTypeDetailsPage = ({history}) => {
             onCloseHandler: () => dispatch(closeDialog()),
             closeText: 'DISAGREE',
             actionText: 'AGREE',
-            onActionHandler: () => deleteProductType(),
+            onActionHandler: () => onDeleteProductType(),
             children: `${t('DELETE_PRODUCT_TYPE')} "${productType.name}"?`
         }));
-    }, [dispatch, deleteProductType, t, productType]);
+    }, [dispatch, onDeleteProductType, t, productType]);
+
+    if(!productType){
+        return null
+    }
 
     return (
         <Container maxWidth='md' className={classes.root}>

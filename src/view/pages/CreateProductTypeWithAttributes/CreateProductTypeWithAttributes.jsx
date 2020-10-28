@@ -28,12 +28,12 @@ import {
 import RemoveIcon from '@material-ui/icons/Remove';
 import EditIcon from "@material-ui/icons/Edit";
 import {EditAttribute} from '../../components/EditAttribute/EditAttribute';
-import {ProductTypeService} from '../../../services';
 import {editProductTypeWithAttributesStyles} from "../EditProductTypeWithAttributes/EditProductTypeWithAttributes.style";
 import {useTranslation} from "react-i18next";
 import cloneDeep from 'lodash/cloneDeep';
 import {v4 as uuidv4} from 'uuid'
 import {PRODUCT_TYPES} from "../../../constants/routes";
+import {createProductType} from "../../../data/store/product/productActions";
 
 const useStyle = makeStyles(editProductTypeWithAttributesStyles);
 
@@ -165,20 +165,11 @@ export const CreateProductTypeWithAttributes = ({history}) => {
         });
     }, [classes, attributes, openEditAttributeModal, openDeleteAttributeDialog]);
 
-    const createProductType = useCallback(async () => {
-        try {
-            dispatch(setIsLoading(true));
-            await ProductTypeService.create({
-                name,
-                attributes
-            });
-            dispatch(setIsLoading(false));
+    const createTypeProduct = useCallback(async () => {
+            dispatch(createProductType({name, attributes }))
+
             history.push(PRODUCT_TYPES);
-        } catch (e) {
-            dispatch(setIsLoading(false));
-            dispatch(setSnackBarStatus({isOpen: true, message: e.message, success: false}));
-        }
-    }, [attributes, name, dispatch, history]);
+    }, [dispatch, name, attributes, history]);
 
     return (
         <Container maxWidth='md' className={classes.root}>
@@ -197,7 +188,7 @@ export const CreateProductTypeWithAttributes = ({history}) => {
                     <Button
                         className={classes.buttonFab}
                         variant='outlined'
-                        onClick={createProductType}
+                        onClick={createTypeProduct}
                         disabled={isEmpty(attributes)}
                     >
                         {t('CREATE')}
