@@ -1,6 +1,6 @@
 import React, {useCallback} from 'react';
 import {useParams} from 'react-router-dom';
-import {useProductTypeById} from '../../../utils/hooks/productHooks';
+import {useAbstractProducts, useProductTypeById} from '../../../utils/hooks/productHooks';
 import {
     ListItemText,
     Container,
@@ -27,7 +27,7 @@ import {
 import {useDispatch} from 'react-redux';
 import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
 import {PRODUCT_TEMPLATES, PRODUCT_TYPES} from "../../../constants/routes";
-import {deleteProductType} from "../../../data/store/product/productActions";
+import {deleteProductType, deleteTemplateProduct} from "../../../data/store/product/productActions";
 
 const useStyles = makeStyles(productTypeDetailsPageStyles);
 
@@ -35,8 +35,38 @@ export const ProductTypeDetailsPage = ({history}) => {
     const classes = useStyles();
     const {id} = useParams();
     const {productType} = useProductTypeById(id);
+    const {abstractProducts} = useAbstractProducts();
     const {t} = useTranslation();
     const dispatch = useDispatch();
+
+    const onDeleteProductType = useCallback( () => {
+        const ID = id;
+
+        if(abstractProducts && ID ){
+            const productTemplate = abstractProducts.find(item => item.productType.productTypeId === ID);
+            const id = productTemplate.abstractProductId;
+            dispatch(deleteTemplateProduct({id}));
+        }
+
+        const deletedSuccess = (response) => {
+            if(response.success){
+                history.goBack();
+            }
+        }
+
+        dispatch(deleteProductType({id, deletedSuccess}));
+    }, [abstractProducts, dispatch, history, id]);
+
+    const openDeleteProductTypeDialog = useCallback(() => {
+        dispatch(renderDialog({
+            isShow: true,
+            onCloseHandler: () => dispatch(closeDialog()),
+            closeText: 'DISAGREE',
+            actionText: 'AGREE',
+            onActionHandler: () => onDeleteProductType(),
+            children: `${t('DELETE_PRODUCT_TYPE')} "${productType.name}"?`
+        }));
+    }, [dispatch, onDeleteProductType, t, productType]);
 
     const renderAbstractProducts = useCallback(() => {
         const {abstractProducts = {}} = productType;
@@ -107,21 +137,6 @@ export const ProductTypeDetailsPage = ({history}) => {
             );
         });
     }, [productType, classes]);
-
-    const onDeleteProductType = useCallback(async () => {
-            dispatch(deleteProductType(id))
-    }, [dispatch, id]);
-
-    const openDeleteProductTypeDialog = useCallback(() => {
-        dispatch(renderDialog({
-            isShow: true,
-            onCloseHandler: () => dispatch(closeDialog()),
-            closeText: 'DISAGREE',
-            actionText: 'AGREE',
-            onActionHandler: () => onDeleteProductType(),
-            children: `${t('DELETE_PRODUCT_TYPE')} "${productType.name}"?`
-        }));
-    }, [dispatch, onDeleteProductType, t, productType]);
 
     if(!productType){
         return null

@@ -1,12 +1,17 @@
 import {useEffect, useState} from 'react';
-import {setIsLoading, setSnackBarStatus} from '../../data/store/auxiliary/auxiliaryActions';
-import {AttributeService} from '../../services';
 import {useDispatch, useSelector} from 'react-redux';
 import {
-    cleanProductDetails, cleanProductTemplateDetails, cleanProductTypeDetails,
+    cleanAttributes,
+    cleanProductDetails,
+    cleanProductTemplateDetails,
+    cleanProductTypeDetails,
     getProductDetailsById,
     getProducts,
-    getProductsTypes, getTemplatesProducts, setProductTypeDetails, setTemplateProductDetails
+    getProductsTypes,
+    getTemplatesProducts,
+    setAttributesToState,
+    setProductTypeDetails,
+    setTemplateProductDetails
 } from "../../data/store/product/productActions";
 
 
@@ -19,7 +24,7 @@ export const useProductTypes = () => {
         if(productsTypes.length < 1){
             dispatch(getProductsTypes());
         }
-    }, [dispatch]);
+    }, [dispatch, productsTypes.length]);
 
     return {productsTypes, productsStatus, triggerProductTypesUpdate, triggerCount};
 };
@@ -59,10 +64,10 @@ export const useAbstractProducts = () => {
     const abstractProducts = useSelector(state => state.productReducer.productsTemplates);
     const isLoading = useSelector(state => state.auxiliaryReducer.isLoading);
     useEffect(() => {
-        if(abstractProducts.length < 1 ){
+
             dispatch(getTemplatesProducts())
-        }
-    }, [dispatch]);
+
+    }, [abstractProducts.length, dispatch]);
 
     return {abstractProducts, isLoading};
 };
@@ -98,24 +103,17 @@ export const useProductsState = () => {
 export const useAttributesByProductTypeId = (productTypeId) => {
     const dispatch = useDispatch();
     const [triggerCount, triggerAttributesUpdate] = useState(0);
-    const [attributes, setAttributes] = useState([]);
+    const attributes = useSelector(state => state.productReducer.attributes);
 
     useEffect(() => {
-        const fetchAttributesByProductTypeId = async (productTypeId) => {
-            try {
-                dispatch(setIsLoading(true));
-                const response = await AttributeService.findOneById(productTypeId);
-                setAttributes(response);
-                dispatch(setIsLoading(false));
-            } catch (e) {
-                dispatch(setIsLoading(false));
-                dispatch(setSnackBarStatus({isOpen: true, message: e.message, success: false}));
-            }
-        };
-        if (productTypeId) {
-            fetchAttributesByProductTypeId(productTypeId);
+        if(productTypeId){
+            dispatch(setAttributesToState(productTypeId))
+        }
+
+        return () => {
+            dispatch(cleanAttributes());
         }
     }, [productTypeId, dispatch, triggerCount]);
 
-    return {attributes, setAttributes, triggerAttributesUpdate};
+    return {attributes, triggerAttributesUpdate};
 };

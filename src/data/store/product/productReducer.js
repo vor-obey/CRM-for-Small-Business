@@ -15,7 +15,6 @@ import {
     SET_PRODUCT_DETAILS,
     DELETE_PRODUCT_TYPE_SUCCESS,
     DELETE_PRODUCT_TYPE_FAIL,
-    CREATE_TEMPLATE_PRODUCT_SUCCESS,
     CREATE_TEMPLATE_PRODUCT_FAIL,
     GET_TEMPLATES_PRODUCTS_SUCCESS,
     GET_TEMPLATES_PRODUCTS_FAIL,
@@ -29,7 +28,11 @@ import {
     CLEAN_PRODUCT_TEMPLATE_DETAILS,
     EDIT_TEMPLATE_PRODUCT_SUCCESS,
     CREATE_PRODUCT_TYPE_SUCCESS,
-    CREATE_PRODUCT_TYPE_FAIL, EDIT_PRODUCT_TYPE_SUCCESS,
+    CREATE_PRODUCT_TYPE_FAIL,
+    EDIT_PRODUCT_TYPE_SUCCESS,
+    SET_ATTRIBUTES_TO_STATE_SUCCESS,
+    CLEAN_ATTRIBUTES,
+    SET_PRODUCT_TYPE_TO_STATE,
 
 } from "./productActionTypes";
 import {AsyncState} from "../helpers/reduxHelpers";
@@ -45,7 +48,8 @@ const initialState = {
     products: [],
     productDetails: null,
     productsTemplates: [],
-    productTemplateDetails: null
+    productTemplateDetails: null,
+    attributes: null
 };
 
 export const productReducer = (state = initialState, action) => {
@@ -84,6 +88,11 @@ export const productReducer = (state = initialState, action) => {
             return {
                 ...state,
                 productsStatus: new AsyncState(false, false, true)
+            }
+        case SET_PRODUCT_TYPE_TO_STATE:
+            return {
+                ...state,
+                productsTypes: [...state.productsTypes, action.payload]
             }
         case GET_PRODUCT_DETAILS_BY_ID_SUCCESS:
             return {
@@ -129,7 +138,6 @@ export const productReducer = (state = initialState, action) => {
             }
         case DELETE_PRODUCT_TYPE_SUCCESS:
             const productsTypes = [...state.productsTypes];
-
             return {
                 ...state,
                 productsTypes: productsTypes.filter(el => el.productTypeId !== action.payload)
@@ -138,11 +146,6 @@ export const productReducer = (state = initialState, action) => {
             return {
                 ...state,
                 productsStatus: new AsyncState(false, false, true)
-            }
-        case CREATE_TEMPLATE_PRODUCT_SUCCESS:
-            return {
-                ...state,
-                productsTemplates: [...state.productsTemplates, action.payload]
             }
         case CREATE_TEMPLATE_PRODUCT_FAIL:
             return {
@@ -223,6 +226,11 @@ export const productReducer = (state = initialState, action) => {
                 ...state,
                 productsTypes: productsTypesAll
             }
+        case SET_ATTRIBUTES_TO_STATE_SUCCESS:
+            return {
+                ...state,
+                attributes: action.payload
+            }
         case CLEAN_PRODUCT_DETAILS:
             return {
                 ...state,
@@ -237,6 +245,11 @@ export const productReducer = (state = initialState, action) => {
             return {
                 ...state,
                 productTemplateDetails: null
+            }
+        case CLEAN_ATTRIBUTES:
+            return {
+                ...state,
+                attributes: null
             }
         default: {
             return state

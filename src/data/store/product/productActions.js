@@ -15,7 +15,12 @@ import {
     CLEAN_PRODUCT_TYPE_DETAILS,
     SET_TEMPLATE_PRODUCT_DETAILS,
     CLEAN_PRODUCT_TEMPLATE_DETAILS,
-    EDIT_TEMPLATE_PRODUCT, CREATE_PRODUCT_TYPE, EDIT_PRODUCT_TYPE
+    EDIT_TEMPLATE_PRODUCT,
+    CREATE_PRODUCT_TYPE,
+    EDIT_PRODUCT_TYPE,
+    SET_ATTRIBUTES_TO_STATE,
+    CLEAN_ATTRIBUTES,
+    SET_PRODUCT_TYPE_TO_STATE, DELETE_ATTRIBUTE, EDIT_ATTRIBUTE, CREATE_ATTRIBUTE
 } from "./productActionTypes";
 import {createAction} from "../helpers/reduxHelpers";
 
@@ -35,7 +40,7 @@ export const createProduct = (details) => ({type: CREATE_PRODUCT, payload: detai
 
 export const editProduct = (details) => ({type: EDIT_PRODUCT, payload: details});
 
-export const deleteProductType = (id) => ({type: DELETE_PRODUCT_TYPE, payload: id});
+export const deleteProductType = (details) => ({type: DELETE_PRODUCT_TYPE, payload: details});
 
 export const createTemplateProduct = (details) => ({type: CREATE_TEMPLATE_PRODUCT, payload: details});
 
@@ -56,3 +61,15 @@ export const editTemplateProduct = (details) => ({type: EDIT_TEMPLATE_PRODUCT, p
 export const createProductType = (details) => ({type: CREATE_PRODUCT_TYPE, payload: details});
 
 export const editProductType = (details) => ({type: EDIT_PRODUCT_TYPE, payload: details});
+
+export const setAttributesToState = (id) => ({type: SET_ATTRIBUTES_TO_STATE, payload: id});
+
+export const cleanAttributes = () => ({type: CLEAN_ATTRIBUTES});
+
+export const setProductTypeToState = (details) => ({type: SET_PRODUCT_TYPE_TO_STATE, payload: details});
+
+export const createAttribute = (details) => ({type: CREATE_ATTRIBUTE, payload: details});
+
+export const editAttribute = (details) => ({type: EDIT_ATTRIBUTE, payload: details});
+
+export const deleteAttribute = (details) => ({type: DELETE_ATTRIBUTE, payload: details});

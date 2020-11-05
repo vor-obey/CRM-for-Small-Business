@@ -38,7 +38,7 @@ import {
     SET_TEMPLATE_PRODUCT_DETAILS,
     EDIT_TEMPLATE_PRODUCT,
     CREATE_PRODUCT_TYPE,
-    EDIT_PRODUCT_TYPE
+    EDIT_PRODUCT_TYPE, SET_ATTRIBUTES_TO_STATE, DELETE_ATTRIBUTE, EDIT_ATTRIBUTE, CREATE_ATTRIBUTE
 } from "./product/productActionTypes";
 import {
     CREATE_CUSTOMER,
@@ -74,6 +74,10 @@ export function* rootSaga() {
     yield takeLatest(EDIT_TEMPLATE_PRODUCT, productsSaga.editTemplateProduct);
     yield takeLatest(CREATE_PRODUCT_TYPE, productsSaga.createProductType);
     yield takeLatest(EDIT_PRODUCT_TYPE, productsSaga.editProductType);
+    yield takeLatest(SET_ATTRIBUTES_TO_STATE, productsSaga.setAttributeToState);
+    yield takeLatest(DELETE_ATTRIBUTE, productsSaga.deleteAttribute);
+    yield takeLatest(EDIT_ATTRIBUTE, productsSaga.editAttribute);
+    yield takeLatest(CREATE_ATTRIBUTE, productsSaga.createAttribute);
 
     yield takeLatest(CREATE_CUSTOMER, customerSaga.createCustomer);
     yield takeLatest(GET_CUSTOMERS, customerSaga.getCustomers);

@@ -23,7 +23,7 @@ import {saveProductStyles} from "./SaveProduct.styles";
 import {useTranslation} from 'react-i18next';
 import {useDispatch} from "react-redux";
 import {useSelector} from "react-redux";
-import {setProductDetailsToStore} from "../../../data/store/product/productActions";
+import {getTemplatesProducts, setProductDetailsToStore} from "../../../data/store/product/productActions";
 import {PRODUCT_TEMPLATES_CREATE} from "../../../constants/routes";
 
 const useStyles = makeStyles(saveProductStyles);
@@ -55,7 +55,6 @@ export const SaveProduct = ({
     const [isAbstractProductAutocompleteOpen, setIsAbstractProductAutocompleteOpen] = useState(false);
     const toggleAbstractProductAutocomplete = useCallback(() => setIsAbstractProductAutocompleteOpen(prevState => !prevState), []);
 
-
     const {productsTypes} = useProductTypes();
     const [selectedProductType, setSelectedProductType] = useState({});
     const [isProductTypeAutocompleteOpen, setIsProductTypeAutocompleteOpen] = useState(false);
@@ -85,7 +84,7 @@ export const SaveProduct = ({
             setSelectedAbstractProduct(abstractProducts.find(item => item.abstractProductId === history.location.state.abstractProductId));
             setIsExpanded(true);
         }
-    }, [history, abstractProducts]);
+    }, [history, abstractProducts, dispatch]);
 
     useEffect(() => {
         if ((product)) {
@@ -95,6 +94,7 @@ export const SaveProduct = ({
             }));
             setSelectedAbstractProduct(product.abstractProduct);
             setSelectedAttributeValues(getAttributeValueIds(product.productToAttributeValues));
+            setSelectedProductType(product.abstractProduct.productType);
             setIsExpanded(true);
         }
         return () => {
@@ -244,7 +244,7 @@ export const SaveProduct = ({
     }, []);
 
     const isSubmitDisabled = useMemo(() => {
-        if (!attributes.length) {
+        if (!attributes) {
             return true;
         }
         if (!productDetails.name.trim().length || !productDetails.price) {
@@ -261,7 +261,7 @@ export const SaveProduct = ({
             return true;
         }
         return false;
-    }, [attributes.length, productDetails, selectedProductType, selectedAttributeValues, validateAttributeValues]);
+    }, [attributes, productDetails, selectedProductType, selectedAttributeValues, validateAttributeValues]);
 
     const filterOptions = useCallback((array, {inputValue}) => {
         if (!array.length) {

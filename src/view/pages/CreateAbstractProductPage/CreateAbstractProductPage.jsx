@@ -3,7 +3,11 @@ import {SaveAbstractProduct} from '../../components/SaveAbstractProduct/SaveAbst
 import {useDispatch} from 'react-redux';
 import {useTranslation} from "react-i18next";
 import {PRODUCT_TEMPLATES, PRODUCTS_CREATE} from "../../../constants/routes";
-import {createTemplateProduct} from "../../../data/store/product/productActions";
+import {
+    createProductType,
+    createTemplateProduct,
+    setProductTypeToState
+} from "../../../data/store/product/productActions";
 
 export const CreateAbstractProductPage = ({history}) => {
     const {t} = useTranslation();
@@ -24,8 +28,13 @@ export const CreateAbstractProductPage = ({history}) => {
         }
     },[history]);
 
-    const createAbstractProduct = useCallback(async (data) => {
+    const createAbstractProduct = useCallback( (data) => {
+
         dispatch(createTemplateProduct({data, onSubmitted}))
+
+        const {name, productTypeId} = data;
+        dispatch(setProductTypeToState({productTypeId, name, deletedAt: null}));
+
     }, [dispatch, onSubmitted]);
 
     return (

@@ -31,6 +31,12 @@ import {COMMON_ERROR_MESSAGE} from '../../../constants/statuses';
 import {useTranslation} from 'react-i18next';
 import {EditAttribute} from '../EditAttribute/EditAttribute';
 import {saveAbstractProductPageStyles} from "./SaveAbstractProduct.style";
+import {
+    createAttribute,
+    deleteAttribute,
+    deleteProductType,
+    editAttribute
+} from "../../../data/store/product/productActions";
 
 const useStyles = makeStyles(saveAbstractProductPageStyles);
 
@@ -49,9 +55,11 @@ export const SaveAbstractProduct = ({
     });
     const {productsTypes, triggerProductTypesUpdate} = useProductTypes();
     const [selectedProductType, setSelectedProductType] = useState({});
-    const {attributes, setAttributes, triggerAttributesUpdate} = useAttributesByProductTypeId(selectedProductType && selectedProductType.productTypeId);
+    const {attributes, triggerAttributesUpdate} = useAttributesByProductTypeId(selectedProductType && selectedProductType.productTypeId);
     const [isExpanded, setIsExpanded] = useState(false);
     const {t} = useTranslation('');
+
+    console.log(selectedProductType)
 
     const onAbstractProductChangedHandler = useCallback((event) => {
         const {name, value} = event.target;
@@ -74,7 +82,7 @@ export const SaveAbstractProduct = ({
             setSelectedProductType(productType);
             setIsExpanded(true);
         }
-    }, [abstractProduct, setAttributes]);
+    }, [abstractProduct]);
 
     const onProductTypeSelectHandler = useCallback(async (item) => {
         if (!item) {
@@ -87,29 +95,21 @@ export const SaveAbstractProduct = ({
     }, []);
 
     const openDeleteAttributeDialog = useCallback((attributeId) => {
-        const deleteAttribute = async () => {
-            try {
-                dispatch(setIsLoading(true));
-                const response = await AttributeService.delete(attributeId);
-                if (response.success) {
-                    triggerAttributesUpdate(prevState => ++prevState);
-                } else {
-                    dispatch(setSnackBarStatus({isOpen: true, message: response.message, success: false}));
-                }
-            } catch (e) {
-                dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE, success: false}));
-            } finally {
-                dispatch(setIsLoading(false));
-                dispatch(closeDialog());
+        const onDeleteAttribute = () => {
+            const onSuccessfullyDeleted = () => {
+                triggerAttributesUpdate(prevState => ++prevState);
             }
-        };
+                dispatch(deleteAttribute({attributeId, onSuccessfullyDeleted}))
+
+                dispatch(closeDialog());
+            };
 
         dispatch(renderDialog({
             isShow: true,
             onCloseHandler: () => dispatch(closeDialog()),
             closeText: t('DISAGREE'),
             actionText: t('AGREE'),
-            onActionHandler: () => deleteAttribute(),
+            onActionHandler: () => onDeleteAttribute(),
             children: t('DELETE_ATTRIBUTE')
         }));
     }, [dispatch, t, triggerAttributesUpdate]);
@@ -120,43 +120,32 @@ export const SaveAbstractProduct = ({
     }, [triggerAttributesUpdate, dispatch]);
 
     const openEditAttributeModal = useCallback((attribute) => {
-        const editAttribute = async (data) => {
-            const {name, attrValues} = data;
-            const attributeValues = [];
-            for (const attrValue of attrValues) {
-                const {attributeValueId, action} = attrValue;
-                if (attributeValueId) {
-                    attributeValues.push(attrValue);
+        const onEditAttribute = async (data) => {
+            if (data && data.attrValues) {
+                const {name, attrValues} = data;
+                const attributeValues = [];
+                for (const attrValue of attrValues) {
+                    const {attributeValueId, action} = attrValue;
+                    if (attributeValueId) {
+                        attributeValues.push(attrValue);
+                    }
+                    if (!attributeValueId && action === 'add') {
+                        attributeValues.push(attrValue);
+                    }
                 }
-                if (!attributeValueId && action === 'add') {
-                    attributeValues.push(attrValue);
-                }
-            }
-            try {
-                dispatch(setIsLoading(true));
-                const response = await AttributeService.update({
-                    attributeId: attribute.attributeId,
-                    name,
-                    attributeValues,
-                });
-                if (response.success) {
+                const updateAtrSuccess = () => {
                     updateAttributes();
-                    dispatch(setIsLoading(false));
-                } else {
-                    dispatch(setIsLoading(false));
-                    dispatch(setSnackBarStatus({isOpen: true, message: response.message, success: false}));
                 }
-            } catch (e) {
-                dispatch(setIsLoading(false));
-                dispatch(setSnackBarStatus({isOpen: true, message: e.message, success: false}));
+
+                dispatch(editAttribute({attribute, name, attributeValues, updateAtrSuccess}));
             }
-        };
+        }
         dispatch(renderModal({
             isOpen: true,
             children: (
                 <EditAttribute
                     attribute={attribute}
-                    onSubmit={editAttribute}
+                    onSubmit={onEditAttribute}
                 />
             ),
             onCloseHandler: () => dispatch(closeModal()),
@@ -185,9 +174,12 @@ export const SaveAbstractProduct = ({
                                     <IconButton onClick={() => openEditAttributeModal(attr)} size='small'>
                                         <EditIcon/>
                                     </IconButton>
-                                    <IconButton onClick={() => openDeleteAttributeDialog(attributeId)} size='small'>
-                                        <RemoveIcon/>
-                                    </IconButton>
+                                    {attributes.length === 1
+                                        ? null
+                                        : <IconButton onClick={() => openDeleteAttributeDialog(attributeId)} size='small'>
+                                            <RemoveIcon/>
+                                        </IconButton>
+                                    }
                                 </>
                             }
                             className={classes.cardHeader}
@@ -255,54 +247,38 @@ export const SaveAbstractProduct = ({
         }))
     }, [t, dispatch, selectedProductType, updateProductTypes, classes]);
 
-    const createAttribute = useCallback(async (data) => {
+    const onCreateAttribute = useCallback(async (data) => {
+
         const {name, valuesToSave} = data;
-        try {
-            dispatch(setIsLoading(true));
-            await AttributeService.create({
-                productTypeId: selectedProductType.productTypeId,
-                name,
-                values: valuesToSave
-            });
-            updateAttributes();
-            dispatch(setIsLoading(false));
-        } catch (e) {
-            dispatch(setIsLoading(false));
-            dispatch(setSnackBarStatus({isOpen: true, message: e.message, success: false}));
-        }
-    }, [selectedProductType.productTypeId, dispatch, updateAttributes]);
+        dispatch(createAttribute({selectedProductType, name, valuesToSave,updateAttributes}));
+
+    }, [dispatch, selectedProductType, updateAttributes]);
 
     const openCreateAttributeModal = useCallback(() => {
         dispatch(renderModal({
             isOpen: true,
             children: (
                 <CreateAttribute
-                    onSubmit={createAttribute}
+                    onSubmit={onCreateAttribute}
                 />
             ),
             onCloseHandler: () => dispatch(closeModal()),
             allowBackDropClick: true
         }))
-    }, [dispatch, createAttribute]);
+    }, [dispatch, onCreateAttribute]);
 
-    const deleteProductType = useCallback(async () => {
-        try {
-            dispatch(setIsLoading(true));
-            const response = await ProductTypeService.delete(selectedProductType.productTypeId);
-            if (response.success) {
+    const onDeleteProductType = useCallback(async () => {
+        const id = selectedProductType.productTypeId;
+        const deletedSuccess = (response) => {
+            if(response.success){
                 setIsExpanded(false);
                 setSelectedProductType({});
                 triggerProductTypesUpdate(prevState => ++prevState);
-            } else {
-                dispatch(setSnackBarStatus({isOpen: true, message: response.message, success: false}));
             }
-        } catch (e) {
-            dispatch(setIsLoading(false));
-            dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE, success: false}));
-        } finally {
-            dispatch(setIsLoading(false));
-            dispatch(closeDialog());
         }
+
+        dispatch(deleteProductType({id, deletedSuccess}));
+
     }, [dispatch, selectedProductType.productTypeId, triggerProductTypesUpdate]);
 
     const openDeleteProductTypeDialog = useCallback(() => {
@@ -311,10 +287,10 @@ export const SaveAbstractProduct = ({
             onCloseHandler: () => dispatch(closeDialog()),
             closeText: t('DISAGREE'),
             actionText: t('AGREE'),
-            onActionHandler: () => deleteProductType(),
+            onActionHandler: () => onDeleteProductType(),
             children: t('DELETE_TYPE_PRODUCT')
         }));
-    }, [dispatch, deleteProductType, t]);
+    }, [dispatch, onDeleteProductType, t]);
 
     const disableButton = useCallback(() => {
         if (!abstractProductDetails.name.trim().length) {
@@ -339,6 +315,7 @@ export const SaveAbstractProduct = ({
         onSave({
             abstractProductDetails,
             productTypeId: selectedProductType.productTypeId,
+            name: selectedProductType.name,
         })
     }, [onSave, abstractProductDetails, selectedProductType]);
 

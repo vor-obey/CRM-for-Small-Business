@@ -7,6 +7,7 @@ import {
     CardHeader,
     makeStyles,
     CardContent, Hidden,
+    Typography
 } from "@material-ui/core";
 
 import {HomeStyles} from "./Home.style";
@@ -16,7 +17,7 @@ import {useOrders} from '../../../utils/hooks/orderHooks';
 import {useDispatch} from 'react-redux';
 import {openChatWidget} from '../../../data/store/chat/chatActions';
 import {ORDERS} from "../../../constants/routes";
-import {InfoCard} from "../../components/InfoCard/InfoCard";
+import {CardActionArea} from "@material-ui/core";
 
 const useStyles = makeStyles(HomeStyles);
 
@@ -44,28 +45,49 @@ export const Home = ({history}) => {
       <Container className={classes.container}>
          <Grid container>
             <Grid item xl={1} lg={1} md={1} implementation='css' component={Hidden}/>
+             <Grid item xl={3} lg={3} md={3} sm={6} xs={12} className={classes.grid}>
+                 <Card className={classes.card}>
+                     <CardActionArea onClick={() => navigateToOrdersPage(0)} className={classes.cardAction}>
+                         <CardContent>
+                             <Typography variant='h6' className={classes.typography}>
+                                 {t('NEW_ORDERS').toUpperCase()}
+                             </Typography>
+                             <Typography variant='h1' className={classes.number}>
+                                 {renderOrdersCountByStatus(0)}
+                             </Typography>
+                         </CardContent>
+                     </CardActionArea>
+                 </Card>
+             </Grid>
+             <Grid item xl={3} lg={3} md={3} sm={6} xs={12} className={classes.grid}>
+                 <Card className={classes.card}>
+                     <CardActionArea onClick={() => navigateToOrdersPage(1)} className={classes.cardAction}>
+                         <CardContent>
+                             <Typography variant='h6' className={classes.typography}>
+                                 {t('IN_PROGRESS').toUpperCase()}
+                             </Typography>
+                             <Typography variant='h1' className={classes.number}>
+                                 {renderOrdersCountByStatus(1)}
+                             </Typography>
+                         </CardContent>
+                     </CardActionArea>
+                 </Card>
+             </Grid>
+             <Grid item xl={3} lg={3} md={3} sm={6} xs={12} className={classes.gridReady}>
+                 <Card className={classes.card}>
+                     <CardActionArea onClick={() => navigateToOrdersPage(2)} className={classes.cardAction}>
+                         <CardContent>
+                             <Typography variant='h6' className={classes.typography}>
+                                 {t('READY_FOR_SHIPPING').toUpperCase()}
+                             </Typography>
+                             <Typography variant='h1' className={classes.number}>
+                                 {renderOrdersCountByStatus(2)}
+                             </Typography>
+                         </CardContent>
+                     </CardActionArea>
+                 </Card>
+             </Grid>
 
-                <InfoCard
-                navigateToOrdersPage={navigateToOrdersPage}
-                args={0}
-                status={0}
-                renderOrdersCountByStatus={renderOrdersCountByStatus}
-                cardName='NEW_ORDERS' />
-
-                <InfoCard
-                navigateToOrdersPage={navigateToOrdersPage}
-                args={1}
-                status={1}
-                renderOrdersCountByStatus={renderOrdersCountByStatus}
-                cardName='IN_PROGRESS' />
-
-                <InfoCard
-                navigateToOrdersPage={navigateToOrdersPage}
-                args={2}
-                status={2}
-                renderOrdersCountByStatus={renderOrdersCountByStatus}
-                cardName='READY_FOR_SHIPPING'
-                grid={classes.gridReady}/>
 
             <Grid item xl={1} lg={1} md={1} implementation='css' component={Hidden}/>
             <Grid item xl={1} lg={1} md={1} implementation='css' component={Hidden}/>

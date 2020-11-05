@@ -107,7 +107,7 @@ export const ProductDetailsPage = ({history}) => {
                                 {t('PRODUCT_TYPE')}
                             </Typography>
                             <Typography variant='body1'>
-                                {productDetails.productType && productDetails.productType.name}
+                                {productDetails.abstractProduct && productDetails.abstractProduct.productType.name}
                             </Typography>
                         </Grid>
                     </Grid>

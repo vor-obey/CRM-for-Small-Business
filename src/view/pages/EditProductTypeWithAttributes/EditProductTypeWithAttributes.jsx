@@ -26,18 +26,15 @@ import {
     closeModal,
     renderDialog,
     renderModal,
-    setIsLoading, setSnackBarStatus
 } from '../../../data/store/auxiliary/auxiliaryActions';
 import {EditAttribute} from '../../components/EditAttribute/EditAttribute';
 import {SaveProductTypeWithAttributes} from '../../components/SaveProductTypeWithAttributes/SaveProductTypeWithAttributes';
 import {CreateAttribute} from '../CreateAttribute/CreateAttribute';
 import {v4 as uuidv4} from 'uuid'
-import {AttributeService, ProductTypeService} from '../../../services';
-import {COMMON_ERROR_MESSAGE} from '../../../constants/statuses';
 import {useTranslation} from 'react-i18next';
 import {editProductTypeWithAttributesStyles} from "./EditProductTypeWithAttributes.style";
 import {PRODUCT_TYPES} from "../../../constants/routes";
-import {editProductType} from "../../../data/store/product/productActions";
+import {deleteAttribute, editProductType} from "../../../data/store/product/productActions";
 
 const useStyles = makeStyles(editProductTypeWithAttributesStyles);
 
@@ -88,10 +85,8 @@ export const EditProductTypeWithAttributes = ({history}) => {
         dispatch(renderModal({
             isOpen: true,
             children: (
-                <CreateAttribute
-                    onSubmit={createAttribute}
-                />
-            ),
+                <CreateAttribute onSubmit={createAttribute}/>
+                ),
             onCloseHandler: () => dispatch(closeModal()),
             allowBackDropClick: true
         }))
@@ -131,38 +126,31 @@ export const EditProductTypeWithAttributes = ({history}) => {
     }, [dispatch, attributes]);
 
     const openDeleteAttributeDialog = useCallback((attribute) => {
-        const deleteAttribute = async ({attributeId, id}) => {
-            try {
-                dispatch(setIsLoading(true));
-                if (attributeId) {
-                    const response = await AttributeService.delete(attributeId);
-                    if (response.success) {
-                        const newArr = cloneDeep(attributes);
-                        const selectedAttributeIndex = newArr.findIndex(item => item.attributeId === attributeId);
-                        const splicedArr = newArr.splice(selectedAttributeIndex, 1);
-                        setAttributes(splicedArr);
-                    } else {
-                        dispatch(setSnackBarStatus({isOpen: true, message: response.message, success: false}));
-                    }
-                } else {
-                    const newArr = cloneDeep(attributes);
-                    const selectedAttributeIndex = newArr.findIndex(item => item.id === id);
-                    newArr.splice(selectedAttributeIndex, 1);
-                    setAttributes(newArr);
-                }
-            } catch (e) {
-                dispatch(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE, success: false}));
-            } finally {
-                dispatch(setIsLoading(false));
+        const onDeleteAttribute = async ({attributeId, id}) => {
+            const onSuccessfullyDeleted = () => {
+                const newArr = cloneDeep(attributes);
+                const selectedAttributeIndex = newArr.findIndex(item => item.attributeId === attributeId);
+                const splicedArr = newArr.splice(selectedAttributeIndex, 1);
+                setAttributes(splicedArr);
+            }
+            if (attributeId) {
+                dispatch(deleteAttribute({attributeId, onSuccessfullyDeleted}));
+
+            } else {
+                const newArr = cloneDeep(attributes);
+                const selectedAttributeIndex = newArr.findIndex(item => item.id === id);
+                newArr.splice(selectedAttributeIndex, 1);
+                setAttributes(newArr);
+            }
                 dispatch(closeDialog());
             }
-        };
+
         dispatch(renderDialog({
             isShow: true,
             onCloseHandler: () => dispatch(closeDialog()),
             closeText: 'disagree',
             actionText: 'agree',
-            onActionHandler: () => deleteAttribute(attribute),
+            onActionHandler: () => onDeleteAttribute(attribute),
             children: t('DELETE_ATTRIBUTE')
         }));
     }, [dispatch, t, attributes]);
@@ -192,9 +180,12 @@ export const EditProductTypeWithAttributes = ({history}) => {
                                     <IconButton onClick={() => openEditAttributeModal(attr)} size='small'>
                                         <EditIcon/>
                                     </IconButton>
-                                    <IconButton onClick={() => openDeleteAttributeDialog(attr)} size='small'>
-                                        <RemoveIcon/>
-                                    </IconButton>
+                                    {attributes.length === 1
+                                        ? null
+                                        : <IconButton onClick={() => openDeleteAttributeDialog(attr)} size='small'>
+                                            <RemoveIcon/>
+                                        </IconButton>
+                                    }
                                 </Grid>
                             }
                         />

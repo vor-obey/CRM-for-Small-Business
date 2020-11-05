@@ -1,4 +1,4 @@
-import {ProductService, ProductTypeService} from "../../../services";
+import {AttributeService, ProductService, ProductTypeService} from "../../../services";
 import {put} from "@redux-saga/core/effects";
 import {
     CREATE_PRODUCT_FAIL,
@@ -13,7 +13,6 @@ import {
     GET_PRODUCTS_SUCCESS,
     GET_PRODUCTS_TYPES_FAIL,
     GET_PRODUCTS_TYPES_SUCCESS,
-    CREATE_TEMPLATE_PRODUCT_SUCCESS,
     CREATE_TEMPLATE_PRODUCT_FAIL,
     GET_TEMPLATES_PRODUCTS_SUCCESS,
     GET_TEMPLATES_PRODUCTS_FAIL,
@@ -28,7 +27,11 @@ import {
     CREATE_PRODUCT_TYPE_FAIL,
     CREATE_PRODUCT_TYPE_SUCCESS,
     DELETE_PRODUCT_TYPE_SUCCESS,
-    DELETE_PRODUCT_TYPE_FAIL, EDIT_PRODUCT_TYPE_FAIL, EDIT_PRODUCT_TYPE_SUCCESS,
+    DELETE_PRODUCT_TYPE_FAIL,
+    EDIT_PRODUCT_TYPE_FAIL,
+    EDIT_PRODUCT_TYPE_SUCCESS,
+    SET_ATTRIBUTES_TO_STATE_SUCCESS,
+    SET_ATTRIBUTES_TO_STATE_FAIL,
 } from "./productActionTypes";
 import {getListSaga} from "../helpers/sagaHelpers";
 import {closeDialog, setIsLoading, setSnackBarStatus} from "../auxiliary/auxiliaryActions";
@@ -50,7 +53,6 @@ export function* createProductType(action) {
             attributes
         });
         const {organization, ...res} = response;
-        console.log(res)
         yield put({type: CREATE_PRODUCT_TYPE_SUCCESS, payload: res})
     } catch (e) {
         yield put({type: CREATE_PRODUCT_TYPE_FAIL});
@@ -93,35 +95,35 @@ export function* editProductType(action) {
     }
 }
 
-export function* getProductDetailById(action) {
-    try{
-        yield put(setIsLoading(true));
-        const response = yield ProductService.findOneById(action.payload);
-        yield put({type: GET_PRODUCT_DETAILS_BY_ID_SUCCESS, payload: response})
-    } catch (e) {
-        yield put({type: GET_PRODUCT_DETAILS_BY_ID_FAIL});
-        yield put(setSnackBarStatus({isOpen: true, message: e.message, success: false}));
-    } finally {
-        yield put(setIsLoading(false));
-    }
-}
-
-export function* deleteProduct(action) {
+export function* setProductTypesDetails(action) {
     try {
-        const id = action.payload;
         yield put(setIsLoading(true));
-        yield ProductService.delete(id);
-        yield put({type: DELETE_PRODUCT_SUCCESS, payload: id})
-        yield put(closeDialog());
-        history.goBack()
+        const response = yield ProductTypeService.findOneById(action.payload);
+        yield put({type: SET_PRODUCT_TYPE_DETAILS_SUCCESS, payload: response});
     } catch (e) {
-        yield put({type: DELETE_PRODUCT_FAIL});
+        yield put({type: SET_PRODUCT_TYPE_DETAILS_FAIL});
         yield put(setSnackBarStatus({isOpen: true, message: e.message, success: false}));
     } finally {
         yield put(setIsLoading(false));
     }
 }
 
+export function* deleteProductType(action) {
+    try {
+        const {id, deletedSuccess} = action.payload;
+        yield put(setIsLoading(true));
+        const response = yield ProductTypeService.delete(id);
+        yield put({type: DELETE_PRODUCT_TYPE_SUCCESS, payload: id})
+        yield put(closeDialog());
+        deletedSuccess(response);
+    } catch (e) {
+        yield put({type: DELETE_PRODUCT_TYPE_FAIL})
+        yield put(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE, success: false}));
+    } finally {
+        yield put(setIsLoading(false));
+    }
+}
+//---------------------------------------------------------------------------------------------
 export function* createProduct(action) {
     try {
         const { selectedAttributeValues, productDetails, selectedAbstractProduct, selectedProductType} = action.payload.data;
@@ -137,7 +139,6 @@ export function* createProduct(action) {
         });
         yield put({type: CREATE_PRODUCT_SUCCESS, payload: response});
         yield put(setProductDetailsToStore({name: '', price: ''}));
-        //TODO переписать на колбэк
         if (history.location.state !== undefined && !history.location.state.editOrder) {
             history.push(ORDERS_CREATE, {
                 response
@@ -189,30 +190,38 @@ export function* editProduct(action) {
     }
 }
 
-export function* deleteProductType(action) {
+export function* deleteProduct(action) {
     try {
+        const id = action.payload;
         yield put(setIsLoading(true));
-        const response = yield ProductTypeService.delete(action.payload);
-        console.log(action.payload);
-        if (response.success) {
-            yield put({type: DELETE_PRODUCT_TYPE_SUCCESS, payload: action.payload})
-            history.goBack();
-        } else {
-            yield put(setSnackBarStatus({isOpen: true, message: response.message, success: false}));
-        }
+        yield ProductService.delete(id);
+        yield put({type: DELETE_PRODUCT_SUCCESS, payload: id})
         yield put(closeDialog());
+        history.goBack()
     } catch (e) {
-        yield put({type: DELETE_PRODUCT_TYPE_FAIL})
-        yield put(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE, success: false}));
+        yield put({type: DELETE_PRODUCT_FAIL});
+        yield put(setSnackBarStatus({isOpen: true, message: e.message, success: false}));
     } finally {
         yield put(setIsLoading(false));
     }
 }
 
+export function* getProductDetailById(action) {
+    try{
+        yield put(setIsLoading(true));
+        const response = yield ProductService.findOneById(action.payload);
+        yield put({type: GET_PRODUCT_DETAILS_BY_ID_SUCCESS, payload: response})
+    } catch (e) {
+        yield put({type: GET_PRODUCT_DETAILS_BY_ID_FAIL});
+        yield put(setSnackBarStatus({isOpen: true, message: e.message, success: false}));
+    } finally {
+        yield put(setIsLoading(false));
+    }
+}
+//-----------------------------------------------------------------------------
 export function* createTemplateProduct(action) {
     try {
         const {data, onSubmitted} = action.payload;
-        console.log(data)
         const {productTypeId, abstractProductDetails} = data;
         yield put(setIsLoading(true));
         const {abstractProductId} = yield AbstractProductService.create({
@@ -221,25 +230,9 @@ export function* createTemplateProduct(action) {
             price: abstractProductDetails.price,
             description: abstractProductDetails.description,
         });
-        yield put({type: CREATE_TEMPLATE_PRODUCT_SUCCESS, payload: {...abstractProductDetails, productTypeId, abstractProductId}})
         onSubmitted(abstractProductId);
     } catch (e) {
         yield put({type: CREATE_TEMPLATE_PRODUCT_FAIL})
-        yield put(setSnackBarStatus({isOpen: true, message: e.message, success: false}));
-    } finally {
-        yield put(setIsLoading(false));
-    }
-}
-
-export function* deleteTemplateProduct(action) {
-    try {
-        const{ id, onSuccessfullyDeleted } = action.payload;
-        yield put(setIsLoading(true));
-        yield AbstractProductService.delete(id);
-        yield put({type: DELETE_TEMPLATE_PRODUCT_SUCCESS, payload: id})
-        onSuccessfullyDeleted()
-    } catch (e) {
-        yield put({type: DELETE_TEMPLATE_PRODUCT_FAIL})
         yield put(setSnackBarStatus({isOpen: true, message: e.message, success: false}));
     } finally {
         yield put(setIsLoading(false));
@@ -259,13 +252,17 @@ export function* getTemplatesProducts() {
     }
 }
 
-export function* setProductTypesDetails(action) {
+export function* deleteTemplateProduct(action) {
     try {
+        const{ id, onSuccessfullyDeleted } = action.payload;
         yield put(setIsLoading(true));
-        const response = yield ProductTypeService.findOneById(action.payload);
-        yield put({type: SET_PRODUCT_TYPE_DETAILS_SUCCESS, payload: response});
+        yield AbstractProductService.delete(id);
+        yield put({type: DELETE_TEMPLATE_PRODUCT_SUCCESS, payload: id});
+        if(onSuccessfullyDeleted){
+            onSuccessfullyDeleted();
+        }
     } catch (e) {
-        yield put({type: SET_PRODUCT_TYPE_DETAILS_FAIL});
+        yield put({type: DELETE_TEMPLATE_PRODUCT_FAIL})
         yield put(setSnackBarStatus({isOpen: true, message: e.message, success: false}));
     } finally {
         yield put(setIsLoading(false));
@@ -307,3 +304,65 @@ export function* editTemplateProduct(action) {
 
     }
 }
+//---------------------------------------------------------------------------------------------------------
+export function* createAttribute(action) {
+    try {
+        const {selectedProductType, name, valuesToSave,updateAttributes } = action.payload;
+        yield put(setIsLoading(true));
+        yield AttributeService.create({
+            productTypeId: selectedProductType.productTypeId,
+            name,
+            values: valuesToSave
+        });
+        updateAttributes();
+    } catch (e) {
+        yield put(setSnackBarStatus({isOpen: true, message: e.message, success: false}));
+    } finally {
+        yield put(setIsLoading(false));
+    }
+}
+
+export function* setAttributeToState(action) {
+    try {
+        yield put(setIsLoading(true));
+        const response = yield AttributeService.findOneById(action.payload);
+        yield put({type: SET_ATTRIBUTES_TO_STATE_SUCCESS, payload: response});
+    } catch (e) {
+        yield put({type: SET_ATTRIBUTES_TO_STATE_FAIL})
+        yield put(setSnackBarStatus({isOpen: true, message: e.message, success: false}));
+    } finally {
+        yield put(setIsLoading(false));
+
+    }
+}
+
+export function* editAttribute(action) {
+    try {
+        const {attribute, name, attributeValues, updateAtrSuccess} = action.payload;
+        yield put(setIsLoading(true));
+        const response = yield AttributeService.update({
+            attributeId: attribute.attributeId,
+            name,
+            attributeValues,
+        });
+        updateAtrSuccess(response);
+    } catch (e) {
+        yield put(setSnackBarStatus({isOpen: true, message: e.message, success: false}));
+    } finally {
+        yield put(setIsLoading(false));
+    }
+}
+
+export function* deleteAttribute(action) {
+    try {
+        const {attributeId, onSuccessfullyDeleted} = action.payload;
+        yield put(setIsLoading(true));
+        const response = yield AttributeService.delete(attributeId);
+        onSuccessfullyDeleted(response)
+    } catch (e) {
+        yield put(setSnackBarStatus({isOpen: true, message: COMMON_ERROR_MESSAGE , success: false}));
+    } finally {
+        yield put(setIsLoading(false));
+    }
+}
+
