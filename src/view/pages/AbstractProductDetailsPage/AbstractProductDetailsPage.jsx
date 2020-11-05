@@ -47,6 +47,10 @@ export const AbstractProductDetailsPage = ({history}) => {
     }, [dispatch, history, id]);
 
     const renderAttributes = useCallback(() => {
+        if(!abstractProductDetails.productType){
+            return null
+        }
+
         const {productType: {productTypeToAttributes = {}} = {}} = abstractProductDetails;
         if (isEmpty(productTypeToAttributes)) {
             return null;
